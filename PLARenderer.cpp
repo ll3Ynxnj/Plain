@@ -1,5 +1,6 @@
 #include "PLARenderer.hpp"
-#include "PLARenderingData.hpp"
+
+#include "PLARenderingManager.hpp"
 
 PLARenderer::PLARenderer()
 {
@@ -13,11 +14,18 @@ PLARenderer::~PLARenderer()
 
 void PLARenderer::Render()
 {
-  static const GRAPoint point = { -0.5, -0.5 };
-  static const GRASize size = { 1.0, 1.0 };
-  static const GRARect rect = { point, size };
-  static const GRAColorRGBA color = { 1.0, 1.0, 1.0, 1.0 };
-  static const PLARDRect rdRect(rect, color);
+  this->Clear();
 
-  this->DrawRect(&rdRect);
+  this->DrawDemo();
+
+  PLARenderingManager::GetInstance()->RefreshRenderingData();
+  const PLARenderingDataSet *renderingData =
+    PLARenderingManager::GetInstance()->GetRenderingData();
+  for (PLARenderingDataSet::const_iterator it = renderingData->begin();
+       it != renderingData->end(); it++)
+  {
+    this->DrawRect(static_cast<const PLARDRect *>(*it));
+  }
+
+  this->Flush();
 }
