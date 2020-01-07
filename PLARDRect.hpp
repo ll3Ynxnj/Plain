@@ -12,9 +12,11 @@ struct PLARDRect : public PLARenderingData
   GRAColorRGBA color;
 
   PLARDRect(const GRARect &aRect, const GRAColorRGBA &aColor) :
+    PLARenderingData(PLARenderingDataType::Rect),
     rect(aRect), color(aColor) {};
   PLARDRect(float aPx, float aPy, float aSw, float aSh,
             float aCr, float aCg, float aCb, float aCa) :
+    PLARenderingData(PLARenderingDataType::Rect),
     rect((GRARect){{aPx, aPy}, {aSw, aSh}}),
     color((GRAColorRGBA){aCr, aCg, aCb, aCa}) {};
   virtual ~PLARDRect() {};

@@ -1,6 +1,7 @@
 #include "PLARenderer.hpp"
 
 #include "PLARenderingManager.hpp"
+#include "PLADebug.hpp"
 
 PLARenderer::PLARenderer()
 {
@@ -24,7 +25,15 @@ void PLARenderer::Render()
   for (PLARenderingDataSet::const_iterator it = renderingData->begin();
        it != renderingData->end(); it++)
   {
-    this->DrawRect(static_cast<const PLARDRect *>(*it));
+    switch ((*it)->type)
+    {
+    case PLARenderingDataType::Rect :
+      this->DrawRect(static_cast<const PLARDRect *>(*it));
+      break;
+    default :
+      PLADebug::Assert("Unexpected PLARenderingDataType detected.");
+      break;
+    }
   }
 
   this->Flush();
