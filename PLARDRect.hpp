@@ -4,21 +4,21 @@
 #include "PLARenderingData.hpp"
 
 #include "./Grain/GRARect.h"
-#include "./Grain/GRAColorRGBA.h"
+#include "./Grain/GRAColor.h"
 
 struct PLARDRect : public PLARenderingData
 {
   GRARect rect;
-  GRAColorRGBA color;
+  GRAColor color;
 
-  PLARDRect(const GRARect &aRect, const GRAColorRGBA &aColor) :
+  PLARDRect(const GRARect &aRect, const GRAColor &aColor) :
     PLARenderingData(PLARenderingDataType::Rect),
     rect(aRect), color(aColor) {};
   PLARDRect(float aPx, float aPy, float aSw, float aSh,
             float aCr, float aCg, float aCb, float aCa) :
     PLARenderingData(PLARenderingDataType::Rect),
     rect((GRARect){{aPx, aPy}, {aSw, aSh}}),
-    color((GRAColorRGBA){aCr, aCg, aCb, aCa}) {};
+    color((GRAColor){aCr, aCg, aCb, aCa}) {};
   virtual ~PLARDRect() {};
 };
 

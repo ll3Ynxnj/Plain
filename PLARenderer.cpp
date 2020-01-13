@@ -30,6 +30,9 @@ void PLARenderer::Render()
     case PLARenderingDataType::Rect :
       this->DrawRect(static_cast<const PLARDRect *>(*it));
       break;
+    case PLARenderingDataType::Circle :
+      this->DrawCircle(static_cast<const PLARDCircle *>(*it));
+      break;
     default :
       PLADebug::Assert("Unexpected PLARenderingDataType detected.");
       break;

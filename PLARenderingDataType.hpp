@@ -4,6 +4,7 @@
 enum class PLARenderingDataType
 {
   Rect,
+  Circle,
 
   None,
 };

@@ -2,6 +2,7 @@
 #define PLARENDERER_HPP
 
 #include "PLARDRect.hpp"
+#include "PLARDCircle.hpp"
 
 class PLARenderer
 {
@@ -18,6 +19,7 @@ protected:
   virtual void Flush() const = 0;
   virtual void DrawDemo() const = 0;
   virtual void DrawRect(const PLARDRect *aRect) const = 0;
+  virtual void DrawCircle(const PLARDCircle *aCircle) const = 0;
 };
 
 #endif
