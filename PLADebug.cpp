@@ -1,8 +1,7 @@
-#include "PLADebug.hpp"
-
 #include <cstdio>
 #include <cstdlib>
 #include <cstdarg>
+#include "PLADebug.hpp"
 
 void PLADebug::PrintLog(const char *aLevel, const char *format, ...)
 {

@@ -2,7 +2,6 @@
 #define PLARDRECT_HPP
 
 #include "PLARenderingData.hpp"
-
 #include "./Grain/GRARect.h"
 #include "./Grain/GRAColor.h"
 
@@ -11,6 +10,10 @@ struct PLARDRect : public PLARenderingData
   GRARect rect;
   GRAColor color;
 
+  PLARDRect() :
+    PLARenderingData(PLARenderingDataType::Rect),
+    rect(kGRARectNorm),
+    color(kGRAColorNorm) {};
   PLARDRect(const GRARect &aRect, const GRAColor &aColor) :
     PLARenderingData(PLARenderingDataType::Rect),
     rect(aRect), color(aColor) {};

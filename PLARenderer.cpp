@@ -1,5 +1,4 @@
 #include "PLARenderer.hpp"
-
 #include "PLARenderingManager.hpp"
 #include "PLADebug.hpp"
 
