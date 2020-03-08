@@ -18,6 +18,8 @@ public :
   void Update();
   void Render();
 
+  size_t GetSizeOfActors();
+
 protected :
   virtual void OnUpdate() = 0;
   virtual void OnRender() = 0;

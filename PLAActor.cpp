@@ -32,3 +32,8 @@ void PLAActor::Render()
     actor->OnRender();
   }
 }
+
+size_t PLAActor::GetSizeOfActors()
+{
+  return _actors.size();
+}
