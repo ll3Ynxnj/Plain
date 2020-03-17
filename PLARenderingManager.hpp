@@ -3,10 +3,10 @@
 
 #include <vector>
 #include "PLARenderingData.hpp"
-#include "./Grain/GRAType.h"
-#include "./Grain/GRARect.h"
-#include "./Grain/GRACircle.h"
-#include "./Grain/GRAColor.h"
+#include "Grain/GRAType.h"
+#include "Grain/GRARect.h"
+#include "Grain/GRACircle.h"
+#include "Grain/GRAColor.h"
 
 typedef std::vector<const PLARenderingData *> PLARenderingDataSet;
 

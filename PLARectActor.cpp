@@ -1,6 +1,5 @@
 #include "PLARectActor.hpp"
 #include "PLARenderingManager.hpp"
-#include "PLARDRect.hpp"
 
 PLARectActor::PLARectActor(const GRARect &aRect, const GRAColor &aColor) :
   PLAActor(PLAActorType::Rect),

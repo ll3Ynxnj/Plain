@@ -2,8 +2,8 @@
 #define PLARDRECT_HPP
 
 #include "PLARenderingData.hpp"
-#include "./Grain/GRARect.h"
-#include "./Grain/GRAColor.h"
+#include "Grain/GRARect.h"
+#include "Grain/GRAColor.h"
 
 struct PLARDRect : public PLARenderingData
 {

@@ -2,9 +2,9 @@
 #define PLARDCIRCLE_HPP
 
 #include "PLARenderingData.hpp"
-#include "./Grain/GRAType.h"
-#include "./Grain/GRACircle.h"
-#include "./Grain/GRAColor.h"
+#include "Grain/GRAType.h"
+#include "Grain/GRACircle.h"
+#include "Grain/GRAColor.h"
 
 struct PLARDCircle : public PLARenderingData
 {

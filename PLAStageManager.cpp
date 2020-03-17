@@ -1,6 +1,10 @@
 #include "PLAStageManager.hpp"
+#include "PLAErrorManager.hpp"
+#include "PLAError.hpp"
 #include "PLARectActor.hpp"
 #include "PLACircleActor.hpp"
+
+PLAStageManager PLAStageManager::_instance = PLAStageManager();
 
 PLAStageManager::PLAStageManager() :
   _stage(nullptr)
@@ -10,18 +14,25 @@ PLAStageManager::PLAStageManager() :
 
 PLAStageManager::~PLAStageManager()
 {
-
+  delete(_stage);
+  _stage = nullptr;
 }
 
-void PLAStageManager::Initialize()
+void PLAStageManager::Init()
 {
   GRARect rect = {kGRAPointNone, kGRASizeNone};
   _stage = new PLARectActor(rect, kGRAColorBlue);
 }
 
+void PLAStageManager::Reset()
+{
+  _instance = PLAStageManager();
+}
+
 void PLAStageManager::Update()
 {
-  _stage->Update();
+  PLAErrorManager::GetInstance()->
+  Throw(PLAErrorType::Assert, "Error test for Assert");
 }
 
 void PLAStageManager::Render()

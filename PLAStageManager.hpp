@@ -1,21 +1,25 @@
 #ifndef PLASTAGEMANAGER_HPP
 #define PLASTAGEMANAGER_HPP
 
-#include "PLARectActor.hpp"
+#include "Grain/GRASize.h"
+
+class PLARectActor;
 
 class PLAStageManager
 {
+  static PLAStageManager _instance;
+
   PLARectActor *_stage;
 
   PLAStageManager();
 
 public:
-  static PLAStageManager *GetInstance()
-  { static PLAStageManager instance; return &instance; }
+  static PLAStageManager *GetInstance() { return &_instance; }
 
   ~PLAStageManager();
 
-  void Initialize();
+  void Init();
+  void Reset();
 
   void Update();
   void Render();

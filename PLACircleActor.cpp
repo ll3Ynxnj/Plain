@@ -1,6 +1,5 @@
 #include "PLACircleActor.hpp"
 #include "PLARenderingManager.hpp"
-#include "PLARDCircle.hpp"
 
 PLACircleActor::PLACircleActor(const GRACircle &aCircle,
                                const GRAColor &aColor) :
