@@ -31,8 +31,8 @@ void PLAStageManager::Reset()
 
 void PLAStageManager::Update()
 {
-  PLAErrorManager::GetInstance()->
-  Throw(PLAErrorType::Assert, "Error test for Assert");
+  //PLAErrorManager::GetInstance()->
+  //Throw(PLAErrorType::Assert, "Error test for Assert");
 }
 
 void PLAStageManager::Render()
@@ -40,7 +40,7 @@ void PLAStageManager::Render()
   _stage->Render();
 }
 
-void PLAStageManager::SetStageSize(const GRASize aSize)
+void PLAStageManager::SetStageSize(const GRASize &aSize)
 {
   _stage->SetSize(aSize);
 }

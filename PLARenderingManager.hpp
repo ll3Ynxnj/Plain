@@ -3,32 +3,39 @@
 
 #include <vector>
 #include "PLARenderingData.hpp"
-#include "Grain/GRAType.h"
 #include "Grain/GRARect.h"
 #include "Grain/GRACircle.h"
 #include "Grain/GRAColor.h"
+
+class PLARenderer;
 
 typedef std::vector<const PLARenderingData *> PLARenderingDataSet;
 
 class PLARenderingManager
 {
+  static PLARenderingManager _instance;
+
+  PLARenderer *_renderer;
   PLARenderingDataSet _renderingData;
 
   PLARenderingManager();
 
 public:
   static PLARenderingManager* GetInstance()
-  { static PLARenderingManager instance; return &instance; }
+  {  return &_instance; }
 
   ~PLARenderingManager();
 
+  void Update();
+
   void ClearRenderingData();
 
-  void PushRenderingDataRect(GRARect &aRect, GRAColor aColor);
-  void PushRenderingDataCircle(GRACircle &aCircle, GRAColor aColor, GRAInt aSplit);
+  void PushRenderingDataRect(const GRARect &aRect, const GRAColor &aColor);
+  void PushRenderingDataCircle(const GRACircle &aCircle, const GRAColor &aColor, int aSplit);
 
   void RefreshRenderingData();
   const PLARenderingDataSet *GetRenderingData() const;
+  void SetRenderer(PLARenderer *aRenderer);
 };
 
 #endif

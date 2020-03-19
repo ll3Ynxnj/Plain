@@ -24,7 +24,7 @@ public:
   void Update();
   void Render();
 
-  void SetStageSize(const GRASize aSize);
+  void SetStageSize(const GRASize &aSize);
   void SetupActors();
 };
 
