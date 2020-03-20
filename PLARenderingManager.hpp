@@ -28,14 +28,14 @@ public:
 
   void Update();
 
-  void ClearRenderingData();
-
   void PushRenderingDataRect(const GRARect &aRect, const GRAColor &aColor);
   void PushRenderingDataCircle(const GRACircle &aCircle, const GRAColor &aColor, int aSplit);
 
-  void RefreshRenderingData();
-  const PLARenderingDataSet *GetRenderingData() const;
   void SetRenderer(PLARenderer *aRenderer);
+
+private:
+  void Clear();
+  void Render();
 };
 
 #endif

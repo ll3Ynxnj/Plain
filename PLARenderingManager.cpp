@@ -1,4 +1,5 @@
 #include "PLARenderingManager.hpp"
+#include "PLAErrorManager.hpp"
 #include "PLAStageManager.hpp"
 #include "PLARDRect.hpp"
 #include "PLARDCircle.hpp"
@@ -20,16 +21,15 @@ PLARenderingManager::~PLARenderingManager()
 
 void PLARenderingManager::Update()
 {
-  _renderer->Render();
-}
+  _renderer->Clear();
+  this->Clear();
 
-void PLARenderingManager::ClearRenderingData()
-{
-  for (const PLARenderingData *data : _renderingData)
-  {
-    delete data;
-  }
-  _renderingData.clear();
+  _renderer->DrawDemo();
+
+  PLAStageManager::GetInstance()->Render();
+  this->Render();
+
+  _renderer->Flush();
 }
 
 void PLARenderingManager::PushRenderingDataRect(const GRARect &aRect, const GRAColor &aColor)
@@ -42,18 +42,37 @@ void PLARenderingManager::PushRenderingDataCircle(const GRACircle &aCircle, cons
   _renderingData.push_back(new PLARDCircle(aCircle, aColor, aSplit));
 }
 
-void PLARenderingManager::RefreshRenderingData()
-{
-  this->ClearRenderingData();
-  PLAStageManager::GetInstance()->Render();
-}
-
-const PLARenderingDataSet *PLARenderingManager::GetRenderingData() const
-{
-  return &_renderingData;
-}
-
 void PLARenderingManager::SetRenderer(PLARenderer *aRenderer)
 {
   _renderer = aRenderer;
+}
+
+void PLARenderingManager::Clear()
+{
+  for (const PLARenderingData *data : _renderingData)
+  {
+    delete data;
+  }
+  _renderingData.clear();
+}
+
+void PLARenderingManager::Render()
+{
+  for (PLARenderingDataSet::const_iterator it = _renderingData.begin();
+       it != _renderingData.end(); it++)
+  {
+    switch ((*it)->type)
+    {
+      case PLARenderingDataType::Rect :
+        _renderer->DrawRect(static_cast<const PLARDRect *>(*it));
+        break;
+      case PLARenderingDataType::Circle :
+        _renderer->DrawCircle(static_cast<const PLARDCircle *>(*it));
+        break;
+      default :
+        PLAErrorManager::GetInstance()->
+        Throw(PLAErrorType::Assert, "Unexpected PLARenderingDataType detected.");
+        break;
+    }
+  }
 }
