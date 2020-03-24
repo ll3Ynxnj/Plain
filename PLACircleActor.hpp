@@ -2,13 +2,11 @@
 #define PLACIRCLEACTOR_HPP
 
 #include "PLAActor.hpp"
-#include "Grain/GRACircle.h"
-#include "Grain/GRAColor.h"
+#include "PLARDCircle.hpp"
 
 class PLACircleActor : public PLAActor
 {
-  GRACircle _circle;
-  GRAColor _color;
+  PLARDCircle _renderingData;
 
 public :
   PLACircleActor(const GRACircle &aCircle, const GRAColor &aColor);

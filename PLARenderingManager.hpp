@@ -2,12 +2,9 @@
 #define PLARENDERINGMANAGER_HPP
 
 #include <vector>
-#include "PLARenderingData.hpp"
-#include "Grain/GRARect.h"
-#include "Grain/GRACircle.h"
-#include "Grain/GRAColor.h"
 
 class PLARenderer;
+class PLARenderingData;
 
 typedef std::vector<const PLARenderingData *> PLARenderingDataSet;
 
@@ -27,9 +24,7 @@ public:
   ~PLARenderingManager();
 
   void Update();
-
-  void PushRenderingDataRect(const GRARect &aRect, const GRAColor &aColor);
-  void PushRenderingDataCircle(const GRACircle &aCircle, const GRAColor &aColor, int aSplit);
+  void PushRenderingData(const PLARenderingData *aData);
 
   void SetRenderer(PLARenderer *aRenderer);
 

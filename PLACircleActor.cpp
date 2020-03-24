@@ -3,9 +3,8 @@
 
 PLACircleActor::PLACircleActor(const GRACircle &aCircle,
                                const GRAColor &aColor) :
-  PLAActor(PLAActorType::Circle),
-  _circle(aCircle),
-  _color(aColor)
+PLAActor(PLAActorType::Circle),
+_renderingData(aCircle, aColor, 24)
 {
 
 }
@@ -22,5 +21,5 @@ void PLACircleActor::OnUpdate()
 
 void PLACircleActor::OnRender()
 {
-  PLARenderingManager::GetInstance()->PushRenderingDataCircle(_circle, _color, 24);
+  PLARenderingManager::GetInstance()->PushRenderingData(&_renderingData);
 }

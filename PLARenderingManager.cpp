@@ -1,8 +1,6 @@
 #include "PLARenderingManager.hpp"
 #include "PLAErrorManager.hpp"
 #include "PLAStageManager.hpp"
-#include "PLARDRect.hpp"
-#include "PLARDCircle.hpp"
 #include "PLARenderer.hpp"
 
 PLARenderingManager PLARenderingManager::_instance = PLARenderingManager();
@@ -32,14 +30,9 @@ void PLARenderingManager::Update()
   _renderer->Flush();
 }
 
-void PLARenderingManager::PushRenderingDataRect(const GRARect &aRect, const GRAColor &aColor)
+void PLARenderingManager::PushRenderingData(const PLARenderingData *aData)
 {
-  _renderingData.push_back(new PLARDRect(aRect, aColor));
-}
-
-void PLARenderingManager::PushRenderingDataCircle(const GRACircle &aCircle, const GRAColor &aColor, int aSplit)
-{
-  _renderingData.push_back(new PLARDCircle(aCircle, aColor, aSplit));
+  _renderingData.push_back(aData);
 }
 
 void PLARenderingManager::SetRenderer(PLARenderer *aRenderer)

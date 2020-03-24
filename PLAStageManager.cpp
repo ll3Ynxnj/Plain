@@ -31,6 +31,7 @@ void PLAStageManager::Reset()
 
 void PLAStageManager::Update()
 {
+  _stage->Update();
   //PLAErrorManager::GetInstance()->
   //Throw(PLAErrorType::Assert, "Error test for Assert");
 }

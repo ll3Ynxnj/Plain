@@ -1,4 +1,5 @@
 #include "PLAActor.hpp"
+#include "PLAActorType.hpp"
 
 PLAActor::PLAActor(PLAActorType aType) :
   _type(aType),
@@ -19,17 +20,19 @@ void PLAActor::AddActor(PLAActor *aActor)
 
 void PLAActor::Update()
 {
+  this->OnUpdate();
   for (PLAActor *actor : _actors)
   {
-    actor->OnUpdate();
+    actor->Update();
   }
 }
 
 void PLAActor::Render()
 {
+  this->OnRender();
   for (PLAActor *actor : _actors)
   {
-    actor->OnRender();
+    actor->Render();
   }
 }
 
