@@ -2,8 +2,8 @@
 #define PLARDCIRCLE_HPP
 
 #include "PLARenderingData.hpp"
-#include "Grain/GRACircle.h"
-#include "Grain/GRAColor.h"
+#include "Grain/GRACircle.hpp"
+#include "Grain/GRAColor.hpp"
 
 struct PLARDCircle : public PLARenderingData
 {
@@ -27,8 +27,8 @@ struct PLARDCircle : public PLARenderingData
               float aCr, float aCg, float aCb, float aCa,
               int aSplit) :
     PLARenderingData(PLARenderingDataType::Circle),
-    circle((GRACircle){{aPx, aPy}, aRadius }),
-    color((GRAColor){aCr, aCg, aCb, aCa}),
+    circle(GRAPoint(aPx, aPy, 0), aRadius),
+    color(aCr, aCg, aCb, aCa),
     split(aSplit) {};
   virtual ~PLARDCircle() {};
 };

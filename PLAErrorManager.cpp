@@ -1,5 +1,5 @@
 #include "PLAErrorManager.hpp"
-#include "PLAStageManager.hpp"
+#include "PLAStage.hpp"
 #include "PLADebug.hpp"
 
 PLAErrorManager PLAErrorManager::_instance = PLAErrorManager();

@@ -2,12 +2,17 @@
 #define PLARENDERINGDATA_HPP
 
 #include "PLARenderingDataType.hpp"
+#include "Grain/GRAPoint.hpp"
 
 struct PLARenderingData
 {
   PLARenderingDataType type;
+  GRAPoint offset;
 
-  PLARenderingData(PLARenderingDataType aType) : type(aType) {};
+  explicit PLARenderingData(PLARenderingDataType aType) :
+      type(aType), offset(0, 0, 0) {};
+  PLARenderingData(PLARenderingDataType aType, const GRAPoint &aOffset) :
+    type(aType), offset(aOffset) {};
   virtual ~PLARenderingData() {};
 };
 

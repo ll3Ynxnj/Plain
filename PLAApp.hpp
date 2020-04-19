@@ -1,28 +1,39 @@
 #ifndef PLAAPP_HPP
 #define PLAAPP_HPP
 
-#include "Grain/GRASize.h"
+#include "Grain/GRASize.hpp"
 
+class PLAStage;
 class PLARenderer;
+struct PLARenderingData;
 
 class PLAApp
 {
   static PLAApp _instance;
 
+  PLAStage *_stage;
+  PLARenderer *_renderer;
+
   PLAApp();
 
 public:
+  static const int kBaseScreenLength = 320;
+
   static PLAApp *GetInstance() { return &_instance; }
 
   ~PLAApp();
 
-  static void Init();
-  static void Setup();
-  static void Reset();
-  static void Update();
+  void Init();
+  void Setup();
+  void Reset();
+  void Update();
+  void Render();
 
-  static void SetRenderer(PLARenderer *aRenderer);
-  static void SetScreenSize(const GRASize &aSize);
+  void PushRenderingData(const PLARenderingData *aData);
+  void RefreshScreenSize(int aWidth, int aHeight);
+
+  void SetRenderer(PLARenderer *aRenderer);
 };
+
 
 #endif

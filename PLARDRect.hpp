@@ -2,8 +2,8 @@
 #define PLARDRECT_HPP
 
 #include "PLARenderingData.hpp"
-#include "Grain/GRARect.h"
-#include "Grain/GRAColor.h"
+#include "Grain/GRARect.hpp"
+#include "Grain/GRAColor.hpp"
 
 struct PLARDRect : public PLARenderingData
 {
@@ -20,8 +20,8 @@ struct PLARDRect : public PLARenderingData
   PLARDRect(float aPx, float aPy, float aSw, float aSh,
             float aCr, float aCg, float aCb, float aCa) :
     PLARenderingData(PLARenderingDataType::Rect),
-    rect((GRARect){{aPx, aPy}, {aSw, aSh}}),
-    color((GRAColor){aCr, aCg, aCb, aCa}) {};
+    rect(GRAPoint(aPx, aPy, 0), GRASize(aSw, aSh, 0)),
+    color(aCr, aCg, aCb, aCa) {};
   virtual ~PLARDRect() {};
 };
 
