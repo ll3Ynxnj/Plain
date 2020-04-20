@@ -2,9 +2,9 @@
 #include "PLAActorType.hpp"
 
 PLAActor::PLAActor(PLAActorType aType,
-                   const GRAPoint &aPivot,
-                   const GRAPoint &aPos,
-                   const GRASize &aSize) :
+                   const PLAVec3 &aPivot,
+                   const PLAVec3 &aPos,
+                   const PLAVec3 &aSize) :
   _type(aType),
   _actors(),
   _pivot(aPivot),
@@ -43,13 +43,13 @@ void PLAActor::Render()
   }
 }
 
-void PLAActor::SetPivot(const GRAPoint &aPivot)
+void PLAActor::SetPivot(const PLAVec3 &aPivot)
 {
   _pivot = aPivot;
   this->RefreshOrigin();
 }
 
-void PLAActor::SetSize(const GRASize &aSize)
+void PLAActor::SetSize(const PLAVec3 &aSize)
 {
   _size = aSize;
   this->RefreshOrigin();

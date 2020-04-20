@@ -2,24 +2,23 @@
 #define PLARDCIRCLE_HPP
 
 #include "PLARenderingData.hpp"
-#include "Grain/GRACircle.hpp"
-#include "Grain/GRAColor.hpp"
+#include "PLAType.hpp"
 
 struct PLARDCircle : public PLARenderingData
 {
   static const int kSplitMin = 12;
   static const int kSplitMax = 256;
 
-  GRACircle circle;
-  GRAColor color;
+  PLACircle circle;
+  PLAColor color;
   int split;
 
   PLARDCircle() :
     PLARenderingData(PLARenderingDataType::Circle),
-    circle(kGRACircleNorm),
-    color(kGRAColorNorm),
+    circle(kPLACircleNorm),
+    color(kPLAColorNorm),
     split(kSplitMin) {};
-  PLARDCircle(const GRACircle &aCircle, const GRAColor &aColor,
+  PLARDCircle(const PLACircle &aCircle, const PLAColor &aColor,
               int aSplit) :
     PLARenderingData(PLARenderingDataType::Circle),
     circle(aCircle), color(aColor), split(aSplit) {};
@@ -27,7 +26,7 @@ struct PLARDCircle : public PLARenderingData
               float aCr, float aCg, float aCb, float aCa,
               int aSplit) :
     PLARenderingData(PLARenderingDataType::Circle),
-    circle(GRAPoint(aPx, aPy, 0), aRadius),
+    circle(PLAVec3(aPx, aPy, 0), aRadius),
     color(aCr, aCg, aCb, aCa),
     split(aSplit) {};
   virtual ~PLARDCircle() {};

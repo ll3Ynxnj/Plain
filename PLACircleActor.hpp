@@ -9,7 +9,7 @@ class PLACircleActor : public PLAActor
   PLARDCircle _renderingData;
 
 public :
-  PLACircleActor(const GRACircle &aCircle, const GRAColor &aColor);
+  PLACircleActor(const PLACircle &aCircle, const PLAColor &aColor);
   ~PLACircleActor();
 
 protected :

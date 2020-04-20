@@ -22,8 +22,8 @@ public:
   virtual void DrawDemo() const = 0;
   virtual void DrawRect(const PLARDRect *aRect) const = 0;
   virtual void DrawCircle(const PLARDCircle *aCircle) const = 0;
-  virtual void RefreshScreenSize(const GRASize &aFrameSize,
-                                 const GRASize &aStageSize) = 0;
+  virtual void RefreshScreenSize(const PLAVec3 &aFrameSize,
+                                 const PLAVec3 &aStageSize) = 0;
 };
 
 #endif

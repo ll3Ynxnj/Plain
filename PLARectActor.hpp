@@ -9,12 +9,12 @@ class PLARectActor : public PLAActor
   PLARDRect _renderingData;
 
 public :
-  PLARectActor(const GRARect &aRect,
-               const GRAColor &aColor,
-               const GRAPoint &aPivot = GRAPoint(0));
+  PLARectActor(const PLARect &aRect,
+               const PLAColor &aColor,
+               const PLAVec3 &aPivot = PLAVec3(0));
   virtual ~PLARectActor();
 
-  virtual void SetSize(const GRASize &aSize);
+  virtual void SetSize(const PLAVec3 &aSize);
 
 protected :
   virtual void OnUpdate();

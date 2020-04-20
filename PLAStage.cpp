@@ -1,15 +1,12 @@
-#include "PLAApp.hpp"
 #include "PLAStage.hpp"
-#include "PLAError.hpp"
+#include "PLAType.hpp"
 #include "PLARectActor.hpp"
 #include "PLACircleActor.hpp"
-#include "Grain/GRARect.hpp"
-#include "Grain/GRACircle.hpp"
 
 PLAStage::PLAStage() :
-  _context(new PLARectActor(GRARect(GRAPoint(0), GRASize(0)),
-                            kGRAColorGray,
-                            GRAPoint(0.5, 0.5, 0)))
+  _context(new PLARectActor(PLARect(PLAVec3(0), PLAVec3(0)),
+                            kPLAColorGray,
+                            PLAVec3(0.5, 0.5, 0)))
 {
 
 }
@@ -32,50 +29,66 @@ void PLAStage::Render()
 
 void PLAStage::SetupActors()
 {
-  static const GRACircle kCircles[] =
+  static const int kNumberOfCircleActors = 3;
+
+  static const PLACircle kCircles[kNumberOfCircleActors] =
   {
-    GRACircle(GRAPoint( 0,  0, 0), 120),
-    GRACircle(GRAPoint(10, 10, 0), 100),
-    GRACircle(GRAPoint(20, 20, 0),  80),
+    PLACircle(PLAVec3(10, 10, 0), 120),
+    PLACircle(PLAVec3(10, 10, 0), 100),
+    PLACircle(PLAVec3(10, 10, 0),  80),
   };
 
-  static const GRAColor kCircleColors[] =
+  static const PLAColor kCircleColors[] =
   {
-    kGRAColorRed,
-    kGRAColorGreen,
-    kGRAColorBlue,
+    kPLAColorRed,
+    kPLAColorGreen,
+    kPLAColorBlue,
   };
 
-  for (int i = 0; i < 3; i++)
+  PLACircleActor *circleActors[kNumberOfCircleActors];
+  for (int i = 0; i < kNumberOfCircleActors; i++)
   {
-    PLAActor *actor(new PLACircleActor(kCircles[i], kCircleColors[i]));
-    _context->AddActor(actor);
+    circleActors[i] = new PLACircleActor(kCircles[i], kCircleColors[i]);
   }
 
-  static const GRARect kRects[] =
+  for (int i = 0; i < kNumberOfCircleActors; i++)
   {
-    GRARect(GRAPoint(0, 0, 0), GRASize(120, 120, 0)),
-    GRARect(GRAPoint(10, 10, 0), GRASize( 80,  80, 0)),
-    GRARect(GRAPoint(20, 20, 0), GRASize( 40,  40, 0)),
+    if (i == 0) { _context->AddActor(circleActors[i]);            }
+    else        { circleActors[i - 1]->AddActor(circleActors[i]); }
+  }
+
+  static const int kNumberOfRectActors = 3;
+
+  static const PLARect kRects[kNumberOfRectActors] =
+  {
+    PLARect(PLAVec3(10, 10, 0), PLAVec3(120, 120, 0)),
+    PLARect(PLAVec3(10, 10, 0), PLAVec3( 80,  80, 0)),
+    PLARect(PLAVec3(10, 10, 0), PLAVec3( 40,  40, 0)),
   };
 
-  static const GRAColor kRectColors[] =
+  static const PLAColor kRectColors[] =
   {
-    kGRAColorCyan,
-    kGRAColorMagenta,
-    kGRAColorYellow,
+    kPLAColorCyan,
+    kPLAColorMagenta,
+    kPLAColorYellow,
   };
 
-  static const GRAPoint kRectPivot = GRAPoint(0.5, 0.5, 0);
+  static const PLAVec3 kRectPivot = PLAVec3(0.5, 0.5, 0);
 
-  for (int i = 0; i < 3; i++)
+  PLARectActor *rectActors[kNumberOfCircleActors];
+  for (int i = 0; i < kNumberOfRectActors; i++)
   {
-    PLAActor *actor(new PLARectActor(kRects[i], kRectColors[i], kRectPivot));
-    _context->AddActor(actor);
+    rectActors[i] = new PLARectActor(kRects[i], kRectColors[i], kRectPivot);
+  }
+
+  for (int i = 0; i < kNumberOfRectActors; i++)
+  {
+    if (i == 0) { _context->AddActor(rectActors[i]);          }
+    else        { rectActors[i - 1]->AddActor(rectActors[i]); }
   }
 }
 
-void PLAStage::SetSize(const GRASize &aSize)
+void PLAStage::SetSize(const PLAVec3 &aSize)
 {
   _context->SetSize(aSize);
 }

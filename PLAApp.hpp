@@ -1,7 +1,7 @@
 #ifndef PLAAPP_HPP
 #define PLAAPP_HPP
 
-#include "Grain/GRASize.hpp"
+#include "PLAType.hpp"
 
 class PLAStage;
 class PLARenderer;

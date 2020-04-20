@@ -11,20 +11,20 @@ protected:
 
   virtual void SetUp()
   {
-    _rootActor = new PLARectActor(kGRARectNorm, kGRAColorWhite, GRAPoint(0));
+    _rootActor = new PLARectActor(kPLARectNorm, kPLAColorWhite, PLAVec3(0));
 
-    static const GRARect kRects[] =
+    static const PLARect kRects[] =
     {
       {{ -0.3, -0.3, 0.0 }, { 0.6, 0.6, 0.0 }},
       {{ -0.2, -0.2, 0.0 }, { 0.4, 0.4, 0.0 }},
       {{ -0.1, -0.1, 0.0 }, { 0.2, 0.2, 0.0 }},
     };
 
-    static const GRAColor kRectColors[] =
+    static const PLAColor kRectColors[] =
     {
-      kGRAColorCyan,
-      kGRAColorMagenta,
-      kGRAColorYellow,
+      kPLAColorCyan,
+      kPLAColorMagenta,
+      kPLAColorYellow,
     };
 
     for (int i = 0; i < kNumRectActors; i++)
@@ -32,18 +32,18 @@ protected:
       _actors.push_back(new PLARectActor(kRects[i], kRectColors[i]));
     }
 
-    static const GRACircle kCircles[] =
+    static const PLACircle kCircles[] =
     {
       {{ 0.0, 0.0, 0.0 }, 0.6 },
       {{ 0.0, 0.0, 0.0 }, 0.5 },
       {{ 0.0, 0.0, 0.0 }, 0.4 },
     };
 
-    static const GRAColor kCircleColors[] =
+    static const PLAColor kCircleColors[] =
     {
-      kGRAColorRed,
-      kGRAColorGreen,
-      kGRAColorBlue,
+      kPLAColorRed,
+      kPLAColorGreen,
+      kPLAColorBlue,
     };
 
     for (int i = 0; i < kNumCircleActors; i++)

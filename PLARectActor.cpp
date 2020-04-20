@@ -1,9 +1,9 @@
 #include "PLARectActor.hpp"
 #include "PLAApp.hpp"
 
-PLARectActor::PLARectActor(const GRARect &aRect,
-                           const GRAColor &aColor,
-                           const GRAPoint &aPivot) :
+PLARectActor::PLARectActor(const PLARect &aRect,
+                           const PLAColor &aColor,
+                           const PLAVec3 &aPivot) :
   PLAActor(PLAActorType::Rect, aPivot, aRect.pos, aRect.size),
   _renderingData(aRect, aColor)
 {
@@ -28,7 +28,7 @@ void PLARectActor::OnRender()
   PLAApp::GetInstance()->PushRenderingData(&_renderingData);
 }
 
-void PLARectActor::SetSize(const GRASize &aSize)
+void PLARectActor::SetSize(const PLAVec3 &aSize)
 {
   PLAActor::SetSize(aSize);
   _renderingData.rect.size = aSize;

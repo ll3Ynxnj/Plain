@@ -3,24 +3,22 @@
 
 #include <list>
 #include "PLAActorType.hpp"
-
-#include "Grain/GRAPoint.hpp"
-#include "Grain/GRASize.hpp"
+#include "PLAType.hpp"
 
 class PLAActor
 {
   PLAActorType _type;
   std::list<PLAActor *> _actors;
-  GRAPoint _pivot;
-  GRAPoint _origin;
-  GRAPoint _pos;
-  GRASize _size;
+  PLAVec3 _pivot;
+  PLAVec3 _origin;
+  PLAVec3 _pos;
+  PLAVec3 _size;
 
 public :
   PLAActor(PLAActorType aType,
-           const GRAPoint &aPivot,
-           const GRAPoint &aPos,
-           const GRASize &aSize);
+           const PLAVec3 &aPivot,
+           const PLAVec3 &aPos,
+           const PLAVec3 &aSize);
   virtual ~PLAActor();
 
   void AddActor(PLAActor *aActor);
@@ -28,17 +26,17 @@ public :
   void Update();
   void Render();
 
-  const GRAPoint &GetPivot()  { return _pivot;  };
-  const GRAPoint &GetOrigin() { return _origin; };
-  const GRAPoint &GetPos()    { return _pos;    };
-  const GRAPoint &GetSize()   { return _size;   };
+  const PLAVec3 &GetPivot()  { return _pivot;  };
+  const PLAVec3 &GetOrigin() { return _origin; };
+  const PLAVec3 &GetPos()    { return _pos;    };
+  const PLAVec3 &GetSize()   { return _size;   };
 
   size_t GetNumberOfActors()  { return _actors.size(); };
 
-  virtual void SetPivot(const GRAPoint &aPivot);
-  virtual void SetSize(const GRASize &aSize);
+  virtual void SetPivot(const PLAVec3 &aPivot);
+  virtual void SetSize(const PLAVec3 &aSize);
 
-  void SetPos(const GRAPoint &aPos) { _pos = aPos; };
+  void SetPos(const PLAVec3 &aPos) { _pos = aPos; };
 
 protected :
   virtual void OnUpdate() = 0;

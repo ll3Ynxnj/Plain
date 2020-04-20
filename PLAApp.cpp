@@ -2,6 +2,7 @@
 #include "PLAErrorManager.hpp"
 #include "PLAStage.hpp"
 #include "PLARenderer.hpp"
+#include "PLAType.hpp"
 
 PLAApp PLAApp::_instance = PLAApp();
 
@@ -60,8 +61,8 @@ void PLAApp::SetRenderer(PLARenderer *aRenderer)
 
 void PLAApp::RefreshScreenSize(int aWidth, int aHeight)
 {
-  GRASize frameSize(aWidth, aHeight, 0);
-  GRASize stageSize(kBaseScreenLength);
+  PLAVec3 frameSize(aWidth, aHeight, 0);
+  PLAVec3 stageSize(kBaseScreenLength);
 
   if      (aWidth < aHeight)
   { stageSize.y *= float(aHeight) / float(aWidth ); }

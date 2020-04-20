@@ -1,7 +1,7 @@
 #ifndef PLASTAGE_HPP
 #define PLASTAGE_HPP
 
-#include "Grain/GRASize.hpp"
+#include "PLAType.hpp"
 
 class PLARectActor;
 
@@ -17,7 +17,7 @@ public:
   void Render();
 
   void SetupActors();
-  void SetSize(const GRASize &aSize);
+  void SetSize(const PLAVec3 &aSize);
 };
 
 #endif
