@@ -1,5 +1,5 @@
-#ifndef PLATYPE_HPP
-#define PLATYPE_HPP
+#ifndef PLAIN_PLATYPE_HPP
+#define PLAIN_PLATYPE_HPP
 
 #include "Grain/GRAColor.hpp"
 #include "Grain/GRARect.hpp"
@@ -39,4 +39,4 @@ typedef GRACircle<float> PLACircle;
 static const PLACircle kPLACircleNone = PLACircle(kPLAVec3None, 0);
 static const PLACircle kPLACircleNorm = PLACircle(kPLAVec3Norm, 1);
 
-#endif
+#endif // PLAIN_PLATYPE_HPP

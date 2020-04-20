@@ -1,5 +1,5 @@
-#ifndef PLAACTORTYPE_HPP
-#define PLAACTORTYPE_HPP
+#ifndef PLAIN_PLAACTORTYPE_HPP
+#define PLAIN_PLAACTORTYPE_HPP
 
 enum class PLAActorType
 {
@@ -7,4 +7,4 @@ enum class PLAActorType
   Circle,
 };
 
-#endif
+#endif // PLAIN_PLAACTORTYPE_HPP

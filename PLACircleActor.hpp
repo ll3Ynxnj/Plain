@@ -1,5 +1,5 @@
-#ifndef PLACIRCLEACTOR_HPP
-#define PLACIRCLEACTOR_HPP
+#ifndef PLAIN_PLACIRCLEACTOR_HPP
+#define PLAIN_PLACIRCLEACTOR_HPP
 
 #include "PLAActor.hpp"
 #include "PLARDCircle.hpp"
@@ -17,4 +17,4 @@ protected :
   virtual void OnRender();
 };
 
-#endif
+#endif // PLAIN_PLACIRCLEACTOR_HPP

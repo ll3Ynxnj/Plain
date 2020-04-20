@@ -1,5 +1,5 @@
-#ifndef PLARDRECT_HPP
-#define PLARDRECT_HPP
+#ifndef PLAIN_PLARDRECT_HPP
+#define PLAIN_PLARDRECT_HPP
 
 #include "PLARenderingData.hpp"
 #include "PLAType.hpp"
@@ -24,4 +24,4 @@ struct PLARDRect : public PLARenderingData
   virtual ~PLARDRect() {};
 };
 
-#endif
+#endif // PLAIN_PLARDRECT_HPP

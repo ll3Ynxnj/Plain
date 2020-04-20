@@ -1,5 +1,5 @@
-#ifndef PLASTAGE_HPP
-#define PLASTAGE_HPP
+#ifndef PLAIN_PLASTAGE_HPP
+#define PLAIN_PLASTAGE_HPP
 
 #include "PLAType.hpp"
 
@@ -20,4 +20,4 @@ public:
   void SetSize(const PLAVec3 &aSize);
 };
 
-#endif
+#endif // PLAIN_PLASTAGE_HPP

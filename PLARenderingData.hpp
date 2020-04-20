@@ -1,5 +1,5 @@
-#ifndef PLARENDERINGDATA_HPP
-#define PLARENDERINGDATA_HPP
+#ifndef PLAIN_PLARENDERINGDATA_HPP
+#define PLAIN_PLARENDERINGDATA_HPP
 
 #include "PLARenderingDataType.hpp"
 #include "PLAType.hpp"
@@ -16,4 +16,4 @@ struct PLARenderingData
   virtual ~PLARenderingData() {};
 };
 
-#endif
+#endif // PLAIN_PLARENDERINGDATA_HPP

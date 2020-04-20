@@ -1,5 +1,5 @@
-#ifndef PLARDCIRCLE_HPP
-#define PLARDCIRCLE_HPP
+#ifndef PLAIN_PLARDCIRCLE_HPP
+#define PLAIN_PLARDCIRCLE_HPP
 
 #include "PLARenderingData.hpp"
 #include "PLAType.hpp"
@@ -32,4 +32,4 @@ struct PLARDCircle : public PLARenderingData
   virtual ~PLARDCircle() {};
 };
 
-#endif
+#endif // PLAIN_PLARDCIRCLE_HPP

@@ -1,5 +1,5 @@
-#ifndef PLAERROR_HPP
-#define PLAERROR_HPP
+#ifndef PLAIN_PLAERROR_HPP
+#define PLAIN_PLAERROR_HPP
 
 #include <string>
 #include "PLAErrorType.hpp"
@@ -17,4 +17,4 @@ public:
   const std::string &GetMessage();
 };
 
-#endif
+#endif // PLAIN_PLAERROR_HPP

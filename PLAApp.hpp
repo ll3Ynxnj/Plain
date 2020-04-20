@@ -1,5 +1,5 @@
-#ifndef PLAAPP_HPP
-#define PLAAPP_HPP
+#ifndef PLAIN_PLAAPP_HPP
+#define PLAIN_PLAAPP_HPP
 
 #include "PLAType.hpp"
 
@@ -35,5 +35,4 @@ public:
   void SetRenderer(PLARenderer *aRenderer);
 };
 
-
-#endif
+#endif // PLAIN_PLAAPP

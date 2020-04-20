@@ -1,5 +1,5 @@
-#ifndef PLAACTOR_HPP
-#define PLAACTOR_HPP
+#ifndef PLAIN_PLAACTOR_HPP
+#define PLAIN_PLAACTOR_HPP
 
 #include <list>
 #include "PLAActorType.hpp"
@@ -46,4 +46,4 @@ private :
   void RefreshOrigin();
 };
 
-#endif
+#endif // PLAIN_PLAACTOR_HPP

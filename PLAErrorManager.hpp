@@ -1,5 +1,5 @@
-#ifndef PLAERRORMANAGER_HPP
-#define PLAERRORMANAGER_HPP
+#ifndef PLAIN_PLAERRORMANAGER_HPP
+#define PLAIN_PLAERRORMANAGER_HPP
 
 #include <queue>
 #include <string>
@@ -25,4 +25,4 @@ public:
   void Throw(PLAErrorType aType, const std::string &aMessage);
 };
 
-#endif
+#endif // PLAIN_PLAERRORMANAGER_HPP

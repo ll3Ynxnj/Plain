@@ -1,5 +1,5 @@
-#ifndef PLADEBUG_HPP
-#define PLADEBUG_HPP
+#ifndef PLAIN_PLADEBUG_HPP
+#define PLAIN_PLADEBUG_HPP
 
 class PLADebug
 {
@@ -9,4 +9,4 @@ public:
   static void Assert(const char *aFormat, ...);
 };
 
-#endif
+#endif // PLAIN_PLADEBUG_HPP

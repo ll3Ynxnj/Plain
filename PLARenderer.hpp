@@ -1,5 +1,5 @@
-#ifndef PLARENDERER_HPP
-#define PLARENDERER_HPP
+#ifndef PLAIN_PLARENDERER_HPP
+#define PLAIN_PLARENDERER_HPP
 
 #include <vector>
 #include "PLARDRect.hpp"
@@ -26,4 +26,4 @@ public:
                                  const PLAVec3 &aStageSize) = 0;
 };
 
-#endif
+#endif // PLAIN_PLARENDERER_HPP

@@ -1,5 +1,5 @@
-#ifndef PLAERRORTYPE_HPP
-#define PLAERRORTYPE_HPP
+#ifndef PLAIN_PLAERRORTYPE_HPP
+#define PLAIN_PLAERRORTYPE_HPP
 
 enum class PLAErrorType
 {
@@ -10,4 +10,4 @@ enum class PLAErrorType
   None,
 };
 
-#endif
+#endif // PLAIN_PLAERRORTYPE_HPP

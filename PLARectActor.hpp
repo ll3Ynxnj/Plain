@@ -1,5 +1,5 @@
-#ifndef PLARECTACTOR_HPP
-#define PLARECTACTOR_HPP
+#ifndef PLAIN_PLARECTACTOR_HPP
+#define PLAIN_PLARECTACTOR_HPP
 
 #include "PLAActor.hpp"
 #include "PLARDRect.hpp"
@@ -21,4 +21,4 @@ protected :
   virtual void OnRender();
 };
 
-#endif
+#endif // PLAIN_PLARECTACTOR_HPP
