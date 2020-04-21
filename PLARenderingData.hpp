@@ -1,10 +1,10 @@
 #ifndef PLAIN_PLARENDERINGDATA_HPP
 #define PLAIN_PLARENDERINGDATA_HPP
 
+#include "PLAObj.hpp"
 #include "PLARenderingDataType.hpp"
-#include "PLAType.hpp"
 
-struct PLARenderingData
+struct PLARenderingData : public PLAObj
 {
   PLARenderingDataType type;
   PLAVec3 offset;

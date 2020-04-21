@@ -1,11 +1,11 @@
 #ifndef PLAIN_PLASTAGE_HPP
 #define PLAIN_PLASTAGE_HPP
 
-#include "PLAType.hpp"
+#include "PLAObj.hpp"
 
 class PLARectActor;
 
-class PLAStage
+class PLAStage : public PLAObj
 {
   PLARectActor *_context;
 

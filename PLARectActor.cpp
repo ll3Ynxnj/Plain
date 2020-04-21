@@ -5,7 +5,7 @@ PLARectActor::PLARectActor(const PLARect &aRect,
                            const PLAColor &aColor,
                            const PLAVec3 &aPivot) :
   PLAActor(PLAActorType::Rect, aPivot, aRect.pos, aRect.size),
-  _renderingData(aRect, aColor)
+  _renderingData(PLARDRect(aRect, aColor))
 {
 
 }

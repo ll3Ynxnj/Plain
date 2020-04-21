@@ -2,7 +2,6 @@
 #define PLAIN_PLARDRECT_HPP
 
 #include "PLARenderingData.hpp"
-#include "PLAType.hpp"
 
 struct PLARDRect : public PLARenderingData
 {

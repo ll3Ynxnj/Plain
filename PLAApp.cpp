@@ -2,7 +2,6 @@
 #include "PLAErrorManager.hpp"
 #include "PLAStage.hpp"
 #include "PLARenderer.hpp"
-#include "PLAType.hpp"
 
 PLAApp PLAApp::_instance = PLAApp();
 

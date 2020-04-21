@@ -3,10 +3,11 @@
 
 #include <queue>
 #include <string>
+#include "PLAObj.hpp"
 #include "PLAError.hpp"
 #include "PLAErrorType.hpp"
 
-class PLAErrorManager
+class PLAErrorManager : public PLAObj
 {
   static PLAErrorManager _instance;
 

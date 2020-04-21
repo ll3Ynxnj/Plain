@@ -2,10 +2,10 @@
 #define PLAIN_PLAACTOR_HPP
 
 #include <list>
+#include "PLAObj.hpp"
 #include "PLAActorType.hpp"
-#include "PLAType.hpp"
 
-class PLAActor
+class PLAActor : public PLAObj
 {
   PLAActorType _type;
   std::list<PLAActor *> _actors;

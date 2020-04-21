@@ -2,7 +2,6 @@
 #define PLAIN_PLARDCIRCLE_HPP
 
 #include "PLARenderingData.hpp"
-#include "PLAType.hpp"
 
 struct PLARDCircle : public PLARenderingData
 {

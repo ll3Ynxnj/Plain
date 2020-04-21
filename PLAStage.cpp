@@ -1,5 +1,4 @@
 #include "PLAStage.hpp"
-#include "PLAType.hpp"
 #include "PLARectActor.hpp"
 #include "PLACircleActor.hpp"
 

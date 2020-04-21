@@ -3,8 +3,11 @@
 
 PLACircleActor::PLACircleActor(const PLACircle &aCircle,
                                const PLAColor &aColor) :
-PLAActor(PLAActorType::Circle, PLAVec3(0.5, 0.5, 0), aCircle.origin, PLAVec3(aCircle.radius * 2, aCircle.radius * 2, 0)),
-_renderingData(aCircle, aColor, 24)
+PLAActor(PLAActorType::Circle,
+         PLAVec3(0.5, 0.5, 0),
+         aCircle.origin,
+         PLAVec3(aCircle.radius * 2, aCircle.radius * 2, 0)),
+         _renderingData(aCircle, aColor, 24)
 {
 
 }

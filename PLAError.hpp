@@ -2,9 +2,10 @@
 #define PLAIN_PLAERROR_HPP
 
 #include <string>
+#include "PLAObj.hpp"
 #include "PLAErrorType.hpp"
 
-class PLAError
+class PLAError : public PLAObj
 {
   PLAErrorType _type;
   std::string _message;
