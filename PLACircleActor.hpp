@@ -12,6 +12,9 @@ public :
   PLACircleActor(const PLACircle &aCircle, const PLAColor &aColor);
   ~PLACircleActor();
 
+  virtual void GetSize(PLAVec3 *aSize);
+  virtual void SetSize(const PLAVec3 &aSize);
+
 protected :
   virtual void OnUpdate();
   virtual void OnRender();

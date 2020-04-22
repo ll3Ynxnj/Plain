@@ -4,10 +4,8 @@
 PLACircleActor::PLACircleActor(const PLACircle &aCircle,
                                const PLAColor &aColor) :
 PLAActor(PLAActorType::Circle,
-         PLAVec3(0.5, 0.5, 0),
-         aCircle.origin,
-         PLAVec3(aCircle.radius * 2, aCircle.radius * 2, 0)),
-         _renderingData(aCircle, aColor, 24)
+         PLAVec3(0.5, 0.5, 0)),
+_renderingData(aCircle, aColor, 24)
 {
 
 }
@@ -25,4 +23,18 @@ void PLACircleActor::OnUpdate()
 void PLACircleActor::OnRender()
 {
   PLAApp::GetInstance()->PushRenderingData(&_renderingData);
+}
+
+void PLACircleActor::GetSize(PLAVec3 *aSize)
+{
+  float radius = _renderingData.circle.radius;
+  aSize->x = radius;
+  aSize->y = radius;
+}
+
+void PLACircleActor::SetSize(const PLAVec3 &aSize)
+{
+  float radius(aSize.x);
+  if (radius < aSize.y) { radius = aSize.y; }
+  _renderingData.circle.radius = radius;
 }

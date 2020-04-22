@@ -2,15 +2,10 @@
 #include "PLAActorType.hpp"
 
 PLAActor::PLAActor(PLAActorType aType,
-                   const PLAVec3 &aPivot,
-                   const PLAVec3 &aPos,
-                   const PLAVec3 &aSize) :
-  _type(aType),
-  _actors(),
-  _pivot(aPivot),
-  _origin(aSize.x * aPivot.x, aSize.y * aPivot.y, 0.0),
-  _pos(aPos),
-  _size(aSize)
+                   const PLAVec3 &aPivot) :
+_type(aType),
+_actors(),
+_pivot(aPivot)
 {
 
 }
@@ -43,21 +38,11 @@ void PLAActor::Render()
   }
 }
 
-void PLAActor::SetPivot(const PLAVec3 &aPivot)
+void PLAActor::GetOrigin(PLAVec3 *aOrigin)
 {
-  _pivot = aPivot;
-  this->RefreshOrigin();
-}
-
-void PLAActor::SetSize(const PLAVec3 &aSize)
-{
-  _size = aSize;
-  this->RefreshOrigin();
-}
-
-void PLAActor::RefreshOrigin()
-{
-  _origin.x = _size.x * _pivot.x;
-  _origin.y = _size.y * _pivot.y;
-  _origin.z = _size.z * _pivot.z;
+  PLAVec3 size(0);
+  this->GetSize(&size);
+  aOrigin->x = size.x * _pivot.x;
+  aOrigin->y = size.y * _pivot.y;
+  aOrigin->z = size.z * _pivot.z;
 }

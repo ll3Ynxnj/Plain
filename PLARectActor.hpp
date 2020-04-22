@@ -14,7 +14,10 @@ public :
                const PLAVec3 &aPivot = PLAVec3(0));
   virtual ~PLARectActor();
 
-  virtual void SetSize(const PLAVec3 &aSize);
+  virtual void GetSize(PLAVec3 *aSize)
+  { *aSize = _renderingData.rect.size; }
+  virtual void SetSize(const PLAVec3 &aSize)
+  { _renderingData.rect.size = aSize; }
 
 protected :
   virtual void OnUpdate();
