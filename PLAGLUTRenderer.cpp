@@ -25,6 +25,9 @@ void PLAGLUTRenderer::RefreshScreenSize(const PLAVec3 &aFrameSize,
 
 void PLAGLUTRenderer::Init() const
 {
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glEnableClientState(GL_COLOR_ARRAY);
+
   glClearColor(0.0, 0.0, 0.0, 1.0);
 }
 
@@ -54,19 +57,40 @@ void PLAGLUTRenderer::DrawDemo() const
 
 void PLAGLUTRenderer::DrawRect(const PLARDRect *aData) const
 {
-  glBegin(GL_POLYGON);
-  glColor4d(aData->color.r, aData->color.g, aData->color.b, aData->color.a);
-  glMatrixMode(GL_MODELVIEW);
+  GLfloat vertices[] =
+  {
+    aData->rect.pos.x,
+    aData->rect.pos.y,
+    0,
+    aData->rect.pos.x + aData->rect.size.x,
+    aData->rect.pos.y,
+    0,
+    aData->rect.pos.x,
+    aData->rect.pos.y + aData->rect.size.y,
+    0,
+    aData->rect.pos.x + aData->rect.size.x,
+    aData->rect.pos.y + aData->rect.size.y,
+    0,
+  };
+
+  GLfloat colors[] =
+  {
+    aData->color.r, aData->color.g, aData->color.b, aData->color.a,
+    aData->color.r, aData->color.g, aData->color.b, aData->color.a,
+    aData->color.r, aData->color.g, aData->color.b, aData->color.a,
+    aData->color.r, aData->color.g, aData->color.b, aData->color.a,
+  };
+
+  glVertexPointer(3, GL_FLOAT, 0, vertices);
+  glColorPointer(4, GL_FLOAT, 0, colors);
+
   glTranslatef(30, 30, 0);
-  glVertex2d(aData->rect.pos.x,
-             aData->rect.pos.y);
-  glTranslatef(-30, -30, 0);
-  glVertex2d(aData->rect.pos.x + aData->rect.size.x,
-             aData->rect.pos.y);
-  glVertex2d(aData->rect.pos.x + aData->rect.size.x,
-             aData->rect.pos.y + aData->rect.size.y);
-  glVertex2d(aData->rect.pos.x,
-             aData->rect.pos.y + aData->rect.size.y);
+
+  glBegin(GL_TRIANGLE_STRIP);
+  glArrayElement(0);
+  glArrayElement(1);
+  glArrayElement(2);
+  glArrayElement(3);
   glEnd();
 }
 
