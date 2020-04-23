@@ -1,5 +1,20 @@
 #include "PLARenderer.hpp"
 #include "PLAErrorManager.hpp"
+#include "PLAGLUTRenderer.hpp"
+
+PLARenderer *PLARenderer::Create(PLARendererType aType)
+{
+  switch (aType)
+  {
+    case PLARendererType::GLUT :
+      return new PLAGLUTRenderer();
+    default :
+      PLAErrorManager::GetInstance()->
+      Throw(PLAErrorType::Assert,
+            "Unexpected PLARenderingDataType detected.");
+  }
+  return nullptr;
+}
 
 PLARenderer::PLARenderer() :
 _renderingDataSet()

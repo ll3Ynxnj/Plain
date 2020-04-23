@@ -6,7 +6,6 @@ enum class PLAErrorType
   Assert,
 
   NumberOfItems,
-
   None,
 };
 

@@ -6,6 +6,7 @@ enum class PLARenderingDataType
   Rect,
   Circle,
 
+  NumberOfItems,
   None,
 };
 

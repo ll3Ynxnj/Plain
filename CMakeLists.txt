@@ -12,6 +12,7 @@ add_library(Plain
   PLARectActor.cpp
   PLACircleActor.cpp
   PLARenderer.cpp
+  PLAGLUTRenderer.cpp
   PLAErrorManager.cpp
 )
 

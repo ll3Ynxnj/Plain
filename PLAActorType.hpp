@@ -5,6 +5,9 @@ enum class PLAActorType
 {
   Rect,
   Circle,
+
+  NumberOfItems,
+  None,
 };
 
 #endif // PLAIN_PLAACTORTYPE_HPP

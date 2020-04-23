@@ -2,6 +2,7 @@
 #define PLAIN_PLAAPP_HPP
 
 #include "PLAObj.hpp"
+#include "PLARendererType.hpp"
 
 class PLAStage;
 class PLARenderer;
@@ -23,16 +24,13 @@ public:
 
   ~PLAApp();
 
-  void Init();
-  void Setup();
+  void Init(PLARendererType Type);
   void Reset();
   void Update();
   void Render();
 
   void PushRenderingData(const PLARenderingData *aData);
   void RefreshScreenSize(int aWidth, int aHeight);
-
-  void SetRenderer(PLARenderer *aRenderer);
 };
 
 #endif // PLAIN_PLAAPP

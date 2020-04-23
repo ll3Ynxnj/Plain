@@ -4,12 +4,15 @@
 #include <vector>
 #include "PLARDRect.hpp"
 #include "PLARDCircle.hpp"
+#include "PLARendererType.hpp"
 
 class PLARenderer
 {
   std::vector <const PLARenderingData *>_renderingDataSet;
 
 public:
+  static PLARenderer *Create(PLARendererType aType);
+
   PLARenderer();
 
   virtual ~PLARenderer();
@@ -17,6 +20,7 @@ public:
   void PushRenderingData(const PLARenderingData *aData);
   void Render();
 
+  virtual void Init() const = 0;
   virtual void Clear() const = 0;
   virtual void Flush() const = 0;
   virtual void DrawDemo() const = 0;

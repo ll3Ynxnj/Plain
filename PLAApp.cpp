@@ -18,14 +18,12 @@ PLAApp::~PLAApp()
   _renderer = nullptr;
 }
 
-void PLAApp::Init()
+void PLAApp::Init(PLARendererType aType)
 {
-  _stage = new PLAStage();
+  _renderer = PLARenderer::Create(aType);
+  _renderer->Init();
   PLAErrorManager::GetInstance()->Init();
-}
-
-void PLAApp::Setup()
-{
+  _stage = new PLAStage();
   _stage->SetupActors();
 }
 
@@ -51,11 +49,6 @@ void PLAApp::Render()
 void PLAApp::PushRenderingData(const PLARenderingData *aData)
 {
   _renderer->PushRenderingData(aData);
-}
-
-void PLAApp::SetRenderer(PLARenderer *aRenderer)
-{
-  _renderer = aRenderer;
 }
 
 void PLAApp::RefreshScreenSize(int aWidth, int aHeight)
