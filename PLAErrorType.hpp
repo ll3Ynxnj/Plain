@@ -4,8 +4,9 @@
 enum class PLAErrorType
 {
   Assert,
+  Expect,
 
-  NumberOfItems,
+  kNumberOfItems,
   None,
 };
 

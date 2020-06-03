@@ -3,39 +3,53 @@
 
 #include <list>
 #include "PLAObj.hpp"
-#include "PLAActorType.hpp"
+#include "PLAShape.hpp"
+
+class PLARenderer;
 
 class PLAActor : public PLAObj
 {
-  PLAActorType _type;
-  std::list<PLAActor *> _actors;
-  PLAVec3 _pivot;
+  std::list<PLAActor *> _actors = {};
+  PLAVec3 _pivot = kPLAVec3None;
+  PLAColor _color = kPLAColorWhite;
+  PLATransform _transform = PLATransform();
+  PLAShape *_shape = nullptr;
 
 public :
-  PLAActor(PLAActorType aType,
-           const PLAVec3 &aPivot);
+  PLAActor(const PLAVec3 &aPivot,
+           const PLAColor &aColor,
+           const PLATransform &aTransform,
+           const PLAShape &aShape);
   virtual ~PLAActor();
 
   void AddActor(PLAActor *aActor);
 
   void Update();
-  void Render();
+  void Render(const PLARenderer *aRenderer);
 
-  const PLAVec3 &GetPivot() { return _pivot;  };
+  const PLAVec3 &GetPivot() { return _pivot; };
+  const PLATransform &GetTransform() { return _transform; };
   void GetOrigin(PLAVec3 *aOrigin);
-  virtual void GetSize(PLAVec3 *aSize) = 0;
+  PLAVec3 GetSize() { return _shape->GetSize(); };
+  void GetSize(PLAVec3 *aSize) { return _shape->GetSize(aSize); };
 
   size_t GetNumberOfActors() { return _actors.size(); };
 
   void SetPivot(const PLAVec3 &aPivot) { _pivot = aPivot; };
-  virtual void SetSize(const PLAVec3 &aSize) = 0;
+  void SetTransform(const PLATransform &aTransform)
+  { _transform = aTransform; };
+  virtual void SetSize(const PLAVec3 &aSize) { _shape->SetSize(aSize); };
+
+  void SetTranslation(const PLAVec3 &aTranslation)
+  { _transform.translation = aTranslation; };
+  void SetRotation(const PLAVec3 &aRotation)
+  { _transform.rotation = aRotation; };
+  void SetScale(const PLAVec3 &aScale)
+  { _transform.scale = aScale; };
 
 protected :
-  virtual void OnUpdate() = 0;
-  virtual void OnRender() = 0;
-
-private :
-  void RefreshOrigin();
+  void OnUpdate();
+  void OnRender(const PLARenderer *aRenderer);
 };
 
 #endif // PLAIN_PLAACTOR_HPP

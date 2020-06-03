@@ -3,18 +3,19 @@
 
 #include "PLAObj.hpp"
 
-class PLARectActor;
+class PLARenderer;
+class PLAActor;
 
 class PLAStage : public PLAObj
 {
-  PLARectActor *_context;
+  PLAActor *_context;
 
 public:
   PLAStage();
   ~PLAStage();
 
   void Update();
-  void Render();
+  void Render(const PLARenderer *aRenderer);
 
   void SetupActors();
   void SetSize(const PLAVec3 &aSize);

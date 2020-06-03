@@ -2,41 +2,74 @@
 #define PLAIN_PLATYPE_HPP
 
 #include "Grain/GRAColor.hpp"
+#include "Grain/GRAPoint.hpp"
 #include "Grain/GRARect.hpp"
 #include "Grain/GRACircle.hpp"
 #include "Grain/GRAVector.hpp"
 
-typedef GRAColorRGBA8888 PLAColor;
-static const PLAColor kPLAColorNone    = PLAColor(0);
-static const PLAColor kPLAColorNorm    = PLAColor(1);
-static const PLAColor kPLAColorBlack   = PLAColor(0.00, 0.00, 0.00, 1.00);
-static const PLAColor kPLAColorRed     = PLAColor(1.00, 0.00, 0.00, 1.00);
-static const PLAColor kPLAColorGreen   = PLAColor(0.00, 1.00, 0.00, 1.00);
-static const PLAColor kPLAColorBlue    = PLAColor(0.00, 0.00, 1.00, 1.00);
-static const PLAColor kPLAColorYellow  = PLAColor(1.00, 1.00, 0.00, 1.00);
-static const PLAColor kPLAColorCyan    = PLAColor(0.00, 1.00, 1.00, 1.00);
-static const PLAColor kPLAColorMagenta = PLAColor(1.00, 0.00, 1.00, 1.00);
-static const PLAColor kPLAColorGray    = PLAColor(0.50, 0.50, 0.50, 1.00);
-static const PLAColor kPLAColorWhite   = PLAColor(1.00, 1.00, 1.00, 1.00);
+using PLAColor = GRAColorRGBA8888;
+static const PLAColor &PLAColorMake(float aV)
+{ return { aV, aV, aV, aV }; };
+static const PLAColor &PLAColorMake(float aR, float aG, float aB, float aA)
+{ return { aR, aG, aB, aA }; };
+static const PLAColor kPLAColorNone    = PLAColorMake(0);
+static const PLAColor kPLAColorNorm    = PLAColorMake(1);
+static const PLAColor kPLAColorBlack   = PLAColorMake(0.00, 0.00, 0.00, 1.00);
+static const PLAColor kPLAColorRed     = PLAColorMake(1.00, 0.00, 0.00, 1.00);
+static const PLAColor kPLAColorGreen   = PLAColorMake(0.00, 1.00, 0.00, 1.00);
+static const PLAColor kPLAColorBlue    = PLAColorMake(0.00, 0.00, 1.00, 1.00);
+static const PLAColor kPLAColorYellow  = PLAColorMake(1.00, 1.00, 0.00, 1.00);
+static const PLAColor kPLAColorCyan    = PLAColorMake(0.00, 1.00, 1.00, 1.00);
+static const PLAColor kPLAColorMagenta = PLAColorMake(1.00, 0.00, 1.00, 1.00);
+static const PLAColor kPLAColorGray    = PLAColorMake(0.50, 0.50, 0.50, 1.00);
+static const PLAColor kPLAColorWhite   = PLAColorMake(1.00, 1.00, 1.00, 1.00);
 
-typedef GRAVec2<float> PLAVec2;
-static const PLAVec2 kPLAVec2None = PLAVec2(0);
-static const PLAVec2 kPLAVec2Norm = PLAVec2(1);
+using PLAVec2 = GRAVec2<float>;
+static const PLAVec2 &PLAVec2Make(float aV) { return { aV, aV }; };
+static const PLAVec2 &PLAVec2Make(float aX, float aY)
+{ return { aX, aY }; };
+static const PLAVec2 kPLAVec2None = PLAVec2Make(0);
+static const PLAVec2 kPLAVec2Norm = PLAVec2Make(1);
 
-typedef GRAVec3<float> PLAVec3;
-static const PLAVec3 kPLAVec3None = PLAVec3(0);
-static const PLAVec3 kPLAVec3Norm = PLAVec3(1);
+using PLAVec3 = GRAVec3<float>;
+static const PLAVec3 &PLAVec3Make(float aV) { return { aV, aV, aV }; };
+static const PLAVec3 &PLAVec3Make(float aX, float aY, float aZ)
+{ return { aX, aY, aZ }; };
+static const PLAVec3 kPLAVec3None = PLAVec3Make(0);
+static const PLAVec3 kPLAVec3Norm = PLAVec3Make(1);
 
-typedef GRAVec4<float> PLAVec4;
-static const PLAVec4 kPLAVec4None = PLAVec4(0);
-static const PLAVec4 kPLAVec4Norm = PLAVec4(1);
+using PLAVec4 = GRAVec4<float>;
+static const PLAVec4 &PLAVec4Make(float aV) { return { aV, aV, aV, aV }; }
+static const PLAVec4 &PLAVec4Make(float aX, float aY, float aZ, float aW)
+{ return { aX, aY, aZ, aW }; }
+static const PLAVec4 kPLAVec4None = PLAVec4Make(0);
+static const PLAVec4 kPLAVec4Norm = PLAVec4Make(1);
 
-typedef GRARect<float> PLARect;
-static const PLARect kPLARectNone = PLARect(kPLAVec3None, kPLAVec3None);
-static const PLARect kPLARectNorm = PLARect(kPLAVec3Norm, kPLAVec3Norm);
+using PLAPoint = GRAPoint<float>;
+static const PLAVec2 &PLAPointMake(float aV) { return { aV, aV }; };
+static const PLAVec2 &PLAPointMake(float aX, float aY);
+static const PLAPoint kPLAPointNone = PLAPointMake(0);
+static const PLAPoint kPLAPointNorm = PLAPointMake(1);
 
-typedef GRACircle<float> PLACircle;
-static const PLACircle kPLACircleNone = PLACircle(kPLAVec3None, 0);
-static const PLACircle kPLACircleNorm = PLACircle(kPLAVec3Norm, 1);
+using PLARect = GRARect<float>;
+static const PLARect &PLARectMake(PLAVec2 aPos, PLAVec2 aSize)
+{ return { aPos, aSize }; }
+static const PLARect kPLARectNone = PLARectMake(kPLAVec2None, kPLAVec2None);
+static const PLARect kPLARectNorm = PLARectMake(kPLAVec2None, kPLAVec2Norm);
+
+using PLACircle = GRACircle<float>;
+static const PLACircle &PLACircleMake(PLAVec2 aPos, float aRadius)
+{ return { aPos, aRadius }; }
+static const PLACircle kPLACircleNone = PLACircleMake(kPLAVec2None, 0);
+static const PLACircle kPLACircleNorm = PLACircleMake(kPLAVec2None, 1);
+
+struct PLATransform
+{
+  PLAVec3 translation, rotation, scale;
+  PLATransform() :
+  translation(kPLAVec3None), rotation(kPLAVec3None), scale(kPLAVec3Norm) {};
+  PLATransform(PLAVec3 aTranslation, PLAVec3 aRotation, PLAVec3 aScale) :
+  translation(aTranslation), rotation(aRotation), scale(aScale) {};
+};
 
 #endif // PLAIN_PLATYPE_HPP

@@ -2,7 +2,7 @@
 #define PLAIN_PLAGLUTRENDERER_HPP
 
 #include "PLARenderer.hpp"
-#include "PLARenderingData.hpp"
+//#include "PLARenderingData.hpp"
 
 class PLAGLUTRenderer : public PLARenderer
 {
@@ -14,11 +14,16 @@ public:
   virtual void Clear() const;
   virtual void Flush() const;
   virtual void DrawDemo() const;
-  virtual void DrawRect(const PLARDRect *aRect) const;
-  virtual void DrawCircle(const PLARDCircle *aCircle) const;
 
   virtual void RefreshScreenSize(const PLAVec3 &aFrameSize,
                                  const PLAVec3 &aStageSize);
+
+  virtual void DrawRect(const PLAColor *aColor,
+                        const PLATransform *aTransform,
+                        const PLAShapeRect* aRect) const;
+  virtual void DrawCircle(const PLAColor *aColor,
+                          const PLATransform *aTransform,
+                          const PLAShapeCircle *aCircle) const;
 };
 
 #endif // PLAIN_PLAGLUTRENDERER_HPP

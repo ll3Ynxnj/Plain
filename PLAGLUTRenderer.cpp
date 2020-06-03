@@ -1,6 +1,7 @@
-#include <GLUT/glut.h>
-#include <math.h>
 #include "PLAGLUTRenderer.hpp"
+#include <OpenGL/gl.h>
+#include <math.h>
+#include "PLAShape.hpp"
 
 PLAGLUTRenderer::PLAGLUTRenderer()
 {
@@ -55,36 +56,49 @@ void PLAGLUTRenderer::DrawDemo() const
   glEnd();
 }
 
-void PLAGLUTRenderer::DrawRect(const PLARDRect *aData) const
+void PLAGLUTRenderer::DrawRect(const PLAColor *aColor,
+                               const PLATransform *aTransform,
+                               const PLAShapeRect *aShape) const
 {
   GLfloat vertices[] =
   {
-    aData->rect.pos.x,
-    aData->rect.pos.y,
     0,
-    aData->rect.pos.x + aData->rect.size.x,
-    aData->rect.pos.y,
     0,
-    aData->rect.pos.x,
-    aData->rect.pos.y + aData->rect.size.y,
     0,
-    aData->rect.pos.x + aData->rect.size.x,
-    aData->rect.pos.y + aData->rect.size.y,
+    aShape->GetSize().x,
+    0,
+    0,
+    0,
+    aShape->GetSize().y,
+    0,
+    aShape->GetSize().x,
+    aShape->GetSize().y,
     0,
   };
 
   GLfloat colors[] =
   {
-    aData->color.r, aData->color.g, aData->color.b, aData->color.a,
-    aData->color.r, aData->color.g, aData->color.b, aData->color.a,
-    aData->color.r, aData->color.g, aData->color.b, aData->color.a,
-    aData->color.r, aData->color.g, aData->color.b, aData->color.a,
+    aColor->r, aColor->g, aColor->b, aColor->a,
+    aColor->r, aColor->g, aColor->b, aColor->a,
+    aColor->r, aColor->g, aColor->b, aColor->a,
+    aColor->r, aColor->g, aColor->b, aColor->a,
+  };
+
+  const PLAStyle *style = aShape->GetStyle();
+  PLAColor fillColor = style->GetValue<PLAColor>(PLAStyleType::FillColor);
+
+  GLfloat fillColors[] =
+  {
+    fillColor.r, fillColor.g, fillColor.b, fillColor.a,
+    fillColor.r, fillColor.g, fillColor.b, fillColor.a,
+    fillColor.r, fillColor.g, fillColor.b, fillColor.a,
+    fillColor.r, fillColor.g, fillColor.b, fillColor.a,
   };
 
   glVertexPointer(3, GL_FLOAT, 0, vertices);
-  glColorPointer(4, GL_FLOAT, 0, colors);
+  glColorPointer(4, GL_FLOAT, 0, fillColors);
 
-  glTranslatef(30, 30, 0);
+  glTranslatef(aTransform->translation.x, aTransform->translation.y, aTransform->translation.z);
 
   glBegin(GL_TRIANGLE_STRIP);
   glArrayElement(0);
@@ -94,15 +108,20 @@ void PLAGLUTRenderer::DrawRect(const PLARDRect *aData) const
   glEnd();
 }
 
-void PLAGLUTRenderer::DrawCircle(const PLARDCircle *aData) const
+void PLAGLUTRenderer::DrawCircle(const PLAColor *aColor,
+                                 const PLATransform *aTransform,
+                                 const PLAShapeCircle *aShape) const
 {
-  glBegin(GL_TRIANGLE_FAN);
-  glColor4d(aData->color.r, aData->color.g, aData->color.b, aData->color.a);
-  PLAVec3 origin = aData->circle.origin;
-  glVertex2d(origin.x, origin.y);
-  int split = aData->split;
+  const PLAStyle *style = aShape->GetStyle();
+  PLAColor fillColor = style->GetValue<PLAColor>(PLAStyleType::FillColor);
 
-  double radius = aData->circle.radius;
+  glBegin(GL_TRIANGLE_FAN);
+  glColor4d(fillColor.r, fillColor.g, fillColor.b, fillColor.a);
+  PLAVec2 origin(kPLAVec2None);
+  glVertex2d(origin.x, origin.y);
+  int split = 24;
+
+  double radius = aShape->GetRadius();
   double radian = 0;
   double step = M_PI * 2 / split;
   for (int i = 0; i <= split; i++)

@@ -1,6 +1,7 @@
 #include "PLARenderer.hpp"
-#include "PLAErrorManager.hpp"
+#include "PLAError.hpp"
 #include "PLAGLUTRenderer.hpp"
+#include "PLAShape.hpp"
 
 PLARenderer *PLARenderer::Create(PLARendererType aType)
 {
@@ -9,15 +10,14 @@ PLARenderer *PLARenderer::Create(PLARendererType aType)
     case PLARendererType::GLUT :
       return new PLAGLUTRenderer();
     default :
-      PLAErrorManager::GetInstance()->
+      PLAError::
       Throw(PLAErrorType::Assert,
             "Unexpected PLARenderingDataType detected.");
   }
   return nullptr;
 }
 
-PLARenderer::PLARenderer() :
-_renderingDataSet()
+PLARenderer::PLARenderer()
 {
 
 }
@@ -27,27 +27,22 @@ PLARenderer::~PLARenderer()
 
 }
 
-void PLARenderer::PushRenderingData(const PLARenderingData *aData)
+void PLARenderer::Render(const PLAColor *aColor,
+                         const PLATransform *aTransform,
+                         const PLAShape *aShape) const
 {
-  _renderingDataSet.push_back(aData);
-}
-
-void PLARenderer::Render()
-{
-  for (std::vector<const PLARenderingData *>::const_iterator it =
-  _renderingDataSet.begin(); it != _renderingDataSet.end(); it++) {
-    switch ((*it)->type) {
-      case PLARenderingDataType::Rect :
-        this->DrawRect(static_cast<const PLARDRect *>(*it));
-        break;
-      case PLARenderingDataType::Circle :
-        this->DrawCircle(static_cast<const PLARDCircle *>(*it));
-        break;
-      default :
-        PLAErrorManager::GetInstance()->
-        Throw(PLAErrorType::Assert,
-              "Unexpected PLARenderingDataType detected.");
-        break;
-    }
+  switch (aShape->GetShapeType()) {
+    case PLAShapeType::Rect :
+      this->DrawRect(aColor, aTransform,
+                     static_cast<const PLAShapeRect *>(aShape));
+      break;
+    case PLAShapeType::Circle :
+      this->DrawCircle(aColor, aTransform,
+                       static_cast<const PLAShapeCircle *>(aShape));
+      break;
+    default :
+      PLAError::Throw(PLAErrorType::Assert,
+                      "Unexpected PLARenderingDataType detected.");
+      break;
   }
 }

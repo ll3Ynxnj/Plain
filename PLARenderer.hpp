@@ -2,14 +2,18 @@
 #define PLAIN_PLARENDERER_HPP
 
 #include <vector>
-#include "PLARDRect.hpp"
-#include "PLARDCircle.hpp"
+#include "Plain.hpp"
+//#include "PLARDRect.hpp"
+//#include "PLARDCircle.hpp"
 #include "PLARendererType.hpp"
+
+class PLATransform;
+class PLAShape;
+class PLAShapeRect;
+class PLAShapeCircle;
 
 class PLARenderer
 {
-  std::vector <const PLARenderingData *>_renderingDataSet;
-
 public:
   static PLARenderer *Create(PLARendererType aType);
 
@@ -17,17 +21,24 @@ public:
 
   virtual ~PLARenderer();
 
-  void PushRenderingData(const PLARenderingData *aData);
-  void Render();
+  void Render(const PLAColor *aColor,
+              const PLATransform *aTransform,
+              const PLAShape *aShape) const;
 
   virtual void Init() const = 0;
   virtual void Clear() const = 0;
   virtual void Flush() const = 0;
   virtual void DrawDemo() const = 0;
-  virtual void DrawRect(const PLARDRect *aRect) const = 0;
-  virtual void DrawCircle(const PLARDCircle *aCircle) const = 0;
   virtual void RefreshScreenSize(const PLAVec3 &aFrameSize,
                                  const PLAVec3 &aStageSize) = 0;
+
+  virtual void DrawRect(const PLAColor *aColor,
+                        const PLATransform *aTransform,
+                        const PLAShapeRect *aRect) const = 0;
+  virtual void DrawCircle(const PLAColor *aColor,
+                          const PLATransform *aTransform,
+                          const PLAShapeCircle *aCircle) const = 0;
+
 };
 
 #endif // PLAIN_PLARENDERER_HPP

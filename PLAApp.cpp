@@ -1,5 +1,5 @@
 #include "PLAApp.hpp"
-#include "PLAErrorManager.hpp"
+#include "PLAError.hpp"
 #include "PLAStage.hpp"
 #include "PLARenderer.hpp"
 
@@ -22,14 +22,14 @@ void PLAApp::Init(PLARendererType aType)
 {
   _renderer = PLARenderer::Create(aType);
   _renderer->Init();
-  PLAErrorManager::GetInstance()->Init();
+  PLAError::Init();
   _stage = new PLAStage();
   _stage->SetupActors();
 }
 
 void PLAApp::Reset()
 {
-  PLAErrorManager::GetInstance()->Reset();
+  PLAError::Reset();
 }
 
 void PLAApp::Update()
@@ -41,20 +41,22 @@ void PLAApp::Render()
 {
   _renderer->Clear();
   _renderer->DrawDemo();
-  _stage->Render();
-  _renderer->Render();
+  _stage->Render(_renderer);
+  //_renderer->Render();
   _renderer->Flush();
 }
 
+/*
 void PLAApp::PushRenderingData(const PLARenderingData *aData)
 {
   _renderer->PushRenderingData(aData);
 }
+*/
 
 void PLAApp::RefreshScreenSize(int aWidth, int aHeight)
 {
-  PLAVec3 frameSize(aWidth, aHeight, 0);
-  PLAVec3 stageSize(kBaseScreenLength);
+  PLAVec3 frameSize(PLAVec3Make(aWidth, aHeight, 0));
+  PLAVec3 stageSize(PLAVec3Make(kBaseScreenLength));
 
   if      (aWidth < aHeight)
   { stageSize.y *= float(aHeight) / float(aWidth ); }

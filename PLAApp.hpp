@@ -29,7 +29,7 @@ public:
   void Update();
   void Render();
 
-  void PushRenderingData(const PLARenderingData *aData);
+  //void PushRenderingData(const PLARenderingData *aData);
   void RefreshScreenSize(int aWidth, int aHeight);
 };
 

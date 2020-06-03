@@ -9,12 +9,11 @@ add_library(Plain
   PLAError.cpp
   PLAStage.cpp
   PLAActor.cpp
-  PLARectActor.cpp
-  PLACircleActor.cpp
-  PLARenderer.cpp
+  PLAShape.cpp
+  PLAStyle.cpp
+        PLARenderer.cpp
   PLAGLUTRenderer.cpp
-  PLAErrorManager.cpp
-)
+        )
 
 # Testing framework must be built with the same settings as the product
 add_subdirectory(Plain-Test)

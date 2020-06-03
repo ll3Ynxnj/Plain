@@ -5,7 +5,7 @@ enum class PLARendererType
 {
   GLUT,
 
-  NumberOfItems,
+  kNumberOfItems,
   None,
 };
 
