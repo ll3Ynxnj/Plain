@@ -48,9 +48,14 @@ static const PLAVec4 kPLAVec4Norm = PLAVec4Make(1);
 
 using PLAPoint = GRAPoint<float>;
 static PLAVec2 PLAPointMake(float aV) { return { aV, aV }; };
-static PLAVec2 PLAPointMake(float aX, float aY);
+static PLAVec2 PLAPointMake(float aX, float aY) { return { aX, aY }; };
 static const PLAPoint kPLAPointNone = PLAPointMake(0);
 static const PLAPoint kPLAPointNorm = PLAPointMake(1);
+
+using PLALine = GRALine<float>;
+static PLALine PLALineMake(PLAVec2 aP0, PLAVec2 aP1) { return { aP0, aP1 }; }
+static const PLALine kPLALineNone = PLALineMake(kPLAVec2None, kPLAVec2None);
+static const PLALine kPLALineNorm = PLALineMake(kPLAVec2None, kPLAVec2Norm);
 
 using PLARect = GRARect<float>;
 static PLARect PLARectMake(PLAVec2 aPos, PLAVec2 aSize)
