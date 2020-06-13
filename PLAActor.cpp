@@ -36,7 +36,7 @@ _shape(nullptr)
 
 PLAActor::~PLAActor()
 {
-
+  SAFE_DELETE(_shape);
 }
 
 void PLAActor::AddActor(PLAActor *aActor)

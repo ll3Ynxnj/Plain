@@ -27,8 +27,8 @@ public:
 class PLAShapePoint : public PLAShape
 {
 public:
-  PLAShapePoint(const PLAPoint &aPoint, const PLAStyle &aStyle) :
-  PLAShape(PLAShapeType::Rect, aStyle) {};
+  PLAShapePoint(const PLAStyle &aStyle) :
+  PLAShape(PLAShapeType::Point, aStyle) {};
   virtual ~PLAShapePoint() {};
 
   virtual PLAVec3 GetSize() const;
