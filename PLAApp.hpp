@@ -24,7 +24,7 @@ public:
 
   ~PLAApp();
 
-  void Init(PLARendererType Type);
+  void Init(PLARenderer *aType);
   void Reset();
   void Update();
   void Render();

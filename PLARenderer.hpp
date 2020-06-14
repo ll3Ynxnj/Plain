@@ -13,7 +13,7 @@ class PLAShapeCircle;
 class PLARenderer
 {
 public:
-  static PLARenderer *Create(PLARendererType aType);
+  //static PLARenderer *Create(PLARendererType aType);
 
   PLARenderer();
 

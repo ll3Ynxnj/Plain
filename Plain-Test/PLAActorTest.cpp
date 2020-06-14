@@ -1,54 +1,21 @@
-#include "../PLARectActor.hpp"
-#include "../PLACircleActor.hpp"
+#include "../PLAActor.hpp"
 
 class PLAActorTest : public ::testing::Test
 {
 protected:
-  static const int kNumRectActors = 3;
-  static const int kNumCircleActors = 3;
-  PLARectActor *_rootActor = nullptr;
+  PLAActor *_rootActor = nullptr;
   std::vector<PLAActor *> _actors = std::vector<PLAActor *>();
 
   virtual void SetUp()
   {
-    _rootActor = new PLARectActor(kPLARectNorm, kPLAColorWhite, PLAVec3(0));
-
-    static const PLARect kRects[] =
+    static const int kNumberOfActors = 3;
+    for (int i = 0; i < kNumberOfActors; i++)
     {
-      {{ -0.3, -0.3, 0.0 }, { 0.6, 0.6, 0.0 }},
-      {{ -0.2, -0.2, 0.0 }, { 0.4, 0.4, 0.0 }},
-      {{ -0.1, -0.1, 0.0 }, { 0.2, 0.2, 0.0 }},
-    };
-
-    static const PLAColor kRectColors[] =
-    {
-      kPLAColorCyan,
-      kPLAColorMagenta,
-      kPLAColorYellow,
-    };
-
-    for (int i = 0; i < kNumRectActors; i++)
-    {
-      _actors.push_back(new PLARectActor(kRects[i], kRectColors[i]));
-    }
-
-    static const PLACircle kCircles[] =
-    {
-      {{ 0.0, 0.0, 0.0 }, 0.6 },
-      {{ 0.0, 0.0, 0.0 }, 0.5 },
-      {{ 0.0, 0.0, 0.0 }, 0.4 },
-    };
-
-    static const PLAColor kCircleColors[] =
-    {
-      kPLAColorRed,
-      kPLAColorGreen,
-      kPLAColorBlue,
-    };
-
-    for (int i = 0; i < kNumCircleActors; i++)
-    {
-      _actors.push_back(new PLACircleActor(kCircles[i], kCircleColors[i]));
+      PLAStyle style;
+      style.SetColorValue(PLAStyleType::FillColor, kPLAColorWhite);
+      PLAShapeRect shape(kPLAPointNorm, style);
+      _actors.push_back(new PLAActor(kPLAVec3Norm, kPLAColorWhite,
+                                     PLATransform(), shape));
     }
   }
 

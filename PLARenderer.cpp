@@ -1,8 +1,9 @@
 #include "PLARenderer.hpp"
 #include "PLAError.hpp"
-#include "PLAGLUTRenderer.hpp"
+#include "../PLAGLUTRenderer.hpp"
 #include "PLAShape.hpp"
 
+/*
 PLARenderer *PLARenderer::Create(PLARendererType aType)
 {
   switch (aType)
@@ -16,6 +17,7 @@ PLARenderer *PLARenderer::Create(PLARendererType aType)
   }
   return nullptr;
 }
+ */
 
 PLARenderer::PLARenderer()
 {

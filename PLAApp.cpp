@@ -18,9 +18,9 @@ PLAApp::~PLAApp()
   _renderer = nullptr;
 }
 
-void PLAApp::Init(PLARendererType aType)
+void PLAApp::Init(PLARenderer *aRenderer)
 {
-  _renderer = PLARenderer::Create(aType);
+  _renderer = aRenderer;
   _renderer->Init();
   PLAError::Init();
   _stage = new PLAStage();
