@@ -61,39 +61,39 @@ void PLAGLUTRenderer::DrawRect(const PLAColor *aColor,
                                const PLAShapeRect *aShape) const
 {
   GLfloat vertices[] =
-  {
-    0,
-    0,
-    0,
-    aShape->GetSize().x,
-    0,
-    0,
-    0,
-    aShape->GetSize().y,
-    0,
-    aShape->GetSize().x,
-    aShape->GetSize().y,
-    0,
-  };
+            {
+              0,
+              0,
+              0,
+              aShape->GetSize().x,
+              0,
+              0,
+              0,
+              aShape->GetSize().y,
+              0,
+              aShape->GetSize().x,
+              aShape->GetSize().y,
+              0,
+            };
 
   GLfloat colors[] =
-  {
-    aColor->r, aColor->g, aColor->b, aColor->a,
-    aColor->r, aColor->g, aColor->b, aColor->a,
-    aColor->r, aColor->g, aColor->b, aColor->a,
-    aColor->r, aColor->g, aColor->b, aColor->a,
-  };
+            {
+              aColor->r, aColor->g, aColor->b, aColor->a,
+              aColor->r, aColor->g, aColor->b, aColor->a,
+              aColor->r, aColor->g, aColor->b, aColor->a,
+              aColor->r, aColor->g, aColor->b, aColor->a,
+            };
 
   const PLAStyle *style = aShape->GetStyle();
-  PLAColor fillColor = style->GetValue<PLAColor>(PLAStyleType::FillColor);
+  PLAColor fillColor = style->GetColorValue(PLAStyleType::FillColor);
 
   GLfloat fillColors[] =
-  {
-    fillColor.r, fillColor.g, fillColor.b, fillColor.a,
-    fillColor.r, fillColor.g, fillColor.b, fillColor.a,
-    fillColor.r, fillColor.g, fillColor.b, fillColor.a,
-    fillColor.r, fillColor.g, fillColor.b, fillColor.a,
-  };
+            {
+              fillColor.r, fillColor.g, fillColor.b, fillColor.a,
+              fillColor.r, fillColor.g, fillColor.b, fillColor.a,
+              fillColor.r, fillColor.g, fillColor.b, fillColor.a,
+              fillColor.r, fillColor.g, fillColor.b, fillColor.a,
+            };
 
   glVertexPointer(3, GL_FLOAT, 0, vertices);
   glColorPointer(4, GL_FLOAT, 0, fillColors);
@@ -113,7 +113,7 @@ void PLAGLUTRenderer::DrawCircle(const PLAColor *aColor,
                                  const PLAShapeCircle *aShape) const
 {
   const PLAStyle *style = aShape->GetStyle();
-  PLAColor fillColor = style->GetValue<PLAColor>(PLAStyleType::FillColor);
+  PLAColor fillColor = style->GetColorValue(PLAStyleType::FillColor);
 
   glBegin(GL_TRIANGLE_FAN);
   glColor4d(fillColor.r, fillColor.g, fillColor.b, fillColor.a);

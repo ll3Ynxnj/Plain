@@ -2,8 +2,8 @@
 #include "PLAErrorManager.hpp"
 
 PLAError::PLAError(PLAErrorType aType, const std::string &aMessage) :
-_type(aType),
-_message(aMessage)
+  _type(aType),
+  _message(aMessage)
 {
 
 }
@@ -58,12 +58,12 @@ void PLAError::Manager::Throw(PLAErrorType aType, const std::string &aMessage)
     switch (aError->GetType())
     {
       case PLAErrorType::Assert :
-        PLADebug::Assert(aMessage.c_str());
+      PLA_ASSERT(aMessage.c_str());
         break;
       case PLAErrorType::Expect :
         break;
       default :
-        PLADebug::Assert(aMessage.c_str());
+      PLA_ASSERT(aMessage.c_str());
         break;
     }
   }

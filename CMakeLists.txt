@@ -5,15 +5,14 @@ project(Plain CXX)
 add_library(Plain
   PLAObj.cpp
   PLAApp.cpp
-  PLADebug.cpp
   PLAError.cpp
   PLAStage.cpp
   PLAActor.cpp
   PLAShape.cpp
   PLAStyle.cpp
-        PLARenderer.cpp
+  PLARenderer.cpp
   PLAGLUTRenderer.cpp
-        )
+  )
 
 # Testing framework must be built with the same settings as the product
 add_subdirectory(Plain-Test)

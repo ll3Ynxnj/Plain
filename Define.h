@@ -1,18 +1,27 @@
 #ifndef PLAIN_DEFINE_H
 #define PLAIN_DEFINE_H
 
-#define SAFE_DELETE(p)\
+#define PLA_DELETE(aPtr)\
 {\
-    delete (p); (p) = 0;\
+    delete (aPtr); (aPtr) = 0;\
 }\
 
-#define SAFE_DELETE_ARRAY(p)\
+#define PLA_DELETE_ARRAY(aPtr)\
 {\
-    delete[] (p); (p) = 0;\
+    delete[] (aPtr); (aPtr) = 0;\
 }\
 
-#define DISALLOW_COPY_AND_ASSIGN(TypeName)\
-TypeName(const TypeName&);\
-void operator=(const TypeName&)\
+#define PLA_PRINT_STR(...) PLADebug::PrintStr(__VA_ARGS__)
+
+#define PLA_PRINT_LOG(...)\
+PLADebug::PrintLog("LOG", __FILE__, __LINE__, __VA_ARGS__);
+
+#define PLA_ASSERT(...)\
+PLADebug::PrintLog("ASSERT", __FILE__, __LINE__, __VA_ARGS__);\
+exit(1);\
+
+#define PLA_DISALLOW_COPY_AND_ASSIGN(aTypeName)\
+aTypeName(const aTypeName&);\
+void operator=(const aTypeName&)\
 
 #endif // PLAIN_DEFINE_H

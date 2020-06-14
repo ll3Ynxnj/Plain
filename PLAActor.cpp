@@ -8,11 +8,11 @@ PLAActor::PLAActor(const PLAVec3 &aPivot,
                    const PLAColor &aColor,
                    const PLATransform &aTransform,
                    const PLAShape &aShape) :
-PLAObj(),
-_pivot(aPivot),
-_color(aColor),
-_transform(aTransform),
-_shape(nullptr)
+  PLAObj(),
+  _pivot(aPivot),
+  _color(aColor),
+  _transform(aTransform),
+  _shape(nullptr)
 {
   switch (aShape.GetShapeType())
   {
@@ -36,7 +36,7 @@ _shape(nullptr)
 
 PLAActor::~PLAActor()
 {
-  SAFE_DELETE(_shape);
+  PLA_DELETE(_shape);
 }
 
 void PLAActor::AddActor(PLAActor *aActor)

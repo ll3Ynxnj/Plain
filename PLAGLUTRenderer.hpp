@@ -2,7 +2,6 @@
 #define PLAIN_PLAGLUTRENDERER_HPP
 
 #include "PLARenderer.hpp"
-//#include "PLARenderingData.hpp"
 
 class PLAGLUTRenderer : public PLARenderer
 {

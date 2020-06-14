@@ -3,8 +3,6 @@
 
 #include <vector>
 #include "Plain.hpp"
-//#include "PLARDRect.hpp"
-//#include "PLARDCircle.hpp"
 #include "PLARendererType.hpp"
 
 class PLATransform;

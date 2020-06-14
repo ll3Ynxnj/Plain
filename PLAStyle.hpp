@@ -17,12 +17,12 @@ class PLAStyle
     };
 
     Type type = Type::None;
-    union Value
+    union
     {
-      int      i = 0;
-      float    f;
-      PLAColor color;
-    } value;
+      int      intValue = 0;
+      float    floatValue;
+      PLAColor colorValue;
+    };
   };
 
   static Item::Type kValidationTable[unsigned(PLAStyleType::kNumberOfItems)];
@@ -32,26 +32,40 @@ public:
   PLAStyle();
   virtual ~PLAStyle();
 
-  template <typename T> const T &GetValue(PLAStyleType aType) const
-  { PLAError::Throw(PLAErrorType::Assert,
-                    "Detected unexpected value type."); };
-  template <> const int &GetValue(PLAStyleType aType) const
-  { return _items.at(aType).value.i; };
-  template <> const float &GetValue(PLAStyleType aType) const
-  { return _items.at(aType).value.f; };
-  template <> const PLAColor &GetValue(PLAStyleType aType) const
-  { return _items.at(aType).value.color; };
-
-  template <typename T> void SetValue(PLAStyleType aType, const T &aValue)
+  int GetIntValue(PLAStyleType aType) const
   {
-    PLAError::Throw(PLAErrorType::Assert,
-                    "Detected unexpected value type.");
-  }
+    if (!PLAStyle::IsValidItem(aType, Item::Type::Int))
+    {
+      PLAError::Throw(PLAErrorType::Assert,
+                      "Detected unexpected value type.");
+    };
+    return _items.at(aType).intValue;
+  };
 
-  template <> void SetValue(PLAStyleType aType, const int &aValue)
+  float GetFloatValue(PLAStyleType aType) const
+  {
+    if (!PLAStyle::IsValidItem(aType, Item::Type::Float))
+    {
+      PLAError::Throw(PLAErrorType::Assert,
+                      "Detected unexpected value type.");
+    };
+    return _items.at(aType).floatValue;
+  };
+
+  const PLAColor &GetColorValue(PLAStyleType aType) const
+  {
+    if (!PLAStyle::IsValidItem(aType, Item::Type::Color))
+    {
+      PLAError::Throw(PLAErrorType::Assert,
+                      "Detected unexpected value type.");
+    };
+    return _items.at(aType).colorValue;
+  };
+
+  void SetIntValue(PLAStyleType aType, const int &aValue)
   {
     if (PLAStyle::IsValidItem(aType, Item::Type::Int))
-    { _items[aType].value.i = aValue; }
+    { _items[aType].intValue = aValue; }
     else
     {
       PLAError::Throw(PLAErrorType::Assert,
@@ -59,10 +73,10 @@ public:
     }
   }
 
-  template <> void SetValue(PLAStyleType aType, const float &aValue)
+  void SetFloatValue(PLAStyleType aType, const float &aValue)
   {
     if (PLAStyle::IsValidItem(aType, Item::Type::Float))
-    { _items[aType].value.f = aValue; }
+    { _items[aType].floatValue = aValue; }
     else
     {
       PLAError::Throw(PLAErrorType::Assert,
@@ -70,10 +84,10 @@ public:
     }
   }
 
-  template <> void SetValue(PLAStyleType aType, const PLAColor &aValue)
+  void SetColorValue(PLAStyleType aType, const PLAColor &aValue)
   {
     if (PLAStyle::IsValidItem(aType, Item::Type::Color))
-    { _items[aType].value.color = aValue; }
+    { _items[aType].colorValue = aValue; }
     else
     {
       PLAError::Throw(PLAErrorType::Assert,
