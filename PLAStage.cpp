@@ -2,8 +2,7 @@
 #include "Plain.hpp"
 #include "PLAActor.hpp"
 
-PLAStage::PLAStage() :
-  _context(nullptr)
+PLAStage::PLAStage()
 {
   PLAStyle style;
   style.SetColorValue(PLAStyleType::FillColor, kPLAColorGray);
@@ -23,11 +22,6 @@ void PLAStage::Update()
   _context->Update();
 }
 
-void PLAStage::Render(const PLARenderer *aRenderer)
-{
-  _context->Render(aRenderer);
-}
-
 void PLAStage::SetupActors()
 {
   static const int kNumberOfCircleActors = 3;
@@ -35,7 +29,7 @@ void PLAStage::SetupActors()
   static const PLACircle kCircles[kNumberOfCircleActors] = {
     PLACircleMake(PLAVec2Make(10, 10), 120),
     PLACircleMake(PLAVec2Make(10, 10), 100),
-    PLACircleMake(PLAVec2Make(10, 10), 80),
+    PLACircleMake(PLAVec2Make( 0,  0), 80),
   };
 
   static const PLAColor kCircleColors[kNumberOfCircleActors] = {
@@ -43,6 +37,8 @@ void PLAStage::SetupActors()
     kPLAColorGreen,
     kPLAColorBlue,
   };
+
+  static const PLAVec3 kCirclePivot = PLAVec3Make(0.5, 0.5, 0);
 
   PLAActor *circleActors[kNumberOfCircleActors];
   for (int i = 0; i < kNumberOfCircleActors; i++)
@@ -53,7 +49,7 @@ void PLAStage::SetupActors()
     PLAStyle style;
     style.SetColorValue(PLAStyleType::FillColor, kCircleColors[i]);
     PLAShapeCircle shape(kCircles[i].radius, style);
-    circleActors[i] = new PLAActor(kPLAVec3None, kPLAColorWhite,
+    circleActors[i] = new PLAActor(kCirclePivot, kPLAColorWhite,
                                    transform, shape);
   }
 
@@ -68,7 +64,7 @@ void PLAStage::SetupActors()
   static const PLARect kRects[kNumberOfRectActors] = {
     PLARectMake(PLAVec2Make(10, 10), PLAVec2Make(120, 120)),
     PLARectMake(PLAVec2Make(10, 10), PLAVec2Make(80, 80)),
-    PLARectMake(PLAVec2Make(10, 10), PLAVec2Make(40, 40)),
+    PLARectMake(PLAVec2Make(0, 0), PLAVec2Make(40, 40)),
   };
 
   static const PLAColor kRectColors[kNumberOfRectActors] = {

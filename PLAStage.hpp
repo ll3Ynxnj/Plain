@@ -8,15 +8,15 @@ class PLAActor;
 
 class PLAStage : public PLAObj
 {
-  PLAActor *_context;
+  PLAActor *_context = nullptr;
 
 public:
   PLAStage();
   ~PLAStage();
 
   void Update();
-  void Render(const PLARenderer *aRenderer);
 
+  const PLAActor *GetContext() const { return _context; }
   void SetupActors();
   void SetSize(const PLAVec3 &aSize);
 };

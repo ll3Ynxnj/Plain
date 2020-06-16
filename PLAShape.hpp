@@ -7,17 +7,15 @@
 
 class PLAShape
 {
-  PLAShapeType _type;
-  PLAStyle _style;
+  PLAShapeType _type = PLAShapeType::None;
+  PLAStyle _style = PLAStyle();
 
 public:
   PLAShape() = delete;
-  //PLAShape() : _type(PLAShapeType::None), _style() {};
-  PLAShape(PLAShapeType aType, const PLAStyle &aStyle) :
-  _type(aType), _style(aStyle) {};
-  virtual ~PLAShape() {};
+  PLAShape(PLAShapeType aType, const PLAStyle &aStyle);
+  virtual ~PLAShape();
 
-  PLAShapeType GetShapeType() const { return _type; };
+  PLAShapeType GetType() const { return _type; };
   const PLAStyle *GetStyle() const { return &_style; };
   virtual PLAVec3 GetSize() const = 0;
   virtual void GetSize(PLAVec3 *aSize) const = 0;

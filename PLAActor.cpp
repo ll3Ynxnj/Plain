@@ -11,10 +11,9 @@ PLAActor::PLAActor(const PLAVec3 &aPivot,
   PLAObj(),
   _pivot(aPivot),
   _color(aColor),
-  _transform(aTransform),
-  _shape(nullptr)
+  _transform(aTransform)
 {
-  switch (aShape.GetShapeType())
+  switch (aShape.GetType())
   {
     case PLAShapeType::Point :
       _shape = new PLAShapePoint(static_cast<const PLAShapePoint &>(aShape));
@@ -32,6 +31,7 @@ PLAActor::PLAActor(const PLAVec3 &aPivot,
       PLAError::Throw(PLAErrorType::Assert, "Detected unexpected PLAShapeType.");
       break;
   }
+  this->RefreshOrigin();
 }
 
 PLAActor::~PLAActor()
@@ -53,30 +53,33 @@ void PLAActor::Update()
   }
 }
 
-void PLAActor::Render(const PLARenderer *aRenderer)
-{
-  this->OnRender(aRenderer);
-  for (PLAActor *actor : _actors)
-  {
-    actor->Render(aRenderer);
-  }
-}
-
-void PLAActor::GetOrigin(PLAVec3 *aOrigin)
-{
-  PLAVec3 size(kPLAVec3None);
-  this->GetSize(&size);
-  aOrigin->x = size.x * _pivot.x;
-  aOrigin->y = size.y * _pivot.y;
-  aOrigin->z = size.z * _pivot.z;
-}
-
 void PLAActor::OnUpdate()
 {
 
 }
 
-void PLAActor::OnRender(const PLARenderer *aRenderer)
+void PLAActor::RefreshOrigin()
 {
-  aRenderer->Render(&_color, &_transform, _shape);
+  PLAVec3 size(this->GetSize());
+  _origin.x = size.x * _pivot.x;
+  _origin.y = size.y * _pivot.y;
+  _origin.z = size.z * _pivot.z;
+}
+
+const PLAShapeRect *PLAActor::GetShapeRect() const
+{
+  if (this->GetShapeType() != PLAShapeType::Circle)
+  {
+    PLAError::Throw(PLAErrorType::Assert, "Type does not match.");
+  }
+  return static_cast<PLAShapeRect *>(_shape);
+}
+
+const PLAShapeCircle *PLAActor::GetShapeCircle() const
+{
+  if (this->GetShapeType() != PLAShapeType::Circle)
+  {
+    PLAError::Throw(PLAErrorType::Assert, "Type does not match.");
+  }
+  return static_cast<PLAShapeCircle *>(_shape);
 }

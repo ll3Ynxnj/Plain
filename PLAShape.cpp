@@ -1,6 +1,17 @@
 #include "PLAShape.hpp"
 #include <math.h>
 
+PLAShape::PLAShape(PLAShapeType aType, const PLAStyle &aStyle) :
+_type(aType), _style(aStyle)
+{
+
+}
+
+PLAShape::~PLAShape()
+{
+
+}
+
 PLAVec3 PLAShapePoint::GetSize() const
 {
   return PLAVec3();
@@ -56,13 +67,13 @@ void PLAShapeRect::SetSize(const PLAVec3 &aSize)
 
 PLAVec3 PLAShapeCircle::GetSize() const
 {
-  return PLAVec3Make(_radius, _radius, 0);
+  return PLAVec3Make(_radius * 2, _radius * 2, 0);
 }
 
 void PLAShapeCircle::GetSize(PLAVec3 *aSize) const
 {
-  aSize->x = _radius;
-  aSize->y = _radius;
+  aSize->x = _radius * 2;
+  aSize->y = _radius * 2;
   aSize->z = 0;
 }
 

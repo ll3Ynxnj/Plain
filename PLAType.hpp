@@ -8,6 +8,8 @@
 #include "Grain/GRACircle.hpp"
 #include "Grain/GRAVector.hpp"
 
+static const char *kPLACharUndefined = " == UNDEFINED == ";
+
 using PLAColor = GRAColorRGBA8888;
 static PLAColor PLAColorMake(float aV)
 { return { aV, aV, aV, aV }; };

@@ -8,8 +8,8 @@
 
 class PLAError : public PLAObj
 {
-  PLAErrorType _type;
-  std::string _message;
+  PLAErrorType _type = PLAErrorType::None;
+  std::string _message = kPLACharUndefined;
 
 public:
   static void Init() { PLAError::Manager::GetInstance()->Init(); };

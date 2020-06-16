@@ -5,9 +5,7 @@
 
 PLAApp PLAApp::_instance = PLAApp();
 
-PLAApp::PLAApp() :
-_stage(nullptr),
-_renderer(nullptr)
+PLAApp::PLAApp()
 {
 
 }
@@ -40,18 +38,9 @@ void PLAApp::Update()
 void PLAApp::Render()
 {
   _renderer->Clear();
-  _renderer->DrawDemo();
-  _stage->Render(_renderer);
-  //_renderer->Render();
+  _renderer->Render(_stage->GetContext());
   _renderer->Flush();
 }
-
-/*
-void PLAApp::PushRenderingData(const PLARenderingData *aData)
-{
-  _renderer->PushRenderingData(aData);
-}
-*/
 
 void PLAApp::RefreshScreenSize(int aWidth, int aHeight)
 {

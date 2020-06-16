@@ -12,8 +12,8 @@ class PLAApp : public PLAObj
 {
   static PLAApp _instance;
 
-  PLAStage *_stage;
-  PLARenderer *_renderer;
+  PLAStage *_stage = nullptr;
+  PLARenderer *_renderer = nullptr;
 
   PLAApp();
 
