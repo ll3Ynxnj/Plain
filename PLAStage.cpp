@@ -6,7 +6,7 @@ PLAStage::PLAStage()
 {
   PLAStyle style;
   style.SetColorValue(PLAStyleType::FillColor, kPLAColorGray);
-  PLAShapeRect shape(PLAVec2Make(0, 160), style);
+  PLAShapeRect shape(kPLAVec2None, style);
   _context = new PLAActor(PLAVec3Make(0.5, 0.5, 0), kPLAColorWhite,
                           PLATransform(), shape);
 }

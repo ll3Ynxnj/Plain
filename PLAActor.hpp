@@ -50,7 +50,8 @@ public :
   { _pivot = aPivot; this->RefreshOrigin(); };
   void SetTransform(const PLATransform &aTransform)
   { _transform = aTransform; };
-  virtual void SetSize(const PLAVec3 &aSize) { _shape->SetSize(aSize); };
+  virtual void SetSize(const PLAVec3 &aSize)
+  { _shape->SetSize(aSize); this->RefreshOrigin(); };
 
   void SetTranslation(const PLAVec3 &aTranslation)
   { _transform.translation = aTranslation; };
