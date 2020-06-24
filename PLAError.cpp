@@ -1,5 +1,11 @@
 #include "PLAError.hpp"
-#include "PLAErrorManager.hpp"
+
+PLAError * PLAError::Create(PLAErrorType aType, const std::string &aMessage)
+{
+  PLAError *error = new PLAError(aType, aMessage);
+  PLAObject::Bind(error);
+  return error;
+}
 
 PLAError::PLAError(PLAErrorType aType, const std::string &aMessage) :
   _type(aType),
@@ -49,7 +55,7 @@ void PLAError::Manager::Throw(PLAErrorType aType, const std::string &aMessage)
 {
   try
   {
-    PLAError *error = new PLAError(aType, aMessage);
+    PLAError *error = PLAError::Create(aType, aMessage);
     _errors.push(error);
     throw error;
   }

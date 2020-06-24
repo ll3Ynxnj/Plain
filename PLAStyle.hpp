@@ -5,7 +5,7 @@
 #include <variant>
 #include "Plain.hpp"
 #include "PLAStyleType.hpp"
-#include "PLAErrorManager.hpp"
+#include "PLAError.hpp"
 
 class PLAStyle
 {

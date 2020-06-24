@@ -3,19 +3,20 @@
 
 #include <string>
 #include <queue>
-#include "PLAObj.hpp"
+#include "PLAObject.hpp"
 #include "PLAErrorType.hpp"
 
-class PLAError : public PLAObj
+class PLAError : public PLAObject
 {
   PLAErrorType _type = PLAErrorType::None;
   std::string _message = kPLACharUndefined;
 
 public:
-  static void Init() { PLAError::Manager::GetInstance()->Init(); };
-  static void Reset() { PLAError::Manager::GetInstance()->Reset(); };
+  static PLAError *Create(PLAErrorType aType, const std::string &aMessage);
+  static void Init() { Manager::GetInstance()->Init(); };
+  static void Reset() { Manager::GetInstance()->Reset(); };
   static void Throw(PLAErrorType aType, const std::string &aMessage)
-  { PLAError::Manager::GetInstance()->Throw(aType, aMessage); };
+  { Manager::GetInstance()->Throw(aType, aMessage); };
 
   PLAError(PLAErrorType aType, const std::string &aMessage);
   ~PLAError();
@@ -39,7 +40,6 @@ private:
 
     void Init();
     void Reset();
-
     void Throw(PLAErrorType aType, const std::string &aMessage);
   };
 };

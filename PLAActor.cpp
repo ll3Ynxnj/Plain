@@ -4,33 +4,26 @@
 #include "PLAShape.hpp"
 #include "PLARenderer.hpp"
 
+PLAActor *PLAActor::Create(const PLAVec3 &aPivot,
+                           const PLAColor &aColor,
+                           const PLATransform &aTransform,
+                           const PLAShape &aShape)
+{
+  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, aShape);
+  PLAObject::Bind(actor);
+  return actor;
+}
+
 PLAActor::PLAActor(const PLAVec3 &aPivot,
                    const PLAColor &aColor,
                    const PLATransform &aTransform,
                    const PLAShape &aShape) :
-  PLAObj(),
-  _pivot(aPivot),
-  _color(aColor),
-  _transform(aTransform)
+PLAObject(),
+_pivot(aPivot),
+_color(aColor),
+_transform(aTransform),
+_shape(PLAShape::Create(aShape))
 {
-  switch (aShape.GetType())
-  {
-    case PLAShapeType::Point :
-      _shape = new PLAShapePoint(static_cast<const PLAShapePoint &>(aShape));
-      break;
-    case PLAShapeType::Line :
-      _shape = new PLAShapeLine(static_cast<const PLAShapeLine  &>(aShape));
-      break;
-    case PLAShapeType::Rect :
-      _shape = new PLAShapeRect(static_cast<const PLAShapeRect &>(aShape));
-      break;
-    case PLAShapeType::Circle :
-      _shape = new PLAShapeCircle(static_cast<const PLAShapeCircle &>(aShape));
-      break;
-    default :
-      PLAError::Throw(PLAErrorType::Assert, "Detected unexpected PLAShapeType.");
-      break;
-  }
   this->RefreshOrigin();
 }
 
@@ -66,20 +59,20 @@ void PLAActor::RefreshOrigin()
   _origin.z = size.z * _pivot.z;
 }
 
-const PLAShapeRect *PLAActor::GetShapeRect() const
+const PLASHPRect *PLAActor::GetShapeRect() const
 {
   if (this->GetShapeType() != PLAShapeType::Circle)
   {
     PLAError::Throw(PLAErrorType::Assert, "Type does not match.");
   }
-  return static_cast<PLAShapeRect *>(_shape);
+  return static_cast<PLASHPRect *>(_shape);
 }
 
-const PLAShapeCircle *PLAActor::GetShapeCircle() const
+const PLASHPCircle *PLAActor::GetShapeCircle() const
 {
   if (this->GetShapeType() != PLAShapeType::Circle)
   {
     PLAError::Throw(PLAErrorType::Assert, "Type does not match.");
   }
-  return static_cast<PLAShapeCircle *>(_shape);
+  return static_cast<PLASHPCircle *>(_shape);
 }

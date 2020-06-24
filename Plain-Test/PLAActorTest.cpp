@@ -13,9 +13,9 @@ protected:
     {
       PLAStyle style;
       style.SetColorValue(PLAStyleType::FillColor, kPLAColorWhite);
-      PLAShapeRect shape(kPLAPointNorm, style);
-      _actors.push_back(new PLAActor(kPLAVec3Norm, kPLAColorWhite,
-                                     PLATransform(), shape));
+      PLASHPRect shape(kPLAPointNorm, style);
+      _actors.push_back(PLAActor::Create(kPLAVec3Norm, kPLAColorWhite,
+                                         PLATransform(), shape));
     }
   }
 

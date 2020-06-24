@@ -1,16 +1,18 @@
 #ifndef PLAIN_PLASTAGE_HPP
 #define PLAIN_PLASTAGE_HPP
 
-#include "PLAObj.hpp"
+#include "PLAObject.hpp"
 
 class PLARenderer;
 class PLAActor;
 
-class PLAStage : public PLAObj
+class PLAStage : public PLAObject
 {
   PLAActor *_context = nullptr;
 
 public:
+  static PLAStage *Create();
+
   PLAStage();
   ~PLAStage();
 

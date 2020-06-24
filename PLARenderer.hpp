@@ -8,8 +8,8 @@
 
 class PLATransform;
 class PLAShape;
-class PLAShapeRect;
-class PLAShapeCircle;
+class PLASHPRect;
+class PLASHPCircle;
 
 class PLARenderer
 {

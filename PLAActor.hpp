@@ -2,12 +2,12 @@
 #define PLAIN_PLAACTOR_HPP
 
 #include <list>
-#include "PLAObj.hpp"
+#include "PLAObject.hpp"
 #include "PLAShape.hpp"
 
 class PLARenderer;
 
-class PLAActor : public PLAObj
+class PLAActor : public PLAObject
 {
   std::list<PLAActor *> _actors = {};
   PLAVec3 _pivot = kPLAVec3None;
@@ -19,6 +19,11 @@ class PLAActor : public PLAObj
   /// Calculate from pivot. Must be updated when pivot changes.
 
 public :
+  static PLAActor *Create(const PLAVec3 &aPivot,
+                          const PLAColor &aColor,
+                          const PLATransform &aTransform,
+                          const PLAShape &aShape);
+
   PLAActor(const PLAVec3 &aPivot,
            const PLAColor &aColor,
            const PLATransform &aTransform,
@@ -41,8 +46,8 @@ public :
   PLAShapeType GetShapeType() const { return _shape->GetType(); }
   const PLAStyle *GetShapeStyle() const { return _shape->GetStyle(); }
 
-  const PLAShapeRect *GetShapeRect() const;
-  const PLAShapeCircle *GetShapeCircle() const;
+  const PLASHPRect *GetShapeRect() const;
+  const PLASHPCircle *GetShapeCircle() const;
 
   size_t GetNumberOfActors() { return _actors.size(); };
 

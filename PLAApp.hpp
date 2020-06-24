@@ -1,14 +1,13 @@
 #ifndef PLAIN_PLAAPP_HPP
 #define PLAIN_PLAAPP_HPP
 
-#include "PLAObj.hpp"
+#include "PLAObject.hpp"
 #include "PLARendererType.hpp"
 
 class PLAStage;
 class PLARenderer;
-struct PLARenderingData;
 
-class PLAApp : public PLAObj
+class PLAApp : public PLAObject
 {
   static PLAApp _instance;
 

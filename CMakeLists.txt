@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 project(Plain CXX)
 
 add_library(Plain
-  PLAObj.cpp
+  PLAObject.cpp
   PLAApp.cpp
   PLAError.cpp
   PLAStage.cpp

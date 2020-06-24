@@ -2,13 +2,18 @@
 #include "Plain.hpp"
 #include "PLAActor.hpp"
 
+PLAStage *PLAStage::Create()
+{
+  return new PLAStage();
+}
+
 PLAStage::PLAStage()
 {
   PLAStyle style;
   style.SetColorValue(PLAStyleType::FillColor, kPLAColorGray);
-  PLAShapeRect shape(kPLAVec2None, style);
-  _context = new PLAActor(PLAVec3Make(0.5, 0.5, 0), kPLAColorWhite,
-                          PLATransform(), shape);
+  PLASHPRect shape(kPLAVec2None, style);
+  _context = PLAActor::Create(PLAVec3Make(0.5, 0.5, 0), kPLAColorWhite,
+                              PLATransform(), shape);
 }
 
 PLAStage::~PLAStage()
@@ -48,9 +53,9 @@ void PLAStage::SetupActors()
     transform.translation.y = kCircles[i].origin.y;
     PLAStyle style;
     style.SetColorValue(PLAStyleType::FillColor, kCircleColors[i]);
-    PLAShapeCircle shape(kCircles[i].radius, style);
-    circleActors[i] = new PLAActor(kCirclePivot, kPLAColorWhite,
-                                   transform, shape);
+    PLASHPCircle shape(kCircles[i].radius, style);
+    circleActors[i] = PLAActor::Create(kCirclePivot, kPLAColorWhite,
+                                       transform, shape);
   }
 
   for (int i = 0; i < kNumberOfCircleActors; i++)
@@ -83,9 +88,9 @@ void PLAStage::SetupActors()
     transform.translation.y = kRects[i].pos.y;
     PLAStyle style;
     style.SetColorValue(PLAStyleType::FillColor, kRectColors[i]);
-    PLAShapeRect shape(kRects[i].size, style);
-    rectActors[i] = new PLAActor(kRectPivot, kPLAColorWhite,
-                                 transform, shape);
+    PLASHPRect shape(kRects[i].size, style);
+    rectActors[i] = PLAActor::Create(kRectPivot, kPLAColorWhite,
+                                     transform, shape);
   }
 
   for (int i = 0; i < kNumberOfRectActors; i++)

@@ -1,6 +1,31 @@
 #include "PLAShape.hpp"
 #include <math.h>
 
+PLAShape *PLAShape::Create(const PLAShape &aShape)
+{
+  PLAShape *shape = nullptr;
+  switch (aShape.GetType())
+  {
+    case PLAShapeType::Point :
+      shape = new PLASHPPoint(static_cast<const PLASHPPoint &>(aShape));
+      break;
+    case PLAShapeType::Line :
+      shape = new PLASHPLine(static_cast<const PLASHPLine  &>(aShape));
+      break;
+    case PLAShapeType::Rect :
+      shape = new PLASHPRect(static_cast<const PLASHPRect &>(aShape));
+      break;
+    case PLAShapeType::Circle :
+      shape = new PLASHPCircle(static_cast<const PLASHPCircle &>(aShape));
+      break;
+    default :
+      PLAError::Throw(PLAErrorType::Assert, "Detected unexpected PLAShapeType.");
+      break;
+  }
+  PLAObject::Bind(shape);
+  return shape;
+}
+
 PLAShape::PLAShape(PLAShapeType aType, const PLAStyle &aStyle) :
 _type(aType), _style(aStyle)
 {
@@ -12,72 +37,72 @@ PLAShape::~PLAShape()
 
 }
 
-PLAVec3 PLAShapePoint::GetSize() const
+PLAVec3 PLASHPPoint::GetSize() const
 {
   return PLAVec3();
 }
 
-void PLAShapePoint::GetSize(PLAVec3 *aSize) const
+void PLASHPPoint::GetSize(PLAVec3 *aSize) const
 {
   aSize->x = 0;
   aSize->y = 0;
   aSize->z = 0;
 }
 
-void PLAShapePoint::SetSize(const PLAVec3 &aSize)
+void PLASHPPoint::SetSize(const PLAVec3 &aSize)
 {
   return;
 }
 
-PLAVec3 PLAShapeLine::GetSize() const
+PLAVec3 PLASHPLine::GetSize() const
 {
   return PLAVec3Make(_vector.x, _vector.y, 0);
 }
 
-void PLAShapeLine::GetSize(PLAVec3 *aSize) const
+void PLASHPLine::GetSize(PLAVec3 *aSize) const
 {
   aSize->x = _vector.x;
   aSize->y = _vector.y;
   aSize->z = 0;
 }
 
-void PLAShapeLine::SetSize(const PLAVec3 &aSize)
+void PLASHPLine::SetSize(const PLAVec3 &aSize)
 {
   _vector.x = aSize.x;
   _vector.y = aSize.y;
 }
 
-PLAVec3 PLAShapeRect::GetSize() const
+PLAVec3 PLASHPRect::GetSize() const
 {
   return PLAVec3Make(_vector.x, _vector.y, 0);
 }
 
-void PLAShapeRect::GetSize(PLAVec3 *aSize) const
+void PLASHPRect::GetSize(PLAVec3 *aSize) const
 {
   aSize->x = _vector.x;
   aSize->y = _vector.y;
   aSize->z = 0;
 }
 
-void PLAShapeRect::SetSize(const PLAVec3 &aSize)
+void PLASHPRect::SetSize(const PLAVec3 &aSize)
 {
   _vector.x = aSize.x;
   _vector.y = aSize.y;
 }
 
-PLAVec3 PLAShapeCircle::GetSize() const
+PLAVec3 PLASHPCircle::GetSize() const
 {
   return PLAVec3Make(_radius * 2, _radius * 2, 0);
 }
 
-void PLAShapeCircle::GetSize(PLAVec3 *aSize) const
+void PLASHPCircle::GetSize(PLAVec3 *aSize) const
 {
   aSize->x = _radius * 2;
   aSize->y = _radius * 2;
   aSize->z = 0;
 }
 
-void PLAShapeCircle::SetSize(const PLAVec3 &aSize)
+void PLASHPCircle::SetSize(const PLAVec3 &aSize)
 {
   _radius = aSize.x > aSize.y ? aSize.x : aSize.y;
 }
