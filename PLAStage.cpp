@@ -133,8 +133,6 @@ void PLAStage::SetupActors()
     PLADebug::PrintStr("time : %f\n", clockDur);
   }
    */
-
-  PLA_PRINT_STR("");
 }
 
 void PLAStage::SetSize(const PLAVec3 &aSize)

@@ -19,7 +19,7 @@ PLAShape *PLAShape::Create(const PLAShape &aShape)
       shape = new PLASHPCircle(static_cast<const PLASHPCircle &>(aShape));
       break;
     default :
-      PLAError::Throw(PLAErrorType::Assert, "Detected unexpected PLAShapeType.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "Detected unexpected PLAShapeType.");
       break;
   }
   PLAObject::Bind(shape);

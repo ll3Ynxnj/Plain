@@ -36,7 +36,7 @@ public:
   {
     if (!PLAStyle::IsValidItem(aType, Item::Type::Int))
     {
-      PLAError::Throw(PLAErrorType::Assert,
+      PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Detected unexpected value type.");
     };
     return _items.at(aType).intValue;
@@ -46,7 +46,7 @@ public:
   {
     if (!PLAStyle::IsValidItem(aType, Item::Type::Float))
     {
-      PLAError::Throw(PLAErrorType::Assert,
+      PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Detected unexpected value type.");
     };
     return _items.at(aType).floatValue;
@@ -56,7 +56,7 @@ public:
   {
     if (!PLAStyle::IsValidItem(aType, Item::Type::Color))
     {
-      PLAError::Throw(PLAErrorType::Assert,
+      PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Detected unexpected value type.");
     };
     return _items.at(aType).colorValue;
@@ -68,7 +68,7 @@ public:
     { _items[aType].intValue = aValue; }
     else
     {
-      PLAError::Throw(PLAErrorType::Assert,
+      PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Detected unexpected value type.");
     }
   }
@@ -79,7 +79,7 @@ public:
     { _items[aType].floatValue = aValue; }
     else
     {
-      PLAError::Throw(PLAErrorType::Assert,
+      PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Detected unexpected value type.");
     }
   }
@@ -90,7 +90,7 @@ public:
     { _items[aType].colorValue = aValue; }
     else
     {
-      PLAError::Throw(PLAErrorType::Assert,
+      PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Detected unexpected value type."); }
   }
 

@@ -11,8 +11,7 @@ add_library(Plain
   PLAShape.cpp
   PLAStyle.cpp
   PLARenderer.cpp
-  ../PLAGLUTRenderer.cpp
-  )
+)
 
 # Testing framework must be built with the same settings as the product
 add_subdirectory(Plain-Test)

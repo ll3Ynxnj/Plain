@@ -11,14 +11,17 @@
     delete[] (aPtr); (aPtr) = 0;\
 }\
 
-#define PLA_PRINT_STR(...) PLADebug::PrintStr(__VA_ARGS__)
+#define PLA_PRINT(str, ...)\
+PLADebug::Print(str, __VA_ARGS__)\
 
-#define PLA_PRINT_LOG(...)\
-PLADebug::PrintLog("LOG", __FILE__, __LINE__, __VA_ARGS__);
+#define PLA_LOG(log, ...)\
+PLADebug::Log(log, "LOG", __FILE__, __LINE__, __VA_ARGS__)\
+
+#define PLA_LOG(log, ...)\
+PLADebug::Log(log, "LOG", __FILE__, __LINE__, __VA_ARGS__)\
 
 #define PLA_ASSERT(...)\
-PLADebug::PrintLog("ASSERT", __FILE__, __LINE__, __VA_ARGS__);\
-exit(1);\
+PLADebug::Assert(__FILE__, __LINE__, __VA_ARGS__)\
 
 #define PLA_DISALLOW_COPY_AND_ASSIGN(aTypeName)\
 aTypeName(const aTypeName&);\

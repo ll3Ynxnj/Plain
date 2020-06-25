@@ -2,7 +2,6 @@
 #include "PLAApp.hpp"
 #include "PLAError.hpp"
 #include "PLAShape.hpp"
-#include "PLARenderer.hpp"
 
 PLAActor *PLAActor::Create(const PLAVec3 &aPivot,
                            const PLAColor &aColor,
@@ -35,6 +34,7 @@ PLAActor::~PLAActor()
 void PLAActor::AddActor(PLAActor *aActor)
 {
   _actors.push_back(aActor);
+  PLA_ERROR_ISSUE(PLAErrorType::Assert, "[%s] : %d %x %p", "TEST", 0, 1, this);
 }
 
 void PLAActor::Update()
@@ -63,7 +63,7 @@ const PLASHPRect *PLAActor::GetShapeRect() const
 {
   if (this->GetShapeType() != PLAShapeType::Circle)
   {
-    PLAError::Throw(PLAErrorType::Assert, "Type does not match.");
+    PLA_ERROR_ISSUE(PLAErrorType::Assert, "Type does not match.");
   }
   return static_cast<PLASHPRect *>(_shape);
 }
@@ -72,7 +72,7 @@ const PLASHPCircle *PLAActor::GetShapeCircle() const
 {
   if (this->GetShapeType() != PLAShapeType::Circle)
   {
-    PLAError::Throw(PLAErrorType::Assert, "Type does not match.");
+    PLA_ERROR_ISSUE(PLAErrorType::Assert, "Type does not match.");
   }
   return static_cast<PLASHPCircle *>(_shape);
 }

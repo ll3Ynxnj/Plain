@@ -6,6 +6,9 @@
 #include "PLAObject.hpp"
 #include "PLAErrorType.hpp"
 
+#define PLA_ERROR_ISSUE(...)\
+PLAError::Issue(__FILE__, __LINE__, __VA_ARGS__)\
+
 class PLAError : public PLAObject
 {
   PLAErrorType _type = PLAErrorType::None;
@@ -15,8 +18,8 @@ public:
   static PLAError *Create(PLAErrorType aType, const std::string &aMessage);
   static void Init() { Manager::GetInstance()->Init(); };
   static void Reset() { Manager::GetInstance()->Reset(); };
-  static void Throw(PLAErrorType aType, const std::string &aMessage)
-  { Manager::GetInstance()->Throw(aType, aMessage); };
+  static void Issue(const char *aFile, const int aLine,
+                    const PLAErrorType aType, const char *aFormat, ...);
 
   PLAError(PLAErrorType aType, const std::string &aMessage);
   ~PLAError();
@@ -40,7 +43,8 @@ private:
 
     void Init();
     void Reset();
-    void Throw(PLAErrorType aType, const std::string &aMessage);
+    void Issue(const char *aFile, const int aLine,
+               const PLAErrorType aType, const std::string &aMessage);
   };
 };
 
