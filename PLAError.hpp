@@ -12,16 +12,20 @@ PLAError::Issue(__FILE__, __LINE__, __VA_ARGS__)\
 class PLAError : public PLAObject
 {
   PLAErrorType _type = PLAErrorType::None;
+  const std::string _file;
+  const int _line = 0;
   std::string _message = kPLACharUndefined;
 
 public:
-  static PLAError *Create(PLAErrorType aType, const std::string &aMessage);
+  static PLAError *Create(PLAErrorType aType, const std::string &aFile,
+                          int aLine, const std::string &aMessage);
   static void Init() { Manager::GetInstance()->Init(); };
   static void Reset() { Manager::GetInstance()->Reset(); };
   static void Issue(const char *aFile, const int aLine,
                     const PLAErrorType aType, const char *aFormat, ...);
 
-  PLAError(PLAErrorType aType, const std::string &aMessage);
+  PLAError(PLAErrorType aType, const std::string &aFile,
+           int aLine, const std::string &aMessage);
   ~PLAError();
 
   PLAErrorType GetType();

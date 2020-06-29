@@ -8,14 +8,8 @@
 
 namespace PLADebug
 {
-  template <typename ... Args>
-  std::string Format(const std::string& fmt, Args ... args )
-  {
-    size_t len = std::snprintf( nullptr, 0, fmt.c_str(), args ... );
-    std::vector<char> buf(len + 1);
-    std::snprintf(&buf[0], len + 1, fmt.c_str(), args ... );
-    return std::string(&buf[0], &buf[0] + len);
-  }
+  static const char *kLogFormat = "[%s]%s(%d) : %s\n";
+  static const int kLogBuffer = 1024;
 
   static void Print(const char *format, ...)
   {
@@ -27,10 +21,11 @@ namespace PLADebug
 
   static void Assert(const char *file, const int line, const char *format, ...)
   {
-    std::string log = Format("[%s]%s(%d) : %s\n", "ASSERT", file, line, format);
+    char log[kLogBuffer];
+    snprintf(log, kLogBuffer, kLogFormat, "ASSERT", file, line, format);
     va_list args;
     va_start(args, format);
-    fprintf(stderr, log.c_str(), args);
+    vfprintf(stderr, log, args);
     va_end(args);
     exit(1);
   }

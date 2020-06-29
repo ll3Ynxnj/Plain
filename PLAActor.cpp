@@ -34,7 +34,6 @@ PLAActor::~PLAActor()
 void PLAActor::AddActor(PLAActor *aActor)
 {
   _actors.push_back(aActor);
-  PLA_ERROR_ISSUE(PLAErrorType::Assert, "[%s] : %d %x %p", "TEST", 0, 1, this);
 }
 
 void PLAActor::Update()

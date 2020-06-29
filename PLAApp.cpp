@@ -23,6 +23,7 @@ void PLAApp::Init(PLARenderer *aRenderer)
   PLAError::Init();
   _stage = PLAStage::Create();
   _stage->SetupActors();
+  PLA_ERROR_ISSUE(PLAErrorType::Assert, "[%s] : %d %x %p", "TEST", 0, 1, this);
 }
 
 void PLAApp::Reset()

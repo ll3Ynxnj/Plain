@@ -1,8 +1,9 @@
 #include "PLAError.hpp"
 
-PLAError * PLAError::Create(PLAErrorType aType, const std::string &aMessage)
+PLAError * PLAError::Create(PLAErrorType aType, const std::string &aFile,
+                            int aLine, const std::string &aMessage)
 {
-  PLAError *error = new PLAError(aType, aMessage);
+  PLAError *error = new PLAError(aType, aFile, aLine, aMessage);
   PLAObject::Bind(error);
   return error;
 }
@@ -10,16 +11,24 @@ PLAError * PLAError::Create(PLAErrorType aType, const std::string &aMessage)
 void PLAError::Issue(const char *file, const int line, const PLAErrorType type,
                      const char *format, ...)
 {
-  std::string log = PLADebug::Format("[%s]%s(%d) : %s\n", "ERROR", file, line, format);
+  static const char *kLogFormat = PLADebug::kLogFormat;
+  static const int kLogBuffer = PLADebug::kLogBuffer;
+
+  char log[kLogBuffer];
+  snprintf(log, kLogBuffer, kLogFormat, "ERROR", file, line, format);
   va_list args;
+  char message[kLogBuffer];
   va_start(args, format);
-  vfprintf(stderr, log.c_str(), args);
+  vsnprintf(message, kLogBuffer, log, args);
   va_end(args);
-  Manager::GetInstance()->Issue(file, line, type, "");
+  fprintf(stderr, message);
+
+  Manager::GetInstance()->Issue(file, line, type, std::string(message));
 }
 
-PLAError::PLAError(PLAErrorType aType, const std::string &aMessage) :
-  _type(aType), _message(aMessage)
+PLAError::PLAError(PLAErrorType aType, const std::string &aFile,
+                   int aLine, const std::string &aMessage) :
+  _type(aType), _file(aFile), _line(aLine), _message(aMessage)
 {
 
 }
@@ -64,17 +73,17 @@ void PLAError::Manager::Reset()
 void PLAError::Manager::Issue(const char *aFile, const int aLine,
                               PLAErrorType aType, const std::string &aMessage)
 {
-  PLAError *error = PLAError::Create(aType, aMessage);
+  PLAError *error = PLAError::Create(aType, aFile, aLine, aMessage);
   _errors.push(error);
   switch (error->GetType())
   {
     case PLAErrorType::Assert :
-      PLA_ASSERT(aMessage.c_str());
+      PLA_ASSERT("PLAErrorType::Assert detected.");
       break;
     case PLAErrorType::Expect :
       break;
     default :
-      PLA_ASSERT(aMessage.c_str());
+      PLA_ASSERT("Unexpected PLAErrorType detected. type : %d", error->GetType());
       break;
   }
 }
