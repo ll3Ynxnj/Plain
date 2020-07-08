@@ -8,7 +8,14 @@
 #include "Grain/GRACircle.hpp"
 #include "Grain/GRAVector.hpp"
 
-static const char *kPLACharUndefined = " == UNDEFINED == ";
+static const user_size_t kPLASizeUndefined  = 0;
+static const int         kPLAIntUndefined   = INTMAX_MIN;
+static const int8_t      kPLAInt8Undefined  = INT8_MIN;
+static const int16_t     kPLAInt16Undefined = INT16_MIN;
+static const int32_t     kPLAInt32Undefined = INT32_MIN;
+static const int64_t     kPLAInt64Undefined = INT64_MIN;
+static const uintmax_t   kPLAUIntUndefined  = 0;
+static const char       *kPLACharUndefined  = " == UNDEFINED == ";
 
 using PLAColor = GRAColorRGBA8888;
 static PLAColor PLAColorMake(float aV)

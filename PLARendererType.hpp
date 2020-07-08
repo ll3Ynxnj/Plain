@@ -1,12 +1,12 @@
 #ifndef PLAIN_PLARENDERERTYPE_HPP
 #define PLAIN_PLARENDERERTYPE_HPP
 
-enum class PLARendererType
+enum class PLARendererType : int
 {
   GLUT,
 
   kNumberOfItems,
-  None,
+  None = kPLAIntUndefined,
 };
 
 #endif //PLAIN_PLARENDERERTYPE_HPP

@@ -1,13 +1,15 @@
 #ifndef PLAIN_PLAERRORTYPE_HPP
 #define PLAIN_PLAERRORTYPE_HPP
 
-enum class PLAErrorType
+#include "Plain.hpp"
+
+enum class PLAErrorType : int
 {
   Assert,
   Expect,
 
   kNumberOfItems,
-  None,
+  None = kPLAIntUndefined,
 };
 
 #endif // PLAIN_PLAERRORTYPE_HPP

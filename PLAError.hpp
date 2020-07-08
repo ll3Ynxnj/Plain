@@ -12,7 +12,7 @@ PLAError::Issue(__FILE__, __LINE__, __VA_ARGS__)\
 class PLAError : public PLAObject
 {
   PLAErrorType _type = PLAErrorType::None;
-  const std::string _file;
+  const std::string _file = kPLACharUndefined;
   const int _line = 0;
   std::string _message = kPLACharUndefined;
 

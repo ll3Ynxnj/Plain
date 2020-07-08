@@ -7,8 +7,9 @@
 
 class PLAObject
 {
-  size_t _id;
-  PLAObjectType _type;
+  size_t _id = kPLASizeUndefined;
+  PLAObjectType _type = PLAObjectType::None;
+  std::string _name = kPLACharUndefined;
 
 public:
   static void Bind(PLAObject *aObject)

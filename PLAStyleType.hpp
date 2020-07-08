@@ -1,7 +1,9 @@
 #ifndef PLAIN_PLASTYLETYPE_HPP
 #define PLAIN_PLASTYLETYPE_HPP
 
-enum class PLAStyleType
+#include "Plain.hpp"
+
+enum class PLAStyleType : int
 {
   FillColor,
   //FillImage,
@@ -9,7 +11,7 @@ enum class PLAStyleType
   StrokeWidth,
 
   kNumberOfItems,
-  None,
+  None = kPLAIntUndefined,
 };
 
 #endif // PLAIN_PLASTYLETYPE_HPP

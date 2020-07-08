@@ -1,18 +1,20 @@
 #ifndef PLAIN_ENGINE_PLAOBJECTTYPE_HPP
 #define PLAIN_ENGINE_PLAOBJECTTYPE_HPP
 
-enum class PLAObjectType
+#include "Plain.hpp"
+
+enum class PLAObjectType : int
 {
   App,
   Stage,
   Actor,
   Shape,
-  Style,
+  // Style,
   Error,
   Renderer,
 
   kNumberOfItems,
-  None,
+  None = kPLAIntUndefined,
 };
 
 #endif //PLAIN_ENGINE_PLAOBJECTTYPE_HPP
