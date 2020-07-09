@@ -102,7 +102,9 @@ void PLAStage::SetupActors()
     else { rectActors[i - 1]->AddActor(rectActors[i]); }
   }
 
+  PLA_TRACE("TEST");
   PLAObject::Manager::GetInstance()->PrintObjects();
+  _context->PrintActors();
 
   // test
   /*

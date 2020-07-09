@@ -13,6 +13,11 @@ PLAObject::~PLAObject()
 
 }
 
+void PLAObject::Print() const
+{
+  PLA_PRINT("%04x : %2x : %s\n", _id, _type, _name.c_str());
+}
+
 // PLAObject::Manager //////////////////////////////////////////////////////////
 
 PLAObject::Manager PLAObject::Manager::_instance = PLAObject::Manager();
@@ -40,9 +45,5 @@ void PLAObject::Manager::Bind(PLAObject *aObject)
 
 void PLAObject::Manager::PrintObjects() const
 {
-  for (PLAObject *object : _objects)
-  {
-    PLA_PRINT("%8d : %2d : %s\n", object->GetID(), object->GetType(),
-              object->GetName().c_str());
-  }
+  for (const PLAObject *object : _objects) { object->Print(); }
 }

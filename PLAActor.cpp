@@ -39,10 +39,20 @@ void PLAActor::AddActor(PLAActor *aActor)
 void PLAActor::Update()
 {
   this->OnUpdate();
-  for (PLAActor *actor : _actors)
+  for (PLAActor *actor : _actors) { actor->Update(); }
+}
+
+void PLAActor::PrintActors() const
+{
+  static int indentLevel = 0;
+  this->Print();
+  ++indentLevel;
+  for (const PLAActor *actor : _actors)
   {
-    actor->Update();
+    for (int i = 0; i < indentLevel; i++) { PLA_PRINT("  "); }
+    actor->PrintActors();
   }
+  --indentLevel;
 }
 
 void PLAActor::OnUpdate()

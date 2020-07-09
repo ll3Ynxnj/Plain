@@ -2,6 +2,7 @@
 #define PLAIN_PLAACTOR_HPP
 
 #include <list>
+#include "Plain.hpp"
 #include "PLAObject.hpp"
 #include "PLAShape.hpp"
 
@@ -31,8 +32,8 @@ public :
   virtual ~PLAActor();
 
   void AddActor(PLAActor *aActor);
-
   void Update();
+  void PrintActors() const;
 
   const std::list<PLAActor *> *GetActors() const { return &_actors; };
   const PLAVec3 &GetPivot() const { return _pivot; };

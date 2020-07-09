@@ -19,6 +19,8 @@ public:
   PLAObjectType GetType() const { return _type; };
   const std::string &GetName() const { return _name; };
 
+  void Print() const;
+
 private:
   void SetId(size_t aId) { _id = aId; };
 
