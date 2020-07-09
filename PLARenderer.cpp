@@ -1,6 +1,7 @@
 #include "PLARenderer.hpp"
 
-PLARenderer::PLARenderer()
+PLARenderer::PLARenderer() :
+PLAObject(PLAObjectType::Renderer)
 {
 
 }

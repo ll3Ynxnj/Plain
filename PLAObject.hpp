@@ -12,15 +12,18 @@ class PLAObject
   std::string _name = kPLACharUndefined;
 
 public:
-  static void Bind(PLAObject *aObject)
-  { Manager::GetInstance()->Bind(aObject); };
-
-  PLAObject();
+  explicit PLAObject(PLAObjectType aType);
   virtual ~PLAObject();
+
+  size_t GetID() const { return _id; }
+  PLAObjectType GetType() const { return _type; };
+  const std::string &GetName() const { return _name; };
 
 private:
   void SetId(size_t aId) { _id = aId; };
 
+// Manager /////////////////////////////////////////////////////////////////////
+public:
   class Manager
   {
     static Manager _instance;
@@ -36,6 +39,7 @@ private:
 
     void Init();
     void Bind(PLAObject *aObject);
+    void PrintObjects() const;
   };
 };
 

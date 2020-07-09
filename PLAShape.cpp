@@ -1,5 +1,4 @@
 #include "PLAShape.hpp"
-#include <math.h>
 
 PLAShape *PLAShape::Create(const PLAShape &aShape)
 {
@@ -22,11 +21,12 @@ PLAShape *PLAShape::Create(const PLAShape &aShape)
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "Detected unexpected PLAShapeType.");
       break;
   }
-  PLAObject::Bind(shape);
+  PLAObject::Manager::GetInstance()->Bind(shape);
   return shape;
 }
 
 PLAShape::PLAShape(PLAShapeType aType, const PLAStyle &aStyle) :
+PLAObject(PLAObjectType::Shape),
 _type(aType), _style(aStyle)
 {
 

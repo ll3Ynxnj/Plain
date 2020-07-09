@@ -4,30 +4,13 @@ PLAError * PLAError::Create(PLAErrorType aType, const std::string &aFile,
                             int aLine, const std::string &aMessage)
 {
   PLAError *error = new PLAError(aType, aFile, aLine, aMessage);
-  PLAObject::Bind(error);
+  PLAObject::Manager::GetInstance()->Bind(error);
   return error;
 }
 
-void PLAError::Issue(const char *file, const int line, const PLAErrorType type,
-                     const char *format, ...)
-{
-  static const char *kLogFormat = PLADebug::kLogFormat;
-  static const int kLogBuffer = PLADebug::kLogBuffer;
-
-  char log[kLogBuffer];
-  snprintf(log, kLogBuffer, kLogFormat, "ERROR", file, line, format);
-  va_list args;
-  char message[kLogBuffer];
-  va_start(args, format);
-  vsnprintf(message, kLogBuffer, log, args);
-  va_end(args);
-  fprintf(stderr, message);
-
-  Manager::GetInstance()->Issue(file, line, type, std::string(message));
-}
-
-PLAError::PLAError(PLAErrorType aType, const std::string &aFile,
-                   int aLine, const std::string &aMessage) :
+PLAError::PLAError(PLAErrorType aType, const std::string &aFile, int aLine,
+                   const std::string &aMessage) :
+  PLAObject(PLAObjectType::Error),
   _type(aType), _file(aFile), _line(aLine), _message(aMessage)
 {
 
@@ -47,6 +30,8 @@ const std::string &PLAError::GetMessage()
 {
   return _message;
 }
+
+// PLAError::Manager ///////////////////////////////////////////////////////////
 
 PLAError::Manager PLAError::Manager::_instance = PLAError::Manager();
 
@@ -71,9 +56,21 @@ void PLAError::Manager::Reset()
 }
 
 void PLAError::Manager::Issue(const char *aFile, const int aLine,
-                              PLAErrorType aType, const std::string &aMessage)
+                              PLAErrorType aType, const char *aFormat, ...)
 {
-  PLAError *error = PLAError::Create(aType, aFile, aLine, aMessage);
+  static const char *kLogFormat = PLADebug::kLogFormat;
+  static const int kLogBuffer = PLADebug::kLogBuffer;
+
+  char log[kLogBuffer];
+  snprintf(log, kLogBuffer, kLogFormat, "ERROR", aFile, aLine, aFormat);
+  va_list args;
+  char message[kLogBuffer];
+  va_start(args, aFormat);
+  vsnprintf(message, kLogBuffer, log, args);
+  va_end(args);
+  fprintf(stderr, message);
+
+  PLAError *error = PLAError::Create(aType, aFile, aLine, message);
   _errors.push(error);
   switch (error->GetType())
   {

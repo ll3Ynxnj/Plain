@@ -9,7 +9,7 @@ enum class PLAObjectType : int
   Stage,
   Actor,
   Shape,
-  // Style,
+  Style,
   Error,
   Renderer,
 

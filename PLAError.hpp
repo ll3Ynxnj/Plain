@@ -7,7 +7,7 @@
 #include "PLAErrorType.hpp"
 
 #define PLA_ERROR_ISSUE(...)\
-PLAError::Issue(__FILE__, __LINE__, __VA_ARGS__)\
+PLAError::Manager::GetInstance()->Issue(__FILE__, __LINE__, __VA_ARGS__)\
 
 class PLAError : public PLAObject
 {
@@ -19,19 +19,16 @@ class PLAError : public PLAObject
 public:
   static PLAError *Create(PLAErrorType aType, const std::string &aFile,
                           int aLine, const std::string &aMessage);
-  static void Init() { Manager::GetInstance()->Init(); };
-  static void Reset() { Manager::GetInstance()->Reset(); };
-  static void Issue(const char *aFile, const int aLine,
-                    const PLAErrorType aType, const char *aFormat, ...);
 
-  PLAError(PLAErrorType aType, const std::string &aFile,
-           int aLine, const std::string &aMessage);
+  PLAError(PLAErrorType aType, const std::string &aFile, int aLine,
+           const std::string &aMessage);
   ~PLAError();
 
   PLAErrorType GetType();
   const std::string &GetMessage();
 
-private:
+// Manager /////////////////////////////////////////////////////////////////////
+public:
   class Manager
   {
     static Manager _instance;
@@ -47,8 +44,8 @@ private:
 
     void Init();
     void Reset();
-    void Issue(const char *aFile, const int aLine,
-               const PLAErrorType aType, const std::string &aMessage);
+    void Issue(const char *aFile, const int aLine, const PLAErrorType aType,
+               const char *aFormat, ...);
   };
 };
 

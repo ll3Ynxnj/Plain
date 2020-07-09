@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "Plain.hpp"
+#include "PLAObject.hpp"
 #include "PLAActor.hpp"
 #include "PLARendererType.hpp"
 
@@ -11,11 +12,9 @@ class PLAShape;
 class PLASHPRect;
 class PLASHPCircle;
 
-class PLARenderer
+class PLARenderer : public PLAObject
 {
 public:
-  //static PLARenderer *Create(PLARendererType aType);
-
   PLARenderer();
 
   virtual ~PLARenderer();

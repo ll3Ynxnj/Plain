@@ -4,10 +4,13 @@
 
 PLAStage *PLAStage::Create()
 {
-  return new PLAStage();
+  PLAStage *stage = new PLAStage();
+  PLAObject::Manager::GetInstance()->Bind(stage);
+  return stage;
 }
 
-PLAStage::PLAStage()
+PLAStage::PLAStage() :
+PLAObject(PLAObjectType::Stage)
 {
   PLAStyle style;
   style.SetColorValue(PLAStyleType::FillColor, kPLAColorGray);
@@ -98,6 +101,8 @@ void PLAStage::SetupActors()
     if (i == 0) { _context->AddActor(rectActors[i]); }
     else { rectActors[i - 1]->AddActor(rectActors[i]); }
   }
+
+  PLAObject::Manager::GetInstance()->PrintObjects();
 
   // test
   /*

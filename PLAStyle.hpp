@@ -4,10 +4,11 @@
 #include <map>
 #include <variant>
 #include "Plain.hpp"
+#include "PLAObject.hpp"
 #include "PLAStyleType.hpp"
 #include "PLAError.hpp"
 
-class PLAStyle
+class PLAStyle : public PLAObject
 {
   struct Item
   {

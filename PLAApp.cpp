@@ -5,7 +5,8 @@
 
 PLAApp PLAApp::_instance = PLAApp();
 
-PLAApp::PLAApp()
+PLAApp::PLAApp() :
+PLAObject(PLAObjectType::App)
 {
 
 }
@@ -20,15 +21,15 @@ void PLAApp::Init(PLARenderer *aRenderer)
 {
   _renderer = aRenderer;
   _renderer->Init();
-  PLAError::Init();
+  PLAError::Manager::GetInstance()->Init();
   _stage = PLAStage::Create();
   _stage->SetupActors();
-  PLA_ERROR_ISSUE(PLAErrorType::Assert, "[%s] : %d %x %p", "TEST", 0, 1, this);
+  //PLA_ERROR_ISSUE(PLAErrorType::Assert, "[%s] : %d %x %p", "TEST", 0, 1, this);
 }
 
 void PLAApp::Reset()
 {
-  PLAError::Reset();
+  PLAError::Manager::GetInstance()->Reset();
 }
 
 void PLAApp::Update()

@@ -7,7 +7,8 @@ PLAStyle::Item::Type PLAStyle::kValidationTable[unsigned(PLAStyleType::kNumberOf
   PLAStyle::Item::Type::Float, // StrokeWidth
 };
 
-PLAStyle::PLAStyle()
+PLAStyle::PLAStyle() :
+PLAObject(PLAObjectType::Style)
 {
 
 }
