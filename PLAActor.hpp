@@ -2,6 +2,7 @@
 #define PLAIN_PLAACTOR_HPP
 
 #include <list>
+#include <functional>
 #include "Plain.hpp"
 #include "PLAObject.hpp"
 #include "PLAShape.hpp"
@@ -15,6 +16,7 @@ class PLAActor : public PLAObject
   PLAColor _color = kPLAColorWhite;
   PLATransform _transform = PLATransform();
   PLAShape *_shape = nullptr;
+  std::function<void(PLAActor *)> _fUpdate = [](PLAActor *aActor){};
 
   PLAVec3 _origin = kPLAVec3None;
   /// Calculate from pivot. Must be updated when pivot changes.
@@ -66,7 +68,8 @@ public :
   void SetScale(const PLAVec3 &aScale)
   { _transform.scale = aScale; };
 
-  void OnUpdate();
+  void SetFunctorForUpdate(const std::function<void(PLAActor *)> &aFunc)
+  { _fUpdate = aFunc; };
 
 private:
   void RefreshOrigin();

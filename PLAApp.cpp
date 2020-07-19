@@ -23,7 +23,6 @@ void PLAApp::Init(PLARenderer *aRenderer)
   _renderer->Init();
   PLAError::Manager::GetInstance()->Init();
   _stage = PLAStage::Create();
-  _stage->SetupActors();
   //PLA_ERROR_ISSUE(PLAErrorType::Assert, "[%s] : %d %x %p", "TEST", 0, 1, this);
 }
 
@@ -34,11 +33,13 @@ void PLAApp::Reset()
 
 void PLAApp::Update()
 {
+  PLA_PRINT("-- Update\n");
   _stage->Update();
 }
 
 void PLAApp::Render()
 {
+  PLA_PRINT("-- Render\n");
   _renderer->Clear();
   _renderer->Render(_stage->GetContext());
   _renderer->Flush();

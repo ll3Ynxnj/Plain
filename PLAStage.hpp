@@ -17,9 +17,10 @@ public:
   ~PLAStage();
 
   void Update();
+  void AddActor(PLAActor *aActor);
+  void PrintActors() const;
 
   const PLAActor *GetContext() const { return _context; }
-  void SetupActors();
   void SetSize(const PLAVec3 &aSize);
 };
 

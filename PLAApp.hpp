@@ -19,7 +19,8 @@ class PLAApp : public PLAObject
 public:
   static const int kBaseScreenLength = 320;
 
-  static PLAApp *GetInstance() { return &_instance; }
+  static PLAApp *GetInstance() { return &_instance; };
+  static PLAStage *Stage() { return _instance._stage; };
 
   ~PLAApp();
 

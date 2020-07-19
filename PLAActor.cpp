@@ -38,7 +38,7 @@ void PLAActor::AddActor(PLAActor *aActor)
 
 void PLAActor::Update()
 {
-  this->OnUpdate();
+  _fUpdate(this);
   for (PLAActor *actor : _actors) { actor->Update(); }
 }
 
@@ -53,19 +53,6 @@ void PLAActor::PrintActors() const
     actor->PrintActors();
   }
   --indentLevel;
-}
-
-void PLAActor::OnUpdate()
-{
-
-}
-
-void PLAActor::RefreshOrigin()
-{
-  PLAVec3 size(this->GetSize());
-  _origin.x = size.x * _pivot.x;
-  _origin.y = size.y * _pivot.y;
-  _origin.z = size.z * _pivot.z;
 }
 
 const PLASHPRect *PLAActor::GetShapeRect() const
@@ -84,4 +71,12 @@ const PLASHPCircle *PLAActor::GetShapeCircle() const
     PLA_ERROR_ISSUE(PLAErrorType::Assert, "Type does not match.");
   }
   return static_cast<PLASHPCircle *>(_shape);
+}
+
+void PLAActor::RefreshOrigin()
+{
+  PLAVec3 size(this->GetSize());
+  _origin.x = size.x * _pivot.x;
+  _origin.y = size.y * _pivot.y;
+  _origin.z = size.z * _pivot.z;
 }
