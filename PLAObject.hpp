@@ -3,6 +3,7 @@
 
 #include "Plain.hpp"
 #include <vector>
+#include <stack>
 #include "PLAObjectType.hpp"
 
 class PLAObject
@@ -15,7 +16,7 @@ public:
   explicit PLAObject(PLAObjectType aType);
   virtual ~PLAObject();
 
-  size_t GetID() const { return _id; }
+  size_t GetId() const { return _id; }
   PLAObjectType GetType() const { return _type; };
   const std::string &GetName() const { return _name; };
 
@@ -31,6 +32,7 @@ public:
     static Manager _instance;
 
     std::vector<PLAObject *> _objects;
+    std::stack<size_t> _emptyIndices;
 
     Manager();
 
@@ -41,6 +43,7 @@ public:
 
     void Init();
     void Bind(PLAObject *aObject);
+    void Release(PLAObject *aObject);
     void PrintObjects() const;
   };
 };

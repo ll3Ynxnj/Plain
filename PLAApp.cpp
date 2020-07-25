@@ -1,9 +1,14 @@
 #include "PLAApp.hpp"
-#include "PLAError.hpp"
+#include "PLAInput.hpp"
 #include "PLAStage.hpp"
 #include "PLARenderer.hpp"
 
 PLAApp PLAApp::_instance = PLAApp();
+
+PLAInputCode PLAApp::GetInputCodeFromChar(unsigned char aCharacter)
+{
+  return PLAInput::GetCodeFromChar(aCharacter);
+}
 
 PLAApp::PLAApp() :
 PLAObject(PLAObjectType::App)
@@ -31,15 +36,21 @@ void PLAApp::Reset()
   PLAError::Manager::GetInstance()->Reset();
 }
 
+void PLAApp::Input(PLAInputDevice aDevice, PLAInputCode aCode,
+                   PLAInputState aState)
+{
+  PLAInput::Manager::GetInstance()->Input(aDevice, aCode, aState);
+}
+
 void PLAApp::Update()
 {
-  PLA_PRINT("-- Update\n");
+  //PLA_PRINT("-- Update\n");
   _stage->Update();
 }
 
 void PLAApp::Render()
 {
-  PLA_PRINT("-- Render\n");
+  //PLA_PRINT("-- Render\n");
   _renderer->Clear();
   _renderer->Render(_stage->GetContext());
   _renderer->Flush();

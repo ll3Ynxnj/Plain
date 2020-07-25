@@ -2,6 +2,7 @@
 #define PLAIN_PLAAPP_HPP
 
 #include "PLAObject.hpp"
+#include "PLAInputType.hpp"
 #include "PLARendererType.hpp"
 
 class PLAStage;
@@ -22,10 +23,13 @@ public:
   static PLAApp *GetInstance() { return &_instance; };
   static PLAStage *Stage() { return _instance._stage; };
 
+  static PLAInputCode GetInputCodeFromChar(const unsigned char aCharacter);
+
   ~PLAApp();
 
   void Init(PLARenderer *aType);
   void Reset();
+  void Input(PLAInputDevice aDevice, PLAInputCode aCode, PLAInputState aState);
   void Update();
   void Render();
 

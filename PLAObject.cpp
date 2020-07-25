@@ -1,4 +1,5 @@
 #include "PLAObject.hpp"
+#include "PLAError.hpp"
 
 // PLAObject ///////////////////////////////////////////////////////////////////
 
@@ -39,8 +40,26 @@ void PLAObject::Manager::Init()
 
 void PLAObject::Manager::Bind(PLAObject *aObject)
 {
-  aObject->SetId(_objects.size());
-  _objects.push_back(aObject);
+  if (_emptyIndices.size())
+  {
+    size_t id = _emptyIndices.top();
+    aObject->SetId(id);
+    if (_objects[id] != nullptr)
+    { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Overwrite pointer not nullptr."); }
+    _objects[id] = aObject;
+    _emptyIndices.pop();
+  }
+  else
+  {
+    aObject->SetId(_objects.size());
+    _objects.push_back(aObject);
+  }
+}
+
+void PLAObject::Manager::Release(PLAObject *aObject)
+{
+  size_t id = aObject->GetId();
+  _objects[id] = nullptr;
 }
 
 void PLAObject::Manager::PrintObjects() const

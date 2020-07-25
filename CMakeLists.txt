@@ -5,6 +5,7 @@ project(Plain CXX)
 add_library(Plain
   PLAObject.cpp
   PLAApp.cpp
+  PLAInput.cpp
   PLAError.cpp
   PLAStage.cpp
   PLAActor.cpp

@@ -1,6 +1,4 @@
 #include "PLAActor.hpp"
-#include "PLAApp.hpp"
-#include "PLAError.hpp"
 #include "PLAShape.hpp"
 
 PLAActor *PLAActor::Create(const PLAVec3 &aPivot,
