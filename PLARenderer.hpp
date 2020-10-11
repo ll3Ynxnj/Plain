@@ -7,11 +7,6 @@
 #include "PLAActor.hpp"
 #include "PLARendererType.hpp"
 
-class PLATransform;
-class PLAShape;
-class PLASHPRect;
-class PLASHPCircle;
-
 class PLARenderer : public PLAObject
 {
 public:

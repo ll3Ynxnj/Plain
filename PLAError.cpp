@@ -55,14 +55,15 @@ void PLAError::Manager::Reset()
   _instance = PLAError::Manager();
 }
 
-void PLAError::Manager::Issue(const char *aFile, const int aLine,
-                              PLAErrorType aType, const char *aFormat, ...)
+void PLAError::Manager::Issue(const char *aFile, const char *aFunc,
+                              const int aLine, PLAErrorType aType,
+                              const char *aFormat, ...)
 {
   static const char *kLogFormat = PLADebug::kLogFormat;
   static const int kLogBuffer = PLADebug::kLogBuffer;
 
-  char log[kLogBuffer];
-  snprintf(log, kLogBuffer, kLogFormat, "ERROR", aFile, aLine, aFormat);
+  char log[kLogBuffer] = {0};
+  snprintf(log, kLogBuffer, kLogFormat, "ERROR", aFile, aFunc, aLine, aFormat);
   va_list args;
   char message[kLogBuffer];
   va_start(args, aFormat);

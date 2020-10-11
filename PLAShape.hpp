@@ -19,6 +19,7 @@ public:
 
   PLAShapeType GetType() const { return _type; };
   const PLAStyle *GetStyle() const { return &_style; };
+  void SetStyle(const PLAStyle &aStyle) { _style = aStyle; }
   virtual PLAVec3 GetSize() const = 0;
   virtual void GetSize(PLAVec3 *aSize) const = 0;
   virtual void SetSize(const PLAVec3 &aSize) = 0;

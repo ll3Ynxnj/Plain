@@ -2,9 +2,20 @@
 #include "PLAError.hpp"
 
 // PLAObject ///////////////////////////////////////////////////////////////////
+void PLAObject::Delete(PLAObject *aObject)
+{
+  PLAObject::Manager::GetInstance()->Unbind(aObject);
+  PLA_DELETE(aObject);
+}
 
 PLAObject::PLAObject(PLAObjectType aType) :
 _type(aType)
+{
+
+}
+
+PLAObject::PLAObject(PLAObjectType aType, const std::string &aName) :
+_type(aType), _name(aName)
 {
 
 }
@@ -56,7 +67,7 @@ void PLAObject::Manager::Bind(PLAObject *aObject)
   }
 }
 
-void PLAObject::Manager::Release(PLAObject *aObject)
+void PLAObject::Manager::Unbind(PLAObject *aObject)
 {
   size_t id = aObject->GetId();
   _objects[id] = nullptr;

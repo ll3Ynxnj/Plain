@@ -5,17 +5,27 @@
 #include <functional>
 #include "Plain.hpp"
 #include "PLAObject.hpp"
+#include "PLAInput.hpp"
 #include "PLAShape.hpp"
 
 class PLARenderer;
 
-class PLAActor : public PLAObject
+class PLAActor : public PLAObject, public PLAInputContext
 {
+  enum class Functor : int
+  {
+    Update,
+
+    kNumberOfItems,
+    None,
+  };
+
   std::list<PLAActor *> _actors = {};
   PLAVec3 _pivot = kPLAVec3None;
   PLAColor _color = kPLAColorWhite;
   PLATransform _transform = PLATransform();
   PLAShape *_shape = nullptr;
+
   std::function<void(PLAActor *)> _fUpdate = [](PLAActor *aActor){};
 
   PLAVec3 _origin = kPLAVec3None;
@@ -34,8 +44,12 @@ public :
   virtual ~PLAActor();
 
   void AddActor(PLAActor *aActor);
+  void Input(const PLAInput *aInput);
   void Update();
   void PrintActors() const;
+
+  bool IsCollideWithPoint(PLAPoint aPoint) const;
+  bool IsCollideWithRect(PLARect aRect) const;
 
   const std::list<PLAActor *> *GetActors() const { return &_actors; };
   const PLAVec3 &GetPivot() const { return _pivot; };
@@ -49,13 +63,19 @@ public :
   PLAShapeType GetShapeType() const { return _shape->GetType(); }
   const PLAStyle *GetShapeStyle() const { return _shape->GetStyle(); }
 
+  /*
   const PLASHPRect *GetShapeRect() const;
   const PLASHPCircle *GetShapeCircle() const;
+  */
 
   size_t GetNumberOfActors() { return _actors.size(); };
 
+  PLAActor *RefActorWithPoint(const PLAPoint &aPoint);
+
   void SetPivot(const PLAVec3 &aPivot)
   { _pivot = aPivot; this->RefreshOrigin(); };
+  void SetColor(const PLAColor &aColor)
+  { _color = aColor; };
   void SetTransform(const PLATransform &aTransform)
   { _transform = aTransform; };
   virtual void SetSize(const PLAVec3 &aSize)
@@ -68,6 +88,7 @@ public :
   void SetScale(const PLAVec3 &aScale)
   { _transform.scale = aScale; };
 
+  void SetStyle(const PLAStyle &style);
   void SetFunctorForUpdate(const std::function<void(PLAActor *)> &aFunc)
   { _fUpdate = aFunc; };
 

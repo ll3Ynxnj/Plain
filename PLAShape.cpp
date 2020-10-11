@@ -1,4 +1,5 @@
 #include "PLAShape.hpp"
+#include "PLAError.hpp"
 
 PLAShape *PLAShape::Create(const PLAShape &aShape)
 {

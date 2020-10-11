@@ -7,7 +7,8 @@
 #include "PLAErrorType.hpp"
 
 #define PLA_ERROR_ISSUE(...)\
-PLAError::Manager::GetInstance()->Issue(__FILE__, __LINE__, __VA_ARGS__)\
+PLAError::Manager::GetInstance()->\
+Issue(__FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
 
 class PLAError : public PLAObject
 {
@@ -44,8 +45,8 @@ public:
 
     void Init();
     void Reset();
-    void Issue(const char *aFile, const int aLine, const PLAErrorType aType,
-               const char *aFormat, ...);
+    void Issue(const char *aFile, const char *aFunc, const int aLine,
+               const PLAErrorType aType, const char *aFormat, ...);
   };
 };
 

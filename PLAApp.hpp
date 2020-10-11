@@ -14,6 +14,7 @@ class PLAApp : public PLAObject
 
   PLAStage *_stage = nullptr;
   PLARenderer *_renderer = nullptr;
+  PLAVec3 _contentScaleFactor = kPLAVec3Norm;
 
   PLAApp();
 
@@ -29,12 +30,14 @@ public:
 
   void Init(PLARenderer *aType);
   void Reset();
-  void Input(PLAInputDevice aDevice, PLAInputCode aCode, PLAInputState aState);
+  void Input(PLAInputDeviceType aDevice, PLAInputCode aCode,
+             PLAInputSignal aSignal, const PLAPoint &aPoint);
   void Update();
   void Render();
 
-  //void PushRenderingData(const PLARenderingData *aData);
   void RefreshScreenSize(int aWidth, int aHeight);
+
+  const PLAVec3 &GetContentScaleFactor() { return _contentScaleFactor; }
 };
 
 #endif // PLAIN_PLAAPP

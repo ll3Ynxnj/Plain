@@ -13,12 +13,17 @@ class PLAObject
   std::string _name = kPLACharUndefined;
 
 public:
+  static void Delete(PLAObject *aObject);
+
   explicit PLAObject(PLAObjectType aType);
+  PLAObject(PLAObjectType aType, const std::string &aName);
   virtual ~PLAObject();
 
   size_t GetId() const { return _id; }
   PLAObjectType GetType() const { return _type; };
   const std::string &GetName() const { return _name; };
+
+  void SetName(const std::string &aName) { _name = aName; };
 
   void Print() const;
 
@@ -43,7 +48,7 @@ public:
 
     void Init();
     void Bind(PLAObject *aObject);
-    void Release(PLAObject *aObject);
+    void Unbind(PLAObject *aObject);
     void PrintObjects() const;
   };
 };

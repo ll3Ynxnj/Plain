@@ -6,10 +6,10 @@
 #include "Plain.hpp"
 #include "PLAObject.hpp"
 #include "PLAStyleType.hpp"
-#include "PLAError.hpp"
 
 class PLAStyle : public PLAObject
 {
+public:
   struct Item
   {
     enum class Type
@@ -33,67 +33,12 @@ public:
   PLAStyle();
   virtual ~PLAStyle();
 
-  int GetIntValue(PLAStyleType aType) const
-  {
-    if (!PLAStyle::IsValidItem(aType, Item::Type::Int))
-    {
-      PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                      "Detected unexpected value type.");
-    };
-    return _items.at(aType).intValue;
-  };
-
-  float GetFloatValue(PLAStyleType aType) const
-  {
-    if (!PLAStyle::IsValidItem(aType, Item::Type::Float))
-    {
-      PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                      "Detected unexpected value type.");
-    };
-    return _items.at(aType).floatValue;
-  };
-
-  const PLAColor &GetColorValue(PLAStyleType aType) const
-  {
-    if (!PLAStyle::IsValidItem(aType, Item::Type::Color))
-    {
-      PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                      "Detected unexpected value type.");
-    };
-    return _items.at(aType).colorValue;
-  };
-
-  void SetIntValue(PLAStyleType aType, const int &aValue)
-  {
-    if (PLAStyle::IsValidItem(aType, Item::Type::Int))
-    { _items[aType].intValue = aValue; }
-    else
-    {
-      PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                      "Detected unexpected value type.");
-    }
-  }
-
-  void SetFloatValue(PLAStyleType aType, const float &aValue)
-  {
-    if (PLAStyle::IsValidItem(aType, Item::Type::Float))
-    { _items[aType].floatValue = aValue; }
-    else
-    {
-      PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                      "Detected unexpected value type.");
-    }
-  }
-
-  void SetColorValue(PLAStyleType aType, const PLAColor &aValue)
-  {
-    if (PLAStyle::IsValidItem(aType, Item::Type::Color))
-    { _items[aType].colorValue = aValue; }
-    else
-    {
-      PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                      "Detected unexpected value type."); }
-  }
+  int GetIntValue(PLAStyleType aType) const;
+  float GetFloatValue(PLAStyleType aType) const;
+  const PLAColor &GetColorValue(PLAStyleType aType) const;
+  void SetIntValue(PLAStyleType aType, const int &aValue);
+  void SetFloatValue(PLAStyleType aType, const float &aValue);
+  void SetColorValue(PLAStyleType aType, const PLAColor &aValue);
 
 private:
   static bool IsValidItem(PLAStyleType aType, Item::Type aValueType)

@@ -3,32 +3,52 @@
 
 #include "Plain.hpp"
 
-enum class PLAInputDevice : int
-{
-  Touch,
-  Mouse,
-  Keyboard,
+enum class PLAInputDeviceType : int
+{ Touch, Mouse, Key, kNumberOfItems, None = kPLAIntUndefined };
 
-  kNumberOfItems,
-  None = kPLAIntUndefined,
-};
+using PLAInputSignal = bool;
 
-enum class PLAInputCode : int
+using PLAInputFunctor = int;
+static const int kPLAInputFunctorUndefined = kPLAIntUndefined;
+
+enum class PLAInputFunctorForTouch : PLAInputFunctor
 {
-  Num0, Num1, Num2, Num3, Num4, Num5, Num6, Num7, Num8, Num9,
-  A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
-  Esc, Tab, Return, Delete, Space, Shift, Control, Alt, Super,
-  MouseL, MouseM, MouseR, Touch,
+  Press, Release, ReleaseOnOutSide, Drag, DragOver, DragOut,
   kNumberOfItems, None = kPLAIntUndefined,
 };
 
-enum class PLAInputState : int
+enum class PLAInputFunctorForMouse : PLAInputFunctor
 {
-  Up,
-  Down,
+  Press, Release, ReleaseOnOutSide, Move, Drag, DragOver, DragOut,
+  kNumberOfItems, None = kPLAIntUndefined,
+};
 
-  kNumberOfItems,
-  None = kPLAIntUndefined,
+enum class PLAInputFunctorForKey : PLAInputFunctor
+{
+  Press, Release,
+  kNumberOfItems, None = kPLAIntUndefined
+};
+
+using PLAInputCode = int;
+static const int kPLAInputCodeUndefined = kPLAIntUndefined;
+
+enum class PLAInputCodeForTouch : PLAInputCode
+{
+  _0, _1, _2, _3, _4, _5, _6, _7, _8, _9,
+  kNumberOfItems, None = kPLAIntUndefined,
+};
+
+// マウスは何も押さずに画面上を移動させられるため移動時は常にNoneを送出する
+// Noneは他のキーが押されていてもいなくても送出されるので、Handler側で処理を分ける
+enum class PLAInputCodeForMouse : PLAInputCode
+{ Left, Middle, Right, kNumberOfItems, None = kPLAIntUndefined };
+
+enum class PLAInputCodeForKey : PLAInputCode
+{
+  _0, _1, _2, _3, _4, _5, _6, _7, _8, _9,
+  A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
+  Esc, Tab, Return, Delete, Space, Shift, Control, Alt, Super,
+  kNumberOfItems, None = kPLAIntUndefined,
 };
 
 #endif //PLAIN_ENGINE_PLAINPUTTYPE_HPP

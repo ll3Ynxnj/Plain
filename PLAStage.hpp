@@ -2,11 +2,10 @@
 #define PLAIN_PLASTAGE_HPP
 
 #include "PLAObject.hpp"
+#include "PLAInput.hpp"
+#include "PLAActor.hpp"
 
-class PLARenderer;
-class PLAActor;
-
-class PLAStage : public PLAObject
+class PLAStage : public PLAObject, public PLAInputHandler
 {
   PLAActor *_context = nullptr;
 
@@ -20,8 +19,12 @@ public:
   void AddActor(PLAActor *aActor);
   void PrintActors() const;
 
-  const PLAActor *GetContext() const { return _context; }
+  const PLAActor *GetContext() const { return _context; };
   void SetSize(const PLAVec3 &aSize);
+
+// PLAInputHandler /////////////////////////////////////////////////////////////
+public:
+  virtual PLAInputContext *RefContextWithInput(const PLAInput &aInput) const;
 };
 
 #endif // PLAIN_PLASTAGE_HPP
