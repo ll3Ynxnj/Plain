@@ -8,18 +8,19 @@ PLAStage *PLAStage::Create()
 }
 
 PLAStage::PLAStage() :
-PLAObject(PLAObjectType::Stage),
+PLAObject(PLAObjectType::Stage, "== PLAStage =="),
 PLAInputHandler()
 {
+  PLASHPRect shape(kPLAVec3None, kPLAVec2None);
   PLAStyle style;
   style.SetColorValue(PLAStyleType::FillColor, kPLAColorGray);
-  PLASHPRect shape(kPLAVec2None, style);
   /*
   _context = PLAActor::Create(PLAVec3Make(0.5, 0.5, 0), kPLAColorWhite,
                               PLATransform(), shape);
                               */
   _context = PLAActor::Create(kPLAVec3None, kPLAColorWhite,
                               PLATransform(), shape);
+  _context->SetStyle(style);
 }
 
 PLAStage::~PLAStage()
@@ -35,6 +36,13 @@ void PLAStage::Update()
 
 void PLAStage::AddActor(PLAActor *aActor)
 {
+  PLA_PRINT("AddActor");
+  aActor->PrintObject();
+
+  std::string actorName = aActor->GetObjectName();
+  if (actorName == kPLACharUndefined) {
+    PLA_TRACE("");
+  }
   _context->AddActor(aActor);
 }
 

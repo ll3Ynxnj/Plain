@@ -10,7 +10,7 @@ PLAError * PLAError::Create(PLAErrorType aType, const std::string &aFile,
 
 PLAError::PLAError(PLAErrorType aType, const std::string &aFile, int aLine,
                    const std::string &aMessage) :
-  PLAObject(PLAObjectType::Error),
+  PLAObject(PLAObjectType::Error, "== PLAError =="),
   _type(aType), _file(aFile), _line(aLine), _message(aMessage)
 {
 

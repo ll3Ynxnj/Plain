@@ -65,19 +65,23 @@ static const PLAPoint kPLAPointNone = PLAPointMake(0);
 static const PLAPoint kPLAPointNorm = PLAPointMake(1);
 
 using PLALine = GRALine<float>;
-static PLALine PLALineMake(PLAVec2 aP0, PLAVec2 aP1) { return { aP0, aP1 }; }
+static PLALine PLALineMake(PLAVec2 aP0, PLAVec2 aP1) { return { aP0, aP1 }; };
 static const PLALine kPLALineNone = PLALineMake(kPLAVec2None, kPLAVec2None);
 static const PLALine kPLALineNorm = PLALineMake(kPLAVec2None, kPLAVec2Norm);
 
 using PLARect = GRARect<float>;
 static PLARect PLARectMake(PLAVec2 aPos, PLAVec2 aSize)
-{ return { aPos, aSize }; }
+{ return { aPos, aSize }; };
+static PLARect PLARectMake(float aX, float aY, float aWidth, float aHeight)
+{ return { { aX, aY }, { aWidth, aHeight } }; };
 static const PLARect kPLARectNone = PLARectMake(kPLAVec2None, kPLAVec2None);
 static const PLARect kPLARectNorm = PLARectMake(kPLAVec2None, kPLAVec2Norm);
 
 using PLACircle = GRACircle<float>;
 static PLACircle PLACircleMake(PLAVec2 aPos, float aRadius)
-{ return { aPos, aRadius }; }
+{ return { aPos, aRadius }; }  ;
+static PLACircle PLACircleMake(float aX, float aY, float aRadius)
+{ return { { aX, aY }, aRadius }; };
 static const PLACircle kPLACircleNone = PLACircleMake(kPLAVec2None, 0);
 static const PLACircle kPLACircleNorm = PLACircleMake(kPLAVec2None, 1);
 

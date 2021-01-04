@@ -15,17 +15,18 @@ class PLAObject
 public:
   static void Delete(PLAObject *aObject);
 
-  explicit PLAObject(PLAObjectType aType);
+  PLAObject() = delete;
+  PLAObject(PLAObjectType aType);
   PLAObject(PLAObjectType aType, const std::string &aName);
   virtual ~PLAObject();
 
-  size_t GetId() const { return _id; }
-  PLAObjectType GetType() const { return _type; };
-  const std::string &GetName() const { return _name; };
+  size_t GetObjectId() const { return _id; }
+  PLAObjectType GetObjectType() const { return _type; };
+  const std::string &GetObjectName() const { return _name; };
 
-  void SetName(const std::string &aName) { _name = aName; };
+  void SetObjectName(const std::string &aName) { _name = aName; };
 
-  void Print() const;
+  void PrintObject() const;
 
 private:
   void SetId(size_t aId) { _id = aId; };

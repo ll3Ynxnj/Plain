@@ -16,14 +16,14 @@ PLAActor::PLAActor(const PLAVec3 &aPivot,
                    const PLAColor &aColor,
                    const PLATransform &aTransform,
                    const PLAShape &aShape) :
-PLAObject(PLAObjectType::Actor),
+PLAObject(PLAObjectType::Actor, "== PLAActor =="),
 PLAInputContext(),
 _pivot(aPivot),
 _color(aColor),
 _transform(aTransform),
 _shape(PLAShape::Create(aShape))
 {
-  this->RefreshOrigin();
+  this->RefreshShapeOffset();
 }
 
 PLAActor::~PLAActor()
@@ -50,7 +50,7 @@ void PLAActor::Update()
 void PLAActor::PrintActors() const
 {
   static int indentLevel = 0;
-  this->Print();
+  this->PrintObject();
   ++indentLevel;
   for (const PLAActor *actor : _actors)
   {
@@ -62,8 +62,11 @@ void PLAActor::PrintActors() const
 
 bool PLAActor::IsCollideWithPoint(PLAPoint aPoint) const
 {
+  //*
+  return _shape->IsCollideWithPoint(aPoint);
+  /*/
   // Provisional : Design that include PLACollider class is desirable.
-  const PLAVec3 basePoint = -this->GetOrigin();
+  const PLAVec3 basePoint = _shape->GetOffset();
   const PLAPoint p0 = PLAPointMake(basePoint.x, basePoint.y);
   const PLAPoint p1 = PLAPointMake(basePoint.x + this->GetSize().x,
                                    basePoint.y + this->GetSize().y);
@@ -74,12 +77,15 @@ bool PLAActor::IsCollideWithPoint(PLAPoint aPoint) const
   if (p1.y <= aPoint.y) { return false; }
 
   return true;
+  //*/
 }
 
+/*
 bool PLAActor::IsCollideWithRect(PLARect aRect) const
 {
   return false;
 }
+ */
 
 PLAActor *PLAActor::RefActorWithPoint(const PLAPoint &aPoint)
 {
@@ -119,15 +125,10 @@ const PLASHPCircle *PLAActor::GetShapeCircle() const
 }
 */
 
-void PLAActor::RefreshOrigin()
+void PLAActor::RefreshShapeOffset()
 {
   PLAVec3 size(this->GetSize());
-  _origin.x = size.x * _pivot.x;
-  _origin.y = size.y * _pivot.y;
-  _origin.z = size.z * _pivot.z;
-}
-
-void PLAActor::SetStyle(const PLAStyle &aStyle)
-{
-  _shape->SetStyle(aStyle);
+  _shape->SetOffset(-PLAVec3Make(size.x * _pivot.x,
+                                 size.y * _pivot.y,
+                                 size.z * _pivot.z));
 }

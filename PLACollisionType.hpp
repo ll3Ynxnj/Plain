@@ -1,0 +1,19 @@
+//
+// Created by Kawai Kentaro on 2020/10/20.
+//
+
+#ifndef PLAIN_ENGINE_PLACOLLISIONTYPE_HPP
+#define PLAIN_ENGINE_PLACOLLISIONTYPE_HPP
+
+#include "Plain.hpp"
+enum class PLACollisionType : int
+{
+  Shape,
+  //Pixel,
+
+  kNumberOfItems,
+
+  None = kPLAIntUndefined
+};
+
+#endif //PLAIN_ENGINE_PLACOLLISIONTYPE_HPP

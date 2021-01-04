@@ -25,7 +25,7 @@ PLAObject::~PLAObject()
 
 }
 
-void PLAObject::Print() const
+void PLAObject::PrintObject() const
 {
   PLA_PRINT("%04x : %2x : %s\n", _id, _type, _name.c_str());
 }
@@ -69,11 +69,11 @@ void PLAObject::Manager::Bind(PLAObject *aObject)
 
 void PLAObject::Manager::Unbind(PLAObject *aObject)
 {
-  size_t id = aObject->GetId();
+  size_t id = aObject->GetObjectId();
   _objects[id] = nullptr;
 }
 
 void PLAObject::Manager::PrintObjects() const
 {
-  for (const PLAObject *object : _objects) { object->Print(); }
+  for (const PLAObject *object : _objects) { object->PrintObject(); }
 }

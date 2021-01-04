@@ -9,7 +9,7 @@ PLAStyle::Item::Type PLAStyle::kValidationTable[unsigned(PLAStyleType::kNumberOf
 };
 
 PLAStyle::PLAStyle() :
-PLAObject(PLAObjectType::Style)
+PLAObject(PLAObjectType::Style, "== PLAStyle ==")
 {
 
 }

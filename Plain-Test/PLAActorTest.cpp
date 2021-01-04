@@ -8,24 +8,25 @@ protected:
 
   virtual void SetUp()
   {
+    _rootActor = PLAActor::Create(kPLAVec3Norm, kPLAColorWhite,
+                                  PLATransform(), PLASHPRect(kPLAVec3None, kPLAVec2None));
+
     static const int kNumberOfActors = 3;
     for (int i = 0; i < kNumberOfActors; i++)
     {
+      PLAActor *actor = PLAActor::Create(kPLAVec3Norm, kPLAColorWhite,
+                                         PLATransform(), PLASHPRect(kPLAVec3None, kPLAVec2None));
       PLAStyle style;
       style.SetColorValue(PLAStyleType::FillColor, kPLAColorWhite);
-      PLASHPRect shape(kPLAPointNorm, style);
-      _actors.push_back(PLAActor::Create(kPLAVec3Norm, kPLAColorWhite,
-                                         PLATransform(), shape));
+      actor->SetStyle(style);
+      _actors.push_back(actor);
     }
   }
 
   virtual void TearDown()
   {
+    PLAObject::Delete(_rootActor);
     _rootActor = nullptr;
-    for (PLAActor *actor : _actors)
-    {
-      delete(actor);
-    }
   }
 };
 
