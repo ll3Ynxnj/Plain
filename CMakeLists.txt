@@ -13,7 +13,7 @@ add_library(Plain
   PLAStyle.cpp
   PLARenderer.cpp
   PLACollision.cpp
-)
+  Plain-Value.hpp)
 
 # Testing framework must be built with the same settings as the product
 add_subdirectory(Plain-Test)

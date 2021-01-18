@@ -1,8 +1,8 @@
-#ifndef PLAIN_PLAIN_HPP
-#define PLAIN_PLAIN_HPP
+#ifndef PLAIN_ENGINE_PLAIN_HPP
+#define PLAIN_ENGINE_PLAIN_HPP
 
-#include "Define.h"
+#include "Plain-Macro.hpp"
 #include "PLAType.hpp"
 #include "PLADebug.hpp"
 
-#endif //PLAIN_PLAIN_HPP
+#endif //PLAIN_ENGINE_PLAIN_HPP

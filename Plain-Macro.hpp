@@ -1,5 +1,5 @@
-#ifndef PLAIN_DEFINE_H
-#define PLAIN_DEFINE_H
+#ifndef PLAIN_ENGINE_PLAIN_MACRO_HPP
+#define PLAIN_ENGINE_PLAIN_MACRO_HPP
 
 #define PLA_DELETE(aPtr)\
 {\
@@ -24,4 +24,4 @@ PLADebug::Assert(__FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)\
 aTypeName(const aTypeName&);\
 void operator=(const aTypeName&)\
 
-#endif // PLAIN_DEFINE_H
+#endif // PLAIN_ENGINE_PLAIN_MACRO_HPP
