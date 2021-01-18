@@ -1,5 +1,5 @@
-#ifndef PLAIN_PLARENDERER_HPP
-#define PLAIN_PLARENDERER_HPP
+#ifndef PLAIN_ENGINE_PLARENDERER_HPP
+#define PLAIN_ENGINE_PLARENDERER_HPP
 
 #include <vector>
 #include "Plain.hpp"
@@ -23,4 +23,4 @@ public:
                                  const PLAVec3 &aStageSize) = 0;
 };
 
-#endif // PLAIN_PLARENDERER_HPP
+#endif // PLAIN_ENGINE_PLARENDERER_HPP

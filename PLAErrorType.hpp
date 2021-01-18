@@ -1,5 +1,5 @@
-#ifndef PLAIN_PLAERRORTYPE_HPP
-#define PLAIN_PLAERRORTYPE_HPP
+#ifndef PLAIN_ENGINE_PLAERRORTYPE_HPP
+#define PLAIN_ENGINE_PLAERRORTYPE_HPP
 
 #include "Plain.hpp"
 
@@ -12,4 +12,4 @@ enum class PLAErrorType : int
   None = kPLAIntUndefined,
 };
 
-#endif // PLAIN_PLAERRORTYPE_HPP
+#endif // PLAIN_ENGINE_PLAERRORTYPE_HPP

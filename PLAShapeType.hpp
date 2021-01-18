@@ -1,5 +1,5 @@
-#ifndef PLAIN_PLASHAPETYPE_HPP
-#define PLAIN_PLASHAPETYPE_HPP
+#ifndef PLAIN_ENGINE_PLASHAPETYPE_HPP
+#define PLAIN_ENGINE_PLASHAPETYPE_HPP
 
 #include "Plain.hpp"
 
@@ -14,4 +14,4 @@ enum class PLAShapeType : int
   None = kPLAIntUndefined,
 };
 
-#endif // PLAIN_PLASHAPETYPE_HPP
+#endif // PLAIN_ENGINE_PLASHAPETYPE_HPP

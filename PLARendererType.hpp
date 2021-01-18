@@ -1,5 +1,5 @@
-#ifndef PLAIN_PLARENDERERTYPE_HPP
-#define PLAIN_PLARENDERERTYPE_HPP
+#ifndef PLAIN_ENGINE_PLARENDERERTYPE_HPP
+#define PLAIN_ENGINE_PLARENDERERTYPE_HPP
 
 enum class PLARendererType : int
 {
@@ -9,4 +9,4 @@ enum class PLARendererType : int
   None = kPLAIntUndefined,
 };
 
-#endif //PLAIN_PLARENDERERTYPE_HPP
+#endif //PLAIN_ENGINE_PLARENDERERTYPE_HPP

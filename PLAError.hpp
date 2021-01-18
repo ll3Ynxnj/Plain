@@ -1,5 +1,5 @@
-#ifndef PLAIN_PLAERROR_HPP
-#define PLAIN_PLAERROR_HPP
+#ifndef PLAIN_ENGINE_PLAERROR_HPP
+#define PLAIN_ENGINE_PLAERROR_HPP
 
 #include <string>
 #include <queue>
@@ -50,4 +50,4 @@ public:
   };
 };
 
-#endif // PLAIN_PLAERROR_HPP
+#endif // PLAIN_ENGINE_PLAERROR_HPP

@@ -1,5 +1,5 @@
-#ifndef PLAIN_PLASTYLE_HPP
-#define PLAIN_PLASTYLE_HPP
+#ifndef PLAIN_ENGINE_PLASTYLE_HPP
+#define PLAIN_ENGINE_PLASTYLE_HPP
 
 #include <map>
 #include <variant>
@@ -45,4 +45,4 @@ private:
   { return kValidationTable[unsigned(aType)] == aValueType; };
 };
 
-#endif // PLAIN_PLASTYLE_HPP
+#endif // PLAIN_ENGINE_PLASTYLE_HPP

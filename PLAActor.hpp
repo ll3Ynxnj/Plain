@@ -1,5 +1,5 @@
-#ifndef PLAIN_PLAACTOR_HPP
-#define PLAIN_PLAACTOR_HPP
+#ifndef PLAIN_ENGINE_PLAACTOR_HPP
+#define PLAIN_ENGINE_PLAACTOR_HPP
 
 #include <list>
 #include <functional>
@@ -131,4 +131,4 @@ private:
   void RefreshShapeOffset();
 };
 
-#endif // PLAIN_PLAACTOR_HPP
+#endif // PLAIN_ENGINE_PLAACTOR_HPP

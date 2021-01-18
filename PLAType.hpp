@@ -1,5 +1,5 @@
-#ifndef PLAIN_PLATYPE_HPP
-#define PLAIN_PLATYPE_HPP
+#ifndef PLAIN_ENGINE_PLATYPE_HPP
+#define PLAIN_ENGINE_PLATYPE_HPP
 
 #include <cstdio>
 #include "Grain/GRAColor.hpp"
@@ -94,4 +94,4 @@ struct PLATransform
   translation(aTranslation), rotation(aRotation), scale(aScale) {};
 };
 
-#endif // PLAIN_PLATYPE_HPP
+#endif // PLAIN_ENGINE_PLATYPE_HPP

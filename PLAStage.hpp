@@ -1,5 +1,5 @@
-#ifndef PLAIN_PLASTAGE_HPP
-#define PLAIN_PLASTAGE_HPP
+#ifndef PLAIN_ENGINE_PLASTAGE_HPP
+#define PLAIN_ENGINE_PLASTAGE_HPP
 
 #include "PLAObject.hpp"
 #include "PLAInput.hpp"
@@ -27,4 +27,4 @@ public:
   virtual PLAInputContext *RefContextWithInput(const PLAInput &aInput) const;
 };
 
-#endif // PLAIN_PLASTAGE_HPP
+#endif // PLAIN_ENGINE_PLASTAGE_HPP

@@ -1,5 +1,5 @@
-#ifndef PLAIN_PLASHAPE_HPP
-#define PLAIN_PLASHAPE_HPP
+#ifndef PLAIN_ENGINE_PLASHAPE_HPP
+#define PLAIN_ENGINE_PLASHAPE_HPP
 
 #include "PLAObject.hpp"
 #include "PLAShapeType.hpp"
@@ -126,4 +126,4 @@ public:
   PLACircle GetCircle() const;
 };
 
-#endif // PLAIN_PLASHAPE_HPP
+#endif // PLAIN_ENGINE_PLASHAPE_HPP

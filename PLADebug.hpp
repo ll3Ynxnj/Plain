@@ -1,5 +1,5 @@
-#ifndef PLAIN_PLADEBUG_HPP
-#define PLAIN_PLADEBUG_HPP
+#ifndef PLAIN_ENGINE_PLADEBUG_HPP
+#define PLAIN_ENGINE_PLADEBUG_HPP
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -43,4 +43,4 @@ namespace PLADebug
   }
 }
 
-#endif // PLAIN_PLADEBUG_HPP
+#endif // PLAIN_ENGINE_PLADEBUG_HPP

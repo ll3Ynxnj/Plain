@@ -1,5 +1,5 @@
-#ifndef PLAIN_PLASTYLETYPE_HPP
-#define PLAIN_PLASTYLETYPE_HPP
+#ifndef PLAIN_ENGINE_PLASTYLETYPE_HPP
+#define PLAIN_ENGINE_PLASTYLETYPE_HPP
 
 #include "Plain.hpp"
 
@@ -14,4 +14,4 @@ enum class PLAStyleType : int
   None = kPLAIntUndefined,
 };
 
-#endif // PLAIN_PLASTYLETYPE_HPP
+#endif // PLAIN_ENGINE_PLASTYLETYPE_HPP

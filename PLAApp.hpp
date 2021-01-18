@@ -1,5 +1,5 @@
-#ifndef PLAIN_PLAAPP_HPP
-#define PLAIN_PLAAPP_HPP
+#ifndef PLAIN_ENGINE_PLAAPP_HPP
+#define PLAIN_ENGINE_PLAAPP_HPP
 
 #include "PLAObject.hpp"
 #include "PLAInputType.hpp"
@@ -40,4 +40,4 @@ public:
   const PLAVec3 &GetContentScaleFactor() { return _contentScaleFactor; }
 };
 
-#endif // PLAIN_PLAAPP
+#endif // PLAIN_ENGINE_PLAAPP

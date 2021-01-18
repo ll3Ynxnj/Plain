@@ -1,5 +1,5 @@
-#ifndef PLAIN_PLAOBJECT_HPP
-#define PLAIN_PLAOBJECT_HPP
+#ifndef PLAIN_ENGINE_PLAOBJECT_HPP
+#define PLAIN_ENGINE_PLAOBJECT_HPP
 
 #include "Plain.hpp"
 #include <vector>
@@ -54,4 +54,4 @@ public:
   };
 };
 
-#endif // PLAIN_PLAOBJECT_HPP
+#endif // PLAIN_ENGINE_PLAOBJECT_HPP
