@@ -1,7 +1,7 @@
 #ifndef PLAIN_ENGINE_PLAOBJECTTYPE_HPP
 #define PLAIN_ENGINE_PLAOBJECTTYPE_HPP
 
-#include "Plain.hpp"
+#include "PLAType.hpp"
 
 enum class PLAObjectType : int
 {

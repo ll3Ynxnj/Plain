@@ -1,9 +1,11 @@
 #ifndef PLAIN_ENGINE_PLAOBJECT_HPP
 #define PLAIN_ENGINE_PLAOBJECT_HPP
 
-#include "Plain.hpp"
+#include "Plain-Macro.h"
+#include "PLAType.hpp"
 #include <vector>
 #include <stack>
+#include <string>
 #include "PLAObjectType.hpp"
 
 class PLAObject

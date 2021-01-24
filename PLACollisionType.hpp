@@ -5,7 +5,7 @@
 #ifndef PLAIN_ENGINE_PLACOLLISIONTYPE_HPP
 #define PLAIN_ENGINE_PLACOLLISIONTYPE_HPP
 
-#include "Plain.hpp"
+#include "PLAType.hpp"
 enum class PLACollisionType : int
 {
   Shape,

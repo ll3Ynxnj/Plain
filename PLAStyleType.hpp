@@ -1,7 +1,7 @@
 #ifndef PLAIN_ENGINE_PLASTYLETYPE_HPP
 #define PLAIN_ENGINE_PLASTYLETYPE_HPP
 
-#include "Plain.hpp"
+#include "PLAType.hpp"
 
 enum class PLAStyleType : int
 {

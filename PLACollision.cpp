@@ -1,7 +1,3 @@
-//
-// Created by Kawai Kentaro on 2020/10/20.
-//
-
 #include "PLACollision.hpp"
 
 bool PLACollision::IsCollideWithPointAndPoint(const PLAPoint &aPoint0,

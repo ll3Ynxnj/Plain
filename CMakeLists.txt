@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.1)
 
 project(Plain CXX)
 
-add_library(Plain
+add_library(Plain STATIC
   PLAObject.cpp
   PLAApp.cpp
   PLAInput.cpp
