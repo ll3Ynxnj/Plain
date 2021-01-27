@@ -1,4 +1,4 @@
-#include "../PLACollision.hpp"
+#include "../Core/PLACollision.hpp"
 
 class PLACollisionTest : public ::testing::Test
 {

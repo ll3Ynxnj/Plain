@@ -1,4 +1,4 @@
-#include "../PLAActor.hpp"
+#include "../Core/PLAActor.hpp"
 
 class PLAActorTest : public ::testing::Test
 {

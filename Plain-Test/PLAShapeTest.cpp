@@ -2,7 +2,7 @@
 // Created by Kawai Kentaro on 2020/11/13.
 //
 
-#include "../PLAShape.hpp"
+#include "../Core/PLAShape.hpp"
 
 class PLAShapeTest : public ::testing::Test
 {

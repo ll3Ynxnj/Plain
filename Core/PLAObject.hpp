@@ -1,7 +1,7 @@
 #ifndef PLAIN_ENGINE_PLAOBJECT_HPP
 #define PLAIN_ENGINE_PLAOBJECT_HPP
 
-#include "Plain-Macro.h"
+#include "../Plain-Macro.h"
 #include "PLAType.hpp"
 #include <vector>
 #include <stack>
