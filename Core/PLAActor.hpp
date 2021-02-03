@@ -13,15 +13,18 @@ class PLARenderer;
 
 class PLAActor : public PLAObject, public PLAInputContext
 {
-  enum class Functor : int
+public:
+  enum class FunctionCode : PLACode
   {
-    Update,
+    OnUpdate,
+    OnAppear,
+    OnDisappear,
 
     kNumberOfItems,
     None,
   };
 
-  enum class CollisionType : int
+  enum class CollisionCode : PLACode
   {
     Input,
     Actor,
@@ -30,7 +33,7 @@ class PLAActor : public PLAObject, public PLAInputContext
     None,
   };
 
-  enum class CollisionSyncMode : int
+  enum class CollisionSyncCode : PLACode
   {
     Size,
     Shape,
@@ -39,11 +42,11 @@ class PLAActor : public PLAObject, public PLAInputContext
     None,
   };
 
+private:
   struct CollisionItem
   {
-    CollisionType type = CollisionType::None;
     PLACollision *collision = nullptr;
-    bool syncMode[static_cast<unsigned>(CollisionSyncMode::kNumberOfItems)] =
+    bool syncMode[static_cast<unsigned>(CollisionSyncCode::kNumberOfItems)] =
     { false };
   };
 
@@ -54,9 +57,12 @@ class PLAActor : public PLAObject, public PLAInputContext
   //-- Not affect child actors
   PLAShape *_shape = nullptr;
   PLAStyle _style = PLAStyle();
-  CollisionItem collisions[static_cast<unsigned>(CollisionType::kNumberOfItems)];
+  CollisionItem collisions[static_cast<unsigned>(CollisionCode::kNumberOfItems)];
 
-  std::function<void(PLAActor *)> _fUpdate = [](PLAActor *aActor){};
+  std::function<void(PLAActor *)> _fOnInit = [](PLAActor *aActor){};
+  std::function<void(PLAActor *)> _fOnUpdate = [](PLAActor *aActor){};
+  std::function<void(PLAActor *)> _fOnAppear = [](PLAActor *aActor){};
+  std::function<void(PLAActor *)> _fOnDisappear = [](PLAActor *aActor){};
 
   //PLAVec3 _origin = kPLAVec3None;
   /// Calculate from pivot. Must be updated when pivot changes.
@@ -75,7 +81,12 @@ public :
 
   void AddActor(PLAActor *aActor);
   void Input(const PLAInput *aInput);
+
+  void Init();
   void Update();
+  void Appear();
+  void Disappear();
+
   void PrintActors() const;
 
   //bool IsCollideWithInput(const PLAInput &aInput) const;
@@ -124,8 +135,15 @@ public :
   void SetScale(const PLAVec3 &aScale)
   { _transform.scale = aScale; };
 
-  void SetFunctorForUpdate(const std::function<void(PLAActor *)> &aFunc)
-  { _fUpdate = aFunc; };
+  void SetFunctorOnInit(const std::function<void(PLAActor *)> &aFunc)
+  { _fOnInit = aFunc; };
+  void SetFunctorOnUpdate(const std::function<void(PLAActor *)> &aFunc)
+  { _fOnUpdate = aFunc; };
+  void SetFunctorOnAppear(const std::function<void(PLAActor *)> &aFunc)
+  { _fOnAppear = aFunc; };
+  void SetFunctorOnDisappear(const std::function<void(PLAActor *)> &aFunc)
+  { _fOnDisappear = aFunc; };
+
 
 private:
   void RefreshShapeOffset();

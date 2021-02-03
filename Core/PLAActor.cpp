@@ -16,12 +16,12 @@ PLAActor::PLAActor(const PLAVec3 &aPivot,
                    const PLAColor &aColor,
                    const PLATransform &aTransform,
                    const PLAShape &aShape) :
-PLAObject(PLAObjectType::Actor, "== PLAActor =="),
-PLAInputContext(),
-_pivot(aPivot),
-_color(aColor),
-_transform(aTransform),
-_shape(PLAShape::Create(aShape))
+  PLAObject(PLAObjectType::Actor, "== PLAActor =="),
+  PLAInputContext(),
+  _pivot(aPivot),
+  _color(aColor),
+  _transform(aTransform),
+  _shape(PLAShape::Create(aShape))
 {
   this->RefreshShapeOffset();
 }
@@ -41,10 +41,28 @@ void PLAActor::Input(const PLAInput *aInput)
 
 }
 
+void PLAActor::Init()
+{
+  _fOnInit(this);
+  for (PLAActor *actor : _actors) { actor->Init(); }
+}
+
 void PLAActor::Update()
 {
-  _fUpdate(this);
+  _fOnUpdate(this);
   for (PLAActor *actor : _actors) { actor->Update(); }
+}
+
+void PLAActor::Appear()
+{
+  _fOnAppear(this);
+  for (PLAActor *actor : _actors) { actor->Appear(); }
+}
+
+void PLAActor::Disappear()
+{
+  _fOnDisappear(this);
+  for (PLAActor *actor : _actors) { actor->Disappear(); }
 }
 
 void PLAActor::PrintActors() const

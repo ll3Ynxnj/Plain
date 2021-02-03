@@ -37,6 +37,8 @@ static const PLAColor kPLAColorMagenta = PLAColorMake(1.00, 0.00, 1.00, 1.00);
 static const PLAColor kPLAColorGray    = PLAColorMake(0.50, 0.50, 0.50, 1.00);
 static const PLAColor kPLAColorWhite   = PLAColorMake(1.00, 1.00, 1.00, 1.00);
 
+using PLACode = unsigned;
+
 using PLAVec2 = GRAVec2<float>;
 static PLAVec2 PLAVec2Make(float aV) { return { aV, aV }; };
 static PLAVec2 PLAVec2Make(float aX, float aY)
