@@ -140,6 +140,10 @@ public :
   void SetScale(const PLAVec3 &aScale)
   { _transform.scale = aScale; };
 
+  void SetFunction(const std::string &aKey,
+                   const std::function<void(PLAActor *)> &aFunc)
+  { _functor.SetFunction(aKey, aFunc); };
+  /*
   void SetFunctorOnInit(const std::function<void(PLAActor *)> &aFunc)
   //{ _fOnInit = aFunc; };
   { _functor.SetFunctorOnInit(aFunc); };
@@ -152,6 +156,7 @@ public :
   void SetFunctorOnDisappear(const std::function<void(PLAActor *)> &aFunc)
   //{ _fOnDisappear = aFunc; };
   { _functor.SetFunctorOnDisappear(aFunc); };
+  */
 
 private:
   void RefreshShapeOffset();
