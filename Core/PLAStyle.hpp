@@ -7,7 +7,7 @@
 #include "PLAObject.hpp"
 #include "PLAStyleType.hpp"
 
-class PLAStyle : public PLAObject
+class PLAStyle final : public PLAObject
 {
 public:
   struct Item
@@ -31,7 +31,7 @@ public:
 
 public:
   PLAStyle();
-  virtual ~PLAStyle();
+  ~PLAStyle();
 
   int GetIntValue(PLAStyleType aType) const;
   float GetFloatValue(PLAStyleType aType) const;

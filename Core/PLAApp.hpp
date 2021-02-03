@@ -8,7 +8,7 @@
 class PLAStage;
 class PLARenderer;
 
-class PLAApp : public PLAObject
+class PLAApp final : public PLAObject
 {
   static PLAApp _instance;
 

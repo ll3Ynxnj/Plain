@@ -25,7 +25,7 @@ public:
 
   PLAInput(PLAInputDeviceType aDevice, PLAInputCode aCode,
            PLAInputSignal aSignal, const PLAPoint &aScreenPoint);
-  ~PLAInput();
+  virtual ~PLAInput();
 
   PLAInputDeviceType GetInputDeviceType() const { return _deviceType; };
   PLAInputCode GetInputCode() const { return _code; };

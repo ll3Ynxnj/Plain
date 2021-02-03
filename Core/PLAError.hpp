@@ -23,7 +23,7 @@ public:
 
   PLAError(PLAErrorType aType, const std::string &aFile, int aLine,
            const std::string &aMessage);
-  ~PLAError();
+  virtual ~PLAError();
 
   PLAErrorType GetType();
   const std::string &GetMessage();

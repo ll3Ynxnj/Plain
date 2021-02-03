@@ -35,7 +35,7 @@ public:
                                            const PLACircle &aCircle1);
 
   explicit PLACollision(PLACollisionType aType);
-  ~PLACollision();
+  virtual ~PLACollision();
 
   PLACollisionType GetCollisionType() const { return _type; };
   bool IsCollide(const PLACollision &aCollision) const;

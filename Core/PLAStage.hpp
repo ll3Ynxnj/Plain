@@ -5,7 +5,7 @@
 #include "PLAInput.hpp"
 #include "PLAActor.hpp"
 
-class PLAStage : public PLAObject, public PLAInputHandler
+class PLAStage final : public PLAObject, public PLAInputHandler
 {
   PLAActor *_context = nullptr;
 
