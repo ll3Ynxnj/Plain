@@ -4,7 +4,7 @@
 // PLAObject ///////////////////////////////////////////////////////////////////
 void PLAObject::Delete(PLAObject *aObject)
 {
-  PLAObject::Manager::GetInstance()->Unbind(aObject);
+  PLAObject::Manager::Ref()->Unbind(aObject);
   PLA_DELETE(aObject);
 }
 

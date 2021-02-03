@@ -23,7 +23,7 @@ PLAShape *PLAShape::Create(const PLAShape &aShape)
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "Detected unexpected PLAShapeType.");
       break;
   }
-  PLAObject::Manager::GetInstance()->Bind(shape);
+  PLAObject::Manager::Ref()->Bind(shape);
   return shape;
 }
 

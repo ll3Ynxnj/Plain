@@ -8,7 +8,7 @@ PLAActor *PLAActor::Create(const PLAVec3 &aPivot,
                            const PLAShape &aShape)
 {
   PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, aShape);
-  PLAObject::Manager::GetInstance()->Bind(actor);
+  PLAObject::Manager::Ref()->Bind(actor);
   return actor;
 }
 

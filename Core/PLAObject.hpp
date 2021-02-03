@@ -45,7 +45,8 @@ public:
     Manager();
 
   public:
-    static Manager *GetInstance() { return &_instance; };
+    static const Manager *Get() { return &_instance; };
+    static Manager *Ref() { return &_instance; };
 
     ~Manager();
 
