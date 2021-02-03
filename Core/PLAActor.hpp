@@ -5,13 +5,14 @@
 #include <functional>
 //#include "PLAType.hpp"
 #include "PLAObject.hpp"
+#include "PLAScene.hpp"
 #include "PLAInput.hpp"
 #include "PLAShape.hpp"
 #include "PLACollision.hpp"
 
 class PLARenderer;
 
-class PLAActor : public PLAObject, public PLAInputContext
+class PLAActor : public PLAObject, public PLAInputContext, public PLAScene::Delegate
 {
 public:
   enum class FunctionCode : PLACode

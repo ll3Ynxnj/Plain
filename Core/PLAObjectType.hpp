@@ -7,6 +7,7 @@ enum class PLAObjectType : int
 {
   App,
   Input,
+  Scene,
   Stage,
   Actor,
   Shape,
