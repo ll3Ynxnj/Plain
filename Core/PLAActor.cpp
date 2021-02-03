@@ -1,6 +1,7 @@
 #include "PLAActor.hpp"
 #include "PLAInput.hpp"
 #include "PLAError.hpp"
+#include "PLAFunctor.hpp"
 
 PLAActor *PLAActor::Create(const PLAVec3 &aPivot,
                            const PLAColor &aColor,
@@ -44,25 +45,29 @@ void PLAActor::Input(const PLAInput *aInput)
 
 void PLAActor::Init()
 {
-  _fOnInit(this);
+  //_fOnInit(this);
+  _functor.RunFunctorOnInit(this);
   for (PLAActor *actor : _actors) { actor->Init(); }
 }
 
 void PLAActor::Update()
 {
-  _fOnUpdate(this);
+  //_fOnUpdate(this);
+  _functor.RunFunctorOnUpdate(this);
   for (PLAActor *actor : _actors) { actor->Update(); }
 }
 
 void PLAActor::Appear()
 {
-  _fOnAppear(this);
+  //_fOnAppear(this);
+  _functor.RunFunctorOnAppear(this);
   for (PLAActor *actor : _actors) { actor->Appear(); }
 }
 
 void PLAActor::Disappear()
 {
-  _fOnDisappear(this);
+  //_fOnDisappear(this);
+  _functor.RunFunctorOnDisappear(this);
   for (PLAActor *actor : _actors) { actor->Disappear(); }
 }
 

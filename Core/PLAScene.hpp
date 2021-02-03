@@ -8,6 +8,7 @@
 #include <stack>
 #include <list>
 #include "PLAObject.hpp"
+#include "PLAFunctor.hpp"
 
 class PLAScene : public PLAObject
 {
@@ -39,7 +40,8 @@ public:
       OnAppear,
       OnDisappear,
     };
-   std::function<void(PLAScene *)> _fOnInitOfScene      = [](PLAScene *){};
+    
+    std::function<void(PLAScene *)> _fOnInitOfScene      = [](PLAScene *){};
     std::function<void(PLAScene *)> _fOnUpdateOfScene    = [](PLAScene *){};
     std::function<void(PLAScene *)> _fOnAppearOfScene    = [](PLAScene *){};
     std::function<void(PLAScene *)> _fOnDisappearOfScene = [](PLAScene *){};

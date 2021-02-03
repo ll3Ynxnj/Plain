@@ -8,6 +8,7 @@
 #include "PLAScene.hpp"
 #include "PLAInput.hpp"
 #include "PLAShape.hpp"
+#include "PLAFunctor.hpp"
 #include "PLACollision.hpp"
 
 class PLARenderer;
@@ -60,10 +61,13 @@ private:
   PLAStyle _style = PLAStyle();
   CollisionItem collisions[static_cast<unsigned>(CollisionCode::kNumberOfItems)];
 
-  std::function<void(PLAActor *)> _fOnInit = [](PLAActor *aActor){};
-  std::function<void(PLAActor *)> _fOnUpdate = [](PLAActor *aActor){};
-  std::function<void(PLAActor *)> _fOnAppear = [](PLAActor *aActor){};
-  std::function<void(PLAActor *)> _fOnDisappear = [](PLAActor *aActor){};
+  PLAFunctor<PLAActor> _functor = PLAFunctor<PLAActor>();
+  /*
+  std::function<void(PLAActor *)> _fOnInit = [](PLAActor *){};
+  std::function<void(PLAActor *)> _fOnUpdate = [](PLAActor *){};
+  std::function<void(PLAActor *)> _fOnAppear = [](PLAActor *){};
+  std::function<void(PLAActor *)> _fOnDisappear = [](PLAActor *){};
+   */
 
   //PLAVec3 _origin = kPLAVec3None;
   /// Calculate from pivot. Must be updated when pivot changes.
@@ -137,14 +141,17 @@ public :
   { _transform.scale = aScale; };
 
   void SetFunctorOnInit(const std::function<void(PLAActor *)> &aFunc)
-  { _fOnInit = aFunc; };
+  //{ _fOnInit = aFunc; };
+  { _functor.SetFunctorOnInit(aFunc); };
   void SetFunctorOnUpdate(const std::function<void(PLAActor *)> &aFunc)
-  { _fOnUpdate = aFunc; };
+  //{ _fOnUpdate = aFunc; };
+  { _functor.SetFunctorOnUpdate(aFunc); };
   void SetFunctorOnAppear(const std::function<void(PLAActor *)> &aFunc)
-  { _fOnAppear = aFunc; };
+  //{ _fOnAppear = aFunc; };
+  { _functor.SetFunctorOnAppear(aFunc); };
   void SetFunctorOnDisappear(const std::function<void(PLAActor *)> &aFunc)
-  { _fOnDisappear = aFunc; };
-
+  //{ _fOnDisappear = aFunc; };
+  { _functor.SetFunctorOnDisappear(aFunc); };
 
 private:
   void RefreshShapeOffset();
