@@ -19,7 +19,6 @@ PLAActor::PLAActor(const PLAVec3 &aPivot,
                    const PLAShape &aShape) :
   PLAObject(PLAObjectType::Actor, "== PLAActor =="),
   PLAInputContext(),
-  PLAScene::Delegate(),
   _pivot(aPivot),
   _color(aColor),
   _transform(aTransform),

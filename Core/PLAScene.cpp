@@ -5,9 +5,9 @@
 #include "PLAScene.hpp"
 
 PLAScene *PLAScene::Create() {
-  PLAScene *actor = new PLAScene();
-  PLAObject::Manager::Ref()->Bind(actor);
-  return actor;
+  PLAScene *scene = new PLAScene();
+  PLAObject::Manager::Ref()->Bind(scene);
+  return scene;
 }
 
 PLAScene::PLAScene() :
