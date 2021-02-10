@@ -44,25 +44,25 @@ void PLAActor::Input(const PLAInput *aInput)
 
 void PLAActor::Init()
 {
-  _functor.RunFunction("OnInit", this);
+  _functor.RunFunction(FunctionCode::OnInit, this);
   for (PLAActor *actor : _actors) { actor->Init(); }
 }
 
 void PLAActor::Update()
 {
-  _functor.RunFunction("OnUpdate", this);
+  _functor.RunFunction(FunctionCode::OnUpdate, this);
   for (PLAActor *actor : _actors) { actor->Update(); }
 }
 
 void PLAActor::Appear()
 {
-  _functor.RunFunction("OnAppear", this);
+  _functor.RunFunction(FunctionCode::OnAppear, this);
   for (PLAActor *actor : _actors) { actor->Appear(); }
 }
 
 void PLAActor::Disappear()
 {
-  _functor.RunFunction("OnDisappear", this);
+  _functor.RunFunction(FunctionCode::OnDisappear, this);
   for (PLAActor *actor : _actors) { actor->Disappear(); }
 }
 

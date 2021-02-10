@@ -7,15 +7,15 @@
 
 #include "PLAFunctor.hpp"
 
-template <typename T> class PLAListener {
-  PLAFunctor<T> _functor = PLAFunctor<T>();
+template <typename Context, typename Key> class PLAListener {
+  PLAFunctor<Context, Key> _functor = PLAFunctor<Context, Key>();
 
 public:
-  void RunFunctionOfListener(const std::string &aKey, T *aContext)
+  void RunListener(Key aKey, Context *aContext)
   { _functor.RunFunction(aKey, aContext); }
 
-  void SetFunctionOfListener(const std::string &aKey,
-                             const std::function<void(T *)> &aFunc)
+  void SetListener(Key aKey,
+                   const std::function<void(Context *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); }
 };
 

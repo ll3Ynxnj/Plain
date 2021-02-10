@@ -10,23 +10,23 @@
 #include <functional>
 #include "PLAType.hpp"
 
-template <typename T> class PLAFunctor
+template <typename Context, typename Key> class PLAFunctor
 {
-  std::map<std::string, std::function<void(T *)>> _functions =
-    std::map<std::string, std::function<void(T *)>>();
+  std::map<Key, std::function<void(Context *)>> _functions =
+    std::map<Key, std::function<void(Context *)>>();
 
 public:
   PLAFunctor() {};
   ~PLAFunctor() {};
 
-  void RunFunction(const std::string &aKey, T *aContext)
+  void RunFunction(const Key &aKey, Context *aContext)
   {
     if (!_functions.contains(aKey)) { return; }
     _functions[aKey](aContext);
   }
 
-  void SetFunction(const std::string &aKey,
-                   const std::function<void(T *)> &aFunc)
+  void SetFunction(const Key &aKey,
+                   const std::function<void(Context *)> &aFunc)
   { _functions[aKey] = aFunc; }
 };
 

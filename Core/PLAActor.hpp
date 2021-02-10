@@ -13,11 +13,13 @@
 
 class PLARenderer;
 
-class PLAActor : public PLAObject, public PLAInputContext, public PLAListener<PLAScene>
+class PLAActor : public PLAObject, public PLAInputContext,
+  public PLAListener<PLAScene, PLAScene::FunctionCode>
 {
 public:
   enum class FunctionCode : PLACode
   {
+    OnInit,
     OnUpdate,
     OnAppear,
     OnDisappear,
@@ -61,7 +63,7 @@ private:
   PLAStyle _style = PLAStyle();
   CollisionItem collisions[static_cast<unsigned>(CollisionCode::kNumberOfItems)];
 
-  PLAFunctor<PLAActor> _functor = PLAFunctor<PLAActor>();
+  PLAFunctor<PLAActor, FunctionCode> _functor = PLAFunctor<PLAActor, FunctionCode>();
 
   /// Calculate from pivot. Must be updated when pivot changes.
 
@@ -133,7 +135,7 @@ public :
   void SetScale(const PLAVec3 &aScale)
   { _transform.scale = aScale; };
 
-  void SetFunction(const std::string &aKey,
+  void SetFunction(FunctionCode aKey,
                    const std::function<void(PLAActor *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
 

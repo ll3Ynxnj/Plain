@@ -13,8 +13,21 @@
 
 class PLAScene : public PLAObject
 {
-  std::list<PLAListener<PLAScene> *> _listeners = std::list<PLAListener<PLAScene> *>();
-  PLAFunctor<PLAScene> _functor = PLAFunctor<PLAScene>();
+public:
+  enum class FunctionCode : PLACode
+  {
+    OnInit,
+    OnUpdate,
+    OnAppear,
+    OnDisappear,
+
+    kNumberOfItems,
+    None,
+  };
+
+private:
+  std::list<PLAListener<PLAScene, FunctionCode> *> _listeners = std::list<PLAListener<PLAScene, FunctionCode> *>();
+  PLAFunctor<PLAScene, FunctionCode> _functor = PLAFunctor<PLAScene, FunctionCode>();
 
 public:
   static PLAScene *Create();
@@ -23,38 +36,38 @@ public:
   virtual ~PLAScene();
 
   void Init() {
-    _functor.RunFunction("OnInit", this);
-    for (PLAListener<PLAScene> *listener: _listeners)
-    { listener->RunFunctionOfListener("OnInit", this); }
+    _functor.RunFunction(FunctionCode::OnInit, this);
+    for (PLAListener<PLAScene, FunctionCode> *listener: _listeners)
+    { listener->RunListener(FunctionCode::OnInit, this); }
   };
 
   void Update() {
-    _functor.RunFunction("OnUpdate", this);
-    for (PLAListener<PLAScene> *listener: _listeners)
-    { listener->RunFunctionOfListener("OnUpdate", this); }
+    _functor.RunFunction(FunctionCode::OnUpdate, this);
+    for (PLAListener<PLAScene, FunctionCode> *listener: _listeners)
+    { listener->RunListener(FunctionCode::OnUpdate, this); }
   };
 
   void Appear() {
-    _functor.RunFunction("OnAppear", this);
-    for (PLAListener<PLAScene> *listener: _listeners)
-    { listener->RunFunctionOfListener("OnAppear", this); }
+    _functor.RunFunction(FunctionCode::OnAppear, this);
+    for (PLAListener<PLAScene, FunctionCode> *listener: _listeners)
+    { listener->RunListener(FunctionCode::OnAppear, this); }
   };
 
   void Disappear() {
-    _functor.RunFunction("OnDisappear", this);
-    for (PLAListener<PLAScene> *listener: _listeners)
-    { listener->RunFunctionOfListener("OnDisappear", this); }
+    _functor.RunFunction(FunctionCode::OnDisappear, this);
+    for (PLAListener<PLAScene, FunctionCode> *listener: _listeners)
+    { listener->RunListener(FunctionCode::OnDisappear, this); }
   };
 
-  void AddListener(PLAListener<PLAScene> *aListener) {
+  void AddListener(PLAListener<PLAScene, FunctionCode> *aListener) {
     _listeners.push_back(aListener);
   };
 
-  void RemoveActor(PLAListener<PLAScene> *aListener) {
+  void RemoveActor(PLAListener<PLAScene, FunctionCode> *aListener) {
     _listeners.remove(aListener);
-  }
+  };
 
-  void SetFunctionOfScene(const std::string &aKey,
+  void SetFunctionOfScene(FunctionCode aKey,
                           const std::function<void(PLAScene*)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
 
