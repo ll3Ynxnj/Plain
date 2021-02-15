@@ -2,11 +2,13 @@ cmake_minimum_required(VERSION 3.1)
 
 project(Plain CXX)
 
+include_directories(Core)
+include_directories(GLUT)
+include_directories(Grain)
+
 add_subdirectory(Core)
 add_subdirectory(GLUT)
-
-include_directories(GLUT)
-include_directories(Core)
+add_subdirectory(Grain)
 
 # Testing framework must be built with the same settings as the product
 add_subdirectory(Plain-Test)

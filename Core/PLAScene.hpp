@@ -8,8 +8,8 @@
 #include <stack>
 #include <list>
 #include "PLAObject.hpp"
-#include "PLAFunctor.hpp"
-#include "PLAListener.hpp"
+#include "Grain/GRAFunctor.hpp"
+#include "Grain/GRAListener.hpp"
 
 class PLAScene : public PLAObject
 {
@@ -26,8 +26,8 @@ public:
   };
 
 private:
-  std::list<PLAListener<PLAScene, FunctionCode> *> _listeners = std::list<PLAListener<PLAScene, FunctionCode> *>();
-  PLAFunctor<PLAScene, FunctionCode> _functor = PLAFunctor<PLAScene, FunctionCode>();
+  std::list<GRAListener<PLAScene, FunctionCode> *> _listeners = std::list<GRAListener<PLAScene, FunctionCode> *>();
+  GRAFunctor<PLAScene, FunctionCode> _functor = GRAFunctor<PLAScene, FunctionCode>();
 
 public:
   static PLAScene *Create();
@@ -37,33 +37,33 @@ public:
 
   void Init() {
     _functor.RunFunction(FunctionCode::OnInit, this);
-    for (PLAListener<PLAScene, FunctionCode> *listener: _listeners)
+    for (GRAListener<PLAScene, FunctionCode> *listener: _listeners)
     { listener->RunListener(FunctionCode::OnInit, this); }
   };
 
   void Update() {
     _functor.RunFunction(FunctionCode::OnUpdate, this);
-    for (PLAListener<PLAScene, FunctionCode> *listener: _listeners)
+    for (GRAListener<PLAScene, FunctionCode> *listener: _listeners)
     { listener->RunListener(FunctionCode::OnUpdate, this); }
   };
 
   void Appear() {
     _functor.RunFunction(FunctionCode::OnAppear, this);
-    for (PLAListener<PLAScene, FunctionCode> *listener: _listeners)
+    for (GRAListener<PLAScene, FunctionCode> *listener: _listeners)
     { listener->RunListener(FunctionCode::OnAppear, this); }
   };
 
   void Disappear() {
     _functor.RunFunction(FunctionCode::OnDisappear, this);
-    for (PLAListener<PLAScene, FunctionCode> *listener: _listeners)
+    for (GRAListener<PLAScene, FunctionCode> *listener: _listeners)
     { listener->RunListener(FunctionCode::OnDisappear, this); }
   };
 
-  void AddListener(PLAListener<PLAScene, FunctionCode> *aListener) {
+  void AddListener(GRAListener<PLAScene, FunctionCode> *aListener) {
     _listeners.push_back(aListener);
   };
 
-  void RemoveActor(PLAListener<PLAScene, FunctionCode> *aListener) {
+  void RemoveActor(GRAListener<PLAScene, FunctionCode> *aListener) {
     _listeners.remove(aListener);
   };
 

@@ -12,5 +12,5 @@ add_library(Plain-Core STATIC
   PLAStyle.cpp
   PLARenderer.cpp
   PLACollision.cpp
-  PLAFunctor.cpp PLAFunctor.hpp PLAListener.cpp PLAListener.hpp)
+  )
 

@@ -2,12 +2,12 @@
 #define PLAIN_ENGINE_PLATYPE_HPP
 
 #include <cstdio>
-#include "../Grain/GRAColor.hpp"
-#include "../Grain/GRAPoint.hpp"
-#include "../Grain/GRALine.hpp"
-#include "../Grain/GRARect.hpp"
-#include "../Grain/GRACircle.hpp"
-#include "../Grain/GRAVector.hpp"
+#include "Grain/GRAColor.hpp"
+#include "Grain/GRAPoint.hpp"
+#include "Grain/GRALine.hpp"
+#include "Grain/GRARect.hpp"
+#include "Grain/GRACircle.hpp"
+#include "Grain/GRAVector.hpp"
 
 static const size_t      kPLASizeUndefined  = 0;
 static const int         kPLAIntUndefined   = 0;

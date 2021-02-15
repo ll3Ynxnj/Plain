@@ -8,13 +8,13 @@
 #include "PLAScene.hpp"
 #include "PLAInput.hpp"
 #include "PLAShape.hpp"
-#include "PLAFunctor.hpp"
+#include "Grain/GRAFunctor.hpp"
 #include "PLACollision.hpp"
 
 class PLARenderer;
 
 class PLAActor : public PLAObject, public PLAInputContext,
-  public PLAListener<PLAScene, PLAScene::FunctionCode>
+  public GRAListener<PLAScene, PLAScene::FunctionCode>
 {
 public:
   enum class FunctionCode : PLACode
@@ -63,7 +63,7 @@ private:
   PLAStyle _style = PLAStyle();
   CollisionItem collisions[static_cast<unsigned>(CollisionCode::kNumberOfItems)];
 
-  PLAFunctor<PLAActor, FunctionCode> _functor = PLAFunctor<PLAActor, FunctionCode>();
+  GRAFunctor<PLAActor, FunctionCode> _functor = GRAFunctor<PLAActor, FunctionCode>();
 
   /// Calculate from pivot. Must be updated when pivot changes.
 
