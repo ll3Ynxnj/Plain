@@ -1,4 +1,5 @@
 #include <math.h>
+#include <unistd.h>
 
 #include "PLAGLUT.h"
 #include "PLAGLUTRenderer.hpp"
@@ -38,6 +39,8 @@ void PLAGLUTRenderer::Init() const
   glEnableClientState(GL_VERTEX_ARRAY);
   glEnableClientState(GL_COLOR_ARRAY);
 
+  this->InitTextures();
+
   glClearColor(0.0, 0.0, 0.0, 1.0);
 }
 
@@ -55,6 +58,39 @@ void PLAGLUTRenderer::Render(const PLAActor *aActor) const
 {
   glMatrixMode(GL_MODELVIEW);
   this->Draw(aActor);
+}
+
+void PLAGLUTRenderer::InitTextures() const
+{
+#define kTexWidth 1024
+#define kTexHeight 1024
+#define kBufCurrentPath 512
+
+  static const char kTexPath[] = "/Users/ll3ynxnj/Projects/anhr/sample.raw";
+  char currentPath[kBufCurrentPath];
+  memset(currentPath, '\0', kBufCurrentPath);
+  getcwd(currentPath, kBufCurrentPath);
+  fprintf(stdout,"Current path : %s\n", currentPath);
+
+  GLubyte texture[kTexHeight][kTexWidth][4];
+  FILE *fp;
+
+  if ((fp = fopen(kTexPath, "rb")) != nullptr) {
+    fread(texture, sizeof texture, 1, fp);
+    fclose(fp);
+  }
+  else {
+    perror(kTexPath);
+  }
+
+  glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, kTexWidth, kTexHeight, 0,
+               GL_RGBA, GL_UNSIGNED_BYTE, texture);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+  glEnable(GL_TEXTURE_2D);
+  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 void PLAGLUTRenderer::Draw(const PLAActor *aActor) const
@@ -128,8 +164,16 @@ void PLAGLUTRenderer::DrawRect(const PLAActor *aActor) const
     fillColor.r, fillColor.g, fillColor.b, fillColor.a,
   };
 
+  GLfloat texCoords[] = {
+    0.0, 0.0,
+    0.0625, 0.0,
+    0.0, 0.0625,
+    0.0625, 0.0625,
+  };
+
   glVertexPointer(3, GL_FLOAT, 0, vertices);
   glColorPointer(4, GL_FLOAT, 0, fillColors);
+  glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
   glBegin(GL_TRIANGLE_STRIP);
   glArrayElement(0);
