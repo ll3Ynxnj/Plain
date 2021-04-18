@@ -4,6 +4,7 @@
 #include "PLAGLUT.h"
 #include "PLAGLUTRenderer.hpp"
 #include "PLAError.hpp"
+#include "PLAResource.hpp"
 
 PLAGLUTRenderer *PLAGLUTRenderer::Create()
 {
@@ -62,30 +63,14 @@ void PLAGLUTRenderer::Render(const PLAActor *aActor) const
 
 void PLAGLUTRenderer::InitTextures() const
 {
-#define kTexWidth 1024
-#define kTexHeight 1024
-#define kBufCurrentPath 512
-
-  static const char kTexPath[] = "/Users/ll3ynxnj/Projects/anhr/sample.raw";
-  char currentPath[kBufCurrentPath];
-  memset(currentPath, '\0', kBufCurrentPath);
-  getcwd(currentPath, kBufCurrentPath);
-  fprintf(stdout,"Current path : %s\n", currentPath);
-
-  GLubyte texture[kTexHeight][kTexWidth][4];
-  FILE *fp;
-
-  if ((fp = fopen(kTexPath, "rb")) != nullptr) {
-    fread(texture, sizeof texture, 1, fp);
-    fclose(fp);
-  }
-  else {
-    perror(kTexPath);
-  }
+  std::string texPath = "/Users/ll3ynxnj/Projects/anhr/sample.raw";
+  PLARSCImage *texImage = PLARSCImage::Create(texPath, 1024, 1024);
+  texImage->AllocData();
 
   glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, kTexWidth, kTexHeight, 0,
-               GL_RGBA, GL_UNSIGNED_BYTE, texture);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetWidth(), texImage->GetHeight(), 0,
+               GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetData());
+  //*/
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 

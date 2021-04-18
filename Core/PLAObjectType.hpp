@@ -13,6 +13,7 @@ enum class PLAObjectType : int
   Shape,
   Style,
   Error,
+  Resource,
   Renderer,
 
   kNumberOfItems,

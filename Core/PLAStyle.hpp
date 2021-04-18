@@ -14,7 +14,7 @@ public:
   {
     enum class Type
     {
-      Int, Float, Color, kNumberOfItems, None
+      Int, Float, Color, Image, kNumberOfItems, None
     };
 
     Type type = Type::None;
