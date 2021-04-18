@@ -90,12 +90,12 @@ void PLAGLUTRenderer::Draw(const PLAActor *aActor) const
   glRotatef(transform.rotation.z, 0.0, 0.0, 1.0);
   glScalef(transform.scale.x, transform.scale.y, transform.scale.z);
 
-  switch (aActor->GetShapeType())
+  switch (aActor->GetLayerType())
   {
-    case PLAShapeType::Rect :
+    case PLALayerType::Rect :
       this->DrawRect(aActor);
       break;
-    case PLAShapeType::Circle :
+    case PLALayerType::Circle :
       this->DrawCircle(aActor);
       break;
     default :
@@ -113,7 +113,7 @@ void PLAGLUTRenderer::Draw(const PLAActor *aActor) const
 
 void PLAGLUTRenderer::DrawRect(const PLAActor *aActor) const
 {
-  const PLAVec3 offset = aActor->GetShapeOffset();
+  const PLAVec3 offset = aActor->GetLayerOffset();
   GLfloat vertices[] = {
      offset.x,
     -offset.y,
@@ -176,11 +176,11 @@ void PLAGLUTRenderer::DrawCircle(const PLAActor *aActor) const
   glBegin(GL_TRIANGLE_FAN);
   glColor4d(fillColor.r, fillColor.g, fillColor.b, fillColor.a);
   int split = 24;
-  const PLASHPCircle *shape = static_cast<const PLASHPCircle *>(aActor->GetShape());
-  const double radius = shape->GetRadius();
+  const PLALYRCircle *layer = static_cast<const PLALYRCircle *>(aActor->GetLayer());
+  const double radius = layer->GetRadius();
   const double step = M_PI * 2 / split;
-  const PLAVec2 offset = PLAVec2Make( radius + aActor->GetShapeOffset().x,
-                                     -radius - aActor->GetShapeOffset().y);
+  const PLAVec2 offset = PLAVec2Make( radius + aActor->GetLayerOffset().x,
+                                     -radius - aActor->GetLayerOffset().y);
   glVertex2d(offset.x, offset.y);
   double radian = 0;
   for (int i = 0; i <= split; i++)

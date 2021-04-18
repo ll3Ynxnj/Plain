@@ -2,9 +2,9 @@
 // Created by Kawai Kentaro on 2020/11/13.
 //
 
-#include "../Core/PLAShape.hpp"
+#include "../Core/PLALayer.hpp"
 
-class PLAShapeTest : public ::testing::Test
+class PLALayerTest : public ::testing::Test
 {
 protected:
   virtual void SetUp()
@@ -18,41 +18,41 @@ protected:
   }
 };
 
-TEST(PLASHPRectTest, IsCollideWithPoint)
+TEST(PLALYRRectTest, IsCollideWithPoint)
 {
   PLAPoint point = kPLAPointNone;
-  PLASHPRect shape = PLASHPRect(kPLAVec3None, kPLAVec2None);
-  EXPECT_EQ(false, shape.IsCollideWithPoint(point));
-  shape.SetSize(PLAVec3Make(1, 1, 0), kPLAVec3None);
-  EXPECT_EQ(true, shape.IsCollideWithPoint(point));
+  PLALYRRect layer = PLALYRRect(kPLAVec3None, kPLAVec2None);
+  EXPECT_EQ(false, layer.IsCollideWithPoint(point));
+  layer.SetSize(PLAVec3Make(1, 1, 0), kPLAVec3None);
+  EXPECT_EQ(true, layer.IsCollideWithPoint(point));
   point.x = 1;
-  EXPECT_EQ(false, shape.IsCollideWithPoint(point));
+  EXPECT_EQ(false, layer.IsCollideWithPoint(point));
   point.y = 1;
-  EXPECT_EQ(false, shape.IsCollideWithPoint(point));
-  shape.SetSize(PLAVec3Make(2, 2, 0), kPLAVec3None);
-  EXPECT_EQ(true, shape.IsCollideWithPoint(point));
-  shape.SetOffset(PLAVec3Make(1, 1, 0));
-  EXPECT_EQ(true, shape.IsCollideWithPoint(point));
-  shape.SetOffset(PLAVec3Make(-1, -1, 0));
-  EXPECT_EQ(false, shape.IsCollideWithPoint(point));
+  EXPECT_EQ(false, layer.IsCollideWithPoint(point));
+  layer.SetSize(PLAVec3Make(2, 2, 0), kPLAVec3None);
+  EXPECT_EQ(true, layer.IsCollideWithPoint(point));
+  layer.SetOffset(PLAVec3Make(1, 1, 0));
+  EXPECT_EQ(true, layer.IsCollideWithPoint(point));
+  layer.SetOffset(PLAVec3Make(-1, -1, 0));
+  EXPECT_EQ(false, layer.IsCollideWithPoint(point));
 }
 
-TEST(PLASHPCircleTest, IsCollideWithPoint)
+TEST(PLALYRCircleTest, IsCollideWithPoint)
 {
   {
     PLAPoint point = kPLAPointNone;
-    PLASHPCircle shape = PLASHPCircle(kPLAVec3None, 0);
-    EXPECT_EQ(false, shape.IsCollideWithPoint(point));
+    PLALYRCircle layer = PLALYRCircle(kPLAVec3None, 0);
+    EXPECT_EQ(false, layer.IsCollideWithPoint(point));
   }
   {
     PLAPoint point = kPLAPointNone;
-    PLASHPCircle shape = PLASHPCircle(PLAVec3Make(1, 1, 0), 1);
-    EXPECT_EQ(false, shape.IsCollideWithPoint(point));
+    PLALYRCircle layer = PLALYRCircle(PLAVec3Make(1, 1, 0), 1);
+    EXPECT_EQ(false, layer.IsCollideWithPoint(point));
   }
   {
     PLAPoint point = kPLAPointNone;
-    PLASHPCircle shape = PLASHPCircle(PLAVec3Make(1, 1, 0), 2);
-    EXPECT_EQ(true, shape.IsCollideWithPoint(point));
+    PLALYRCircle layer = PLALYRCircle(PLAVec3Make(1, 1, 0), 2);
+    EXPECT_EQ(true, layer.IsCollideWithPoint(point));
   }
 }
 

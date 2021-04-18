@@ -1,103 +1,103 @@
-#include "PLAShape.hpp"
+#include "PLALayer.hpp"
 #include "PLACollision.hpp"
 #include "PLAError.hpp"
 
-PLAShape *PLAShape::Create(const PLAShape &aShape)
+PLALayer *PLALayer::Create(const PLALayer &aLayer)
 {
-  PLAShape *shape = nullptr;
-  switch (aShape.GetShapeType())
+  PLALayer *layer = nullptr;
+  switch (aLayer.GetLayerType())
   {
-    case PLAShapeType::Point :
-      shape = new PLASHPPoint(static_cast<const PLASHPPoint &>(aShape));
+    case PLALayerType::Point :
+      layer = new PLALYRPoint(static_cast<const PLALYRPoint &>(aLayer));
       break;
-    case PLAShapeType::Line :
-      shape = new PLASHPLine(static_cast<const PLASHPLine  &>(aShape));
+    case PLALayerType::Line :
+      layer = new PLALYRLine(static_cast<const PLALYRLine  &>(aLayer));
       break;
-    case PLAShapeType::Rect :
-      shape = new PLASHPRect(static_cast<const PLASHPRect &>(aShape));
+    case PLALayerType::Rect :
+      layer = new PLALYRRect(static_cast<const PLALYRRect &>(aLayer));
       break;
-    case PLAShapeType::Circle :
-      shape = new PLASHPCircle(static_cast<const PLASHPCircle &>(aShape));
+    case PLALayerType::Circle :
+      layer = new PLALYRCircle(static_cast<const PLALYRCircle &>(aLayer));
       break;
     default :
-      PLA_ERROR_ISSUE(PLAErrorType::Assert, "Detected unexpected PLAShapeType.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "Detected unexpected PLALayerType.");
       break;
   }
-  PLAObject::Manager::Ref()->Bind(shape);
-  return shape;
+  PLAObject::Manager::Ref()->Bind(layer);
+  return layer;
 }
 
-PLAShape::PLAShape(PLAShapeType aType, const PLAVec3 &aOffset, const std::string &aName) :
-PLAObject(PLAObjectType::Shape, aName),
+PLALayer::PLALayer(PLALayerType aType, const PLAVec3 &aOffset, const std::string &aName) :
+PLAObject(PLAObjectType::Layer, aName),
 _type(aType), _offset(aOffset)
 {
 
 }
 
-PLAShape::~PLAShape()
+PLALayer::~PLALayer()
 {
 
 }
 
-PLAVec3 PLASHPPoint::GetSize() const
+PLAVec3 PLALYRPoint::GetSize() const
 {
   return kPLAVec3None;
 }
 
-void PLASHPPoint::GetSize(PLAVec3 *aSize) const
+void PLALYRPoint::GetSize(PLAVec3 *aSize) const
 {
   aSize->x = 0;
   aSize->y = 0;
   aSize->z = 0;
 }
 
-void PLASHPPoint::SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot)
+void PLALYRPoint::SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot)
 {
   return;
 }
 
-bool PLASHPPoint::IsCollideWithPoint(const PLAPoint &aPoint) const
+bool PLALYRPoint::IsCollideWithPoint(const PLAPoint &aPoint) const
 {
   return
   PLACollision::IsCollideWithPointAndPoint(this->GetPoint(), aPoint);
 }
 
-bool PLASHPPoint::IsCollideWithLine(const PLALine &aLine) const
+bool PLALYRPoint::IsCollideWithLine(const PLALine &aLine) const
 {
   return
   PLACollision::IsCollideWithPointAndLine(this->GetPoint(), aLine);
 }
 
-bool PLASHPPoint::IsCollideWithRect(const PLARect &aRect) const
+bool PLALYRPoint::IsCollideWithRect(const PLARect &aRect) const
 {
   return
   PLACollision::IsCollideWithPointAndRect(this->GetPoint(), aRect);
 }
 
-bool PLASHPPoint::IsCollideWithCircle(const PLACircle &aCircle) const
+bool PLALYRPoint::IsCollideWithCircle(const PLACircle &aCircle) const
 {
   return
   PLACollision::IsCollideWithPointAndCircle(this->GetPoint(), aCircle);
 }
 
-PLAPoint PLASHPPoint::GetPoint() const
+PLAPoint PLALYRPoint::GetPoint() const
 {
   return { this->GetOffset().x, this->GetOffset().y };
 }
 
-PLAVec3 PLASHPLine::GetSize() const
+PLAVec3 PLALYRLine::GetSize() const
 {
   return { abs(_vector.x), abs(_vector.y), 0 };
 }
 
-void PLASHPLine::GetSize(PLAVec3 *aSize) const
+void PLALYRLine::GetSize(PLAVec3 *aSize) const
 {
   aSize->x = abs(_vector.x);
   aSize->y = abs(_vector.y);
   aSize->z = 0;
 }
 
-void PLASHPLine::SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot)
+void PLALYRLine::SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot)
 {
   _vector.x = aSize.x;
   _vector.y = aSize.y;
@@ -105,97 +105,97 @@ void PLASHPLine::SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot)
   this->SetOffset(offset);
 }
 
-bool PLASHPLine::IsCollideWithPoint(const PLAPoint &aPoint) const
+bool PLALYRLine::IsCollideWithPoint(const PLAPoint &aPoint) const
 {
   return
   PLACollision::IsCollideWithPointAndLine(aPoint, this->GetLine());
 }
 
-bool PLASHPLine::IsCollideWithLine(const PLALine &aLine) const
+bool PLALYRLine::IsCollideWithLine(const PLALine &aLine) const
 {
   return
   PLACollision::IsCollideWithLineAndLine(this->GetLine(), aLine);
 }
 
-bool PLASHPLine::IsCollideWithRect(const PLARect &aRect) const
+bool PLALYRLine::IsCollideWithRect(const PLARect &aRect) const
 {
   return
   PLACollision::IsCollideWithLineAndRect(this->GetLine(), aRect);
 }
 
-bool PLASHPLine::IsCollideWithCircle(const PLACircle &aCircle) const
+bool PLALYRLine::IsCollideWithCircle(const PLACircle &aCircle) const
 {
   return
   PLACollision::IsCollideWithLineAndCircle(this->GetLine(), aCircle);
 }
 
-PLALine PLASHPLine::GetLine() const
+PLALine PLALYRLine::GetLine() const
 {
   return { {this->GetOffset().x, this->GetOffset().y}, {_vector.x, _vector.y} };
 }
 
-PLAVec3 PLASHPRect::GetSize() const
+PLAVec3 PLALYRRect::GetSize() const
 {
   return { abs(_vector.x), abs(_vector.y), 0 };
 }
 
-void PLASHPRect::GetSize(PLAVec3 *aSize) const
+void PLALYRRect::GetSize(PLAVec3 *aSize) const
 {
   aSize->x = abs(_vector.x);
   aSize->y = abs(_vector.y);
   aSize->z = 0;
 }
 
-void PLASHPRect::SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot)
+void PLALYRRect::SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot)
 {
   this->SetOffset(PLAVec3Make(aSize.x * aPivot.x, aSize.y * aPivot.y, 0));
   _vector.x = aSize.x;
   _vector.y = aSize.y;
 }
 
-bool PLASHPRect::IsCollideWithPoint(const PLAPoint &aPoint) const
+bool PLALYRRect::IsCollideWithPoint(const PLAPoint &aPoint) const
 {
   return
   PLACollision::IsCollideWithPointAndRect(aPoint, this->GetRect());
 }
 
-bool PLASHPRect::IsCollideWithLine(const PLALine &aLine) const
+bool PLALYRRect::IsCollideWithLine(const PLALine &aLine) const
 {
   return
   PLACollision::IsCollideWithLineAndRect(aLine, this->GetRect());
 }
 
-bool PLASHPRect::IsCollideWithRect(const PLARect &aRect) const
+bool PLALYRRect::IsCollideWithRect(const PLARect &aRect) const
 {
   return
   PLACollision::IsCollideWithRectAndRect(this->GetRect(), aRect);
 }
 
-bool PLASHPRect::IsCollideWithCircle(const PLACircle &aCircle) const
+bool PLALYRRect::IsCollideWithCircle(const PLACircle &aCircle) const
 {
   return
   PLACollision::IsCollideWithRectAndCircle(this->GetRect(), aCircle);
 }
 
-PLARect PLASHPRect::GetRect() const
+PLARect PLALYRRect::GetRect() const
 {
   return
   { { this->GetOffset().x, this->GetOffset().y }, { _vector.x, _vector.y } };
 }
 
-PLAVec3 PLASHPCircle::GetSize() const
+PLAVec3 PLALYRCircle::GetSize() const
 {
   return { _radius * 2, _radius * 2, 0 };
 }
 
-void PLASHPCircle::GetSize(PLAVec3 *aSize) const
+void PLALYRCircle::GetSize(PLAVec3 *aSize) const
 {
   aSize->x = _radius * 2;
   aSize->y = _radius * 2;
   aSize->z = 0;
 }
 
-void PLASHPCircle::SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot)
+void PLALYRCircle::SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot)
 {
   _radius = aSize.x > aSize.y ? aSize.x : aSize.y;
   this->SetOffset(PLAVec3Make((aPivot.x - 0.5) * _radius * 2,
@@ -203,31 +203,31 @@ void PLASHPCircle::SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot)
                               0));
 }
 
-bool PLASHPCircle::IsCollideWithPoint(const PLAPoint &aPoint) const
+bool PLALYRCircle::IsCollideWithPoint(const PLAPoint &aPoint) const
 {
   return
   PLACollision::IsCollideWithPointAndCircle(aPoint, this->GetCircle());
 }
 
-bool PLASHPCircle::IsCollideWithLine(const PLALine &aLine) const
+bool PLALYRCircle::IsCollideWithLine(const PLALine &aLine) const
 {
   return
   PLACollision::IsCollideWithLineAndCircle(aLine, this->GetCircle());
 }
 
-bool PLASHPCircle::IsCollideWithRect(const PLARect &aRect) const
+bool PLALYRCircle::IsCollideWithRect(const PLARect &aRect) const
 {
   return
   PLACollision::IsCollideWithRectAndCircle(aRect, this->GetCircle());
 }
 
-bool PLASHPCircle::IsCollideWithCircle(const PLACircle &aCircle) const
+bool PLALYRCircle::IsCollideWithCircle(const PLACircle &aCircle) const
 {
   return
   PLACollision::IsCollideWithCircleAndCircle(this->GetCircle(), aCircle);
 }
 
-PLACircle PLASHPCircle::GetCircle() const
+PLACircle PLALYRCircle::GetCircle() const
 {
   return {{ this->GetOffset().x + _radius, this->GetOffset().y + _radius },
           _radius };

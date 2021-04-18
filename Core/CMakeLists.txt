@@ -8,7 +8,7 @@ add_library(Plain-Core STATIC
   PLAScene.cpp
   PLAStage.cpp
   PLAActor.cpp
-  PLAShape.cpp
+  PLALayer.cpp
   PLAStyle.cpp
   PLARenderer.cpp
   PLACollision.cpp

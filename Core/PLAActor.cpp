@@ -6,9 +6,9 @@
 PLAActor *PLAActor::Create(const PLAVec3 &aPivot,
                            const PLAColor &aColor,
                            const PLATransform &aTransform,
-                           const PLAShape &aShape)
+                           const PLALayer &aLayer)
 {
-  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, aShape);
+  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, aLayer);
   PLAObject::Manager::Ref()->Bind(actor);
   return actor;
 }
@@ -16,20 +16,20 @@ PLAActor *PLAActor::Create(const PLAVec3 &aPivot,
 PLAActor::PLAActor(const PLAVec3 &aPivot,
                    const PLAColor &aColor,
                    const PLATransform &aTransform,
-                   const PLAShape &aShape) :
+                   const PLALayer &aLayer) :
   PLAObject(PLAObjectType::Actor, "== PLAActor =="),
   PLAInputContext(),
   _pivot(aPivot),
   _color(aColor),
   _transform(aTransform),
-  _shape(PLAShape::Create(aShape))
+  _layer(PLALayer::Create(aLayer))
 {
-  this->RefreshShapeOffset();
+  this->RefreshLayerOffset();
 }
 
 PLAActor::~PLAActor()
 {
-  PLA_DELETE(_shape);
+  PLA_DELETE(_layer);
 }
 
 void PLAActor::AddActor(PLAActor *aActor)
@@ -82,10 +82,10 @@ void PLAActor::PrintActors() const
 bool PLAActor::IsCollideWithPoint(PLAPoint aPoint) const
 {
   //*
-  return _shape->IsCollideWithPoint(aPoint);
+  return _layer->IsCollideWithPoint(aPoint);
   /*/
   // Provisional : Design that include PLACollider class is desirable.
-  const PLAVec3 basePoint = _shape->GetOffset();
+  const PLAVec3 basePoint = _layer->GetOffset();
   const PLAPoint p0 = PLAPointMake(basePoint.x, basePoint.y);
   const PLAPoint p1 = PLAPointMake(basePoint.x + this->GetSize().x,
                                    basePoint.y + this->GetSize().y);
@@ -125,29 +125,29 @@ PLAActor *PLAActor::RefActorWithPoint(const PLAPoint &aPoint)
 }
 
 /*
-const PLASHPRect *PLAActor::GetShapeRect() const
+const PLALYRRect *PLAActor::GetLayerRect() const
 {
-  if (this->GetShapeType() != PLAShapeType::Circle)
+  if (this->GetLayerType() != PLALayerType::Circle)
   {
     PLA_ERROR_ISSUE(PLAErrorType::Assert, "Type does not match.");
   }
-  return static_cast<PLASHPRect *>(_shape);
+  return static_cast<PLALYRRect *>(_layer);
 }
 
-const PLASHPCircle *PLAActor::GetShapeCircle() const
+const PLALYRCircle *PLAActor::GetLayerCircle() const
 {
-  if (this->GetShapeType() != PLAShapeType::Circle)
+  if (this->GetLayerType() != PLALayerType::Circle)
   {
     PLA_ERROR_ISSUE(PLAErrorType::Assert, "Type does not match.");
   }
-  return static_cast<PLASHPCircle *>(_shape);
+  return static_cast<PLALYRCircle *>(_layer);
 }
 */
 
-void PLAActor::RefreshShapeOffset()
+void PLAActor::RefreshLayerOffset()
 {
   PLAVec3 size(this->GetSize());
-  _shape->SetOffset(-PLAVec3Make(size.x * _pivot.x,
+  _layer->SetOffset(-PLAVec3Make(size.x * _pivot.x,
                                  size.y * _pivot.y,
                                  size.z * _pivot.z));
 }

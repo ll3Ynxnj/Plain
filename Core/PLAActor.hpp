@@ -7,7 +7,7 @@
 #include "PLAObject.hpp"
 #include "PLAScene.hpp"
 #include "PLAInput.hpp"
-#include "PLAShape.hpp"
+#include "PLALayer.hpp"
 #include "Grain/GRAFunctor.hpp"
 #include "PLACollision.hpp"
 
@@ -40,7 +40,7 @@ public:
   enum class CollisionSyncCode : PLACode
   {
     Size,
-    Shape,
+    Layer,
 
     kNumberOfItems,
     None,
@@ -59,7 +59,7 @@ private:
   PLAColor _color = kPLAColorWhite;
   PLATransform _transform = PLATransform();
   //-- Not affect child actors
-  PLAShape *_shape = nullptr;
+  PLALayer *_layer = nullptr;
   PLAStyle _style = PLAStyle();
   CollisionItem collisions[static_cast<unsigned>(CollisionCode::kNumberOfItems)];
 
@@ -71,12 +71,12 @@ public :
   static PLAActor *Create(const PLAVec3 &aPivot,
                           const PLAColor &aColor,
                           const PLATransform &aTransform,
-                          const PLAShape &aShape);
+                          const PLALayer &aLayer);
 
   PLAActor(const PLAVec3 &aPivot,
            const PLAColor &aColor,
            const PLATransform &aTransform,
-           const PLAShape &aShape);
+           const PLALayer &aLayer);
   virtual ~PLAActor();
 
   void AddActor(PLAActor *aActor);
@@ -97,23 +97,23 @@ public :
   const std::list<PLAActor *> *GetActors() const { return &_actors; };
   const PLAVec3 &GetPivot() const { return _pivot; };
   void SetPivot(const PLAVec3 &aPivot)
-  { _pivot = aPivot; this->RefreshShapeOffset(); };
+  { _pivot = aPivot; this->RefreshLayerOffset(); };
   const PLAColor &GetColor() const { return _color; };
   const PLATransform &GetTransform() const { return _transform; };
-  const PLAShape *GetShape() const { return _shape; }
-  PLAVec3 GetSize() const { return _shape->GetSize(); };
-  void GetSize(PLAVec3 *aSize) const { return _shape->GetSize(aSize); };
-  const PLAVec3 &GetShapeOffset() const { return _shape->GetOffset(); };
+  const PLALayer *GetLayer() const { return _layer; }
+  PLAVec3 GetSize() const { return _layer->GetSize(); };
+  void GetSize(PLAVec3 *aSize) const { return _layer->GetSize(aSize); };
+  const PLAVec3 &GetLayerOffset() const { return _layer->GetOffset(); };
 
-  PLAShapeType GetShapeType() const { return _shape->GetShapeType(); }
-  //const PLAStyle *GetShapeStyle() const { return _shape->GetStyle(); }
+  PLALayerType GetLayerType() const { return _layer->GetLayerType(); }
+  //const PLAStyle *GetLayerStyle() const { return _layer->GetStyle(); }
 
   const PLAStyle *GetStyle() const { return &_style; };
   void SetStyle(const PLAStyle &aStyle) { _style = aStyle; }
 
   /*
-  const PLASHPRect *GetShapeRect() const;
-  const PLASHPCircle *GetShapeCircle() const;
+  const PLALYRRect *GetLayerRect() const;
+  const PLALYRCircle *GetLayerCircle() const;
   */
 
   size_t GetNumberOfActors() { return _actors.size(); };
@@ -126,7 +126,7 @@ public :
   void SetTransform(const PLATransform &aTransform)
   { _transform = aTransform; };
   virtual void SetSize(const PLAVec3 &aSize)
-  { _shape->SetSize(aSize, _pivot); this->RefreshShapeOffset(); };
+  { _layer->SetSize(aSize, _pivot); this->RefreshLayerOffset(); };
 
   void SetTranslation(const PLAVec3 &aTranslation)
   { _transform.translation = aTranslation; };
@@ -140,7 +140,7 @@ public :
   { _functor.SetFunction(aKey, aFunc); };
 
 private:
-  void RefreshShapeOffset();
+  void RefreshLayerOffset();
 };
 
 #endif // PLAIN_ENGINE_PLAACTOR_HPP

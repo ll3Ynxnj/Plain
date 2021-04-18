@@ -6,7 +6,7 @@
 #define PLAIN_ENGINE_PLACOLLISION_HPP
 
 #include "PLACollisionType.hpp"
-#include "PLAShape.hpp"
+#include "PLALayer.hpp"
 
 class PLACollision
 {
@@ -40,21 +40,21 @@ public:
   PLACollisionType GetCollisionType() const { return _type; };
   bool IsCollide(const PLACollision &aCollision) const;
 
-  virtual bool IsCollideWithShape(const PLAShape *aShape) const = 0;
+  virtual bool IsCollideWithLayer(const PLALayer *aLayer) const = 0;
   //virtual bool IsCollideWithPixel(const PLAPixel &aPixel) const = 0;
 };
 
-class PLACOLShape : public PLACollision
+class PLACOLLayer : public PLACollision
 {
-  PLAShape *_shape = nullptr;
+  PLALayer *_layer = nullptr;
 
 public:
-  explicit PLACOLShape(PLAShape *aShape);
-  ~PLACOLShape();
+  explicit PLACOLLayer(PLALayer *aLayer);
+  ~PLACOLLayer();
 
-  const PLAShape *GetShape() const { return _shape; }
+  const PLALayer *GetLayer() const { return _layer; }
 
-  virtual bool IsCollideWithShape(const PLAShape *aShape) const;
+  virtual bool IsCollideWithLayer(const PLALayer *aLayer) const;
   //virtual bool IsCollideWithPixel(const PLAPixel aPixel) const;
 };
 

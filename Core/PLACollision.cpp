@@ -126,14 +126,14 @@ PLACollision::~PLACollision()
 
 }
 
-PLACOLShape::PLACOLShape(PLAShape *aShape) :
-PLACollision(PLACollisionType::Shape),
-_shape(aShape)
+PLACOLLayer::PLACOLLayer(PLALayer *aLayer) :
+PLACollision(PLACollisionType::Layer),
+_layer(aLayer)
 {
 
 }
 
-PLACOLShape::~PLACOLShape()
+PLACOLLayer::~PLACOLLayer()
 {
 
 }
@@ -142,32 +142,32 @@ bool PLACollision::IsCollide(const PLACollision &aCollision) const
 {
   switch (aCollision.GetCollisionType())
   {
-    case PLACollisionType::Shape :
-      return this->IsCollideWithShape
-      (static_cast<const PLACOLShape &>(aCollision).GetShape());
+    case PLACollisionType::Layer :
+      return this->IsCollideWithLayer
+      (static_cast<const PLACOLLayer &>(aCollision).GetLayer());
     default :
       return false;
   }
 }
 
-bool PLACOLShape::IsCollideWithShape(const PLAShape *aShape) const
+bool PLACOLLayer::IsCollideWithLayer(const PLALayer *aLayer) const
 {
-  switch (aShape->GetShapeType())
+  switch (aLayer->GetLayerType())
   {
-    case PLAShapeType::Point :
-      return _shape->IsCollideWithPoint
-      (static_cast<const PLASHPPoint *>(aShape)->GetPoint());
+    case PLALayerType::Point :
+      return _layer->IsCollideWithPoint
+      (static_cast<const PLALYRPoint *>(aLayer)->GetPoint());
       break;
-    case PLAShapeType::Line :
+    case PLALayerType::Line :
       return false;
       break;
-    case PLAShapeType::Rect :
-      return _shape->IsCollideWithRect
-      (static_cast<const PLASHPRect *>(aShape)->GetRect());
+    case PLALayerType::Rect :
+      return _layer->IsCollideWithRect
+      (static_cast<const PLALYRRect *>(aLayer)->GetRect());
       break;
-    case PLAShapeType::Circle :
-      return _shape->IsCollideWithCircle
-      (static_cast<const PLASHPCircle *>(aShape)->GetCircle());
+    case PLALayerType::Circle :
+      return _layer->IsCollideWithCircle
+      (static_cast<const PLALYRCircle *>(aLayer)->GetCircle());
       break;
     default :
       return false;

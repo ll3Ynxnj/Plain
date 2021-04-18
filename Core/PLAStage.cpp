@@ -11,15 +11,15 @@ PLAStage::PLAStage() :
 PLAObject(PLAObjectType::Stage, "== PLAStage =="),
 PLAInputHandler()
 {
-  PLASHPRect shape(kPLAVec3None, kPLAVec2None);
+  PLALYRRect layer(kPLAVec3None, kPLAVec2None);
   PLAStyle style;
   style.SetColorValue(PLAStyleType::FillColor, kPLAColorGray);
   /*
   _context = PLAActor::Create(PLAVec3Make(0.5, 0.5, 0), kPLAColorWhite,
-                              PLATransform(), shape);
+                              PLATransform(), layer);
                               */
   _context = PLAActor::Create(kPLAVec3None, kPLAColorWhite,
-                              PLATransform(), shape);
+                              PLATransform(), layer);
   _context->SetStyle(style);
 }
 

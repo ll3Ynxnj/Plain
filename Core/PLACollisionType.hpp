@@ -8,7 +8,7 @@
 #include "PLAType.hpp"
 enum class PLACollisionType : int
 {
-  Shape,
+  Layer,
   //Pixel,
 
   kNumberOfItems,

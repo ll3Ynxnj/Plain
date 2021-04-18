@@ -9,13 +9,13 @@ protected:
   virtual void SetUp()
   {
     _rootActor = PLAActor::Create(kPLAVec3Norm, kPLAColorWhite,
-                                  PLATransform(), PLASHPRect(kPLAVec3None, kPLAVec2None));
+                                  PLATransform(), PLALYRRect(kPLAVec3None, kPLAVec2None));
 
     static const int kNumberOfActors = 3;
     for (int i = 0; i < kNumberOfActors; i++)
     {
       PLAActor *actor = PLAActor::Create(kPLAVec3Norm, kPLAColorWhite,
-                                         PLATransform(), PLASHPRect(kPLAVec3None, kPLAVec2None));
+                                         PLATransform(), PLALYRRect(kPLAVec3None, kPLAVec2None));
       PLAStyle style;
       style.SetColorValue(PLAStyleType::FillColor, kPLAColorWhite);
       actor->SetStyle(style);

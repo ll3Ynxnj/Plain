@@ -3,7 +3,7 @@
 
 #include "PLAActorTest.cpp"
 #include "PLACollisionTest.cpp"
-#include "PLAShapeTest.cpp"
+#include "PLALayerTest.cpp"
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
