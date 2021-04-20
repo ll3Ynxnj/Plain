@@ -22,8 +22,8 @@ private :
   void InitTextures() const;
 
   void Draw(const PLAActor *aActor) const;
-  void DrawRect(const PLAActor *aActor) const;
-  void DrawCircle(const PLAActor *aActor) const;
+  void DrawRect(const PLALYRRect *aLayer) const;
+  void DrawCircle(const PLALYRCircle *aLayer) const;
 };
 
 #endif // PLAIN_ENGINE_PLAGLUTRENDERER_HPP

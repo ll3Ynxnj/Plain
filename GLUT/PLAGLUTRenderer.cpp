@@ -1,5 +1,4 @@
 #include <math.h>
-#include <unistd.h>
 
 #include "PLAGLUT.h"
 #include "PLAGLUTRenderer.hpp"
@@ -70,7 +69,7 @@ void PLAGLUTRenderer::InitTextures() const
   glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetWidth(), texImage->GetHeight(), 0,
                GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetData());
-  //*/
+
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
@@ -90,13 +89,14 @@ void PLAGLUTRenderer::Draw(const PLAActor *aActor) const
   glRotatef(transform.rotation.z, 0.0, 0.0, 1.0);
   glScalef(transform.scale.x, transform.scale.y, transform.scale.z);
 
-  switch (aActor->GetLayerType())
+  const PLALayer *layer = aActor->GetLayer();
+  switch (layer->GetLayerType())
   {
     case PLALayerType::Rect :
-      this->DrawRect(aActor);
+      this->DrawRect(static_cast<const PLALYRRect *>(layer));
       break;
     case PLALayerType::Circle :
-      this->DrawCircle(aActor);
+      this->DrawCircle(static_cast<const PLALYRCircle *>(layer));
       break;
     default :
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
@@ -111,37 +111,25 @@ void PLAGLUTRenderer::Draw(const PLAActor *aActor) const
   glPopMatrix();
 }
 
-void PLAGLUTRenderer::DrawRect(const PLAActor *aActor) const
+void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer) const
 {
-  const PLAVec3 offset = aActor->GetLayerOffset();
+  const PLAVec3 offset = aLayer->GetOffset();
   GLfloat vertices[] = {
      offset.x,
     -offset.y,
      offset.z,
-     offset.x + aActor->GetSize().x,
+     offset.x + aLayer->GetSize().x,
     -offset.y,
      offset.z,
      offset.x,
-    -offset.y - aActor->GetSize().y,
+    -offset.y - aLayer->GetSize().y,
      offset.z,
-     offset.x + aActor->GetSize().x,
-    -offset.y - aActor->GetSize().y,
+     offset.x + aLayer->GetSize().x,
+    -offset.y - aLayer->GetSize().y,
      offset.z,
   };
 
-  const PLAColor &color = aActor->GetColor();
-  const GLfloat colors[] = {
-    color.r, color.g, color.b, color.a,
-    color.r, color.g, color.b, color.a,
-    color.r, color.g, color.b, color.a,
-    color.r, color.g, color.b, color.a,
-  };
-
-  //aActor->Print();
-
-  const PLAStyle *style = aActor->GetStyle();
-  const PLAColor fillColor = style->GetColorValue(PLAStyleType::FillColor);
-
+  const PLAColor fillColor = aLayer->GetFillColor();
   GLfloat fillColors[] = {
     fillColor.r, fillColor.g, fillColor.b, fillColor.a,
     fillColor.r, fillColor.g, fillColor.b, fillColor.a,
@@ -168,19 +156,17 @@ void PLAGLUTRenderer::DrawRect(const PLAActor *aActor) const
   glEnd();
 }
 
-void PLAGLUTRenderer::DrawCircle(const PLAActor *aActor) const
+void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer) const
 {
-  const PLAStyle *style = aActor->GetStyle();
-  const PLAColor fillColor = style->GetColorValue(PLAStyleType::FillColor);
+  const PLAColor fillColor = aLayer->GetFillColor();
 
   glBegin(GL_TRIANGLE_FAN);
   glColor4d(fillColor.r, fillColor.g, fillColor.b, fillColor.a);
   int split = 24;
-  const PLALYRCircle *layer = static_cast<const PLALYRCircle *>(aActor->GetLayer());
-  const double radius = layer->GetRadius();
+  const double radius = aLayer->GetRadius();
   const double step = M_PI * 2 / split;
-  const PLAVec2 offset = PLAVec2Make( radius + aActor->GetLayerOffset().x,
-                                     -radius - aActor->GetLayerOffset().y);
+  const PLAVec2 offset = PLAVec2Make( radius + aLayer->GetOffset().x,
+                                     -radius - aLayer->GetOffset().y);
   glVertex2d(offset.x, offset.y);
   double radian = 0;
   for (int i = 0; i <= split; i++)

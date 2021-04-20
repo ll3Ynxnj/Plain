@@ -60,7 +60,7 @@ private:
   PLATransform _transform = PLATransform();
   //-- Not affect child actors
   PLALayer *_layer = nullptr;
-  PLAStyle _style = PLAStyle();
+  //PLAStyle _style = PLAStyle();
   CollisionItem collisions[static_cast<unsigned>(CollisionCode::kNumberOfItems)];
 
   GRAFunctor<PLAActor, FunctionCode> _functor = GRAFunctor<PLAActor, FunctionCode>();
@@ -108,8 +108,8 @@ public :
   PLALayerType GetLayerType() const { return _layer->GetLayerType(); }
   //const PLAStyle *GetLayerStyle() const { return _layer->GetStyle(); }
 
-  const PLAStyle *GetStyle() const { return &_style; };
-  void SetStyle(const PLAStyle &aStyle) { _style = aStyle; }
+  //const PLAStyle *GetStyle() const { return &_style; };
+  //void SetStyle(const PLAStyle &aStyle) { _style = aStyle; }
 
   /*
   const PLALYRRect *GetLayerRect() const;
