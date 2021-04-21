@@ -19,8 +19,6 @@ public:
   virtual void RefreshScreenSize(const PLAVec3 &aFrameSize,
                                  const PLAVec3 &aStageSize);
 private :
-  void InitTextures() const;
-
   void Draw(const PLAActor *aActor) const;
   void DrawRect(const PLALYRRect *aLayer) const;
   void DrawCircle(const PLALYRCircle *aLayer) const;
