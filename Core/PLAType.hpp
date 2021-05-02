@@ -25,6 +25,10 @@ static PLAColor PLAColorMake(float aV)
 { return { aV, aV, aV, aV }; };
 static PLAColor PLAColorMake(float aR, float aG, float aB, float aA)
 { return { aR, aG, aB, aA }; };
+static PLAColor PLAColorMul(const PLAColor &aColor, float aV)
+{ return { aColor.r * aV, aColor.g * aV, aColor.b * aV, aColor.a * aV }; };
+static PLAColor PLAColorMul(const PLAColor &aS, const PLAColor &aD)
+{ return { aS.r * aD.r, aS.g * aD.g, aS.b * aD.b, aS.a * aD.a }; };
 static const PLAColor kPLAColorNone    = PLAColorMake(0);
 static const PLAColor kPLAColorNorm    = PLAColorMake(1);
 static const PLAColor kPLAColorBlack   = PLAColorMake(0.00, 0.00, 0.00, 1.00);

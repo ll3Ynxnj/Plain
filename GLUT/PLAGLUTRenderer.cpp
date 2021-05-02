@@ -57,6 +57,10 @@ void PLAGLUTRenderer::Init() const
   glEnable(GL_TEXTURE_2D);
   //*/
 
+  //-- Blend --/////////////////////////////////////////////////////////////////
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
   glClearColor(0.0, 0.0, 0.0, 1.0);
 }
 
@@ -73,10 +77,10 @@ void PLAGLUTRenderer::Flush() const
 void PLAGLUTRenderer::Render(const PLAActor *aActor) const
 {
   glMatrixMode(GL_MODELVIEW);
-  this->Draw(aActor);
+  this->Draw(aActor, kPLAColorNorm);
 }
 
-void PLAGLUTRenderer::Draw(const PLAActor *aActor) const
+void PLAGLUTRenderer::Draw(const PLAActor *aActor, const PLAColor &aColor) const
 {
   glPushMatrix();
 
@@ -92,10 +96,12 @@ void PLAGLUTRenderer::Draw(const PLAActor *aActor) const
   switch (layer->GetLayerType())
   {
     case PLALayerType::Rect :
-      this->DrawRect(static_cast<const PLALYRRect *>(layer));
+      this->DrawRect(static_cast<const PLALYRRect *>(layer),
+                     PLAColorMul(aActor->GetColor(), aColor));
       break;
     case PLALayerType::Circle :
-      this->DrawCircle(static_cast<const PLALYRCircle *>(layer));
+      this->DrawCircle(static_cast<const PLALYRCircle *>(layer),
+                       PLAColorMul(aActor->GetColor(), aColor));
       break;
     default :
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
@@ -104,13 +110,13 @@ void PLAGLUTRenderer::Draw(const PLAActor *aActor) const
   }
   for (const PLAActor *actor : *aActor->GetActors())
   {
-    this->Draw(actor);
+    this->Draw(actor, PLAColorMul(aColor, aActor->GetColor()));
   }
 
   glPopMatrix();
 }
 
-void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer) const
+void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor) const
 {
   const PLAVec3 offset = aLayer->GetOffset();
   GLfloat vertices[] = {
@@ -128,7 +134,7 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer) const
      offset.z,
   };
 
-  const PLAColor fillColor = aLayer->GetFillColor();
+  const PLAColor fillColor = PLAColorMul(aLayer->GetFillColor(), aColor);
   GLfloat fillColors[] = {
     fillColor.r, fillColor.g, fillColor.b, fillColor.a,
     fillColor.r, fillColor.g, fillColor.b, fillColor.a,
@@ -155,7 +161,7 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer) const
   glEnd();
 }
 
-void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer) const
+void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aColor) const
 {
   int split = 24;
   const unsigned numVertices = 1 + split + 1;
@@ -191,7 +197,8 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer) const
   }
 
   GLfloat fillColors[numVertices * 4];
-  const PLAColor fillColor = aLayer->GetFillColor();
+  const PLAColor fillColor = PLAColorMul(aLayer->GetFillColor(), aColor);
+
   for (int i = 0; i < numVertices; i++)
   {
     unsigned baseIndex = i * 4;

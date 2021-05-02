@@ -19,9 +19,9 @@ public:
   virtual void RefreshScreenSize(const PLAVec3 &aFrameSize,
                                  const PLAVec3 &aStageSize);
 private :
-  void Draw(const PLAActor *aActor) const;
-  void DrawRect(const PLALYRRect *aLayer) const;
-  void DrawCircle(const PLALYRCircle *aLayer) const;
+  void Draw(const PLAActor *aActor, const PLAColor &aColor) const;
+  void DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor) const;
+  void DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aColor) const;
 };
 
 #endif // PLAIN_ENGINE_PLAGLUTRENDERER_HPP
