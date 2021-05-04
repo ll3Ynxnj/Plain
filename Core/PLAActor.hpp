@@ -67,16 +67,18 @@ private:
 
   /// Calculate from pivot. Must be updated when pivot changes.
 
-public :
+protected:
+  PLAActor(const PLAVec3 &aPivot,
+           const PLAColor &aColor,
+           const PLATransform &aTransform,
+           const PLALayer &aLayer);
+
+public:
   static PLAActor *Create(const PLAVec3 &aPivot,
                           const PLAColor &aColor,
                           const PLATransform &aTransform,
                           const PLALayer &aLayer);
 
-  PLAActor(const PLAVec3 &aPivot,
-           const PLAColor &aColor,
-           const PLATransform &aTransform,
-           const PLALayer &aLayer);
   virtual ~PLAActor();
 
   void AddActor(PLAActor *aActor);

@@ -9,10 +9,12 @@ class PLAStage final : public PLAObject, public PLAInputHandler
 {
   PLAActor *_context = nullptr;
 
+protected:
+  PLAStage();
+
 public:
   static PLAStage *Create();
 
-  PLAStage();
   ~PLAStage();
 
   void Update();

@@ -14,12 +14,14 @@ class PLAObject
   PLAObjectType _type = PLAObjectType::None;
   std::string _name = kPLACharUndefined;
 
+protected:
+  PLAObject(PLAObjectType aType);
+  PLAObject(PLAObjectType aType, const std::string &aName);
+
 public:
   static void Delete(PLAObject *aObject);
 
   PLAObject() = delete;
-  PLAObject(PLAObjectType aType);
-  PLAObject(PLAObjectType aType, const std::string &aName);
   virtual ~PLAObject();
 
   size_t GetObjectId() const { return _id; }

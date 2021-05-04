@@ -12,9 +12,13 @@ class PLAResource : public PLAObject
   uint8_t *_data = nullptr;
   const std::string _path = "";
 
-public:
+protected:
   PLAResource(const std::string &aPath);
-  ~PLAResource();
+
+public:
+  static PLAResource *Create();
+
+  virtual ~PLAResource();
 
   void AllocData();
   void ReleaseData();

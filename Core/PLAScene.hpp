@@ -29,10 +29,12 @@ private:
   std::list<GRAListener<PLAScene, FunctionCode> *> _listeners = std::list<GRAListener<PLAScene, FunctionCode> *>();
   GRAFunctor<PLAScene, FunctionCode> _functor = GRAFunctor<PLAScene, FunctionCode>();
 
+protected:
+  PLAScene();
+
 public:
   static PLAScene *Create();
 
-  PLAScene();
   virtual ~PLAScene();
 
   void Init() {

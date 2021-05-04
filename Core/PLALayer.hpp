@@ -9,11 +9,13 @@ class PLALayer : public PLAObject
   PLALayerType _type = PLALayerType::None;
   PLAVec3 _offset = kPLAVec3None;
 
+protected:
+  PLALayer(PLALayerType aType, const PLAVec3 &aOffset, const std::string &aName);
+
 public:
   static PLALayer *Create(const PLALayer &aLayer);
 
   PLALayer() = delete;
-  PLALayer(PLALayerType aType, const PLAVec3 &aOffset, const std::string &aName);
   virtual ~PLALayer();
 
   PLALayerType GetLayerType() const { return _type; };

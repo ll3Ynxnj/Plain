@@ -17,12 +17,14 @@ class PLAError : public PLAObject
   const int _line = 0;
   std::string _message = kPLACharUndefined;
 
+protected:
+  PLAError(PLAErrorType aType, const std::string &aFile, int aLine,
+           const std::string &aMessage);
+
 public:
   static PLAError *Create(PLAErrorType aType, const std::string &aFile,
                           int aLine, const std::string &aMessage);
 
-  PLAError(PLAErrorType aType, const std::string &aFile, int aLine,
-           const std::string &aMessage);
   virtual ~PLAError();
 
   PLAErrorType GetType();

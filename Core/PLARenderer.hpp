@@ -9,8 +9,11 @@
 
 class PLARenderer : public PLAObject
 {
-public:
+protected:
   PLARenderer();
+
+public:
+  static PLARenderer *Create();
 
   virtual ~PLARenderer();
 
