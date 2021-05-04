@@ -1,7 +1,7 @@
 #ifndef PLAIN_ENGINE_PLARENDERERTYPE_HPP
 #define PLAIN_ENGINE_PLARENDERERTYPE_HPP
 
-enum class PLARendererType : int
+enum class PLARendererType : PLAInt
 {
   GLUT,
 

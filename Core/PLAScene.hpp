@@ -14,7 +14,7 @@
 class PLAScene : public PLAObject
 {
 public:
-  enum class FunctionCode : PLACode
+  enum class FunctionCode : PLAInt
   {
     OnInit,
     OnUpdate,

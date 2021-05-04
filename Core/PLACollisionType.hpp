@@ -6,7 +6,7 @@
 #define PLAIN_ENGINE_PLACOLLISIONTYPE_HPP
 
 #include "PLAType.hpp"
-enum class PLACollisionType : int
+enum class PLACollisionType : PLAInt
 {
   Layer,
   //Pixel,

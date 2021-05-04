@@ -3,13 +3,13 @@
 
 //#include "PLAType.hpp"
 
-enum class PLAInputDeviceType : int
+enum class PLAInputDeviceType : PLAInt
 { Touch, Mouse, Key, kNumberOfItems, None = kPLAIntUndefined };
 
 using PLAInputSignal = bool;
 
-using PLAInputFunctor = int;
-static const int kPLAInputFunctorUndefined = kPLAIntUndefined;
+using PLAInputFunctor = PLAInt;
+static const PLAInt kPLAInputFunctorUndefined = kPLAIntUndefined;
 
 enum class PLAInputFunctorForTouch : PLAInputFunctor
 {
@@ -29,8 +29,8 @@ enum class PLAInputFunctorForKey : PLAInputFunctor
   kNumberOfItems, None = kPLAIntUndefined
 };
 
-using PLAInputCode = int;
-static const int kPLAInputCodeUndefined = kPLAIntUndefined;
+using PLAInputCode = PLAInt;
+static const PLAInt kPLAInputCodeUndefined = kPLAIntUndefined;
 
 enum class PLAInputCodeForTouch : PLAInputCode
 {

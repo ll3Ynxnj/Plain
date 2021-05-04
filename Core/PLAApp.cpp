@@ -64,8 +64,8 @@ void PLAApp::RefreshScreenSize(int aWidth, int aHeight)
   PLAVec3 frameSize(PLAVec3Make(aWidth, aHeight, 0));
   PLAVec3 stageSize(PLAVec3Make(kBaseScreenLength));
 
-  if (aWidth < aHeight) { stageSize.y *= float(aHeight) / float(aWidth ); }
-  else if (aWidth > aHeight) { stageSize.x *= float(aWidth ) / float(aHeight); }
+  if (aWidth < aHeight) { stageSize.y *= PLAFloat(aHeight) / PLAFloat(aWidth ); }
+  else if (aWidth > aHeight) { stageSize.x *= PLAFloat(aWidth ) / PLAFloat(aHeight); }
 
   _contentScaleFactor = PLAVec3Make(frameSize.x / stageSize.x,
                                     frameSize.y / stageSize.y,

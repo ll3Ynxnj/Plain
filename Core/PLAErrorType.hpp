@@ -3,7 +3,7 @@
 
 #include "PLAType.hpp"
 
-enum class PLAErrorType : int
+enum class PLAErrorType : PLAInt
 {
   Assert,
   Expect,

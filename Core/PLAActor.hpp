@@ -17,7 +17,7 @@ class PLAActor : public PLAObject, public PLAInputContext,
   public GRAListener<PLAScene, PLAScene::FunctionCode>
 {
 public:
-  enum class FunctionCode : PLACode
+  enum class FunctionCode : PLAInt
   {
     OnInit,
     OnUpdate,
@@ -28,7 +28,7 @@ public:
     None,
   };
 
-  enum class CollisionCode : PLACode
+  enum class CollisionCode : PLAInt
   {
     Input,
     Actor,
@@ -37,7 +37,7 @@ public:
     None,
   };
 
-  enum class CollisionSyncCode : PLACode
+  enum class CollisionSyncCode : PLAInt
   {
     Size,
     Layer,

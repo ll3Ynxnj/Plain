@@ -3,7 +3,7 @@
 
 #include "PLAType.hpp"
 
-enum class PLALayerType : int
+enum class PLALayerType : PLAInt
 {
   Point,
   Line,

@@ -43,7 +43,7 @@ void PLAGLUTRenderer::Init() const
 
   //-- Texture --///////////////////////////////////////////////////////////////
   //*
-  std::string texPath = "/Users/ll3ynxnj/Projects/anhr/sample.raw";
+  std::string texPath = "/Users/ll3ynxnj/Projects/anhr/sample1.raw";
   PLARSCImage *texImage = PLARSCImage::Create(texPath, 1024, 1024);
   texImage->AllocData();
 
