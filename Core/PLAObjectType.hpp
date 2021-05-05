@@ -3,7 +3,7 @@
 
 #include "PLAType.hpp"
 
-enum class PLAObjectType : int
+enum class PLAObjectType : PLAInt
 {
   App,
   Input,

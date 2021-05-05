@@ -22,7 +22,7 @@ public:
     OnDisappear,
 
     kNumberOfItems,
-    None,
+    None = kPLAIntUndefined,
   };
 
 private:

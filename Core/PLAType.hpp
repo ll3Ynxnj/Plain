@@ -11,37 +11,74 @@
 #include "Grain/GRACircle.hpp"
 #include "Grain/GRAVector.hpp"
 
+//-- Boolean value --///////////////////////////////////////////////////////////
 using PLABool = bool;
 
-using PLAByte  = int_fast8_t;
-using PLAInt   = int_fast64_t;
-using PLAUByte = uint_fast8_t;
-using PLAUInt  = uint_fast64_t;
+//-- Signed integer value --////////////////////////////////////////////////////
+using PLAByte = int_fast8_t;
+static const PLAByte kPLAByteMin = INT_FAST8_MIN;
+static const PLAByte kPLAByteMax = INT_FAST8_MAX;
+static const PLAByte kPLAByteUndefined = kPLAByteMin;
 
+using PLAInt = int_fast64_t;
+static const PLAInt kPLAIntMin = INT_FAST64_MIN;
+static const PLAInt kPLAIntMax = INT_FAST64_MAX;
+static const PLAInt kPLAIntUndefined = kPLAIntMin;
+
+using PLAInt8 = int_least8_t;
+static const PLAInt8 kPLAInt8Min = INT_LEAST8_MIN;
+static const PLAInt8 kPLAInt8Max = INT_LEAST8_MAX;
+static const PLAInt8 kPLAInt8Undefined = kPLAInt8Min;
+
+using PLAInt16 = int_least16_t;
+static const PLAInt16 kPLAInt16Min = INT_LEAST16_MIN;
+static const PLAInt16 kPLAInt16Max = INT_LEAST16_MAX;
+static const PLAInt16 kPLAInt16Undefined = kPLAInt16Min;
+
+using PLAInt32 = int_least32_t;
+static const PLAInt32 kPLAInt32Min = INT_LEAST32_MIN;
+static const PLAInt32 kPLAInt32Max = INT_LEAST32_MAX;
+static const PLAInt32 kPLAInt32Undefined = kPLAInt32Min;
+
+using PLAInt64 = int_least64_t;
+static const PLAInt64 kPLAInt64Min = INT_LEAST64_MIN;
+static const PLAInt64 kPLAInt64Max = INT_LEAST64_MAX;
+static const PLAInt64 kPLAInt64Undefined = kPLAInt64Min;
+
+//-- Unsigned integer value --//////////////////////////////////////////////////
+using PLAUByte = uint_fast8_t;
+static const PLAUByte kPLAUByteMax = UINT_FAST8_MAX;
+static const PLAUByte kPLAUByteUndefined = kPLAUByteMax;
+
+using PLAUInt = uint_fast64_t;
+static const PLAUInt kPLAUIntMax = UINT_FAST64_MAX;
+static const PLAUInt kPLAUIntUndefined = kPLAUIntMax;
+
+using PLAUInt8 = uint_least8_t;
+static const PLAUInt8 kPLAUInt8Max = UINT_LEAST8_MAX;
+static const PLAUInt8 kPLAUInt8Undefined = kPLAUInt8Max;
+
+using PLAUInt16 = uint_least16_t;
+static const PLAUInt16 kPLAUInt16Max = UINT_LEAST16_MAX;
+static const PLAUInt16 kPLAUInt16Undefined = kPLAUInt16Max;
+
+using PLAUInt32 = uint_least32_t;
+static const PLAUInt32 kPLAUInt32Max = UINT_LEAST32_MAX;
+static const PLAUInt32 kPLAUInt32Undefined = kPLAUInt32Max;
+
+using PLAUInt64 = uint_least64_t;
+static const PLAUInt64 kPLAUInt64Max = UINT_LEAST64_MAX;
+static const PLAUInt64 kPLAUInt64Undefined = kPLAUInt64Max;
+
+//-- Floating point value --////////////////////////////////////////////////////
 using PLAFloat = float_t;
 
-using PLAInt8  = int_least8_t;
-using PLAInt16 = int_least16_t;
-using PLAInt32 = int_least32_t;
-using PLAInt64 = int_least64_t;
-
-using PLAUInt8  = uint_least8_t;
-using PLAUInt16 = uint_least16_t;
-using PLAUInt32 = uint_least32_t;
-using PLAUInt64 = uint_least64_t;
-
+//-- Size value --//////////////////////////////////////////////////////////////
 using PLASize = size_t;
-
+static const PLASize kPLASizeMax = SIZE_MAX;
 static const PLASize kPLASizeUndefined = 0;
-static const PLAInt  kPLAIntUndefined  = 0;
-/*
-static const int8_t      kPLAInt8Undefined  = INT8_MIN;
-static const int16_t     kPLAInt16Undefined = INT16_MIN;
-static const int32_t     kPLAInt32Undefined = INT32_MIN;
-static const int64_t     kPLAInt64Undefined = INT64_MIN;
-static const uintmax_t   kPLAUIntUndefined  = 0;
-*/
-static const char       *kPLACharUndefined  = " == UNDEFINED == ";
+
+static const char *kPLACharUndefined  = " == UNDEFINED == ";
 
 using PLAColor = GRAColorRGBA8888<PLAFloat>;
 static PLAColor PLAColorMake(PLAFloat aV)

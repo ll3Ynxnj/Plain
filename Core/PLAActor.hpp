@@ -25,7 +25,7 @@ public:
     OnDisappear,
 
     kNumberOfItems,
-    None,
+    None = kPLAIntUndefined
   };
 
   enum class CollisionCode : PLAInt
@@ -34,7 +34,7 @@ public:
     Actor,
 
     kNumberOfItems,
-    None,
+    None = kPLAIntUndefined,
   };
 
   enum class CollisionSyncCode : PLAInt
@@ -43,7 +43,7 @@ public:
     Layer,
 
     kNumberOfItems,
-    None,
+    None = kPLAIntUndefined,
   };
 
 private:
