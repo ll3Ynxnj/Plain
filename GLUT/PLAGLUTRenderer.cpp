@@ -93,15 +93,15 @@ void PLAGLUTRenderer::Draw(const PLAActor *aActor, const PLAColor &aColor) const
   glScalef(transform.scale.x, transform.scale.y, transform.scale.z);
 
   const PLALayer *layer = aActor->GetLayer();
+  PLAColor color = aActor->GetColor();
+  color.Mul(aColor);
   switch (layer->GetLayerType())
   {
     case PLALayerType::Rect :
-      this->DrawRect(static_cast<const PLALYRRect *>(layer),
-                     PLAColorMul(aActor->GetColor(), aColor));
+      this->DrawRect(static_cast<const PLALYRRect *>(layer), color);
       break;
     case PLALayerType::Circle :
-      this->DrawCircle(static_cast<const PLALYRCircle *>(layer),
-                       PLAColorMul(aActor->GetColor(), aColor));
+      this->DrawCircle(static_cast<const PLALYRCircle *>(layer), color);
       break;
     default :
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
@@ -110,7 +110,7 @@ void PLAGLUTRenderer::Draw(const PLAActor *aActor, const PLAColor &aColor) const
   }
   for (const PLAActor *actor : *aActor->GetActors())
   {
-    this->Draw(actor, PLAColorMul(aColor, aActor->GetColor()));
+    this->Draw(actor, color);
   }
 
   glPopMatrix();
@@ -134,7 +134,8 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor)
      offset.z,
   };
 
-  const PLAColor fillColor = PLAColorMul(aLayer->GetFillColor(), aColor);
+  PLAColor fillColor = aLayer->GetFillColor();
+  fillColor.Mul(aColor);
   GLfloat fillColors[] = {
     fillColor.r, fillColor.g, fillColor.b, fillColor.a,
     fillColor.r, fillColor.g, fillColor.b, fillColor.a,
@@ -169,8 +170,8 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
   {
     const double radius = aLayer->GetRadius();
     const double step = M_PI * 2 / split;
-    const PLAVec2 origin = PLAVec2Make( radius + aLayer->GetOffset().x,
-                                       -radius - aLayer->GetOffset().y);
+    const PLAVec2 origin = PLAVec2( radius + aLayer->GetOffset().x,
+                                   -radius - aLayer->GetOffset().y);
 
     double radian = 0;
     vertices[0] = origin.x;
@@ -197,7 +198,8 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
   }
 
   GLfloat fillColors[numVertices * 4];
-  const PLAColor fillColor = PLAColorMul(aLayer->GetFillColor(), aColor);
+  PLAColor fillColor = aLayer->GetFillColor();
+  fillColor.Mul(aColor);
 
   for (int i = 0; i < numVertices; i++)
   {
@@ -211,10 +213,10 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
   GLfloat texCoords[numVertices * 2];
   {
     const double radius = 0.625 * 0.5;
-    const PLAVec2 offset = PLAVec2Make(0.5, 0.5);
+    const PLAVec2 offset = PLAVec2(0.5, 0.5);
     const double step = M_PI * 2 / split;
-    const PLAVec2 origin = PLAVec2Make( radius + offset.x,
-                                       -radius - offset.y);
+    const PLAVec2 origin = PLAVec2( radius + offset.x,
+                                   -radius - offset.y);
 
     double radian = 0;
     texCoords[0] = origin.x;

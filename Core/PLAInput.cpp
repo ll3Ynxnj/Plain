@@ -83,7 +83,7 @@ PLAInputState::PLAInputState()
     PLAInputDeviceType deviceType = static_cast<PLAInputDeviceType>(device);
     PLAInputCode code = PLAInput::GetCodeOfNone(deviceType);
     int numberOfCodes = PLAInput::GetNumberOfInputCodes(deviceType);
-    PLAInput input = PLAInput(deviceType, code, 0, PLAPointMake(0));
+    PLAInput input = PLAInput(deviceType, code, 0, PLAPoint(0));
     _inputs.push_back({});
     for (int code = 0; code < numberOfCodes; code++)
     { _inputs.back().push_back(input); }

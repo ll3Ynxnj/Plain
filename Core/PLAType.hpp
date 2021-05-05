@@ -81,6 +81,7 @@ static const PLASize kPLASizeUndefined = 0;
 static const char *kPLACharUndefined  = " == UNDEFINED == ";
 
 using PLAColor = GRAColorRGBA8888<PLAFloat>;
+/*
 static PLAColor PLAColorMake(PLAFloat aV)
 { return { aV, aV, aV, aV }; };
 static PLAColor PLAColorMake(PLAFloat aR, PLAFloat aG, PLAFloat aB, PLAFloat aA)
@@ -89,65 +90,79 @@ static PLAColor PLAColorMul(const PLAColor &aColor, PLAFloat aV)
 { return { aColor.r * aV, aColor.g * aV, aColor.b * aV, aColor.a * aV }; };
 static PLAColor PLAColorMul(const PLAColor &aS, const PLAColor &aD)
 { return { aS.r * aD.r, aS.g * aD.g, aS.b * aD.b, aS.a * aD.a }; };
-static const PLAColor kPLAColorNone    = PLAColorMake(0);
-static const PLAColor kPLAColorNorm    = PLAColorMake(1);
-static const PLAColor kPLAColorBlack   = PLAColorMake(0.00, 0.00, 0.00, 1.00);
-static const PLAColor kPLAColorRed     = PLAColorMake(1.00, 0.00, 0.00, 1.00);
-static const PLAColor kPLAColorGreen   = PLAColorMake(0.00, 1.00, 0.00, 1.00);
-static const PLAColor kPLAColorBlue    = PLAColorMake(0.00, 0.00, 1.00, 1.00);
-static const PLAColor kPLAColorYellow  = PLAColorMake(1.00, 1.00, 0.00, 1.00);
-static const PLAColor kPLAColorCyan    = PLAColorMake(0.00, 1.00, 1.00, 1.00);
-static const PLAColor kPLAColorMagenta = PLAColorMake(1.00, 0.00, 1.00, 1.00);
-static const PLAColor kPLAColorGray    = PLAColorMake(0.50, 0.50, 0.50, 1.00);
-static const PLAColor kPLAColorWhite   = PLAColorMake(1.00, 1.00, 1.00, 1.00);
+*/
+
+static const PLAColor kPLAColorNone    = PLAColor(0);
+static const PLAColor kPLAColorNorm    = PLAColor(1);
+static const PLAColor kPLAColorBlack   = PLAColor(0.00, 0.00, 0.00, 1.00);
+static const PLAColor kPLAColorRed     = PLAColor(1.00, 0.00, 0.00, 1.00);
+static const PLAColor kPLAColorGreen   = PLAColor(0.00, 1.00, 0.00, 1.00);
+static const PLAColor kPLAColorBlue    = PLAColor(0.00, 0.00, 1.00, 1.00);
+static const PLAColor kPLAColorYellow  = PLAColor(1.00, 1.00, 0.00, 1.00);
+static const PLAColor kPLAColorCyan    = PLAColor(0.00, 1.00, 1.00, 1.00);
+static const PLAColor kPLAColorMagenta = PLAColor(1.00, 0.00, 1.00, 1.00);
+static const PLAColor kPLAColorGray    = PLAColor(0.50, 0.50, 0.50, 1.00);
+static const PLAColor kPLAColorWhite   = PLAColor(1.00, 1.00, 1.00, 1.00);
 
 using PLAVec2 = GRAVec2<PLAFloat>;
+/*
 static PLAVec2 PLAVec2Make(PLAFloat aV) { return { aV, aV }; };
 static PLAVec2 PLAVec2Make(PLAFloat aX, PLAFloat aY)
 { return { aX, aY }; };
-static const PLAVec2 kPLAVec2None = PLAVec2Make(0);
-static const PLAVec2 kPLAVec2Norm = PLAVec2Make(1);
+*/
+static const PLAVec2 kPLAVec2None = PLAVec2(0);
+static const PLAVec2 kPLAVec2Norm = PLAVec2(1);
 
 using PLAVec3 = GRAVec3<PLAFloat>;
+/*
 static PLAVec3 PLAVec3Make(PLAFloat aV) { return { aV, aV, aV }; };
 static PLAVec3 PLAVec3Make(PLAFloat aX, PLAFloat aY, PLAFloat aZ)
 { return { aX, aY, aZ }; };
-static const PLAVec3 kPLAVec3None = PLAVec3Make(0);
-static const PLAVec3 kPLAVec3Norm = PLAVec3Make(1);
+*/
+static const PLAVec3 kPLAVec3None = PLAVec3(0);
+static const PLAVec3 kPLAVec3Norm = PLAVec3(1);
 
 using PLAVec4 = GRAVec4<PLAFloat>;
+/*
 static PLAVec4 PLAVec4Make(PLAFloat aV) { return { aV, aV, aV, aV }; }
 static PLAVec4 PLAVec4Make(PLAFloat aX, PLAFloat aY, PLAFloat aZ, PLAFloat aW)
 { return { aX, aY, aZ, aW }; }
-static const PLAVec4 kPLAVec4None = PLAVec4Make(0);
-static const PLAVec4 kPLAVec4Norm = PLAVec4Make(1);
+*/
+static const PLAVec4 kPLAVec4None = PLAVec4(0);
+static const PLAVec4 kPLAVec4Norm = PLAVec4(1);
 
 using PLAPoint = GRAPoint<PLAFloat>;
+/*
 static PLAVec2 PLAPointMake(PLAFloat aV) { return { aV, aV }; };
 static PLAVec2 PLAPointMake(PLAFloat aX, PLAFloat aY) { return { aX, aY }; };
-static const PLAPoint kPLAPointNone = PLAPointMake(0);
-static const PLAPoint kPLAPointNorm = PLAPointMake(1);
+*/
+static const PLAPoint kPLAPointNone = PLAPoint(0);
+static const PLAPoint kPLAPointNorm = PLAPoint(1);
 
 using PLALine = GRALine<PLAFloat>;
-static PLALine PLALineMake(PLAVec2 aP0, PLAVec2 aP1) { return { aP0, aP1 }; };
-static const PLALine kPLALineNone = PLALineMake(kPLAVec2None, kPLAVec2None);
-static const PLALine kPLALineNorm = PLALineMake(kPLAVec2None, kPLAVec2Norm);
+//static PLALine PLALineMake(PLAVec2 aP0, PLAVec2 aP1) { return { aP0, aP1 }; };
+static const PLALine kPLALineNone = PLALine(kPLAVec2None, kPLAVec2None);
+static const PLALine kPLALineNorm = PLALine(kPLAVec2None, kPLAVec2Norm);
 
 using PLARect = GRARect<PLAFloat>;
+/*
 static PLARect PLARectMake(PLAVec2 aPos, PLAVec2 aSize)
 { return { aPos, aSize }; };
 static PLARect PLARectMake(PLAFloat aX, PLAFloat aY, PLAFloat aWidth, PLAFloat aHeight)
 { return { { aX, aY }, { aWidth, aHeight } }; };
-static const PLARect kPLARectNone = PLARectMake(kPLAVec2None, kPLAVec2None);
-static const PLARect kPLARectNorm = PLARectMake(kPLAVec2None, kPLAVec2Norm);
+*/
+static const PLARect kPLARectNone = PLARect(kPLAVec2None, kPLAVec2None);
+static const PLARect kPLARectNorm = PLARect(kPLAVec2None, kPLAVec2Norm);
 
 using PLACircle = GRACircle<PLAFloat>;
+/*
 static PLACircle PLACircleMake(PLAVec2 aPos, PLAFloat aRadius)
 { return { aPos, aRadius }; }  ;
 static PLACircle PLACircleMake(PLAFloat aX, PLAFloat aY, PLAFloat aRadius)
 { return { { aX, aY }, aRadius }; };
-static const PLACircle kPLACircleNone = PLACircleMake(kPLAVec2None, 0);
-static const PLACircle kPLACircleNorm = PLACircleMake(kPLAVec2None, 1);
+*/
+static const PLACircle kPLACircleNone = PLACircle(kPLAVec2None, 0);
+static const PLACircle kPLACircleNorm = PLACircle(kPLAVec2None, 1);
 
 struct PLATransform
 {

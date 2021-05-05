@@ -101,7 +101,7 @@ void PLALYRLine::SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot)
 {
   _vector.x = aSize.x;
   _vector.y = aSize.y;
-  PLAVec3 offset = PLAVec3Make( aSize.x * aPivot.x, aSize.y * aPivot.y, 0 );
+  PLAVec3 offset = PLAVec3( aSize.x * aPivot.x, aSize.y * aPivot.y, 0 );
   this->SetOffset(offset);
 }
 
@@ -148,7 +148,7 @@ void PLALYRRect::GetSize(PLAVec3 *aSize) const
 
 void PLALYRRect::SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot)
 {
-  this->SetOffset(PLAVec3Make(aSize.x * aPivot.x, aSize.y * aPivot.y, 0));
+  this->SetOffset(PLAVec3(aSize.x * aPivot.x, aSize.y * aPivot.y, 0));
   _vector.x = aSize.x;
   _vector.y = aSize.y;
 }
@@ -198,7 +198,7 @@ void PLALYRCircle::GetSize(PLAVec3 *aSize) const
 void PLALYRCircle::SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot)
 {
   _radius = aSize.x > aSize.y ? aSize.x : aSize.y;
-  this->SetOffset(PLAVec3Make((aPivot.x - 0.5) * _radius * 2,
+  this->SetOffset(PLAVec3((aPivot.x - 0.5) * _radius * 2,
                               (aPivot.y - 0.5) * _radius * 2,
                               0));
 }

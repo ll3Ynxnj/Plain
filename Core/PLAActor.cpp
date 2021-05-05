@@ -112,8 +112,8 @@ PLAActor *PLAActor::RefActorWithPoint(const PLAPoint &aPoint)
        it != _actors.rend(); it++)
   {
     PLA_PRINT("aPoint : x %.2f : y %.2f\n", aPoint.x, aPoint.y);
-    PLAPoint offset = PLAPointMake((*it)->GetTransform().translation.x,
-                                   (*it)->GetTransform().translation.y);
+    PLAPoint offset = PLAPoint((*it)->GetTransform().translation.x,
+                               (*it)->GetTransform().translation.y);
     PLA_PRINT("offset : x %.2f : y %.2f\n", offset.x, offset.y);
     PLAActor *actor = (*it)->RefActorWithPoint(aPoint - offset);
     if (actor) { return actor; }
@@ -147,7 +147,7 @@ const PLALYRCircle *PLAActor::GetLayerCircle() const
 void PLAActor::RefreshLayerOffset()
 {
   PLAVec3 size(this->GetSize());
-  _layer->SetOffset(-PLAVec3Make(size.x * _pivot.x,
-                                 size.y * _pivot.y,
-                                 size.z * _pivot.z));
+  _layer->SetOffset(-PLAVec3(size.x * _pivot.x,
+                             size.y * _pivot.y,
+                             size.z * _pivot.z));
 }
