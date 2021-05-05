@@ -13,7 +13,7 @@ PLAInputHandler()
 {
   PLALYRRect layer(kPLAVec3None, kPLAVec2None, kPLAColorWhite);
   _context = PLAActor::Create(kPLAVec3None, kPLAColorWhite,
-                              PLATransform(), layer);
+                              kPLATransformNorm, layer);
 }
 
 PLAStage::~PLAStage()

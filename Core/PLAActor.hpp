@@ -57,7 +57,7 @@ private:
   std::list<PLAActor *> _actors = {};
   PLAVec3 _pivot = kPLAVec3None;
   PLAColor _color = kPLAColorWhite;
-  PLATransform _transform = PLATransform();
+  PLATransform _transform = kPLATransformNorm;
   //-- Not affect child actors
   PLALayer *_layer = nullptr;
   //PLAStyle _style = PLAStyle();

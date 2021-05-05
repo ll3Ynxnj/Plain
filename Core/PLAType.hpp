@@ -10,6 +10,7 @@
 #include "Grain/GRARect.hpp"
 #include "Grain/GRACircle.hpp"
 #include "Grain/GRAVector.hpp"
+#include "Grain/GRATransform.hpp"
 
 //-- Boolean value --///////////////////////////////////////////////////////////
 using PLABool = bool;
@@ -164,13 +165,10 @@ static PLACircle PLACircleMake(PLAFloat aX, PLAFloat aY, PLAFloat aRadius)
 static const PLACircle kPLACircleNone = PLACircle(kPLAVec2None, 0);
 static const PLACircle kPLACircleNorm = PLACircle(kPLAVec2None, 1);
 
-struct PLATransform
-{
-  PLAVec3 translation, rotation, scale;
-  PLATransform() :
-  translation(kPLAVec3None), rotation(kPLAVec3None), scale(kPLAVec3Norm) {};
-  PLATransform(PLAVec3 aTranslation, PLAVec3 aRotation, PLAVec3 aScale) :
-  translation(aTranslation), rotation(aRotation), scale(aScale) {};
-};
+using PLATransform = GRATransform<PLAFloat>;
+static const PLATransform kPLATransformNone =
+  PLATransform(kPLAVec3None, kPLAVec3None, kPLAVec3None);
+static const PLATransform kPLATransformNorm =
+  PLATransform(kPLAVec3None, kPLAVec3None, kPLAVec3Norm);
 
 #endif // PLAIN_ENGINE_PLATYPE_HPP
