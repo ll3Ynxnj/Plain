@@ -10,6 +10,8 @@
 #include "Grain/GRARect.hpp"
 #include "Grain/GRACircle.hpp"
 #include "Grain/GRAVector.hpp"
+#include "Grain/GRAFunctor.hpp"
+#include "Grain/GRAListener.hpp"
 #include "Grain/GRATransform.hpp"
 #include "Grain/GRACollision.hpp"
 

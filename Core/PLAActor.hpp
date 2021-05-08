@@ -3,12 +3,10 @@
 
 #include <list>
 #include <functional>
-//#include "PLAType.hpp"
 #include "PLAObject.hpp"
 #include "PLAScene.hpp"
 #include "PLAInput.hpp"
 #include "PLALayer.hpp"
-#include "Grain/GRAFunctor.hpp"
 
 class PLARenderer;
 

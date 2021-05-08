@@ -1,7 +1,6 @@
 #include "PLAActor.hpp"
 #include "PLAInput.hpp"
 #include "PLAError.hpp"
-#include "Grain/GRAFunctor.hpp"
 
 PLAActor *PLAActor::Create(const PLAVec3 &aPivot,
                            const PLAColor &aColor,
