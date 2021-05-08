@@ -1,5 +1,4 @@
 #include "PLALayer.hpp"
-#include "PLACollision.hpp"
 #include "PLAError.hpp"
 
 PLALayer *PLALayer::Create(const PLALayer &aLayer)
@@ -199,8 +198,8 @@ void PLALYRCircle::SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot)
 {
   _radius = aSize.x > aSize.y ? aSize.x : aSize.y;
   this->SetOffset(PLAVec3((aPivot.x - 0.5) * _radius * 2,
-                              (aPivot.y - 0.5) * _radius * 2,
-                              0));
+                          (aPivot.y - 0.5) * _radius * 2,
+                          0));
 }
 
 bool PLALYRCircle::IsCollideWithPoint(const PLAPoint &aPoint) const
@@ -229,6 +228,9 @@ bool PLALYRCircle::IsCollideWithCircle(const PLACircle &aCircle) const
 
 PLACircle PLALYRCircle::GetCircle() const
 {
-  return {{ this->GetOffset().x + _radius, this->GetOffset().y + _radius },
-          _radius };
+  return
+  {
+    { this->GetOffset().x + _radius, this->GetOffset().y + _radius },
+    _radius
+  };
 }

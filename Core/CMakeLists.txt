@@ -10,6 +10,5 @@ add_library(Plain-Core STATIC
   PLAActor.cpp
   PLALayer.cpp
   PLARenderer.cpp
-  PLACollision.cpp
   PLAResource.cpp)
 

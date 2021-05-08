@@ -11,6 +11,7 @@
 #include "Grain/GRACircle.hpp"
 #include "Grain/GRAVector.hpp"
 #include "Grain/GRATransform.hpp"
+#include "Grain/GRACollision.hpp"
 
 //-- Boolean value --///////////////////////////////////////////////////////////
 using PLABool = bool;
@@ -170,5 +171,7 @@ static const PLATransform kPLATransformNone =
   PLATransform(kPLAVec3None, kPLAVec3None, kPLAVec3None);
 static const PLATransform kPLATransformNorm =
   PLATransform(kPLAVec3None, kPLAVec3None, kPLAVec3Norm);
+
+using PLACollision = GRACollision<PLAFloat>;
 
 #endif // PLAIN_ENGINE_PLATYPE_HPP

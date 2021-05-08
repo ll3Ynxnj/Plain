@@ -9,7 +9,6 @@
 #include "PLAInput.hpp"
 #include "PLALayer.hpp"
 #include "Grain/GRAFunctor.hpp"
-#include "PLACollision.hpp"
 
 class PLARenderer;
 
