@@ -7,9 +7,10 @@ PLAActor *PLAActor::Create(const PLAVec3 &aPivot,
                            const PLATransform &aTransform,
                            const PLALayer &aLayer)
 {
-  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, aLayer);
-  PLAObject::Manager::Ref()->Bind(actor);
-  return actor;
+  PLAActor *item = new PLAActor(aPivot, aColor, aTransform, aLayer);
+  GRABinder::Error error(GRABinder::Error::None);
+  PLAObject::Manager::RefInstance()->Bind(item, &error);
+  return item;
 }
 
 PLAActor::PLAActor(const PLAVec3 &aPivot,
@@ -28,7 +29,7 @@ PLAActor::PLAActor(const PLAVec3 &aPivot,
 
 PLAActor::~PLAActor()
 {
-  PLA_DELETE(_layer);
+  GRA_DELETE(_layer);
 }
 
 void PLAActor::AddActor(PLAActor *aActor)
@@ -68,11 +69,11 @@ void PLAActor::Disappear()
 void PLAActor::PrintActors() const
 {
   static int indentLevel = 0;
-  this->PrintObject();
+  this->GRABinder::Item::Print();
   ++indentLevel;
   for (const PLAActor *actor : _actors)
   {
-    for (int i = 0; i < indentLevel; i++) { PLA_PRINT("  "); }
+    for (int i = 0; i < indentLevel; i++) { GRA_PRINT("  "); }
     actor->PrintActors();
   }
   --indentLevel;
@@ -110,10 +111,10 @@ PLAActor *PLAActor::RefActorWithPoint(const PLAPoint &aPoint)
   for (std::list<PLAActor *>::reverse_iterator it = _actors.rbegin();
        it != _actors.rend(); it++)
   {
-    PLA_PRINT("aPoint : x %.2f : y %.2f\n", aPoint.x, aPoint.y);
+    GRA_PRINT("aPoint : x %.2f : y %.2f\n", aPoint.x, aPoint.y);
     PLAPoint offset = PLAPoint((*it)->GetTransform().translation.x,
                                (*it)->GetTransform().translation.y);
-    PLA_PRINT("offset : x %.2f : y %.2f\n", offset.x, offset.y);
+    GRA_PRINT("offset : x %.2f : y %.2f\n", offset.x, offset.y);
     PLAActor *actor = (*it)->RefActorWithPoint(aPoint - offset);
     if (actor) { return actor; }
   }

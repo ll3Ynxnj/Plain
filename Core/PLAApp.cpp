@@ -46,14 +46,14 @@ void PLAApp::Input(PLAInputDeviceType aDevice, PLAInputCode aCode,
 
 void PLAApp::Update()
 {
-  //PLA_PRINT("-- Update\n");
+  //GRA_PRINT("-- Update\n");
   _stage->Update();
   PLAInputManager::GetInstance()->Flush();
 }
 
 void PLAApp::Render()
 {
-  //PLA_PRINT("-- Render\n");
+  //GRA_PRINT("-- Render\n");
   _renderer->Clear();
   _renderer->Render(_stage->GetContext());
   _renderer->Flush();
@@ -64,8 +64,8 @@ void PLAApp::RefreshScreenSize(int aWidth, int aHeight)
   PLAVec3 frameSize(aWidth, aHeight, 0);
   PLAVec3 stageSize(kBaseScreenLength);
 
-  if (aWidth < aHeight) { stageSize.y *= PLAFloat(aHeight) / PLAFloat(aWidth ); }
-  else if (aWidth > aHeight) { stageSize.x *= PLAFloat(aWidth ) / PLAFloat(aHeight); }
+  if (aWidth < aHeight) { stageSize.y *= GRAFloat(aHeight) / GRAFloat(aWidth ); }
+  else if (aWidth > aHeight) { stageSize.x *= GRAFloat(aWidth ) / GRAFloat(aHeight); }
 
   _contentScaleFactor = PLAVec3(frameSize.x / stageSize.x,
                                 frameSize.y / stageSize.y,

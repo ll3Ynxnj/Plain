@@ -129,7 +129,7 @@ public:
 
 class PLALYRCircle : public PLALayer
 {
-  PLAFloat _radius = 0;
+  GRAFloat _radius = 0;
   PLAColor _fillColor = kPLAColorWhite;
   PLAColor _strokeColor = kPLAColorNone;
 
@@ -137,11 +137,11 @@ public:
   static PLALYRCircle *Create(const PLACircle &aCircle);
 
   PLALYRCircle() = delete;
-  PLALYRCircle(const PLAVec3 &aOffset, PLAFloat aRadius,
+  PLALYRCircle(const PLAVec3 &aOffset, GRAFloat aRadius,
                const PLAColor &aFillColor) :
     PLALayer(PLALayerType::Circle, aOffset, "== PLALYRCircle =="),
     _radius(aRadius), _fillColor(aFillColor), _strokeColor(kPLAColorNone) {};
-  PLALYRCircle(const PLAVec3 &aOffset, PLAFloat aRadius,
+  PLALYRCircle(const PLAVec3 &aOffset, GRAFloat aRadius,
                const PLAColor &aFillColor, const PLAColor &aStrokeColor) :
     PLALayer(PLALayerType::Circle, aOffset, "== PLALYRCircle =="),
     _radius(aRadius), _fillColor(aFillColor), _strokeColor(aStrokeColor) {};
@@ -156,7 +156,7 @@ public:
   virtual bool IsCollideWithRect(const PLARect &aRect) const;
   virtual bool IsCollideWithCircle(const PLACircle &aCircle) const;
 
-  PLAFloat GetRadius() const { return _radius; };
+  GRAFloat GetRadius() const { return _radius; };
   PLACircle GetCircle() const;
 
   const PLAColor &GetStrokeColor() const { return _strokeColor; };

@@ -186,12 +186,12 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
       vertices[baseIndex + 2] = 0;
 
       int index = baseIndex;
-      PLA_PRINT("vertices[%2d] : %.2f\n", index, vertices[index]);
+      GRA_PRINT("vertices[%2d] : %.2f\n", index, vertices[index]);
       ++index;
-      PLA_PRINT("vertices[%2d] : %.2f\n", index, vertices[index]);
+      GRA_PRINT("vertices[%2d] : %.2f\n", index, vertices[index]);
       ++index;
-      PLA_PRINT("vertices[%2d] : %.2f\n", index, vertices[index]);
-      PLA_PRINT("--------------------\n");
+      GRA_PRINT("vertices[%2d] : %.2f\n", index, vertices[index]);
+      GRA_PRINT("--------------------\n");
 
       radian += step;
     }

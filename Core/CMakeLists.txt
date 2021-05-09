@@ -10,5 +10,6 @@ add_library(Plain-Core STATIC
   PLAActor.cpp
   PLALayer.cpp
   PLARenderer.cpp
-  PLAResource.cpp)
+  PLAResource.cpp
+  PLAImageClip.cpp)
 

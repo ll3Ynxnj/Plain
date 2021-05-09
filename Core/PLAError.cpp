@@ -3,9 +3,10 @@
 PLAError * PLAError::Create(PLAErrorType aType, const std::string &aFile,
                             int aLine, const std::string &aMessage)
 {
-  PLAError *error = new PLAError(aType, aFile, aLine, aMessage);
-  PLAObject::Manager::Ref()->Bind(error);
-  return error;
+  PLAError *item = new PLAError(aType, aFile, aLine, aMessage);
+  GRABinder::Error error(GRABinder::Error::None);
+  PLAObject::Manager::RefInstance()->Bind(item, &error);
+  return item;
 }
 
 PLAError::PLAError(PLAErrorType aType, const std::string &aFile, int aLine,
@@ -59,8 +60,8 @@ void PLAError::Manager::Issue(const char *aFile, const char *aFunc,
                               const int aLine, PLAErrorType aType,
                               const char *aFormat, ...)
 {
-  static const char *kLogFormat = PLADebug::kLogFormat;
-  static const int kLogBuffer = PLADebug::kLogBuffer;
+  static const char *kLogFormat = GRADebug::kLogFormat;
+  static const int kLogBuffer = GRADebug::kLogBuffer;
 
   char log[kLogBuffer] = {0};
   snprintf(log, kLogBuffer, kLogFormat, "ERROR", aFile, aFunc, aLine, aFormat);
@@ -76,12 +77,12 @@ void PLAError::Manager::Issue(const char *aFile, const char *aFunc,
   switch (error->GetType())
   {
     case PLAErrorType::Assert :
-      PLA_ASSERT("PLAErrorType::Assert detected.");
+      GRA_ASSERT("PLAErrorType::Assert detected.");
       break;
     case PLAErrorType::Expect :
       break;
     default :
-      PLA_ASSERT("Unexpected PLAErrorType detected. type : %d", error->GetType());
+      GRA_ASSERT("Unexpected PLAErrorType detected. type : %d", error->GetType());
       break;
   }
 }

@@ -22,7 +22,7 @@ void PLAResource::AllocData() {
     fread(_data, dataSize, 1, fp);
     fclose(fp);
     int result = fread(_data, dataSize, 1, fp);
-    PLA_PRINT("result : %d\n", result);
+    GRA_PRINT("result : %d\n", result);
   }
   else {
     perror(_path.c_str());
@@ -30,16 +30,17 @@ void PLAResource::AllocData() {
 }
 
 void PLAResource::ReleaseData() {
-  //PLA_DELETE_ARRAY(_data)
+  //GRA_DELETE_ARRAY(_data)
 }
 
 //-- PLARSCImage --/////////////////////////////////////////////////////////////
 
 PLARSCImage *PLARSCImage::Create(const std::string &aPath, size_t aWidth, size_t aHeight)
 {
-  PLARSCImage *image = new PLARSCImage(aPath, aWidth, aHeight);
-  PLAObject::Manager::Ref()->Bind(image);
-  return image;
+  PLARSCImage *item = new PLARSCImage(aPath, aWidth, aHeight);
+  GRABinder::Error error(GRABinder::Error::None);
+  PLAObject::Manager::RefInstance()->Bind(item, &error);
+  return item;
 }
 
 PLARSCImage::PLARSCImage(const std::string &aPath, size_t aWidth, size_t aHeight) :

@@ -1,18 +1,15 @@
 #ifndef PLAIN_ENGINE_PLAOBJECT_HPP
 #define PLAIN_ENGINE_PLAOBJECT_HPP
 
-#include "../Plain-Macro.h"
 #include "PLAType.hpp"
 #include <vector>
 #include <stack>
 #include <string>
 #include "PLAObjectType.hpp"
 
-class PLAObject
+class PLAObject: public GRABinder::Item
 {
-  size_t _id = kPLASizeUndefined;
   PLAObjectType _type = PLAObjectType::None;
-  std::string _name = kPLACharUndefined;
 
 protected:
   PLAObject(PLAObjectType aType);
@@ -24,19 +21,40 @@ public:
   PLAObject() = delete;
   virtual ~PLAObject();
 
-  size_t GetObjectId() const { return _id; }
   PLAObjectType GetObjectType() const { return _type; };
-  const std::string &GetObjectName() const { return _name; };
 
-  void SetObjectName(const std::string &aName) { _name = aName; };
-
-  void PrintObject() const;
-
-private:
-  void SetId(size_t aId) { _id = aId; };
+  // GRABinder::Item ///////////////////////////////////////////////////////////
+  virtual void Print()
+  {
+    GRA_PRINT(" %2x : ", _type);
+    GRABinder::Item::Print();
+  }
 
 // Manager /////////////////////////////////////////////////////////////////////
 public:
+  class Manager
+  {
+    static Manager _instance;
+
+    GRABinder _binder = GRABinder();
+
+  public:
+    static const Manager *GetInstance() { return &_instance; };
+    static Manager *RefInstance() { return &_instance; };
+
+    Manager();
+    ~Manager();
+
+    void Bind(PLAObject *aObject, GRABinder::Error *aError)
+    { _binder.Bind(aObject, aError); };
+
+    void Unbind(PLAObject *aObject, GRABinder::Error *aError)
+    { _binder.Unbind(aObject, aError); };
+
+    void PrintObjects() const { _binder.PrintItems(); };
+  };
+
+  /*
   class Manager
   {
     static Manager _instance;
@@ -57,6 +75,7 @@ public:
     void Unbind(PLAObject *aObject);
     void PrintObjects() const;
   };
+  */
 };
 
 #endif // PLAIN_ENGINE_PLAOBJECT_HPP

@@ -12,7 +12,7 @@
 class PLAScene : public PLAObject
 {
 public:
-  enum class FunctionCode : PLAInt
+  enum class FunctionCode : GRAInt
   {
     OnInit,
     OnUpdate,
@@ -20,7 +20,7 @@ public:
     OnDisappear,
 
     kNumberOfItems,
-    None = kPLAIntUndefined,
+    None = kGRAIntUndefined,
   };
 
 private:
@@ -79,7 +79,7 @@ public:
 
   public:
     static const Manager *Get() { return &_instance; };
-    static Manager *Ref() { return &_instance; };
+    static Manager *RefInstance() { return &_instance; };
 
     const PLAScene *GetCurrentScene() const { return _scenes.top(); };
     PLAScene *RefCurrentScene() const { return _scenes.top(); };

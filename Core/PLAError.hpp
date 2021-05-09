@@ -13,9 +13,9 @@ Issue(__FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
 class PLAError : public PLAObject
 {
   PLAErrorType _type = PLAErrorType::None;
-  const std::string _file = kPLACharUndefined;
+  const std::string _file = kGRACharUndefined;
   const int _line = 0;
-  std::string _message = kPLACharUndefined;
+  std::string _message = kGRACharUndefined;
 
 protected:
   PLAError(PLAErrorType aType, const std::string &aFile, int aLine,

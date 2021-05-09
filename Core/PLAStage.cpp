@@ -2,9 +2,10 @@
 
 PLAStage *PLAStage::Create()
 {
-  PLAStage *stage = new PLAStage();
-  PLAObject::Manager::Ref()->Bind(stage);
-  return stage;
+  PLAStage *item = new PLAStage();
+  GRABinder::Error error(GRABinder::Error::None);
+  PLAObject::Manager::RefInstance()->Bind(item, &error);
+  return item;
 }
 
 PLAStage::PLAStage() :
@@ -29,12 +30,12 @@ void PLAStage::Update()
 
 void PLAStage::AddActor(PLAActor *aActor)
 {
-  PLA_PRINT("AddActor");
-  aActor->PrintObject();
+  GRA_PRINT("AddActor");
+  aActor->GRABinder::Item::Print();
 
-  std::string actorName = aActor->GetObjectName();
-  if (actorName == kPLACharUndefined) {
-    PLA_TRACE("");
+  std::string actorName = aActor->GRABinder::Item::GetName();
+  if (actorName == kGRACharUndefined) {
+    GRA_TRACE("");
   }
   _context->AddActor(aActor);
 }
