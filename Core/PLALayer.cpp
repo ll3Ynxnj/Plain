@@ -22,7 +22,7 @@ PLALayer *PLALayer::Create(const PLALayer &aLayer)
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "Detected unexpected PLALayerType.");
       break;
   }
-  GRABinder::Error error(GRABinder::Error::None);
+  GRABinder<PLAObject>::Error error(GRABinder<PLAObject>::Error::None);
   PLAObject::Manager::RefInstance()->Bind(layer, &error);
   return layer;
 }

@@ -8,7 +8,7 @@ PLAActor *PLAActor::Create(const PLAVec3 &aPivot,
                            const PLALayer &aLayer)
 {
   PLAActor *item = new PLAActor(aPivot, aColor, aTransform, aLayer);
-  GRABinder::Error error(GRABinder::Error::None);
+  GRABinder<PLAObject>::Error error(GRABinder<PLAObject>::Error::None);
   PLAObject::Manager::RefInstance()->Bind(item, &error);
   return item;
 }

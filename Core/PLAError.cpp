@@ -4,7 +4,7 @@ PLAError * PLAError::Create(PLAErrorType aType, const std::string &aFile,
                             int aLine, const std::string &aMessage)
 {
   PLAError *item = new PLAError(aType, aFile, aLine, aMessage);
-  GRABinder::Error error(GRABinder::Error::None);
+  GRABinder<PLAObject>::Error error(GRABinder<PLAObject>::Error::None);
   PLAObject::Manager::RefInstance()->Bind(item, &error);
   return item;
 }

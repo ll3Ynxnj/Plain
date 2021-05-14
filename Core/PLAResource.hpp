@@ -7,7 +7,7 @@
 
 #include "PLAObject.hpp"
 
-class PLAResource : public PLAObject
+class PLAResource : public PLAObject, public GRABinder<PLAResource>::Item
 {
   uint8_t *_data = nullptr;
   const std::string _path = "";
@@ -24,7 +24,28 @@ public:
   void ReleaseData();
 
   uint8_t *GetData() { return _data; }
-  virtual size_t GetDataSize() = 0;
+  virtual size_t GetDataSize() const = 0;
+
+  void PrintResource() const;
+
+// Manager /////////////////////////////////////////////////////////////////////
+public:
+  class Manager: public GRABinder<PLAResource>
+  {
+    static Manager _instance;
+
+  public:
+    static const Manager *GetInstance() { return &_instance; };
+    static Manager *RefInstance() { return &_instance; };
+
+    Manager();
+    ~Manager();
+
+    void PrintResources() const {
+      for (GRABinder<PLAResource>::Item *item : this->GetItems())
+      { static_cast<const PLAResource *>(item)->PrintResource(); }
+    };
+  };
 };
 
 class PLARSCImage : public PLAResource {
@@ -40,7 +61,7 @@ public:
   size_t GetWidth() { return _width; };
   size_t GetHeight() { return _height; };
 
-  virtual size_t GetDataSize();
+  virtual size_t GetDataSize() const;
 };
 
 #endif //ANHR_PLARESOURCE_HPP

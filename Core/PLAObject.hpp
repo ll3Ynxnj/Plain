@@ -7,7 +7,7 @@
 #include <string>
 #include "PLAObjectType.hpp"
 
-class PLAObject: private GRABinder::Item
+class PLAObject : public GRABinder<PLAObject>::Item
 {
   PLAObjectType _type = PLAObjectType::None;
 
@@ -23,26 +23,13 @@ public:
 
   PLAObjectType GetObjectType() const { return _type; };
 
-  // GRABinder::Item ///////////////////////////////////////////////////////////
-  size_t GetObjectId() const { return this->GRABinder::Item::GetId(); };
-  std::string GetObjectName() const { return this->GRABinder::Item::GetName(); };
-
-  void SetObjectName(const std::string &aName)
-  { this->GRABinder::Item::SetName(aName); };
-
-  void PrintObject() const
-  {
-    GRA_PRINT(" %2x : ", _type);
-    this->GRABinder::Item::Print();
-  }
+  void PrintObject() const;
 
 // Manager /////////////////////////////////////////////////////////////////////
 public:
-  class Manager
+  class Manager: public GRABinder<PLAObject>
   {
     static Manager _instance;
-
-    GRABinder _binder = GRABinder();
 
   public:
     static const Manager *GetInstance() { return &_instance; };
@@ -51,37 +38,11 @@ public:
     Manager();
     ~Manager();
 
-    void Bind(PLAObject *aObject, GRABinder::Error *aError)
-    { _binder.Bind(aObject, aError); };
-
-    void Unbind(PLAObject *aObject, GRABinder::Error *aError)
-    { _binder.Unbind(aObject, aError); };
-
-    void PrintObjects() const { _binder.PrintItems(); };
+    void PrintObjects() const {
+      for (GRABinder<PLAObject>::Item *item : this->GetItems())
+      { static_cast<const PLAObject *>(item)->PrintObject(); }
+    };
   };
-
-  /*
-  class Manager
-  {
-    static Manager _instance;
-
-    std::vector<PLAObject *> _objects;
-    std::stack<size_t> _emptyIndices;
-
-    Manager();
-
-  public:
-    static const Manager *Get() { return &_instance; };
-    static Manager *Ref() { return &_instance; };
-
-    ~Manager();
-
-    void Init();
-    void Bind(PLAObject *aObject);
-    void Unbind(PLAObject *aObject);
-    void PrintObjects() const;
-  };
-  */
 };
 
 #endif // PLAIN_ENGINE_PLAOBJECT_HPP
