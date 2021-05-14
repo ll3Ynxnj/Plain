@@ -69,7 +69,7 @@ void PLAActor::Disappear()
 void PLAActor::PrintActors() const
 {
   static int indentLevel = 0;
-  this->GRABinder::Item::Print();
+  this->PrintObject();
   ++indentLevel;
   for (const PLAActor *actor : _actors)
   {

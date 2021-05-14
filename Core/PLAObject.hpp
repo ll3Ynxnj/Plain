@@ -7,7 +7,7 @@
 #include <string>
 #include "PLAObjectType.hpp"
 
-class PLAObject: public GRABinder::Item
+class PLAObject: private GRABinder::Item
 {
   PLAObjectType _type = PLAObjectType::None;
 
@@ -24,10 +24,16 @@ public:
   PLAObjectType GetObjectType() const { return _type; };
 
   // GRABinder::Item ///////////////////////////////////////////////////////////
-  virtual void Print()
+  size_t GetObjectId() const { return this->GRABinder::Item::GetId(); };
+  std::string GetObjectName() const { return this->GRABinder::Item::GetName(); };
+
+  void SetObjectName(const std::string &aName)
+  { this->GRABinder::Item::SetName(aName); };
+
+  void PrintObject() const
   {
     GRA_PRINT(" %2x : ", _type);
-    GRABinder::Item::Print();
+    this->GRABinder::Item::Print();
   }
 
 // Manager /////////////////////////////////////////////////////////////////////

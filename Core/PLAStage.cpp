@@ -31,9 +31,9 @@ void PLAStage::Update()
 void PLAStage::AddActor(PLAActor *aActor)
 {
   GRA_PRINT("AddActor");
-  aActor->GRABinder::Item::Print();
+  aActor->PrintObject();
 
-  std::string actorName = aActor->GRABinder::Item::GetName();
+  std::string actorName = aActor->GetObjectName();
   if (actorName == kGRACharUndefined) {
     GRA_TRACE("");
   }
