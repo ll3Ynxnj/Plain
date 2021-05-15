@@ -31,10 +31,10 @@ PLAObject::~PLAObject()
 
 }
 
-void PLAObject::PrintObject() const
+std::string PLAObject::GetObjectDescription() const
 {
-  GRA_PRINT("%04x : %32s : %d\n",
-            this->GetId(), this->GetName().c_str(), _type);
+  return grautil::format("PLAObject [ id : %04x, name : %s, type : %d, ]\n",
+                         this->GetId(), this->GetName().c_str(), _type);
 }
 
 // PLAObject::Manager //////////////////////////////////////////////////////////
@@ -50,4 +50,23 @@ GRABinder<PLAObject>()
 PLAObject::Manager::~Manager()
 {
 
+}
+
+void PLAObject::Manager::PrintObjects() const
+{
+  GRA_PRINT("//-- PLAObject::Manager::PrintResource -"
+            "-///////////////////////////////////////\n");
+  GRA_PRINT("  ID |                             NAME "
+            "| TYPE |                                \n");
+  GRA_PRINT("-----|----------------------------------"
+            "|------|--------------------------------\n");
+  for (GRABinder<PLAObject>::Item *item : this->GetItems())
+  {
+    const PLAObject *object = static_cast<const PLAObject *>(item);
+    GRA_PRINT("%04x | %32s | %4d |                               \n",
+              object->GetId(), object->GetName().c_str(),
+              object->GetObjectType());
+  }
+  GRA_PRINT("////////////////////////////////////////"
+            "////////////////////////////////////////\n");
 }

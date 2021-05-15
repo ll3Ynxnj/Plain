@@ -35,7 +35,7 @@ void PLAResource::ReleaseData() {
 }
 
 void PLAResource::PrintResource() const {
-  GRA_PRINT("PLAResource size: %8d path: %s\n", this->GetDataSize(), _path.c_str());
+  GRA_PRINT("%12d | %65s\n", this->GetDataSize(), _path.c_str());
 }
 
 // PLAResource::Manager //////////////////////////////////////////////////////////
@@ -52,6 +52,20 @@ PLAResource::Manager::~Manager()
 {
 
 }
+
+void PLAResource::Manager::PrintResources() const
+{
+  GRA_PRINT("//-- PLAResource::Manager::PrintResource"
+            "s --////////////////////////////////////\n");
+  GRA_PRINT("        SIZE |                          "
+            "                                    PATH\n");
+  GRA_PRINT("-------------|--------------------------"
+            "----------------------------------------\n");
+  for (GRABinder<PLAResource>::Item *item : this->GetItems())
+  { static_cast<const PLAResource *>(item)->PrintResource(); }
+  GRA_PRINT("////////////////////////////////////////"
+            "////////////////////////////////////////\n");
+};
 
 //-- PLARSCImage --/////////////////////////////////////////////////////////////
 

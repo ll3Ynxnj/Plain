@@ -41,10 +41,7 @@ public:
     Manager();
     ~Manager();
 
-    void PrintResources() const {
-      for (GRABinder<PLAResource>::Item *item : this->GetItems())
-      { static_cast<const PLAResource *>(item)->PrintResource(); }
-    };
+    void PrintResources() const;
   };
 };
 

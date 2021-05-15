@@ -23,7 +23,7 @@ public:
 
   PLAObjectType GetObjectType() const { return _type; };
 
-  void PrintObject() const;
+  std::string GetObjectDescription() const;
 
 // Manager /////////////////////////////////////////////////////////////////////
 public:
@@ -38,10 +38,7 @@ public:
     Manager();
     ~Manager();
 
-    void PrintObjects() const {
-      for (GRABinder<PLAObject>::Item *item : this->GetItems())
-      { static_cast<const PLAObject *>(item)->PrintObject(); }
-    };
+    void PrintObjects() const;
   };
 };
 

@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <cmath>
 #include "Grain/Grain-Macro.h"
+#include "Grain/Grain-Util.h"
 #include "Grain/GRAType.hpp"
 #include "Grain/GRAColor.hpp"
 #include "Grain/GRAPoint.hpp"
