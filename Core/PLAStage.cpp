@@ -2,19 +2,18 @@
 
 PLAStage *PLAStage::Create()
 {
-  PLAStage *item = new PLAStage();
-  GRABinder<PLAObject>::Error error(GRABinder<PLAObject>::Error::None);
-  PLAObject::Manager::RefInstance()->Bind(item, &error);
-  return item;
+  PLAStage *stage = new PLAStage();
+  PLAObject::Bind(stage);
+  return stage;
 }
 
 PLAStage::PLAStage() :
-PLAObject(PLAObjectType::Stage, "== PLAStage =="),
+PLAObject(PLAObjectType::Stage),//, "== PLAStage =="),
 PLAInputHandler()
 {
-  PLALYRRect layer(kPLAVec3None, kPLAVec2None, kPLAColorWhite);
-  _context = PLAActor::Create(kPLAVec3None, kPLAColorWhite,
-                              kPLATransformNorm, layer);
+  //PLALYRRect layer(kPLAVec3None, kPLAVec2None, kPLAColorWhite);
+  _context = PLAActor::CreateRect(kPLAVec3None, kPLAColorWhite,
+                                  kPLATransformNorm, kPLARectNone);
 }
 
 PLAStage::~PLAStage()
@@ -32,7 +31,7 @@ void PLAStage::AddActor(PLAActor *aActor)
 {
   GRA_PRINT("AddActor : %s\n", aActor->GetObjectDescription().c_str());
 
-  std::string actorName = aActor->GetName();
+  std::string actorName = aActor->GetObjectName();
   if (actorName == kGRACharUndefined) {
     GRA_TRACE("");
   }

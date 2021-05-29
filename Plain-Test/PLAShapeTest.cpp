@@ -2,7 +2,7 @@
 // Created by Kawai Kentaro on 2020/11/13.
 //
 
-#include "../Core/PLALayer.hpp"
+#include "Core/Layer/PLALayer.hpp"
 
 class PLALayerTest : public ::testing::Test
 {

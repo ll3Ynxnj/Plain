@@ -12,7 +12,7 @@ PLAInputCode PLAApp::GetInputCodeFromChar(unsigned char aCharacter)
 }
 
 PLAApp::PLAApp() :
-PLAObject(PLAObjectType::App, "== PLAApp ==")
+PLAObject(PLAObjectType::App)//, "== PLAApp ==")
 {
 
 }

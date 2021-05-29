@@ -8,8 +8,11 @@ add_library(Plain-Core STATIC
   PLAScene.cpp
   PLAStage.cpp
   PLAActor.cpp
-  PLALayer.cpp
   PLARenderer.cpp
   PLAResource.cpp
-  PLAImageClip.cpp)
-
+  PLAImageClip.cpp
+  PLALayer/PLALayer.cpp
+  PLALayer/PLALYRPoint.cpp
+  PLALayer/PLALYRLine.cpp
+  PLALayer/PLALYRRect.cpp
+  PLALayer/PLALYRCircle.cpp)

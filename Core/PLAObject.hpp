@@ -7,7 +7,7 @@
 #include <string>
 #include "PLAObjectType.hpp"
 
-class PLAObject : public GRABinder<PLAObject>::Item
+class PLAObject : private GRABinder<PLAObject>::Item
 {
   PLAObjectType _type = PLAObjectType::None;
 
@@ -16,14 +16,20 @@ protected:
   PLAObject(PLAObjectType aType, const std::string &aName);
 
 public:
+  static void Bind(PLAObject *aObject);
   static void Delete(PLAObject *aObject);
 
   PLAObject() = delete;
   virtual ~PLAObject();
 
+  GRASize GetObjectId() const { return this->GetId(); }
+  const std::string &GetObjectName() const { return this->GetName(); };
   PLAObjectType GetObjectType() const { return _type; };
 
+  void SetObjectName(const std::string &aName);
+
   std::string GetObjectDescription() const;
+
 
 // Manager /////////////////////////////////////////////////////////////////////
 public:

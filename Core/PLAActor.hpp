@@ -6,7 +6,7 @@
 #include "PLAObject.hpp"
 #include "PLAScene.hpp"
 #include "PLAInput.hpp"
-#include "PLALayer.hpp"
+#include "PLALayer/PLALayer.hpp"
 
 class PLARenderer;
 
@@ -68,13 +68,51 @@ protected:
   PLAActor(const PLAVec3 &aPivot,
            const PLAColor &aColor,
            const PLATransform &aTransform,
-           const PLALayer &aLayer);
+           PLALayer *aLayer);
 
 public:
+  /*
   static PLAActor *Create(const PLAVec3 &aPivot,
                           const PLAColor &aColor,
                           const PLATransform &aTransform,
                           const PLALayer &aLayer);
+                          */
+
+  static PLAActor *CreateRect(const PLAVec3 &aPivot,
+                              const PLAColor &aColor,
+                              const PLATransform &aTransform,
+                              const PLARect &aRect);
+
+  static PLAActor *CreateRect(const PLAVec3 &aPivot,
+                              const PLAColor &aColor,
+                              const PLATransform &aTransform,
+                              const PLARect &aRect,
+                              const PLAColor &aFillColor);
+
+  static PLAActor *CreateRect(const PLAVec3 &aPivot,
+                              const PLAColor &aColor,
+                              const PLATransform &aTransform,
+                              const PLARect &aRect,
+                              const std::string &aImage,
+                              const PLARect &aClip);
+
+  static PLAActor *CreateCircle(const PLAVec3 &aPivot,
+                               const PLAColor &aColor,
+                               const PLATransform &aTransform,
+                               const PLACircle &aCircle);
+
+  static PLAActor *CreateCircle(const PLAVec3 &aPivot,
+                                const PLAColor &aColor,
+                                const PLATransform &aTransform,
+                                const PLACircle &aCircle,
+                                const PLAColor &aFillColor);
+
+  static PLAActor *CreateCircle(const PLAVec3 &aPivot,
+                                const PLAColor &aColor,
+                                const PLATransform &aTransform,
+                                const PLACircle &aCircle,
+                                const std::string &aImage,
+                                const PLARect &aClip);
 
   virtual ~PLAActor();
 

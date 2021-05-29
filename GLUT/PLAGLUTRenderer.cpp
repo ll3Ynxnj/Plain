@@ -43,18 +43,10 @@ void PLAGLUTRenderer::Init() const
 
   //-- Texture --///////////////////////////////////////////////////////////////
   //*
-  std::string texPath = "/Users/ll3ynxnj/Projects/anhr/sample1.raw";
-  PLARSCImage *texImage = PLARSCImage::Create(texPath, 1024, 1024);
-  texImage->AllocData();
-
   glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetWidth(), texImage->GetHeight(), 0,
-               GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetData());
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-  glEnable(GL_TEXTURE_2D);
   //*/
 
   //-- Blend --/////////////////////////////////////////////////////////////////
@@ -118,6 +110,20 @@ void PLAGLUTRenderer::Draw(const PLAActor *aActor, const PLAColor &aColor) const
 
 void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor) const
 {
+  const PLAImageClip *imageClip = aLayer->GetImageClip();
+  if (imageClip)
+  {
+    const PLARSCImage *texImage = imageClip->GetImage();
+    glEnable(GL_TEXTURE_2D);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetWidth(),
+                 texImage->GetHeight(), 0,
+                 GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetData());
+  }
+  else
+  {
+    glDisable(GL_TEXTURE_2D);
+  }
+
   const PLAVec3 offset = aLayer->GetOffset();
   GLfloat vertices[] = {
      offset.x,
@@ -133,6 +139,7 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor)
     -offset.y - aLayer->GetSize().y,
      offset.z,
   };
+  glVertexPointer(3, GL_FLOAT, 0, vertices);
 
   PLAColor fillColor = aLayer->GetFillColor();
   fillColor.Mul(aColor);
@@ -142,16 +149,39 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor)
     fillColor.r, fillColor.g, fillColor.b, fillColor.a,
     fillColor.r, fillColor.g, fillColor.b, fillColor.a,
   };
+  glColorPointer(4, GL_FLOAT, 0, fillColors);
 
-  GLfloat texCoords[] = {
-    0.0, 0.0,
-    0.0625, 0.0,
-    0.0, 0.0625,
-    0.0625, 0.0625,
+  GLfloat texCoords[8] = {
+     0.0, 0.0,
+     0.0, 0.0,
+     0.0, 0.0,
+     0.0, 0.0,
   };
 
-  glVertexPointer(3, GL_FLOAT, 0, vertices);
-  glColorPointer(4, GL_FLOAT, 0, fillColors);
+  if (imageClip)
+  {
+    texCoords[0] = imageClip->GetNormalizedClip().pos.x;  // 0.0,
+    texCoords[1] = imageClip->GetNormalizedClip().pos.y;  // 0.0,
+    texCoords[2] = imageClip->GetNormalizedClip().pos.x +
+                   imageClip->GetNormalizedClip().size.x; // 0.0625,
+    texCoords[3] = imageClip->GetNormalizedClip().pos.y;  // 0.0,
+    texCoords[4] = imageClip->GetNormalizedClip().pos.x;  // 0.0,
+    texCoords[5] = imageClip->GetNormalizedClip().pos.y +
+                   imageClip->GetNormalizedClip().size.y; // 0.0625,
+    texCoords[6] = imageClip->GetNormalizedClip().pos.x +
+                   imageClip->GetNormalizedClip().size.x; // 0.0625
+    texCoords[7] = imageClip->GetNormalizedClip().pos.y +
+                   imageClip->GetNormalizedClip().size.y; // 0.0625,
+    /*/
+   GLfloat texCoords[] = {
+     0.0, 0.0,
+     0.0625, 0.0,
+     0.0, 0.0625,
+     0.0625, 0.0625,
+   };
+    //*/
+  }
+
   glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
   glBegin(GL_TRIANGLE_STRIP);
@@ -164,6 +194,20 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor)
 
 void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aColor) const
 {
+  const PLAImageClip *imageClip = aLayer->GetImageClip();
+  if (imageClip)
+  {
+    const PLARSCImage *texImage = imageClip->GetImage();
+    glEnable(GL_TEXTURE_2D);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetWidth(),
+                 texImage->GetHeight(), 0,
+                 GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetData());
+  }
+  else
+  {
+    glDisable(GL_TEXTURE_2D);
+  }
+
   int split = 24;
   const unsigned numVertices = 1 + split + 1;
   GLfloat vertices[numVertices * 3];

@@ -2,6 +2,16 @@
 #include "PLAError.hpp"
 
 // PLAObject ///////////////////////////////////////////////////////////////////
+void PLAObject::Bind(PLAObject *aObject)
+{
+  GRABinder<PLAObject>::Error error(GRABinder<PLAObject>::Error::None);
+  PLAObject::Manager::RefInstance()->Bind(aObject, &error);
+  if (error != GRABinder<PLAObject>::Error::None) {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed PLAObject binding. ERROR : %02d", error);
+  }
+}
+
 void PLAObject::Delete(PLAObject *aObject)
 {
   GRABinder<PLAObject>::Error error(GRABinder<PLAObject>::Error::None);
@@ -13,14 +23,15 @@ void PLAObject::Delete(PLAObject *aObject)
 }
 
 PLAObject::PLAObject(PLAObjectType aType) :
-GRABinder<PLAObject>::Item(),
+GRABinder<PLAObject>::Item(grautil::format("PLAObject-%p", this),
+                           Manager::RefInstance()),
 _type(aType)
 {
 
 }
 
 PLAObject::PLAObject(PLAObjectType aType, const std::string &aName) :
-GRABinder<PLAObject>::Item(aName),
+GRABinder<PLAObject>::Item(aName, Manager::RefInstance()),
 _type(aType)
 {
 
@@ -50,6 +61,17 @@ GRABinder<PLAObject>()
 PLAObject::Manager::~Manager()
 {
 
+}
+
+void PLAObject::SetObjectName(const std::string &aName)
+{
+  GRABinder<PLAObject>::Error error(GRABinder<PLAObject>::Error::None);
+  this->GRABinder<PLAObject>::Item::SetName(aName, &error);
+  if (error != GRABinder<PLAObject>::Error::None)
+  {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failure to set object name. ERROR : %02d", error);
+  }
 }
 
 void PLAObject::Manager::PrintObjects() const

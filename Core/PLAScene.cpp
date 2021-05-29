@@ -5,10 +5,9 @@
 #include "PLAScene.hpp"
 
 PLAScene *PLAScene::Create() {
-  PLAScene *item = new PLAScene();
-  GRABinder<PLAObject>::Error error(GRABinder<PLAObject>::Error::None);
-  PLAObject::Manager::RefInstance()->Bind(item, &error);
-  return item;
+  PLAScene *scene = new PLAScene();
+  PLAObject::Bind(scene);
+  return scene;
 }
 
 PLAScene::PLAScene() :

@@ -2,27 +2,97 @@
 #include "PLAInput.hpp"
 #include "PLAError.hpp"
 
-PLAActor *PLAActor::Create(const PLAVec3 &aPivot,
-                           const PLAColor &aColor,
-                           const PLATransform &aTransform,
-                           const PLALayer &aLayer)
+#include "PLALayer/PLALYRRect.hpp"
+#include "PLALayer/PLALYRCircle.hpp"
+
+PLAActor *PLAActor::CreateRect(const PLAVec3 &aPivot,
+                               const PLAColor &aColor,
+                               const PLATransform &aTransform,
+                               const PLARect &aRect)
 {
-  PLAActor *item = new PLAActor(aPivot, aColor, aTransform, aLayer);
-  GRABinder<PLAObject>::Error error(GRABinder<PLAObject>::Error::None);
-  PLAObject::Manager::RefInstance()->Bind(item, &error);
-  return item;
+  PLALayer *layer = PLALYRRect::Create(aRect, kPLAColorWhite, kPLAColorNone,
+                                       kGRACharUndefined, kPLARectNone);
+  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);
+  PLAObject::Bind(actor);
+  return actor;
+}
+
+PLAActor *PLAActor::CreateRect(const PLAVec3 &aPivot,
+                               const PLAColor &aColor,
+                               const PLATransform &aTransform,
+                               const PLARect &aRect,
+                               const PLAColor &aFillColor)
+{
+  PLALayer *layer = PLALYRRect::Create(aRect, aFillColor, kPLAColorNone,
+                                       kGRACharUndefined, kPLARectNone);
+  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);
+  PLAObject::Bind(actor);
+  return actor;
+}
+
+PLAActor *PLAActor::CreateRect(const PLAVec3 &aPivot,
+                               const PLAColor &aColor,
+                               const PLATransform &aTransform,
+                               const PLARect &aRect,
+                               const std::string &aImageName,
+                               const PLARect &aClip)
+{
+  PLALayer *layer = PLALYRRect::Create(aRect, kPLAColorWhite, kPLAColorNone,
+                                       aImageName, aClip);
+  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);
+  PLAObject::Bind(actor);
+  return actor;
+}
+
+PLAActor *PLAActor::CreateCircle(const PLAVec3 &aPivot,
+                                 const PLAColor &aColor,
+                                 const PLATransform &aTransform,
+                                 const PLACircle &aCircle)
+{
+  PLALayer *layer = PLALYRCircle::Create(aCircle, kPLAColorWhite, kPLAColorNone,
+                                         kGRACharUndefined, kPLARectNone);
+  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);
+  PLAObject::Bind(actor);
+  return actor;
+}
+
+PLAActor *PLAActor::CreateCircle(const PLAVec3 &aPivot,
+                                 const PLAColor &aColor,
+                                 const PLATransform &aTransform,
+                                 const PLACircle &aCircle,
+                                 const PLAColor &aFillColor)
+{
+  PLALayer *layer = PLALYRCircle::Create(aCircle, aFillColor, kPLAColorNone,
+                                         kGRACharUndefined, kPLARectNone);
+  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);
+  PLAObject::Bind(actor);
+  return actor;
+}
+
+PLAActor *PLAActor::CreateCircle(const PLAVec3 &aPivot,
+                                 const PLAColor &aColor,
+                                 const PLATransform &aTransform,
+                                 const PLACircle &aCircle,
+                                 const std::string &aImage,
+                                 const PLARect &aClip)
+{
+  PLALayer *layer = PLALYRCircle::Create(aCircle, kPLAColorWhite, kPLAColorNone,
+                                         aImage, aClip);
+  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);
+  PLAObject::Bind(actor);
+  return actor;
 }
 
 PLAActor::PLAActor(const PLAVec3 &aPivot,
                    const PLAColor &aColor,
                    const PLATransform &aTransform,
-                   const PLALayer &aLayer) :
-  PLAObject(PLAObjectType::Actor, "== PLAActor =="),
+                   PLALayer *aLayer) :
+  PLAObject(PLAObjectType::Actor),//"== PLAActor =="),
   PLAInputContext(),
   _pivot(aPivot),
   _color(aColor),
   _transform(aTransform),
-  _layer(PLALayer::Create(aLayer))
+  _layer(aLayer)
 {
   this->RefreshLayerOffset();
 }
@@ -129,7 +199,7 @@ const PLALYRRect *PLAActor::GetLayerRect() const
 {
   if (this->GetLayerType() != PLALayerType::Circle)
   {
-    PLA_ERROR_ISSUE(PLAErrorType::Assert, "Type does not match.");
+    PLA_ERROR_ISSUE(PLAErrorType::Assert, "GRAType does not match.");
   }
   return static_cast<PLALYRRect *>(_layer);
 }
@@ -138,7 +208,7 @@ const PLALYRCircle *PLAActor::GetLayerCircle() const
 {
   if (this->GetLayerType() != PLALayerType::Circle)
   {
-    PLA_ERROR_ISSUE(PLAErrorType::Assert, "Type does not match.");
+    PLA_ERROR_ISSUE(PLAErrorType::Assert, "GRAType does not match.");
   }
   return static_cast<PLALYRCircle *>(_layer);
 }
