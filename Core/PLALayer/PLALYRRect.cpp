@@ -1,5 +1,18 @@
 #include "PLALYRRect.hpp"
 
+PLALYRRect *PLALYRRect::Create(const PLARect &aRect)
+{
+  PLALYRRect *layer = new PLALYRRect(PLAVec3(aRect.pos.x,
+                                             aRect.pos.y, 0),
+                                     aRect.size,
+                                     kPLAColorWhite,
+                                     kPLAColorNone,
+                                     kGRACharUndefined,
+                                     kPLARectNone);
+  PLAObject::Bind(layer);
+  return layer;
+}
+
 PLALYRRect *PLALYRRect::Create(const PLARect &aRect,
                                const PLAColor &aFillColor,
                                const PLAColor &aStrokeColor,

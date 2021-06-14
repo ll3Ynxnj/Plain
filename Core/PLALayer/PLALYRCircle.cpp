@@ -1,18 +1,26 @@
 #include "PLALYRCircle.hpp"
 
+PLALYRCircle *PLALYRCircle::Create(const PLACircle &aCircle)
+{
+  PLALYRCircle *layer =
+    new PLALYRCircle(PLAVec3(aCircle.origin.x - aCircle.radius,
+                             aCircle.origin.y - aCircle.radius, 0),
+                     aCircle.radius, kPLAColorWhite, kPLAColorNone,
+                     kGRACharUndefined, kPLARectNone);
+  PLAObject::Bind(layer);
+  return layer;
+}
+
 PLALYRCircle *PLALYRCircle::Create(const PLACircle &aCircle,
                                    const PLAColor &aFillColor,
                                    const PLAColor &aStrokeColor,
                                    const std::string &aImage,
                                    const PLARect &aClip)
 {
-  PLALYRCircle *layer = new PLALYRCircle(PLAVec3(aCircle.origin.x,
-                                                 aCircle.origin.y,
-                                                 0),
-                                         aCircle.radius,
-                                         aFillColor,
-                                         aStrokeColor,
-                                         aImage, aClip);
+  PLALYRCircle *layer =
+    new PLALYRCircle(PLAVec3(aCircle.origin.x - aCircle.radius,
+                             aCircle.origin.y - aCircle.radius, 0),
+                     aCircle.radius, aFillColor, aStrokeColor, aImage, aClip);
   PLAObject::Bind(layer);
   return layer;
 }

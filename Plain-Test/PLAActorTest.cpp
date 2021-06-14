@@ -1,4 +1,5 @@
 #include "../Core/PLAActor.hpp"
+#include "../Grain/GRAType/GRAType.hpp"
 
 class PLAActorTest : public ::testing::Test
 {
@@ -8,17 +9,16 @@ protected:
 
   virtual void SetUp()
   {
-    _rootActor = PLAActor::Create(kPLAVec3Norm, kPLAColorWhite,
-                                  PLATransform(), PLALYRRect(kPLAVec3None, kPLAVec2None));
+    //_rootActor = PLAActor::CreateRect(kPLAVec3Norm, kPLAColorWhite,
+    //                                  kGRATransformNorm, PLARect(kPLAVec3None, kPLAVec2None));
+    _rootActor = PLAActor::CreateRect(kPLAVec3Norm, kPLAColorWhite,
+                                      kPLATransformNorm, kPLARectNorm);
 
     static const int kNumberOfActors = 3;
     for (int i = 0; i < kNumberOfActors; i++)
     {
-      PLAActor *actor = PLAActor::Create(kPLAVec3Norm, kPLAColorWhite,
-                                         PLATransform(), PLALYRRect(kPLAVec3None, kPLAVec2None));
-      PLAStyle style;
-      style.SetColorValue(PLAStyleType::FillColor, kPLAColorWhite);
-      actor->SetStyle(style);
+      PLAActor *actor = PLAActor::CreateRect(kPLAVec3Norm, kPLAColorWhite,
+                                             kPLATransformNorm, kPLARectNorm);
       _actors.push_back(actor);
     }
   }
@@ -27,6 +27,10 @@ protected:
   {
     PLAObject::Delete(_rootActor);
     _rootActor = nullptr;
+    for (PLAActor *aActor : _actors)
+    {
+      PLAObject::Delete(aActor);
+    }
   }
 };
 

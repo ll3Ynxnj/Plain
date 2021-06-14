@@ -24,8 +24,8 @@ protected:
     };
 
 public:
-  /*
   static PLALYRCircle *Create(const PLACircle &aCircle);
+  /*
   static PLALYRCircle *Create(const PLACircle &aCircle,
                               const PLAColor &aFillColor);
   static PLALYRCircle *Create(const PLACircle &aCircle,

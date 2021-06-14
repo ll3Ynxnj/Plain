@@ -24,8 +24,9 @@ protected:
   };
 
 public:
-  /*
+
   static PLALYRRect *Create(const PLARect &aRect);
+  /*
   static PLALYRRect *Create(const PLARect &aRect,
                             const PLAColor &aFillColor);
   static PLALYRRect *Create(const PLARect &aRect,
