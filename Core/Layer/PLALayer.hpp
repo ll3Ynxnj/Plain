@@ -4,6 +4,11 @@
 #include "PLAObject.hpp"
 #include "PLALayerType.hpp"
 #include "PLAImageClip.hpp"
+#include "Type/PLAVector.hpp"
+#include "Type/PLAPoint.hpp"
+#include "Type/PLALine.hpp"
+#include "Type/PLAPoint.hpp"
+#include "Type/PLACircle.hpp"
 
 class PLALayer : public PLAObject
 {
@@ -14,7 +19,7 @@ protected:
   PLALayer(PLALayerType aType, const PLAVec3 &aOffset);//, const std::string &aName);
 
 public:
-  //static PLALayer *Create(const PLALayer &aLayer);
+  //static Layer *Create(const Layer &aLayer);
 
   PLALayer() = delete;
   virtual ~PLALayer();

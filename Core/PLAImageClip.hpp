@@ -7,6 +7,7 @@
 
 #include "PLAObject.hpp"
 #include "PLAResource.hpp"
+#include "Type/PLARect.hpp"
 
 class PLAImageClip : public PLAObject
 {

@@ -2,8 +2,8 @@
 #define PLAIN_ENGINE_PLAGLUTRENDERER_HPP
 
 #include "PLARenderer.hpp"
-#include "PLALayer/PLALYRRect.hpp"
-#include "PLALayer/PLALYRCircle.hpp"
+#include "Layer/PLALYRRect.hpp"
+#include "Layer/PLALYRCircle.hpp"
 
 class PLAGLUTRenderer : public PLARenderer
 {

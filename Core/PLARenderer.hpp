@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "PLAObject.hpp"
-#include "PLAActor.hpp"
+#include "Core/Actor/PLAActor.hpp"
 #include "PLARendererType.hpp"
 
 class PLARenderer : public PLAObject

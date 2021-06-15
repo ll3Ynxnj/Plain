@@ -2,9 +2,9 @@
 #include "PLAError.hpp"
 
 /*
-PLALayer *PLALayer::Create(const PLALayer &aLayer)
+Layer *Layer::Create(const Layer &aLayer)
 {
-  PLALayer *layer = nullptr;
+  Layer *layer = nullptr;
   switch (aLayer.GetLayerType())
   {
     case PLALayerType::Point :

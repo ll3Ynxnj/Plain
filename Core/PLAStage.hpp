@@ -3,7 +3,7 @@
 
 #include "PLAObject.hpp"
 #include "PLAInput.hpp"
-#include "PLAActor.hpp"
+#include "Core/Actor/PLAActor.hpp"
 
 class PLAStage final : public PLAObject, public PLAInputHandler
 {

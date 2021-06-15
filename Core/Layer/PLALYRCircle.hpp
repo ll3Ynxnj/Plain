@@ -1,8 +1,8 @@
 #ifndef ANHR_PLALYRCIRCLE_HPP
 #define ANHR_PLALYRCIRCLE_HPP
 
-
 #include "PLALayer.hpp"
+#include "Type/PLAColor.hpp"
 
 class PLALYRCircle : public PLALayer
 {

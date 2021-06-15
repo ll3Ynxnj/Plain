@@ -4,6 +4,8 @@
 #include "PLAObject.hpp"
 #include "PLAInputType.hpp"
 #include "PLARendererType.hpp"
+#include "Type/PLAVector.hpp"
+#include "Type/PLAPoint.hpp"
 
 class PLAStage;
 class PLARenderer;

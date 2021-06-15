@@ -1,8 +1,8 @@
 #ifndef ANHR_PLALYRRECT_HPP
 #define ANHR_PLALYRRECT_HPP
 
-
 #include "PLALayer.hpp"
+#include "Type/PLAColor.hpp"
 
 class PLALYRRect : public PLALayer
 {

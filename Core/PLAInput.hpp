@@ -1,11 +1,12 @@
 #ifndef PLAIN_ENGINE_PLAINPUT_HPP
 #define PLAIN_ENGINE_PLAINPUT_HPP
 
-#include "PLAObject.hpp"
 #include <set>
 #include <map>
 #include <queue>
+#include "PLAObject.hpp"
 #include "PLAInputType.hpp"
+#include "Type/PLAPoint.hpp"
 
 class PLAInput : public PLAObject
 {

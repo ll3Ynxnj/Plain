@@ -2,8 +2,8 @@
 #include "PLAInput.hpp"
 #include "PLAError.hpp"
 
-#include "PLALayer/PLALYRRect.hpp"
-#include "PLALayer/PLALYRCircle.hpp"
+#include "Layer/PLALYRRect.hpp"
+#include "Layer/PLALYRCircle.hpp"
 
 PLAActor *PLAActor::CreateRect(const PLAVec3 &aPivot,
                                const PLAColor &aColor,
@@ -114,25 +114,25 @@ void PLAActor::Input(const PLAInput *aInput)
 
 void PLAActor::Init()
 {
-  _functor.RunFunction(FunctionCode::OnInit, this);
+  _functor.RunFunction(PLAActorFunctionCode::OnInit, this);
   for (PLAActor *actor : _actors) { actor->Init(); }
 }
 
 void PLAActor::Update()
 {
-  _functor.RunFunction(FunctionCode::OnUpdate, this);
+  _functor.RunFunction(PLAActorFunctionCode::OnUpdate, this);
   for (PLAActor *actor : _actors) { actor->Update(); }
 }
 
 void PLAActor::Appear()
 {
-  _functor.RunFunction(FunctionCode::OnAppear, this);
+  _functor.RunFunction(PLAActorFunctionCode::OnAppear, this);
   for (PLAActor *actor : _actors) { actor->Appear(); }
 }
 
 void PLAActor::Disappear()
 {
-  _functor.RunFunction(FunctionCode::OnDisappear, this);
+  _functor.RunFunction(PLAActorFunctionCode::OnDisappear, this);
   for (PLAActor *actor : _actors) { actor->Disappear(); }
 }
 
@@ -199,7 +199,7 @@ const PLALYRRect *PLAActor::GetLayerRect() const
 {
   if (this->GetLayerType() != PLALayerType::Circle)
   {
-    PLA_ERROR_ISSUE(PLAErrorType::Assert, "GRAType does not match.");
+    PLA_ERROR_ISSUE(PLAErrorType::Assert, "Type does not match.");
   }
   return static_cast<PLALYRRect *>(_layer);
 }
@@ -208,7 +208,7 @@ const PLALYRCircle *PLAActor::GetLayerCircle() const
 {
   if (this->GetLayerType() != PLALayerType::Circle)
   {
-    PLA_ERROR_ISSUE(PLAErrorType::Assert, "GRAType does not match.");
+    PLA_ERROR_ISSUE(PLAErrorType::Assert, "Type does not match.");
   }
   return static_cast<PLALYRCircle *>(_layer);
 }

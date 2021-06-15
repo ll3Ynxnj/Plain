@@ -1,4 +1,5 @@
 #include "PLALYRCircle.hpp"
+#include "PLACollision.hpp"
 
 PLALYRCircle *PLALYRCircle::Create(const PLACircle &aCircle)
 {

@@ -3,6 +3,7 @@
 
 
 #include "PLALayer.hpp"
+#include "Type/PLAColor.hpp"
 
 class PLALYRPoint : public PLALayer
 {

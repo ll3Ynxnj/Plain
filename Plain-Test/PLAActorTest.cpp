@@ -1,5 +1,5 @@
-#include "../Core/PLAActor.hpp"
-#include "../Grain/GRAType/GRAType.hpp"
+#include "Core/Actor/PLAActor.hpp"
+#include "../Grain/Type/GRAType.hpp"
 
 class PLAActorTest : public ::testing::Test
 {

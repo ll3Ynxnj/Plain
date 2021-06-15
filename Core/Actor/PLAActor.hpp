@@ -6,8 +6,13 @@
 #include "PLAObject.hpp"
 #include "PLAScene.hpp"
 #include "PLAInput.hpp"
-#include "PLALayer/PLALayer.hpp"
-#include "Grain/GRACollision.hpp"
+#include "PLACollision.hpp"
+#include "PLAActorCollisionCode.hpp"
+#include "PLAActorCollisyncCode.hpp"
+#include "PLAActorFunctionCode.hpp"
+#include "Type/PLAColor.hpp"
+#include "Type/PLATransform.hpp"
+#include "Layer/PLALayer.hpp"
 
 class PLARenderer;
 
@@ -15,40 +20,12 @@ class PLAActor : public PLAObject, public PLAInputContext,
   public GRAListener<PLAScene, PLAScene::FunctionCode>
 {
 public:
-  enum class FunctionCode : PLAInt
-  {
-    OnInit,
-    OnUpdate,
-    OnAppear,
-    OnDisappear,
-
-    kNumberOfItems,
-    None = kPLAIntUndefined
-  };
-
-  enum class CollisionCode : PLAInt
-  {
-    Input,
-    Actor,
-
-    kNumberOfItems,
-    None = kPLAIntUndefined,
-  };
-
-  enum class CollisionSyncCode : PLAInt
-  {
-    Size,
-    Layer,
-
-    kNumberOfItems,
-    None = kPLAIntUndefined,
-  };
 
 private:
   struct CollisionItem
   {
     PLACollision *collision = nullptr;
-    bool syncMode[static_cast<unsigned>(CollisionSyncCode::kNumberOfItems)] =
+    bool syncMode[static_cast<unsigned>(PLAActorCollisyncCode::kNumberOfItems)] =
     { false };
   };
 
@@ -59,9 +36,9 @@ private:
   //-- Not affect child actors
   PLALayer *_layer = nullptr;
   //PLAStyle _style = PLAStyle();
-  CollisionItem collisions[static_cast<unsigned>(CollisionCode::kNumberOfItems)];
+  CollisionItem collisions[static_cast<unsigned>(PLAActorCollisionCode::kNumberOfItems)];
 
-  GRAFunctor<PLAActor, FunctionCode> _functor = GRAFunctor<PLAActor, FunctionCode>();
+  GRAFunctor<PLAActor, PLAActorFunctionCode> _functor = GRAFunctor<PLAActor, PLAActorFunctionCode>();
 
   /// Calculate from pivot. Must be updated when pivot changes.
 
@@ -76,7 +53,7 @@ public:
   static PLAActor *Create(const PLAVec3 &aPivot,
                           const PLAColor &aColor,
                           const PLATransform &aTransform,
-                          const PLALayer &aLayer);
+                          const Layer &aLayer);
                           */
 
   static PLAActor *CreateRect(const PLAVec3 &aPivot,
@@ -173,7 +150,7 @@ public:
   void SetScale(const PLAVec3 &aScale)
   { _transform.scale = aScale; };
 
-  void SetFunction(FunctionCode aKey,
+  void SetFunction(PLAActorFunctionCode aKey,
                    const std::function<void(PLAActor *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
 

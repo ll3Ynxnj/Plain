@@ -5,8 +5,7 @@
 #include <cstdint>
 #include <cmath>
 
-#include "Grain/GRAType/GRAType.hpp"
-#include "Grain/GRACollision.hpp"
+#include "Grain/Type/GRAType.hpp"
 
 //-- Boolean value --///////////////////////////////////////////////////////////
 using PLABool = GRABool;
@@ -77,64 +76,10 @@ static const PLASize kPLASizeUndefined = kGRASizeUndefined;
 
 static const char *kPLAStrUndefined = kGRAStrUndefined;
 
-//-- Colors --//////////////////////////////////////////////////////////////////
-using PLAColor = GRAColorRGBA8888<PLAFloat>;
-static const PLAColor kPLAColorNone    = PLAColor(0);
-static const PLAColor kPLAColorNorm    = PLAColor(1);
-static const PLAColor kPLAColorBlack   = PLAColor(0.00, 0.00, 0.00, 1.00);
-static const PLAColor kPLAColorRed     = PLAColor(1.00, 0.00, 0.00, 1.00);
-static const PLAColor kPLAColorGreen   = PLAColor(0.00, 1.00, 0.00, 1.00);
-static const PLAColor kPLAColorBlue    = PLAColor(0.00, 0.00, 1.00, 1.00);
-static const PLAColor kPLAColorYellow  = PLAColor(1.00, 1.00, 0.00, 1.00);
-static const PLAColor kPLAColorCyan    = PLAColor(0.00, 1.00, 1.00, 1.00);
-static const PLAColor kPLAColorMagenta = PLAColor(1.00, 0.00, 1.00, 1.00);
-static const PLAColor kPLAColorGray    = PLAColor(0.50, 0.50, 0.50, 1.00);
-static const PLAColor kPLAColorWhite   = PLAColor(1.00, 1.00, 1.00, 1.00);
-
-//-- Vectors --/////////////////////////////////////////////////////////////////
-using PLAVec2 = GRAVec2<PLAFloat>;
-static const PLAVec2 kPLAVec2None = PLAVec2(0);
-static const PLAVec2 kPLAVec2Norm = PLAVec2(1);
-
-using PLAVec3 = GRAVec3<PLAFloat>;
-static const PLAVec3 kPLAVec3None = PLAVec3(0);
-static const PLAVec3 kPLAVec3Norm = PLAVec3(1);
-
-using PLAVec4 = GRAVec4<PLAFloat>;
-static const PLAVec4 kPLAVec4None = PLAVec4(0);
-static const PLAVec4 kPLAVec4Norm = PLAVec4(1);
-
-//-- Points --//////////////////////////////////////////////////////////////////
-using PLAPoint = GRAPoint<PLAFloat>;
-static const PLAPoint kPLAPointNone = PLAPoint(0);
-static const PLAPoint kPLAPointNorm = PLAPoint(1);
-
-//-- Lines --////../////////////////////////////////////////////////////////////
-using PLALine = GRALine<PLAFloat>;
-static const PLALine kPLALineNone = PLALine(kPLAVec2None, kPLAVec2None);
-static const PLALine kPLALineNorm = PLALine(kPLAVec2None, kPLAVec2Norm);
-
-//-- Rects --/////..////////////////////////////////////////////////////////////
-using PLARect = GRARect<PLAFloat>;
-static const PLARect kPLARectNone = PLARect(kPLAVec2None, kPLAVec2None);
-static const PLARect kPLARectNorm = PLARect(kPLAVec2None, kPLAVec2Norm);
-
-//-- Circles --/////////////////////////////////////////////////////////////////
-using PLACircle = GRACircle<PLAFloat>;
-static const PLACircle kPLACircleNone = PLACircle(kPLAVec2None, 0);
-static const PLACircle kPLACircleNorm = PLACircle(kPLAVec2None, 1);
-
-//-- Transforms --//////////////////////////////////////////////////////////////
-using PLATransform = GRATransform<PLAFloat>;
-static const PLATransform kPLATransformNone =
-  PLATransform(kPLAVec3None, kPLAVec3None, kPLAVec3None);
-static const PLATransform kPLATransformNorm =
-  PLATransform(kPLAVec3None, kPLAVec3None, kPLAVec3Norm);
-
 //-- Binders --/////////////////////////////////////////////////////////////////
+//using PLAObjectBinder = GRABinder<PLAObject>;
 
 //-- Collisions --//////////////////////////////////////////////////////////////
-using PLACollision = GRACollision<PLAFloat>;
 
 //-- Functors --////////////////////////////////////////////////////////////////
 

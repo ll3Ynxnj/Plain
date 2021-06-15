@@ -1,8 +1,8 @@
 #ifndef ANHR_PLALYRLINE_HPP
 #define ANHR_PLALYRLINE_HPP
 
-
 #include "PLALayer.hpp"
+#include "Type/PLAColor.hpp"
 
 class PLALYRLine : public PLALayer
 {

@@ -7,12 +7,12 @@ add_library(Plain-Core STATIC
   PLAError.cpp
   PLAScene.cpp
   PLAStage.cpp
-  PLAActor.cpp
+  Actor/PLAActor.cpp
   PLARenderer.cpp
   PLAResource.cpp
   PLAImageClip.cpp
-  PLALayer/PLALayer.cpp
-  PLALayer/PLALYRPoint.cpp
-  PLALayer/PLALYRLine.cpp
-  PLALayer/PLALYRRect.cpp
-  PLALayer/PLALYRCircle.cpp)
+  Layer/PLALayer.cpp
+  Layer/PLALYRPoint.cpp
+  Layer/PLALYRLine.cpp
+  Layer/PLALYRRect.cpp
+  Layer/PLALYRCircle.cpp)
