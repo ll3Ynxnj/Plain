@@ -1,11 +1,11 @@
 #ifndef PLAIN_ENGINE_PLAOBJECT_HPP
 #define PLAIN_ENGINE_PLAOBJECT_HPP
 
-#include "PLAType.hpp"
 #include <vector>
 #include <stack>
 #include <string>
 #include "PLAObjectType.hpp"
+#include "Grain/GRABinder.hpp"
 
 class PLAObject : private GRABinder<PLAObject>::Item
 {

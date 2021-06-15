@@ -1,7 +1,7 @@
 #ifndef PLAIN_ENGINE_PLAINPUTTYPE_HPP
 #define PLAIN_ENGINE_PLAINPUTTYPE_HPP
 
-//#include "PLAType.hpp"
+#include "Plain.h"
 
 enum class PLAInputDeviceType : PLAInt
 { Touch, Mouse, Key, kNumberOfItems, None = kPLAIntUndefined };

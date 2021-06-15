@@ -2,7 +2,6 @@
 #define PLAIN_ENGINE_PLARENDERER_HPP
 
 #include <vector>
-#include "PLAType.hpp"
 #include "PLAObject.hpp"
 #include "PLAActor.hpp"
 #include "PLARendererType.hpp"

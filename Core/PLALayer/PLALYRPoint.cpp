@@ -2,6 +2,7 @@
 // Created by Kentaro Kawai on 2021/05/27.
 //
 
+
 #include "PLALYRPoint.hpp"
 
 PLAVec3 PLALYRPoint::GetSize() const

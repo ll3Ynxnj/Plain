@@ -1,7 +1,7 @@
 #ifndef PLAIN_ENGINE_PLAERRORTYPE_HPP
 #define PLAIN_ENGINE_PLAERRORTYPE_HPP
 
-#include "PLAType.hpp"
+#include "Plain.h"
 
 enum class PLAErrorType : PLAInt
 {

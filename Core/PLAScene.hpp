@@ -8,6 +8,7 @@
 #include <stack>
 #include <list>
 #include "PLAObject.hpp"
+#include "Grain/GRAListener.hpp"
 
 class PLAScene : public PLAObject
 {

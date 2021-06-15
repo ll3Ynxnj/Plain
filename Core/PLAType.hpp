@@ -4,19 +4,8 @@
 #include <cstdio>
 #include <cstdint>
 #include <cmath>
-//#include "Grain/Grain-Macro.h"
-//#include "Grain/Grain-Util.h"
+
 #include "Grain/GRAType/GRAType.hpp"
-#include "Grain/GRAType/GRAColor.hpp"
-#include "Grain/GRAType/GRAPoint.hpp"
-#include "Grain/GRAType/GRALine.hpp"
-#include "Grain/GRAType/GRARect.hpp"
-#include "Grain/GRAType/GRACircle.hpp"
-#include "Grain/GRAType/GRAVector.hpp"
-#include "Grain/GRAType/GRATransform.hpp"
-#include "Grain/GRAFunctor.hpp"
-#include "Grain/GRABinder.hpp"
-#include "Grain/GRAListener.hpp"
 #include "Grain/GRACollision.hpp"
 
 //-- Boolean value --///////////////////////////////////////////////////////////
@@ -142,7 +131,12 @@ static const PLATransform kPLATransformNone =
 static const PLATransform kPLATransformNorm =
   PLATransform(kPLAVec3None, kPLAVec3None, kPLAVec3Norm);
 
+//-- Binders --/////////////////////////////////////////////////////////////////
+
 //-- Collisions --//////////////////////////////////////////////////////////////
 using PLACollision = GRACollision<PLAFloat>;
+
+//-- Functors --////////////////////////////////////////////////////////////////
+
 
 #endif // PLAIN_ENGINE_PLATYPE_HPP

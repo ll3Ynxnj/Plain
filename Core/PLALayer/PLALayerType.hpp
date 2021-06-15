@@ -1,7 +1,7 @@
 #ifndef PLAIN_ENGINE_PLALAYERTYPE_HPP
 #define PLAIN_ENGINE_PLALAYERTYPE_HPP
 
-#include "PLAType.hpp"
+#include "Plain.h"
 
 enum class PLALayerType : PLAInt
 {
