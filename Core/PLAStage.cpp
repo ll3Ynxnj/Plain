@@ -32,7 +32,7 @@ void PLAStage::AddActor(PLAActor *aActor)
   GRA_PRINT("AddActor : %s\n", aActor->GetObjectDescription().c_str());
 
   std::string actorName = aActor->GetObjectName();
-  if (actorName == kGRACharUndefined) {
+  if (actorName == kPLAStrUndefined) {
     GRA_TRACE("");
   }
   _context->AddActor(aActor);

@@ -23,7 +23,7 @@ void PLAObject::Delete(PLAObject *aObject)
 }
 
 PLAObject::PLAObject(PLAObjectType aType) :
-GRABinder<PLAObject>::Item(kGRACharUndefined, Manager::RefInstance()),
+GRABinder<PLAObject>::Item(kPLAStrUndefined, Manager::RefInstance()),
 _type(aType)
 {
 

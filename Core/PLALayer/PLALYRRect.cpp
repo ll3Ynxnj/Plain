@@ -7,7 +7,7 @@ PLALYRRect *PLALYRRect::Create(const PLARect &aRect)
                                      aRect.size,
                                      kPLAColorWhite,
                                      kPLAColorNone,
-                                     kGRACharUndefined,
+                                     kPLAStrUndefined,
                                      kPLARectNone);
   PLAObject::Bind(layer);
   return layer;

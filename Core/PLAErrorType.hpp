@@ -3,13 +3,13 @@
 
 #include "PLAType.hpp"
 
-enum class PLAErrorType : GRAInt
+enum class PLAErrorType : PLAInt
 {
   Assert,
   Expect,
 
   kNumberOfItems,
-  None = kGRAIntUndefined,
+  None = kPLAIntUndefined,
 };
 
 #endif // PLAIN_ENGINE_PLAERRORTYPE_HPP

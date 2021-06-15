@@ -3,7 +3,7 @@
 
 #include "PLAType.hpp"
 
-enum class PLAObjectType : GRAInt
+enum class PLAObjectType : PLAInt
 {
   App,
   Input,
@@ -18,7 +18,7 @@ enum class PLAObjectType : GRAInt
   ImageClip,
 
   kNumberOfItems,
-  None = kGRAIntUndefined,
+  None = kPLAIntUndefined,
 };
 
 #endif //PLAIN_ENGINE_PLAOBJECTTYPE_HPP

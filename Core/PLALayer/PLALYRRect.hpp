@@ -18,7 +18,7 @@ protected:
     PLALayer(PLALayerType::Rect, aOffset),//, "== PLALYRRect =="),
     _vector(aVector), _fillColor(aFillColor)
   {
-    if (aImageName != kGRACharUndefined) {
+    if (aImageName != kPLAStrUndefined) {
       _imageClip = PLAImageClip::Create(aImageName, aClip);
     }
   };

@@ -11,7 +11,7 @@ PLAActor *PLAActor::CreateRect(const PLAVec3 &aPivot,
                                const PLARect &aRect)
 {
   PLALayer *layer = PLALYRRect::Create(aRect, kPLAColorWhite, kPLAColorNone,
-                                       kGRACharUndefined, kPLARectNone);
+                                       kPLAStrUndefined, kPLARectNone);
   PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);
   PLAObject::Bind(actor);
   return actor;
@@ -24,7 +24,7 @@ PLAActor *PLAActor::CreateRect(const PLAVec3 &aPivot,
                                const PLAColor &aFillColor)
 {
   PLALayer *layer = PLALYRRect::Create(aRect, aFillColor, kPLAColorNone,
-                                       kGRACharUndefined, kPLARectNone);
+                                       kPLAStrUndefined, kPLARectNone);
   PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);
   PLAObject::Bind(actor);
   return actor;
@@ -50,7 +50,7 @@ PLAActor *PLAActor::CreateCircle(const PLAVec3 &aPivot,
                                  const PLACircle &aCircle)
 {
   PLALayer *layer = PLALYRCircle::Create(aCircle, kPLAColorWhite, kPLAColorNone,
-                                         kGRACharUndefined, kPLARectNone);
+                                         kPLAStrUndefined, kPLARectNone);
   PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);
   PLAObject::Bind(actor);
   return actor;
@@ -63,7 +63,7 @@ PLAActor *PLAActor::CreateCircle(const PLAVec3 &aPivot,
                                  const PLAColor &aFillColor)
 {
   PLALayer *layer = PLALYRCircle::Create(aCircle, aFillColor, kPLAColorNone,
-                                         kGRACharUndefined, kPLARectNone);
+                                         kPLAStrUndefined, kPLARectNone);
   PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);
   PLAObject::Bind(actor);
   return actor;

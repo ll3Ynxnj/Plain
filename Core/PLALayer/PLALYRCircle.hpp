@@ -6,19 +6,19 @@
 
 class PLALYRCircle : public PLALayer
 {
-  GRAFloat _radius = 0;
+  PLAFloat _radius = 0;
   PLAColor _fillColor = kPLAColorWhite;
   PLAColor _strokeColor = kPLAColorNone;
   PLAImageClip *_imageClip = nullptr;
 
 protected:
-  PLALYRCircle(const PLAVec3 &aOffset, GRAFloat aRadius,
+  PLALYRCircle(const PLAVec3 &aOffset, PLAFloat aRadius,
                const PLAColor &aFillColor, const PLAColor &aStrokeColor,
                const std::string &aImageName, const PLARect &aClip) :
     PLALayer(PLALayerType::Circle, aOffset),//, "== PLALYRRect =="),
     _radius(aRadius), _fillColor(aFillColor), _strokeColor(aStrokeColor)
     {
-      if (aImageName != kGRACharUndefined) {
+      if (aImageName != kPLAStrUndefined) {
         _imageClip = PLAImageClip::Create(aImageName, aClip);
       }
     };
@@ -57,7 +57,7 @@ public:
   virtual bool IsCollideWithRect(const PLARect &aRect) const;
   virtual bool IsCollideWithCircle(const PLACircle &aCircle) const;
 
-  GRAFloat GetRadius() const { return _radius; };
+  PLAFloat GetRadius() const { return _radius; };
   PLACircle GetCircle() const;
 
   const PLAColor &GetStrokeColor() const { return _strokeColor; };

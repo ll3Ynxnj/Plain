@@ -3,7 +3,7 @@
 
 #include "PLAType.hpp"
 
-enum class PLALayerType : GRAInt
+enum class PLALayerType : PLAInt
 {
   Point,
   Line,
@@ -11,7 +11,7 @@ enum class PLALayerType : GRAInt
   Circle,
 
   kNumberOfItems,
-  None = kGRAIntUndefined,
+  None = kPLAIntUndefined,
 };
 
 #endif // PLAIN_ENGINE_PLALAYERTYPE_HPP

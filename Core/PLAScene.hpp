@@ -12,7 +12,7 @@
 class PLAScene : public PLAObject
 {
 public:
-  enum class FunctionCode : GRAInt
+  enum class FunctionCode : PLAInt
   {
     OnInit,
     OnUpdate,
@@ -20,7 +20,7 @@ public:
     OnDisappear,
 
     kNumberOfItems,
-    None = kGRAIntUndefined,
+    None = kPLAIntUndefined,
   };
 
 private:

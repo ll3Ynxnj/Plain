@@ -14,7 +14,7 @@ class PLAActor : public PLAObject, public PLAInputContext,
   public GRAListener<PLAScene, PLAScene::FunctionCode>
 {
 public:
-  enum class FunctionCode : GRAInt
+  enum class FunctionCode : PLAInt
   {
     OnInit,
     OnUpdate,
@@ -22,25 +22,25 @@ public:
     OnDisappear,
 
     kNumberOfItems,
-    None = kGRAIntUndefined
+    None = kPLAIntUndefined
   };
 
-  enum class CollisionCode : GRAInt
+  enum class CollisionCode : PLAInt
   {
     Input,
     Actor,
 
     kNumberOfItems,
-    None = kGRAIntUndefined,
+    None = kPLAIntUndefined,
   };
 
-  enum class CollisionSyncCode : GRAInt
+  enum class CollisionSyncCode : PLAInt
   {
     Size,
     Layer,
 
     kNumberOfItems,
-    None = kGRAIntUndefined,
+    None = kPLAIntUndefined,
   };
 
 private:

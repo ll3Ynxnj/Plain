@@ -6,7 +6,7 @@ PLALYRCircle *PLALYRCircle::Create(const PLACircle &aCircle)
     new PLALYRCircle(PLAVec3(aCircle.origin.x - aCircle.radius,
                              aCircle.origin.y - aCircle.radius, 0),
                      aCircle.radius, kPLAColorWhite, kPLAColorNone,
-                     kGRACharUndefined, kPLARectNone);
+                     kPLAStrUndefined, kPLARectNone);
   PLAObject::Bind(layer);
   return layer;
 }
