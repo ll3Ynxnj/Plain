@@ -77,9 +77,10 @@ void PLAGLUTEngine::keyboardUp(unsigned char key, int x, int y)
                                { float(x), float(y) });
 }
 
-void PLAGLUTEngine::glut(int argc, char *argv[], void (*init)(void)) {
+void PLAGLUTEngine::glut(int argc, char *argv[], int width, int height, void (*init)(void)) {
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_RGBA);
+  glutInitWindowSize(width, height);
 
   glutCreateWindow(argv[0]);
 

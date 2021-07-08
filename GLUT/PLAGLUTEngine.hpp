@@ -15,7 +15,7 @@ class PLAGLUTEngine
   static void keyboardUp(unsigned char key, int x, int y);
 
 public:
-  static void glut(int argc, char *argv[], void (*init)(void));
+  static void glut(int argc, char *argv[], int width, int height, void (*init)(void));
 };
 
 #endif //PLAIN_ENGINE_PLAGLUT_HPP

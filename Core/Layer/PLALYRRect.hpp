@@ -1,7 +1,7 @@
 #ifndef ANHR_PLALYRRECT_HPP
 #define ANHR_PLALYRRECT_HPP
 
-#include "PLALayer.hpp"
+#include "Layer/PLALayer.hpp"
 #include "Type/PLAColor.hpp"
 
 class PLALYRRect : public PLALayer
@@ -66,6 +66,5 @@ public:
   void SetFillColor(const PLAColor &aColor) { _fillColor = aColor; };
   const PLAImageClip *GetImageClip() const { return _imageClip; };
 };
-
 
 #endif //ANHR_PLALYRRECT_HPP

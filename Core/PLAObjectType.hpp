@@ -12,6 +12,7 @@ enum class PLAObjectType : PLAInt
   Actor,
   Layer,
   Style,
+  Image,
   Error,
   Resource,
   Renderer,

@@ -1,6 +1,5 @@
 #include <math.h>
 
-#include "PLAGLUT.h"
 #include "PLAGLUTRenderer.hpp"
 #include "PLAError.hpp"
 #include "PLAResource.hpp"
@@ -72,6 +71,45 @@ void PLAGLUTRenderer::Render(const PLAActor *aActor) const
   this->Draw(aActor, kPLAColorNorm);
 }
 
+void PLAGLUTRenderer::GetRectVertices(GLfloat aVertices[12],
+                                      const PLAVec3 &aPos,
+                                      const PLAVec2 &aSize)
+{
+  aVertices[ 0] =  aPos.x;
+  aVertices[ 1] = -aPos.y;
+  aVertices[ 2] =  aPos.z;
+  aVertices[ 3] =  aPos.x + aSize.x;
+  aVertices[ 4] = -aPos.y;
+  aVertices[ 5] =  aPos.z;
+  aVertices[ 6] =  aPos.x;
+  aVertices[ 7] = -aPos.y - aSize.y;
+  aVertices[ 8] =  aPos.z;
+  aVertices[10] =  aPos.x + aSize.x;
+  aVertices[11] = -aPos.y - aSize.y;
+  aVertices[12] =  aPos.z;
+}
+
+void PLAGLUTRenderer::GetRectColors(GLfloat aColors[16],
+                                    const PLAColor &aColor) {
+  aColors[0] = aColors[4] = aColors[ 8] = aColors[12] = aColor.r;
+  aColors[1] = aColors[5] = aColors[ 9] = aColors[13] = aColor.g;
+  aColors[2] = aColors[6] = aColors[10] = aColors[14] = aColor.b;
+  aColors[3] = aColors[7] = aColors[11] = aColors[15] = aColor.a;
+}
+
+void PLAGLUTRenderer::GetRectTexCoords(GLfloat aCoords[8],
+                                       const PLAVec2 &aPos,
+                                       const PLAVec2 &aSize) {
+  aCoords[0] = aPos.x;
+  aCoords[1] = aPos.y;
+  aCoords[2] = aPos.x + aSize.x;
+  aCoords[3] = aPos.y;
+  aCoords[4] = aPos.x;
+  aCoords[5] = aPos.y + aSize.y;
+  aCoords[6] = aPos.x + aSize.x;
+  aCoords[7] = aPos.y + aSize.y;
+}
+
 void PLAGLUTRenderer::Draw(const PLAActor *aActor, const PLAColor &aColor) const
 {
   glPushMatrix();
@@ -95,6 +133,9 @@ void PLAGLUTRenderer::Draw(const PLAActor *aActor, const PLAColor &aColor) const
     case PLALayerType::Circle :
       this->DrawCircle(static_cast<const PLALYRCircle *>(layer), color);
       break;
+    case PLALayerType::Tile :
+      this->DrawTile(static_cast<const PLALYRTile *>(layer), color);
+      break;
     default :
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Unexpected PLARenderingDataType detected.");
@@ -113,11 +154,11 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor)
   const PLAImageClip *imageClip = aLayer->GetImageClip();
   if (imageClip)
   {
-    const PLARSCImage *texImage = imageClip->GetImage();
+    const PLAImage *texImage = imageClip->GetImage();
     glEnable(GL_TEXTURE_2D);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetWidth(),
-                 texImage->GetHeight(), 0,
-                 GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetData());
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetSize().x,
+                 texImage->GetSize().y, 0,
+                 GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
   }
   else
   {
@@ -139,7 +180,6 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor)
     -offset.y - aLayer->GetSize().y,
      offset.z,
   };
-  glVertexPointer(3, GL_FLOAT, 0, vertices);
 
   PLAColor fillColor = aLayer->GetFillColor();
   fillColor.Mul(aColor);
@@ -149,7 +189,6 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor)
     fillColor.r, fillColor.g, fillColor.b, fillColor.a,
     fillColor.r, fillColor.g, fillColor.b, fillColor.a,
   };
-  glColorPointer(4, GL_FLOAT, 0, fillColors);
 
   GLfloat texCoords[8] = {
      0.0, 0.0,
@@ -182,6 +221,8 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor)
     //*/
   }
 
+  glVertexPointer(3, GL_FLOAT, 0, vertices);
+  glColorPointer(4, GL_FLOAT, 0, fillColors);
   glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
   glBegin(GL_TRIANGLE_STRIP);
@@ -197,11 +238,11 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
   const PLAImageClip *imageClip = aLayer->GetImageClip();
   if (imageClip)
   {
-    const PLARSCImage *texImage = imageClip->GetImage();
+    const PLAImage *texImage = imageClip->GetImage();
     glEnable(GL_TEXTURE_2D);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetWidth(),
-                 texImage->GetHeight(), 0,
-                 GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetData());
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetSize().x,
+                 texImage->GetSize().y, 0,
+                 GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
   }
   else
   {
@@ -240,6 +281,7 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
       radian += step;
     }
   }
+  glVertexPointer(3, GL_FLOAT, 0, vertices);
 
   GLfloat fillColors[numVertices * 4];
   PLAColor fillColor = aLayer->GetFillColor();
@@ -253,6 +295,7 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
     fillColors[baseIndex + 2] = fillColor.b;
     fillColors[baseIndex + 3] = fillColor.a;
   }
+  glColorPointer(4, GL_FLOAT, 0, fillColors);
 
   GLfloat texCoords[numVertices * 2];
   {
@@ -274,9 +317,6 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
       radian += step;
     }
   }
-
-  glVertexPointer(3, GL_FLOAT, 0, vertices);
-  glColorPointer(4, GL_FLOAT, 0, fillColors);
   glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
   glBegin(GL_TRIANGLE_FAN);
@@ -285,4 +325,140 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
     glArrayElement(i);
   }
   glEnd();
+}
+
+void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
+                               const PLAColor &aColor) const
+{
+  //-- This method is an inefficient implementation.
+  static bool kIsDebug = false;
+
+  const PLAImage *texImage = aLayer->GetImage();
+  if (texImage && !kIsDebug)
+  {
+    glEnable(GL_TEXTURE_2D);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetSize().x,
+                 texImage->GetSize().y, 0,
+                 GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
+  } else
+  {
+    glDisable(GL_TEXTURE_2D);
+  }
+
+  GRAVec2<PLASize> mapSize = aLayer->GetMapSize();
+  GRAVec2<PLASize> chipSize = aLayer->GetChipSize();
+
+  GLfloat pxTable[mapSize.x];
+  for (PLAInt i = 0; i < mapSize.x; i++)
+  {
+    GLfloat px = chipSize.x * i;
+    pxTable[i] = px;
+    if (kIsDebug) { GRA_PRINT("pxTable[%d]: %.2f\n", i, pxTable[i]); }
+  }
+
+  GLfloat pyTable[mapSize.y];
+  for (PLAInt i = 0; i < mapSize.y; i++)
+  {
+    GLfloat py = chipSize.x * i;
+    pyTable[i] = py;
+    if (kIsDebug) { GRA_PRINT("pyTable[%d]: %.2f\n", i, pyTable[i]); }
+  }
+
+  PLASize numberOfChipsX = 1024 / chipSize.x;
+  GLfloat cxTable[numberOfChipsX];
+  for (PLAInt i = 0; i < numberOfChipsX; i++)
+  {
+    cxTable[i] = (i * chipSize.x) / 1024.0;
+    if (kIsDebug) { GRA_PRINT("cxTable[%d]:%.2f\n", i, cxTable[i]); }
+  };
+
+  PLASize numberOfChipsY = 1024 / chipSize.y;
+  GLfloat cyTable[numberOfChipsY];
+  for (PLAInt i = 0; i < numberOfChipsY; i++)
+  {
+    cyTable[i] = (i * chipSize.y) / 1024.0;
+    if (kIsDebug) { GRA_PRINT("cyTable[%d]:%.2f\n", i, cyTable[i]); }
+  };
+
+  GLfloat cw = static_cast<GLfloat>(chipSize.x) / 1024;
+  GLfloat ch = static_cast<GLfloat>(chipSize.y) / 1024;
+
+  for (PLAInt y = 0; y < mapSize.y; y++)
+  {
+    for (PLAInt x = 0; x < mapSize.x; x++)
+    {
+      const PLAVec3 offset = PLAVec3(pxTable[x], pyTable[y], 0);
+      static const PLAUInt kNumVertices = 12;
+      GLfloat vertices[kNumVertices] = {
+        offset.x,
+        -offset.y,
+        offset.z,
+        offset.x + chipSize.x,
+        -offset.y,
+        offset.z,
+        offset.x,
+        -offset.y - chipSize.y,
+        offset.z,
+        offset.x + chipSize.x,
+        -offset.y - chipSize.y,
+        offset.z,
+      };
+
+      if (kIsDebug)
+      {
+        for (int i = 0; i < kNumVertices;) {
+          GRA_PRINT("x: %d, y: %d,"
+                    " vertices: [%d] x: %.2f, [%d] y: %.2f, [%d] z: %.2f\n",
+                    x, y, i, vertices[i++], i, vertices[i++], i, vertices[i++]);
+        }
+      }
+
+      static const PLAColor kDebugColors[] = {
+        kPLAColorRed, kPLAColorGreen, kPLAColorBlue,
+        kPLAColorCyan, kPLAColorMagenta, kPLAColorYellow,
+      };
+      const PLAUInt debugColorIndex = (y + x) % 6;
+      PLAColor color = kDebugColors[debugColorIndex];
+
+      static const PLAUInt kNumColors = 16;
+      GLfloat colors[kNumColors] = {
+        color.r, color.g, color.b, color.a,
+        color.r, color.g, color.b, color.a,
+        color.r, color.g, color.b, color.a,
+        color.r, color.g, color.b, color.a,
+      };
+
+      if (kIsDebug) {
+        GRA_PRINT("x: %d, y: %d, colors: index: %d,"
+                  " r: %.2f, g: %.2f, b: %.2f, a: %.2f,\n",
+                  x, y, debugColorIndex, color.r, color.g, color.b, color.a);
+      }
+
+      static const PLAUInt kNumCoords = 8;
+      GLfloat coords[kNumCoords] = {
+         0,  0,
+        cw,  0,
+         0, ch,
+        cw, ch,
+      };
+
+      if (kIsDebug) {
+        for (int i = 0; i < kNumCoords;) {
+          GRA_PRINT("x: %d, y: %d, coords: [%d] x: %.2f, [%d] y: %.2f\n",
+                    x, y, i, coords[i++], i, coords[i++]);
+        }
+      }
+
+      glVertexPointer(3, GL_FLOAT, 0, vertices);
+      glColorPointer(4, GL_FLOAT, 0, colors);
+      glTexCoordPointer(2, GL_FLOAT, 0, coords);
+
+      glBegin(GL_TRIANGLE_STRIP);
+      glArrayElement(0);
+      glArrayElement(1);
+      glArrayElement(2);
+      glArrayElement(3);
+      glEnd();
+    }
+  }
 }

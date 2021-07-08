@@ -92,6 +92,12 @@ public:
                                 const std::string &aImage,
                                 const PLARect &aClip);
 
+  static PLAActor *CreateTile(const PLAVec2 &aOffset,
+                              const std::string &aImageName,
+                              const GRAVec2<PLASize> &aMapSize,
+                              const GRAVec2<PLASize> &aChipSize,
+                              PLASize aAddress);
+
   virtual ~PLAActor();
 
   void AddActor(PLAActor *aActor);

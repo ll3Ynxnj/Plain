@@ -1,7 +1,3 @@
-//
-// Created by Kentaro Kawai on 2021/03/17.
-//
-
 #ifndef ANHR_PLARESOURCE_HPP
 #define ANHR_PLARESOURCE_HPP
 
@@ -27,22 +23,22 @@ public:
    */
 
 private:
-  uint8_t *_data = nullptr;
+  PLAUInt8 *_data = nullptr;
+  PLASize _size = 1024 * 1024 * 4;
   const std::string _path = "";
 
-protected:
-  PLAResource(const std::string &aName, const std::string &aPath);
-
 public:
+  static PLAResource *Create(const std::string &aName, const std::string &aPath);
   static void Bind(PLAResource *aResource);
 
+  PLAResource(const std::string &aName, const std::string &aPath);
   virtual ~PLAResource();
 
   void AllocData();
   void ReleaseData();
 
-  const uint8_t *GetData() const { return _data; }
-  virtual size_t GetDataSize() const = 0;
+  const PLAUInt8 *GetData() const { return _data; };
+  PLASize GetSize() const { return _size; };
 
   void PrintResource() const;
 
@@ -77,24 +73,6 @@ public:
   private:
     void LoadResource(const std::string &aName);
   };
-};
-
-class PLARSCImage : public PLAResource {
-  size_t _width = 0;
-  size_t _height = 0;
-
-public:
-  static PLARSCImage *Create(const std::string &aName, const std::string &aPath,
-                             size_t aWidth, size_t aHeight);
-
-  PLARSCImage(const std::string &aName, const std::string &aPath,
-              size_t aWidth, size_t aHeight);
-  ~PLARSCImage();
-
-  size_t GetWidth() const { return _width; };
-  size_t GetHeight() const { return _height; };
-
-  virtual size_t GetDataSize() const;
 };
 
 #endif //ANHR_PLARESOURCE_HPP

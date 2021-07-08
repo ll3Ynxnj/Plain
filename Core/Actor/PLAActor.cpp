@@ -4,6 +4,7 @@
 
 #include "Layer/PLALYRRect.hpp"
 #include "Layer/PLALYRCircle.hpp"
+#include "Layer/PLALYRTile.hpp"
 
 PLAActor *PLAActor::CreateRect(const PLAVec3 &aPivot,
                                const PLAColor &aColor,
@@ -73,12 +74,26 @@ PLAActor *PLAActor::CreateCircle(const PLAVec3 &aPivot,
                                  const PLAColor &aColor,
                                  const PLATransform &aTransform,
                                  const PLACircle &aCircle,
-                                 const std::string &aImage,
+                                 const std::string &aImageName,
                                  const PLARect &aClip)
 {
   PLALayer *layer = PLALYRCircle::Create(aCircle, kPLAColorWhite, kPLAColorNone,
-                                         aImage, aClip);
+                                         aImageName, aClip);
   PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);
+  PLAObject::Bind(actor);
+  return actor;
+}
+
+PLAActor *PLAActor::CreateTile(const PLAVec2 &aOffset,
+                               const std::string &aImageName,
+                               const GRAVec2<PLASize> &aMapSize,
+                               const GRAVec2<PLASize> &aChipSize,
+                               PLASize aAddress)
+{
+  PLALayer *layer = PLALYRTile::Create(aOffset, aImageName, aMapSize, aChipSize,
+                                       aAddress);
+  PLAActor *actor = new PLAActor(kPLAVec3None, kPLAColorWhite,
+                                 kPLATransformNorm, layer);
   PLAObject::Bind(actor);
   return actor;
 }

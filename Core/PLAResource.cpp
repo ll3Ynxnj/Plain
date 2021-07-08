@@ -1,9 +1,13 @@
-//
-// Created by Kentaro Kawai on 2021/03/17.
-//
-
 #include "PLAResource.hpp"
 #include "PLAError.hpp"
+
+PLAResource *PLAResource::Create(const std::string &aName, const std::string &aPath)
+{
+  PLAResource *resource = new PLAResource(aName, aPath);
+  PLAObject::Bind(resource);
+  PLAResource::Bind(resource);
+  return resource;
+}
 
 void PLAResource::Bind(PLAResource *aResource)
 {
@@ -26,7 +30,7 @@ PLAResource::~PLAResource() noexcept {
 }
 
 void PLAResource::AllocData() {
-  size_t dataSize = this->GetDataSize();
+  size_t dataSize = this->GetSize();
   _data = new uint8_t[dataSize];
   FILE *fp;
 
@@ -35,8 +39,7 @@ void PLAResource::AllocData() {
     fclose(fp);
     int result = fread(_data, dataSize, 1, fp);
     GRA_PRINT("result : %d\n", result);
-  }
-  else {
+  } else {
     perror(_path.c_str());
   }
 }
@@ -46,7 +49,7 @@ void PLAResource::ReleaseData() {
 }
 
 void PLAResource::PrintResource() const {
-  GRA_PRINT("%12d | %65s\n", this->GetDataSize(), _path.c_str());
+  GRA_PRINT("%12d | %65s\n", this->GetSize(), _path.c_str());
 }
 
 // PLAResource::Manager ////////////////////////////////////////////////////////
@@ -77,49 +80,6 @@ void PLAResource::Manager::PrintResources() const {
 void PLAResource::Manager::LoadResource(const std::string &aName) {
   std::string path = "/Users/ll3ynxnj/Projects/anhr/";
   path.append(aName);
-  PLARSCImage *image = PLARSCImage::Create(aName, path, 1024, 1024);
-  image->AllocData();
-}
-
-//-- PLARSCImage --/////////////////////////////////////////////////////////////
-
-PLARSCImage *PLARSCImage::Create(const std::string &aName,
-                                 const std::string &aPath,
-                                 size_t aWidth, size_t aHeight) {
-  PLARSCImage *image = new PLARSCImage(aName, aPath, aWidth, aHeight);
-  {
-    PLAObject::Bind(image);
-    /*
-    GRABinder<PLAObject>::Error error(GRABinder<PLAObject>::Error::None);
-    PLAObject::Manager::RefInstance()->Bind(image, &error);
-    if (error != GRABinder<PLAObject>::Error::None)
-    { PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                      "Failed PLAObject binding. ERROR : %02d", error); }
-    */
-  }
-  {
-    PLAResource::Bind(image);
-    /*
-    GRABinder<PLAResource>::Error error(GRABinder<PLAResource>::Error::None);
-    PLAResource::Manager::RefInstance()->Bind(image, &error);
-    if (error != GRABinder<PLAResource>::Error::None)
-    { PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                      "Failed PLAResource binding. ERROR : %02d", error); }
-    */
-  }
-  return image;
-}
-
-PLARSCImage::PLARSCImage(const std::string &aName, const std::string &aPath,
-                         size_t aWidth, size_t aHeight) :
-  PLAResource(aName, aPath), _width(aWidth), _height(aHeight) {
-
-}
-
-PLARSCImage::~PLARSCImage() {
-
-}
-
-size_t PLARSCImage::GetDataSize() const {
-  return _width * _height * 4;
+  PLAResource *resource = PLAResource::Create(aName, path);
+  resource->AllocData();
 }

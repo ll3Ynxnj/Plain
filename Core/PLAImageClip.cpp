@@ -1,20 +1,23 @@
 #include "PLAImageClip.hpp"
 
+PLAImageClip *PLAImageClip::Create(const std::string &aImageName)
+{
+  PLAImageClip::Create(aImageName, kPLARectNorm);
+}
+
 PLAImageClip *PLAImageClip::Create(const std::string &aImageName,
                                    const PLARect &aClip)
 {
-  const PLARSCImage *image = static_cast<const PLARSCImage *>
-  (PLAResource::Manager::GetInstance()->GetResource(aImageName));
-
+  const PLAImage *image = PLAImage::CreateRaw(aImageName);
   PLAImageClip *imageClip = new PLAImageClip(image, aClip);
   PLAObject::Bind(imageClip);
   return imageClip;
 }
 
-PLAImageClip::PLAImageClip(const PLARSCImage *aImage, const PLARect &aClip) :
+PLAImageClip::PLAImageClip(const PLAImage *aImage, const PLARect &aClip) :
 PLAObject(PLAObjectType::ImageClip), _image(aImage), _clip(aClip)
 {
-  this->UpdateNormalizedClip();
+  this->UpdateNormalizedClip(aClip);
 }
 
 PLAImageClip::~PLAImageClip()
@@ -25,27 +28,27 @@ PLAImageClip::~PLAImageClip()
 void PLAImageClip::SetClip(const PLARect &aClip)
 {
   _clip = aClip;
-  this->UpdateNormalizedClip();
+  this->UpdateNormalizedClip(aClip);
 }
 
 void PLAImageClip::SetNormalizedClip(const PLARect &aNormalizedClip)
 {
   _normalizedClip = aNormalizedClip;
-  this->UpdateClip();
+  this->UpdateClip(aNormalizedClip);
 }
 
-void PLAImageClip::UpdateClip()
+void PLAImageClip::UpdateClip(const PLARect &aNormalizedClip)
 {
-  _clip.pos.x = _image->GetWidth() * _normalizedClip.pos.x;
-  _clip.pos.y = _image->GetHeight() * _normalizedClip.pos.y;
-  _clip.size.x = _image->GetWidth() * _normalizedClip.pos.x;
-  _clip.size.y = _image->GetHeight() * _normalizedClip.pos.y;
+  _clip.pos.x = _image->GetSize().x * aNormalizedClip.pos.x;
+  _clip.pos.y = _image->GetSize().y * aNormalizedClip.pos.y;
+  _clip.size.x = _image->GetSize().x * aNormalizedClip.pos.x;
+  _clip.size.y = _image->GetSize().y * aNormalizedClip.pos.y;
 }
 
-void PLAImageClip::UpdateNormalizedClip()
+void PLAImageClip::UpdateNormalizedClip(const PLARect &aClip)
 {
-  _normalizedClip.pos.x = _clip.pos.x / _image->GetWidth();
-  _normalizedClip.pos.y = _clip.pos.y / _image->GetHeight();
-  _normalizedClip.size.x = _clip.size.x / _image->GetWidth();
-  _normalizedClip.size.y = _clip.size.y / _image->GetHeight();
+  _normalizedClip.pos.x = aClip.pos.x / _image->GetSize().x;
+  _normalizedClip.pos.y = aClip.pos.y / _image->GetSize().y;
+  _normalizedClip.size.x = aClip.size.x / _image->GetSize().x;
+  _normalizedClip.size.y = aClip.size.y / _image->GetSize().y;
 }

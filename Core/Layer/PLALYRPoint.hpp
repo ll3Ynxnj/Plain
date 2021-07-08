@@ -1,7 +1,6 @@
 #ifndef ANHR_PLALYRPOINT_HPP
 #define ANHR_PLALYRPOINT_HPP
 
-
 #include "PLALayer.hpp"
 #include "Type/PLAColor.hpp"
 
