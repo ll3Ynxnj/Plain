@@ -4,10 +4,11 @@ PLALYRTile *PLALYRTile::Create(const PLAVec2 &aOffset,
                                const std::string &aImageName,
                                const GRAVec2<PLASize> &aMapSize,
                                const GRAVec2<PLASize> &aChipSize,
-                               PLASize aAddress) {
+                               PLASize aAddress,
+                               const PLALYRTileDataSource *aDataSource) {
   PLAImage *image = PLAImage::CreateRaw(aImageName);
   PLALYRTile *layer =
-    new PLALYRTile(aOffset, image, aMapSize, aChipSize, aAddress);
+    new PLALYRTile(aOffset, image, aMapSize, aChipSize, aAddress, aDataSource);
   PLAObject::Bind(layer);
   return layer;
 }

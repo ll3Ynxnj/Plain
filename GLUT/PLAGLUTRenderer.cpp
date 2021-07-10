@@ -331,7 +331,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
                                const PLAColor &aColor) const
 {
   //-- This method is an inefficient implementation.
-  static bool kIsDebug = false;
+  static bool kIsDebug = false;//false;
 
   const PLAImage *texImage = aLayer->GetImage();
   if (texImage && !kIsDebug) {

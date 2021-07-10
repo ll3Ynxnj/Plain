@@ -6,29 +6,33 @@
 
 using PLATileChip = PLAUInt;
 
+class PLALYRTileDataSource: public PLAObject {
+public:
+  PLALYRTileDataSource(): PLAObject(PLAObjectType::LYRTileDataSource) {}
+  virtual ~PLALYRTileDataSource() {};
+
+  virtual PLAVec2s GetChunkSize() const = 0;
+  virtual PLATileChip GetTileChip(PLASize aY, PLASize aX) const = 0;
+};
+
 class PLALYRTile: public PLALayer
 {
-  std::vector<std::vector<PLATileChip>> _chips =
-    std::vector<std::vector<PLATileChip>>();
   const PLAImage *_image = nullptr;
   GRAVec2<PLASize> _mapSize = GRAVec2<PLASize>(0);
   GRAVec2<PLASize> _chipSize = GRAVec2<PLASize>(0);
   PLASize _address = 0;
+  const PLALYRTileDataSource *_dataSource = nullptr;
 
 protected:
   PLALYRTile(const PLAVec2 &aOffset, const PLAImage *aImage,
              const GRAVec2<PLASize> &aMapSize,
-             const GRAVec2<PLASize> &aChipSize, PLASize aAddress) :
+             const GRAVec2<PLASize> &aChipSize, PLASize aAddress,
+             const PLALYRTileDataSource *aDataSource) :
     PLALayer(PLALayerType::Tile, PLAVec3(aOffset.x, aOffset.y, 0)),
-    _chips(), _image(aImage), _mapSize(aMapSize),
-    _chipSize(aChipSize), _address(aAddress)
+    _image(aImage), _mapSize(aMapSize),
+    _chipSize(aChipSize), _address(aAddress), _dataSource(aDataSource)
   {
-    for (PLASize y = 0; y < _mapSize.y; y++) {
-      _chips.push_back(std::vector<PLATileChip>());
-      for (PLASize x = 0; x < _mapSize.x; x++) {
-        _chips[y].push_back(x);
-      }
-    }
+
   };
 
 public:
@@ -36,20 +40,19 @@ public:
                             const std::string &aImageName,
                             const GRAVec2<PLASize> &aMapSize,
                             const GRAVec2<PLASize> &aChipSize,
-                            const PLASize aAddress);
+                            PLASize aAddress,
+                            const PLALYRTileDataSource *aDataSource);
 
   PLALYRTile() = delete;
 
   virtual ~PLALYRTile() {};
 
-  PLAUInt GetChip(PLASize aX, PLASize aY) const { return _chips[aY][aX]; };
+  PLAUInt GetChip(PLASize aY, PLASize aX) const
+  { return _dataSource->GetTileChip(aY, aX); };
   const PLAImage *GetImage() const { return _image; };
   const GRAVec2<PLASize> &GetMapSize() const { return _mapSize; };
   const GRAVec2<PLASize> &GetChipSize() const { return _chipSize; };
   PLASize GetNumberOfChips() const { return _mapSize.x * _mapSize.y; };
-
-  void SetChip(PLASize aX, PLASize aY, PLATileChip chip)
-  { _chips[aY][aX] = chip; };
 
   //void RefreshChips(const std::vector<std::vector<PLATileChip>> &aChips);
 
@@ -61,10 +64,6 @@ public:
   virtual bool IsCollideWithLine(const PLALine &aLine) const;
   virtual bool IsCollideWithRect(const PLARect &aRect) const;
   virtual bool IsCollideWithCircle(const PLACircle &aCircle) const;
-};
-
-class PLALYRTileDataSource {
-
 };
 
 #endif //ANHR_PLALYRTILE_HPP

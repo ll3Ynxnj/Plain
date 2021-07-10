@@ -88,10 +88,12 @@ PLAActor *PLAActor::CreateTile(const PLAVec2 &aOffset,
                                const std::string &aImageName,
                                const GRAVec2<PLASize> &aMapSize,
                                const GRAVec2<PLASize> &aChipSize,
-                               PLASize aAddress)
+                               PLASize aAddress,
+                               const PLALYRTileDataSource *aDataSource)
 {
   PLALYRTile *layer = PLALYRTile::Create(aOffset, aImageName, aMapSize, aChipSize,
-                                         aAddress);
+                                         aAddress, aDataSource);
+  /*
   PLATileChip chips[16][16] = {
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -102,7 +104,7 @@ PLAActor *PLAActor::CreateTile(const PLAVec2 &aOffset,
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-    { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+    { 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
     { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
     { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
     { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
@@ -115,6 +117,7 @@ PLAActor *PLAActor::CreateTile(const PLAVec2 &aOffset,
       layer->SetChip(y, x, chips[y][x]);
     }
   }
+  */
   PLAActor *actor = new PLAActor(kPLAVec3None, kPLAColorWhite,
                                  kPLATransformNorm, layer);
   PLAObject::Bind(actor);

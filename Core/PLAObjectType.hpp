@@ -18,6 +18,8 @@ enum class PLAObjectType : PLAInt
   Renderer,
   ImageClip,
 
+  LYRTileDataSource,
+
   kNumberOfItems,
   None = kPLAIntUndefined,
 };
