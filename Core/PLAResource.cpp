@@ -57,7 +57,9 @@ void PLAResource::PrintResource() const {
 PLAResource::Manager PLAResource::Manager::_instance = PLAResource::Manager();
 
 PLAResource::Manager::Manager() : GRABinder<PLAResource>() {
+  this->LoadResource("sample0.raw");
   this->LoadResource("sample1.raw");
+  this->LoadResource("sample2.raw");
 }
 
 PLAResource::Manager::~Manager() {

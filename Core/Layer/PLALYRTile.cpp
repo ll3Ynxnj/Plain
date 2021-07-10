@@ -22,6 +22,22 @@ void PLALYRTile::GetSize(PLAVec3 *aSize) const {
   aSize->z = 0;
 }
 
+/*
+void PLALYRTile::RefreshChips(const std::vector<std::vector<PLATileChip>> &aChips) {
+  if (aChips.size() != _mapSize.y) {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Invalid Y-axis size. aChips.y: %d, _mapSize.y %d",
+                    aChips.size(), _chips.size());
+  }
+  if (aChips.size() != _mapSize.x) {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Invalid X-axis size. aChips.x: %d, _mapSize.x %d",
+                    aChips.size(), _mapSize.x);
+  }
+  _chips = aChips;
+}
+ */
+
 void PLALYRTile::SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot) {
   return;
 }

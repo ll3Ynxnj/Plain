@@ -334,14 +334,12 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
   static bool kIsDebug = false;
 
   const PLAImage *texImage = aLayer->GetImage();
-  if (texImage && !kIsDebug)
-  {
+  if (texImage && !kIsDebug) {
     glEnable(GL_TEXTURE_2D);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetSize().x,
                  texImage->GetSize().y, 0,
                  GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
-  } else
-  {
+  } else {
     glDisable(GL_TEXTURE_2D);
   }
 
@@ -349,16 +347,14 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
   GRAVec2<PLASize> chipSize = aLayer->GetChipSize();
 
   GLfloat pxTable[mapSize.x];
-  for (PLAInt i = 0; i < mapSize.x; i++)
-  {
+  for (PLAInt i = 0; i < mapSize.x; i++) {
     GLfloat px = chipSize.x * i;
     pxTable[i] = px;
     if (kIsDebug) { GRA_PRINT("pxTable[%d]: %.2f\n", i, pxTable[i]); }
   }
 
   GLfloat pyTable[mapSize.y];
-  for (PLAInt i = 0; i < mapSize.y; i++)
-  {
+  for (PLAInt i = 0; i < mapSize.y; i++) {
     GLfloat py = chipSize.x * i;
     pyTable[i] = py;
     if (kIsDebug) { GRA_PRINT("pyTable[%d]: %.2f\n", i, pyTable[i]); }
@@ -366,16 +362,14 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
 
   PLASize numberOfChipsX = 1024 / chipSize.x;
   GLfloat cxTable[numberOfChipsX];
-  for (PLAInt i = 0; i < numberOfChipsX; i++)
-  {
+  for (PLAInt i = 0; i < numberOfChipsX; i++) {
     cxTable[i] = (i * chipSize.x) / 1024.0;
     if (kIsDebug) { GRA_PRINT("cxTable[%d]:%.2f\n", i, cxTable[i]); }
   };
 
   PLASize numberOfChipsY = 1024 / chipSize.y;
   GLfloat cyTable[numberOfChipsY];
-  for (PLAInt i = 0; i < numberOfChipsY; i++)
-  {
+  for (PLAInt i = 0; i < numberOfChipsY; i++) {
     cyTable[i] = (i * chipSize.y) / 1024.0;
     if (kIsDebug) { GRA_PRINT("cyTable[%d]:%.2f\n", i, cyTable[i]); }
   };
@@ -383,10 +377,8 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
   GLfloat cw = static_cast<GLfloat>(chipSize.x) / 1024;
   GLfloat ch = static_cast<GLfloat>(chipSize.y) / 1024;
 
-  for (PLAInt y = 0; y < mapSize.y; y++)
-  {
-    for (PLAInt x = 0; x < mapSize.x; x++)
-    {
+  for (PLAInt y = 0; y < mapSize.y; y++) {
+    for (PLAInt x = 0; x < mapSize.x; x++) {
       const PLAVec3 offset = PLAVec3(pxTable[x], pyTable[y], 0);
       static const PLAUInt kNumVertices = 12;
       GLfloat vertices[kNumVertices] = {
@@ -404,8 +396,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
         offset.z,
       };
 
-      if (kIsDebug)
-      {
+      if (kIsDebug) {
         for (int i = 0; i < kNumVertices;) {
           GRA_PRINT("x: %d, y: %d,"
                     " vertices: [%d] x: %.2f, [%d] y: %.2f, [%d] z: %.2f\n",
@@ -413,12 +404,19 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
         }
       }
 
-      static const PLAColor kDebugColors[] = {
-        kPLAColorRed, kPLAColorGreen, kPLAColorBlue,
-        kPLAColorCyan, kPLAColorMagenta, kPLAColorYellow,
-      };
-      const PLAUInt debugColorIndex = (y + x) % 6;
-      PLAColor color = kDebugColors[debugColorIndex];
+      PLAColor color = kPLAColorWhite;
+      if (kIsDebug)
+      {
+        static const PLAColor kDebugColors[] = {
+          kPLAColorRed, kPLAColorGreen, kPLAColorBlue,
+          kPLAColorCyan, kPLAColorMagenta, kPLAColorYellow,
+        };
+        const PLAUInt debugColorIndex = (y + x) % 6;
+        color = kDebugColors[debugColorIndex];
+        GRA_PRINT("x: %d, y: %d, colors: index: %d,"
+                  " r: %.2f, g: %.2f, b: %.2f, a: %.2f,\n",
+                  x, y, debugColorIndex, color.r, color.g, color.b, color.a);
+      }
 
       static const PLAUInt kNumColors = 16;
       GLfloat colors[kNumColors] = {
@@ -428,18 +426,15 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
         color.r, color.g, color.b, color.a,
       };
 
-      if (kIsDebug) {
-        GRA_PRINT("x: %d, y: %d, colors: index: %d,"
-                  " r: %.2f, g: %.2f, b: %.2f, a: %.2f,\n",
-                  x, y, debugColorIndex, color.r, color.g, color.b, color.a);
-      }
-
       static const PLAUInt kNumCoords = 8;
+      PLATileChip chip = aLayer->GetChip(y, x);
+      GLfloat cx = cw * (chip % 16);
+      GLfloat cy = ch * (chip / 16);
       GLfloat coords[kNumCoords] = {
-         0,  0,
-        cw,  0,
-         0, ch,
-        cw, ch,
+        cx,      cy,
+        cx + cw, cy,
+        cx,      cy + ch,
+        cx + cw, cy + ch,
       };
 
       if (kIsDebug) {
