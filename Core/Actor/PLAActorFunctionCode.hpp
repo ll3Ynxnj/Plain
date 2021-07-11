@@ -8,9 +8,6 @@ enum class PLAActorFunctionCode : PLAInt
   OnAppear,
   OnDisappear,
 
-  SetTileChip,
-  RefreshTileChips,
-
   kNumberOfItems,
   None = kPLAIntUndefined
 };

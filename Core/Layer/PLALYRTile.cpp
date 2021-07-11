@@ -1,5 +1,11 @@
 #include "PLALYRTile.hpp"
 
+PLALYRTileDataSource *PLALYRTileDataSource::Create() {
+  PLALYRTileDataSource *dataSource = new PLALYRTileDataSource();
+  PLAObject::Bind(dataSource);
+  return dataSource;
+}
+
 PLALYRTile *PLALYRTile::Create(const PLAVec2 &aOffset,
                                const std::string &aImageName,
                                const GRAVec2<PLASize> &aMapSize,

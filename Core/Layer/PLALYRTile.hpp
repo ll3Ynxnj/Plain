@@ -8,11 +8,34 @@ using PLATileChip = PLAUInt;
 
 class PLALYRTileDataSource: public PLAObject {
 public:
+  static PLALYRTileDataSource *Create();
+
   PLALYRTileDataSource(): PLAObject(PLAObjectType::LYRTileDataSource) {}
+
   virtual ~PLALYRTileDataSource() {};
 
-  virtual PLAVec2s GetChunkSize() const = 0;
-  virtual PLATileChip GetTileChip(PLASize aY, PLASize aX) const = 0;
+  //-- Functors --//////////////////////////////////////////////////////////////
+private:
+  std::function<PLAVec2s()> _fGetChunkSize = []() -> PLAVec2s {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Undefined functor \"GetChunkSize\" was called.");
+  };
+  std::function<PLATileChip(PLASize, PLASize)> _fGetTileChip =
+    [](PLASize, PLASize) -> PLATileChip {
+      PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                      "Undefined functor \"GetTileChip\" was called.");
+  };
+
+public:
+  PLAVec2s GetChunkSize() const { return _fGetChunkSize(); };
+  PLATileChip GetTileChip(PLASize aY, PLASize aX) const
+  { return _fGetTileChip(aY, aX); };
+
+  void SetFunc_GetChunkSize(const std::function<PLAVec2s()> &aF)
+  { _fGetChunkSize = aF; };
+  void SetFunc_GetTileChip(const std::function<PLATileChip(PLASize, PLASize)> &aF)
+  { _fGetTileChip = aF; };
+
 };
 
 class PLALYRTile: public PLALayer
