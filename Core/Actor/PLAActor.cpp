@@ -89,7 +89,7 @@ PLAActor *PLAActor::CreateTile(const PLAVec2 &aOffset,
                                const GRAVec2<PLASize> &aMapSize,
                                const GRAVec2<PLASize> &aChipSize,
                                PLASize aAddress,
-                               const PLALYRTileDataSource *aDataSource)
+                               const IPLALYRTileDataSource *aDataSource)
 {
   PLALYRTile *layer = PLALYRTile::Create(aOffset, aImageName, aMapSize, aChipSize,
                                          aAddress, aDataSource);

@@ -1,42 +1,9 @@
 #ifndef ANHR_PLALYRTILE_HPP
 #define ANHR_PLALYRTILE_HPP
 
-#include <Layer/PLALayer.hpp>
-#include <Type/PLAColor.hpp>
+#include "PLALayer.hpp"
 
-using PLATileChip = PLAUInt;
-
-class PLALYRTileDataSource: public PLAObject {
-public:
-  static PLALYRTileDataSource *Create();
-
-  PLALYRTileDataSource(): PLAObject(PLAObjectType::LYRTileDataSource) {}
-
-  virtual ~PLALYRTileDataSource() {};
-
-  //-- Functors --//////////////////////////////////////////////////////////////
-private:
-  std::function<PLAVec2s()> _fGetChunkSize = []() -> PLAVec2s {
-    PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                    "Undefined functor \"GetChunkSize\" was called.");
-  };
-  std::function<PLATileChip(PLASize, PLASize)> _fGetTileChip =
-    [](PLASize, PLASize) -> PLATileChip {
-      PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                      "Undefined functor \"GetTileChip\" was called.");
-  };
-
-public:
-  PLAVec2s GetChunkSize() const { return _fGetChunkSize(); };
-  PLATileChip GetTileChip(PLASize aY, PLASize aX) const
-  { return _fGetTileChip(aY, aX); };
-
-  void SetFunc_GetChunkSize(const std::function<PLAVec2s()> &aF)
-  { _fGetChunkSize = aF; };
-  void SetFunc_GetTileChip(const std::function<PLATileChip(PLASize, PLASize)> &aF)
-  { _fGetTileChip = aF; };
-
-};
+#include "IPLALYRTileDataSource.hpp"
 
 class PLALYRTile: public PLALayer
 {
@@ -44,13 +11,13 @@ class PLALYRTile: public PLALayer
   GRAVec2<PLASize> _mapSize = GRAVec2<PLASize>(0);
   GRAVec2<PLASize> _chipSize = GRAVec2<PLASize>(0);
   PLASize _address = 0;
-  const PLALYRTileDataSource *_dataSource = nullptr;
+  const IPLALYRTileDataSource *_dataSource = nullptr;
 
 protected:
   PLALYRTile(const PLAVec2 &aOffset, const PLAImage *aImage,
              const GRAVec2<PLASize> &aMapSize,
              const GRAVec2<PLASize> &aChipSize, PLASize aAddress,
-             const PLALYRTileDataSource *aDataSource) :
+             const IPLALYRTileDataSource *aDataSource) :
     PLALayer(PLALayerType::Tile, PLAVec3(aOffset.x, aOffset.y, 0)),
     _image(aImage), _mapSize(aMapSize),
     _chipSize(aChipSize), _address(aAddress), _dataSource(aDataSource)
@@ -64,7 +31,7 @@ public:
                             const GRAVec2<PLASize> &aMapSize,
                             const GRAVec2<PLASize> &aChipSize,
                             PLASize aAddress,
-                            const PLALYRTileDataSource *aDataSource);
+                            const IPLALYRTileDataSource *aDataSource);
 
   PLALYRTile() = delete;
 

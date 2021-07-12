@@ -13,9 +13,9 @@
 #include "Type/PLAColor.hpp"
 #include "Type/PLATransform.hpp"
 #include "Layer/PLALayer.hpp"
+#include "Layer/IPLALYRTileDataSource.hpp"
 
 class PLARenderer;
-class PLALYRTileDataSource;
 
 class PLAActor : public PLAObject, public PLAInputContext,
   public GRAListener<PLAScene, PLAScene::FunctionCode>
@@ -98,7 +98,7 @@ public:
                               const GRAVec2<PLASize> &aMapSize,
                               const GRAVec2<PLASize> &aChipSize,
                               PLASize aAddress,
-                              const PLALYRTileDataSource *aDataSource);
+                              const IPLALYRTileDataSource *aDataSource);
 
   virtual ~PLAActor();
 

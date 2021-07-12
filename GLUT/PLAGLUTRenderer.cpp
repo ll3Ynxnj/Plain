@@ -379,6 +379,9 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
 
   for (PLAInt y = 0; y < mapSize.y; y++) {
     for (PLAInt x = 0; x < mapSize.x; x++) {
+      PLATileChip chip = aLayer->GetChip(y, x);
+      if (chip == kPLATileChipNone) { continue; }
+
       const PLAVec3 offset = PLAVec3(pxTable[x], pyTable[y], 0);
       static const PLAUInt kNumVertices = 12;
       GLfloat vertices[kNumVertices] = {
@@ -427,9 +430,8 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       };
 
       static const PLAUInt kNumCoords = 8;
-      PLATileChip chip = aLayer->GetChip(y, x);
-      GLfloat cx = cw * (chip % 16);
-      GLfloat cy = ch * (chip / 16);
+      GLfloat cx = cw * (chip % numberOfChipsX);
+      GLfloat cy = ch * (chip / numberOfChipsY);
       GLfloat coords[kNumCoords] = {
         cx,      cy,
         cx + cw, cy,
