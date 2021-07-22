@@ -11,6 +11,7 @@
 #include "PLAActorCollisyncCode.hpp"
 #include "PLAActorFunctionCode.hpp"
 #include "Type/PLAColor.hpp"
+#include "Type/PLAVector.hpp"
 #include "Type/PLATransform.hpp"
 #include "Layer/PLALayer.hpp"
 #include "Layer/IPLALYRTileDataSource.hpp"

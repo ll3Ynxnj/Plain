@@ -1,6 +1,7 @@
 #ifndef ANHR_PLAVECTOR_HPP
 #define ANHR_PLAVECTOR_HPP
 
+#include "Type/PLAType.hpp"
 #include "Grain/Type/GRAVector.hpp"
 
 using PLAVec2 = GRAVec2<PLAFloat>;

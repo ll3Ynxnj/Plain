@@ -1,7 +1,7 @@
 #ifndef PLAIN_ENGINE_PLARENDERERTYPE_HPP
 #define PLAIN_ENGINE_PLARENDERERTYPE_HPP
 
-#include "Plain.h"
+#include "Type/PLAType.hpp"
 
 enum class PLARendererType : PLAInt
 {
