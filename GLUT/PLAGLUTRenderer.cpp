@@ -343,18 +343,18 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
     glDisable(GL_TEXTURE_2D);
   }
 
-  GRAVec2<PLASize> mapSize = aLayer->GetMapSize();
+  GRAVec2<PLASize> tileSize = aLayer->GetTileSize();
   GRAVec2<PLASize> chipSize = aLayer->GetChipSize();
 
-  GLfloat pxTable[mapSize.x];
-  for (PLAInt i = 0; i < mapSize.x; i++) {
+  GLfloat pxTable[tileSize.x];
+  for (PLAInt i = 0; i < tileSize.x; i++) {
     GLfloat px = chipSize.x * i;
     pxTable[i] = px;
     if (kIsDebug) { GRA_PRINT("pxTable[%d]: %.2f\n", i, pxTable[i]); }
   }
 
-  GLfloat pyTable[mapSize.y];
-  for (PLAInt i = 0; i < mapSize.y; i++) {
+  GLfloat pyTable[tileSize.y];
+  for (PLAInt i = 0; i < tileSize.y; i++) {
     GLfloat py = chipSize.x * i;
     pyTable[i] = py;
     if (kIsDebug) { GRA_PRINT("pyTable[%d]: %.2f\n", i, pyTable[i]); }
@@ -377,9 +377,10 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
   GLfloat cw = static_cast<GLfloat>(chipSize.x) / 1024;
   GLfloat ch = static_cast<GLfloat>(chipSize.y) / 1024;
 
-  for (PLAInt y = 0; y < mapSize.y; y++) {
-    for (PLAInt x = 0; x < mapSize.x; x++) {
-      PLATileChip chip = aLayer->GetChip(y, x);
+  PLAVec2s chipAddress = aLayer->GetChipAddress();
+  for (PLAInt y = 0; y < tileSize.y; y++) {
+    for (PLAInt x = 0; x < tileSize.x; x++) {
+      PLATileChip chip = aLayer->GetChip(chipAddress.y + y, chipAddress.x + x);
       if (chip == kPLATileChipNone) { continue; }
 
       const PLAVec3 offset = PLAVec3(pxTable[x], pyTable[y], 0);

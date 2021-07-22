@@ -4,22 +4,21 @@ PLALYRTile *PLALYRTile::Create(const PLAVec2 &aOffset,
                                const std::string &aImageName,
                                const GRAVec2<PLASize> &aMapSize,
                                const GRAVec2<PLASize> &aChipSize,
-                               PLASize aAddress,
                                const IPLALYRTileDataSource *aDataSource) {
   PLAImage *image = PLAImage::CreateRaw(aImageName);
   PLALYRTile *layer =
-    new PLALYRTile(aOffset, image, aMapSize, aChipSize, aAddress, aDataSource);
+    new PLALYRTile(aOffset, image, aMapSize, aChipSize, aDataSource);
   PLAObject::Bind(layer);
   return layer;
 }
 
 PLAVec3 PLALYRTile::GetSize() const {
-  return PLAVec3(_chipSize.x * _mapSize.x, _chipSize.y * _mapSize.y, 0);
+  return PLAVec3(_chipSize.x * _tileSize.x, _chipSize.y * _tileSize.y, 0);
 }
 
 void PLALYRTile::GetSize(PLAVec3 *aSize) const {
-  aSize->x = _chipSize.x * _mapSize.x;
-  aSize->y = _chipSize.y * _mapSize.y;
+  aSize->x = _chipSize.x * _tileSize.x;
+  aSize->y = _chipSize.y * _tileSize.y;
   aSize->z = 0;
 }
 

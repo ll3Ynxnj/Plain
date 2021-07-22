@@ -86,13 +86,12 @@ PLAActor *PLAActor::CreateCircle(const PLAVec3 &aPivot,
 
 PLAActor *PLAActor::CreateTile(const PLAVec2 &aOffset,
                                const std::string &aImageName,
-                               const GRAVec2<PLASize> &aMapSize,
+                               const GRAVec2<PLASize> &aTileSize,
                                const GRAVec2<PLASize> &aChipSize,
-                               PLASize aAddress,
                                const IPLALYRTileDataSource *aDataSource)
 {
-  PLALYRTile *layer = PLALYRTile::Create(aOffset, aImageName, aMapSize, aChipSize,
-                                         aAddress, aDataSource);
+  PLALYRTile *layer = PLALYRTile::Create(aOffset, aImageName, aTileSize, aChipSize,
+                                         aDataSource);
   PLAActor *actor = new PLAActor(kPLAVec3None, kPLAColorWhite,
                                  kPLATransformNorm, layer);
   PLAObject::Bind(actor);
