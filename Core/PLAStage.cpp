@@ -22,9 +22,20 @@ PLAStage::~PLAStage()
   _context = nullptr;
 }
 
+void PLAStage::Init()
+{
+  _context->Init();
+  _functor.RunFunction(FunctionCode::OnInit, this);
+  for (GRAListener<PLAStage, FunctionCode> *listener: _listeners)
+  { listener->RunListener(FunctionCode::OnInit, this); }
+}
+
 void PLAStage::Update()
 {
   _context->Update();
+  _functor.RunFunction(FunctionCode::OnUpdate, this);
+  for (GRAListener<PLAStage, FunctionCode> *listener: _listeners)
+  { listener->RunListener(FunctionCode::OnUpdate, this); }
 }
 
 void PLAStage::AddActor(PLAActor *aActor)
@@ -46,6 +57,9 @@ void PLAStage::PrintActors() const
 void PLAStage::SetSize(const PLAVec3 &aSize)
 {
   _context->SetSize(aSize);
+  _functor.RunFunction(FunctionCode::OnResize, this);
+  for (GRAListener<PLAStage, FunctionCode> *listener: _listeners)
+  { listener->RunListener(FunctionCode::OnResize, this); }
 }
 
 // PLAInputHandler /////////////////////////////////////////////////////////////

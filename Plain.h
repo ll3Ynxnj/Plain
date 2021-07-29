@@ -3,5 +3,6 @@
 
 #include "Grain/Grain.h"
 #include "Core/Type/PLAType.hpp"
+#include "Core/Layer/IPLALYRTileDataSource.hpp"
 
 #endif //PLAIN_ENGINE_PLAIN_HPP

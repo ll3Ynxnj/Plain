@@ -38,8 +38,8 @@ public:
     static Manager _instance;
 
   public:
-    static const Manager *GetInstance() { return &_instance; };
-    static Manager *RefInstance() { return &_instance; };
+    static Manager *Instance() { return &_instance; };
+    static PLAObject *Object(const std::string &aKey);
 
     Manager();
     ~Manager();

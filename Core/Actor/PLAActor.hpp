@@ -15,13 +15,17 @@
 #include "Type/PLATransform.hpp"
 #include "Layer/PLALayer.hpp"
 #include "Layer/IPLALYRTileDataSource.hpp"
+#include "Grain/GRABinder.hpp"
 
 class PLARenderer;
 
-class PLAActor : public PLAObject, public PLAInputContext,
-  public GRAListener<PLAScene, PLAScene::FunctionCode>
+class PLAActor final : public PLAObject, public PLAInputContext,
+  public GRAListener<PLAScene, PLAScene::FunctionCode>,
+  public GRABinder<PLAActor>::Item
 {
 public:
+  //static void Bind(PLAActor *aObject);
+  //static void Unbind(PLAActor *aObject);
 
 private:
   struct CollisionItem
@@ -141,6 +145,11 @@ public:
 
   size_t GetNumberOfActors() { return _actors.size(); };
 
+  class PLALYRPoint *RefLYRPoint();
+  class PLALYRLine *RefLYRLine();
+  class PLALYRRect *RefLYRRect();
+  class PLALYRCircle *RefLYRCircle();
+  class PLALYRTile *RefLYRTile();
   PLAActor *RefActorWithPoint(const PLAPoint &aPoint);
   //PLAActor *RefActorWithInput(const PLAInput &aInput);
 

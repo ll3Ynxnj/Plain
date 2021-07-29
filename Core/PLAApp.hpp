@@ -7,7 +7,11 @@
 #include "Type/PLAVector.hpp"
 #include "Type/PLAPoint.hpp"
 
-class PLAStage;
+#include "PLAState.hpp";
+#include "PLAScene.hpp";
+#include "PLAStage.hpp";
+#include "Actor/PLAActor.hpp";
+
 class PLARenderer;
 
 class PLAApp final : public PLAObject
@@ -24,7 +28,15 @@ public:
   static const int kBaseScreenLength = 320;
 
   static PLAApp *GetInstance() { return &_instance; };
-  static PLAStage *Stage() { return _instance._stage; };
+  //static PLAStage *Stage() { return _instance._stage; };
+  //static PLAScene *Scene();
+  static void InitStage();
+  static void AddActor(PLAActor *actor);
+  static PLAActor *Actor(const std::string &aKey);
+  static void SetStageFunction(PLAStage::FunctionCode aKey,
+                               const std::function<void(PLAStage *)> &aFunc);
+  static PLAVec3 GetStageSize();
+  static void PrintStageActors();
 
   static PLAInputCode GetInputCodeFromChar(const unsigned char aCharacter);
 

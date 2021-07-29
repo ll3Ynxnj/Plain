@@ -377,11 +377,12 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
   GLfloat cw = static_cast<GLfloat>(chipSize.x) / 1024;
   GLfloat ch = static_cast<GLfloat>(chipSize.y) / 1024;
 
-  PLAVec2s chipAddress = aLayer->GetChipAddress();
+  PLAVec2s dataAddress = aLayer->GetDataAddress();
   for (PLAInt y = 0; y < tileSize.y; y++) {
     for (PLAInt x = 0; x < tileSize.x; x++) {
-      PLATileChip chip = aLayer->GetChip(chipAddress.y + y, chipAddress.x + x);
-      if (chip == kPLATileChipNone) { continue; }
+      const PLATileChip chip =
+        aLayer->GetChip(dataAddress.y + y, dataAddress.x + x);
+      if (chip.code == kPLATileChipCodeNone) { continue; }
 
       const PLAVec3 offset = PLAVec3(pxTable[x], pyTable[y], 0);
       static const PLAUInt kNumVertices = 12;
@@ -408,7 +409,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
         }
       }
 
-      PLAColor color = kPLAColorWhite;
+      PLAColor color = chip.color;
       if (kIsDebug)
       {
         static const PLAColor kDebugColors[] = {
@@ -431,8 +432,8 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       };
 
       static const PLAUInt kNumCoords = 8;
-      GLfloat cx = cw * (chip % numberOfChipsX);
-      GLfloat cy = ch * (chip / numberOfChipsY);
+      GLfloat cx = cw * (chip.code % numberOfChipsX);
+      GLfloat cy = ch * (chip.code / numberOfChipsY);
       GLfloat coords[kNumCoords] = {
         cx,      cy,
         cx + cw, cy,

@@ -2,6 +2,8 @@
 #include "PLAInput.hpp"
 #include "PLAError.hpp"
 
+#include "Layer/PLALYRPoint.hpp"
+#include "Layer/PLALYRLine.hpp"
 #include "Layer/PLALYRRect.hpp"
 #include "Layer/PLALYRCircle.hpp"
 #include "Layer/PLALYRTile.hpp"
@@ -98,11 +100,32 @@ PLAActor *PLAActor::CreateTile(const PLAVec2 &aOffset,
   return actor;
 }
 
+/*
+void PLAActor::Bind(PLAActor *aActor)
+{
+  GRABinder<PLAActor>::Error error(GRABinder<PLAActor>::Error::None);
+  PLAScene *scene = PLAScene::Manager::Instance()->RefCurrentScene();
+  scene->GRABinder<PLAActor>::Bind(aActor, &error);
+  if (error != GRABinder<PLAActor>::Error::None) {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed PLAObject binding. ERROR : %02d", error);
+  }
+}
+
+void PLAActor::Unbind(PLAActor *aActor)
+{
+  GRABinder<PLAActor>::Error error(GRABinder<PLAActor>::Error::None);
+  PLAScene *scene = PLAScene::Manager::Instance()->RefCurrentScene();
+  scene->GRABinder<PLAActor>::Unbind(aActor, &error);
+}
+*/
+
 PLAActor::PLAActor(const PLAVec3 &aPivot,
                    const PLAColor &aColor,
                    const PLATransform &aTransform,
                    PLALayer *aLayer) :
   PLAObject(PLAObjectType::Actor),//"== PLAActor =="),
+  GRABinder<PLAActor>::Item(),
   PLAInputContext(),
   _pivot(aPivot),
   _color(aColor),
@@ -207,6 +230,31 @@ PLAActor *PLAActor::RefActorWithPoint(const PLAPoint &aPoint)
   if (this->IsCollideWithPoint(aPoint)) { return this; }
 
   return nullptr;
+}
+
+PLALYRPoint *PLAActor::RefLYRPoint() {
+  if (_layer->GetLayerType() != PLALayerType::Point) { return nullptr; }
+  return static_cast<PLALYRPoint *>(_layer);
+}
+
+PLALYRLine *PLAActor::RefLYRLine() {
+  if (_layer->GetLayerType() != PLALayerType::Line) { return nullptr; }
+  return static_cast<PLALYRLine *>(_layer);
+}
+
+PLALYRRect *PLAActor::RefLYRRect() {
+  if (_layer->GetLayerType() != PLALayerType::Rect) { return nullptr; }
+  return static_cast<PLALYRRect *>(_layer);
+}
+
+PLALYRCircle *PLAActor::RefLYRCircle() {
+  if (_layer->GetLayerType() != PLALayerType::Circle) { return nullptr; }
+  return static_cast<PLALYRCircle *>(_layer);
+}
+
+PLALYRTile *PLAActor::RefLYRTile() {
+  if (_layer->GetLayerType() != PLALayerType::Tile) { return nullptr; }
+  return static_cast<PLALYRTile *>(_layer);
 }
 
 /*

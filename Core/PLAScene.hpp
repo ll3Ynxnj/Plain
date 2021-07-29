@@ -1,19 +1,18 @@
-//
-// Created by Kentaro Kawai on 2021/01/28.
-//
-
 #ifndef ANHR_PLASCENE_HPP
 #define ANHR_PLASCENE_HPP
 
 #include <stack>
 #include <list>
 #include "PLAObject.hpp"
+#include "Grain/GRABinder.hpp"
 #include "Grain/GRAListener.hpp"
 
-class PLAScene : public PLAObject
+class PLAActor;
+
+class PLAScene final : public PLAObject, public GRABinder<PLAActor>
 {
 public:
-  enum class FunctionCode : PLAInt
+  enum class FunctionCode : PLAFunctionCode
   {
     OnInit,
     OnUpdate,
@@ -21,12 +20,14 @@ public:
     OnDisappear,
 
     kNumberOfItems,
-    None = kPLAIntUndefined,
+    None = kPLAFunctionCodeNone,
   };
 
 private:
-  std::list<GRAListener<PLAScene, FunctionCode> *> _listeners = std::list<GRAListener<PLAScene, FunctionCode> *>();
-  GRAFunctor<PLAScene, FunctionCode> _functor = GRAFunctor<PLAScene, FunctionCode>();
+  std::list<GRAListener<PLAScene, FunctionCode> *> _listeners =
+    std::list<GRAListener<PLAScene, FunctionCode> *>();
+  GRAFunctor<PLAScene, FunctionCode> _functor =
+    GRAFunctor<PLAScene, FunctionCode>();
 
 protected:
   PLAScene();
@@ -36,40 +37,24 @@ public:
 
   virtual ~PLAScene();
 
-  void Init() {
-    _functor.RunFunction(FunctionCode::OnInit, this);
-    for (GRAListener<PLAScene, FunctionCode> *listener: _listeners)
-    { listener->RunListener(FunctionCode::OnInit, this); }
-  };
+  void AddActor(PLAActor *aActor);
+  void RemoveActor(PLAActor *aActor);
+  const PLAActor *GetActor(const std::string &aName) const;
+  PLAActor *RefActor(const std::string &aName) const;
 
-  void Update() {
-    _functor.RunFunction(FunctionCode::OnUpdate, this);
-    for (GRAListener<PLAScene, FunctionCode> *listener: _listeners)
-    { listener->RunListener(FunctionCode::OnUpdate, this); }
-  };
+  void Init();
+  void Update();
+  void Appear();
+  void Disappear();
 
-  void Appear() {
-    _functor.RunFunction(FunctionCode::OnAppear, this);
-    for (GRAListener<PLAScene, FunctionCode> *listener: _listeners)
-    { listener->RunListener(FunctionCode::OnAppear, this); }
-  };
+  void AddListener(GRAListener<PLAScene, FunctionCode> *aListener)
+  { _listeners.push_back(aListener); };
 
-  void Disappear() {
-    _functor.RunFunction(FunctionCode::OnDisappear, this);
-    for (GRAListener<PLAScene, FunctionCode> *listener: _listeners)
-    { listener->RunListener(FunctionCode::OnDisappear, this); }
-  };
+  void RemoveListener(GRAListener<PLAScene, FunctionCode> *aListener)
+  { _listeners.remove(aListener); };
 
-  void AddListener(GRAListener<PLAScene, FunctionCode> *aListener) {
-    _listeners.push_back(aListener);
-  };
-
-  void RemoveActor(GRAListener<PLAScene, FunctionCode> *aListener) {
-    _listeners.remove(aListener);
-  };
-
-  void SetFunctionOfScene(FunctionCode aKey,
-                          const std::function<void(PLAScene*)> &aFunc)
+  void SetFunction(FunctionCode aKey,
+                   const std::function<void(PLAScene *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
 
   // Manager ///////////////////////////////////////////////////////////////////
@@ -79,8 +64,7 @@ public:
     std::stack<PLAScene *>_scenes = std::stack<PLAScene *>();
 
   public:
-    static const Manager *Get() { return &_instance; };
-    static Manager *RefInstance() { return &_instance; };
+    static Manager *Instance() { return &_instance; };
 
     const PLAScene *GetCurrentScene() const { return _scenes.top(); };
     PLAScene *RefCurrentScene() const { return _scenes.top(); };

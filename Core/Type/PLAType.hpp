@@ -82,8 +82,10 @@ static const char *kPLAStrUndefined = kGRAStrUndefined;
 //-- Collisions --//////////////////////////////////////////////////////////////
 
 //-- Functors --////////////////////////////////////////////////////////////////
+using PLAFunctionCode = PLAUInt;
+static const PLAFunctionCode kPLAFunctionCodeNone = kPLAUIntUndefined;
 
-using PLATileChip = PLAUInt;
-static const PLATileChip kPLATileChipNone = kPLAUIntUndefined;
+//using PLATileChip = PLAUInt;
+//static const PLATileChip kPLATileChipNone = kPLAUIntUndefined;
 
 #endif // PLAIN_ENGINE_PLATYPE_HPP

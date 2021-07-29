@@ -18,6 +18,7 @@ class PLAError : public PLAObject
   std::string _message = kPLAStrUndefined;
 
 protected:
+  PLAError();
   PLAError(PLAErrorType aType, const std::string &aFile, int aLine,
            const std::string &aMessage);
 

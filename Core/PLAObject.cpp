@@ -5,7 +5,7 @@
 void PLAObject::Bind(PLAObject *aObject)
 {
   GRABinder<PLAObject>::Error error(GRABinder<PLAObject>::Error::None);
-  PLAObject::Manager::RefInstance()->Bind(aObject, &error);
+  PLAObject::Manager::Instance()->Bind(aObject, &error);
   if (error != GRABinder<PLAObject>::Error::None) {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Failed PLAObject binding. ERROR : %02d", error);
@@ -15,22 +15,27 @@ void PLAObject::Bind(PLAObject *aObject)
 void PLAObject::Delete(PLAObject *aObject)
 {
   GRABinder<PLAObject>::Error error(GRABinder<PLAObject>::Error::None);
-  PLAObject::Manager::RefInstance()->Unbind(aObject, &error);
+  PLAObject::Manager::Instance()->Unbind(aObject, &error);
   if (error != GRABinder<PLAObject>::Error::None) {
     PLA_ERROR_ISSUE(PLAErrorType::Assert, "Failed to delete. ERROR : %02d", error);
   }
   GRA_DELETE(aObject);
 }
 
+PLAObject *PLAObject::Manager::Object(const std::string &aKey) {
+  GRABinder<PLAObject>::Error error(GRABinder<PLAObject>::Error::None);
+  return static_cast<PLAObject *>(_instance.RefItem(aKey, &error));
+}
+
 PLAObject::PLAObject(PLAObjectType aType) :
-GRABinder<PLAObject>::Item(kPLAStrUndefined, Manager::RefInstance()),
+GRABinder<PLAObject>::Item(kPLAStrUndefined, Manager::Instance()),
 _type(aType)
 {
 
 }
 
 PLAObject::PLAObject(PLAObjectType aType, const std::string &aName) :
-GRABinder<PLAObject>::Item(aName, Manager::RefInstance()),
+GRABinder<PLAObject>::Item(aName, Manager::Instance()),
 _type(aType)
 {
 
