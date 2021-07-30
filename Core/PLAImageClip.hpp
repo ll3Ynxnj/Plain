@@ -2,8 +2,8 @@
 // Created by Kentaro Kawai on 2021/05/09.
 //
 
-#ifndef ANHR_PLAIMAGECLIP_HPP
-#define ANHR_PLAIMAGECLIP_HPP
+#ifndef PLAIN_PLAIMAGECLIP_HPP
+#define PLAIN_PLAIMAGECLIP_HPP
 
 #include "PLAObject.hpp"
 #include "PLAImage.hpp"
@@ -38,4 +38,4 @@ private:
   void UpdateNormalizedClip(const PLARect &aClip);
 };
 
-#endif //ANHR_PLAIMAGECLIP_HPP
+#endif //PLAIN_PLAIMAGECLIP_HPP

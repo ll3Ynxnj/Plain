@@ -1,5 +1,5 @@
-#ifndef ANHR_PLALYRRECT_HPP
-#define ANHR_PLALYRRECT_HPP
+#ifndef PLAIN_PLALYRRECT_HPP
+#define PLAIN_PLALYRRECT_HPP
 
 #include "Layer/PLALayer.hpp"
 #include "Type/PLAColor.hpp"
@@ -67,4 +67,4 @@ public:
   const PLAImageClip *GetImageClip() const { return _imageClip; };
 };
 
-#endif //ANHR_PLALYRRECT_HPP
+#endif //PLAIN_PLALYRRECT_HPP

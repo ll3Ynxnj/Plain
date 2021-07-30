@@ -1,5 +1,5 @@
-#ifndef ANHR_PLAIMAGETYPE_HPP
-#define ANHR_PLAIMAGETYPE_HPP
+#ifndef PLAIN_PLAIMAGETYPE_HPP
+#define PLAIN_PLAIMAGETYPE_HPP
 
 enum class PLAImageType: PLAInt
 {
@@ -12,4 +12,4 @@ enum class PLAImageType: PLAInt
   None = kPLAIntUndefined,
 };
 
-#endif //ANHR_PLAIMAGETYPE_HPP
+#endif //PLAIN_PLAIMAGETYPE_HPP

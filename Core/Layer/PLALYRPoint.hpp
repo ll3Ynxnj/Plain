@@ -1,5 +1,5 @@
-#ifndef ANHR_PLALYRPOINT_HPP
-#define ANHR_PLALYRPOINT_HPP
+#ifndef PLAIN_PLALYRPOINT_HPP
+#define PLAIN_PLALYRPOINT_HPP
 
 #include "PLALayer.hpp"
 #include "Type/PLAColor.hpp"
@@ -33,4 +33,4 @@ public:
 };
 
 
-#endif //ANHR_PLALYRPOINT_HPP
+#endif //PLAIN_PLALYRPOINT_HPP

@@ -1,5 +1,5 @@
-#ifndef ANHR_PLACOLOR_HPP
-#define ANHR_PLACOLOR_HPP
+#ifndef PLAIN_PLACOLOR_HPP
+#define PLAIN_PLACOLOR_HPP
 
 #include "Grain/Type/GRAColor.hpp"
 
@@ -16,4 +16,4 @@ static const PLAColor kPLAColorMagenta = PLAColor(1.00, 0.00, 1.00, 1.00);
 static const PLAColor kPLAColorGray    = PLAColor(0.50, 0.50, 0.50, 1.00);
 static const PLAColor kPLAColorWhite   = PLAColor(1.00, 1.00, 1.00, 1.00);
 
-#endif //ANHR_PLACOLOR_HPP
+#endif //PLAIN_PLACOLOR_HPP

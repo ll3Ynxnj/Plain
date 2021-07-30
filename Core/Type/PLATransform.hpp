@@ -1,5 +1,5 @@
-#ifndef ANHR_PLATRANSFORM_HPP
-#define ANHR_PLATRANSFORM_HPP
+#ifndef PLAIN_PLATRANSFORM_HPP
+#define PLAIN_PLATRANSFORM_HPP
 
 #include "PLAVector.hpp"
 #include "Grain/Type/GRATransform.hpp"
@@ -10,4 +10,4 @@ static const PLATransform kPLATransformNone =
 static const PLATransform kPLATransformNorm =
   PLATransform(kPLAVec3None, kPLAVec3None, kPLAVec3Norm);
 
-#endif //ANHR_PLATRANSFORM_HPP
+#endif //PLAIN_PLATRANSFORM_HPP

@@ -1,5 +1,5 @@
-#ifndef ANHR_PLATILE_HPP
-#define ANHR_PLATILE_HPP
+#ifndef PLAIN_PLATILE_HPP
+#define PLAIN_PLATILE_HPP
 
 #include "PLAVector.hpp"
 #include "PLAColor.hpp"
@@ -26,4 +26,4 @@ struct PLATileChip {
 };
 static const PLATileChip kPLATileChipNone = PLATileChip();
 
-#endif //ANHR_PLATILE_HPP
+#endif //PLAIN_PLATILE_HPP

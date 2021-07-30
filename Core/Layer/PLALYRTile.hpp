@@ -1,12 +1,12 @@
-#ifndef ANHR_PLALYRTILE_HPP
-#define ANHR_PLALYRTILE_HPP
+#ifndef PLAIN_PLALYRTILE_HPP
+#define PLAIN_PLALYRTILE_HPP
 
 #include "PLALayer.hpp"
 #include "Type/PLATile.hpp"
 
 #include "IPLALYRTileDataSource.hpp"
 
-class PLALYRTile: public PLALayer
+class PLALYRTile : public PLALayer
 {
   const PLAImage *_image = nullptr;
   GRAVec2<PLASize> _tileSize = GRAVec2<PLASize>(0);
@@ -21,7 +21,8 @@ protected:
              const IPLALYRTileDataSource *aDataSource) :
     PLALayer(PLALayerType::Tile, PLAVec3(aOffset.x, aOffset.y, 0)),
     _image(aImage), _tileSize(aTileSize),
-    _chipSize(aChipSize), _dataSource(aDataSource) { //,
+    _chipSize(aChipSize), _dataSource(aDataSource)
+  { //,
     //_chips(aTileSize.y, std::vector<PLATileChip>(aTileSize.x, PLATileChip())) {
 
   };
@@ -42,6 +43,7 @@ public:
   const PLAVec2s &GetChipSize() const { return _chipSize; };
   const PLATileChip &GetChip(PLAUInt aY, PLAUInt aX) const
   { return _dataSource->GetTileChip(aY, aX); }
+
   PLASize GetNumberOfChips() const { return _tileSize.x * _tileSize.y; };
 
   //void RefreshChips(const std::vector<std::vector<PLATileChip>> &aChips);
@@ -51,6 +53,7 @@ public:
 
   virtual PLAVec3 GetSize() const;
   virtual void GetSize(PLAVec3 *aSize) const;
+
   virtual void SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot);
 
   virtual bool IsCollideWithPoint(const PLAPoint &aPoint) const;
@@ -61,4 +64,4 @@ public:
   PLARect GetRect() const;
 };
 
-#endif //ANHR_PLALYRTILE_HPP
+#endif //PLAIN_PLALYRTILE_HPP

@@ -1,5 +1,5 @@
-#ifndef ANHR_PLAIMAGE_HPP
-#define ANHR_PLAIMAGE_HPP
+#ifndef PLAIN_PLAIMAGE_HPP
+#define PLAIN_PLAIMAGE_HPP
 
 #include "PLAObject.hpp"
 #include "PLAResource.hpp"
@@ -32,4 +32,4 @@ public:
   //virtual size_t GetDataSize() const;
 };
 
-#endif //ANHR_PLAIMAGE_HPP
+#endif //PLAIN_PLAIMAGE_HPP

@@ -1,5 +1,5 @@
-#ifndef ANHR_PLARESOURCE_HPP
-#define ANHR_PLARESOURCE_HPP
+#ifndef PLAIN_PLARESOURCE_HPP
+#define PLAIN_PLARESOURCE_HPP
 
 #include "PLAObject.hpp"
 #include "PLAError.hpp"
@@ -75,4 +75,4 @@ public:
   };
 };
 
-#endif //ANHR_PLARESOURCE_HPP
+#endif //PLAIN_PLARESOURCE_HPP

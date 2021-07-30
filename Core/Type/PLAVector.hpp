@@ -1,5 +1,5 @@
-#ifndef ANHR_PLAVECTOR_HPP
-#define ANHR_PLAVECTOR_HPP
+#ifndef PLAIN_PLAVECTOR_HPP
+#define PLAIN_PLAVECTOR_HPP
 
 #include "Type/PLAType.hpp"
 #include "Grain/Type/GRAVector.hpp"
@@ -76,4 +76,4 @@ using PLAVec4f = GRAVec4<PLAFloat>;
 static const PLAVec4f kPLAVec4fNone = PLAVec4f(0);
 static const PLAVec4f kPLAVec4fNorm = PLAVec4f(1);
 
-#endif //ANHR_PLAVECTOR_HPP
+#endif //PLAIN_PLAVECTOR_HPP

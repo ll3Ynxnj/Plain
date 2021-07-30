@@ -1,5 +1,5 @@
-#ifndef ANHR_PLASCENE_HPP
-#define ANHR_PLASCENE_HPP
+#ifndef PLAIN_PLASCENE_HPP
+#define PLAIN_PLASCENE_HPP
 
 #include <stack>
 #include <list>
@@ -74,4 +74,4 @@ public:
 
 };
 
-#endif //ANHR_PLASCENE_HPP
+#endif //PLAIN_PLASCENE_HPP

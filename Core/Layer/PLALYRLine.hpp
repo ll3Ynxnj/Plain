@@ -1,5 +1,5 @@
-#ifndef ANHR_PLALYRLINE_HPP
-#define ANHR_PLALYRLINE_HPP
+#ifndef PLAIN_PLALYRLINE_HPP
+#define PLAIN_PLALYRLINE_HPP
 
 #include "PLALayer.hpp"
 #include "Type/PLAColor.hpp"
@@ -34,4 +34,4 @@ public:
   void SetColor(const PLAColor &aColor);
 };
 
-#endif //ANHR_PLALYRLINE_HPP
+#endif //PLAIN_PLALYRLINE_HPP

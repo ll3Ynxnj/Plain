@@ -1,5 +1,5 @@
-#ifndef ANHR_PLALYRCIRCLE_HPP
-#define ANHR_PLALYRCIRCLE_HPP
+#ifndef PLAIN_PLALYRCIRCLE_HPP
+#define PLAIN_PLALYRCIRCLE_HPP
 
 #include "PLALayer.hpp"
 #include "Type/PLAColor.hpp"
@@ -71,4 +71,4 @@ public:
 };
 
 
-#endif //ANHR_PLALYRCIRCLE_HPP
+#endif //PLAIN_PLALYRCIRCLE_HPP

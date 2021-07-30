@@ -1,9 +1,9 @@
-#ifndef ANHR_PLASTATE_HPP
-#define ANHR_PLASTATE_HPP
+#ifndef PLAIN_PLASTATE_HPP
+#define PLAIN_PLASTATE_HPP
 
 class PLAState
 {
 
 };
 
-#endif //ANHR_PLASTATE_HPP
+#endif //PLAIN_PLASTATE_HPP
