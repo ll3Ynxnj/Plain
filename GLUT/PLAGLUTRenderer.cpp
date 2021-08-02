@@ -90,7 +90,8 @@ void PLAGLUTRenderer::GetRectVertices(GLfloat aVertices[12],
 }
 
 void PLAGLUTRenderer::GetRectColors(GLfloat aColors[16],
-                                    const PLAColor &aColor) {
+                                    const PLAColor &aColor)
+{
   aColors[0] = aColors[4] = aColors[ 8] = aColors[12] = aColor.r;
   aColors[1] = aColors[5] = aColors[ 9] = aColors[13] = aColor.g;
   aColors[2] = aColors[6] = aColors[10] = aColors[14] = aColor.b;
@@ -99,7 +100,8 @@ void PLAGLUTRenderer::GetRectColors(GLfloat aColors[16],
 
 void PLAGLUTRenderer::GetRectTexCoords(GLfloat aCoords[8],
                                        const PLAVec2 &aPos,
-                                       const PLAVec2 &aSize) {
+                                       const PLAVec2 &aSize)
+{
   aCoords[0] = aPos.x;
   aCoords[1] = aPos.y;
   aCoords[2] = aPos.x + aSize.x;
@@ -166,6 +168,7 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor)
   }
 
   const PLAVec3 offset = aLayer->GetOffset();
+
   GLfloat vertices[] = {
      offset.x,
     -offset.y,

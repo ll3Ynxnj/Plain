@@ -35,7 +35,6 @@ public:
 };
 
 // PLAInputState ///////////////////////////////////////////////////////////////
-
 class PLAInputState
 {
   std::vector<std::vector<PLAInput>> _inputs = {};
@@ -50,7 +49,6 @@ public:
 };
 
 // PLAInputContext /////////////////////////////////////////////////////////////
-
 class PLAInputContext
 {
   std::function<void(PLAInputContext *, const PLAInput &)> _fInputTrigger =
@@ -80,7 +78,6 @@ public :
 };
 
 // PLAInputHandler /////////////////////////////////////////////////////////////
-
 class PLAInputHandler
 {
   PLAInputContext *_context = nullptr;
@@ -101,7 +98,6 @@ private:
 };
 
 // PLAInputManager /////////////////////////////////////////////////////////////
-
 class PLAInputManager
 {
   static PLAInputManager _instance;

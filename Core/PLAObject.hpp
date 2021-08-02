@@ -30,7 +30,6 @@ public:
 
   std::string GetObjectDescription() const;
 
-
 // Manager /////////////////////////////////////////////////////////////////////
 public:
   class Manager: public GRABinder<PLAObject>

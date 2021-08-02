@@ -32,5 +32,4 @@ public:
   void SetColor(const PLAColor &aColor);
 };
 
-
 #endif //PLAIN_PLALYRPOINT_HPP

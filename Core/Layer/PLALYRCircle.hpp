@@ -70,5 +70,4 @@ public:
   virtual void SetStrokeColor(const PLAColor &aColor) const;
 };
 
-
 #endif //PLAIN_PLALYRCIRCLE_HPP

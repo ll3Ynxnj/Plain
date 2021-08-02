@@ -46,4 +46,3 @@ PLAPoint PLALYRPoint::GetPoint() const
 {
   return { this->GetOffset().x, this->GetOffset().y };
 }
-

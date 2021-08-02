@@ -11,7 +11,6 @@ class PLALYRTile : public PLALayer
   const PLAImage *_image = nullptr;
   GRAVec2<PLASize> _tileSize = GRAVec2<PLASize>(0);
   GRAVec2<PLASize> _chipSize = GRAVec2<PLASize>(0);
-  //std::vector<std::vector<PLATileChip>> _chips = {};
   const IPLALYRTileDataSource *_dataSource = nullptr;
 
 protected:
@@ -21,11 +20,7 @@ protected:
              const IPLALYRTileDataSource *aDataSource) :
     PLALayer(PLALayerType::Tile, PLAVec3(aOffset.x, aOffset.y, 0)),
     _image(aImage), _tileSize(aTileSize),
-    _chipSize(aChipSize), _dataSource(aDataSource)
-  { //,
-    //_chips(aTileSize.y, std::vector<PLATileChip>(aTileSize.x, PLATileChip())) {
-
-  };
+    _chipSize(aChipSize), _dataSource(aDataSource) {};
 
 public:
   static PLALYRTile *Create(const PLAVec2 &aOffset,

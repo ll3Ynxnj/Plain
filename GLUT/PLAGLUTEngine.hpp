@@ -1,7 +1,3 @@
-//
-// Created by Kentaro Kawai on 2021/01/18.
-//
-
 #ifndef PLAIN_ENGINE_PLAGLUT_MAIN_HPP
 #define PLAIN_ENGINE_PLAGLUT_MAIN_HPP
 

@@ -7,10 +7,10 @@
 #include "Type/PLAVector.hpp"
 #include "Type/PLAPoint.hpp"
 
-#include "PLAState.hpp";
-#include "PLAScene.hpp";
-#include "PLAStage.hpp";
-#include "Actor/PLAActor.hpp";
+#include "PLAState.hpp"
+#include "PLAScene.hpp"
+#include "PLAStage.hpp"
+#include "Actor/PLAActor.hpp"
 
 class PLARenderer;
 

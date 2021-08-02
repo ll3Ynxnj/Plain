@@ -1,7 +1,3 @@
-//
-// Created by Kentaro Kawai on 2021/01/18.
-//
-
 #include "PLAGLUT.h"
 #include "PLAGLUTEngine.hpp"
 #include "PLAGLUTRenderer.hpp"

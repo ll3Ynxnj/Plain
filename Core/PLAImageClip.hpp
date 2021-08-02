@@ -1,7 +1,3 @@
-//
-// Created by Kentaro Kawai on 2021/05/09.
-//
-
 #ifndef PLAIN_PLAIMAGECLIP_HPP
 #define PLAIN_PLAIMAGECLIP_HPP
 

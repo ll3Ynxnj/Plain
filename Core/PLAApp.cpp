@@ -12,32 +12,38 @@ PLAScene *PLAApp::Scene()
 }
  */
 
-void PLAApp::InitStage() {
+void PLAApp::InitStage()
+{
   _instance._stage->Init();
 }
 
-void PLAApp::AddActor(PLAActor *aActor) {
+void PLAApp::AddActor(PLAActor *aActor)
+{
   _instance._stage->AddActor(aActor);
   PLAScene::Manager::Instance()->RefCurrentScene()->AddActor(aActor);
 }
 
-PLAActor *PLAApp::Actor(const std::string &aKey) {
+PLAActor *PLAApp::Actor(const std::string &aKey)
+{
   PLAObject *object = PLAObject::Manager::Object(aKey);
   if (object && object->GetObjectType() == PLAObjectType::Actor)
   { return static_cast<PLAActor *>(object); }
   return nullptr;
 }
 
-PLAVec3 PLAApp::GetStageSize() {
+PLAVec3 PLAApp::GetStageSize()
+{
   _instance._stage->GetSize();
 }
 
 void PLAApp::SetStageFunction(PLAStage::FunctionCode aKey,
-                             const std::function<void(PLAStage *)> &aFunc) {
+                             const std::function<void(PLAStage *)> &aFunc)
+{
   _instance._stage->SetFunction(aKey, aFunc);
 }
 
-void PLAApp::PrintStageActors() {
+void PLAApp::PrintStageActors()
+{
   _instance._stage->PrintActors();
 }
 

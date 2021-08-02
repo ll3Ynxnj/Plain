@@ -232,27 +232,32 @@ PLAActor *PLAActor::RefActorWithPoint(const PLAPoint &aPoint)
   return nullptr;
 }
 
-PLALYRPoint *PLAActor::RefLYRPoint() {
+PLALYRPoint *PLAActor::RefLYRPoint()
+{
   if (_layer->GetLayerType() != PLALayerType::Point) { return nullptr; }
   return static_cast<PLALYRPoint *>(_layer);
 }
 
-PLALYRLine *PLAActor::RefLYRLine() {
+PLALYRLine *PLAActor::RefLYRLine()
+{
   if (_layer->GetLayerType() != PLALayerType::Line) { return nullptr; }
   return static_cast<PLALYRLine *>(_layer);
 }
 
-PLALYRRect *PLAActor::RefLYRRect() {
+PLALYRRect *PLAActor::RefLYRRect()
+{
   if (_layer->GetLayerType() != PLALayerType::Rect) { return nullptr; }
   return static_cast<PLALYRRect *>(_layer);
 }
 
-PLALYRCircle *PLAActor::RefLYRCircle() {
+PLALYRCircle *PLAActor::RefLYRCircle()
+{
   if (_layer->GetLayerType() != PLALayerType::Circle) { return nullptr; }
   return static_cast<PLALYRCircle *>(_layer);
 }
 
-PLALYRTile *PLAActor::RefLYRTile() {
+PLALYRTile *PLAActor::RefLYRTile()
+{
   if (_layer->GetLayerType() != PLALayerType::Tile) { return nullptr; }
   return static_cast<PLALYRTile *>(_layer);
 }

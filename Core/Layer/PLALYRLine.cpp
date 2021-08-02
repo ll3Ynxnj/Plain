@@ -49,4 +49,3 @@ PLALine PLALYRLine::GetLine() const
 {
   return { {this->GetOffset().x, this->GetOffset().y}, {_vector.x, _vector.y} };
 }
-
