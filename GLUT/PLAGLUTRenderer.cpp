@@ -380,11 +380,12 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
   GLfloat cw = static_cast<GLfloat>(chipSize.x) / 1024;
   GLfloat ch = static_cast<GLfloat>(chipSize.y) / 1024;
 
-  PLAVec2s dataAddress = aLayer->GetDataAddress();
+  const PLAVec2s dataAddress = aLayer->GetDataAddress();
   for (PLAInt y = 0; y < tileSize.y; y++) {
+
     for (PLAInt x = 0; x < tileSize.x; x++) {
-      const PLATileChip chip =
-        aLayer->GetChip(dataAddress.y + y, dataAddress.x + x);
+      PLAVec2s address(dataAddress.x + x, dataAddress.y + y);
+      const PLATileChip &chip = aLayer->GetChip(address);
       if (chip.code == kPLATileChipCodeNone) { continue; }
 
       const PLAVec3 offset = PLAVec3(pxTable[x], pyTable[y], 0);
