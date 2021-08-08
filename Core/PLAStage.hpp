@@ -2,7 +2,7 @@
 #define PLAIN_ENGINE_PLASTAGE_HPP
 
 #include "PLAObject.hpp"
-#include "PLAInput.hpp"
+#include "Core/Input/PLAInput.hpp"
 #include "Core/Actor/PLAActor.hpp"
 
 class PLAStage final : public PLAObject, public PLAInputHandler

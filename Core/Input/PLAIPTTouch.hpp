@@ -1,0 +1,9 @@
+#ifndef ANHR_PLAIPTTOUCH_HPP
+#define ANHR_PLAIPTTOUCH_HPP
+
+class PLAIPTTouch
+{
+
+};
+
+#endif //ANHR_PLAIPTTOUCH_HPP

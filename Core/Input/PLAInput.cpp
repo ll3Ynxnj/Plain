@@ -47,7 +47,6 @@ PLAInputCode PLAInput::GetCodeOfNone(PLAInputDeviceType aDevice)
   return codes[static_cast<unsigned>(aDevice)];
 }
 
-
 int PLAInput::GetNumberOfInputCodes(PLAInputDeviceType aDevice)
 {
   static int numberOfItems[static_cast<int>(PLAInputDeviceType::kNumberOfItems)] =

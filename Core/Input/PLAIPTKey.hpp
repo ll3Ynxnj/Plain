@@ -1,0 +1,9 @@
+#ifndef ANHR_PLAIPTKEY_HPP
+#define ANHR_PLAIPTKEY_HPP
+
+class PLAIPTKey
+{
+
+};
+
+#endif //ANHR_PLAIPTKEY_HPP

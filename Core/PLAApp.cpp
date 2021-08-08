@@ -1,5 +1,5 @@
 #include "PLAApp.hpp"
-#include "PLAInput.hpp"
+#include "Core/Input/PLAInput.hpp"
 #include "PLARenderer.hpp"
 #include "PLAError.hpp"
 

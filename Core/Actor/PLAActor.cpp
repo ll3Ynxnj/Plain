@@ -1,5 +1,5 @@
 #include "PLAActor.hpp"
-#include "PLAInput.hpp"
+#include "Core/Input/PLAInput.hpp"
 #include "PLAError.hpp"
 
 #include "Layer/PLALYRPoint.hpp"

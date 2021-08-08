@@ -1,0 +1,9 @@
+#ifndef ANHR_PLAIPTMOUSE_HPP
+#define ANHR_PLAIPTMOUSE_HPP
+
+class PLAIPTMouse
+{
+
+};
+
+#endif //ANHR_PLAIPTMOUSE_HPP
