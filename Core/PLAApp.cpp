@@ -5,12 +5,10 @@
 
 PLAApp PLAApp::_instance = PLAApp();
 
-/*
 PLAScene *PLAApp::Scene()
 {
   return PLAScene::Manager::Instance()->RefCurrentScene();
 }
- */
 
 void PLAApp::InitStage()
 {
@@ -70,8 +68,8 @@ void PLAApp::Init(PLARenderer *aRenderer)
   _renderer = aRenderer;
   _renderer->Init();
   PLAError::Manager::GetInstance()->Init();
+  PLAScene::Manager::Instance()->Init();
   _stage = PLAStage::Create();
-  PLAInputManager::GetInstance()->SetHandler(_stage);
   //PLA_ERROR_ISSUE(PLAErrorType::Assert, "[%s] : %d %x %p", "TEST", 0, 1, this);
 }
 

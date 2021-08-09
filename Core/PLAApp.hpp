@@ -28,8 +28,8 @@ public:
   static const int kBaseScreenLength = 320;
 
   static PLAApp *GetInstance() { return &_instance; };
-  //static PLAStage *Stage() { return _instance._stage; };
-  //static PLAScene *Scene();
+  static PLAStage *Stage() { return _instance._stage; };
+  static PLAScene *Scene();
   static void InitStage();
   static void AddActor(PLAActor *actor);
   static PLAActor *Actor(const std::string &aKey);

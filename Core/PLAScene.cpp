@@ -9,7 +9,10 @@ PLAScene *PLAScene::Create() {
 }
 
 PLAScene::PLAScene() :
-PLAObject(PLAObjectType::Scene) {
+PLAObject(PLAObjectType::Scene),
+PLAInputHandler(),
+GRABinder<PLAActor>()
+{
 
 }
 
@@ -71,3 +74,18 @@ PLAActor *PLAScene::RefActor(const std::string &aName) const {
 // PLAScene::Manager ///////////////////////////////////////////////////////////
 
 PLAScene::Manager PLAScene::Manager::_instance = PLAScene::Manager();
+
+void PLAScene::Manager::Init()
+{
+  PLAScene *scene = PLAScene::Create();
+  _scenes.push(scene);
+  PLAInputManager::GetInstance()->SetHandler(scene);
+}
+
+// PLAInputHandler /////////////////////////////////////////////////////////////
+
+PLAInputContext *PLAScene::RefContextWithInput(const PLAInput &aInput) const
+{
+  PLAActor *actor = PLAApp::Stage()->RefActorWithPoint(aInput.GetScreenPoint());
+  return static_cast<PLAInputContext *>(actor);
+}

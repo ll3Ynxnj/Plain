@@ -8,8 +8,7 @@ PLAStage *PLAStage::Create()
 }
 
 PLAStage::PLAStage() :
-PLAObject(PLAObjectType::Stage),//, "== PLAStage =="),
-PLAInputHandler()
+PLAObject(PLAObjectType::Stage)//, "== PLAStage =="),
 {
   //PLALYRRect layer(kPLAVec3None, kPLAVec2None, kPLAColorWhite);
   _context = PLAActor::CreateRect(kPLAVec3None, kPLAColorGray,
@@ -62,9 +61,8 @@ void PLAStage::SetSize(const PLAVec3 &aSize)
   { listener->RunListener(FunctionCode::OnResize, this); }
 }
 
-// PLAInputHandler /////////////////////////////////////////////////////////////
-PLAInputContext *PLAStage::RefContextWithInput(const PLAInput &aInput) const
+PLAActor *PLAStage::RefActorWithPoint(const PLAVec2 &aPoint)
 {
-  PLAActor *actor = _context->RefActorWithPoint(aInput.GetScreenPoint());
-  return static_cast<PLAInputContext *>(actor);
+  PLAActor *actor = _context->RefActorWithPoint((aPoint));
+  return actor;
 }
