@@ -25,17 +25,20 @@ void PLAGLUTEngine::timer(int value)
 
 void PLAGLUTEngine::mouse(int button, int state, int x, int y)
 {
-  PLAInputCode inputCode = kPLAInputCodeUndefined;
+  PLAInputSignalCode inputCode = kPLAInputSignalCodeUndefined;
   switch (button)
   {
     case GLUT_LEFT_BUTTON   :
-      inputCode = static_cast<PLAInputCode>(PLAInputCodeForMouse::Left);
+      inputCode =
+        static_cast<PLAInputSignalCode>(PLAInputSignalCodeForMouse::Left);
       break;
     case GLUT_MIDDLE_BUTTON :
-      inputCode = static_cast<PLAInputCode>(PLAInputCodeForMouse::Middle);
+      inputCode =
+        static_cast<PLAInputSignalCode>(PLAInputSignalCodeForMouse::Middle);
       break;
     case GLUT_RIGHT_BUTTON  :
-      inputCode = static_cast<PLAInputCode>(PLAInputCodeForMouse::Right);
+      inputCode =
+        static_cast<PLAInputSignalCode>(PLAInputSignalCodeForMouse::Right);
       break;
     default : break;
   }
@@ -61,15 +64,15 @@ void PLAGLUTEngine::mouse(int button, int state, int x, int y)
 
 void PLAGLUTEngine::keyboard(unsigned char key, int x, int y)
 {
-  PLAInputCode inputCode = PLAApp::GetInputCodeFromChar(key);
-  PLAApp::GetInstance()->Input(PLAInputDeviceType::Key, inputCode, 1,
+  PLAInputSignalCode inputCode = PLAApp::GetInputSignalCodeFromChar(key);
+  PLAApp::GetInstance()->Input(PLAInputDeviceType::Keyboard, inputCode, 1,
                                { float(x), float(y) });
 }
 
 void PLAGLUTEngine::keyboardUp(unsigned char key, int x, int y)
 {
-  PLAInputCode inputCode = PLAApp::GetInputCodeFromChar(key);
-  PLAApp::GetInstance()->Input(PLAInputDeviceType::Key, inputCode, 0,
+  PLAInputSignalCode inputCode = PLAApp::GetInputSignalCodeFromChar(key);
+  PLAApp::GetInstance()->Input(PLAInputDeviceType::Keyboard, inputCode, 0,
                                { float(x), float(y) });
 }
 

@@ -45,7 +45,7 @@ void PLAApp::PrintStageActors()
   _instance._stage->PrintActors();
 }
 
-PLAInputCode PLAApp::GetInputCodeFromChar(unsigned char aCharacter)
+PLAInputSignalCode PLAApp::GetInputSignalCodeFromChar(unsigned char aCharacter)
 {
   return PLAInput::GetCodeForKeyFromChar(aCharacter);
 }
@@ -78,7 +78,7 @@ void PLAApp::Reset()
   PLAError::Manager::GetInstance()->Reset();
 }
 
-void PLAApp::Input(PLAInputDeviceType aDevice, PLAInputCode aCode,
+void PLAApp::Input(PLAInputDeviceType aDevice, PLAInputSignalCode aCode,
                    PLAInputSignal aSignal, const PLAPoint &aPoint)
 {
   PLAInputManager::GetInstance()->Input(aDevice, aCode, aSignal, aPoint);

@@ -2,7 +2,7 @@
 #define PLAIN_ENGINE_PLAAPP_HPP
 
 #include "PLAObject.hpp"
-#include "PLAInputType.hpp"
+#include "Core/Input/PLAInputType.hpp"
 #include "PLARendererType.hpp"
 #include "Type/PLAVector.hpp"
 #include "Type/PLAPoint.hpp"
@@ -38,13 +38,13 @@ public:
   static PLAVec3 GetStageSize();
   static void PrintStageActors();
 
-  static PLAInputCode GetInputCodeFromChar(const unsigned char aCharacter);
+  static PLAInputSignalCode GetInputSignalCodeFromChar(const unsigned char aCharacter);
 
   ~PLAApp();
 
   void Init(PLARenderer *aType);
   void Reset();
-  void Input(PLAInputDeviceType aDevice, PLAInputCode aCode,
+  void Input(PLAInputDeviceType aDevice, PLAInputSignalCode aCode,
              PLAInputSignal aSignal, const PLAPoint &aPoint);
   void Update();
   void Render();

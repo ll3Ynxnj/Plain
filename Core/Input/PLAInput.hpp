@@ -11,7 +11,7 @@
 class PLAInput : public PLAObject
 {
   PLAInputDeviceType _deviceType = PLAInputDeviceType::None;
-  PLAInputCode _code = kPLAInputCodeUndefined;
+  PLAInputSignalCode _code = kPLAInputSignalCodeUndefined;
   PLAInputSignal _signal = false;
   PLAPoint _screenPoint = kPLAPointNone;
 
@@ -20,16 +20,16 @@ public:
   static PLAInput *Create(PLAInputDeviceType aDeviceType, PLAInputCode aCode,
                           PLAInputSignal aSignal, PLAPoint aScreenPoint);
   */
-  static PLAInputCode GetCodeForKeyFromChar(unsigned char aCharacter);
-  static PLAInputCode GetCodeOfNone(PLAInputDeviceType aType);
+  static PLAInputSignalCode GetCodeForKeyFromChar(unsigned char aCharacter);
+  static PLAInputSignalCode GetCodeOfNone(PLAInputDeviceType aType);
   static int GetNumberOfInputCodes(PLAInputDeviceType aDevice);
 
-  PLAInput(PLAInputDeviceType aDevice, PLAInputCode aCode,
+  PLAInput(PLAInputDeviceType aDevice, PLAInputSignalCode aCode,
            PLAInputSignal aSignal, const PLAPoint &aScreenPoint);
   virtual ~PLAInput();
 
   PLAInputDeviceType GetInputDeviceType() const { return _deviceType; };
-  PLAInputCode GetInputCode() const { return _code; };
+  PLAInputSignalCode GetInputSignalCode() const { return _code; };
   PLAInputSignal GetInputSignal() const { return _signal; };
   PLAPoint GetScreenPoint() const { return _screenPoint; }
 };
@@ -44,28 +44,43 @@ public:
   ~PLAInputState();
 
   PLAInput GetInput(const PLAInput &aInput) const;
-  PLAInput GetInput(PLAInputDeviceType aDevice, PLAInputCode aCode) const;
+  PLAInput GetInput(PLAInputDeviceType aDevice, PLAInputSignalCode aCode) const;
   void SetInput(const PLAInput &aInput);
 };
 
 // PLAInputContext /////////////////////////////////////////////////////////////
 class PLAInputContext
 {
+  /*
   std::function<void(PLAInputContext *, const PLAInput &)> _fInputTrigger =
   [](PLAInputContext *aContext, const PLAInput &aInput){};
   std::function<void(PLAInputContext *, const PLAInput &)> _fInputRefresh =
   [](PLAInputContext *aContext, const PLAInput &aInput){};
   std::function<void(PLAInputContext *, const PLAInput &)> _fInputRelease =
   [](PLAInputContext *aContext, const PLAInput &aInput){};
+   */
+
+  std::map<PLAInputDeviceType, std::map<PLAInputSignalCode, std::map<PLAInputActionCode,
+  std::function<void(PLAInputContext *, const PLAInput &)>>>> _fInputFunctors =
+    std::map<PLAInputDeviceType, std::map<PLAInputSignalCode,
+    std::map<PLAInputActionCode,
+    std::function<void(PLAInputContext *, const PLAInput &)>>>>();
 
 public :
   PLAInputContext();
   ~PLAInputContext();
 
+  void Input(const PLAInput &aInput, PLAInputActionCode aAction);
+  /*
   void InputTrigger(const PLAInput &aInput) { _fInputTrigger(this, aInput); };
   void InputRefresh(const PLAInput &aInput) { _fInputRefresh(this, aInput); };
   void InputRelease(const PLAInput &aInput) { _fInputRelease(this, aInput); };
+  */
 
+  void SetFunctorForInput
+  (PLAInputDeviceType aType, PLAInputSignalCode aCode, PLAInputActionCode aAction,
+   const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc);
+  /*
   void SetFunctorForInputTrigger
   (const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc)
   { _fInputTrigger = aFunc; }
@@ -75,6 +90,7 @@ public :
   void SetFunctorForInputRelease
   (const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc)
   { _fInputRelease = aFunc; }
+   */
 };
 
 // PLAInputHandler /////////////////////////////////////////////////////////////
@@ -114,7 +130,7 @@ public:
   ~PLAInputManager();
 
   void Init();
-  void Input(PLAInputDeviceType aDevice, PLAInputCode aCode,
+  void Input(PLAInputDeviceType aDevice, PLAInputSignalCode aCode,
              PLAInputSignal aSignal, const PLAPoint &aScreenPoint);
   void Flush();
   void SetHandler(PLAInputHandler *aHandler) { _handler = aHandler; };

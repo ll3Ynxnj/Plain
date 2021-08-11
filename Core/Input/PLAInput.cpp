@@ -12,37 +12,43 @@ PLAInput *PLAInput::Create(PLAInputDeviceType aType, PLAInputCode aCode,
 }
  */
 
-PLAInputCode PLAInput::GetCodeForKeyFromChar(unsigned char aCharacter)
+PLAInputSignalCode PLAInput::GetCodeForKeyFromChar(unsigned char aCharacter)
 {
-  if ('0' < aCharacter && '9' < aCharacter)
+  if ('0' <= aCharacter && aCharacter <= '9')
   {
-    PLAInputCode base = static_cast<PLAInputCode>(PLAInputCodeForKey::_0);
-    return static_cast<PLAInputCode>(aCharacter - base);
+    PLAInputSignalCode base =
+      static_cast<PLAInputSignalCode>(PLAInputSignalCodeForKey::_0);
+    PLAInputSignalCode offset = aCharacter - '0';
+    return static_cast<PLAInputSignalCode>(base + offset);
   }
 
-  if ('a' < aCharacter && 'z' < aCharacter)
+  if ('a' <= aCharacter && aCharacter <= 'z')
   {
-    static constexpr const auto kCaseOffset = 'A' - 'a';
-    aCharacter -= kCaseOffset;
+    PLAInputSignalCode base =
+      static_cast<PLAInputSignalCode>(PLAInputSignalCodeForKey::A);
+    PLAInputSignalCode offset = aCharacter - 'a';
+    return static_cast<PLAInputSignalCode>(base + offset);
   }
 
-  if ('A' < aCharacter && 'Z' < aCharacter)
+  if ('A' <= aCharacter && aCharacter <= 'Z')
   {
-    PLAInputCode base = static_cast<PLAInputCode>(PLAInputCodeForKey::A);
-    return static_cast<PLAInputCode>(aCharacter - base);
+    PLAInputSignalCode base =
+      static_cast<PLAInputSignalCode>(PLAInputSignalCodeForKey::A);
+    PLAInputSignalCode offset = aCharacter - 'A';
+    return static_cast<PLAInputSignalCode>(base + offset);
   }
 
-  return kPLAInputCodeUndefined;
+  return kPLAInputSignalCodeUndefined;
 }
 
-PLAInputCode PLAInput::GetCodeOfNone(PLAInputDeviceType aDevice)
+PLAInputSignalCode PLAInput::GetCodeOfNone(PLAInputDeviceType aDevice)
 {
-  static PLAInputCode
-  codes[static_cast<PLAInputCode>(PLAInputDeviceType::kNumberOfItems)] =
+  static PLAInputSignalCode
+  codes[static_cast<PLAInputSignalCode>(PLAInputDeviceType::kNumberOfItems)] =
   {
-    static_cast<PLAInputCode>(PLAInputCodeForTouch::None),
-    static_cast<PLAInputCode>(PLAInputCodeForMouse::None),
-    static_cast<PLAInputCode>(PLAInputCodeForKey::None)
+    static_cast<PLAInputSignalCode>(PLAInputSignalCodeForTouch::None),
+    static_cast<PLAInputSignalCode>(PLAInputSignalCodeForMouse::None),
+    static_cast<PLAInputSignalCode>(PLAInputSignalCodeForKey::None)
   };
   return codes[static_cast<unsigned>(aDevice)];
 }
@@ -51,14 +57,14 @@ int PLAInput::GetNumberOfInputCodes(PLAInputDeviceType aDevice)
 {
   static int numberOfItems[static_cast<int>(PLAInputDeviceType::kNumberOfItems)] =
   {
-    static_cast<int>(PLAInputCodeForTouch::kNumberOfItems),
-    static_cast<int>(PLAInputCodeForMouse::kNumberOfItems),
-    static_cast<int>(PLAInputCodeForKey::kNumberOfItems)
+    static_cast<int>(PLAInputSignalCodeForTouch::kNumberOfItems),
+    static_cast<int>(PLAInputSignalCodeForMouse::kNumberOfItems),
+    static_cast<int>(PLAInputSignalCodeForKey::kNumberOfItems)
   };
   return numberOfItems[static_cast<unsigned>(aDevice)];
 }
 
-PLAInput::PLAInput(PLAInputDeviceType aDeviceType, PLAInputCode aCode,
+PLAInput::PLAInput(PLAInputDeviceType aDeviceType, PLAInputSignalCode aCode,
                    PLAInputSignal aSignal, const PLAPoint &aScreenPoint) :
 PLAObject(PLAObjectType::Input, "== PLAInput =="),
 _deviceType(aDeviceType), _code(aCode), _signal(aSignal),
@@ -80,7 +86,7 @@ PLAInputState::PLAInputState()
        device < static_cast<int>(PLAInputDeviceType::kNumberOfItems); device++)
   {
     PLAInputDeviceType deviceType = static_cast<PLAInputDeviceType>(device);
-    PLAInputCode code = PLAInput::GetCodeOfNone(deviceType);
+    PLAInputSignalCode code = PLAInput::GetCodeOfNone(deviceType);
     int numberOfCodes = PLAInput::GetNumberOfInputCodes(deviceType);
     PLAInput input = PLAInput(deviceType, code, 0, PLAPoint(0));
     _inputs.push_back({});
@@ -100,7 +106,7 @@ PLAInput PLAInputState::GetInput(const PLAInput &aInput) const
 }
 
 PLAInput PLAInputState::GetInput(PLAInputDeviceType aDevice,
-                                 PLAInputCode aCode) const
+                                 PLAInputSignalCode aCode) const
 {
   if (aCode >= PLAInput::GetNumberOfInputCodes(aDevice))
   {
@@ -119,12 +125,38 @@ void PLAInputState::SetInput(const PLAInput &aInput)
 
 PLAInputContext::PLAInputContext()
 {
-
+  for (PLAUInt device = 0;
+       device < static_cast<PLAUInt>(PLAInputDeviceType::kNumberOfItems);
+       device++)
+  {
+    _fInputFunctors[static_cast<PLAInputDeviceType>(device)] =
+      std::map<PLAInputSignalCode, std::map<PLAInputActionCode,
+        std::function<void(PLAInputContext *, const PLAInput &)>>>();
+  }
 }
 
 PLAInputContext::~PLAInputContext()
 {
 
+}
+
+void PLAInputContext::Input(const PLAInput &aInput, PLAInputActionCode aAction)
+{
+  /*
+  std::map<PLAInputCode, std::map<PLAInputFunctor,
+  std::function<void(PLAInputContext *, const PLAInput &)>>>::iterator it =
+  _fInputFunctors[aInput.GetInputDeviceType()].find(aInput.GetInputCode());
+  if (it == _fInputFunctors[aInput.GetInputDeviceType()].end()) { return; }
+   */
+  _fInputFunctors[aInput.GetInputDeviceType()][aInput.GetInputCode()][aAction]
+  (this, aInput);
+}
+
+void PLAInputContext::SetFunctorForInput
+(PLAInputDeviceType aType, PLAInputSignalCode aCode, PLAInputActionCode aFunctor,
+ const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc)
+{
+  _fInputFunctors[aType][aCode][aFunctor] = aFunc;
 }
 
 // PLAInputHandler /////////////////////////////////////////////////////////////
@@ -155,7 +187,7 @@ void PLAInputHandler::Input(const PLAInput &aInput, const PLAInputState *aState)
   {
     case PLAInputDeviceType::Touch : this->InputForTouch(aInput, aState); break;
     case PLAInputDeviceType::Mouse : this->InputForMouse(aInput, aState); break;
-    case PLAInputDeviceType::Key : this->InputForKey(aInput, aState); break;
+    case PLAInputDeviceType::Keyboard : this->InputForKey(aInput, aState); break;
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Detect unexpected PLAInputDeviceType.");
@@ -166,6 +198,33 @@ void PLAInputHandler::Input(const PLAInput &aInput, const PLAInputState *aState)
 void PLAInputHandler::InputForTouch(const PLAInput &aInput,
                                     const PLAInputState *aState)
 {
+  PLAInput lastInput = aState->GetInput(aInput);
+  if (lastInput.GetInputSignal())
+  {
+    if (aInput.GetInputSignal())
+    {
+      _context->
+      Input(aInput,
+            static_cast<PLAInputActionCode>
+            (PLAInputActionCodeForTouch::Drag));
+    }
+    else
+    {
+      _context->
+      Input(aInput,
+            static_cast<PLAInputActionCode>
+            (PLAInputActionCodeForTouch::Release));
+      _context = nullptr;
+    }
+  }
+  else
+  {
+    _context->
+    Input(aInput,
+          static_cast<PLAInputActionCode>
+          (PLAInputActionCodeForTouch::Press));
+  }
+  /*
   PLAInput lastInput = aState->GetInput(aInput);
   if (lastInput.GetInputSignal())
   {
@@ -183,6 +242,7 @@ void PLAInputHandler::InputForTouch(const PLAInput &aInput,
   {
     _context->InputTrigger(aInput);
   }
+  */
   /*
   { // No context detected with current input value.
     if (_context)
@@ -213,7 +273,44 @@ void PLAInputHandler::InputForMouse(const PLAInput &aInput,
 void PLAInputHandler::InputForKey(const PLAInput &aInput,
                                   const PLAInputState *aState)
 {
-
+  PLAInput lastInput = aState->GetInput(aInput);
+  if (lastInput.GetInputSignal())
+  {
+    if (!aInput.GetInputSignal())
+    {
+      _context->
+        Input(aInput,
+              static_cast<PLAInputActionCode>
+              (PLAInputActionCodeForKey::Release));
+      _context = nullptr;
+    }
+  }
+  else
+  {
+    _context->
+      Input(aInput,
+            static_cast<PLAInputActionCode>
+            (PLAInputActionCodeForKey::Press));
+  }
+  /*
+  PLAInput lastInput = aState->GetInput(aInput);
+  if (lastInput.GetInputSignal())
+  {
+    if (aInput.GetInputSignal())
+    {
+      _context->InputRefresh(aInput);
+    }
+    else
+    {
+      _context->InputRelease(aInput);
+      _context = nullptr;
+    }
+  }
+  else
+  {
+    _context->InputTrigger(aInput);
+  }
+   */
 }
 
 // PLAInputManager /////////////////////////////////////////////////////////////
@@ -236,7 +333,7 @@ void PLAInputManager::Init()
 }
 
 void PLAInputManager::Input(PLAInputDeviceType aDeviceType,
-                            PLAInputCode aCode,
+                            PLAInputSignalCode aCode,
                             PLAInputSignal aSignal,
                             const PLAPoint &aScreenPoint)
 {
@@ -245,7 +342,11 @@ void PLAInputManager::Input(PLAInputDeviceType aDeviceType,
             aDeviceType, aCode, &aCode, aSignal,
             aScreenPoint.x, aScreenPoint.y);
 
-  PLAInput input = PLAInput(aDeviceType, aCode, aSignal, aScreenPoint);
+  PLAPoint screenPoint = aScreenPoint;
+  if (aDeviceType == PLAInputDeviceType::Keyboard)
+  { screenPoint = kPLAPointUndefined; }
+
+  PLAInput input = PLAInput(aDeviceType, aCode, aSignal, screenPoint);
   _inputs.push(input);
 }
 
