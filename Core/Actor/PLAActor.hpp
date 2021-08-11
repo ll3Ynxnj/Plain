@@ -150,7 +150,11 @@ public:
   class PLALYRRect *RefLYRRect();
   class PLALYRCircle *RefLYRCircle();
   class PLALYRTile *RefLYRTile();
-  PLAActor *RefActorWithPoint(const PLAPoint &aPoint);
+  PLAActor *RefResponsiveActor(const PLAInputDeviceType aDeviceType,
+                               const PLAInputSignalCode aSignalCode);
+  PLAActor *RefResponsiveActorWithPoint(const PLAPoint &aPoint,
+                                        const PLAInputDeviceType aDeviceType,
+                                        const PLAInputSignalCode aSignalCode);
   //PLAActor *RefActorWithInput(const PLAInput &aInput);
 
   void SetColor(const PLAColor &aColor)

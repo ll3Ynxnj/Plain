@@ -214,7 +214,25 @@ bool PLAActor::IsCollideWithRect(PLARect aRect) const
 }
  */
 
-PLAActor *PLAActor::RefActorWithPoint(const PLAPoint &aPoint)
+PLAActor *PLAActor::RefResponsiveActor(const PLAInputDeviceType aDeviceType,
+                                       const PLAInputSignalCode aSignalCode)
+{
+  for (std::list<PLAActor *>::reverse_iterator it = _actors.rbegin();
+       it != _actors.rend(); it++)
+  {
+    PLAActor *actor = (*it)->RefResponsiveActor(aDeviceType, aSignalCode);
+    if (actor) { return actor; }
+  }
+
+  if (this->IsResponsive(aDeviceType, aSignalCode)) { return this; }
+
+  return nullptr;
+}
+
+PLAActor *PLAActor::RefResponsiveActorWithPoint
+  (const PLAPoint &aPoint,
+   const PLAInputDeviceType aDeviceType,
+   const PLAInputSignalCode aSignalCode)
 {
   for (std::list<PLAActor *>::reverse_iterator it = _actors.rbegin();
        it != _actors.rend(); it++)
@@ -223,11 +241,16 @@ PLAActor *PLAActor::RefActorWithPoint(const PLAPoint &aPoint)
     PLAPoint offset = PLAPoint((*it)->GetTransform().translation.x,
                                (*it)->GetTransform().translation.y);
     GRA_PRINT("offset : x %.2f : y %.2f\n", offset.x, offset.y);
-    PLAActor *actor = (*it)->RefActorWithPoint(aPoint - offset);
+    PLAActor *actor =
+      (*it)->RefResponsiveActorWithPoint(aPoint - offset,
+                                         aDeviceType, aSignalCode);
     if (actor) { return actor; }
   }
 
-  if (this->IsCollideWithPoint(aPoint)) { return this; }
+  if (this->IsCollideWithPoint(aPoint))
+  {
+    if (this->IsResponsive(aDeviceType, aSignalCode)) { return this; }
+  }
 
   return nullptr;
 }

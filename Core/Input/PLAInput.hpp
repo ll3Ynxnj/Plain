@@ -70,16 +70,32 @@ public :
   PLAInputContext();
   ~PLAInputContext();
 
-  void Input(const PLAInput &aInput, PLAInputActionCode aAction);
+  bool IsResponsive(PLAInputDeviceType aDeviceType,
+                    PLAInputSignalCode aSignalCode);
+  void InputWithTouch(const PLAInput &aInput,
+                      PLAInputActionCodeForTouch aAction);
+  void InputWithMouse(const PLAInput &aInput,
+                      PLAInputActionCodeForMouse aAction);
+  void InputWithKeyboard(const PLAInput &aInput,
+                         PLAInputActionCodeForKeyboard aAction);
   /*
   void InputTrigger(const PLAInput &aInput) { _fInputTrigger(this, aInput); };
   void InputRefresh(const PLAInput &aInput) { _fInputRefresh(this, aInput); };
   void InputRelease(const PLAInput &aInput) { _fInputRelease(this, aInput); };
   */
 
-  void SetFunctorForInput
-  (PLAInputDeviceType aType, PLAInputSignalCode aCode, PLAInputActionCode aAction,
+  void SetFunctorForInputWithTouch
+  (PLAInputSignalCodeForTouch aSignalCode,
+   PLAInputActionCodeForTouch aActionCode,
    const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc);
+  void SetFunctorForInputWithMouse
+    (PLAInputSignalCodeForMouse aSignalCode,
+     PLAInputActionCodeForMouse aActionCode,
+     const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc);
+  void SetFunctorForInputWithKeyboard
+    (PLAInputSignalCodeForKeyboard aSignalCode,
+     PLAInputActionCodeForKeyboard aActionCode,
+     const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc);
   /*
   void SetFunctorForInputTrigger
   (const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc)
@@ -91,11 +107,18 @@ public :
   (const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc)
   { _fInputRelease = aFunc; }
    */
+private:
+  void Input(const PLAInput &aInput, PLAInputActionCode aAction);
+  void SetFunctorForInput
+    (PLAInputDeviceType aDeviceType, PLAInputSignalCode aInputCode,
+     PLAInputActionCode aActionCode,
+     const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc);
 };
 
 // PLAInputHandler /////////////////////////////////////////////////////////////
 class PLAInputHandler
 {
+  /// \~ja 入力の対象は常に一つ
   PLAInputContext *_context = nullptr;
 
 public:
@@ -110,7 +133,7 @@ public:
 private:
   void InputForTouch(const PLAInput &aInput, const PLAInputState *aState);
   void InputForMouse(const PLAInput &aInput, const PLAInputState *aState);
-  void InputForKey(const PLAInput &aInput, const PLAInputState *aState);
+  void InputForKeyboard(const PLAInput &aInput, const PLAInputState *aState);
 };
 
 // PLAInputManager /////////////////////////////////////////////////////////////
