@@ -4,7 +4,7 @@
 #include "PLAObject.hpp"
 #include "Core/Actor/PLAActor.hpp"
 
-class PLAStage final : public PLAObject
+class PLAStage final : public PLAObject, public PLAInputHandler
 {
 public:
   enum class FunctionCode : PLAFunctionCode
@@ -53,7 +53,9 @@ public:
 
   void SetSize(const PLAVec3 &aSize);
 
-  PLAActor *RefActorWithPoint(const PLAVec2 &aPoint);
+// PLAInputHandler /////////////////////////////////////////////////////////////
+public:
+  virtual PLAInputContext *RefContextWithInput(const PLAInput &aInput) const;
 };
 
 #endif // PLAIN_ENGINE_PLASTAGE_HPP

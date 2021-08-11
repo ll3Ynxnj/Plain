@@ -8,7 +8,8 @@ PLAStage *PLAStage::Create()
 }
 
 PLAStage::PLAStage() :
-PLAObject(PLAObjectType::Stage)//, "== PLAStage =="),
+PLAObject(PLAObjectType::Stage),//, "== PLAStage =="),
+PLAInputHandler()
 {
   //PLALYRRect layer(kPLAVec3None, kPLAVec2None, kPLAColorWhite);
   _context = PLAActor::CreateRect(kPLAVec3None, kPLAColorGray,
@@ -61,8 +62,24 @@ void PLAStage::SetSize(const PLAVec3 &aSize)
   { listener->RunListener(FunctionCode::OnResize, this); }
 }
 
-PLAActor *PLAStage::RefActorWithPoint(const PLAVec2 &aPoint)
+// PLAInputHandler /////////////////////////////////////////////////////////////
+
+PLAInputContext *PLAStage::RefContextWithInput(const PLAInput &aInput) const
 {
-  PLAActor *actor = _context->RefActorWithPoint((aPoint));
-  return actor;
+  PLAInputContext *context = nullptr;
+  switch (aInput.GetInputDeviceType())
+  {
+    case PLAInputDeviceType::Touch :
+    case PLAInputDeviceType::Mouse :
+      context =
+        _context->RefResponsiveActorWithPoint(aInput.GetScreenPoint(),
+                                              aInput.GetInputDeviceType(),
+                                              aInput.GetInputSignalCode());
+      break;
+    case PLAInputDeviceType::Keyboard :
+      context = _context->RefResponsiveActor(aInput.GetInputDeviceType(),
+                                             aInput.GetInputSignalCode());
+      break;
+  }
+  return context;
 }

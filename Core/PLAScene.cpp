@@ -10,7 +10,6 @@ PLAScene *PLAScene::Create() {
 
 PLAScene::PLAScene() :
 PLAObject(PLAObjectType::Scene),
-PLAInputHandler(),
 GRABinder<PLAActor>()
 {
 
@@ -79,23 +78,4 @@ void PLAScene::Manager::Init()
 {
   PLAScene *scene = PLAScene::Create();
   _scenes.push(scene);
-  PLAInputManager::GetInstance()->SetHandler(scene);
-}
-
-// PLAInputHandler /////////////////////////////////////////////////////////////
-
-PLAInputContext *PLAScene::RefContextWithInput(const PLAInput &aInput) const
-{
-  PLAActor *actor = nullptr;
-  switch (aInput.GetInputDeviceType())
-  {
-    case PLAInputDeviceType::Touch :
-    case PLAInputDeviceType::Mouse :
-      actor = PLAApp::Stage()->RefActorWithPoint(aInput.GetScreenPoint());
-      break;
-    case PLAInputDeviceType::Keyboard :
-      actor = PLAApp::Stage()->RefActorWithInputSignalCode(aInput.GetInputSignalCode());
-      break;
-  }
-  return static_cast<PLAInputContext *>(actor);
 }

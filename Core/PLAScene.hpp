@@ -11,7 +11,7 @@
 class PLAActor;
 
 class PLAScene final :
-  public PLAObject, public PLAInputHandler, public GRABinder<PLAActor>
+  public PLAObject, public GRABinder<PLAActor>
 {
 public:
   enum class FunctionCode : PLAFunctionCode
@@ -75,10 +75,6 @@ public:
     void PushScene(PLAScene *aScene) { _scenes.push(aScene); };
     void PopScene() { _scenes.pop(); }
   };
-
-// PLAInputHandler /////////////////////////////////////////////////////////////
-public:
-  virtual PLAInputContext *RefContextWithInput(const PLAInput &aInput) const;
 };
 
 #endif //PLAIN_PLASCENE_HPP
