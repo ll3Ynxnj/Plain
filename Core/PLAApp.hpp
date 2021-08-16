@@ -30,6 +30,8 @@ public:
   static PLAApp *GetInstance() { return &_instance; };
   static PLAStage *Stage() { return _instance._stage; };
   static PLAScene *Scene();
+
+  //-- このStage関連のメソッド、Stage()から呼べばいいので不要なのでは？
   static void InitStage();
   static void AddActor(PLAActor *actor);
   static PLAActor *Actor(const std::string &aKey);
@@ -37,6 +39,7 @@ public:
                                const std::function<void(PLAStage *)> &aFunc);
   static PLAVec3 GetStageSize();
   static void PrintStageActors();
+  //--------------------------------------------------------------------------//
 
   static PLAInputSignalCode GetInputSignalCodeFromChar(const unsigned char aCharacter);
 

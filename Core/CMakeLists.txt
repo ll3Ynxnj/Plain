@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.1)
 add_library(Plain-Core STATIC
   PLAObject.cpp
   PLAApp.cpp
+  PLANode.cpp
   Input/PLAInput.cpp
   PLAError.cpp
   PLAScene.cpp

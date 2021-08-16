@@ -14,6 +14,7 @@ enum class PLAObjectType : PLAInt
   Style,
   Image,
   Error,
+  Node,
   Resource,
   Renderer,
   ImageClip,

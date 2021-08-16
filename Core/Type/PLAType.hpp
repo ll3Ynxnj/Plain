@@ -67,9 +67,9 @@ static const PLAUInt64 kPLAUInt64Max = kGRAUInt64Max;
 static const PLAUInt64 kPLAUInt64Undefined = kGRAUInt64Undefined;
 
 //-- Floating point value --////////////////////////////////////////////////////
-using PLAFloat = GRAFloat;
-static const PLAFloat kPLAFloatMax = kGRAFloatMax;
-static const PLAFloat kPLAFloatUndefined = kGRAFloatUndefined;
+using PLAFloat = GRADouble;
+static const PLAFloat kPLAFloatMax = kGRADoubleMax;
+static const PLAFloat kPLAFloatUndefined = kGRADoubleUndefined;
 
 //-- Size value --//////////////////////////////////////////////////////////////
 using PLASize = GRASize;
