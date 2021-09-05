@@ -25,7 +25,11 @@ PLANode::~PLANode()
 
 void PLANode::Update()
 {
+  if (_steps > _length) { return; }
+  if (_steps == 0)  { _functor.RunFunction(FunctionCode::OnStart, this); }
   ++_steps;
+  _functor.RunFunction(FunctionCode::OnUpdate, this);
+  if (_steps == _length) { _functor.RunFunction(FunctionCode::OnStop, this); }
   //GRA_PRINT("%f <= %f\n", _length, _steps);
   //if (_length <= _steps) { _steps = _length; }
 

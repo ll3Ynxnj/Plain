@@ -10,6 +10,7 @@
 #include "PLAState.hpp"
 #include "PLAScene.hpp"
 #include "PLAStage.hpp"
+#include "PLANode.hpp"
 #include "Actor/PLAActor.hpp"
 
 class PLARenderer;
@@ -21,6 +22,7 @@ class PLAApp final : public PLAObject
   PLAStage *_stage = nullptr;
   PLARenderer *_renderer = nullptr;
   PLAVec3 _contentScaleFactor = kPLAVec3Norm;
+  PLANode _node = PLANode(kPLAIntUndefined);
 
   PLAApp();
 
