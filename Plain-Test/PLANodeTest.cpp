@@ -14,21 +14,20 @@ protected:
   virtual void SetUp()
   {
     _rootNode = PLANode::Create(1);
-    _nodes.push_back(PLANode::Create(   20));
-    _nodes.push_back(PLANode::Create(  300));
-    _nodes.push_back(PLANode::Create( 4000));
-    _nodes.push_back(PLANode::Create(10000));
+    _nodes.push_back(PLANode::Create(1));
+    _nodes.push_back(PLANode::Create(2));
+    _nodes.push_back(PLANode::Create(3));
+    _nodes.push_back(PLANode::Create(4));
   }
 
   virtual void TearDown()
   {
     PLAObject::Delete(_rootNode);
-    PLAObject::Delete(_nodes[0]);
-    PLAObject::Delete(_nodes[1]);
-    PLAObject::Delete(_nodes[2]);
-    PLAObject::Delete(_nodes[3]);
+    for (PLANode *node : _nodes)
+    {
+      PLAObject::Delete(node);
+    }
   }
-
 };
 
 TEST_F(PLANodeTest, Test)
@@ -38,7 +37,8 @@ TEST_F(PLANodeTest, Test)
 
 void TestUpdateNodes(PLANode *aNode) {
   PLAInt length = aNode->GetLength();
-  for (int i = 0; i < length; i++) {
+  for (int i = 0; i < length + 3; i++) {
+    GRA_PRINT("-- FRAME: %d\n", i);
     aNode->Update();
     if (i == length - 1) {
       ASSERT_EQ(1, aNode->GetProgress());
@@ -52,20 +52,21 @@ TEST_F(PLANodeTest, Update_UpdateNodes_IncreaseProgress)
 {
   uint i = 0;
   for (PLANode *node : _nodes) {
-    GRA_PRINT("--_nodes[%d]\n", i);
+    GRA_PRINT("-- _nodes[%d] --------\n", i);
     node->SetFunction(PLANode::FunctionCode::OnStart, [i](PLANode *node) {
-      GRA_PRINT("  _nodes[%d] %4d OnStart\n", i, node->GetSteps());
+      GRA_PRINT("    _nodes[%d] %4d OnStart\n", i, node->GetSteps());
     });
     node->SetFunction(PLANode::FunctionCode::OnUpdate, [i](PLANode *node) {
       PLAFloat progress = node->GetProgress();
-      GRA_PRINT("  _nodes[%d] %4d OnUpdate : progress : %f\n",
+      GRA_PRINT("    _nodes[%d] %4d OnUpdate : progress : %f\n",
                 i, node->GetSteps(), progress);
     });
     node->SetFunction(PLANode::FunctionCode::OnStop, [i](PLANode *node) {
-      GRA_PRINT("  _nodes[%d] %4d OnStop\n", i, node->GetSteps());
+      GRA_PRINT("    _nodes[%d] %4d OnStop\n", i, node->GetSteps());
     });
     TestUpdateNodes(node);
     ++i;
+    GRA_PRINT("\n");
   }
   /*
   GRA_PRINT("--_nodes[0]\n");

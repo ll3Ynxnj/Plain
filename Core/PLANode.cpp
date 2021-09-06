@@ -25,11 +25,18 @@ PLANode::~PLANode()
 
 void PLANode::Update()
 {
+  /// \~en
+  /// \~ja ファンクタ効果の優先順位
+  /// OnStart、OnStopでの変更は、OnUpdateでの変更を上書きします。
   if (_steps > _length) { return; }
-  if (_steps == 0)  { _functor.RunFunction(FunctionCode::OnStart, this); }
-  ++_steps;
   _functor.RunFunction(FunctionCode::OnUpdate, this);
-  if (_steps == _length) { _functor.RunFunction(FunctionCode::OnStop, this); }
+  if (_steps ==       0) { _functor.RunFunction(FunctionCode::OnStart, this); }
+  if (_steps == _length) { _functor.RunFunction(FunctionCode::OnStop,  this); }
+  /*
+   * OnPause
+   * OnResume
+   */
+  ++_steps;
   //GRA_PRINT("%f <= %f\n", _length, _steps);
   //if (_length <= _steps) { _steps = _length; }
 
