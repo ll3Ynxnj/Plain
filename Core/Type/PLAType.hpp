@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <cstdint>
 #include <cmath>
+#include <string>
 
 #include "Grain/Type/GRAType.hpp"
 
@@ -67,15 +68,17 @@ static const PLAUInt64 kPLAUInt64Max = kGRAUInt64Max;
 static const PLAUInt64 kPLAUInt64Undefined = kGRAUInt64Undefined;
 
 //-- Floating point value --////////////////////////////////////////////////////
-using PLAFloat = GRADouble;
-static const PLAFloat kPLAFloatMax = kGRADoubleMax;
-static const PLAFloat kPLAFloatUndefined = kGRADoubleUndefined;
+using PLAFloat = GRAFloat;
+static const PLAFloat kPLAFloatMax = kGRAFloatMax;
+static const PLAFloat kPLAFloatUndefined = kGRAFloatUndefined;
 
 //-- Size value --//////////////////////////////////////////////////////////////
 using PLASize = GRASize;
 static const PLASize kPLASizeMax = kGRASizeMax;
 static const PLASize kPLASizeUndefined = kGRASizeUndefined;
 
+//-- String value --////////////////////////////////////////////////////////////
+using PLAString = std::string;
 static const char *kPLAStrUndefined = kGRAStrUndefined;
 
 //-- Binders --/////////////////////////////////////////////////////////////////
