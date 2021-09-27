@@ -28,17 +28,22 @@ private:
     GRAFunctor<PLANode, FunctionCode>();
   PLAInt _steps = 0;
   PLAInt _length = 0;
-  std::vector<PLANode *>_node = std::vector<PLANode *>();
+  PLANode *_parent = nullptr;
+  std::vector<PLANode *>_main = std::vector<PLANode *>();
+  std::vector<PLANode *>_branch = std::vector<PLANode *>();
+  std::vector<PLANode *>::iterator _current = _main.begin();
 
 public:
   static PLANode *Create(PLAInt aLength);
 
+  PLANode();
   PLANode(PLAInt aLength);
   ~PLANode();
 
-  void Update();
+  virtual void Update();
 
-  void AddNode(PLANode *aNode);
+  void AddMain(PLANode *aNode);
+  void AddBranch(PLANode *aNode);
 
   PLAInt GetSteps() const { return _steps; };
   PLAInt GetLength() const { return _length; };
@@ -48,6 +53,11 @@ public:
   void SetFunction(FunctionCode aKey,
                    const std::function<void(PLANode *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
+
+private:
+  void OnFinishCurrent();
+  void OnFinishMain();
+  void OnFinishBranch();
 };
 
 #endif //ANHR_PLANODE_HPP

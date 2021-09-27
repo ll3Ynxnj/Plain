@@ -6,6 +6,7 @@
 #define ANHR_PLAPROPERTY_HPP
 
 #include "Type/PLAType.hpp"
+#include "Type/PLAColor.hpp"
 #include "Type/PLAVector.hpp"
 #include "PLAPropertyType.hpp"
 
@@ -23,6 +24,8 @@ public:
     _type(PLAPropertyType::Int), _value(new PLAInt(aValue)) {};
   PLAProperty(PLAFloat aValue):
     _type(PLAPropertyType::Float), _value(new PLAFloat(aValue)) {};
+  PLAProperty(PLAColor aValue):
+    _type(PLAPropertyType::Color), _value(new PLAColor(aValue)) {};
   PLAProperty(const PLAString &aValue):
     _type(PLAPropertyType::String), _value(new PLAString(aValue)) {};
   PLAProperty(const PLAVec2 &aValue):
@@ -37,6 +40,7 @@ public:
   PLABool GetBool() const;
   PLAInt GetInt() const;
   PLAFloat GetFloat() const;
+  const PLAColor &GetColor() const;
   const PLAString &GetString() const;
   const PLAVec2 &GetVec2() const;
   const PLAVec3 &GetVec3() const;
@@ -45,6 +49,7 @@ public:
   void SetBool(PLABool aValue);
   void SetInt(PLAInt aValue);
   void SetFloat(PLAFloat aValue);
+  void SetColor(const PLAColor &aValue);
   void SetString(const PLAString &aValue);
   void SetVec2(const PLAVec2 &aValue);
   void SetVec3(const PLAVec3 &aValue);

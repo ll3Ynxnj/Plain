@@ -4,6 +4,7 @@
 #include <list>
 #include <functional>
 #include "PLAObject.hpp"
+#include "PLAMotion.hpp"
 #include "PLAScene.hpp"
 #include "Core/Input/PLAInput.hpp"
 #include "PLACollision.hpp"
@@ -40,6 +41,10 @@ private:
   PLAColor _color = kPLAColorWhite;
   PLATransform _transform = kPLATransformNorm;
   //-- Not affect child actors
+  PLANode _motion = PLANode();
+  std::map<PLAMotionType, PLAProperty> _motionProperties =
+    std::map<PLAMotionType, PLAProperty>();
+
   PLALayer *_layer = nullptr;
   //PLAStyle _style = PLAStyle();
   CollisionItem collisions[static_cast<unsigned>(PLAActorCollisionCode::kNumberOfItems)];
@@ -81,9 +86,9 @@ public:
                               const PLARect &aClip);
 
   static PLAActor *CreateCircle(const PLAVec3 &aPivot,
-                               const PLAColor &aColor,
-                               const PLATransform &aTransform,
-                               const PLACircle &aCircle);
+                                const PLAColor &aColor,
+                                const PLATransform &aTransform,
+                                const PLACircle &aCircle);
 
   static PLAActor *CreateCircle(const PLAVec3 &aPivot,
                                 const PLAColor &aColor,
@@ -126,7 +131,8 @@ public:
   void SetPivot(const PLAVec3 &aPivot)
   { _pivot = aPivot; this->RefreshLayerOffset(); };
   const PLAColor &GetColor() const { return _color; };
-  const PLATransform &GetTransform() const { return _transform; };
+  const PLATransform &GetTransform() const
+  { return this->_transform; };
   const PLALayer *GetLayer() const { return _layer; }
   PLAVec3 GetSize() const { return _layer->GetSize(); };
   void GetSize(PLAVec3 *aSize) const { return _layer->GetSize(aSize); };
@@ -142,6 +148,17 @@ public:
   const PLALYRRect *GetLayerRect() const;
   const PLALYRCircle *GetLayerCircle() const;
   */
+
+  void AddMotion(PLAMotion *aMotion);
+  /*
+  void AddMotion(PLAMotionType aType, const PLAProperty &aDistance,
+                 PLAFloat aDuration);
+  void AddMotionAlpha(PLAFloat aAlpha, PLAFloat aDuration);
+  void AddMotionColor(const PLAColor &aColor, PLAFloat aDuration);
+  void AddMotionTranslation(const PLAVec3 &aTranslation, PLAFloat aDuration);
+  void AddMotionRotation(const PLAVec3 &aRotation, PLAFloat aDuration);
+  void AddMotionScale(const PLAVec3 &aScale, PLAFloat aDuration);
+   */
 
   size_t GetNumberOfActors() { return _actors.size(); };
 

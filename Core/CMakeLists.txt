@@ -5,6 +5,7 @@ add_library(Plain-Core STATIC
   PLAProperty.cpp
   PLAApp.cpp
   PLANode.cpp
+  PLAMotion.cpp
   Input/PLAInput.cpp
   PLAError.cpp
   PLAScene.cpp

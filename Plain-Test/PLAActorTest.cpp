@@ -1,4 +1,5 @@
-#include "Core/Actor/PLAActor.hpp"
+#include "PLAApp.hpp"
+#include "Actor/PLAActor.hpp"
 #include "../Grain/Type/GRAType.hpp"
 
 class PLAActorTest : public ::testing::Test
@@ -41,4 +42,20 @@ TEST_F(PLAActorTest, AddActor_AddActors_IncreaseActors)
   EXPECT_EQ(1, this->_rootActor->GetNumberOfActors());
   this->_rootActor->AddActor(_actors[1]);
   EXPECT_EQ(2, this->_rootActor->GetNumberOfActors());
+}
+
+TEST_F(PLAActorTest, UpdateMotion_UpdateMotions_RefreshProperties)
+{
+  PLAFloat duration = 3;
+  PLAMotion m0 = PLAMotion(PLAMotionType::Translation,
+                           PLAVec3( 20, 0, 0), duration);
+  PLAMotion m1 = PLAMotion(PLAMotionType::Translation,
+                           PLAVec3(-20, 0, 0), duration);
+  this->_rootActor->AddMotion(&m0);
+  this->_rootActor->AddMotion(&m1);
+  for (int i = 0; i < PLAApp::kRefreshRate * duration + 3; i++) {
+    _rootActor->Update();
+    GRA_PRINT("%3d : _rootActor.GetTransform.translation.x : %f\n",
+              i, _rootActor->GetTransform().translation.x);
+  }
 }

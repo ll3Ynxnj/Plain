@@ -11,6 +11,12 @@ PLANode *PLANode::Create(PLAInt aLength)
   return node;
 }
 
+PLANode::PLANode():
+PLAObject(PLAObjectType::Node)
+{
+
+}
+
 PLANode::PLANode(PLAInt aLength):
 PLAObject(PLAObjectType::Node),
 _length(aLength)
@@ -28,7 +34,11 @@ void PLANode::Update()
   if (_steps > _length) { return; }
   if (_steps == 0) { _functor.RunFunction(FunctionCode::OnStart, this); }
   _functor.RunFunction(FunctionCode::OnUpdate, this);
-  if (_steps == _length) { _functor.RunFunction(FunctionCode::OnStop,  this); }
+  if (_steps == _length)
+  {
+    _functor.RunFunction(FunctionCode::OnStop,  this);
+    _parent->OnFinishCurrent();
+  }
   /*
    * OnPause
    * OnResume
@@ -43,7 +53,35 @@ void PLANode::Update()
   //if ((_length - aStep * 0.5) < _steps) { _steps = _length; }
 }
 
-void PLANode::AddNode(PLANode *aNode)
+void PLANode::AddMain(PLANode *aNode)
 {
-  _node.push_back(aNode);
+  aNode->_parent = this;
+  _main.push_back(aNode);
+}
+
+void PLANode::AddBranch(PLANode *aNode)
+{
+  aNode->_parent = this;
+  _branch.push_back(aNode);
+}
+
+void PLANode::OnFinishCurrent()
+{
+  GRA_TRACE("");
+  if (_current != _main.end())
+  {
+    ++_current;
+    this->OnFinishMain();
+    _parent->OnFinishBranch();
+  }
+}
+
+void PLANode::OnFinishMain()
+{
+  GRA_TRACE("");
+}
+
+void PLANode::OnFinishBranch()
+{
+  GRA_TRACE("");
 }

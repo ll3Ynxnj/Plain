@@ -19,23 +19,28 @@ class PLAApp final : public PLAObject
 {
   static PLAApp _instance;
 
+  PLANode _node = PLANode(kPLAIntUndefined);
+
   PLAStage *_stage = nullptr;
   PLARenderer *_renderer = nullptr;
   PLAVec3 _contentScaleFactor = kPLAVec3Norm;
-  PLANode _node = PLANode(kPLAIntUndefined);
 
   PLAApp();
 
 public:
+  static const int kRefreshRate = 60;
   static const int kBaseScreenLength = 320;
 
   static PLAApp *GetInstance() { return &_instance; };
   static PLAStage *Stage() { return _instance._stage; };
   static PLAScene *Scene();
 
+  static void AddNode(PLANode *aNode);
+  static void UpdateNode();
+
   //-- このStage関連のメソッド、Stage()から呼べばいいので不要なのでは？
   static void InitStage();
-  static void AddActor(PLAActor *actor);
+  static void AddActor(PLAActor *aActor);
   static PLAActor *Actor(const std::string &aKey);
   static void SetStageFunction(PLAStage::FunctionCode aKey,
                                const std::function<void(PLAStage *)> &aFunc);

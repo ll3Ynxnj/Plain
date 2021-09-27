@@ -81,6 +81,11 @@ static const PLASize kPLASizeUndefined = kGRASizeUndefined;
 using PLAString = std::string;
 static const char *kPLAStrUndefined = kGRAStrUndefined;
 
+//-- OtherValue --//////////////////////////////////////////////////////////////
+using PLATimeInterval = GRATimeInterval;
+static const PLATimeInterval kPLATimeIntervalMax = kGRATimeIntervalMax;
+static const PLATimeInterval kPLATimeIntervalUndefined = kGRATimeIntervalUndefined;
+
 //-- Binders --/////////////////////////////////////////////////////////////////
 //using PLAObjectBinder = GRABinder<PLAObject>;
 

@@ -10,6 +10,16 @@ PLAScene *PLAApp::Scene()
   return PLAScene::Manager::Instance()->RefCurrentScene();
 }
 
+void PLAApp::AddNode(PLANode *aNode)
+{
+  _instance._node.AddBranch(aNode);
+}
+
+void PLAApp::UpdateNode()
+{
+  _instance._node.Update();
+}
+
 void PLAApp::InitStage()
 {
   _instance._stage->Init();

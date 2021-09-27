@@ -15,6 +15,7 @@ enum class PLAPropertyType: PLAInt {
   Vec2,
   Vec3,
   Vec4,
+  Color,
 
   kNumberOfItems,
   None = kPLAIntUndefined,

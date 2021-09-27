@@ -32,6 +32,7 @@ public:
   PLABool GetBool(const PLAString &aName) const;
   PLAInt GetInt(const PLAString &aName) const;
   PLAFloat GetFloat(const PLAString &aName) const;
+  PLAColor GetColor(const PLAColor &aName) const;
   const PLAString &GetString(const PLAString &aName) const;
   const PLAVec2 &GetVec2(const PLAString &aName) const;
   const PLAVec3 &GetVec3(const PLAString &aName) const;
@@ -42,6 +43,7 @@ public:
   void SetBool(const PLAString &aName, PLABool aValue);
   void SetInt(const PLAString &aName, PLAInt aValue);
   void SetFloat(const PLAString &aName, PLAFloat aValue);
+  void SetColor(const PLAString &aName, const PLAColor &aValue);
   void SetString(const PLAString &aName, const PLAString &aValue);
   void SetVec2(const PLAString &aName, const PLAVec2 &aValue);
   void SetVec3(const PLAString &aName, const PLAVec3 &aValue);

@@ -214,6 +214,44 @@ bool PLAActor::IsCollideWithRect(PLARect aRect) const
 }
  */
 
+void PLAActor::AddMotion(PLAMotion *aMotion)
+{
+  _motion.AddMain(aMotion);
+}
+
+/*
+void PLAActor::AddMotion(PLAMotionType aType, const PLAProperty &aDistance,
+               PLAFloat aDuration)
+{
+
+}
+
+void PLAActor::AddMotionAlpha(PLAFloat aAlpha, PLAFloat aDuration)
+{
+
+}
+
+void PLAActor::AddMotionColor(const PLAColor &aColor, PLAFloat aDuration)
+{
+
+}
+
+void PLAActor::AddMotionTranslation(const PLAVec3 &aTranslation, PLAFloat aDuration)
+{
+
+}
+
+void PLAActor::AddMotionRotation(const PLAVec3 &aRotation, PLAFloat aDuration)
+{
+
+}
+
+void PLAActor::AddMotionScale(const PLAVec3 &aScale, PLAFloat aDuration)
+{
+
+}
+ */
+
 PLAActor *PLAActor::RefResponsiveActor(const PLAInputDeviceType aDeviceType,
                                        const PLAInputSignalCode aSignalCode)
 {
