@@ -193,6 +193,7 @@ public:
   { _functor.SetFunction(aKey, aFunc); };
 
 private:
+  void UpdateMotions();
   void RefreshLayerOffset();
 };
 

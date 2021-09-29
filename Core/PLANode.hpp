@@ -31,13 +31,16 @@ private:
   PLANode *_parent = nullptr;
   std::vector<PLANode *>_main = std::vector<PLANode *>();
   std::vector<PLANode *>_branch = std::vector<PLANode *>();
-  std::vector<PLANode *>::iterator _current = _main.begin();
+  //std::vector<PLANode *>::iterator _current = _main.begin();
+  PLAUInt _current = 0;
 
 public:
   static PLANode *Create(PLAInt aLength);
+  static PLANode *Create(PLAInt aLength, const PLAString &aName);
 
   PLANode();
   PLANode(PLAInt aLength);
+  PLANode(PLAInt aLength, const PLAString &aName);
   ~PLANode();
 
   virtual void Update();

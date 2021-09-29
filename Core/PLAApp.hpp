@@ -21,6 +21,8 @@ class PLAApp final : public PLAObject
 
   PLANode _node = PLANode(kPLAIntUndefined);
 
+  PLAUInt _frame = 0;
+
   PLAStage *_stage = nullptr;
   PLARenderer *_renderer = nullptr;
   PLAVec3 _contentScaleFactor = kPLAVec3Norm;

@@ -162,6 +162,12 @@ void PLAActor::Update()
   for (PLAActor *actor : _actors) { actor->Update(); }
 }
 
+void PLAActor::UpdateMotions()
+{
+
+  for (PLAActor *actor : _actors) { actor->UpdateMotions(); }
+}
+
 void PLAActor::Appear()
 {
   _functor.RunFunction(PLAActorFunctionCode::OnAppear, this);

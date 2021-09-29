@@ -46,7 +46,7 @@ TEST_F(PLAActorTest, AddActor_AddActors_IncreaseActors)
 
 TEST_F(PLAActorTest, UpdateMotion_UpdateMotions_RefreshProperties)
 {
-  PLAFloat duration = 3;
+  PLAFloat duration = 3;//0.2;
   PLAMotion m0 = PLAMotion(PLAMotionType::Translation,
                            PLAVec3( 20, 0, 0), duration);
   PLAMotion m1 = PLAMotion(PLAMotionType::Translation,

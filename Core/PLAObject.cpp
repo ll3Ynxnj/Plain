@@ -2,40 +2,56 @@
 #include "PLAError.hpp"
 
 // PLAObject ///////////////////////////////////////////////////////////////////
+const std::map<PLAObject::Binder::Error, const char *> PLAObject::kBinderErrorMessages =
+{
+  { Binder::Error::OverwriteItem, "Overwrite item" },
+  { Binder::Error::RegisterExistingKeyToMap, "Register existing key to map" },
+  { Binder::Error::NotExistInMap, "Not exist in map" },
+};
+
+const char *PLAObject::GetBinderErrorMessage(Binder::Error aError)
+{
+  return kBinderErrorMessages.at(aError);
+}
+
 void PLAObject::Bind(PLAObject *aObject)
 {
-  GRABinder<PLAObject>::Error error(GRABinder<PLAObject>::Error::None);
+  Binder::Error error(Binder::Error::None);
   PLAObject::Manager::Instance()->Bind(aObject, &error);
-  if (error != GRABinder<PLAObject>::Error::None) {
+  if (error != Binder::Error::None) {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                    "Failed PLAObject binding. ERROR : %02d", error);
+                    "Failed PLAObject binding. ERROR : %02d : %s",
+                    error, GetBinderErrorMessage(error));
   }
 }
 
 void PLAObject::Delete(PLAObject *aObject)
 {
-  GRABinder<PLAObject>::Error error(GRABinder<PLAObject>::Error::None);
+  Binder::Error error(Binder::Error::None);
   PLAObject::Manager::Instance()->Unbind(aObject, &error);
-  if (error != GRABinder<PLAObject>::Error::None) {
-    PLA_ERROR_ISSUE(PLAErrorType::Assert, "Failed to delete. ERROR : %02d", error);
+  if (error != Binder::Error::None) {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed to delete. ERROR : %02d : %s",
+                    error, GetBinderErrorMessage(error));
   }
   GRA_DELETE(aObject);
 }
 
-PLAObject *PLAObject::Manager::Object(const std::string &aKey) {
-  GRABinder<PLAObject>::Error error(GRABinder<PLAObject>::Error::None);
+PLAObject *PLAObject::Manager::Object(const std::string &aKey)
+{
+  Binder::Error error(Binder::Error::None);
   return static_cast<PLAObject *>(_instance.RefItem(aKey, &error));
 }
 
 PLAObject::PLAObject(PLAObjectType aType) :
-GRABinder<PLAObject>::Item(kPLAStrUndefined, Manager::Instance()),
+Binder::Item(kPLAStrUndefined, Manager::Instance()),
 _type(aType)
 {
 
 }
 
 PLAObject::PLAObject(PLAObjectType aType, const std::string &aName) :
-GRABinder<PLAObject>::Item(aName, Manager::Instance()),
+Binder::Item(aName, Manager::Instance()),
 _type(aType)
 {
 
@@ -142,7 +158,7 @@ void PLAObject::SetVec4(const PLAString &aName, const PLAVec4 &aValue)
 PLAObject::Manager PLAObject::Manager::_instance = PLAObject::Manager();
 
 PLAObject::Manager::Manager():
-GRABinder<PLAObject>()
+Binder()
 {
 
 }
@@ -154,12 +170,13 @@ PLAObject::Manager::~Manager()
 
 void PLAObject::SetObjectName(const std::string &aName)
 {
-  GRABinder<PLAObject>::Error error(GRABinder<PLAObject>::Error::None);
-  this->GRABinder<PLAObject>::Item::SetName(aName, &error);
-  if (error != GRABinder<PLAObject>::Error::None)
+  Binder::Error error(Binder::Error::None);
+  this->Binder::Item::SetName(aName, &error);
+  if (error != Binder::Error::None)
   {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                    "Failure to set object name. ERROR : %02d", error);
+                    "Failure to set object name. ERROR : %02d : %s",
+                    error, GetBinderErrorMessage(error));
   }
 }
 
@@ -171,7 +188,7 @@ void PLAObject::Manager::PrintObjects() const
             "| TYPE |                                \n");
   GRA_PRINT("-----|----------------------------------"
             "|------|--------------------------------\n");
-  for (GRABinder<PLAObject>::Item *item : this->GetItems())
+  for (Binder::Item *item : this->GetItems())
   {
     const PLAObject *object = static_cast<const PLAObject *>(item);
     GRA_PRINT("%04x | %32s | %4d |                               \n",

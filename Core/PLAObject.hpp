@@ -10,6 +10,9 @@
 
 class PLAObject : private GRABinder<PLAObject>::Item
 {
+  using Binder = GRABinder<PLAObject>;
+  static const std::map<Binder::Error, const char *> kBinderErrorMessages;
+
   PLAObjectType _type = PLAObjectType::None;
   std::map<PLAString, PLAProperty> _properties =
     std::map<PLAString, PLAProperty>();
@@ -19,6 +22,8 @@ protected:
   PLAObject(PLAObjectType aType, const std::string &aName);
 
 public:
+  static const char *GetBinderErrorMessage(Binder::Error aError);
+
   static void Bind(PLAObject *aObject);
   static void Delete(PLAObject *aObject);
 
@@ -67,5 +72,8 @@ public:
     void PrintObjects() const;
   };
 };
+
+
+
 
 #endif // PLAIN_ENGINE_PLAOBJECT_HPP

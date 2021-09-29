@@ -4,9 +4,18 @@
 
 #include "PLANode.hpp"
 
+static PLAString DBG_PLANode_Update_Indent = "";
+
 PLANode *PLANode::Create(PLAInt aLength)
 {
   PLANode *node = new PLANode(aLength);
+  PLAObject::Bind(node);
+  return node;
+}
+
+PLANode *PLANode::Create(PLAInt aLength, const PLAString &aName)
+{
+  PLANode *node = new PLANode(aLength, aName);
   PLAObject::Bind(node);
   return node;
 }
@@ -24,6 +33,13 @@ _length(aLength)
 
 }
 
+PLANode::PLANode(PLAInt aLength, const std::string &aName):
+PLAObject(PLAObjectType::Node, aName),
+_length(aLength)
+{
+
+}
+
 PLANode::~PLANode()
 {
 
@@ -31,13 +47,20 @@ PLANode::~PLANode()
 
 void PLANode::Update()
 {
-  if (_steps > _length) { return; }
+  DBG_PLANode_Update_Indent += "  ";
+  for (PLANode *node: _branch) {
+    node->Update();
+  }
+  if (_current < _main.size()) { _main[_current]->Update(); }
+  if (_steps > _length) { DBG_PLANode_Update_Indent.erase(0, 2); return; }
+  GRA_PRINT("%s| %s : Update(), _current: %2d, _steps: %3d\n",
+            DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(), _current, _steps);
   if (_steps == 0) { _functor.RunFunction(FunctionCode::OnStart, this); }
   _functor.RunFunction(FunctionCode::OnUpdate, this);
   if (_steps == _length)
   {
     _functor.RunFunction(FunctionCode::OnStop,  this);
-    _parent->OnFinishCurrent();
+    if (_parent) { _parent->OnFinishCurrent(); }
   }
   /*
    * OnPause
@@ -51,6 +74,7 @@ void PLANode::Update()
   // \~ja 浮動小数点誤差を考慮し、大きさから１ステップの半分を引いて比較する
   //GRA_PRINT("(%f - %f) < %f\n", _length, aStep * 0.5, _steps);
   //if ((_length - aStep * 0.5) < _steps) { _steps = _length; }
+  DBG_PLANode_Update_Indent.erase(0, 2);
 }
 
 void PLANode::AddMain(PLANode *aNode)
@@ -67,21 +91,30 @@ void PLANode::AddBranch(PLANode *aNode)
 
 void PLANode::OnFinishCurrent()
 {
-  GRA_TRACE("");
-  if (_current != _main.end())
+  GRA_PRINT("%s| %s : OnFinishCurrent(), _current: %2d, _steps: %3d\n",
+            DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
+            _current, _steps);
+  if (_current < _main.size())
   {
     ++_current;
-    this->OnFinishMain();
-    _parent->OnFinishBranch();
+    if (_current == _main.size())
+    {
+      this->OnFinishMain();
+      if (_parent) { _parent->OnFinishBranch(); };
+    }
   }
 }
 
 void PLANode::OnFinishMain()
 {
-  GRA_TRACE("");
+  GRA_PRINT("%s| %s : OnFinishMain(), _current: %2d, _steps: %3d\n",
+            DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
+            _current, _steps);
 }
 
 void PLANode::OnFinishBranch()
 {
-  GRA_TRACE("");
+  GRA_PRINT("%s| %s : OnFinishBranch(), _current: %2d, _steps: %3d\n",
+            DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
+            _current, _steps);
 }
