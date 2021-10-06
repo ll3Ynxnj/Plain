@@ -25,7 +25,9 @@ public:
   static PLAMotion *CreateScale(const PLAVec3 &aScale,
                                 PLATimeInterval aDuration);
 
-  //PLAMotion();
+  static const PLAProperty &MakeProperty(const PLAMotionType aType);
+
+  PLAMotion();
   PLAMotion(PLAMotionType aType, const PLAColor &aDistance,
             PLATimeInterval aDuration);
   PLAMotion(PLAMotionType aType, const PLAVec3 &aDistance,
@@ -35,6 +37,7 @@ public:
   //void Update() override;
 
   PLAMotionType GetMotionType() { return _type; }
+  void GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) const;
 };
 
 #endif //ANHR_PLAMOTION_HPP

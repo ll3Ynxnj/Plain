@@ -118,3 +118,14 @@ void PLANode::OnFinishBranch()
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
             _current, _steps);
 }
+
+const PLANode *PLANode::GetCurrentNode() const
+{
+  if (!_main.size()) { return nullptr; }
+  return _main[_current];
+}
+
+const std::vector<PLANode *> &PLANode::GetBranch() const
+{
+  return _branch;
+};

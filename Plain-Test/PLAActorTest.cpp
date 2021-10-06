@@ -55,7 +55,12 @@ TEST_F(PLAActorTest, UpdateMotion_UpdateMotions_RefreshProperties)
   this->_rootActor->AddMotion(&m1);
   for (int i = 0; i < PLAApp::kRefreshRate * duration + 3; i++) {
     _rootActor->Update();
-    GRA_PRINT("%3d : _rootActor.GetTransform.translation.x : %f\n",
-              i, _rootActor->GetTransform().translation.x);
+    PLAFloat ttx = _rootActor->GetTransform().translation.x;
+    GRA_PRINT("%3d : _rootActor.GetTransform.translation.x : %f\n", i, ttx);
+    PLAProperty p = _rootActor->GetMotionProperty(PLAMotionType::Translation);
+    PLAVec3 pt = p.GetVec3();
+    PLAFloat ptx = pt.x;
+    GRA_PRINT("%3d : _rootActor.GetMotionProperty(PLAMotionType::Transform) : %f\n",
+              i, ptx);
   }
 }

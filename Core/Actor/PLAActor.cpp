@@ -158,14 +158,10 @@ void PLAActor::Init()
 
 void PLAActor::Update()
 {
+  this->UpdateMotions();
+
   _functor.RunFunction(PLAActorFunctionCode::OnUpdate, this);
   for (PLAActor *actor : _actors) { actor->Update(); }
-}
-
-void PLAActor::UpdateMotions()
-{
-
-  for (PLAActor *actor : _actors) { actor->UpdateMotions(); }
 }
 
 void PLAActor::Appear()
@@ -348,6 +344,27 @@ const PLALYRCircle *PLAActor::GetLayerCircle() const
   return static_cast<PLALYRCircle *>(_layer);
 }
 */
+
+void PLAActor::UpdateMotions()
+{
+  std::map<PLAMotionType, PLAProperty> properties =
+    std::map<PLAMotionType, PLAProperty>();
+  _motion.GetProperty(&properties);
+
+  for (const auto &[key, value] : properties) {
+    if (!_motionProperties.contains(key)) {
+      _motionProperties[key] = PLAMotion::MakeProperty(key);
+    }
+    _motionProperties[key].Add(properties[key]); //ここから
+  }
+  /*
+  for (const auto &[key, value] : _motionProperties) {
+    _motionProperties[key]; //ここから
+  }
+   */
+  for (PLAActor *actor : _actors) { actor->UpdateMotions(); }
+}
+
 
 void PLAActor::RefreshLayerOffset()
 {

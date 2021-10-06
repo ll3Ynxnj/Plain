@@ -35,13 +35,24 @@ PLAMotion *CreateScale(const PLAVec3 &aScale,
   return new PLAMotion(PLAMotionType::Scale, aScale, aDuration);
 }
 
-/*
+const PLAProperty &PLAMotion::MakeProperty(const PLAMotionType aType)
+{
+  switch (aType)
+  {
+    case PLAMotionType::Translation : return kPLAPropertyVec3;
+    case PLAMotionType::Rotation    : return kPLAPropertyVec3;
+    case PLAMotionType::Scale       : return kPLAPropertyVec3;
+    case PLAMotionType::Color       : return kPLAPropertyColor;
+    //case PLAMotionType::None        : return kPLAPropertyNone;
+    default : PLA_ERROR_ISSUE(PLAErrorType::Assert, "Detect unexpected types.");
+  }
+}
+
 PLAMotion::PLAMotion():
   PLANode()
 {
 
 }
-*/
 
 PLAMotion::PLAMotion(PLAMotionType aType, const PLAColor &aDistance,
                      PLATimeInterval aDuration):
@@ -82,3 +93,22 @@ void PLAMotion::Update()
 
 }
  */
+
+void PLAMotion::GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) const
+{
+  const PLANode *currentNode = this->GetCurrentNode();
+  if (currentNode)
+  {
+    static_cast<const PLAMotion *>(currentNode)->GetProperty(aProperties);
+  }
+  for (const PLANode *branch : this->GetBranch())
+  {
+    static_cast<const PLAMotion *>(branch)->GetProperty(aProperties);
+  }
+  if (_type == PLAMotionType::None) { return; }
+  if (!aProperties->contains(_type))
+  {
+    (*aProperties)[_type] = PLAMotion::MakeProperty(_type);
+  }
+  (*aProperties)[_type].Add(_distance);
+}

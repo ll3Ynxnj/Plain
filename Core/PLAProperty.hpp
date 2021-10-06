@@ -46,6 +46,8 @@ public:
   const PLAVec3 &GetVec3() const;
   const PLAVec4 &GetVec4() const;
 
+  void Set(const PLAProperty &aProperty);
+
   void SetBool(PLABool aValue);
   void SetInt(PLAInt aValue);
   void SetFloat(PLAFloat aValue);
@@ -54,6 +56,28 @@ public:
   void SetVec2(const PLAVec2 &aValue);
   void SetVec3(const PLAVec3 &aValue);
   void SetVec4(const PLAVec4 &aValue);
+
+  void Add(const PLAProperty &aProperty);
+
+  //void AddBool(PLABool aValue);
+  void AddInt(PLAInt aValue);
+  void AddFloat(PLAFloat aValue);
+  //void AddColor(const PLAColor &aValue);
+  void AddString(const PLAString &aValue);
+  void AddVec2(const PLAVec2 &aValue);
+  void AddVec3(const PLAVec3 &aValue);
+  void AddVec4(const PLAVec4 &aValue);
+
 };
+
+//static const PLAProperty kPLAPropertyNone = PLAProperty();
+static const PLAProperty kPLAPropertyBool = PLAProperty(PLABool(false));
+static const PLAProperty kPLAPropertyInt = PLAProperty(PLAInt(0));
+static const PLAProperty kPLAPropertyFloat = PLAProperty(PLAFloat(0));
+static const PLAProperty kPLAPropertyColor = PLAProperty(kPLAColorNorm);
+static const PLAProperty kPLAPropertyString = PLAProperty(PLAString(""));
+static const PLAProperty kPLAPropertyVec2 = PLAProperty(kPLAVec2None);
+static const PLAProperty kPLAPropertyVec3 = PLAProperty(kPLAVec3None);
+static const PLAProperty kPLAPropertyVec4 = PLAProperty(kPLAVec4None);
 
 #endif //ANHR_PLAPROPERTY_HPP

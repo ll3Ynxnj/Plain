@@ -57,6 +57,10 @@ public:
                    const std::function<void(PLANode *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
 
+protected:
+  virtual const PLANode *GetCurrentNode() const;
+  const std::vector<PLANode *> &GetBranch() const;
+
 private:
   void OnFinishCurrent();
   void OnFinishMain();

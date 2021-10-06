@@ -41,7 +41,7 @@ private:
   PLAColor _color = kPLAColorWhite;
   PLATransform _transform = kPLATransformNorm;
   //-- Not affect child actors
-  PLANode _motion = PLANode();
+  PLAMotion _motion = PLAMotion();
   std::map<PLAMotionType, PLAProperty> _motionProperties =
     std::map<PLAMotionType, PLAProperty>();
 
@@ -138,7 +138,10 @@ public:
   void GetSize(PLAVec3 *aSize) const { return _layer->GetSize(aSize); };
   const PLAVec3 &GetLayerOffset() const { return _layer->GetOffset(); };
 
-  PLALayerType GetLayerType() const { return _layer->GetLayerType(); }
+  PLALayerType GetLayerType() const { return _layer->GetLayerType(); };
+
+  const PLAProperty &GetMotionProperty(PLAMotionType aType)
+  { _motionProperties[aType]; };
   //const PLAStyle *GetLayerStyle() const { return _layer->GetStyle(); }
 
   //const PLAStyle *GetStyle() const { return &_style; };

@@ -18,6 +18,7 @@ static const PLAByte kPLAByteMax = kGRAByteMax;
 static const PLAByte kPLAByteUndefined = kGRAByteUndefined;
 
 using PLAInt = GRAInt;
+
 static const PLAInt kPLAIntMin = kGRAIntMin;
 static const PLAInt kPLAIntMax = kGRAIntMax;
 static const PLAInt kPLAIntUndefined = kGRAIntUndefined;
