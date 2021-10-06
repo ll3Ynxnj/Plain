@@ -11,11 +11,10 @@ enum class PLAPropertyType: PLAInt {
   Bool,
   Int,
   Float,
-  String,
+  Color,
   Vec2,
   Vec3,
   Vec4,
-  Color,
 
   kNumberOfItems,
   None = kPLAIntUndefined,

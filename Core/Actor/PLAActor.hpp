@@ -141,7 +141,7 @@ public:
   PLALayerType GetLayerType() const { return _layer->GetLayerType(); };
 
   const PLAProperty &GetMotionProperty(PLAMotionType aType)
-  { _motionProperties[aType]; };
+  { return _motionProperties[aType]; };
   //const PLAStyle *GetLayerStyle() const { return _layer->GetStyle(); }
 
   //const PLAStyle *GetStyle() const { return &_style; };

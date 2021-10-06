@@ -90,13 +90,6 @@ PLAFloat PLAObject::GetFloat(const PLAString &aName) const
   return _properties.at(aName).GetFloat();
 }
 
-const PLAString &PLAObject::GetString(const PLAString &aName) const
-{
-  if (!_properties.contains(aName))
-  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Property does not exist."); }
-  return _properties.at(aName).GetString();
-}
-
 const PLAVec2 &PLAObject::GetVec2(const PLAString &aName) const
 {
   if (!_properties.contains(aName))
@@ -131,11 +124,6 @@ void PLAObject::SetInt(const PLAString &aName, PLAInt aValue)
 void PLAObject::SetFloat(const PLAString &aName, PLAFloat aValue)
 {
   _properties[aName].SetFloat(aValue);
-}
-
-void PLAObject::SetString(const PLAString &aName, const PLAString &aValue)
-{
-  _properties[aName].SetString(aValue);
 }
 
 void PLAObject::SetVec2(const PLAString &aName, const PLAVec2 &aValue)

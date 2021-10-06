@@ -39,11 +39,10 @@ const PLAProperty &PLAMotion::MakeProperty(const PLAMotionType aType)
 {
   switch (aType)
   {
-    case PLAMotionType::Translation : return kPLAPropertyVec3;
-    case PLAMotionType::Rotation    : return kPLAPropertyVec3;
-    case PLAMotionType::Scale       : return kPLAPropertyVec3;
-    case PLAMotionType::Color       : return kPLAPropertyColor;
-    //case PLAMotionType::None        : return kPLAPropertyNone;
+    case PLAMotionType::Translation : return PLAProperty::kVec3;
+    case PLAMotionType::Rotation    : return PLAProperty::kVec3;
+    case PLAMotionType::Scale       : return PLAProperty::kVec3;
+    case PLAMotionType::Color       : return PLAProperty::kColor;
     default : PLA_ERROR_ISSUE(PLAErrorType::Assert, "Detect unexpected types.");
   }
 }

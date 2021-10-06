@@ -5,83 +5,74 @@
 #include "PLAProperty.hpp"
 #include "PLAError.hpp"
 
+const PLAProperty PLAProperty::kBool  = PLAProperty(PLABool(false));
+const PLAProperty PLAProperty::kInt   = PLAProperty(PLAInt(0));
+const PLAProperty PLAProperty::kFloat = PLAProperty(PLAFloat(0));
+const PLAProperty PLAProperty::kColor = PLAProperty(kPLAColorNorm);
+const PLAProperty PLAProperty::kVec2  = PLAProperty(kPLAVec2None);
+const PLAProperty PLAProperty::kVec3  = PLAProperty(kPLAVec3None);
+const PLAProperty PLAProperty::kVec4  = PLAProperty(kPLAVec4None);
+
 PLABool PLAProperty::GetBool() const
 {
   if (_type != PLAPropertyType::Bool)
   { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLABool type."); }
-  return *static_cast<PLABool *>(_value);
+  return _value.b;
 }
 
 PLAInt PLAProperty::GetInt() const
 {
   if (_type != PLAPropertyType::Int)
   { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLAInt type."); }
-  return *static_cast<PLAInt *>(_value);
+  return _value.i;
 }
 
 PLAFloat PLAProperty::GetFloat() const
 {
   if (_type != PLAPropertyType::Float)
   { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLAFloat type."); }
-  return *static_cast<PLAFloat *>(_value);
+  return _value.f;
 }
 
-const PLAString &PLAProperty::GetString() const
+const PLAColor &PLAProperty::GetColor() const
 {
-  if (_type != PLAPropertyType::String)
-  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLAString type."); }
-  return *static_cast<PLAString *>(_value);
+  if (_type != PLAPropertyType::Color)
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLAColor type."); }
+  return _value.c;
 }
 
 const PLAVec2 &PLAProperty::GetVec2() const
 {
   if (_type != PLAPropertyType::Vec2)
   { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLAVec2 type."); }
-  return *static_cast<PLAVec2 *>(_value);
+  return _value.v2;
 }
 
 const PLAVec3 &PLAProperty::GetVec3() const
 {
   if (_type != PLAPropertyType::Vec3)
   { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLAVec3 type."); }
-  return *static_cast<PLAVec3 *>(_value);
+  return _value.v3;
 }
 
 const PLAVec4 &PLAProperty::GetVec4() const
 {
   if (_type != PLAPropertyType::Vec4)
   { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLAVec4 type."); }
-  return *static_cast<PLAVec4 *>(_value);
+  return _value.v4;
 }
 
 void PLAProperty::Set(const PLAProperty &aProperty)
 {
   switch (aProperty._type)
   {
-    case PLAPropertyType::Bool :
-      SetBool(*static_cast<PLABool *>(aProperty._value));
-      break;
-    case PLAPropertyType::Int :
-      SetInt(*static_cast<PLAInt *>(aProperty._value));
-      break;
-    case PLAPropertyType::Float :
-      SetFloat(*static_cast<PLAFloat *>(aProperty._value));
-      break;
-    case PLAPropertyType::Color :
-      SetColor(*static_cast<PLAColor *>(aProperty._value));
-      break;
-    case PLAPropertyType::String :
-      SetString(*static_cast<PLAString *>(aProperty._value));
-      break;
-    case PLAPropertyType::Vec2 :
-      SetVec2(*static_cast<PLAVec2 *>(aProperty._value));
-      break;
-    case PLAPropertyType::Vec3 :
-      SetVec3(*static_cast<PLAVec3 *>(aProperty._value));
-      break;
-    case PLAPropertyType::Vec4 :
-      SetVec4(*static_cast<PLAVec4 *>(aProperty._value));
-      break;
+    case PLAPropertyType::Bool  : SetBool(aProperty.GetBool());   break;
+    case PLAPropertyType::Int   : SetInt(aProperty.GetInt());     break;
+    case PLAPropertyType::Float : SetFloat(aProperty.GetFloat()); break;
+    case PLAPropertyType::Color : SetColor(aProperty.GetColor()); break;
+    case PLAPropertyType::Vec2  : SetVec2(aProperty.GetVec2());   break;
+    case PLAPropertyType::Vec3  : SetVec3(aProperty.GetVec3());   break;
+    case PLAPropertyType::Vec4  : SetVec4(aProperty.GetVec4());   break;
     default :
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       break;
@@ -96,12 +87,7 @@ void PLAProperty::SetBool(PLABool aValue)
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLABool type.");
   }
-  if (_value == nullptr)
-  {
-    _value = new PLABool(aValue);
-    return;
-  }
-  *static_cast<PLABool *>(_value) = aValue;
+  _value.b = aValue;
 }
 
 void PLAProperty::SetInt(PLAInt aValue)
@@ -112,12 +98,7 @@ void PLAProperty::SetInt(PLAInt aValue)
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLAInt type.");
   }
-  if (_value == nullptr)
-  {
-    _value = new PLAInt(aValue);
-    return;
-  }
-  *static_cast<PLAInt *>(_value) = aValue;
+  _value.i = aValue;
 }
 
 void PLAProperty::SetFloat(PLAFloat aValue)
@@ -128,12 +109,7 @@ void PLAProperty::SetFloat(PLAFloat aValue)
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLAFloat type.");
   }
-  if (_value == nullptr)
-  {
-    _value = new PLAFloat(aValue);
-    return;
-  }
-  *static_cast<PLAFloat *>(_value) = aValue;
+  _value.f = aValue;
 }
 
 void PLAProperty::SetColor(const PLAColor &aValue)
@@ -144,28 +120,7 @@ void PLAProperty::SetColor(const PLAColor &aValue)
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLAColor type.");
   }
-  if (_value == nullptr)
-  {
-    _value = new PLAColor(aValue);
-    return;
-  }
-  *static_cast<PLAColor *>(_value) = aValue;
-}
-
-void PLAProperty::SetString(const PLAString &aValue)
-{
-  if (_type == PLAPropertyType::None) { _type = PLAPropertyType::String; }
-  if (_type != PLAPropertyType::String)
-  {
-    PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                    "Cannot be set except for PLAString type.");
-  }
-  if (_value == nullptr)
-  {
-    _value = new PLAString(aValue);
-    return;
-  }
-  *static_cast<PLAString *>(_value) = aValue;
+  _value.c = aValue;
 }
 
 void PLAProperty::SetVec2(const PLAVec2 &aValue)
@@ -176,12 +131,7 @@ void PLAProperty::SetVec2(const PLAVec2 &aValue)
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLAVec2 type.");
   }
-  if (_value == nullptr)
-  {
-    _value = new PLAVec2(aValue);
-    return;
-  }
-  *static_cast<PLAVec2 *>(_value) = aValue;
+  _value.v2 = aValue;
 }
 
 void PLAProperty::SetVec3(const PLAVec3 &aValue)
@@ -192,12 +142,7 @@ void PLAProperty::SetVec3(const PLAVec3 &aValue)
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLAVec3 type.");
   }
-  if (_value == nullptr)
-  {
-    _value = new PLAVec3(aValue);
-    return;
-  }
-  *static_cast<PLAVec3 *>(_value) = aValue;
+  _value.v3 = aValue;
 }
 
 void PLAProperty::SetVec4(const PLAVec4 &aValue)
@@ -208,58 +153,33 @@ void PLAProperty::SetVec4(const PLAVec4 &aValue)
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLAVec4 type.");
   }
-  if (_value == nullptr)
-  {
-    _value = new PLAVec4(aValue);
-    return;
-  }
-  *static_cast<PLAVec4 *>(_value) = aValue;
+  _value.v4 = aValue;
 }
 
 void PLAProperty::Add(const PLAProperty &aProperty)
 {
   switch (aProperty._type)
   {
-    /*
-    case PLAPropertyType::Bool :
-      this->AddBool(*static_cast<PLABool *>(aProperty._value));
-      break;
-    */
     case PLAPropertyType::Int :
-      this->AddInt(*static_cast<PLAInt *>(aProperty._value));
+      this->AddInt(aProperty.GetInt());
       break;
     case PLAPropertyType::Float :
-      this->AddFloat(*static_cast<PLAFloat *>(aProperty._value));
-      break;
-    /*
-    case PLAPropertyType::Color :
-      this->AddColor(*static_cast<PLAColor *>(aProperty._value));
-      break;
-    */
-    case PLAPropertyType::String :
-      this->AddString(*static_cast<PLAString *>(aProperty._value));
+      this->AddFloat(aProperty.GetFloat());
       break;
     case PLAPropertyType::Vec2 :
-      this->AddVec2(*static_cast<PLAVec2 *>(aProperty._value));
+      this->AddVec2(aProperty.GetVec2());
       break;
     case PLAPropertyType::Vec3 :
-      this->AddVec3(*static_cast<PLAVec3 *>(aProperty._value));
+      this->AddVec3(aProperty.GetVec3());
       break;
     case PLAPropertyType::Vec4 :
-      this->AddVec4(*static_cast<PLAVec4 *>(aProperty._value));
+      this->AddVec4(aProperty.GetVec4());
       break;
     default :
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       break;
   }
 }
-
-/*
-void PLAProperty::AddBool(PLABool aValue)
-{
-  this->SetBool(this->GetBool() + aValue);
-}
-*/
 
 void PLAProperty::AddInt(PLAInt aValue)
 {
@@ -269,18 +189,6 @@ void PLAProperty::AddInt(PLAInt aValue)
 void PLAProperty::AddFloat(PLAFloat aValue)
 {
   this->SetFloat(this->GetFloat() + aValue);
-}
-
-/*
-void PLAProperty::AddColor(const PLAColor &aValue)
-{
-  this->SetColor(this->GetColor() + aValue);
-}
-*/
-
-void PLAProperty::AddString(const PLAString &aValue)
-{
-  this->SetString(this->GetString() + aValue);
 }
 
 void PLAProperty::AddVec2(const PLAVec2 &aValue)
