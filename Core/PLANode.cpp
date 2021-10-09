@@ -122,6 +122,7 @@ void PLANode::OnFinishBranch()
 const PLANode *PLANode::GetCurrentNode() const
 {
   if (!_main.size()) { return nullptr; }
+  if (_main.size() <= _current) { return nullptr; }
   return _main[_current];
 }
 

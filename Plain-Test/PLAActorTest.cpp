@@ -14,12 +14,14 @@ protected:
     //                                  kGRATransformNorm, PLARect(kPLAVec3None, kPLAVec2None));
     _rootActor = PLAActor::CreateRect(kPLAVec3Norm, kPLAColorWhite,
                                       kPLATransformNorm, kPLARectNorm);
+    _rootActor->SetObjectName("_rootActor");
 
     static const int kNumberOfActors = 3;
     for (int i = 0; i < kNumberOfActors; i++)
     {
       PLAActor *actor = PLAActor::CreateRect(kPLAVec3Norm, kPLAColorWhite,
                                              kPLATransformNorm, kPLARectNorm);
+      actor->SetObjectName("actor");
       _actors.push_back(actor);
     }
   }
@@ -46,21 +48,24 @@ TEST_F(PLAActorTest, AddActor_AddActors_IncreaseActors)
 
 TEST_F(PLAActorTest, UpdateMotion_UpdateMotions_RefreshProperties)
 {
-  PLAFloat duration = 3;//0.2;
+  PLAFloat duration = 0.04;//0.2;
   PLAMotion m0 = PLAMotion(PLAMotionType::Translation,
                            PLAVec3( 20, 0, 0), duration);
+  m0.SetObjectName("m0");
   PLAMotion m1 = PLAMotion(PLAMotionType::Translation,
                            PLAVec3(-20, 0, 0), duration);
+  m1.SetObjectName("m1");
   this->_rootActor->AddMotion(&m0);
   this->_rootActor->AddMotion(&m1);
-  for (int i = 0; i < PLAApp::kRefreshRate * duration + 3; i++) {
+  PLAUInt totalSteps = PLAApp::kRefreshRate * duration + 2;
+  for (PLAUInt i = 0; i < totalSteps + 3; i++) {
     _rootActor->Update();
     PLAFloat ttx = _rootActor->GetTransform().translation.x;
     GRA_PRINT("%3d : _rootActor.GetTransform.translation.x : %f\n", i, ttx);
     PLAProperty p = _rootActor->GetMotionProperty(PLAMotionType::Translation);
+    if (p.GetPropertyType() == PLAPropertyType::None) { continue; }
     PLAVec3 pt = p.GetVec3();
     PLAFloat ptx = pt.x;
-    GRA_PRINT("%3d : _rootActor.GetMotionProperty(PLAMotionType::Transform) : %f\n",
-              i, ptx);
+    GRA_PRINT("ptx: %f\n", i, ptx);
   }
 }

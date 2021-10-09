@@ -13,6 +13,7 @@
 class PLAProperty
 {
 public:
+  static const PLAProperty kNone;
   static const PLAProperty kBool;
   static const PLAProperty kInt;
   static const PLAProperty kFloat;
@@ -34,11 +35,11 @@ private:
     Value(): b(0) {};
   };
   PLAPropertyType _type = PLAPropertyType::None;
-  Value _value;
+  Value _value = Value();
 
 public:
   PLAProperty() {};
-  PLAProperty(PLAPropertyType aType): _type(aType) {};
+  PLAProperty(PLAPropertyType aType);
   PLAProperty(PLABool aValue):
     _type(PLAPropertyType::Bool) { _value.b = PLABool(aValue); };
   PLAProperty(PLAInt aValue):
@@ -56,6 +57,8 @@ public:
 
   ~PLAProperty() {};// delete _value; _value = nullptr; };
 
+  PLAPropertyType GetPropertyType() { return _type; };
+
   PLABool GetBool() const;
   PLAInt GetInt() const;
   PLAFloat GetFloat() const;
@@ -70,19 +73,35 @@ public:
   void SetInt(PLAInt aValue);
   void SetFloat(PLAFloat aValue);
   void SetColor(const PLAColor &aValue);
-  //void SetString(const PLAString &aValue);
   void SetVec2(const PLAVec2 &aValue);
   void SetVec3(const PLAVec3 &aValue);
   void SetVec4(const PLAVec4 &aValue);
 
-  void Add(const PLAProperty &aProperty);
+  PLAProperty Add(const PLAProperty &aProperty) const;
 
-  void AddInt(PLAInt aValue);
-  void AddFloat(PLAFloat aValue);
-  void AddString(const PLAString &aValue);
-  void AddVec2(const PLAVec2 &aValue);
-  void AddVec3(const PLAVec3 &aValue);
-  void AddVec4(const PLAVec4 &aValue);
+  PLAProperty AddInt(PLAInt aValue) const;
+  PLAProperty AddFloat(PLAFloat aValue) const;
+  PLAProperty AddVec2(const PLAVec2 &aValue) const;
+  PLAProperty AddVec3(const PLAVec3 &aValue) const;
+  PLAProperty AddVec4(const PLAVec4 &aValue) const;
+
+  void AddIn(const PLAProperty &aProperty);
+
+  void AddInInt(PLAInt aValue);
+  void AddInFloat(PLAFloat aValue);
+  void AddInVec2(const PLAVec2 &aValue);
+  void AddInVec3(const PLAVec3 &aValue);
+  void AddInVec4(const PLAVec4 &aValue);
+
+  PLAProperty Mul(const PLAProperty &aProperty) const;
+
+  PLAProperty MulInt(PLAInt aValue) const;
+  PLAProperty MulFloat(PLAFloat aValue) const;
+
+  void MulIn(const PLAProperty &aProperty);
+
+  void MulInInt(PLAInt aValue);
+  void MulInFloat(PLAFloat aValue);
 };
 
 #endif //ANHR_PLAPROPERTY_HPP

@@ -347,6 +347,8 @@ const PLALYRCircle *PLAActor::GetLayerCircle() const
 
 void PLAActor::UpdateMotions()
 {
+  _motion.Update();
+
   std::map<PLAMotionType, PLAProperty> properties =
     std::map<PLAMotionType, PLAProperty>();
   _motion.GetProperty(&properties);
@@ -355,13 +357,8 @@ void PLAActor::UpdateMotions()
     if (!_motionProperties.contains(key)) {
       _motionProperties[key] = PLAMotion::MakeProperty(key);
     }
-    _motionProperties[key].Add(properties[key]); //ここから
+    _motionProperties[key] = properties[key];
   }
-  /*
-  for (const auto &[key, value] : _motionProperties) {
-    _motionProperties[key]; //ここから
-  }
-   */
   for (PLAActor *actor : _actors) { actor->UpdateMotions(); }
 }
 
