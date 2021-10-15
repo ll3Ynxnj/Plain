@@ -347,6 +347,7 @@ const PLALYRCircle *PLAActor::GetLayerCircle() const
 
 void PLAActor::UpdateMotions()
 {
+  GRA_PRINT("UpdateMotions()\n");
   _motion.Update();
 
   std::map<PLAMotionType, PLAProperty> properties =
@@ -358,10 +359,11 @@ void PLAActor::UpdateMotions()
       _motionProperties[key] = PLAMotion::MakeProperty(key);
     }
     _motionProperties[key] = properties[key];
+    GRA_PRINT("_motionProperties[%s]", PLAMotion::GetNameOfType(key));
+    _motionProperties[key].Print();
   }
   for (PLAActor *actor : _actors) { actor->UpdateMotions(); }
 }
-
 
 void PLAActor::RefreshLayerOffset()
 {

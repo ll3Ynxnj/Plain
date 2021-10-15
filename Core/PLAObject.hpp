@@ -30,6 +30,8 @@ public:
   PLAObject() = delete;
   virtual ~PLAObject();
 
+  virtual void Print();
+
   GRASize GetObjectId() const { return this->GetId(); }
   const std::string &GetObjectName() const { return this->GetName(); };
   PLAObjectType GetObjectType() const { return _type; };

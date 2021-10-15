@@ -11,40 +11,60 @@ static PLAMotion *PLAMotion::Create()
 }
 */
 
-PLAMotion *PLAMotion::CreateColor(const PLAColor &aColor,
+PLAMotion *PLAMotion::CreateColor(const PLAColor &aBegin, const PLAColor &aEnd,
                                   PLATimeInterval aDuration)
 {
-  return new PLAMotion(PLAMotionType::Color, aColor, aDuration);
+  return new PLAMotion(PLAMotionType::Color, aBegin, aEnd, aDuration);
 }
 
-PLAMotion *PLAMotion::CreateTranslation(const PLAVec3 &aTranslation,
+PLAMotion *PLAMotion::CreateTranslation(const PLAVec3 &aBegin,
+                                        const PLAVec3 &aEnd,
                                         PLATimeInterval aDuration)
 {
-  return new PLAMotion(PLAMotionType::Translation, aTranslation, aDuration);
+  return new PLAMotion(PLAMotionType::Translation, aBegin, aEnd, aDuration);
 }
 
-PLAMotion *PLAMotion::CreateRotation(const PLAVec3 &aRotation,
+PLAMotion *PLAMotion::CreateRotation(const PLAVec3 &aBegin, const PLAVec3 &aEnd,
                                      PLATimeInterval aDuration)
 {
-  return new PLAMotion(PLAMotionType::Rotation, aRotation, aDuration);
+  return new PLAMotion(PLAMotionType::Rotation, aBegin, aEnd, aDuration);
 }
 
-PLAMotion *CreateScale(const PLAVec3 &aScale,
+PLAMotion *CreateScale(const PLAVec3 &aBegin, const PLAVec3 &aEnd,
                        PLATimeInterval aDuration)
 {
-  return new PLAMotion(PLAMotionType::Scale, aScale, aDuration);
+  return new PLAMotion(PLAMotionType::Scale, aBegin, aEnd, aDuration);
 }
 
 const PLAProperty &PLAMotion::MakeProperty(const PLAMotionType aType)
 {
   switch (aType)
   {
+    case PLAMotionType::Color       : return PLAProperty::kColor;
     case PLAMotionType::Translation : return PLAProperty::kVec3;
     case PLAMotionType::Rotation    : return PLAProperty::kVec3;
     case PLAMotionType::Scale       : return PLAProperty::kVec3;
-    case PLAMotionType::Color       : return PLAProperty::kColor;
     default : PLA_ERROR_ISSUE(PLAErrorType::Assert, "Detect unexpected types.");
   }
+}
+
+/*
+PLASize PLAMotion::GetNumberOfTypes()
+{
+  return static_cast<PLAUInt>(PLAMotionType::kNumberOfItems);
+}
+ */
+
+const char *PLAMotion::GetNameOfType(PLAMotionType aType)
+{
+  static std::map<PLAMotionType, const char *> nameTable =
+  {
+    { PLAMotionType::Color, "Color" },
+    { PLAMotionType::Translation, "Translation" },
+    { PLAMotionType::Rotation, "Rotation" },
+    { PLAMotionType::Scale, "Scale" },
+  };
+  return nameTable.at(aType);
 }
 
 PLAMotion::PLAMotion():
@@ -53,21 +73,26 @@ PLAMotion::PLAMotion():
 
 }
 
-PLAMotion::PLAMotion(PLAMotionType aType, const PLAColor &aDistance,
-                     PLATimeInterval aDuration):
+PLAMotion::PLAMotion(PLAMotionType aType, const PLAColor &aBegin,
+                     const PLAColor &aEnd, PLATimeInterval aDuration):
   PLANode(aDuration * PLAApp::kRefreshRate),
   _type(aType),
-  _distance(PLAProperty(aDistance)),
+  _begin(PLAProperty(aBegin)),
+  _end(PLAProperty(aEnd)),
+  _distance(PLAProperty(PLAColor(aEnd.r - aBegin.r, aEnd.g - aBegin.g,
+                                 aEnd.b - aBegin.b, aEnd.a - aBegin.a))),
   _duration(aDuration)
 {
 
 }
 
-PLAMotion::PLAMotion(PLAMotionType aType, const PLAVec3 &aDistance,
-                     PLATimeInterval aDuration):
+PLAMotion::PLAMotion(PLAMotionType aType, const PLAVec3 &aBegin,
+                     const PLAVec3 &aEnd, PLATimeInterval aDuration):
   PLANode(aDuration * PLAApp::kRefreshRate),
   _type(aType),
-  _distance(PLAProperty(aDistance)),
+  _begin(PLAProperty(aBegin)),
+  _end(PLAProperty(aEnd)),
+  _distance(PLAProperty(aEnd - aBegin)),
   _duration(aDuration)
 {
 
@@ -95,6 +120,7 @@ void PLAMotion::Update()
 
 void PLAMotion::GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) const
 {
+  GRA_PRINT("GetProperty()\n");
   const PLANode *currentNode = this->GetCurrentNode();
   if (currentNode)
   {
@@ -110,11 +136,15 @@ void PLAMotion::GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) c
     (*aProperties)[_type] = PLAMotion::MakeProperty(_type);
   }
   GRA_PRINT("GetProgress() : %f\n", this->GetProgress());
-  PLAProperty property = _distance.MulFloat(this->GetProgress());
-  PLAVec3 translation = property.GetVec3();
-  GRA_PRINT("translation : %f, %f, %f\n",
-            translation.x, translation.y, translation.z);
-  GRA_PRINT("_distance.MulFloat(this->GetProgress().GetVec3().x) : %f\n",
-            _distance.MulFloat(this->GetProgress()).GetVec3().x);
-  (*aProperties)[_type].AddIn(translation);
+  PLAProperty property = _begin;
+  property.AddIn(_distance.MulFloat(this->GetProgress()));
+  if (_type == PLAMotionType::Translation)
+  {
+    PLAVec3 translation = property.GetVec3();
+    GRA_PRINT("translation : %f, %f, %f\n",
+              translation.x, translation.y, translation.z);
+    GRA_PRINT("_distance.MulFloat(this->GetProgress().GetVec3().x) : %f\n",
+              _distance.MulFloat(this->GetProgress()).GetVec3().x);
+  }
+  (*aProperties)[_type].AddIn(property);
 }

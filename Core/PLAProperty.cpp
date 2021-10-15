@@ -14,6 +14,54 @@ const PLAProperty PLAProperty::kVec2  = PLAProperty(kPLAVec2None);
 const PLAProperty PLAProperty::kVec3  = PLAProperty(kPLAVec3None);
 const PLAProperty PLAProperty::kVec4  = PLAProperty(kPLAVec4None);
 
+void PLAProperty::Print()
+{
+  //ここから Actorの_motionPropertiesが更新ごとにどんな値になるのかを調査する
+  GRA_PRINT("PLAProperty: {");
+  switch(_type)
+  {
+    case PLAPropertyType::Bool :
+      GRA_PRINT("Bool: %s", this->GetBool()?"true":"false");
+      break;
+    case PLAPropertyType::Int :
+      GRA_PRINT("Int: %d", this->GetInt());
+      break;
+    case PLAPropertyType::Float :
+      GRA_PRINT("Float: %f", this->GetFloat());
+      break;
+    case PLAPropertyType::Color :
+      GRA_PRINT("Color: {r: %f, g: %f, b: %f, a: %f}",
+                this->GetColor().r, this->GetColor().g,
+                this->GetColor().b, this->GetColor().a);
+      break;
+    case PLAPropertyType::Vec2 :
+    {
+      GRA_PRINT("Vec2: {x: %f, y: %f}", this->GetVec2().x, this->GetVec2().y);
+      break;
+    }
+    case PLAPropertyType::Vec3 :
+    {
+      GRA_PRINT("Vec3: {x: %f, y: %f, z: %f}",
+                this->GetVec3().x, this->GetVec3().y, this->GetVec3().z);
+      break;
+    }
+    case PLAPropertyType::Vec4 :
+    {
+      GRA_PRINT("Vec4: {x: %f, y: %f, z: %f, w: %f}",
+                this->GetVec4().x, this->GetVec4().y,
+                this->GetVec4().z, this->GetVec4().w);
+      break;
+    }
+    case PLAPropertyType::None :
+      GRA_PRINT("None");
+      break;
+    default :
+      PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                      "Detected unexpected PLAPropertyType.");
+  }
+  GRA_PRINT("}\n");
+}
+
 PLAProperty::PLAProperty(PLAPropertyType aType): _type(aType)
 {
   switch (aType)

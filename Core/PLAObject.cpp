@@ -37,6 +37,11 @@ void PLAObject::Delete(PLAObject *aObject)
   GRA_DELETE(aObject);
 }
 
+void PLAObject::Print()
+{
+  GRA_PRINT("PLAObject : %8d, %d\n", this->GetId(), this);
+}
+
 PLAObject *PLAObject::Manager::Object(const std::string &aKey)
 {
   Binder::Error error(Binder::Error::None);

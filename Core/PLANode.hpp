@@ -62,6 +62,9 @@ protected:
   const std::vector<PLANode *> &GetBranch() const;
 
 private:
+  void OnStart();
+  void OnUpdate();
+  void OnStop();
   void OnFinishCurrent();
   void OnFinishMain();
   void OnFinishBranch();

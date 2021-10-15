@@ -57,6 +57,8 @@ public:
 
   ~PLAProperty() {};// delete _value; _value = nullptr; };
 
+  void Print();
+
   PLAPropertyType GetPropertyType() { return _type; };
 
   PLABool GetBool() const;

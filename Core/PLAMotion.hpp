@@ -11,30 +11,35 @@
 class PLAMotion final: public PLANode
 {
   PLAMotionType _type = PLAMotionType::None;
+  PLAProperty _begin = PLAProperty();
+  PLAProperty _end = PLAProperty();
   PLAProperty _distance = PLAProperty();
   PLAFloat _duration = 0;
 
 public:
   //static PLAMotion *Create();
-  static PLAMotion *CreateColor(const PLAColor &aColor,
+  static PLAMotion *CreateColor(const PLAColor &aBegin, const PLAColor &aEnd,
                                 PLATimeInterval aDuration);
-  static PLAMotion *CreateTranslation(const PLAVec3 &aTranslation,
+  static PLAMotion *CreateTranslation(const PLAVec3 &aBegin, const PLAVec3 &aEnd,
                                       PLATimeInterval aDuration);
-  static PLAMotion *CreateRotation(const PLAVec3 &aRotation,
+  static PLAMotion *CreateRotation(const PLAVec3 &aBegin, const PLAVec3 &aEnd,
                                    PLATimeInterval aDuration);
-  static PLAMotion *CreateScale(const PLAVec3 &aScale,
+  static PLAMotion *CreateScale(const PLAVec3 &aBegin, const PLAVec3 &aEnd,
                                 PLATimeInterval aDuration);
 
   static const PLAProperty &MakeProperty(const PLAMotionType aType);
 
+  static const char *GetNameOfType(PLAMotionType aType);
+
   PLAMotion();
-  PLAMotion(PLAMotionType aType, const PLAColor &aDistance,
+  PLAMotion(PLAMotionType aType, const PLAColor &aBegin, const PLAColor &aEnd,
             PLATimeInterval aDuration);
-  PLAMotion(PLAMotionType aType, const PLAVec3 &aDistance,
+  PLAMotion(PLAMotionType aType, const PLAVec3 &aBegin, const PLAVec3 &aEnd,
             PLATimeInterval aDuration);
   ~PLAMotion();
 
   //void Update() override;
+  const char *GetNameOfType() { return GetNameOfType(_type); };
 
   PLAMotionType GetMotionType() { return _type; }
   void GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) const;

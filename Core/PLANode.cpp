@@ -3,6 +3,7 @@
 //
 
 #include "PLANode.hpp"
+#include "PLAError.hpp"
 
 static PLAString DBG_PLANode_Update_Indent = "";
 
@@ -48,25 +49,35 @@ PLANode::~PLANode()
 void PLANode::Update()
 {
   DBG_PLANode_Update_Indent += "  ";
+
+  //-- Update nodes.
   for (PLANode *node: _branch) {
     node->Update();
   }
   if (_current < _main.size()) { _main[_current]->Update(); }
+
   if (_steps > _length) { DBG_PLANode_Update_Indent.erase(0, 2); return; }
   GRA_PRINT("%s| %s : Update(), _current: %2d, _steps: %3d\n",
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(), _current, _steps);
-  if (_steps == 0) { _functor.RunFunction(FunctionCode::OnStart, this); }
-  _functor.RunFunction(FunctionCode::OnUpdate, this);
+
+  //-- OnStart
+  if (_steps == 0) { this->OnStart(); }
+
+  //-- OnUpdate
+  ++_steps;
+  this->OnUpdate();
+
+  //-- OnStop
   if (_steps == _length)
   {
-    _functor.RunFunction(FunctionCode::OnStop,  this);
+    this->OnStop();
     if (_parent) { _parent->OnFinishCurrent(); }
   }
+
   /*
    * OnPause
    * OnResume
    */
-  ++_steps;
   //GRA_PRINT("%f <= %f\n", _length, _steps);
   //if (_length <= _steps) { _steps = _length; }
 
@@ -74,6 +85,7 @@ void PLANode::Update()
   // \~ja 浮動小数点誤差を考慮し、大きさから１ステップの半分を引いて比較する
   //GRA_PRINT("(%f - %f) < %f\n", _length, aStep * 0.5, _steps);
   //if ((_length - aStep * 0.5) < _steps) { _steps = _length; }
+
   DBG_PLANode_Update_Indent.erase(0, 2);
 }
 
@@ -87,6 +99,30 @@ void PLANode::AddBranch(PLANode *aNode)
 {
   aNode->_parent = this;
   _branch.push_back(aNode);
+}
+
+void PLANode::OnStart()
+{
+  GRA_PRINT("%s| %s : OnStart(), _current: %2d, _steps: %3d\n",
+            DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
+            _current, _steps);
+  _functor.RunFunction(FunctionCode::OnStart, this);
+}
+
+void PLANode::OnUpdate()
+{
+  GRA_PRINT("%s| %s : OnUpdate(), _current: %2d, _steps: %3d\n",
+            DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
+            _current, _steps);
+  _functor.RunFunction(FunctionCode::OnUpdate, this);
+}
+
+void PLANode::OnStop()
+{
+  GRA_PRINT("%s| %s : OnStop(), _current: %2d, _steps: %3d\n",
+            DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
+            _current, _steps);
+  _functor.RunFunction(FunctionCode::OnStop,  this);
 }
 
 void PLANode::OnFinishCurrent()
@@ -122,7 +158,12 @@ void PLANode::OnFinishBranch()
 const PLANode *PLANode::GetCurrentNode() const
 {
   if (!_main.size()) { return nullptr; }
-  if (_main.size() <= _current) { return nullptr; }
+  if (_main.size() == _current) { return _main[_current - 1]; }//nullptr; }
+  if (_main.size() < _current || _current < 0)
+  {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Current node value %d is invalid.", _current);
+  }
   return _main[_current];
 }
 

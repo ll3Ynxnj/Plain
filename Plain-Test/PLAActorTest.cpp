@@ -48,17 +48,18 @@ TEST_F(PLAActorTest, AddActor_AddActors_IncreaseActors)
 
 TEST_F(PLAActorTest, UpdateMotion_UpdateMotions_RefreshProperties)
 {
-  PLAFloat duration = 0.04;//0.2;
+  PLAFloat duration = 0.1;//0.2;
   PLAMotion m0 = PLAMotion(PLAMotionType::Translation,
-                           PLAVec3( 20, 0, 0), duration);
+                           PLAVec3(0, 0, 0), PLAVec3( 10, 0, 0), duration);
   m0.SetObjectName("m0");
   PLAMotion m1 = PLAMotion(PLAMotionType::Translation,
-                           PLAVec3(-20, 0, 0), duration);
+                           PLAVec3(10, 0, 0), PLAVec3(0, 0, 0), duration);
   m1.SetObjectName("m1");
   this->_rootActor->AddMotion(&m0);
   this->_rootActor->AddMotion(&m1);
-  PLAUInt totalSteps = PLAApp::kRefreshRate * duration + 2;
+  PLAUInt totalSteps = ceil(PLAApp::kRefreshRate * duration) * 2;
   for (PLAUInt i = 0; i < totalSteps + 3; i++) {
+    GRA_PRINT("-- FRAME : %3d --\n", i);
     _rootActor->Update();
     PLAFloat ttx = _rootActor->GetTransform().translation.x;
     GRA_PRINT("%3d : _rootActor.GetTransform.translation.x : %f\n", i, ttx);
@@ -67,5 +68,6 @@ TEST_F(PLAActorTest, UpdateMotion_UpdateMotions_RefreshProperties)
     PLAVec3 pt = p.GetVec3();
     PLAFloat ptx = pt.x;
     GRA_PRINT("ptx: %f\n", i, ptx);
+    GRA_PRINT("-----------------\n");
   }
 }
