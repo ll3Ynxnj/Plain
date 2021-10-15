@@ -216,6 +216,39 @@ bool PLAActor::IsCollideWithRect(PLARect aRect) const
 }
  */
 
+const PLAColor &PLAActor::GetColor() const
+{
+  PLAColor color = _color;
+  if (_motionProperties.contains(PLAMotionType::Color))
+  {
+    _color * _motionProperties.at(PLAMotionType::Color).GetColor();
+  }
+  return color;
+};
+
+const PLATransform &PLAActor::GetTransform() const
+{
+  PLATransform transform = _transform;
+  if (_motionProperties.contains(PLAMotionType::Translation))
+  {
+    transform.translation +=
+      _motionProperties.at(PLAMotionType::Translation).GetVec3();
+  }
+  if (_motionProperties.contains(PLAMotionType::Rotation))
+  {
+    transform.rotation +=
+      _motionProperties.at(PLAMotionType::Rotation).GetVec3();
+  }
+  if (_motionProperties.contains(PLAMotionType::Scale))
+  {
+    PLAVec3 scale = _motionProperties.at(PLAMotionType::Scale).GetVec3();
+    transform.scale.x *= scale.x;
+    transform.scale.y *= scale.y;
+    transform.scale.z *= scale.z;
+  }
+  return transform;
+};
+
 void PLAActor::AddMotion(PLAMotion *aMotion)
 {
   _motion.AddMain(aMotion);
