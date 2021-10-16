@@ -79,31 +79,70 @@ public:
   void SetVec3(const PLAVec3 &aValue);
   void SetVec4(const PLAVec4 &aValue);
 
-  PLAProperty Add(const PLAProperty &aProperty) const;
+  PLAProperty operator +(const PLAProperty &aProperty) const;
 
-  PLAProperty AddInt(PLAInt aValue) const;
-  PLAProperty AddFloat(PLAFloat aValue) const;
-  PLAProperty AddVec2(const PLAVec2 &aValue) const;
-  PLAProperty AddVec3(const PLAVec3 &aValue) const;
-  PLAProperty AddVec4(const PLAVec4 &aValue) const;
+  PLAProperty operator +(PLAInt aValue) const
+  { return PLAProperty(this->GetInt() + aValue); };
+  PLAProperty operator +(PLAFloat aValue) const
+  { return PLAProperty(this->GetFloat() + aValue); };
+  PLAProperty operator +(const PLAVec2 &aValue) const
+  { return PLAProperty(this->GetVec2() + aValue); };
+  PLAProperty operator +(const PLAVec3 &aValue) const
+  { return PLAProperty(this->GetVec3() + aValue); };
+  PLAProperty operator +(const PLAVec4 &aValue) const
+  { return PLAProperty(this->GetVec4() + aValue); };
 
-  void AddIn(const PLAProperty &aProperty);
+  void operator +=(const PLAProperty &aProperty);
 
-  void AddInInt(PLAInt aValue);
-  void AddInFloat(PLAFloat aValue);
-  void AddInVec2(const PLAVec2 &aValue);
-  void AddInVec3(const PLAVec3 &aValue);
-  void AddInVec4(const PLAVec4 &aValue);
+  void operator +=(PLAInt aValue)
+  { this->SetInt(this->GetInt() + aValue); };
+  void operator +=(PLAFloat aValue)
+  { this->SetFloat(this->GetFloat() + aValue); };
+  void operator +=(const PLAVec2 &aValue)
+  { this->SetVec2(this->GetVec2() + aValue); };
+  void operator +=(const PLAVec3 &aValue)
+  { this->SetVec3(this->GetVec3() + aValue); };
+  void operator +=(const PLAVec4 &aValue)
+  { this->SetVec4(this->GetVec4() + aValue); };
 
-  PLAProperty Mul(const PLAProperty &aProperty) const;
+  PLAProperty operator *(const PLAProperty &aProperty) const;
 
-  PLAProperty MulInt(PLAInt aValue) const;
-  PLAProperty MulFloat(PLAFloat aValue) const;
+  PLAProperty operator *(PLAInt aValue) const
+  { return PLAProperty(this->GetInt() * aValue); };
 
-  void MulIn(const PLAProperty &aProperty);
+  PLAProperty operator *(PLAFloat aValue) const
+  {
+    switch (_type) {
+      case PLAPropertyType::Float : return PLAProperty(this->GetFloat() * aValue);
+      case PLAPropertyType::Vec2  : return PLAProperty(this->GetVec2()  * aValue);
+      case PLAPropertyType::Vec3  : return PLAProperty(this->GetVec3()  * aValue);
+      case PLAPropertyType::Vec4  : return PLAProperty(this->GetVec4()  * aValue);
+    }
+  }
 
-  void MulInInt(PLAInt aValue);
-  void MulInFloat(PLAFloat aValue);
+  void operator *=(const PLAProperty &aProperty);
+
+  void operator *=(PLAInt aValue)
+  { this->SetInt(this->GetInt() * aValue); }
+
+  void operator *=(PLAFloat aValue)
+  {
+    switch (_type) {
+      case PLAPropertyType::Float :
+        this->SetFloat(this->GetFloat() * aValue);
+        break;
+      case PLAPropertyType::Vec2 :
+        this->SetVec2(this->GetVec2() * aValue);
+        break;
+      case PLAPropertyType::Vec3 :
+        this->SetVec3(this->GetVec3() * aValue);
+        break;
+      case PLAPropertyType::Vec4 :
+        this->SetVec4(this->GetVec4() * aValue);
+        break;
+    }
+  }
+
 };
 
 #endif //ANHR_PLAPROPERTY_HPP

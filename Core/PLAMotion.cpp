@@ -137,14 +137,14 @@ void PLAMotion::GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) c
   }
   GRA_PRINT("GetProgress() : %f\n", this->GetProgress());
   PLAProperty property = _begin;
-  property.AddIn(_distance.MulFloat(this->GetProgress()));
+  property += (_distance * this->GetProgress());
   if (_type == PLAMotionType::Translation)
   {
     PLAVec3 translation = property.GetVec3();
     GRA_PRINT("translation : %f, %f, %f\n",
               translation.x, translation.y, translation.z);
     GRA_PRINT("_distance.MulFloat(this->GetProgress().GetVec3().x) : %f\n",
-              _distance.MulFloat(this->GetProgress()).GetVec3().x);
+              (_distance * this->GetProgress()).GetVec3().x);
   }
-  (*aProperties)[_type].AddIn(property);
+  (*aProperties)[_type] += property;
 }
