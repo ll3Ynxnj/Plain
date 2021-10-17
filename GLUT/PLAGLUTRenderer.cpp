@@ -132,8 +132,7 @@ void PLAGLUTRenderer::Draw(const PLAActor *aActor, const PLAColor &aColor) const
 
   const PLALayer *layer = aActor->GetLayer();
   PLAColor color = aActor->GetColor();
-  //color *= aColor;
-  color.MulIn(aColor);
+  color *= aColor;
   switch (layer->GetLayerType())
   {
     case PLALayerType::Rect :
@@ -196,8 +195,7 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor)
   };
 
   PLAColor fillColor = aLayer->GetFillColor();
-  //fillColor *= aColor;
-  fillColor.MulIn(aColor);
+  fillColor *= aColor;
   GLfloat fillColors[] = {
     fillColor.r, fillColor.g, fillColor.b, fillColor.a,
     fillColor.r, fillColor.g, fillColor.b, fillColor.a,
@@ -304,8 +302,7 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
 
   GLfloat fillColors[numVertices * 4];
   PLAColor fillColor = aLayer->GetFillColor();
-  //fillColor *= aColor;
-  fillColor.MulIn(aColor);
+  fillColor *= aColor;
 
   for (int i = 0; i < numVertices; i++)
   {

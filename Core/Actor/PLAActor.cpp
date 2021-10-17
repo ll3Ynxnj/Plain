@@ -216,7 +216,7 @@ bool PLAActor::IsCollideWithRect(PLARect aRect) const
 }
  */
 
-const PLAColor &PLAActor::GetColor() const
+PLAColor PLAActor::GetColor() const
 {
   PLAColor color = _color;
   if (_motionProperties.contains(PLAMotionType::Color))
@@ -226,7 +226,7 @@ const PLAColor &PLAActor::GetColor() const
   return color;
 };
 
-const PLATransform &PLAActor::GetTransform() const
+PLATransform PLAActor::GetTransform() const
 {
   PLATransform transform = _transform;
   if (_motionProperties.contains(PLAMotionType::Translation))

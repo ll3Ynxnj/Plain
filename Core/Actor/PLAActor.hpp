@@ -130,8 +130,8 @@ public:
   const PLAVec3 &GetPivot() const { return _pivot; };
   void SetPivot(const PLAVec3 &aPivot)
   { _pivot = aPivot; this->RefreshLayerOffset(); };
-  const PLAColor &GetColor() const;
-  const PLATransform &GetTransform() const;
+  PLAColor GetColor() const;
+  PLATransform GetTransform() const;
   const PLALayer *GetLayer() const { return _layer; }
   PLAVec3 GetSize() const { return _layer->GetSize(); };
   void GetSize(PLAVec3 *aSize) const { return _layer->GetSize(aSize); };
