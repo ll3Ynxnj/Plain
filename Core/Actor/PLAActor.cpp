@@ -221,7 +221,7 @@ const PLAColor &PLAActor::GetColor() const
   PLAColor color = _color;
   if (_motionProperties.contains(PLAMotionType::Color))
   {
-    _color * _motionProperties.at(PLAMotionType::Color).GetColor();
+    //_color * _motionProperties.at(PLAMotionType::Color).GetColor();
   }
   return color;
 };

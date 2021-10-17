@@ -114,6 +114,12 @@ void PLAGLUTRenderer::GetRectTexCoords(GLfloat aCoords[8],
 
 void PLAGLUTRenderer::Draw(const PLAActor *aActor, const PLAColor &aColor) const
 {
+  GRA_PRINT("Draw(aActor: %s, aColor: {r: %.2f, g: %.2f, b: %.2f, a: %.2f}\n",
+            aActor->GetObjectName().c_str(),
+            aColor.r, aColor.g, aColor.b, aColor.a);
+  if (aActor->GetObjectName() == "ResponderActor") {
+    GRA_TRACE("");
+  }
   glPushMatrix();
 
   const PLATransform &transform = aActor->GetTransform();
@@ -126,7 +132,8 @@ void PLAGLUTRenderer::Draw(const PLAActor *aActor, const PLAColor &aColor) const
 
   const PLALayer *layer = aActor->GetLayer();
   PLAColor color = aActor->GetColor();
-  color *= aColor;
+  //color *= aColor;
+  color.MulIn(aColor);
   switch (layer->GetLayerType())
   {
     case PLALayerType::Rect :
@@ -153,6 +160,10 @@ void PLAGLUTRenderer::Draw(const PLAActor *aActor, const PLAColor &aColor) const
 
 void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor) const
 {
+  GRA_PRINT("DrawRect(aLayer: %s,"
+            "aColor: {r: %.2f, g: %.2f, b: %.2f, a: %.2f})\n",
+            aLayer->GetObjectName().c_str(),
+            aColor.r, aColor.g, aColor.b, aColor.a);
   const PLAImageClip *imageClip = aLayer->GetImageClip();
   if (imageClip)
   {
@@ -185,7 +196,8 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor)
   };
 
   PLAColor fillColor = aLayer->GetFillColor();
-  fillColor *= aColor;
+  //fillColor *= aColor;
+  fillColor.MulIn(aColor);
   GLfloat fillColors[] = {
     fillColor.r, fillColor.g, fillColor.b, fillColor.a,
     fillColor.r, fillColor.g, fillColor.b, fillColor.a,
@@ -238,6 +250,10 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor)
 
 void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aColor) const
 {
+  GRA_PRINT("DrawCircle(aLayer: %s,"
+            " aColor: {r: %.2f, g: %.2f, b: %.2f, a: %.2f})\n",
+            aLayer->GetObjectName().c_str(),
+            aColor.r, aColor.g, aColor.b, aColor.a);
   const PLAImageClip *imageClip = aLayer->GetImageClip();
   if (imageClip)
   {
@@ -288,7 +304,8 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
 
   GLfloat fillColors[numVertices * 4];
   PLAColor fillColor = aLayer->GetFillColor();
-  fillColor *= aColor;
+  //fillColor *= aColor;
+  fillColor.MulIn(aColor);
 
   for (int i = 0; i < numVertices; i++)
   {
@@ -333,6 +350,11 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
 void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
                                const PLAColor &aColor) const
 {
+  GRA_PRINT("DrawTile(aLayer: %s,"
+            " aColor: {r: %.2f, g: %.2f, b: %.2f, a: %.2f})\n",
+            aLayer->GetObjectName().c_str(),
+            aColor.r, aColor.g, aColor.b, aColor.a);
+
   //-- This method is an inefficient implementation.
   static bool kIsDebug = false;//false;
 

@@ -14,6 +14,7 @@ PLAInputHandler()
   //PLALYRRect layer(kPLAVec3None, kPLAVec2None, kPLAColorWhite);
   _context = PLAActor::CreateRect(kPLAVec3None, kPLAColorGray,
                                   kPLATransformNorm, kPLARectNone);
+  _context->SetObjectName("StageContext");
 }
 
 PLAStage::~PLAStage()
