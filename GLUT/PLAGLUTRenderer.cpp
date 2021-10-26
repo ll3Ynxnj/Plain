@@ -114,11 +114,13 @@ void PLAGLUTRenderer::GetRectTexCoords(GLfloat aCoords[8],
 
 void PLAGLUTRenderer::Draw(const PLAActor *aActor, const PLAColor &aColor) const
 {
+  /*
   GRA_PRINT("Draw(aActor: %s, aColor: {r: %.2f, g: %.2f, b: %.2f, a: %.2f}\n",
             aActor->GetObjectName().c_str(),
             aColor.r, aColor.g, aColor.b, aColor.a);
+  */
   if (aActor->GetObjectName() == "ResponderActor") {
-    GRA_TRACE("");
+    //GRA_TRACE("");
   }
   glPushMatrix();
 
@@ -159,10 +161,12 @@ void PLAGLUTRenderer::Draw(const PLAActor *aActor, const PLAColor &aColor) const
 
 void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor) const
 {
+  /*
   GRA_PRINT("DrawRect(aLayer: %s,"
             "aColor: {r: %.2f, g: %.2f, b: %.2f, a: %.2f})\n",
             aLayer->GetObjectName().c_str(),
             aColor.r, aColor.g, aColor.b, aColor.a);
+            */
   const PLAImageClip *imageClip = aLayer->GetImageClip();
   if (imageClip)
   {
@@ -347,10 +351,12 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
 void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
                                const PLAColor &aColor) const
 {
+  /*
   GRA_PRINT("DrawTile(aLayer: %s,"
             " aColor: {r: %.2f, g: %.2f, b: %.2f, a: %.2f})\n",
             aLayer->GetObjectName().c_str(),
             aColor.r, aColor.g, aColor.b, aColor.a);
+            */
 
   //-- This method is an inefficient implementation.
   static bool kIsDebug = false;//false;
@@ -401,13 +407,29 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
 
   const PLAVec2s dataAddress = aLayer->GetDataAddress();
   for (PLAInt y = 0; y < tileSize.y; y++) {
-
     for (PLAInt x = 0; x < tileSize.x; x++) {
       PLAVec2s address(dataAddress.x + x, dataAddress.y + y);
       const PLATileChip &chip = aLayer->GetChip(address);
       if (chip.code == kPLATileChipCodeNone) { continue; }
 
-      const PLAVec3 offset = PLAVec3(pxTable[x], pyTable[y], 0);
+      const PLAMotion motion = aLayer->GetMotion(address);
+      PLAVec3 translation = kPLAVec3None;
+      PLAVec3 rotation = kPLAVec3None;
+      PLAVec3 scale = kPLAVec3Norm;
+      //if (motion)
+      //{
+        std::map<PLAMotionType, PLAProperty> properties =
+          std::map<PLAMotionType, PLAProperty>();
+        motion.GetProperty(&properties);
+        if (properties.contains(PLAMotionType::Translation))
+        { translation = properties.at(PLAMotionType::Translation).GetVec3(); }
+        if (properties.contains(PLAMotionType::Rotation))
+        { rotation = properties.at(PLAMotionType::Rotation).GetVec3(); }
+        if (properties.contains(PLAMotionType::Scale))
+        { scale = properties.at(PLAMotionType::Scale).GetVec3(); }
+      //}
+
+      const PLAVec3 offset = PLAVec3(pxTable[x], pyTable[y], 0) + translation;
       static const PLAUInt kNumVertices = 12;
       GLfloat vertices[kNumVertices] = {
         offset.x,

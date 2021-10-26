@@ -12,15 +12,16 @@ class PLALYRTile : public PLALayer
   GRAVec2<PLASize> _tileSize = GRAVec2<PLASize>(0);
   GRAVec2<PLASize> _chipSize = GRAVec2<PLASize>(0);
   const IPLALYRTileDataSource *_dataSource = nullptr;
+  std::vector<std::vector<PLAMotionHolder>> _motionHolders =
+    std::vector<std::vector<PLAMotionHolder>>(0);
+  //std::map<PLASize, std::map<PLASize, PLAMotionHolder>> _motionHolders =
+  //  std::map<PLASize, std::map<PLASize, PLAMotionHolder>>();
 
 protected:
   PLALYRTile(const PLAVec2 &aOffset, const PLAImage *aImage,
              const GRAVec2<PLASize> &aTileSize,
              const GRAVec2<PLASize> &aChipSize,
-             const IPLALYRTileDataSource *aDataSource) :
-    PLALayer(PLALayerType::Tile, PLAVec3(aOffset.x, aOffset.y, 0)),
-    _image(aImage), _tileSize(aTileSize),
-    _chipSize(aChipSize), _dataSource(aDataSource) {};
+             const IPLALYRTileDataSource *aDataSource);
 
 public:
   static PLALYRTile *Create(const PLAVec2 &aOffset,
@@ -33,11 +34,18 @@ public:
 
   virtual ~PLALYRTile() {};
 
+  void UpdateMotion() override;
+
+  void SetMotion(const PLAVec2s &aAddress, const PLAMotion &aMotion);
+
   const PLAImage *GetImage() const { return _image; };
   const PLAVec2s &GetTileSize() const { return _tileSize; };
   const PLAVec2s &GetChipSize() const { return _chipSize; };
   const PLATileChip &GetChip(const PLAVec2s &aAddress) const
   { return _dataSource->GetTileChip(aAddress); }
+  //const PLAMotion *GetMotion(const PLAVec2s &aAddress) const
+  //{ return _motions[aAddress.y][aAddress.x]; }
+  const PLAMotion &GetMotion(const PLAVec2s &aAddress) const;
 
   PLASize GetNumberOfChips() const { return _tileSize.x * _tileSize.y; };
 

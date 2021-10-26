@@ -8,6 +8,8 @@
 #include "Layer/PLALYRCircle.hpp"
 #include "Layer/PLALYRTile.hpp"
 
+#include "PLAError.hpp"
+
 PLAActor *PLAActor::CreateRect(const PLAVec3 &aPivot,
                                const PLAColor &aColor,
                                const PLATransform &aTransform,
@@ -158,10 +160,8 @@ void PLAActor::Init()
 
 void PLAActor::Update()
 {
-  this->UpdateMotions();
-
-  _functor.RunFunction(PLAActorFunctionCode::OnUpdate, this);
-  for (PLAActor *actor : _actors) { actor->Update(); }
+  this->OnUpdateMotions();
+  this->OnUpdate();
 }
 
 void PLAActor::Appear()
@@ -219,7 +219,7 @@ bool PLAActor::IsCollideWithRect(PLARect aRect) const
 PLAColor PLAActor::GetColor() const
 {
   PLAColor color = _color;
-  if (_motionProperties.contains(PLAMotionType::Color))
+  if (this->GetMotionProperties().contains(PLAMotionType::Color))
   {
     //_color * _motionProperties.at(PLAMotionType::Color).GetColor();
   }
@@ -229,19 +229,19 @@ PLAColor PLAActor::GetColor() const
 PLATransform PLAActor::GetTransform() const
 {
   PLATransform transform = _transform;
-  if (_motionProperties.contains(PLAMotionType::Translation))
+  if (this->GetMotionProperties().contains(PLAMotionType::Translation))
   {
     transform.translation +=
-      _motionProperties.at(PLAMotionType::Translation).GetVec3();
+      this->GetMotionProperties().at(PLAMotionType::Translation).GetVec3();
   }
-  if (_motionProperties.contains(PLAMotionType::Rotation))
+  if (this->GetMotionProperties().contains(PLAMotionType::Rotation))
   {
     transform.rotation +=
-      _motionProperties.at(PLAMotionType::Rotation).GetVec3();
+      this->GetMotionProperties().at(PLAMotionType::Rotation).GetVec3();
   }
-  if (_motionProperties.contains(PLAMotionType::Scale))
+  if (this->GetMotionProperties().contains(PLAMotionType::Scale))
   {
-    PLAVec3 scale = _motionProperties.at(PLAMotionType::Scale).GetVec3();
+    PLAVec3 scale = this->GetMotionProperties().at(PLAMotionType::Scale).GetVec3();
     transform.scale.x *= scale.x;
     transform.scale.y *= scale.y;
     transform.scale.z *= scale.z;
@@ -249,10 +249,12 @@ PLATransform PLAActor::GetTransform() const
   return transform;
 };
 
+/*
 void PLAActor::AddMotion(PLAMotion *aMotion)
 {
   _motion.AddMain(aMotion);
 }
+ */
 
 /*
 void PLAActor::AddMotion(PLAMotionType aType, const PLAProperty &aDistance,
@@ -378,6 +380,7 @@ const PLALYRCircle *PLAActor::GetLayerCircle() const
 }
 */
 
+/*
 void PLAActor::UpdateMotions()
 {
   GRA_PRINT("UpdateMotions()\n");
@@ -397,6 +400,15 @@ void PLAActor::UpdateMotions()
   }
   for (PLAActor *actor : _actors) { actor->UpdateMotions(); }
 }
+ */
+
+void PLAActor::SetTileMotion(const PLAVec2s &aAddress, const PLAMotion &aMotion)
+{
+  PLALYRTile *layer = this->RefLYRTile();
+  if (!layer) { PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                                "LayerType is not Tile."); }
+  layer->SetMotion(aAddress, aMotion);
+}
 
 void PLAActor::RefreshLayerOffset()
 {
@@ -404,4 +416,17 @@ void PLAActor::RefreshLayerOffset()
   _layer->SetOffset(-PLAVec3(size.x * _pivot.x,
                              size.y * _pivot.y,
                              size.z * _pivot.z));
+}
+
+void PLAActor::OnUpdate()
+{
+  _functor.RunFunction(PLAActorFunctionCode::OnUpdate, this);
+  for (PLAActor *actor : _actors) { actor->OnUpdate(); }
+}
+
+void PLAActor::OnUpdateMotions()
+{
+  this->UpdateMotion();
+  _layer->UpdateMotion();
+  for (PLAActor *actor : _actors) { actor->OnUpdateMotions(); }
 }

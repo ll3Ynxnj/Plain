@@ -142,7 +142,6 @@ public:
         break;
     }
   }
-
 };
 
 #endif //ANHR_PLAPROPERTY_HPP

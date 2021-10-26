@@ -55,8 +55,16 @@ TEST_F(PLAActorTest, UpdateMotion_UpdateMotions_RefreshProperties)
   PLAMotion m1 = PLAMotion(PLAMotionType::Translation,
                            PLAVec3(10, 0, 0), PLAVec3(0, 0, 0), duration);
   m1.SetObjectName("m1");
+  /*
+  PLAMotion motion = PLAMotion();
+  motion.AddMain(&m0);
+  motion.AddMain(&m1);
+  _rootActor->SetMotion(motion);
+   */
+  //*
   this->_rootActor->AddMotion(&m0);
   this->_rootActor->AddMotion(&m1);
+   //*/
   PLAUInt totalSteps = ceil(PLAApp::kRefreshRate * duration) * 2;
   for (PLAUInt i = 0; i < totalSteps + 3; i++) {
     GRA_PRINT("-- FRAME : %3d --\n", i);

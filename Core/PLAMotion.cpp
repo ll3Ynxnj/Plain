@@ -11,6 +11,8 @@ static PLAMotion *PLAMotion::Create()
 }
 */
 
+const PLAMotion PLAMotion::kNone = PLAMotion();
+
 PLAMotion *PLAMotion::CreateColor(const PLAColor &aBegin, const PLAColor &aEnd,
                                   PLATimeInterval aDuration)
 {
@@ -120,7 +122,7 @@ void PLAMotion::Update()
 
 void PLAMotion::GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) const
 {
-  GRA_PRINT("GetProperty()\n");
+  //GRA_PRINT("GetProperty()\n");
   const PLANode *currentNode = this->GetCurrentNode();
   if (currentNode)
   {
@@ -147,4 +149,45 @@ void PLAMotion::GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) c
               (_distance * this->GetProgress()).GetVec3().x);
   }
   (*aProperties)[_type] += property;
+}
+
+void PLAMotionHolder::AddMotion(PLAMotion *aMotion)
+{
+  _motion.AddMain(aMotion);
+}
+
+const PLAMotion &PLAMotionHolder::GetMotion() const
+{
+  return _motion;
+}
+
+const PLAProperty &PLAMotionHolder::GetMotionProperty(PLAMotionType aType) const
+{
+  if (!_motionProperties.contains(aType))
+  { return PLAProperty::kNone; }
+  return _motionProperties.at(aType);
+};
+
+void PLAMotionHolder::SetMotion(const PLAMotion &aMotion)
+{
+  _motion = aMotion;
+}
+
+void PLAMotionHolder::UpdateMotion()
+{
+  //GRA_PRINT("UpdateMotions()\n");
+  _motion.Update();
+
+  std::map<PLAMotionType, PLAProperty> properties =
+    std::map<PLAMotionType, PLAProperty>();
+  _motion.GetProperty(&properties);
+
+  for (const auto &[key, value] : properties) {
+    if (!_motionProperties.contains(key)) {
+      _motionProperties[key] = PLAMotion::MakeProperty(key);
+    }
+    _motionProperties[key] = properties[key];
+    //GRA_PRINT("_motionProperties[%s]", PLAMotion::GetNameOfType(key));
+    _motionProperties[key].Print();
+  }
 }

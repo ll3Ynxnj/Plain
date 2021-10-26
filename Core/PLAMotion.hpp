@@ -17,6 +17,8 @@ class PLAMotion final: public PLANode
   PLAFloat _duration = 0;
 
 public:
+  static const PLAMotion kNone;
+
   //static PLAMotion *Create();
   static PLAMotion *CreateColor(const PLAColor &aBegin, const PLAColor &aEnd,
                                 PLATimeInterval aDuration);
@@ -43,6 +45,30 @@ public:
 
   PLAMotionType GetMotionType() { return _type; }
   void GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) const;
+};
+
+class PLAMotionHolder
+{
+  //-- Not affect child actors
+  PLAMotion _motion = PLAMotion();
+  std::map<PLAMotionType, PLAProperty> _motionProperties =
+    std::map<PLAMotionType, PLAProperty>();
+
+public:
+  void UpdateMotion();
+
+  void AddMotion(PLAMotion *aMotion);
+  //void AddMain(PLAMotion *aMotion);
+  //void AddBranch(PLAMotion *aMotion);
+
+  const PLAMotion &GetMotion() const;
+  const PLAProperty &GetMotionProperty(PLAMotionType aType) const;
+
+  void SetMotion(const PLAMotion &aMotion);
+
+protected:
+  const std::map<PLAMotionType, PLAProperty> &GetMotionProperties() const
+  { return _motionProperties; };
 };
 
 #endif //ANHR_PLAMOTION_HPP

@@ -20,7 +20,8 @@
 
 class PLARenderer;
 
-class PLAActor final : public PLAObject, public PLAInputContext,
+class PLAActor final :
+  public PLAObject, public PLAInputContext, public PLAMotionHolder,
   public GRAListener<PLAScene, PLAScene::FunctionCode>,
   public GRABinder<PLAActor>::Item
 {
@@ -41,9 +42,11 @@ private:
   PLAColor _color = kPLAColorWhite;
   PLATransform _transform = kPLATransformNorm;
   //-- Not affect child actors
+  /*
   PLAMotion _motion = PLAMotion();
   std::map<PLAMotionType, PLAProperty> _motionProperties =
     std::map<PLAMotionType, PLAProperty>();
+  */
 
   PLALayer *_layer = nullptr;
   //PLAStyle _style = PLAStyle();
@@ -139,8 +142,8 @@ public:
 
   PLALayerType GetLayerType() const { return _layer->GetLayerType(); };
 
-  const PLAProperty &GetMotionProperty(PLAMotionType aType)
-  { return _motionProperties[aType]; };
+  //const PLAProperty &GetMotionProperty(PLAMotionType aType)
+  //{ return _motionProperties[aType]; };
   //const PLAStyle *GetLayerStyle() const { return _layer->GetStyle(); }
 
   //const PLAStyle *GetStyle() const { return &_style; };
@@ -151,7 +154,7 @@ public:
   const PLALYRCircle *GetLayerCircle() const;
   */
 
-  void AddMotion(PLAMotion *aMotion);
+  //void AddMotion(PLAMotion *aMotion);
   /*
   void AddMotion(PLAMotionType aType, const PLAProperty &aDistance,
                  PLAFloat aDuration);
@@ -194,8 +197,13 @@ public:
                    const std::function<void(PLAActor *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
 
+  void SetTileMotion(const PLAVec2s &aAddress, const PLAMotion &aMotion);
+
 private:
-  void UpdateMotions();
+  void OnUpdate();
+  void OnUpdateMotions();
+
+  //void UpdateMotions();
   void RefreshLayerOffset();
 };
 

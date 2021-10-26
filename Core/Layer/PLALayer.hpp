@@ -4,6 +4,7 @@
 #include "PLAObject.hpp"
 #include "PLALayerType.hpp"
 #include "PLAImageClip.hpp"
+#include "PLAMotion.hpp"
 #include "Type/PLAVector.hpp"
 #include "Type/PLAPoint.hpp"
 #include "Type/PLALine.hpp"
@@ -23,6 +24,8 @@ public:
 
   PLALayer() = delete;
   virtual ~PLALayer();
+
+  virtual void UpdateMotion() {};
 
   PLALayerType GetLayerType() const { return _type; };
   const PLAVec3 &GetOffset() const { return _offset; };
