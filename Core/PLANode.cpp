@@ -56,7 +56,7 @@ void PLANode::Update()
   }
   if (_current < _main.size()) { _main[_current]->Update(); }
 
-  if (_steps > _length) { DBG_PLANode_Update_Indent.erase(0, 2); return; }
+  if (_steps >= _length) { DBG_PLANode_Update_Indent.erase(0, 2); return; }
   GRA_PRINT("%s| %s : Update(), _current: %2d, _steps: %3d\n",
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(), _current, _steps);
 
@@ -64,8 +64,11 @@ void PLANode::Update()
   if (_steps == 0) { this->OnStart(); }
 
   //-- OnUpdate
-  ++_steps;
-  this->OnUpdate();
+  if (_steps < _length)
+  {
+    ++_steps;
+    this->OnUpdate();
+  }
 
   //-- OnStop
   if (_steps == _length)
