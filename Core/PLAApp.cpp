@@ -98,8 +98,8 @@ void PLAApp::Input(PLAInputDeviceType aDevice, PLAInputSignalCode aCode,
 void PLAApp::Update()
 {
   GRA_PRINT("-- Update -- _frame: %8d\n", _frame);
-  _stage->Update();
   PLAInputManager::GetInstance()->Flush();
+  _stage->Update();
   ++_frame;
 }
 
