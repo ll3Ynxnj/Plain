@@ -153,8 +153,20 @@ void PLAMotion::GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) c
 
 void PLAMotionHolder::AddMotion(PLAMotion *aMotion)
 {
+  _motion.AddBranch(aMotion);
+}
+
+/*
+void PLAMotionHolder::AddMain(PLAMotion *aMotion)
+{
   _motion.AddMain(aMotion);
 }
+
+void PLAMotionHolder::AddBranch(PLAMotion *aMotion)
+{
+  _motion.AddBranch(aMotion);
+}
+*/
 
 const PLAMotion &PLAMotionHolder::GetMotion() const
 {
