@@ -7,7 +7,7 @@ PLAInput *PLAInput::Create(PLAInputDeviceType aType, PLAInputCode aCode,
                            PLAInputSignal aSignal, PLAPoint aScreenPoint)
 {
   PLAInput *input = new PLAInput(aType, aCode, aSignal, aScreenPoint);
-  PLAObject::Manager::GetInstance()->Bind(input);
+  PLAObject::Manager::Instance()->Bind(input);
   return input;
 }
  */

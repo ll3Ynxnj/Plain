@@ -10,7 +10,7 @@ PLAImage *PLAImage::CreateRaw(const std::string &aName)
 PLAImage::PLAImage(const std::string &aName, const PLAImageSize &aSize,
                    PLAImageType aType) :
   PLAObject(PLAObjectType::Image),
-  _resource(PLAResource::Manager::GetInstance()->GetResource(aName)),
+  _resource(PLAResource::Manager::Instance()->GetResource(aName)),
   _size(aSize), _type(aType)
 {
 

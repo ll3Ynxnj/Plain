@@ -7,18 +7,18 @@
 
 void PLAGLUTEngine::display(void)
 {
-  PLAApp::GetInstance()->Render();
+  PLAApp::Instance()->Render();
 }
 
 void PLAGLUTEngine::reshape(int w, int h)
 {
-  PLAApp::GetInstance()->RefreshScreenSize(w, h);
+  PLAApp::Instance()->RefreshScreenSize(w, h);
 }
 
 void PLAGLUTEngine::timer(int value)
 {
-  PLAApp::GetInstance()->Update();
-  PLAApp::GetInstance()->Render();
+  PLAApp::Instance()->Update();
+  PLAApp::Instance()->Render();
   //glutPostRedisplay();
   glutTimerFunc(17, timer, 0);
 }
@@ -52,11 +52,11 @@ void PLAGLUTEngine::mouse(int button, int state, int x, int y)
   }
 
   /*
-  PLAApp::GetInstance()->
+  PLAApp::Instance()->
   Input(PLAInputDeviceType::Mouse, inputCode, inputSignal, { float(x), float(y) });
   /*/
-  PLAVec3 contentScaleFactor = PLAApp::GetInstance()->GetContentScaleFactor();
-  PLAApp::GetInstance()->
+  PLAVec3 contentScaleFactor = PLAApp::Instance()->GetContentScaleFactor();
+  PLAApp::Instance()->
     Input(PLAInputDeviceType::Touch, inputCode, inputSignal,
           { float(x / contentScaleFactor.x), float(y / contentScaleFactor.y) });
   //*/
@@ -65,14 +65,14 @@ void PLAGLUTEngine::mouse(int button, int state, int x, int y)
 void PLAGLUTEngine::keyboard(unsigned char key, int x, int y)
 {
   PLAInputSignalCode inputCode = PLAApp::GetInputSignalCodeFromChar(key);
-  PLAApp::GetInstance()->Input(PLAInputDeviceType::Keyboard, inputCode, 1,
+  PLAApp::Instance()->Input(PLAInputDeviceType::Keyboard, inputCode, 1,
                                { float(x), float(y) });
 }
 
 void PLAGLUTEngine::keyboardUp(unsigned char key, int x, int y)
 {
   PLAInputSignalCode inputCode = PLAApp::GetInputSignalCodeFromChar(key);
-  PLAApp::GetInstance()->Input(PLAInputDeviceType::Keyboard, inputCode, 0,
+  PLAApp::Instance()->Input(PLAInputDeviceType::Keyboard, inputCode, 0,
                                { float(x), float(y) });
 }
 

@@ -7,7 +7,7 @@
 #include "PLAErrorType.hpp"
 
 #define PLA_ERROR_ISSUE(...)\
-PLAError::Manager::GetInstance()->\
+PLAError::Manager::Instance()->\
 Issue(__FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
 
 class PLAError : public PLAObject
@@ -42,7 +42,7 @@ public:
     Manager();
 
   public:
-    static Manager *GetInstance() { return &_instance; }
+    static Manager *Instance() { return &_instance; }
 
     ~Manager();
 

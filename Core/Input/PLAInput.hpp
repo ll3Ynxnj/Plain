@@ -148,7 +148,7 @@ class PLAInputManager
   PLAInputManager();
 
 public:
-  static PLAInputManager *GetInstance() { return &_instance; }
+  static PLAInputManager *Instance() { return &_instance; }
 
   ~PLAInputManager();
 

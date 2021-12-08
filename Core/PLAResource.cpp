@@ -12,7 +12,7 @@ PLAResource *PLAResource::Create(const std::string &aName, const std::string &aP
 void PLAResource::Bind(PLAResource *aResource)
 {
   GRABinder<PLAResource>::Error error(GRABinder<PLAResource>::Error::None);
-  PLAResource::Manager::RefInstance()->Bind(aResource, &error);
+  PLAResource::Manager::Instance()->Bind(aResource, &error);
   if (error != GRABinder<PLAResource>::Error::None)
   { PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Failed PLAResource binding. ERROR : %02d", error); }
@@ -20,7 +20,7 @@ void PLAResource::Bind(PLAResource *aResource)
 
 PLAResource::PLAResource(const std::string &aName, const std::string &aPath) :
   PLAObject(PLAObjectType::Resource, aName),
-  GRABinder<PLAResource>::Item(aName, Manager::RefInstance()),
+  GRABinder<PLAResource>::Item(aName, Manager::Instance()),
   _path(aPath) {
 
 }

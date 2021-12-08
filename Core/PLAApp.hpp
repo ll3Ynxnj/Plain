@@ -33,7 +33,7 @@ public:
   static const int kRefreshRate = 60;
   static const int kBaseScreenLength = 320;
 
-  static PLAApp *GetInstance() { return &_instance; };
+  static PLAApp *Instance() { return &_instance; };
   static PLAStage *Stage() { return _instance._stage; };
   static PLAScene *Scene();
 

@@ -405,8 +405,9 @@ void PLAActor::UpdateMotions()
 void PLAActor::SetTileMotion(const PLAVec2s &aAddress, const PLAMotion &aMotion)
 {
   PLALYRTile *layer = this->RefLYRTile();
-  if (!layer) { PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                                "LayerType is not Tile."); }
+  if (!layer) {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "LayerType is not Tile."); }
   layer->SetMotion(aAddress, aMotion);
 }
 

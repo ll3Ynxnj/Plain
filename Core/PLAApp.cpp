@@ -77,28 +77,28 @@ void PLAApp::Init(PLARenderer *aRenderer)
 {
   _renderer = aRenderer;
   _renderer->Init();
-  PLAError::Manager::GetInstance()->Init();
+  PLAError::Manager::Instance()->Init();
   PLAScene::Manager::Instance()->Init();
   _stage = PLAStage::Create();
-  PLAInputManager::GetInstance()->SetHandler(_stage);
+  PLAInputManager::Instance()->SetHandler(_stage);
   //PLA_ERROR_ISSUE(PLAErrorType::Assert, "[%s] : %d %x %p", "TEST", 0, 1, this);
 }
 
 void PLAApp::Reset()
 {
-  PLAError::Manager::GetInstance()->Reset();
+  PLAError::Manager::Instance()->Reset();
 }
 
 void PLAApp::Input(PLAInputDeviceType aDevice, PLAInputSignalCode aCode,
                    PLAInputSignal aSignal, const PLAPoint &aPoint)
 {
-  PLAInputManager::GetInstance()->Input(aDevice, aCode, aSignal, aPoint);
+  PLAInputManager::Instance()->Input(aDevice, aCode, aSignal, aPoint);
 }
 
 void PLAApp::Update()
 {
   GRA_PRINT("-- Update -- _frame: %8d\n", _frame);
-  PLAInputManager::GetInstance()->Flush();
+  PLAInputManager::Instance()->Flush();
   _stage->Update();
   ++_frame;
 }
