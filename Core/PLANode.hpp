@@ -1,6 +1,11 @@
-//
-// Created by Kentaro Kawai on 2021/08/13.
-//
+/**
+ * @class PLANode
+ * @brief
+ * \~english Represents a process that is executed in chronological order.
+ * \~japanese 時系列で実行される処理を表現します。
+ * @author Kentaro Kawai
+ * @date 2021/08/13
+ */
 
 #ifndef ANHR_PLANODE_HPP
 #define ANHR_PLANODE_HPP
@@ -13,11 +18,13 @@
 class PLANode: public PLAObject
 {
 public:
+  /// \~english Function to be executed at a specific point in time.
+  /// \~japanese 特定の時点で実行される関数
   enum class FunctionCode : PLAFunctionCode
   {
-    OnStart,
-    OnUpdate,
-    OnStop,
+    OnStart,  ///< \~english Runs before first update. \~japanese 初回の更新より前に実行。
+    OnUpdate, ///< \~english Runs on every update. \~japanese 毎回の更新時に実行。
+    OnStop,   ///< \~english Runs after last update. \~japanese 最後の更新より後に実行。
 
     kNumberOfItems,
     None = kPLAFunctionCodeNone,
