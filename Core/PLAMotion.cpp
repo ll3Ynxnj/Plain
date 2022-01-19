@@ -13,6 +13,11 @@ static PLAMotion *PLAMotion::Create()
 
 const PLAMotion PLAMotion::kNone = PLAMotion();
 
+PLAMotion *PLAMotion::Create()
+{
+  return new PLAMotion();
+}
+
 PLAMotion *PLAMotion::CreateColor(const PLAColor &aBegin, const PLAColor &aEnd,
                                   PLATimeInterval aDuration)
 {
@@ -151,24 +156,41 @@ void PLAMotion::GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) c
   (*aProperties)[_type] += property;
 }
 
+PLAMotionHolder::~PLAMotionHolder()
+{
+  GRA_DELETE(_motion);
+}
+
 void PLAMotionHolder::AddMotion(PLAMotion *aMotion)
 {
-  _motion.AddBranch(aMotion);
+  _motion->Add(aMotion);
+}
+
+void PLAMotionHolder::AddMotions(const std::vector<PLAMotion *> &aMotions)
+{
+  for (PLAMotion *motion: aMotions) {
+    _motion->Add(motion);
+  }
+}
+
+void PLAMotionHolder::AddMotionThread(PLAMotion *aMotion)
+{
+  _motion->AddThread(aMotion);
 }
 
 /*
 void PLAMotionHolder::AddMain(PLAMotion *aMotion)
 {
-  _motion.AddMain(aMotion);
+  _motion.Add(aMotion);
 }
 
 void PLAMotionHolder::AddBranch(PLAMotion *aMotion)
 {
-  _motion.AddBranch(aMotion);
+  _motion.AddThread(aMotion);
 }
 */
 
-const PLAMotion &PLAMotionHolder::GetMotion() const
+const PLAMotion *PLAMotionHolder::GetMotion() const
 {
   return _motion;
 }
@@ -180,19 +202,22 @@ const PLAProperty &PLAMotionHolder::GetMotionProperty(PLAMotionType aType) const
   return _motionProperties.at(aType);
 };
 
-void PLAMotionHolder::SetMotion(const PLAMotion &aMotion)
+/*
+void PLAMotionHolder::SetMotion(PLAMotion *aMotion)
 {
   _motion = aMotion;
 }
+*/
 
 void PLAMotionHolder::UpdateMotion()
 {
+  if (!_motion) { return; }
   //GRA_PRINT("UpdateMotions()\n");
-  _motion.Update();
+  _motion->Update();
 
   std::map<PLAMotionType, PLAProperty> properties =
     std::map<PLAMotionType, PLAProperty>();
-  _motion.GetProperty(&properties);
+  _motion->GetProperty(&properties);
 
   for (const auto &[key, value] : properties) {
     if (!_motionProperties.contains(key)) {

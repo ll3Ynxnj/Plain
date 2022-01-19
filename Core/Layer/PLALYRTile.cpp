@@ -23,11 +23,20 @@ PLALYRTile::PLALYRTile(const PLAVec2 &aOffset, const PLAImage *aImage,
   _chipSize(aChipSize), _dataSource(aDataSource)
 {
   for (PLASize y = 0; y < aTileSize.y; y++) {
-    std::vector<PLAMotionHolder> holders(0);
+    std::vector<PLAMotionHolder *> holders(0);
     for (PLASize x = 0; x < aTileSize.x; x++) {
-      holders.push_back(PLAMotionHolder());
+      holders.push_back(new PLAMotionHolder());
     }
     _motionHolders.push_back(holders);
+  }
+};
+
+PLALYRTile::~PLALYRTile()
+{
+  for (PLASize y = 0; y < _tileSize.y; y++) {
+    for (PLASize x = 0; x < _tileSize.x; x++) {
+      GRA_DELETE(_motionHolders[y][x]);
+    }
   }
 };
 
@@ -36,19 +45,32 @@ void PLALYRTile::UpdateMotion()
   for (PLASize y = 0; y < _tileSize.y; y++) {
     std::vector<PLAMotionHolder> holders(0);
     for (PLASize x = 0; x < _tileSize.x; x++) {
-      _motionHolders[y][x].UpdateMotion();
+      _motionHolders[y][x]->UpdateMotion();
     }
   }
 }
 
-void PLALYRTile::SetMotion(const PLAVec2s &aAddress, const PLAMotion &aMotion)
+void PLALYRTile::AddMotion(const PLAVec2s &aAddress, PLAMotion *aMotion)
+{
+  _motionHolders[aAddress.y][aAddress.x]->AddMotion(aMotion);
+};
+
+void PLALYRTile::AddMotions(const PLAVec2s &aAddress,
+                            const std::vector<PLAMotion *> &aMotions)
+{
+  _motionHolders[aAddress.y][aAddress.x]->AddMotions(aMotions);
+};
+
+/*
+void PLALYRTile::SetMotion(const PLAVec2s &aAddress, PLAMotion *aMotion)
 {
   _motionHolders[aAddress.y][aAddress.x].SetMotion(aMotion);
 };
+ */
 
-const PLAMotion &PLALYRTile::GetMotion(const PLAVec2s &aAddress) const
+const PLAMotion *PLALYRTile::GetMotion(const PLAVec2s &aAddress) const
 {
-  return _motionHolders[aAddress.y][aAddress.x].GetMotion();
+  return _motionHolders[aAddress.y][aAddress.x]->GetMotion();
   /*
   if (_motionHolders.contains(aAddress.y))
   {

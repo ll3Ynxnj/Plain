@@ -12,7 +12,7 @@ PLAScene *PLAApp::Scene()
 
 void PLAApp::AddNode(PLANode *aNode)
 {
-  _instance._node.AddBranch(aNode);
+  _instance._node.AddThread(aNode);
 }
 
 void PLAApp::UpdateNode()

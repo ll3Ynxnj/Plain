@@ -252,7 +252,7 @@ PLATransform PLAActor::GetTransform() const
 /*
 void PLAActor::AddMotion(PLAMotion *aMotion)
 {
-  _motion.AddMain(aMotion);
+  _motion.Add(aMotion);
 }
  */
 
@@ -402,14 +402,38 @@ void PLAActor::UpdateMotions()
 }
  */
 
-void PLAActor::SetTileMotion(const PLAVec2s &aAddress, const PLAMotion &aMotion)
+void PLAActor::AddTileMotion(const PLAVec2s &aAddress, PLAMotion *aMotion)
 {
   PLALYRTile *layer = this->RefLYRTile();
   if (!layer) {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                    "LayerType is not Tile."); }
+                    "LayerType is not Tile.");
+  }
+  layer->AddMotion(aAddress, aMotion);
+}
+
+void PLAActor::AddTileMotions(const PLAVec2s &aAddress,
+                              const std::vector<PLAMotion *> &aMotions)
+{
+  PLALYRTile *layer = this->RefLYRTile();
+  if (!layer) {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "LayerType is not Tile.");
+  }
+  layer->AddMotions(aAddress, aMotions);
+}
+
+/*
+void PLAActor::SetTileMotion(const PLAVec2s &aAddress, PLAMotion *aMotion)
+{
+  PLALYRTile *layer = this->RefLYRTile();
+  if (!layer) {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "LayerType is not Tile.");
+  }
   layer->SetMotion(aAddress, aMotion);
 }
+ */
 
 void PLAActor::RefreshLayerOffset()
 {

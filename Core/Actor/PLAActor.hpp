@@ -197,7 +197,9 @@ public:
                    const std::function<void(PLAActor *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
 
-  void SetTileMotion(const PLAVec2s &aAddress, const PLAMotion &aMotion);
+  void AddTileMotion(const PLAVec2s &aAddress, PLAMotion *aMotion);
+  void AddTileMotions(const PLAVec2s &aAddress, const std::vector<PLAMotion *> &aMotion);
+  //void SetTileMotion(const PLAVec2s &aAddress, PLAMotion *aMotion);
 
 private:
   void OnUpdate();

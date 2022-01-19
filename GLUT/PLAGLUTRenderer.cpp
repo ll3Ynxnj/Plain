@@ -412,7 +412,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       const PLATileChip &chip = aLayer->GetChip(address);
       if (chip.code == kPLATileChipCodeNone) { continue; }
 
-      const PLAMotion motion = aLayer->GetMotion(address);
+      const PLAMotion *motion = aLayer->GetMotion(address);
       PLAVec3 translation = kPLAVec3None;
       PLAVec3 rotation = kPLAVec3None;
       PLAVec3 scale = kPLAVec3Norm;
@@ -420,7 +420,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       //{
         std::map<PLAMotionType, PLAProperty> properties =
           std::map<PLAMotionType, PLAProperty>();
-        motion.GetProperty(&properties);
+        motion->GetProperty(&properties);
         if (properties.contains(PLAMotionType::Translation))
         { translation = properties.at(PLAMotionType::Translation).GetVec3(); }
         if (properties.contains(PLAMotionType::Rotation))

@@ -103,21 +103,21 @@ TEST_F(PLANodeTest, Update_UpdateNodes_UpdatesPropagateToChildNodes)
   PLANode *node1 = PLANode::Create(10, "node1");
   PLANode *node2 = PLANode::Create(10, "node2");
 
-  node->AddMain(node0);
-  node->AddMain(node1);
-  node->AddMain(node2);
+  node->Add(node0);
+  node->Add(node1);
+  node->Add(node2);
 
   PLANode *node0_0_0 = PLANode::Create(3, "node0_0_0");
   PLANode *node0_1_0 = PLANode::Create(3, "node0_1_0");
   PLANode *node0_2_0 = PLANode::Create(3, "node0_2_0");
 
-  node0->AddBranch(node0_0_0);
-  node0->AddBranch(node0_1_0);
-  node0->AddBranch(node0_2_0);
+  node0->AddThread(node0_0_0);
+  node0->AddThread(node0_1_0);
+  node0->AddThread(node0_2_0);
 
   PLANode *node1_0_0 = PLANode::Create(3, "node1_0_0");
 
-  node1->AddBranch(node1_0_0);
+  node1->AddThread(node1_0_0);
 
   for (int i = 0; i < kNodeLength; i++) {
     GRA_PRINT("-- %2d : Update() --\n", i);

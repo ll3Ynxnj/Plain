@@ -36,9 +36,9 @@ private:
   PLAInt _steps = 0;
   PLAInt _length = 0;
   PLANode *_parent = nullptr;
-  std::vector<PLANode *>_main = std::vector<PLANode *>();
-  std::vector<PLANode *>_branch = std::vector<PLANode *>();
-  //std::vector<PLANode *>::iterator _current = _main.begin();
+  std::vector<PLANode *>_thread = std::vector<PLANode *>();
+  std::vector<PLANode *>_subThreads = std::vector<PLANode *>();
+  //std::vector<PLANode *>::iterator _current = _thread.begin();
   PLAUInt _current = 0;
 
 public:
@@ -48,12 +48,12 @@ public:
   PLANode();
   PLANode(PLAInt aLength);
   PLANode(PLAInt aLength, const PLAString &aName);
-  ~PLANode();
+  ~PLANode() override;
 
   virtual void Update();
 
-  void AddMain(PLANode *aNode);
-  void AddBranch(PLANode *aNode);
+  void Add(PLANode *aNode);
+  void AddThread(PLANode *aNode);
 
   PLAInt GetSteps() const { return _steps; };
   PLAInt GetLength() const { return _length; };
