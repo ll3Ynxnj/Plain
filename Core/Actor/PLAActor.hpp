@@ -60,7 +60,8 @@ protected:
   PLAActor(const PLAVec3 &aPivot,
            const PLAColor &aColor,
            const PLATransform &aTransform,
-           PLALayer *aLayer);
+           PLALayer *aLayer,
+           PLAMotion *aMotion);
 
 public:
   /*

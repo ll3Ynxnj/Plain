@@ -416,8 +416,8 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       PLAVec3 translation = kPLAVec3None;
       PLAVec3 rotation = kPLAVec3None;
       PLAVec3 scale = kPLAVec3Norm;
-      //if (motion)
-      //{
+      if (motion)
+      {
         std::map<PLAMotionType, PLAProperty> properties =
           std::map<PLAMotionType, PLAProperty>();
         motion->GetProperty(&properties);
@@ -427,7 +427,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
         { rotation = properties.at(PLAMotionType::Rotation).GetVec3(); }
         if (properties.contains(PLAMotionType::Scale))
         { scale = properties.at(PLAMotionType::Scale).GetVec3(); }
-      //}
+      }
 
       const PLAVec3 offset = PLAVec3(pxTable[x], pyTable[y], 0) + translation;
       static const PLAUInt kNumVertices = 12;

@@ -7,10 +7,20 @@
 
 static PLAString DBG_PLANode_Update_Indent = "";
 
+/*
+PLANode *PLANode::Create()
+{
+  PLANode *node = new PLANode();
+  PLAObject::Bind(node);
+  PLANode::Bind(node);
+  return node;
+}
+
 PLANode *PLANode::Create(PLAInt aLength)
 {
   PLANode *node = new PLANode(aLength);
   PLAObject::Bind(node);
+  PLANode::Bind(node);
   return node;
 }
 
@@ -18,8 +28,20 @@ PLANode *PLANode::Create(PLAInt aLength, const PLAString &aName)
 {
   PLANode *node = new PLANode(aLength, aName);
   PLAObject::Bind(node);
+  PLANode::Bind(node);
   return node;
 }
+ */
+
+void PLANode::Bind(PLANode *aNode)
+{
+  GRABinder<PLANode>::Error error(GRABinder<PLANode>::Error::None);
+  PLANode::Manager::Instance()->Bind(aNode, &error);
+  if (error != GRABinder<PLANode>::Error::None)
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed PLANode binding. ERROR : %02d", error); }
+}
+
 
 PLANode::PLANode():
 PLAObject(PLAObjectType::Node)
@@ -172,6 +194,11 @@ void PLANode::OnFinishBranch()
             _current, _steps);
 }
 
+void PLANode::PrintNode() const
+{
+  GRA_PRINT("PrintNode");//%12d | %65s\n", this->GetSize(), _path.c_str());
+}
+
 const PLANode *PLANode::GetCurrentNode() const
 {
   if (!_thread.size()) { return nullptr; }
@@ -188,3 +215,90 @@ const std::vector<PLANode *> &PLANode::GetBranch() const
 {
   return _subThreads;
 };
+
+// PLANode::Manager ////////////////////////////////////////////////////////
+
+PLANode::Manager PLANode::Manager::_instance = PLANode::Manager();
+
+PLANode::Manager::Manager() : GRABinder<PLANode>()
+{
+  //_node = new PLANode();
+}
+
+PLANode::Manager::~Manager()
+{
+  //GRA_DELETE(_node);
+}
+
+PLANode *PLANode::Manager::Node(const std::string &aKey)
+{
+  GRABinder<PLANode>::Error error(GRABinder<PLANode>::Error::None);
+  return static_cast<PLANode *>(_instance.RefItem(aKey, &error));
+}
+
+void PLANode::Manager::Update()
+{
+  _node->Update();
+}
+
+void PLANode::Manager::PrintNodes() const
+{
+  GRA_PRINT("//-- PLANode::Manager::PrintNode"
+            "s --////////////////////////////////////\n");
+  GRA_PRINT("        SIZE |                          "
+            "                                    PATH\n");
+  GRA_PRINT("-------------|--------------------------"
+            "----------------------------------------\n");
+  for (GRABinder<PLANode>::Item *item : this->GetItems())
+  { static_cast<const PLANode *>(item)->PrintNode(); }
+  GRA_PRINT("////////////////////////////////////////"
+            "////////////////////////////////////////\n");
+};
+
+const PLANode *PLANode::Manager::GetNode(const std::string &aName) const
+{
+  PLANodeError error = PLANodeError::None;
+  const PLANode *resource =
+    static_cast<const PLANode *>(this->GetItem(aName, &error));
+  if (error != PLANodeError::None)
+  {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed to get resource. ERROR : %02d", error);
+  }
+  return resource;
+};
+
+// PLANode::Holder /////////////////////////////////////////////////////////////
+
+PLANode::Holder::Holder()
+{
+
+}
+
+PLANode::Holder::Holder(PLANode *aNode):
+_node(aNode)
+{
+
+}
+
+void PLANode::Holder::AddNode(PLANode *aNode)
+{
+  _node->Add(aNode);
+}
+
+void PLANode::Holder::AddNodes(const std::vector<PLANode *> &aNodes)
+{
+  for (PLANode *node: aNodes) {
+    _node->Add(node);
+  }
+}
+
+void PLANode::Holder::AddThread(PLANode *aNode)
+{
+  _node->AddThread(aNode);
+}
+
+const PLANode *PLANode::Holder::GetNode() const
+{
+  return _node;
+}

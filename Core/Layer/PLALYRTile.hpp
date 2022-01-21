@@ -21,12 +21,13 @@ protected:
   PLALYRTile(const PLAVec2 &aOffset, const PLAImage *aImage,
              const GRAVec2<PLASize> &aTileSize,
              const GRAVec2<PLASize> &aChipSize,
-             const IPLALYRTileDataSource *aDataSource);
+             const IPLALYRTileDataSource *aDataSource,
+             const std::vector<std::vector<PLAMotionHolder *>> &aMotionHolders);
 
 public:
   static PLALYRTile *Create(const PLAVec2 &aOffset,
                             const std::string &aImageName,
-                            const GRAVec2<PLASize> &aMapSize,
+                            const GRAVec2<PLASize> &aTileSize,
                             const GRAVec2<PLASize> &aChipSize,
                             const IPLALYRTileDataSource *aDataSource);
 

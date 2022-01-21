@@ -52,23 +52,12 @@ public:
     //static const Manager *Instance() { return &_instance; };
     //static Manager *RefInstance() { return &_instance; };
     static Manager *Instance() { return &_instance; };
+    static PLAResource *Resource(const std::string &aKey);
 
     Manager();
     ~Manager();
 
-    const PLAResource *GetResource(const std::string &aName) const
-    {
-      PLAResourceError error = PLAResourceError::None;
-      const PLAResource *resource =
-      static_cast<const PLAResource *>(this->GetItem(aName, &error));
-      if (error != PLAResourceError::None)
-      {
-        PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                        "Failed to get resource. ERROR : %02d", error);
-      }
-      return resource;
-    };
-
+    const PLAResource *GetResource(const std::string &aName) const;
     void PrintResources() const;
 
   private:

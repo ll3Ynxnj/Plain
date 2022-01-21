@@ -15,8 +15,11 @@
 #include "Type/PLAType.hpp"
 #include "PLAObject.hpp"
 
-class PLANode: public PLAObject
+class PLANode: public PLAObject, private GRABinder<PLANode>::Item
 {
+  using PLANodeItem = GRABinder<PLANode>::Item;
+  using PLANodeError = GRABinder<PLANode>::Error;
+
 public:
   /// \~english Function to be executed at a specific point in time.
   /// \~japanese 特定の時点で実行される関数
@@ -42,8 +45,10 @@ private:
   PLAUInt _current = 0;
 
 public:
-  static PLANode *Create(PLAInt aLength);
-  static PLANode *Create(PLAInt aLength, const PLAString &aName);
+  //static PLANode *Create();
+  //static PLANode *Create(PLAInt aLength);
+  //static PLANode *Create(PLAInt aLength, const PLAString &aName);
+  static void Bind(PLANode *aNode);
 
   PLANode();
   PLANode(PLAInt aLength);
@@ -64,6 +69,8 @@ public:
                    const std::function<void(PLANode *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
 
+  void PrintNode() const;
+
 protected:
   virtual const PLANode *GetCurrentNode() const;
   const std::vector<PLANode *> &GetBranch() const;
@@ -75,6 +82,44 @@ private:
   void OnFinishCurrent();
   void OnFinishMain();
   void OnFinishBranch();
+
+// Manager /////////////////////////////////////////////////////////////////////
+
+public:
+  class Manager: public GRABinder<PLANode>
+  {
+    static Manager _instance;
+
+    PLANode *_node = nullptr;
+
+  public:
+    static Manager *Instance() { return &_instance; };
+    static PLANode *Node(const std::string &aKey);
+
+    Manager();
+    ~Manager();
+
+    void Update();
+
+    const PLANode *GetNode(const std::string &aName) const;
+    void PrintNodes() const;
+  };
+
+public:
+  class Holder
+  {
+    PLANode *_node = nullptr;
+
+  public:
+    Holder();
+    Holder(PLANode *aNode);
+
+    void AddNode(PLANode *aNode);
+    void AddNodes(const std::vector<PLANode *> &aNodes);
+    void AddThread(PLANode *aNode);
+
+    const PLANode *GetNode() const;
+  };
 };
 
 #endif //ANHR_PLANODE_HPP

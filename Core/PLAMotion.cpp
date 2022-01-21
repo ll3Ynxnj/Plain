@@ -4,43 +4,57 @@
 
 #include "PLAMotion.hpp"
 #include "PLAApp.hpp"
-/*
-static PLAMotion *PLAMotion::Create()
-{
-  return new PLAMotion();
-}
-*/
 
-const PLAMotion PLAMotion::kNone = PLAMotion();
+//const PLAMotion PLAMotion::kNone = PLAMotion();
 
 PLAMotion *PLAMotion::Create()
 {
-  return new PLAMotion();
+  PLAMotion *motion = new PLAMotion();
+  PLAObject::Bind(motion);
+  PLANode::Bind(motion);
+  return motion;
 }
 
 PLAMotion *PLAMotion::CreateColor(const PLAColor &aBegin, const PLAColor &aEnd,
                                   PLATimeInterval aDuration)
 {
-  return new PLAMotion(PLAMotionType::Color, aBegin, aEnd, aDuration);
+  PLAMotion *motion =
+    new PLAMotion(PLAMotionType::Color, aBegin, aEnd, aDuration);
+  PLAObject::Bind(motion);
+  PLANode::Bind(motion);
+  return motion;
 }
 
 PLAMotion *PLAMotion::CreateTranslation(const PLAVec3 &aBegin,
                                         const PLAVec3 &aEnd,
                                         PLATimeInterval aDuration)
 {
-  return new PLAMotion(PLAMotionType::Translation, aBegin, aEnd, aDuration);
+
+  PLAMotion *motion =
+    new PLAMotion(PLAMotionType::Translation, aBegin, aEnd, aDuration);
+  PLAObject::Bind(motion);
+  PLANode::Bind(motion);
+  return motion;
 }
 
 PLAMotion *PLAMotion::CreateRotation(const PLAVec3 &aBegin, const PLAVec3 &aEnd,
                                      PLATimeInterval aDuration)
 {
-  return new PLAMotion(PLAMotionType::Rotation, aBegin, aEnd, aDuration);
+  PLAMotion *motion =
+    new PLAMotion(PLAMotionType::Rotation, aBegin, aEnd, aDuration);
+  PLAObject::Bind(motion);
+  PLANode::Bind(motion);
+  return motion;
 }
 
 PLAMotion *CreateScale(const PLAVec3 &aBegin, const PLAVec3 &aEnd,
                        PLATimeInterval aDuration)
 {
-  return new PLAMotion(PLAMotionType::Scale, aBegin, aEnd, aDuration);
+  PLAMotion *motion =
+    new PLAMotion(PLAMotionType::Scale, aBegin, aEnd, aDuration);
+  PLAObject::Bind(motion);
+  PLANode::Bind(motion);
+  return motion;
 }
 
 const PLAProperty &PLAMotion::MakeProperty(const PLAMotionType aType)
@@ -54,13 +68,6 @@ const PLAProperty &PLAMotion::MakeProperty(const PLAMotionType aType)
     default : PLA_ERROR_ISSUE(PLAErrorType::Assert, "Detect unexpected types.");
   }
 }
-
-/*
-PLASize PLAMotion::GetNumberOfTypes()
-{
-  return static_cast<PLAUInt>(PLAMotionType::kNumberOfItems);
-}
- */
 
 const char *PLAMotion::GetNameOfType(PLAMotionType aType)
 {
@@ -110,21 +117,6 @@ PLAMotion::~PLAMotion()
 
 }
 
-/*
-const PLAProperty &PLAMotion::GetProperty()
-{
-
-}
- */
-
-/*
-void PLAMotion::Update()
-{
-  PLANode::Update();
-
-}
- */
-
 void PLAMotion::GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) const
 {
   //GRA_PRINT("GetProperty()\n");
@@ -156,43 +148,15 @@ void PLAMotion::GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) c
   (*aProperties)[_type] += property;
 }
 
-PLAMotionHolder::~PLAMotionHolder()
+PLAMotionHolder::PLAMotionHolder(PLAMotion *aMotion) noexcept:
+PLANode::Holder(aMotion)
 {
-  GRA_DELETE(_motion);
+  //_motion = new PLAMotion();
 }
 
-void PLAMotionHolder::AddMotion(PLAMotion *aMotion)
+PLAMotionHolder::~PLAMotionHolder() noexcept
 {
-  _motion->Add(aMotion);
-}
-
-void PLAMotionHolder::AddMotions(const std::vector<PLAMotion *> &aMotions)
-{
-  for (PLAMotion *motion: aMotions) {
-    _motion->Add(motion);
-  }
-}
-
-void PLAMotionHolder::AddMotionThread(PLAMotion *aMotion)
-{
-  _motion->AddThread(aMotion);
-}
-
-/*
-void PLAMotionHolder::AddMain(PLAMotion *aMotion)
-{
-  _motion.Add(aMotion);
-}
-
-void PLAMotionHolder::AddBranch(PLAMotion *aMotion)
-{
-  _motion.AddThread(aMotion);
-}
-*/
-
-const PLAMotion *PLAMotionHolder::GetMotion() const
-{
-  return _motion;
+  //GRA_DELETE(_motion);
 }
 
 const PLAProperty &PLAMotionHolder::GetMotionProperty(PLAMotionType aType) const
@@ -202,22 +166,21 @@ const PLAProperty &PLAMotionHolder::GetMotionProperty(PLAMotionType aType) const
   return _motionProperties.at(aType);
 };
 
-/*
-void PLAMotionHolder::SetMotion(PLAMotion *aMotion)
-{
-  _motion = aMotion;
-}
-*/
-
 void PLAMotionHolder::UpdateMotion()
 {
-  if (!_motion) { return; }
+  //if (!_motion) { return; }
+  if (!this->GetNode()) { return; }
   //GRA_PRINT("UpdateMotions()\n");
-  _motion->Update();
+  //_motion->Update();
+
+  //>-- FIRST AID! -- FIRST AID! -- FIRST AID! -- FIRST AID! -- FIRST AID! -->//
+  const_cast<PLANode *>(this->GetNode())->Update();
+  //<-- FIRST AID! -- FIRST AID! -- FIRST AID! -- FIRST AID! -- FIRST AID! --<//
 
   std::map<PLAMotionType, PLAProperty> properties =
     std::map<PLAMotionType, PLAProperty>();
-  _motion->GetProperty(&properties);
+  //_motion->GetProperty(&properties);
+  static_cast<const PLAMotion *>(this->GetNode())->GetProperty(&properties);
 
   for (const auto &[key, value] : properties) {
     if (!_motionProperties.contains(key)) {

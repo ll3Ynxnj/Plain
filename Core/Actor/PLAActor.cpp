@@ -17,7 +17,8 @@ PLAActor *PLAActor::CreateRect(const PLAVec3 &aPivot,
 {
   PLALayer *layer = PLALYRRect::Create(aRect, kPLAColorWhite, kPLAColorNone,
                                        kPLAStrUndefined, kPLARectNone);
-  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);
+  PLAMotion *motion = PLAMotion::Create();
+  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer, motion);
   PLAObject::Bind(actor);
   return actor;
 }
@@ -30,7 +31,8 @@ PLAActor *PLAActor::CreateRect(const PLAVec3 &aPivot,
 {
   PLALayer *layer = PLALYRRect::Create(aRect, aFillColor, kPLAColorNone,
                                        kPLAStrUndefined, kPLARectNone);
-  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);
+  PLAMotion *motion = PLAMotion::Create();
+  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer, motion);
   PLAObject::Bind(actor);
   return actor;
 }
@@ -44,7 +46,8 @@ PLAActor *PLAActor::CreateRect(const PLAVec3 &aPivot,
 {
   PLALayer *layer = PLALYRRect::Create(aRect, kPLAColorWhite, kPLAColorNone,
                                        aImageName, aClip);
-  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);
+  PLAMotion *motion = PLAMotion::Create();
+  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer, motion);
   PLAObject::Bind(actor);
   return actor;
 }
@@ -56,7 +59,8 @@ PLAActor *PLAActor::CreateCircle(const PLAVec3 &aPivot,
 {
   PLALayer *layer = PLALYRCircle::Create(aCircle, kPLAColorWhite, kPLAColorNone,
                                          kPLAStrUndefined, kPLARectNone);
-  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);
+  PLAMotion *motion = PLAMotion::Create();
+  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer, motion);
   PLAObject::Bind(actor);
   return actor;
 }
@@ -69,7 +73,8 @@ PLAActor *PLAActor::CreateCircle(const PLAVec3 &aPivot,
 {
   PLALayer *layer = PLALYRCircle::Create(aCircle, aFillColor, kPLAColorNone,
                                          kPLAStrUndefined, kPLARectNone);
-  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);
+  PLAMotion *motion = PLAMotion::Create();
+  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer, motion);
   PLAObject::Bind(actor);
   return actor;
 }
@@ -83,7 +88,8 @@ PLAActor *PLAActor::CreateCircle(const PLAVec3 &aPivot,
 {
   PLALayer *layer = PLALYRCircle::Create(aCircle, kPLAColorWhite, kPLAColorNone,
                                          aImageName, aClip);
-  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);
+  PLAMotion *motion = PLAMotion::Create();
+  PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer, motion);
   PLAObject::Bind(actor);
   return actor;
 }
@@ -96,8 +102,9 @@ PLAActor *PLAActor::CreateTile(const PLAVec2 &aOffset,
 {
   PLALYRTile *layer = PLALYRTile::Create(aOffset, aImageName, aTileSize, aChipSize,
                                          aDataSource);
+  PLAMotion *motion = PLAMotion::Create();
   PLAActor *actor = new PLAActor(kPLAVec3None, kPLAColorWhite,
-                                 kPLATransformNorm, layer);
+                                 kPLATransformNorm, layer, motion);
   PLAObject::Bind(actor);
   return actor;
 }
@@ -125,9 +132,11 @@ void PLAActor::Unbind(PLAActor *aActor)
 PLAActor::PLAActor(const PLAVec3 &aPivot,
                    const PLAColor &aColor,
                    const PLATransform &aTransform,
-                   PLALayer *aLayer) :
+                   PLALayer *aLayer,
+                   PLAMotion *aMotion) :
   PLAObject(PLAObjectType::Actor),//"== PLAActor =="),
   GRABinder<PLAActor>::Item(),
+  PLAMotionHolder(aMotion),
   PLAInputContext(),
   _pivot(aPivot),
   _color(aColor),

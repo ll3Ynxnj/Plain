@@ -40,35 +40,27 @@ public:
             PLATimeInterval aDuration);
   ~PLAMotion() override;
 
-  //void Update() override;
   const char *GetNameOfType() { return GetNameOfType(_type); };
 
   PLAMotionType GetMotionType() { return _type; }
   void GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) const;
 };
 
-class PLAMotionHolder
+class PLAMotionHolder: public PLANode::Holder
 {
   //-- Not affect child actors
-  PLAMotion *_motion = new PLAMotion();
   std::map<PLAMotionType, PLAProperty> _motionProperties =
     std::map<PLAMotionType, PLAProperty>();
+  //PLAMotion *_motion = nullptr;
 
 public:
-  virtual ~PLAMotionHolder();
+  PLAMotionHolder() = delete;
+  PLAMotionHolder(PLAMotion *aMotion) noexcept;
+  virtual ~PLAMotionHolder() noexcept;
 
   void UpdateMotion();
 
-  void AddMotion(PLAMotion *aMotion);
-  void AddMotions(const std::vector<PLAMotion *> &aMotions);
-  void AddMotionThread(PLAMotion *aMotion);
-  //void Add(PLAMotion *aMotion);
-  //void AddThread(PLAMotion *aMotion);
-
-  const PLAMotion *GetMotion() const;
   const PLAProperty &GetMotionProperty(PLAMotionType aType) const;
-
-  //void SetMotion(PLAMotion *aMotion);
 
 protected:
   const std::map<PLAMotionType, PLAProperty> &GetMotionProperties() const
