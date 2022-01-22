@@ -407,7 +407,8 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
 
   const PLAVec2s dataAddress = aLayer->GetDataAddress();
   for (PLAInt y = 0; y < tileSize.y; y++) {
-    for (PLAInt x = 0; x < tileSize.x; x++) {
+    for (PLAInt x = 0; x < tileSize.x; x++)
+    {
       PLAVec2s address(dataAddress.x + x, dataAddress.y + y);
       const PLATileChip &chip = aLayer->GetChip(address);
       if (chip.code == kPLATileChipCodeNone) { continue; }
@@ -422,11 +423,22 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
           std::map<PLAMotionType, PLAProperty>();
         motion->GetProperty(&properties);
         if (properties.contains(PLAMotionType::Translation))
-        { translation = properties.at(PLAMotionType::Translation).GetVec3(); }
+        {
+          translation = properties.at(PLAMotionType::Translation).GetVec3();
+        }
         if (properties.contains(PLAMotionType::Rotation))
-        { rotation = properties.at(PLAMotionType::Rotation).GetVec3(); }
+        {
+          rotation = properties.at(PLAMotionType::Rotation).GetVec3();
+        }
         if (properties.contains(PLAMotionType::Scale))
-        { scale = properties.at(PLAMotionType::Scale).GetVec3(); }
+        {
+          scale = properties.at(PLAMotionType::Scale).GetVec3();
+        }
+      }
+
+      if (translation.y) {
+        GRA_PRINT("translation: %f, %f, %f\n",
+                  translation.x, translation.y, translation.z);
       }
 
       const PLAVec3 offset = PLAVec3(pxTable[x], pyTable[y], 0) + translation;

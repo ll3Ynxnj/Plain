@@ -29,7 +29,6 @@ PLAMotion *PLAMotion::CreateTranslation(const PLAVec3 &aBegin,
                                         const PLAVec3 &aEnd,
                                         PLATimeInterval aDuration)
 {
-
   PLAMotion *motion =
     new PLAMotion(PLAMotionType::Translation, aBegin, aEnd, aDuration);
   PLAObject::Bind(motion);
@@ -47,7 +46,7 @@ PLAMotion *PLAMotion::CreateRotation(const PLAVec3 &aBegin, const PLAVec3 &aEnd,
   return motion;
 }
 
-PLAMotion *CreateScale(const PLAVec3 &aBegin, const PLAVec3 &aEnd,
+PLAMotion *PLAMotion::CreateScale(const PLAVec3 &aBegin, const PLAVec3 &aEnd,
                        PLATimeInterval aDuration)
 {
   PLAMotion *motion =
@@ -117,6 +116,7 @@ PLAMotion::~PLAMotion()
 
 }
 
+// GetPropertiesのほうが名称として適切なのでは？
 void PLAMotion::GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) const
 {
   //GRA_PRINT("GetProperty()\n");
@@ -146,48 +146,4 @@ void PLAMotion::GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) c
               (_distance * this->GetProgress()).GetVec3().x);
   }
   (*aProperties)[_type] += property;
-}
-
-PLAMotionHolder::PLAMotionHolder(PLAMotion *aMotion) noexcept:
-PLANode::Holder(aMotion)
-{
-  //_motion = new PLAMotion();
-}
-
-PLAMotionHolder::~PLAMotionHolder() noexcept
-{
-  //GRA_DELETE(_motion);
-}
-
-const PLAProperty &PLAMotionHolder::GetMotionProperty(PLAMotionType aType) const
-{
-  if (!_motionProperties.contains(aType))
-  { return PLAProperty::kNone; }
-  return _motionProperties.at(aType);
-};
-
-void PLAMotionHolder::UpdateMotion()
-{
-  //if (!_motion) { return; }
-  if (!this->GetNode()) { return; }
-  //GRA_PRINT("UpdateMotions()\n");
-  //_motion->Update();
-
-  //>-- FIRST AID! -- FIRST AID! -- FIRST AID! -- FIRST AID! -- FIRST AID! -->//
-  const_cast<PLANode *>(this->GetNode())->Update();
-  //<-- FIRST AID! -- FIRST AID! -- FIRST AID! -- FIRST AID! -- FIRST AID! --<//
-
-  std::map<PLAMotionType, PLAProperty> properties =
-    std::map<PLAMotionType, PLAProperty>();
-  //_motion->GetProperty(&properties);
-  static_cast<const PLAMotion *>(this->GetNode())->GetProperty(&properties);
-
-  for (const auto &[key, value] : properties) {
-    if (!_motionProperties.contains(key)) {
-      _motionProperties[key] = PLAMotion::MakeProperty(key);
-    }
-    _motionProperties[key] = properties[key];
-    //GRA_PRINT("_motionProperties[%s]", PLAMotion::GetNameOfType(key));
-    _motionProperties[key].Print();
-  }
 }

@@ -99,6 +99,7 @@ void PLAApp::Update()
 {
   GRA_PRINT("-- Update -- _frame: %8d\n", _frame);
   PLAInputManager::Instance()->Flush();
+  UpdateNode();
   _stage->Update();
   ++_frame;
 }

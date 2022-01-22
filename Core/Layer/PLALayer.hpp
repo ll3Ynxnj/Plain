@@ -25,7 +25,7 @@ public:
   PLALayer() = delete;
   virtual ~PLALayer();
 
-  virtual void UpdateMotion() {};
+  //virtual void UpdateMotionProperties() {};
 
   PLALayerType GetLayerType() const { return _type; };
   const PLAVec3 &GetOffset() const { return _offset; };

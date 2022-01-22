@@ -12,17 +12,15 @@ class PLALYRTile : public PLALayer
   GRAVec2<PLASize> _tileSize = GRAVec2<PLASize>(0);
   GRAVec2<PLASize> _chipSize = GRAVec2<PLASize>(0);
   const IPLALYRTileDataSource *_dataSource = nullptr;
-  std::vector<std::vector<PLAMotionHolder *>> _motionHolders =
-    std::vector<std::vector<PLAMotionHolder *>>(0);
-  //std::map<PLASize, std::map<PLASize, PLAMotionHolder>> _motionHolders =
-  //  std::map<PLASize, std::map<PLASize, PLAMotionHolder>>();
+  std::vector<std::vector<PLANode::Holder *>> _nodeHolders =
+    std::vector<std::vector<PLANode::Holder *>>(0);
 
 protected:
   PLALYRTile(const PLAVec2 &aOffset, const PLAImage *aImage,
              const GRAVec2<PLASize> &aTileSize,
              const GRAVec2<PLASize> &aChipSize,
              const IPLALYRTileDataSource *aDataSource,
-             const std::vector<std::vector<PLAMotionHolder *>> &aMotionHolders);
+             const std::vector<std::vector<PLANode::Holder *>> &aNodeHolders);
 
 public:
   static PLALYRTile *Create(const PLAVec2 &aOffset,
@@ -35,7 +33,7 @@ public:
 
   virtual ~PLALYRTile();
 
-  void UpdateMotion() override;
+  //void UpdateMotionProperties() override;
 
   void AddMotion(const PLAVec2s &aAddress, PLAMotion *aMotion);
   void AddMotions(const PLAVec2s &aAddress,

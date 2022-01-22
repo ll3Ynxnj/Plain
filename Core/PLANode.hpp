@@ -17,8 +17,8 @@
 
 class PLANode: public PLAObject, private GRABinder<PLANode>::Item
 {
-  using PLANodeItem = GRABinder<PLANode>::Item;
-  using PLANodeError = GRABinder<PLANode>::Error;
+  using Item = GRABinder<PLANode>::Item;
+  using Error = GRABinder<PLANode>::Error;
 
 public:
   /// \~english Function to be executed at a specific point in time.
@@ -41,13 +41,9 @@ private:
   PLANode *_parent = nullptr;
   std::vector<PLANode *>_thread = std::vector<PLANode *>();
   std::vector<PLANode *>_subThreads = std::vector<PLANode *>();
-  //std::vector<PLANode *>::iterator _current = _thread.begin();
   PLAUInt _current = 0;
 
 public:
-  //static PLANode *Create();
-  //static PLANode *Create(PLAInt aLength);
-  //static PLANode *Create(PLAInt aLength, const PLAString &aName);
   static void Bind(PLANode *aNode);
 
   PLANode();
@@ -55,7 +51,7 @@ public:
   PLANode(PLAInt aLength, const PLAString &aName);
   ~PLANode() override;
 
-  virtual void Update();
+  void Update();
 
   void Add(PLANode *aNode);
   void AddThread(PLANode *aNode);
@@ -90,8 +86,6 @@ public:
   {
     static Manager _instance;
 
-    PLANode *_node = nullptr;
-
   public:
     static Manager *Instance() { return &_instance; };
     static PLANode *Node(const std::string &aKey);
@@ -99,11 +93,11 @@ public:
     Manager();
     ~Manager();
 
-    void Update();
-
     const PLANode *GetNode(const std::string &aName) const;
     void PrintNodes() const;
   };
+
+// Holder //////////////////////////////////////////////////////////////////////
 
 public:
   class Holder
@@ -111,7 +105,7 @@ public:
     PLANode *_node = nullptr;
 
   public:
-    Holder();
+    Holder() = delete;
     Holder(PLANode *aNode);
 
     void AddNode(PLANode *aNode);

@@ -16,7 +16,6 @@ const PLAProperty PLAProperty::kVec4  = PLAProperty(kPLAVec4None);
 
 void PLAProperty::Print()
 {
-  //ここから Actorの_motionPropertiesが更新ごとにどんな値になるのかを調査する
   GRA_PRINT("PLAProperty: {");
   switch(_type)
   {

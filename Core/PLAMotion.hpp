@@ -38,33 +38,13 @@ public:
             PLATimeInterval aDuration);
   PLAMotion(PLAMotionType aType, const PLAVec3 &aBegin, const PLAVec3 &aEnd,
             PLATimeInterval aDuration);
+
   ~PLAMotion() override;
 
   const char *GetNameOfType() { return GetNameOfType(_type); };
 
   PLAMotionType GetMotionType() { return _type; }
   void GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) const;
-};
-
-class PLAMotionHolder: public PLANode::Holder
-{
-  //-- Not affect child actors
-  std::map<PLAMotionType, PLAProperty> _motionProperties =
-    std::map<PLAMotionType, PLAProperty>();
-  //PLAMotion *_motion = nullptr;
-
-public:
-  PLAMotionHolder() = delete;
-  PLAMotionHolder(PLAMotion *aMotion) noexcept;
-  virtual ~PLAMotionHolder() noexcept;
-
-  void UpdateMotion();
-
-  const PLAProperty &GetMotionProperty(PLAMotionType aType) const;
-
-protected:
-  const std::map<PLAMotionType, PLAProperty> &GetMotionProperties() const
-  { return _motionProperties; };
 };
 
 #endif //ANHR_PLAMOTION_HPP

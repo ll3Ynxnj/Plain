@@ -136,7 +136,7 @@ PLAActor::PLAActor(const PLAVec3 &aPivot,
                    PLAMotion *aMotion) :
   PLAObject(PLAObjectType::Actor),//"== PLAActor =="),
   GRABinder<PLAActor>::Item(),
-  PLAMotionHolder(aMotion),
+  PLANode::Holder(aMotion),
   PLAInputContext(),
   _pivot(aPivot),
   _color(aColor),
@@ -169,7 +169,7 @@ void PLAActor::Init()
 
 void PLAActor::Update()
 {
-  this->OnUpdateMotions();
+  //this->OnUpdateMotions();
   this->OnUpdate();
 }
 
@@ -228,33 +228,37 @@ bool PLAActor::IsCollideWithRect(PLARect aRect) const
 PLAColor PLAActor::GetColor() const
 {
   PLAColor color = _color;
-  if (this->GetMotionProperties().contains(PLAMotionType::Color))
+  /*
+  if (this->GetProperties().contains(PLAMotionType::Color))
   {
     //_color * _motionProperties.at(PLAMotionType::Color).GetColor();
   }
+   */
   return color;
 };
 
 PLATransform PLAActor::GetTransform() const
 {
   PLATransform transform = _transform;
-  if (this->GetMotionProperties().contains(PLAMotionType::Translation))
+  /*
+  if (this->GetProperties().contains(PLAMotionType::Translation))
   {
     transform.translation +=
-      this->GetMotionProperties().at(PLAMotionType::Translation).GetVec3();
+      this->GetProperties().at(PLAMotionType::Translation).GetVec3();
   }
-  if (this->GetMotionProperties().contains(PLAMotionType::Rotation))
+  if (this->GetProperties().contains(PLAMotionType::Rotation))
   {
     transform.rotation +=
-      this->GetMotionProperties().at(PLAMotionType::Rotation).GetVec3();
+      this->GetProperties().at(PLAMotionType::Rotation).GetVec3();
   }
-  if (this->GetMotionProperties().contains(PLAMotionType::Scale))
+  if (this->GetProperties().contains(PLAMotionType::Scale))
   {
-    PLAVec3 scale = this->GetMotionProperties().at(PLAMotionType::Scale).GetVec3();
+    PLAVec3 scale = this->GetProperties().at(PLAMotionType::Scale).GetVec3();
     transform.scale.x *= scale.x;
     transform.scale.y *= scale.y;
     transform.scale.z *= scale.z;
   }
+   */
   return transform;
 };
 
@@ -458,9 +462,11 @@ void PLAActor::OnUpdate()
   for (PLAActor *actor : _actors) { actor->OnUpdate(); }
 }
 
+/*
 void PLAActor::OnUpdateMotions()
 {
-  this->UpdateMotion();
-  _layer->UpdateMotion();
+  //this->UpdateMotionProperties();
+  //_layer->UpdateMotionProperties();
   for (PLAActor *actor : _actors) { actor->OnUpdateMotions(); }
 }
+ */

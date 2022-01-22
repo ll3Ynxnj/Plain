@@ -21,7 +21,7 @@
 class PLARenderer;
 
 class PLAActor final :
-  public PLAObject, public PLAInputContext, public PLAMotionHolder,
+  public PLAObject, public PLAInputContext, public PLANode::Holder,
   public GRAListener<PLAScene, PLAScene::FunctionCode>,
   public GRABinder<PLAActor>::Item
 {
@@ -204,7 +204,7 @@ public:
 
 private:
   void OnUpdate();
-  void OnUpdateMotions();
+  //void OnUpdateMotions();
 
   //void UpdateMotions();
   void RefreshLayerOffset();

@@ -3,35 +3,10 @@
 //
 
 #include "PLANode.hpp"
+#include "PLAApp.hpp"
 #include "PLAError.hpp"
 
 static PLAString DBG_PLANode_Update_Indent = "";
-
-/*
-PLANode *PLANode::Create()
-{
-  PLANode *node = new PLANode();
-  PLAObject::Bind(node);
-  PLANode::Bind(node);
-  return node;
-}
-
-PLANode *PLANode::Create(PLAInt aLength)
-{
-  PLANode *node = new PLANode(aLength);
-  PLAObject::Bind(node);
-  PLANode::Bind(node);
-  return node;
-}
-
-PLANode *PLANode::Create(PLAInt aLength, const PLAString &aName)
-{
-  PLANode *node = new PLANode(aLength, aName);
-  PLAObject::Bind(node);
-  PLANode::Bind(node);
-  return node;
-}
- */
 
 void PLANode::Bind(PLANode *aNode)
 {
@@ -220,25 +195,21 @@ const std::vector<PLANode *> &PLANode::GetBranch() const
 
 PLANode::Manager PLANode::Manager::_instance = PLANode::Manager();
 
-PLANode::Manager::Manager() : GRABinder<PLANode>()
+PLANode::Manager::Manager() :
+GRABinder<PLANode>()
 {
-  //_node = new PLANode();
+
 }
 
 PLANode::Manager::~Manager()
 {
-  //GRA_DELETE(_node);
+
 }
 
 PLANode *PLANode::Manager::Node(const std::string &aKey)
 {
   GRABinder<PLANode>::Error error(GRABinder<PLANode>::Error::None);
   return static_cast<PLANode *>(_instance.RefItem(aKey, &error));
-}
-
-void PLANode::Manager::Update()
-{
-  _node->Update();
 }
 
 void PLANode::Manager::PrintNodes() const
@@ -249,7 +220,7 @@ void PLANode::Manager::PrintNodes() const
             "                                    PATH\n");
   GRA_PRINT("-------------|--------------------------"
             "----------------------------------------\n");
-  for (GRABinder<PLANode>::Item *item : this->GetItems())
+  for (PLANode::Item *item : this->GetItems())
   { static_cast<const PLANode *>(item)->PrintNode(); }
   GRA_PRINT("////////////////////////////////////////"
             "////////////////////////////////////////\n");
@@ -257,10 +228,10 @@ void PLANode::Manager::PrintNodes() const
 
 const PLANode *PLANode::Manager::GetNode(const std::string &aName) const
 {
-  PLANodeError error = PLANodeError::None;
+  PLANode::Error error = PLANode::Error::None;
   const PLANode *resource =
     static_cast<const PLANode *>(this->GetItem(aName, &error));
-  if (error != PLANodeError::None)
+  if (error != PLANode::Error::None)
   {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Failed to get resource. ERROR : %02d", error);
@@ -270,15 +241,10 @@ const PLANode *PLANode::Manager::GetNode(const std::string &aName) const
 
 // PLANode::Holder /////////////////////////////////////////////////////////////
 
-PLANode::Holder::Holder()
-{
-
-}
-
 PLANode::Holder::Holder(PLANode *aNode):
 _node(aNode)
 {
-
+  PLAApp::AddNode(aNode);
 }
 
 void PLANode::Holder::AddNode(PLANode *aNode)
