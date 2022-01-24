@@ -51,9 +51,9 @@ void PLANode::Update()
   for (PLANode *node: _subThreads) {
     node->Update();
   }
-  if (this->GetObjectName() == "ANHRStage::WalkPlayer::m0" ||
-      this->GetObjectName() == "ANHRStage::WalkPlayer::m1" ||
-      this->GetObjectName() == "ANHRStage::WalkPlayer::m2") {
+  if (this->GetObjectName() == "ANHRStage::WalkPlayer::thread" ||
+      this->GetObjectName() == "ANHRStage::WalkPlayer::tm0" ||
+      this->GetObjectName() == "ANHRStage::WalkPlayer::tm1") {
     GRA_PRINT("this->GetObjectName(): %s", this->GetObjectName().c_str());
     GRA_TRACE("");
   }
@@ -74,13 +74,14 @@ void PLANode::Update()
   }
 
   //-- OnStop
-  if (_steps == _length)
+  if (this->IsFinished())
   {
-    if (this->GetObjectName() == "ANHRStage::WalkPlayer::m0" ||
-        this->GetObjectName() == "ANHRStage::WalkPlayer::m1" ||
-        this->GetObjectName() == "ANHRStage::WalkPlayer::m2")
+    if (this->GetObjectName() == "ANHRStage::WalkPlayer::thread" ||
+        this->GetObjectName() == "ANHRStage::WalkPlayer::tm0" ||
+        this->GetObjectName() == "ANHRStage::WalkPlayer::tm1")
     {
       GRA_PRINT("this->GetObjectName(): %s", this->GetObjectName().c_str());
+      GRA_TRACE("");
     }
     this->OnStop();
     if (_parent) {
@@ -172,6 +173,16 @@ void PLANode::OnFinishBranch()
 void PLANode::PrintNode() const
 {
   GRA_PRINT("PrintNode");//%12d | %65s\n", this->GetSize(), _path.c_str());
+}
+
+bool PLANode::IsFinished() const
+{
+  if (_steps < _length) { return false; }
+  for (const PLANode *thread: _subThreads)
+  {
+    if (thread->IsFinished()) { return false; }
+  }
+  return true;
 }
 
 const PLANode *PLANode::GetCurrentNode() const

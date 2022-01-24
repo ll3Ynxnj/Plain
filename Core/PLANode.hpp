@@ -79,6 +79,8 @@ private:
   void OnFinishMain();
   void OnFinishBranch();
 
+  bool IsFinished() const;
+
 // Manager /////////////////////////////////////////////////////////////////////
 
 public:
