@@ -3,7 +3,7 @@
 PLAImage *PLAImage::CreateRaw(const std::string &aName)
 {
   PLAImage *image = new PLAImage(aName, PLAImageSize(1024), PLAImageType::Raw);
-  PLAObject::Bind(image);
+  image->Bind();
   return image;
 }
 

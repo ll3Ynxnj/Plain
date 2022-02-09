@@ -13,13 +13,13 @@ PLALYRTile *PLALYRTile::Create(const PLAVec2 &aOffset,
   for (PLASize y = 0; y < aTileSize.y; y++) {
     std::vector<PLANode::Holder *> holders(0);
     for (PLASize x = 0; x < aTileSize.x; x++) {
-      holders.push_back(new PLANode::Holder(PLAMotion::Create()));
+      holders.push_back(new PLANode::Holder());//PLAMotion::Create()));
     }
     motionHolders.push_back(holders);
   }
   PLALYRTile *layer =
     new PLALYRTile(aOffset, image, aTileSize, aChipSize, aDataSource, motionHolders);
-  PLAObject::Bind(layer);
+  layer->Bind();
   return layer;
 }
 

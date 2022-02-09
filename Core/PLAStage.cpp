@@ -3,7 +3,7 @@
 PLAStage *PLAStage::Create()
 {
   PLAStage *stage = new PLAStage();
-  PLAObject::Bind(stage);
+  stage->Bind();
   return stage;
 }
 

@@ -10,7 +10,7 @@ PLALYRRect *PLALYRRect::Create(const PLARect &aRect)
                                      kPLAColorNone,
                                      kPLAStrUndefined,
                                      kPLARectNone);
-  PLAObject::Bind(layer);
+  layer->Bind();
   return layer;
 }
 
@@ -26,7 +26,7 @@ PLALYRRect *PLALYRRect::Create(const PLARect &aRect,
                                      aFillColor,
                                      aStrokeColor,
                                      aImage, aClip);
-  PLAObject::Bind(layer);
+  layer->Bind();
   return layer;
 }
 

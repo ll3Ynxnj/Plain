@@ -4,7 +4,7 @@ PLAError * PLAError::Create(PLAErrorType aType, const std::string &aFile,
                             int aLine, const std::string &aMessage)
 {
   PLAError *error = new PLAError(aType, aFile, aLine, aMessage);
-  PLAObject::Bind(error);
+  error->Bind();
   return error;
 }
 

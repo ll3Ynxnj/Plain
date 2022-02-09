@@ -4,7 +4,7 @@
 
 PLAScene *PLAScene::Create() {
   PLAScene *scene = new PLAScene();
-  PLAObject::Bind(scene);
+  scene->PLAObject::Bind();
   return scene;
 }
 

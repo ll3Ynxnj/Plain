@@ -23,9 +23,9 @@ protected:
 
 public:
   static const char *GetBinderErrorMessage(Binder::Error aError);
+  static void Destroy(PLAObject *aObject);
 
-  static void Bind(PLAObject *aObject);
-  static void Delete(PLAObject *aObject);
+  virtual void Bind();
 
   PLAObject() = delete;
   virtual ~PLAObject();
@@ -58,11 +58,15 @@ public:
 
   std::string GetObjectDescription() const;
 
+protected:
+  virtual void Unbind();
+
 // Manager /////////////////////////////////////////////////////////////////////
 public:
   class Manager: public GRABinder<PLAObject>
   {
     static Manager _instance;
+    std::vector<PLAObject *> _unboundObjects;
 
   public:
     static Manager *Instance() { return &_instance; };
@@ -71,6 +75,8 @@ public:
     Manager();
     ~Manager();
 
+    void AddUnboundObject(PLAObject *aObject);
+    void DeleteUnboundObjects();
     void PrintObjects() const;
   };
 };

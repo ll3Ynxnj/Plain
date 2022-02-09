@@ -14,10 +14,16 @@ const char *PLAObject::GetBinderErrorMessage(Binder::Error aError)
   return kBinderErrorMessages.at(aError);
 }
 
-void PLAObject::Bind(PLAObject *aObject)
+void PLAObject::Destroy(PLAObject *aObject)
+{
+  aObject->Unbind();
+  //GRA_DELETE(aObject);
+}
+
+void PLAObject::Bind()
 {
   Binder::Error error(Binder::Error::None);
-  PLAObject::Manager::Instance()->Bind(aObject, &error);
+  PLAObject::Manager::Instance()->Bind(this, &error);
   if (error != Binder::Error::None) {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Failed PLAObject binding. ERROR : %02d : %s",
@@ -25,16 +31,17 @@ void PLAObject::Bind(PLAObject *aObject)
   }
 }
 
-void PLAObject::Delete(PLAObject *aObject)
+void PLAObject::Unbind()
 {
   Binder::Error error(Binder::Error::None);
-  PLAObject::Manager::Instance()->Unbind(aObject, &error);
+  PLAObject::Manager::Instance()->Unbind(this, &error);
   if (error != Binder::Error::None) {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                    "Failed to delete. ERROR : %02d : %s",
+                    "Failed PLAObject unbinding. ERROR : %02d : %s",
                     error, GetBinderErrorMessage(error));
   }
-  GRA_DELETE(aObject);
+
+  PLAObject::Manager::Instance()->AddUnboundObject(this);
 }
 
 void PLAObject::Print()
@@ -171,6 +178,19 @@ void PLAObject::SetObjectName(const std::string &aName)
                     "Failure to set object name. ERROR : %02d : %s",
                     error, GetBinderErrorMessage(error));
   }
+}
+
+void PLAObject::Manager::AddUnboundObject(PLAObject *aObject)
+{
+  _unboundObjects.push_back(aObject);
+}
+
+void PLAObject::Manager::DeleteUnboundObjects()
+{
+  for (PLAObject *object: _unboundObjects) {
+    GRA_DELETE(object);
+  }
+  _unboundObjects.clear();
 }
 
 void PLAObject::Manager::PrintObjects() const

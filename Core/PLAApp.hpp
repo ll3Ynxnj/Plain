@@ -19,7 +19,7 @@ class PLAApp final : public PLAObject
 {
   static PLAApp _instance;
 
-  PLANode _node = PLANode(kPLAIntUndefined);
+  std::map<std::string, PLANode *> _nodes = std::map<std::string, PLANode *>();
 
   PLAUInt _frame = 0;
 
@@ -39,6 +39,7 @@ public:
 
   static void AddNode(PLANode *aNode);
   static void UpdateNode();
+  static void RemoveNode(const PLANode *aNode);
 
   //-- このStage関連のメソッド、Stage()から呼べばいいので不要なのでは？
   static void InitStage();

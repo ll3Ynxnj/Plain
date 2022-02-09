@@ -12,12 +12,18 @@ PLAScene *PLAApp::Scene()
 
 void PLAApp::AddNode(PLANode *aNode)
 {
-  _instance._node.AddThread(aNode);
+  _instance._nodes[aNode->GetObjectName()] = aNode;
 }
 
 void PLAApp::UpdateNode()
 {
-  _instance._node.Update();
+  for (const auto [name, node]: _instance._nodes)
+  { _instance._nodes[name]->Update(); }
+}
+
+void PLAApp::RemoveNode(const PLANode *aNode)
+{
+  _instance._nodes.erase(aNode->GetObjectName());
 }
 
 void PLAApp::InitStage()
@@ -98,6 +104,9 @@ void PLAApp::Input(PLAInputDeviceType aDevice, PLAInputSignalCode aCode,
 void PLAApp::Update()
 {
   GRA_PRINT("-- Update -- _frame: %8d\n", _frame);
+  // DeleteはDestroyに名称変更
+  // 削除を実行するとレンダリング時にエラー。つまり削除済みノードへの参照が残っている。
+  PLAObject::Manager::Instance()->DeleteUnboundObjects();
   PLAInputManager::Instance()->Flush();
   UpdateNode();
   _stage->Update();

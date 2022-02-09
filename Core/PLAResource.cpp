@@ -4,18 +4,30 @@
 PLAResource *PLAResource::Create(const std::string &aName, const std::string &aPath)
 {
   PLAResource *resource = new PLAResource(aName, aPath);
-  PLAObject::Bind(resource);
-  PLAResource::Bind(resource);
+  resource->Bind();
   return resource;
 }
 
-void PLAResource::Bind(PLAResource *aResource)
+void PLAResource::Bind()
 {
+  this->PLAObject::Bind();
+
   GRABinder<PLAResource>::Error error(GRABinder<PLAResource>::Error::None);
-  PLAResource::Manager::Instance()->Bind(aResource, &error);
+  PLAResource::Manager::Instance()->Bind(this, &error);
   if (error != GRABinder<PLAResource>::Error::None)
   { PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Failed PLAResource binding. ERROR : %02d", error); }
+}
+
+void PLAResource::Unbind()
+{
+  GRABinder<PLAResource>::Error error(GRABinder<PLAResource>::Error::None);
+  PLAResource::Manager::Instance()->Unbind(this, &error);
+  if (error != GRABinder<PLAResource>::Error::None)
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed PLAResource unbinding. ERROR : %02d", error); }
+
+  this->PLAObject::Unbind();
 }
 
 PLAResource::PLAResource(const std::string &aName, const std::string &aPath) :

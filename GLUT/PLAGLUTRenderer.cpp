@@ -436,9 +436,10 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
         }
       }
 
-      if (translation.y) {
+      if (translation.x || translation.y) {
         GRA_PRINT("translation: %f, %f, %f\n",
                   translation.x, translation.y, translation.z);
+        GRA_TRACE("");
       }
 
       const PLAVec3 offset = PLAVec3(pxTable[x], pyTable[y], 0) + translation;

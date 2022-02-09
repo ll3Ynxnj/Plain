@@ -8,15 +8,52 @@
 
 static PLAString DBG_PLANode_Update_Indent = "";
 
-void PLANode::Bind(PLANode *aNode)
+PLANode *PLANode::Create(PLANode::Type aType)
 {
-  GRABinder<PLANode>::Error error(GRABinder<PLANode>::Error::None);
-  PLANode::Manager::Instance()->Bind(aNode, &error);
-  if (error != GRABinder<PLANode>::Error::None)
-  { PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                    "Failed PLANode binding. ERROR : %02d", error); }
+  PLANode *node = nullptr;
+  switch (aType) {
+    case PLANode::Type::Motion: node = new PLAMotion(); break;
+    case PLANode::Type::None: node = new PLANode(); break;
+  }
+  node->Bind();
+  return node;
 }
 
+PLANode *PLANode::Create(PLANode::Type aType, PLANode::Holder *aHolder)
+{
+  PLANode *node = nullptr;
+  node = Create(aType);
+  node->_holder = aHolder;
+  return node;
+}
+
+void PLANode::Bind()
+{
+  this->PLAObject::Bind();
+
+  GRABinder<PLANode>::Error error(GRABinder<PLANode>::Error::None);
+  PLANode::Manager::Instance()->Bind(this, &error);
+  if (error != GRABinder<PLANode>::Error::None)
+  {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed PLANode binding. ERROR : %02d", error);
+  }
+}
+
+void PLANode::Unbind()
+{
+  GRA_PRINT("Unbind\n");
+  GRABinder<PLANode>::Error error(GRABinder<PLANode>::Error::None);
+  PLANode::Manager::Instance()->Unbind(this, &error);
+  if (error != GRABinder<PLANode>::Error::None)
+  {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed PLANode unbinding. ERROR : %02d", error);
+  }
+
+  PLAApp::RemoveNode(this);
+  this->PLAObject::Unbind();
+}
 
 PLANode::PLANode():
 PLAObject(PLAObjectType::Node)
@@ -24,15 +61,24 @@ PLAObject(PLAObjectType::Node)
 
 }
 
-PLANode::PLANode(PLAInt aLength):
+PLANode::PLANode(PLANode::Type aType):
 PLAObject(PLAObjectType::Node),
+_type(aType)
+{
+
+}
+
+PLANode::PLANode(PLANode::Type aType, PLAInt aLength):
+PLAObject(PLAObjectType::Node),
+_type(aType),
 _length(aLength)
 {
 
 }
 
-PLANode::PLANode(PLAInt aLength, const std::string &aName):
+PLANode::PLANode(PLANode::Type aType, PLAInt aLength, const std::string &aName):
 PLAObject(PLAObjectType::Node, aName),
+_type(aType),
 _length(aLength)
 {
 
@@ -51,15 +97,20 @@ void PLANode::Update()
   for (PLANode *node: _subThreads) {
     node->Update();
   }
-  if (this->GetObjectName() == "ANHRStage::WalkPlayer::thread" ||
+  if (this->GetObjectName() == "ANHRStage::WalkPlayer::motion"/* ||
+      this->GetObjectName() == "ANHRStage::WalkPlayer::thread" ||
       this->GetObjectName() == "ANHRStage::WalkPlayer::tm0" ||
-      this->GetObjectName() == "ANHRStage::WalkPlayer::tm1") {
+      this->GetObjectName() == "ANHRStage::WalkPlayer::tm1"*/) {
     GRA_PRINT("this->GetObjectName(): %s", this->GetObjectName().c_str());
     GRA_TRACE("");
   }
   if (_current < _thread.size()) { _thread[_current]->Update(); }
 
-  if (_steps >= _length) { DBG_PLANode_Update_Indent.erase(0, 2); return; }
+  if (_steps >= _length)
+  {
+    DBG_PLANode_Update_Indent.erase(0, 2);
+    return;
+  }
   GRA_PRINT("%s| %s : Update(), _current: %2d, _steps: %3d\n",
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(), _current, _steps);
 
@@ -76,9 +127,7 @@ void PLANode::Update()
   //-- OnStop
   if (this->IsFinished())
   {
-    if (this->GetObjectName() == "ANHRStage::WalkPlayer::thread" ||
-        this->GetObjectName() == "ANHRStage::WalkPlayer::tm0" ||
-        this->GetObjectName() == "ANHRStage::WalkPlayer::tm1")
+    if (this->GetObjectName() == "ANHRStage::WalkPlayer::motion")
     {
       GRA_PRINT("this->GetObjectName(): %s", this->GetObjectName().c_str());
       GRA_TRACE("");
@@ -106,6 +155,9 @@ void PLANode::Update()
 
 void PLANode::Add(PLANode *aNode)
 {
+  if (aNode == this) {
+    GRA_TRACE("");
+  }
   aNode->_parent = this;
   _thread.push_back(aNode);
 }
@@ -114,6 +166,21 @@ void PLANode::AddThread(PLANode *aNode)
 {
   aNode->_parent = this;
   _subThreads.push_back(aNode);
+}
+
+void PLANode::Clear()
+{
+  GRA_PRINT("%s::Clear()\n", this->GetObjectName().c_str());
+  for (PLANode *node: _subThreads) {
+    node->Clear();
+  }
+  _subThreads.clear();
+  for (PLANode *node: _thread) {
+    PLAObject::Destroy(node);
+  }
+  _thread.clear();
+  GRA_PRINT("  _thread.size(): %s", _thread.size());
+  //PLAObject::Destroy(this);
 }
 
 void PLANode::OnStart()
@@ -151,7 +218,9 @@ void PLANode::OnFinishCurrent()
     if (_current == _thread.size())
     {
       this->OnFinishMain();
-      if (_parent) { _parent->OnFinishBranch(); };
+      if (_parent) { _parent->OnFinishBranch(); }
+      this->Clear();
+      if (_holder) { _holder->NodeDidFinish(); }
     }
   }
 }
@@ -187,6 +256,7 @@ bool PLANode::IsFinished() const
 
 const PLANode *PLANode::GetCurrentNode() const
 {
+  GRA_PRINT("_thread.size(): %d\n", _thread.size());
   if (!_thread.size()) { return nullptr; }
   if (_thread.size() == _current) { return _thread[_current - 1]; }//nullptr; }
   if (_thread.size() < _current || _current < 0)
@@ -252,6 +322,11 @@ const PLANode *PLANode::Manager::GetNode(const std::string &aName) const
 
 // PLANode::Holder /////////////////////////////////////////////////////////////
 
+PLANode::Holder::Holder()
+{
+
+}
+
 PLANode::Holder::Holder(PLANode *aNode):
 _node(aNode)
 {
@@ -260,17 +335,22 @@ _node(aNode)
 
 void PLANode::Holder::AddNode(PLANode *aNode)
 {
+  if (!_node) {
+    _node = PLANode::Create(aNode->GetNodeType(), this);
+    PLAApp::AddNode(_node);
+  }
+
   _node->Add(aNode);
 }
 
 void PLANode::Holder::AddNodes(const std::vector<PLANode *> &aNodes)
 {
   for (PLANode *node: aNodes) {
-    _node->Add(node);
+    this->AddNode(node);
   }
 }
 
-void PLANode::Holder::AddThread(PLANode *aNode)
+void PLANode::Holder::AddNodeThread(PLANode *aNode)
 {
   _node->AddThread(aNode);
 }
@@ -278,4 +358,10 @@ void PLANode::Holder::AddThread(PLANode *aNode)
 const PLANode *PLANode::Holder::GetNode() const
 {
   return _node;
+}
+
+void PLANode::Holder::NodeDidFinish()
+{
+  PLAObject::Destroy(_node);
+  _node = nullptr;
 }

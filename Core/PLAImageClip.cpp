@@ -10,7 +10,7 @@ PLAImageClip *PLAImageClip::Create(const std::string &aImageName,
 {
   const PLAImage *image = PLAImage::CreateRaw(aImageName);
   PLAImageClip *imageClip = new PLAImageClip(image, aClip);
-  PLAObject::Bind(imageClip);
+  imageClip->Bind();
   return imageClip;
 }
 

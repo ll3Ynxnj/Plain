@@ -29,7 +29,7 @@ private:
 
 public:
   static PLAResource *Create(const std::string &aName, const std::string &aPath);
-  static void Bind(PLAResource *aResource);
+  void Bind() override;
 
   PLAResource(const std::string &aName, const std::string &aPath);
   virtual ~PLAResource();
@@ -41,6 +41,9 @@ public:
   PLASize GetSize() const { return _size; };
 
   void PrintResource() const;
+
+protected:
+  void Unbind() override;
 
 // Manager /////////////////////////////////////////////////////////////////////
 public:

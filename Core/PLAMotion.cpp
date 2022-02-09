@@ -10,8 +10,7 @@
 PLAMotion *PLAMotion::Create()
 {
   PLAMotion *motion = new PLAMotion();
-  PLAObject::Bind(motion);
-  PLANode::Bind(motion);
+  motion->Bind();
   return motion;
 }
 
@@ -20,8 +19,7 @@ PLAMotion *PLAMotion::CreateColor(const PLAColor &aBegin, const PLAColor &aEnd,
 {
   PLAMotion *motion =
     new PLAMotion(PLAMotionType::Color, aBegin, aEnd, aDuration);
-  PLAObject::Bind(motion);
-  PLANode::Bind(motion);
+  motion->Bind();
   return motion;
 }
 
@@ -31,8 +29,7 @@ PLAMotion *PLAMotion::CreateTranslation(const PLAVec3 &aBegin,
 {
   PLAMotion *motion =
     new PLAMotion(PLAMotionType::Translation, aBegin, aEnd, aDuration);
-  PLAObject::Bind(motion);
-  PLANode::Bind(motion);
+  motion->Bind();
   return motion;
 }
 
@@ -41,8 +38,7 @@ PLAMotion *PLAMotion::CreateRotation(const PLAVec3 &aBegin, const PLAVec3 &aEnd,
 {
   PLAMotion *motion =
     new PLAMotion(PLAMotionType::Rotation, aBegin, aEnd, aDuration);
-  PLAObject::Bind(motion);
-  PLANode::Bind(motion);
+  motion->Bind();
   return motion;
 }
 
@@ -51,8 +47,7 @@ PLAMotion *PLAMotion::CreateScale(const PLAVec3 &aBegin, const PLAVec3 &aEnd,
 {
   PLAMotion *motion =
     new PLAMotion(PLAMotionType::Scale, aBegin, aEnd, aDuration);
-  PLAObject::Bind(motion);
-  PLANode::Bind(motion);
+  motion->Bind();
   return motion;
 }
 
@@ -81,14 +76,14 @@ const char *PLAMotion::GetNameOfType(PLAMotionType aType)
 }
 
 PLAMotion::PLAMotion():
-  PLANode()
+  PLANode(PLANode::Type::Motion)
 {
 
 }
 
 PLAMotion::PLAMotion(PLAMotionType aType, const PLAColor &aBegin,
                      const PLAColor &aEnd, PLATimeInterval aDuration):
-  PLANode(aDuration * PLAApp::kRefreshRate),
+  PLANode(PLANode::Type::Motion, aDuration * PLAApp::kRefreshRate),
   _type(aType),
   _begin(PLAProperty(aBegin)),
   _end(PLAProperty(aEnd)),
@@ -101,7 +96,7 @@ PLAMotion::PLAMotion(PLAMotionType aType, const PLAColor &aBegin,
 
 PLAMotion::PLAMotion(PLAMotionType aType, const PLAVec3 &aBegin,
                      const PLAVec3 &aEnd, PLATimeInterval aDuration):
-  PLANode(aDuration * PLAApp::kRefreshRate),
+  PLANode(PLANode::Type::Motion, aDuration * PLAApp::kRefreshRate),
   _type(aType),
   _begin(PLAProperty(aBegin)),
   _end(PLAProperty(aEnd)),
