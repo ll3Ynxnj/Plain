@@ -37,9 +37,9 @@ public:
   static PLAStage *Stage() { return _instance._stage; };
   static PLAScene *Scene();
 
-  static void AddNode(PLANode *aNode);
-  static void UpdateNode();
-  static void RemoveNode(const PLANode *aNode);
+  /*static */void AddNode(PLANode *aNode);
+  /*static */void UpdateNode();
+  /*static */void RemoveNode(const PLANode *aNode);
 
   //-- このStage関連のメソッド、Stage()から呼べばいいので不要なのでは？
   static void InitStage();

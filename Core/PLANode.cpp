@@ -51,7 +51,7 @@ void PLANode::Unbind()
                     "Failed PLANode unbinding. ERROR : %02d", error);
   }
 
-  PLAApp::RemoveNode(this);
+  PLAApp::Instance()->RemoveNode(this);
   this->PLAObject::Unbind();
 }
 
@@ -101,18 +101,20 @@ void PLANode::Update()
       this->GetObjectName() == "ANHRStage::WalkPlayer::thread" ||
       this->GetObjectName() == "ANHRStage::WalkPlayer::tm0" ||
       this->GetObjectName() == "ANHRStage::WalkPlayer::tm1"*/) {
-    GRA_PRINT("this->GetObjectName(): %s", this->GetObjectName().c_str());
-    GRA_TRACE("");
+    //GRA_PRINT("this->GetObjectName(): %s", this->GetObjectName().c_str());
+    //GRA_TRACE("");
   }
   if (_current < _thread.size()) { _thread[_current]->Update(); }
 
   if (_steps >= _length)
   {
+    GRA_PRINT("%s| %s : Update(), _current: %2d, _steps: %3d, _length: %3d\n",
+              DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(), _current, _steps, _length);
     DBG_PLANode_Update_Indent.erase(0, 2);
     return;
   }
-  GRA_PRINT("%s| %s : Update(), _current: %2d, _steps: %3d\n",
-            DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(), _current, _steps);
+  GRA_PRINT("%s| %s : Update(), _current: %2d, _steps: %3d, _length: %3d\n",
+            DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(), _current, _steps, _length);
 
   //-- OnStart
   if (_steps == 0) { this->OnStart(); }
@@ -330,16 +332,15 @@ PLANode::Holder::Holder()
 PLANode::Holder::Holder(PLANode *aNode):
 _node(aNode)
 {
-  PLAApp::AddNode(aNode);
+  PLAApp::Instance()->AddNode(aNode);
 }
 
 void PLANode::Holder::AddNode(PLANode *aNode)
 {
   if (!_node) {
     _node = PLANode::Create(aNode->GetNodeType(), this);
-    PLAApp::AddNode(_node);
+    PLAApp::Instance()->AddNode(_node);
   }
-
   _node->Add(aNode);
 }
 
