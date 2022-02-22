@@ -94,7 +94,7 @@ void PLANode::Update()
   DBG_PLANode_Update_Indent += "  ";
 
   //-- Update nodes.
-  for (PLANode *node: _subThreads) {
+  for (PLANode *node: _subNodes) {
     node->Update();
   }
   if (this->GetObjectName() == "ANHRStage::WalkPlayer::motion"/* ||
@@ -104,7 +104,7 @@ void PLANode::Update()
     //GRA_PRINT("this->GetObjectName(): %s", this->GetObjectName().c_str());
     //GRA_TRACE("");
   }
-  if (_current < _thread.size()) { _thread[_current]->Update(); }
+  if (_current < _queue.size()) { _queue[_current]->Update(); }
 
   if (_steps >= _length)
   {
@@ -155,33 +155,33 @@ void PLANode::Update()
   DBG_PLANode_Update_Indent.erase(0, 2);
 }
 
-void PLANode::Add(PLANode *aNode)
+void PLANode::AddQueue(PLANode *aNode)
 {
   if (aNode == this) {
     GRA_TRACE("");
   }
   aNode->_parent = this;
-  _thread.push_back(aNode);
+  _queue.push_back(aNode);
 }
 
-void PLANode::AddThread(PLANode *aNode)
+void PLANode::AddSubNode(PLANode *aNode)
 {
   aNode->_parent = this;
-  _subThreads.push_back(aNode);
+  _subNodes.push_back(aNode);
 }
 
 void PLANode::Clear()
 {
   GRA_PRINT("%s::Clear()\n", this->GetObjectName().c_str());
-  for (PLANode *node: _subThreads) {
+  for (PLANode *node: _subNodes) {
     node->Clear();
   }
-  _subThreads.clear();
-  for (PLANode *node: _thread) {
+  _subNodes.clear();
+  for (PLANode *node: _queue) {
     PLAObject::Destroy(node);
   }
-  _thread.clear();
-  GRA_PRINT("  _thread.size(): %s", _thread.size());
+  _queue.clear();
+  GRA_PRINT("  _queue.size(): %s", _queue.size());
   //PLAObject::Destroy(this);
 }
 
@@ -214,10 +214,10 @@ void PLANode::OnFinishCurrent()
   GRA_PRINT("%s| %s : OnFinishCurrent(), _current: %2d, _steps: %3d\n",
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
             _current, _steps);
-  if (_current < _thread.size())
+  if (_current < _queue.size())
   {
     ++_current;
-    if (_current == _thread.size())
+    if (_current == _queue.size())
     {
       this->OnFinishMain();
       if (_parent) { _parent->OnFinishBranch(); }
@@ -249,7 +249,7 @@ void PLANode::PrintNode() const
 bool PLANode::IsFinished() const
 {
   if (_steps < _length) { return false; }
-  for (const PLANode *thread: _subThreads)
+  for (const PLANode *thread: _subNodes)
   {
     if (thread->IsFinished()) { return false; }
   }
@@ -258,20 +258,20 @@ bool PLANode::IsFinished() const
 
 const PLANode *PLANode::GetCurrentNode() const
 {
-  GRA_PRINT("_thread.size(): %d\n", _thread.size());
-  if (!_thread.size()) { return nullptr; }
-  if (_thread.size() == _current) { return _thread[_current - 1]; }//nullptr; }
-  if (_thread.size() < _current || _current < 0)
+  GRA_PRINT("_queue.size(): %d\n", _queue.size());
+  if (!_queue.size()) { return nullptr; }
+  if (_queue.size() == _current) { return _queue[_current - 1]; }//nullptr; }
+  if (_queue.size() < _current || _current < 0)
   {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Current node value %d is invalid.", _current);
   }
-  return _thread[_current];
+  return _queue[_current];
 }
 
 const std::vector<PLANode *> &PLANode::GetBranch() const
 {
-  return _subThreads;
+  return _subNodes;
 };
 
 // PLANode::Manager ////////////////////////////////////////////////////////
@@ -341,7 +341,7 @@ void PLANode::Holder::AddNode(PLANode *aNode)
     _node = PLANode::Create(aNode->GetNodeType(), this);
     PLAApp::Instance()->AddNode(_node);
   }
-  _node->Add(aNode);
+  _node->AddQueue(aNode);
 }
 
 void PLANode::Holder::AddNodes(const std::vector<PLANode *> &aNodes)
@@ -353,7 +353,7 @@ void PLANode::Holder::AddNodes(const std::vector<PLANode *> &aNodes)
 
 void PLANode::Holder::AddNodeThread(PLANode *aNode)
 {
-  _node->AddThread(aNode);
+  _node->AddSubNode(aNode);
 }
 
 const PLANode *PLANode::Holder::GetNode() const

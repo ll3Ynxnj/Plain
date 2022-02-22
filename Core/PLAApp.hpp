@@ -19,7 +19,8 @@ class PLAApp final : public PLAObject
 {
   static PLAApp _instance;
 
-  std::map<std::string, PLANode *> _nodes = std::map<std::string, PLANode *>();
+  std::map<std::string, PLANode *> _subNodes = std::map<std::string, PLANode *>();
+  //PLANode _node = PLANode();
 
   PLAUInt _frame = 0;
 

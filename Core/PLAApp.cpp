@@ -12,18 +12,18 @@ PLAScene *PLAApp::Scene()
 
 void PLAApp::AddNode(PLANode *aNode)
 {
-  _instance._nodes[aNode->GetObjectName()] = aNode;
+  _instance._subNodes[aNode->GetObjectName()] = aNode;
 }
 
 void PLAApp::UpdateNode()
 {
-  for (const auto [name, node]: _instance._nodes)
-  { _instance._nodes[name]->Update(); }
+  for (const auto [name, node]: _instance._subNodes)
+  { _instance._subNodes[name]->Update(); }
 }
 
 void PLAApp::RemoveNode(const PLANode *aNode)
 {
-  _instance._nodes.erase(aNode->GetObjectName());
+  _instance._subNodes.erase(aNode->GetObjectName());
 }
 
 void PLAApp::InitStage()

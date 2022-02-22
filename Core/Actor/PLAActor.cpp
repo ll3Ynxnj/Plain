@@ -265,7 +265,7 @@ PLATransform PLAActor::GetTransform() const
 /*
 void PLAActor::AddMotion(PLAMotion *aMotion)
 {
-  _motion.Add(aMotion);
+  _motion.AddQueue(aMotion);
 }
  */
 

@@ -9,16 +9,16 @@ class PLANodeTest : public ::testing::Test
 protected:
   //PLANode *_rootNode = nullptr;
 
-  //std::vector<PLANode *>_nodes = std::vector<PLANode *>();
+  //std::vector<PLANode *>_subNodes = std::vector<PLANode *>();
 
   virtual void SetUp()
   {
     /*
     _rootNode = PLANode::Create(1);
-    _nodes.push_back(PLANode::Create(1));
-    _nodes.push_back(PLANode::Create(2));
-    _nodes.push_back(PLANode::Create(3));
-    _nodes.push_back(PLANode::Create(4));
+    _subNodes.push_back(PLANode::Create(1));
+    _subNodes.push_back(PLANode::Create(2));
+    _subNodes.push_back(PLANode::Create(3));
+    _subNodes.push_back(PLANode::Create(4));
     */
   }
 
@@ -26,7 +26,7 @@ protected:
   {
     /*
     PLAObject::Delete(_rootNode);
-    for (PLANode *node : _nodes)
+    for (PLANode *node : _subNodes)
     {
       PLAObject::Delete(node);
     }
@@ -71,14 +71,14 @@ TEST_F(PLANodeTest, Update_UpdateNodes_IncreaseProgress)
     GRA_PRINT("\n");
   }
 
-  //GRA_PRINT("--_nodes[0]\n");
-  //TestUpdateNodes(_nodes[0]);
-  //GRA_PRINT("--_nodes[1]\n");
-  //TestUpdateNodes(_nodes[1]);
-  //GRA_PRINT("--_nodes[2]\n");
-  //TestUpdateNodes(_nodes[2]);
-  //GRA_PRINT("--_nodes[3]\n");
-  //TestUpdateNodes(_nodes[3]);
+  //GRA_PRINT("--_subNodes[0]\n");
+  //TestUpdateNodes(_subNodes[0]);
+  //GRA_PRINT("--_subNodes[1]\n");
+  //TestUpdateNodes(_subNodes[1]);
+  //GRA_PRINT("--_subNodes[2]\n");
+  //TestUpdateNodes(_subNodes[2]);
+  //GRA_PRINT("--_subNodes[3]\n");
+  //TestUpdateNodes(_subNodes[3]);
 }
 */
 
@@ -103,21 +103,21 @@ TEST_F(PLANodeTest, Update_UpdateNodes_UpdatesPropagateToChildNodes)
   PLANode *node1 = PLANode::Create(10, "node1");
   PLANode *node2 = PLANode::Create(10, "node2");
 
-  node->Add(node0);
-  node->Add(node1);
-  node->Add(node2);
+  node->AddQueue(node0);
+  node->AddQueue(node1);
+  node->AddQueue(node2);
 
   PLANode *node0_0_0 = PLANode::Create(3, "node0_0_0");
   PLANode *node0_1_0 = PLANode::Create(3, "node0_1_0");
   PLANode *node0_2_0 = PLANode::Create(3, "node0_2_0");
 
-  node0->AddThread(node0_0_0);
-  node0->AddThread(node0_1_0);
-  node0->AddThread(node0_2_0);
+  node0->AddSubNode(node0_0_0);
+  node0->AddSubNode(node0_1_0);
+  node0->AddSubNode(node0_2_0);
 
   PLANode *node1_0_0 = PLANode::Create(3, "node1_0_0");
 
-  node1->AddThread(node1_0_0);
+  node1->AddSubNode(node1_0_0);
 
   for (int i = 0; i < kNodeLength; i++) {
     GRA_PRINT("-- %2d : Update() --\n", i);

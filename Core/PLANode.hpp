@@ -70,8 +70,8 @@ private:
   PLAInt _steps = 0;
   PLAInt _length = 0;
   PLANode *_parent = nullptr;
-  std::vector<PLANode *>_thread = std::vector<PLANode *>(0);
-  std::vector<PLANode *>_subThreads = std::vector<PLANode *>(0);
+  std::vector<PLANode *>_queue = std::vector<PLANode *>(0);
+  std::vector<PLANode *>_subNodes = std::vector<PLANode *>(0);
   PLAUInt _current = 0;
   Holder *_holder = nullptr;
 
@@ -89,8 +89,8 @@ public:
 
   void Update();
 
-  void Add(PLANode *aNode);
-  void AddThread(PLANode *aNode);
+  void AddQueue(PLANode *aNode);
+  void AddSubNode(PLANode *aNode);
 
   void Clear();
 

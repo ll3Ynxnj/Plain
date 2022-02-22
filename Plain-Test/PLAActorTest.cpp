@@ -58,7 +58,7 @@ TEST_F(PLAActorTest, UpdateMotion_UpdateMotions_RefreshProperties)
   /*
   PLAMotion motion = PLAMotion();
   motion.AddMain(&m0);
-  motion.Add(&m1);
+  motion.AddQueue(&m1);
   _rootActor->SetMotion(motion);
    */
   //*
