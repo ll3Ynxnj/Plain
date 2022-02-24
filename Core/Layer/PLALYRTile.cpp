@@ -68,7 +68,7 @@ void PLALYRTile::UpdateMotionProperties()
 
 void PLALYRTile::AddMotion(const PLAVec2s &aAddress, PLAMotion *aMotion)
 {
-  _nodeHolders[aAddress.y][aAddress.x]->AddNode(aMotion);
+  _nodeHolders[aAddress.y][aAddress.x]->AddSubNode(aMotion);
 };
 
 void PLALYRTile::AddMotions(const PLAVec2s &aAddress,
@@ -76,7 +76,7 @@ void PLALYRTile::AddMotions(const PLAVec2s &aAddress,
 {
   for (PLAMotion *motion: aMotions)
   {
-    _nodeHolders[aAddress.y][aAddress.x]->AddNode(motion);
+    _nodeHolders[aAddress.y][aAddress.x]->AddSubNode(motion);
   }
 };
 

@@ -42,7 +42,7 @@ void PLANode::Bind()
 
 void PLANode::Unbind()
 {
-  GRA_PRINT("Unbind\n");
+  GRA_PRINT("PLANode::Unbind : %s\n", this->GetObjectName().c_str());
   GRABinder<PLANode>::Error error(GRABinder<PLANode>::Error::None);
   PLANode::Manager::Instance()->Unbind(this, &error);
   if (error != GRABinder<PLANode>::Error::None)
@@ -91,6 +91,12 @@ PLANode::~PLANode()
 
 void PLANode::Update()
 {
+  if (this->GetObjectName() == "ANHRStage::WalkPlayer::t0")
+  {
+    GRA_PRINT("this->GetObjectName(): %s", this->GetObjectName().c_str());
+    GRA_TRACE("");
+  }
+
   DBG_PLANode_Update_Indent += "  ";
 
   //-- Update nodes.
@@ -106,6 +112,18 @@ void PLANode::Update()
   }
   if (_current < _queue.size()) { _queue[_current]->Update(); }
 
+  //-- Infinity
+  /*
+  if (_length == 0) {
+    GRA_PRINT("Infinity : %s : _current: %2d, _steps: %3d, _length: %3d\n",
+              this->GetObjectName().c_str(), _current, _steps, _length);
+    DBG_PLANode_Update_Indent.erase(0, 2);
+    this->OnUpdate();
+    return;
+  }
+   */
+
+  /*
   if (_steps >= _length)
   {
     GRA_PRINT("%s| %s : Update(), _current: %2d, _steps: %3d, _length: %3d\n",
@@ -113,6 +131,7 @@ void PLANode::Update()
     DBG_PLANode_Update_Indent.erase(0, 2);
     return;
   }
+   */
   GRA_PRINT("%s| %s : Update(), _current: %2d, _steps: %3d, _length: %3d\n",
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(), _current, _steps, _length);
 
@@ -122,20 +141,22 @@ void PLANode::Update()
   //-- OnUpdate
   if (_steps < _length)
   {
-    ++_steps;
+    if (!_infinity) { ++_steps; };
     this->OnUpdate();
   }
 
   //-- OnStop
   if (this->IsFinished())
   {
-    if (this->GetObjectName() == "ANHRStage::WalkPlayer::motion")
+    if (this->GetObjectName() == "ANHRStage::WalkPlayer::t0")
     {
       GRA_PRINT("this->GetObjectName(): %s", this->GetObjectName().c_str());
       GRA_TRACE("");
     }
     this->OnStop();
     if (_parent) {
+      GRA_PRINT("Object '%s' will call function OnFinishCurrent().",
+                this->GetObjectName().c_str());
       _parent->OnFinishCurrent();
     }
   }
@@ -219,40 +240,61 @@ void PLANode::OnFinishCurrent()
     ++_current;
     if (_current == _queue.size())
     {
-      this->OnFinishMain();
-      if (_parent) { _parent->OnFinishBranch(); }
+      this->OnFinishQueue();
+      if (_parent) { _parent->OnFinishSubNode(); }
       this->Clear();
       if (_holder) { _holder->NodeDidFinish(); }
     }
   }
 }
 
-void PLANode::OnFinishMain()
+void PLANode::OnFinishQueue()
 {
-  GRA_PRINT("%s| %s : OnFinishMain(), _current: %2d, _steps: %3d\n",
+  GRA_PRINT("%s| %s : OnFinishQueue(), _current: %2d, _steps: %3d\n",
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
             _current, _steps);
 }
 
-void PLANode::OnFinishBranch()
+void PLANode::OnFinishSubNode()
 {
-  GRA_PRINT("%s| %s : OnFinishBranch(), _current: %2d, _steps: %3d\n",
+  GRA_PRINT("%s| %s : OnFinishSubNode(), _current: %2d, _steps: %3d\n",
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
             _current, _steps);
 }
 
-void PLANode::PrintNode() const
+void PLANode::PrintNodes() const
 {
-  GRA_PRINT("PrintNode");//%12d | %65s\n", this->GetSize(), _path.c_str());
+  static int indentLevel = 0;
+  std::string indentSpace = "";
+  for (int i = 0; i < indentLevel; i++) {
+    indentSpace.append("  ");
+  }
+  GRA_PRINT(" %2d : %s%6d / %6d | %7d | %32s |\n", indentLevel, indentSpace.c_str(),
+            _steps, _length, _current, this->GetObjectName().c_str());
+  for (const PLANode *node: _queue) {
+    ++indentLevel;
+    node->PrintNodes();
+    --indentLevel;
+  }
+  for (const PLANode *subNode: _subNodes) {
+    ++indentLevel;
+    subNode->PrintNodes();
+    --indentLevel;
+  }
 }
 
 bool PLANode::IsFinished() const
 {
   if (_steps < _length) { return false; }
-  for (const PLANode *thread: _subNodes)
+  if (_current < _queue.size()) { return false; }
+  for (const PLANode *subNode: _subNodes)
   {
-    if (thread->IsFinished()) { return false; }
+    if (!subNode->IsFinished()) { return false; }
   }
+
+  if (this->GetCurrentNode())
+  { return this->GetCurrentNode()->IsFinished(); }
+
   return true;
 }
 
@@ -304,7 +346,7 @@ void PLANode::Manager::PrintNodes() const
   GRA_PRINT("-------------|--------------------------"
             "----------------------------------------\n");
   for (PLANode::Item *item : this->GetItems())
-  { static_cast<const PLANode *>(item)->PrintNode(); }
+  { static_cast<const PLANode *>(item)->PrintNodes(); }
   GRA_PRINT("////////////////////////////////////////"
             "////////////////////////////////////////\n");
 };
@@ -335,7 +377,7 @@ _node(aNode)
   PLAApp::Instance()->AddNode(aNode);
 }
 
-void PLANode::Holder::AddNode(PLANode *aNode)
+void PLANode::Holder::AddQueue(PLANode *aNode)
 {
   if (!_node) {
     _node = PLANode::Create(aNode->GetNodeType(), this);
@@ -344,16 +386,20 @@ void PLANode::Holder::AddNode(PLANode *aNode)
   _node->AddQueue(aNode);
 }
 
-void PLANode::Holder::AddNodes(const std::vector<PLANode *> &aNodes)
+void PLANode::Holder::AddQueues(const std::vector<PLANode *> &aQueues)
 {
-  for (PLANode *node: aNodes) {
-    this->AddNode(node);
+  for (PLANode *node: aQueues) {
+    this->AddQueue(node);
   }
 }
 
-void PLANode::Holder::AddNodeThread(PLANode *aNode)
+void PLANode::Holder::AddSubNode(PLANode *aSubNode)
 {
-  _node->AddSubNode(aNode);
+  if (!_node) {
+    _node = PLANode::Create(aSubNode->GetNodeType(), this);
+    PLAApp::Instance()->AddNode(_node);
+  }
+  _node->AddSubNode(aSubNode);
 }
 
 const PLANode *PLANode::Holder::GetNode() const

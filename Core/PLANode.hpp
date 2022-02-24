@@ -31,9 +31,9 @@ public:
     //Holder() = delete;
     Holder(PLANode *aNode);
 
-    void AddNode(PLANode *aNode);
-    void AddNodes(const std::vector<PLANode *> &aNodes);
-    void AddNodeThread(PLANode *aNode);
+    void AddQueue(PLANode *aNode);
+    void AddQueues(const std::vector<PLANode *> &aQueues);
+    void AddSubNode(PLANode *aSubNode);
 
     void ClearNode();
 
@@ -68,7 +68,8 @@ private:
     GRAFunctor<PLANode, FunctionCode>();
   Type _type = Type::None;
   PLAInt _steps = 0;
-  PLAInt _length = 0;
+  PLAInt _length = 1;
+  PLABool _infinity = false;
   PLANode *_parent = nullptr;
   std::vector<PLANode *>_queue = std::vector<PLANode *>(0);
   std::vector<PLANode *>_subNodes = std::vector<PLANode *>(0);
@@ -100,11 +101,13 @@ public:
   PLAFloat GetProgress() const
   { return static_cast<PLAFloat>(_steps) / static_cast<PLAFloat>(_length); };
 
+  void SetInfinity(PLABool aInfinity) { _infinity = aInfinity; }
+  void SetHolder(PLANode::Holder *aHolder) { _holder = aHolder; };
   void SetFunction(FunctionCode aKey,
                    const std::function<void(PLANode *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
 
-  void PrintNode() const;
+  void PrintNodes() const;
 
 protected:
   void Unbind() override;
@@ -117,8 +120,8 @@ private:
   void OnUpdate();
   void OnStop();
   void OnFinishCurrent();
-  void OnFinishMain();
-  void OnFinishBranch();
+  void OnFinishQueue();
+  void OnFinishSubNode();
 
   bool IsFinished() const;
 

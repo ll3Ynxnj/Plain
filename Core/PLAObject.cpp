@@ -33,6 +33,7 @@ void PLAObject::Bind()
 
 void PLAObject::Unbind()
 {
+  GRA_PRINT("PLAObject::Unbind : %s\n", this->GetObjectName().c_str());
   Binder::Error error(Binder::Error::None);
   PLAObject::Manager::Instance()->Unbind(this, &error);
   if (error != Binder::Error::None) {

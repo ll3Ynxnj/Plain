@@ -12,18 +12,29 @@ PLAScene *PLAApp::Scene()
 
 void PLAApp::AddNode(PLANode *aNode)
 {
-  _instance._subNodes[aNode->GetObjectName()] = aNode;
+  //_instance._subNodes[aNode->GetObjectName()] = aNode;
+  _node.AddSubNode(aNode);
 }
 
 void PLAApp::UpdateNode()
 {
-  for (const auto [name, node]: _instance._subNodes)
-  { _instance._subNodes[name]->Update(); }
+  //for (const auto [name, node]: _instance._subNodes)
+  //{ _instance._subNodes[name]->Update(); }
+  _node.Update();
+  this->PrintNodes();
+  ;
 }
 
 void PLAApp::RemoveNode(const PLANode *aNode)
 {
-  _instance._subNodes.erase(aNode->GetObjectName());
+  //_instance._subNodes.erase(aNode->GetObjectName());
+}
+
+void PLAApp::PrintNodes() const
+{
+  GRA_PRINT(" LV :  STEPS / LENGTH | CURRENT | NAME                             |\n");
+  _node.PrintNodes();
+  GRA_PRINT("----:-----------------|---------|----------------------------------|\n");
 }
 
 void PLAApp::InitStage()
@@ -81,6 +92,7 @@ PLAApp::~PLAApp()
 
 void PLAApp::Init(PLARenderer *aRenderer)
 {
+  _node.SetInfinity(true);
   _renderer = aRenderer;
   _renderer->Init();
   PLAError::Manager::Instance()->Init();
