@@ -111,19 +111,8 @@ PLAMotion::~PLAMotion()
 
 }
 
-// GetPropertiesのほうが名称として適切なのでは？
 void PLAMotion::GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) const
 {
-  //GRA_PRINT("GetProperty()\n");
-  const PLANode *currentNode = this->GetCurrentNode();
-  if (currentNode)
-  {
-    static_cast<const PLAMotion *>(currentNode)->GetProperty(aProperties);
-  }
-  for (const PLANode *branch : this->GetBranch())
-  {
-    static_cast<const PLAMotion *>(branch)->GetProperty(aProperties);
-  }
   if (_type == PLAMotionType::None) { return; }
   if (!aProperties->contains(_type))
   {

@@ -10,30 +10,32 @@ PLAScene *PLAApp::Scene()
   return PLAScene::Manager::Instance()->RefCurrentScene();
 }
 
-void PLAApp::AddNode(PLANode *aNode)
+void PLAApp::AddNodeThread(PLANodeThread *aThread)
 {
   //_instance._subNodes[aNode->GetObjectName()] = aNode;
-  _node.AddSubNode(aNode);
+  _nodeThread.AddThread(aThread);
 }
 
-void PLAApp::UpdateNode()
+void PLAApp::UpdateNodeThread()
 {
   //for (const auto [name, node]: _instance._subNodes)
   //{ _instance._subNodes[name]->Update(); }
-  _node.Update();
+  _nodeThread.Update();
   this->PrintNodes();
   ;
 }
 
+/*
 void PLAApp::RemoveNode(const PLANode *aNode)
 {
   //_instance._subNodes.erase(aNode->GetObjectName());
 }
+ */
 
 void PLAApp::PrintNodes() const
 {
   GRA_PRINT(" LV :  STEPS / LENGTH | CURRENT | NAME                             |\n");
-  _node.PrintNodes();
+  _nodeThread.PrintNodes();
   GRA_PRINT("----:-----------------|---------|----------------------------------|\n");
 }
 
@@ -92,7 +94,9 @@ PLAApp::~PLAApp()
 
 void PLAApp::Init(PLARenderer *aRenderer)
 {
-  _node.SetInfinity(true);
+  PLANode *node = PLANode::Create(PLANode::Type::None);
+  node->SetInfinity(true);
+  _nodeThread.AddNode(node);
   _renderer = aRenderer;
   _renderer->Init();
   PLAError::Manager::Instance()->Init();
@@ -120,7 +124,7 @@ void PLAApp::Update()
   // 削除を実行するとレンダリング時にエラー。つまり削除済みノードへの参照が残っている。
   PLAObject::Manager::Instance()->DeleteUnboundObjects();
   PLAInputManager::Instance()->Flush();
-  UpdateNode();
+  UpdateNodeThread();
   _stage->Update();
   ++_frame;
 }

@@ -5,7 +5,7 @@
 #ifndef ANHR_PLAMOTION_HPP
 #define ANHR_PLAMOTION_HPP
 
-#include "PLANode.hpp"
+#include "Core/Node/PLANode.hpp"
 #include "PLAMotionType.hpp"
 
 class PLAMotion final: public PLANode

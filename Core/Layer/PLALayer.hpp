@@ -4,7 +4,7 @@
 #include "PLAObject.hpp"
 #include "PLALayerType.hpp"
 #include "PLAImageClip.hpp"
-#include "PLAMotion.hpp"
+#include "Core/Node/PLAMotion.hpp"
 #include "Type/PLAVector.hpp"
 #include "Type/PLAPoint.hpp"
 #include "Type/PLALine.hpp"

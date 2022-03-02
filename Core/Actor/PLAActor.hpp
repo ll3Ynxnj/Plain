@@ -4,7 +4,7 @@
 #include <list>
 #include <functional>
 #include "PLAObject.hpp"
-#include "PLAMotion.hpp"
+#include "Core/Node/PLAMotion.hpp"
 #include "PLAScene.hpp"
 #include "Core/Input/PLAInput.hpp"
 #include "PLACollision.hpp"
@@ -17,11 +17,13 @@
 #include "Layer/PLALayer.hpp"
 #include "Layer/IPLALYRTileDataSource.hpp"
 #include "Grain/GRABinder.hpp"
+#include "Node/PLANodeHolder.hpp"
+#include "Node/PLAMotionThread.hpp"
 
 class PLARenderer;
 
 class PLAActor final :
-  public PLAObject, public PLAInputContext, public PLANode::Holder,
+  public PLAObject, public PLAInputContext, public PLANodeHolder,
   public GRAListener<PLAScene, PLAScene::FunctionCode>,
   public GRABinder<PLAActor>::Item
 {
@@ -113,7 +115,7 @@ public:
                               const GRAVec2<PLASize> &aChipSize,
                               const IPLALYRTileDataSource *aDataSource);
 
-  virtual ~PLAActor();
+  virtual ~PLAActor() override;
 
   void AddActor(PLAActor *aActor);
   void Input(const PLAInput *aInput);
@@ -198,8 +200,8 @@ public:
                    const std::function<void(PLAActor *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
 
-  void AddTileMotion(const PLAVec2s &aAddress, PLAMotion *aMotion);
-  void AddTileMotions(const PLAVec2s &aAddress, const std::vector<PLAMotion *> &aMotion);
+  void AddTileMotion(const PLAVec2s &aAddress, PLAMotionThread *aThread);
+  //void AddTileMotions(const PLAVec2s &aAddress, const std::vector<PLAMotion *> &aMotion);
   //void SetTileMotion(const PLAVec2s &aAddress, PLAMotion *aMotion);
 
 private:

@@ -146,7 +146,7 @@ PLAActor::PLAActor(const PLAVec3 &aPivot,
   this->RefreshLayerOffset();
 }
 
-PLAActor::~PLAActor()
+PLAActor::~PLAActor() noexcept
 {
   GRA_DELETE(_layer);
 }
@@ -415,16 +415,17 @@ void PLAActor::UpdateMotions()
 }
  */
 
-void PLAActor::AddTileMotion(const PLAVec2s &aAddress, PLAMotion *aMotion)
+void PLAActor::AddTileMotion(const PLAVec2s &aAddress, PLAMotionThread *aThread)
 {
   PLALYRTile *layer = this->RefLYRTile();
   if (!layer) {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "LayerType is not Tile.");
   }
-  layer->AddMotion(aAddress, aMotion);
+  layer->AddMotionThread(aAddress, aThread);
 }
 
+/*
 void PLAActor::AddTileMotions(const PLAVec2s &aAddress,
                               const std::vector<PLAMotion *> &aMotions)
 {
@@ -435,6 +436,7 @@ void PLAActor::AddTileMotions(const PLAVec2s &aAddress,
   }
   layer->AddMotions(aAddress, aMotions);
 }
+ */
 
 /*
 void PLAActor::SetTileMotion(const PLAVec2s &aAddress, PLAMotion *aMotion)

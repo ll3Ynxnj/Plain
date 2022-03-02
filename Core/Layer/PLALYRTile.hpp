@@ -3,6 +3,8 @@
 
 #include "PLALayer.hpp"
 #include "Type/PLATile.hpp"
+#include "Core/Node/PLANodeHolder.hpp"
+#include "Core/Node/PLAMotionThread.hpp"
 
 #include "IPLALYRTileDataSource.hpp"
 
@@ -12,15 +14,15 @@ class PLALYRTile : public PLALayer
   GRAVec2<PLASize> _tileSize = GRAVec2<PLASize>(0);
   GRAVec2<PLASize> _chipSize = GRAVec2<PLASize>(0);
   const IPLALYRTileDataSource *_dataSource = nullptr;
-  std::vector<std::vector<PLANode::Holder *>> _nodeHolders =
-    std::vector<std::vector<PLANode::Holder *>>(0);
+  std::vector<std::vector<PLANodeHolder *>> _nodeHolders =
+    std::vector<std::vector<PLANodeHolder *>>(0);
 
 protected:
   PLALYRTile(const PLAVec2 &aOffset, const PLAImage *aImage,
              const GRAVec2<PLASize> &aTileSize,
              const GRAVec2<PLASize> &aChipSize,
              const IPLALYRTileDataSource *aDataSource,
-             const std::vector<std::vector<PLANode::Holder *>> &aNodeHolders);
+             const std::vector<std::vector<PLANodeHolder *>> &aNodeHolders);
 
 public:
   static PLALYRTile *Create(const PLAVec2 &aOffset,
@@ -35,9 +37,9 @@ public:
 
   //void UpdateMotionProperties() override;
 
-  void AddMotion(const PLAVec2s &aAddress, PLAMotion *aMotion);
-  void AddMotions(const PLAVec2s &aAddress,
-                  const std::vector<PLAMotion *> &aMotions);
+  void AddMotionThread(const PLAVec2s &aAddress, PLAMotionThread *aThread);
+  //void AddMotions(const PLAVec2s &aAddress,
+  //                const std::vector<PLAMotion *> &aMotions);
   //void SetMotion(const PLAVec2s &aAddress, PLAMotion *aMotion);
 
   const PLAImage *GetImage() const { return _image; };
@@ -47,7 +49,7 @@ public:
   { return _dataSource->GetTileChip(aAddress); }
   //const PLAMotion *GetMotion(const PLAVec2s &aAddress) const
   //{ return _motions[aAddress.y][aAddress.x]; }
-  const PLAMotion *GetMotion(const PLAVec2s &aAddress) const;
+  const PLAMotionThread *GetMotionThread(const PLAVec2s &aAddress) const;
 
   PLASize GetNumberOfChips() const { return _tileSize.x * _tileSize.y; };
 

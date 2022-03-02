@@ -2,7 +2,7 @@
 // Created by Kentaro Kawai on 2021/08/15.
 //
 
-#include "PLANode.hpp"
+#include "Core/Node/PLANode.hpp"
 
 class PLANodeTest : public ::testing::Test
 {

@@ -15,32 +15,12 @@
 #include "Type/PLAType.hpp"
 #include "PLAObject.hpp"
 
+class PLANodeThread;
+
 class PLANode: public PLAObject, private GRABinder<PLANode>::Item
 {
   using Item = GRABinder<PLANode>::Item;
   using Error = GRABinder<PLANode>::Error;
-
-// PLANode::Holder /////////////////////////////////////////////////////////////
-public:
-  class Holder
-  {
-    PLANode *_node = nullptr;
-
-  public:
-    Holder();
-    //Holder() = delete;
-    Holder(PLANode *aNode);
-
-    void AddQueue(PLANode *aNode);
-    void AddQueues(const std::vector<PLANode *> &aQueues);
-    void AddSubNode(PLANode *aSubNode);
-
-    void ClearNode();
-
-    const PLANode *GetNode() const;
-
-    virtual void NodeDidFinish();
-  };
 
 // PLANode /////////////////////////////////////////////////////////////////////
 public:
@@ -70,15 +50,11 @@ private:
   PLAInt _steps = 0;
   PLAInt _length = 1;
   PLABool _infinity = false;
-  PLANode *_parent = nullptr;
-  std::vector<PLANode *>_queue = std::vector<PLANode *>(0);
-  std::vector<PLANode *>_subNodes = std::vector<PLANode *>(0);
-  PLAUInt _current = 0;
-  Holder *_holder = nullptr;
+  PLANodeThread *_thread = nullptr;
 
 public:
   static PLANode *Create(PLANode::Type aType);
-  static PLANode *Create(PLANode::Type aType, Holder *aHolder);
+  //static PLANode *Create(PLANode::Type aType, Holder *aHolder);
 
   void Bind() override;
 
@@ -90,42 +66,29 @@ public:
 
   void Update();
 
-  void AddQueue(PLANode *aNode);
-  void AddSubNode(PLANode *aNode);
-
-  void Clear();
-
+  PLABool IsFinished() const;
   Type GetNodeType() const { return _type; };
   PLAInt GetSteps() const { return _steps; };
   PLAInt GetLength() const { return _length; };
   PLAFloat GetProgress() const
   { return static_cast<PLAFloat>(_steps) / static_cast<PLAFloat>(_length); };
 
+  void SetThread(PLANodeThread *aThread) { _thread = aThread; }
   void SetInfinity(PLABool aInfinity) { _infinity = aInfinity; }
-  void SetHolder(PLANode::Holder *aHolder) { _holder = aHolder; };
   void SetFunction(FunctionCode aKey,
                    const std::function<void(PLANode *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
 
-  void PrintNodes() const;
-
 protected:
   void Unbind() override;
-
-  virtual const PLANode *GetCurrentNode() const;
-  const std::vector<PLANode *> &GetBranch() const;
 
 private:
   void OnStart();
   void OnUpdate();
   void OnStop();
-  void OnFinishCurrent();
-  void OnFinishQueue();
-  void OnFinishSubNode();
-
-  bool IsFinished() const;
 
 // Manager /////////////////////////////////////////////////////////////////////
+  /*
 public:
   class Manager: public GRABinder<PLANode>
   {
@@ -141,6 +104,7 @@ public:
     const PLANode *GetNode(const std::string &aName) const;
     void PrintNodes() const;
   };
+  */
 };
 
 #endif //ANHR_PLANODE_HPP

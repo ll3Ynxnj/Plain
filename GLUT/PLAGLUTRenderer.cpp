@@ -413,15 +413,15 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       const PLATileChip &chip = aLayer->GetChip(address);
       if (chip.code == kPLATileChipCodeNone) { continue; }
 
-      const PLAMotion *motion = aLayer->GetMotion(address);
+      const PLAMotionThread *motionThread = aLayer->GetMotionThread(address);
       PLAVec3 translation = kPLAVec3None;
       PLAVec3 rotation = kPLAVec3None;
       PLAVec3 scale = kPLAVec3Norm;
-      if (motion)
+      if (motionThread)
       {
         std::map<PLAMotionType, PLAProperty> properties =
           std::map<PLAMotionType, PLAProperty>();
-        motion->GetProperty(&properties);
+        motionThread->GetProperty(&properties);
         if (properties.contains(PLAMotionType::Translation))
         {
           translation = properties.at(PLAMotionType::Translation).GetVec3();

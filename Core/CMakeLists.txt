@@ -4,9 +4,6 @@ add_library(Plain-Core STATIC
   PLAObject.cpp
   PLAProperty.cpp
   PLAApp.cpp
-  PLANode.cpp
-  PLAMotion.cpp
-  Input/PLAInput.cpp
   PLAError.cpp
   PLAScene.cpp
   PLAStage.cpp
@@ -14,6 +11,12 @@ add_library(Plain-Core STATIC
   PLARenderer.cpp
   PLAResource.cpp
   PLAImageClip.cpp
+  Input/PLAInput.cpp
+  Node/PLANode.cpp
+  Node/PLANodeThread.cpp
+  Node/PLANodeHolder.cpp
+  Node/PLAMotion.cpp
+  Node/PLAMotionThread.cpp
   Actor/PLAActor.cpp
   Layer/PLALayer.cpp
   Layer/PLALYRPoint.cpp
