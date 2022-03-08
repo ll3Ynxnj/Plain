@@ -3,8 +3,8 @@
 
 #include "PLALayer.hpp"
 #include "Type/PLATile.hpp"
-#include "Core/Node/PLANodeHolder.hpp"
-#include "Core/Node/PLAMotionThread.hpp"
+#include "Timeline/PLATimeline.hpp"
+#include "Timeline/PLAMotionThread.hpp"
 
 #include "IPLALYRTileDataSource.hpp"
 
@@ -14,15 +14,15 @@ class PLALYRTile : public PLALayer
   GRAVec2<PLASize> _tileSize = GRAVec2<PLASize>(0);
   GRAVec2<PLASize> _chipSize = GRAVec2<PLASize>(0);
   const IPLALYRTileDataSource *_dataSource = nullptr;
-  std::vector<std::vector<PLANodeHolder *>> _nodeHolders =
-    std::vector<std::vector<PLANodeHolder *>>(0);
+  std::vector<std::vector<PLATimeline *>> _nodeHolders =
+    std::vector<std::vector<PLATimeline *>>(0);
 
 protected:
   PLALYRTile(const PLAVec2 &aOffset, const PLAImage *aImage,
              const GRAVec2<PLASize> &aTileSize,
              const GRAVec2<PLASize> &aChipSize,
              const IPLALYRTileDataSource *aDataSource,
-             const std::vector<std::vector<PLANodeHolder *>> &aNodeHolders);
+             const std::vector<std::vector<PLATimeline *>> &aNodeHolders);
 
 public:
   static PLALYRTile *Create(const PLAVec2 &aOffset,
@@ -39,15 +39,15 @@ public:
 
   void AddMotionThread(const PLAVec2s &aAddress, PLAMotionThread *aThread);
   //void AddMotions(const PLAVec2s &aAddress,
-  //                const std::vector<PLAMotion *> &aMotions);
-  //void SetMotion(const PLAVec2s &aAddress, PLAMotion *aMotion);
+  //                const std::vector<PLAMotionNode *> &aMotions);
+  //void SetMotion(const PLAVec2s &aAddress, PLAMotionNode *aMotion);
 
   const PLAImage *GetImage() const { return _image; };
   const PLAVec2s &GetTileSize() const { return _tileSize; };
   const PLAVec2s &GetChipSize() const { return _chipSize; };
   const PLATileChip &GetChip(const PLAVec2s &aAddress) const
   { return _dataSource->GetTileChip(aAddress); }
-  //const PLAMotion *GetMotion(const PLAVec2s &aAddress) const
+  //const PLAMotionNode *GetMotion(const PLAVec2s &aAddress) const
   //{ return _motions[aAddress.y][aAddress.x]; }
   const PLAMotionThread *GetMotionThread(const PLAVec2s &aAddress) const;
 

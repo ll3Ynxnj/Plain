@@ -9,11 +9,11 @@ PLALYRTile *PLALYRTile::Create(const PLAVec2 &aOffset,
 {
   PLAImage *image = PLAImage::CreateRaw(aImageName);
 
-  std::vector<std::vector<PLANodeHolder *>> motionHolders(0);
+  std::vector<std::vector<PLATimeline *>> motionHolders(0);
   for (PLASize y = 0; y < aTileSize.y; y++) {
-    std::vector<PLANodeHolder *> holders(0);
+    std::vector<PLATimeline *> holders(0);
     for (PLASize x = 0; x < aTileSize.x; x++) {
-      holders.push_back(new PLANodeHolder());//PLAMotion::Create()));
+      holders.push_back(new PLATimeline());//PLAMotionNode::Create()));
     }
     motionHolders.push_back(holders);
   }
@@ -27,7 +27,7 @@ PLALYRTile::PLALYRTile(const PLAVec2 &aOffset, const PLAImage *aImage,
                        const GRAVec2<PLASize> &aTileSize,
                        const GRAVec2<PLASize> &aChipSize,
                        const IPLALYRTileDataSource *aDataSource,
-                       const std::vector<std::vector<PLANodeHolder *>> &aNodeHolders) :
+                       const std::vector<std::vector<PLATimeline *>> &aNodeHolders) :
 PLALayer(PLALayerType::Tile, PLAVec3(aOffset.x, aOffset.y, 0)),
   _image(aImage), _tileSize(aTileSize),
   _chipSize(aChipSize), _dataSource(aDataSource),
@@ -69,14 +69,14 @@ void PLALYRTile::UpdateMotionProperties()
 void PLALYRTile::AddMotionThread(const PLAVec2s &aAddress,
                                  PLAMotionThread *aThread)
 {
-  _nodeHolders[aAddress.y][aAddress.x]->PLANodeHolder::AddThread(aThread);
+  _nodeHolders[aAddress.y][aAddress.x]->PLATimeline::AddThread(aThread);
 };
 
 /*
 void PLALYRTile::AddMotions(const PLAVec2s &aAddress,
-                            const std::vector<PLAMotion *> &aMotions)
+                            const std::vector<PLAMotionNode *> &aMotions)
 {
-  for (PLAMotion *motion: aMotions)
+  for (PLAMotionNode *motion: aMotions)
   {
     _nodeHolders[aAddress.y][aAddress.x]->AddSubNode(motion);
   }
@@ -84,7 +84,7 @@ void PLALYRTile::AddMotions(const PLAVec2s &aAddress,
  */
 
 /*
-void PLALYRTile::SetMotion(const PLAVec2s &aAddress, PLAMotion *aMotion)
+void PLALYRTile::SetMotion(const PLAVec2s &aAddress, PLAMotionNode *aMotion)
 {
   _motionHolders[aAddress.y][aAddress.x].SetMotion(aMotion);
 };
@@ -99,11 +99,11 @@ const PLAMotionThread *PLALYRTile::GetMotionThread(const PLAVec2s &aAddress) con
   {
     const std::map<PLASize, PLAMotionHolder> mtnY = _motionHolders.at(aAddress.y);
     if (mtnY.contains(aAddress.x)) { return mtnY.at(aAddress.x).GetMotion(); }
-    else { return PLAMotion::kNone; }
+    else { return PLAMotionNode::kNone; }
   }
   else
   {
-    return PLAMotion::kNone;
+    return PLAMotionNode::kNone;
   }
    */
 };

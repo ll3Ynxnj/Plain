@@ -10,7 +10,7 @@
 #include "PLAState.hpp"
 #include "PLAScene.hpp"
 #include "PLAStage.hpp"
-#include "Core/Node/PLANodeThread.hpp"
+#include "Timeline/PLATimelineThread.hpp"
 #include "Actor/PLAActor.hpp"
 
 class PLARenderer;
@@ -19,8 +19,8 @@ class PLAApp final : public PLAObject
 {
   static PLAApp _instance;
 
-  //std::map<std::string, PLANode *> _subNodes = std::map<std::string, PLANode *>();
-  PLANodeThread _nodeThread = PLANodeThread(nullptr); /// Infinity node
+  //std::map<std::string, PLATimelineNode *> _subNodes = std::map<std::string, PLATimelineNode *>();
+  PLATimelineThread _nodeThread = PLATimelineThread(nullptr); /// Infinity node
 
   PLAUInt _frame = 0;
 
@@ -38,9 +38,9 @@ public:
   static PLAStage *Stage() { return _instance._stage; };
   static PLAScene *Scene();
 
-  /*static */void AddNodeThread(PLANodeThread *aThread);
+  /*static */void AddNodeThread(PLATimelineThread *aThread);
   /*static */void UpdateNodeThread();
-  //*static */void RemoveNode(const PLANode *aNode);
+  //*static */void RemoveNode(const PLATimelineNode *aNode);
 
   void PrintNodes() const;
 

@@ -5,10 +5,10 @@
 #ifndef ANHR_PLAMOTIONTHREAD_HPP
 #define ANHR_PLAMOTIONTHREAD_HPP
 
-#include "PLANodeThread.hpp"
-#include "PLAMotion.hpp"
+#include "PLATimelineThread.hpp"
+#include "PLAMotionNode.hpp"
 
-class PLAMotionThread: public PLANodeThread
+class PLAMotionThread: public PLATimelineThread
 {
 public:
   static PLAMotionThread *Create();

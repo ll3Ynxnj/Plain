@@ -10,7 +10,7 @@ PLAScene *PLAApp::Scene()
   return PLAScene::Manager::Instance()->RefCurrentScene();
 }
 
-void PLAApp::AddNodeThread(PLANodeThread *aThread)
+void PLAApp::AddNodeThread(PLATimelineThread *aThread)
 {
   //_instance._subNodes[aNode->GetObjectName()] = aNode;
   _nodeThread.AddThread(aThread);
@@ -26,7 +26,7 @@ void PLAApp::UpdateNodeThread()
 }
 
 /*
-void PLAApp::RemoveNode(const PLANode *aNode)
+void PLAApp::RemoveNode(const PLATimelineNode *aNode)
 {
   //_instance._subNodes.erase(aNode->GetObjectName());
 }
@@ -94,7 +94,7 @@ PLAApp::~PLAApp()
 
 void PLAApp::Init(PLARenderer *aRenderer)
 {
-  PLANode *node = PLANode::Create(PLANode::Type::None);
+  PLATimelineNode *node = PLATimelineNode::Create(PLATimelineNode::Type::None);
   node->SetInfinity(true);
   _nodeThread.AddNode(node);
   _renderer = aRenderer;

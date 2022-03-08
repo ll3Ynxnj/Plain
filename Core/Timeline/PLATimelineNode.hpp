@@ -1,5 +1,5 @@
 /**
- * @class PLANode
+ * @class PLATimelineNode
  * @brief
  * \~english Represents a process that is executed in chronological order.
  * \~japanese 時系列で実行される処理を表現します。
@@ -7,22 +7,22 @@
  * @date 2021/08/13
  */
 
-#ifndef ANHR_PLANODE_HPP
-#define ANHR_PLANODE_HPP
+#ifndef ANHR_PLATIMELINENODE_HPP
+#define ANHR_PLATIMELINENODE_HPP
 
 #include <vector>
 #include "Grain/GRAFunctor.hpp"
 #include "Type/PLAType.hpp"
 #include "PLAObject.hpp"
 
-class PLANodeThread;
+class PLATimelineThread;
 
-class PLANode: public PLAObject, private GRABinder<PLANode>::Item
+class PLATimelineNode: public PLAObject, private GRABinder<PLATimelineNode>::Item
 {
-  using Item = GRABinder<PLANode>::Item;
-  using Error = GRABinder<PLANode>::Error;
+  using Item = GRABinder<PLATimelineNode>::Item;
+  using Error = GRABinder<PLATimelineNode>::Error;
 
-// PLANode /////////////////////////////////////////////////////////////////////
+// PLATimelineNode /////////////////////////////////////////////////////////////////////
 public:
   /// \~english Function to be executed at a specific point in time.
   /// \~japanese 特定の時点で実行される関数
@@ -44,25 +44,25 @@ public:
   };
 
 private:
-  GRAFunctor<PLANode, FunctionCode> _functor =
-    GRAFunctor<PLANode, FunctionCode>();
+  GRAFunctor<PLATimelineNode, FunctionCode> _functor =
+    GRAFunctor<PLATimelineNode, FunctionCode>();
   Type _type = Type::None;
   PLAInt _steps = 0;
   PLAInt _length = 1;
   PLABool _infinity = false;
-  PLANodeThread *_thread = nullptr;
+  PLATimelineThread *_thread = nullptr;
 
 public:
-  static PLANode *Create(PLANode::Type aType);
-  //static PLANode *Create(PLANode::Type aType, Holder *aHolder);
+  static PLATimelineNode *Create(PLATimelineNode::Type aType);
+  //static PLATimelineNode *Create(PLATimelineNode::Type aType, Holder *aHolder);
 
   void Bind() override;
 
-  PLANode();
-  PLANode(PLANode::Type aType);
-  PLANode(PLANode::Type aType, PLAInt aLength);
-  PLANode(PLANode::Type aType, PLAInt aLength, const PLAString &aName);
-  ~PLANode() override;
+  PLATimelineNode();
+  PLATimelineNode(PLATimelineNode::Type aType);
+  PLATimelineNode(PLATimelineNode::Type aType, PLAInt aLength);
+  PLATimelineNode(PLATimelineNode::Type aType, PLAInt aLength, const PLAString &aName);
+  ~PLATimelineNode() override;
 
   void Update();
 
@@ -73,10 +73,10 @@ public:
   PLAFloat GetProgress() const
   { return static_cast<PLAFloat>(_steps) / static_cast<PLAFloat>(_length); };
 
-  void SetThread(PLANodeThread *aThread) { _thread = aThread; }
+  void SetThread(PLATimelineThread *aThread) { _thread = aThread; }
   void SetInfinity(PLABool aInfinity) { _infinity = aInfinity; }
   void SetFunction(FunctionCode aKey,
-                   const std::function<void(PLANode *)> &aFunc)
+                   const std::function<void(PLATimelineNode *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
 
 protected:
@@ -90,21 +90,21 @@ private:
 // Manager /////////////////////////////////////////////////////////////////////
   /*
 public:
-  class Manager: public GRABinder<PLANode>
+  class Manager: public GRABinder<PLATimelineNode>
   {
     static Manager _instance;
 
   public:
     static Manager *Instance() { return &_instance; };
-    static PLANode *Node(const std::string &aKey);
+    static PLATimelineNode *Timeline(const std::string &aKey);
 
     Manager();
     ~Manager();
 
-    const PLANode *GetNode(const std::string &aName) const;
+    const PLATimelineNode *GetNode(const std::string &aName) const;
     void PrintNodes() const;
   };
   */
 };
 
-#endif //ANHR_PLANODE_HPP
+#endif //ANHR_PLATIMELINENODE_HPP

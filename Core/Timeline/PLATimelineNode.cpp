@@ -2,77 +2,77 @@
 // Created by Kentaro Kawai on 2021/08/13.
 //
 
-#include "PLANode.hpp"
+#include "PLATimelineNode.hpp"
 #include "PLAApp.hpp"
 #include "PLAError.hpp"
 
-// PLANode /////////////////////////////////////////////////////////////////////
+// PLATimelineNode /////////////////////////////////////////////////////////////
 
-PLANode *PLANode::Create(PLANode::Type aType)
+PLATimelineNode *PLATimelineNode::Create(PLATimelineNode::Type aType)
 {
-  PLANode *node = nullptr;
+  PLATimelineNode *node = nullptr;
   switch (aType) {
-    case PLANode::Type::Motion: node = new PLAMotion(); break;
-    case PLANode::Type::None: node = new PLANode(); break;
+    case PLATimelineNode::Type::Motion: node = new PLAMotionNode(); break;
+    case PLATimelineNode::Type::None: node = new PLATimelineNode(); break;
   }
   node->Bind();
   return node;
 }
 
 /*
-PLANode *PLANode::Create(PLANode::Type aType, PLANode::Holder *aHolder)
+PLATimelineNode *PLATimelineNode::Create(PLATimelineNode::Type aType, PLATimelineNode::Holder *aHolder)
 {
-  PLANode *node = nullptr;
+  PLATimelineNode *node = nullptr;
   node = Create(aType);
   node->_holder = aHolder;
   return node;
 }
  */
 
-void PLANode::Bind()
+void PLATimelineNode::Bind()
 {
   this->PLAObject::Bind();
 
-  GRABinder<PLANode>::Error error(GRABinder<PLANode>::Error::None);
+  GRABinder<PLATimelineNode>::Error error(GRABinder<PLATimelineNode>::Error::None);
   /*
-  PLANode::Manager::Instance()->Bind(this, &error);
-  if (error != GRABinder<PLANode>::Error::None)
+  PLATimelineNode::Manager::Instance()->Bind(this, &error);
+  if (error != GRABinder<PLATimelineNode>::Error::None)
   {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                    "Failed PLANode binding. ERROR : %02d", error);
+                    "Failed PLATimelineNode binding. ERROR : %02d", error);
   }
    */
 }
 
-void PLANode::Unbind()
+void PLATimelineNode::Unbind()
 {
-  GRA_PRINT("PLANode::Unbind : %s\n", this->GetObjectName().c_str());
-  GRABinder<PLANode>::Error error(GRABinder<PLANode>::Error::None);
-  //PLANode::Manager::Instance()->Unbind(this, &error);
-  if (error != GRABinder<PLANode>::Error::None)
+  GRA_PRINT("PLATimelineNode::Unbind : %s\n", this->GetObjectName().c_str());
+  GRABinder<PLATimelineNode>::Error error(GRABinder<PLATimelineNode>::Error::None);
+  //PLATimelineNode::Manager::Instance()->Unbind(this, &error);
+  if (error != GRABinder<PLATimelineNode>::Error::None)
   {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                    "Failed PLANode unbinding. ERROR : %02d", error);
+                    "Failed PLATimelineNode unbinding. ERROR : %02d", error);
   }
 
   //PLAApp::Instance()->RemoveNode(this);
   this->PLAObject::Unbind();
 }
 
-PLANode::PLANode():
+PLATimelineNode::PLATimelineNode():
 PLAObject(PLAObjectType::Node)
 {
 
 }
 
-PLANode::PLANode(PLANode::Type aType):
+PLATimelineNode::PLATimelineNode(PLATimelineNode::Type aType):
 PLAObject(PLAObjectType::Node),
 _type(aType)
 {
 
 }
 
-PLANode::PLANode(PLANode::Type aType, PLAInt aLength):
+PLATimelineNode::PLATimelineNode(PLATimelineNode::Type aType, PLAInt aLength):
 PLAObject(PLAObjectType::Node),
 _type(aType),
 _length(aLength)
@@ -80,7 +80,7 @@ _length(aLength)
 
 }
 
-PLANode::PLANode(PLANode::Type aType, PLAInt aLength, const std::string &aName):
+PLATimelineNode::PLATimelineNode(PLATimelineNode::Type aType, PLAInt aLength, const std::string &aName):
 PLAObject(PLAObjectType::Node, aName),
 _type(aType),
 _length(aLength)
@@ -88,12 +88,12 @@ _length(aLength)
 
 }
 
-PLANode::~PLANode()
+PLATimelineNode::~PLATimelineNode()
 {
 
 }
 
-void PLANode::Update()
+void PLATimelineNode::Update()
 {
   //-- OnStart
   if (_steps == 0) { this->OnStart(); }
@@ -129,7 +129,7 @@ void PLANode::Update()
   //if ((_length - aStep * 0.5) < _steps) { _steps = _length; }
 }
 
-void PLANode::OnStart()
+void PLATimelineNode::OnStart()
 {
   GRA_PRINT("%s| %s : OnStart(), _steps: %3d\n",
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
@@ -137,7 +137,7 @@ void PLANode::OnStart()
   _functor.RunFunction(FunctionCode::OnStart, this);
 }
 
-void PLANode::OnUpdate()
+void PLATimelineNode::OnUpdate()
 {
   GRA_PRINT("%s| %s : OnUpdate(), _steps: %3d\n",
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
@@ -145,7 +145,7 @@ void PLANode::OnUpdate()
   _functor.RunFunction(FunctionCode::OnUpdate, this);
 }
 
-void PLANode::OnStop()
+void PLATimelineNode::OnStop()
 {
   GRA_PRINT("%s| %s : OnStop(), _steps: %3d\n",
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
@@ -154,52 +154,52 @@ void PLANode::OnStop()
 }
 
 
-bool PLANode::IsFinished() const
+bool PLATimelineNode::IsFinished() const
 {
   return _length <= _steps;
 }
 
-// PLANode::Manager ////////////////////////////////////////////////////////
+// PLATimelineNode::Manager ////////////////////////////////////////////////////////
 /*
-PLANode::Manager PLANode::Manager::_instance = PLANode::Manager();
+PLATimelineNode::Manager PLATimelineNode::Manager::_instance = PLATimelineNode::Manager();
 
-PLANode::Manager::Manager() :
-GRABinder<PLANode>()
+PLATimelineNode::Manager::Manager() :
+GRABinder<PLATimelineNode>()
 {
 
 }
 
-PLANode::Manager::~Manager()
+PLATimelineNode::Manager::~Manager()
 {
 
 }
 
-PLANode *PLANode::Manager::Node(const std::string &aKey)
+PLATimelineNode *PLATimelineNode::Manager::Timeline(const std::string &aKey)
 {
-  GRABinder<PLANode>::Error error(GRABinder<PLANode>::Error::None);
-  return static_cast<PLANode *>(_instance.RefItem(aKey, &error));
+  GRABinder<PLATimelineNode>::Error error(GRABinder<PLATimelineNode>::Error::None);
+  return static_cast<PLATimelineNode *>(_instance.RefItem(aKey, &error));
 }
 
-void PLANode::Manager::PrintNodes() const
+void PLATimelineNode::Manager::PrintNodes() const
 {
-  GRA_PRINT("//-- PLANode::Manager::PrintNode"
+  GRA_PRINT("//-- PLATimelineNode::Manager::PrintNode"
             "s --////////////////////////////////////\n");
   GRA_PRINT("        SIZE |                          "
             "                                    PATH\n");
   GRA_PRINT("-------------|--------------------------"
             "----------------------------------------\n");
-  for (PLANode::Item *item : this->GetItems())
-  { static_cast<const PLANode *>(item)->PrintNodes(); }
+  for (PLATimelineNode::Item *item : this->GetItems())
+  { static_cast<const PLATimelineNode *>(item)->PrintNodes(); }
   GRA_PRINT("////////////////////////////////////////"
             "////////////////////////////////////////\n");
 };
 
-const PLANode *PLANode::Manager::GetNode(const std::string &aName) const
+const PLATimelineNode *PLATimelineNode::Manager::GetNode(const std::string &aName) const
 {
-  PLANode::Error error = PLANode::Error::None;
-  const PLANode *resource =
-    static_cast<const PLANode *>(this->GetItem(aName, &error));
-  if (error != PLANode::Error::None)
+  PLATimelineNode::Error error = PLATimelineNode::Error::None;
+  const PLATimelineNode *resource =
+    static_cast<const PLATimelineNode *>(this->GetItem(aName, &error));
+  if (error != PLATimelineNode::Error::None)
   {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Failed to get resource. ERROR : %02d", error);

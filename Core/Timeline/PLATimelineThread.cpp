@@ -2,35 +2,35 @@
 // Created by Kentaro Kawai on 2022/02/25.
 //
 
-#include "PLANode.hpp"
-#include "PLANodeThread.hpp"
-#include "PLANodeHolder.hpp"
+#include "PLATimelineNode.hpp"
+#include "PLATimelineThread.hpp"
+#include "PLATimeline.hpp"
 #include "PLAError.hpp"
 
-PLANodeThread *PLANodeThread::Create(PLANodeThread *aParent) {
-  PLANodeThread *thread = new PLANodeThread(aParent);
+PLATimelineThread *PLATimelineThread::Create(PLATimelineThread *aParent) {
+  PLATimelineThread *thread = new PLATimelineThread(aParent);
   thread->Bind();
   return thread;
 }
 
-PLANodeThread::PLANodeThread(PLANodeThread *aParent):
+PLATimelineThread::PLATimelineThread(PLATimelineThread *aParent):
   PLAObject(PLAObjectType::NodeThread),
   _parent(aParent)
 {
 
 }
 
-PLANodeThread::~PLANodeThread() noexcept
+PLATimelineThread::~PLATimelineThread() noexcept
 {
 
 }
 
-void PLANodeThread::Update() {
+void PLATimelineThread::Update() {
 
   DBG_PLANode_Update_Indent += "  ";
 
   //-- Update nodes.
-  for (PLANodeThread *thread: _threads) {
+  for (PLATimelineThread *thread: _threads) {
     thread->Update();
   }
   if (_current < _nodes.size()) { _nodes[_current]->Update(); }
@@ -42,26 +42,26 @@ void PLANodeThread::Update() {
   */
 }
 
-void PLANodeThread::AddNode(PLANode *aNode)
+void PLATimelineThread::AddNode(PLATimelineNode *aNode)
 {
   _nodes.push_back(aNode);
   aNode->SetThread(this);
 }
 
-void PLANodeThread::AddThread(PLANodeThread *aThread)
+void PLATimelineThread::AddThread(PLATimelineThread *aThread)
 {
   aThread->_parent = this;
   _threads.push_back(aThread);
 }
 
-void PLANodeThread::Clear()
+void PLATimelineThread::Clear()
 {
   GRA_PRINT("%s::Clear()\n", this->GetObjectName().c_str());
-  for (PLANodeThread *thread: _threads) {
+  for (PLATimelineThread *thread: _threads) {
     thread->Clear();
   }
   _threads.clear();
-  for (PLANode *node: _nodes) {
+  for (PLATimelineNode *node: _nodes) {
     PLAObject::Destroy(node);
   }
   _nodes.clear();
@@ -69,7 +69,7 @@ void PLANodeThread::Clear()
   //PLAObject::Destroy(this);
 }
 
-void PLANodeThread::OnFinishNode()
+void PLATimelineThread::OnFinishNode()
 {
   /*
   GRA_PRINT("%s| %s : OnFinishCurrent(), _current: %2d, _steps: %3d\n",
@@ -89,7 +89,7 @@ void PLANodeThread::OnFinishNode()
   }
 }
 
-void PLANodeThread::OnFinishThread()
+void PLATimelineThread::OnFinishThread()
 {
   GRA_PRINT("%s| %s : OnFinishQueue(), _current: %2d\n",
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
@@ -97,14 +97,14 @@ void PLANodeThread::OnFinishThread()
 }
 
 /*
-void PLANodeThread::OnFinishQueue()
+void PLATimelineThread::OnFinishQueue()
 {
   GRA_PRINT("%s| %s : OnFinishQueue(), _current: %2d, _steps: %3d\n",
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
             _current, _steps);
 }
 
-void PLANodeThread::OnFinishSubNode()
+void PLATimelineThread::OnFinishSubNode()
 {
   GRA_PRINT("%s| %s : OnFinishSubNode(), _current: %2d, _steps: %3d\n",
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
@@ -112,10 +112,10 @@ void PLANodeThread::OnFinishSubNode()
 }
  */
 
-bool PLANodeThread::IsFinished() const
+bool PLATimelineThread::IsFinished() const
 {
   if (_current < _nodes.size()) { return false; }
-  for (const PLANodeThread *thread: _threads)
+  for (const PLATimelineThread *thread: _threads)
   {
     if (!thread->IsFinished()) { return false; }
   }
@@ -126,7 +126,7 @@ bool PLANodeThread::IsFinished() const
   return true;
 }
 
-const PLANode *PLANodeThread::GetCurrentNode() const
+const PLATimelineNode *PLATimelineThread::GetCurrentNode() const
 {
   GRA_PRINT("_nodes.size(): %d\n", _nodes.size());
   if (!_nodes.size()) { return nullptr; }
@@ -140,20 +140,20 @@ const PLANode *PLANodeThread::GetCurrentNode() const
 }
 
 /*
-const std::vector<PLANode *> &PLANode::GetBranch() const
+const std::vector<PLATimelineNode *> &PLATimelineNode::GetBranch() const
 {
   return _subNodes;
 };
  */
 
-void PLANodeThread::PrintNodes() const
+void PLATimelineThread::PrintNodes() const
 {
   static int indentLevel = 0;
   std::string indentSpace = "";
   for (int i = 0; i < indentLevel; i++) {
     indentSpace.append("  ");
   }
-  for (const PLANode *node: _nodes) {
+  for (const PLATimelineNode *node: _nodes) {
     ++indentLevel;
     GRA_PRINT(" %2d : %s%6d / %6d | %7d | %32s |\n",
               indentLevel, indentSpace.c_str(),
@@ -161,7 +161,7 @@ void PLANodeThread::PrintNodes() const
               _current, this->GetObjectName().c_str());
     --indentLevel;
   }
-  for (const PLANodeThread *thread: _threads) {
+  for (const PLATimelineThread *thread: _threads) {
     ++indentLevel;
     thread->PrintNodes();
     --indentLevel;

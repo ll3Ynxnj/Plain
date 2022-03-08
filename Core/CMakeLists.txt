@@ -12,11 +12,11 @@ add_library(Plain-Core STATIC
   PLAResource.cpp
   PLAImageClip.cpp
   Input/PLAInput.cpp
-  Node/PLANode.cpp
-  Node/PLANodeThread.cpp
-  Node/PLANodeHolder.cpp
-  Node/PLAMotion.cpp
-  Node/PLAMotionThread.cpp
+  Timeline/PLATimelineNode.cpp
+  Timeline/PLATimelineThread.cpp
+  Timeline/PLATimeline.cpp
+  Timeline/PLAMotionNode.cpp
+  Timeline/PLAMotionThread.cpp
   Actor/PLAActor.cpp
   Layer/PLALayer.cpp
   Layer/PLALYRPoint.cpp

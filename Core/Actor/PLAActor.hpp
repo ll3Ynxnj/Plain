@@ -4,7 +4,6 @@
 #include <list>
 #include <functional>
 #include "PLAObject.hpp"
-#include "Core/Node/PLAMotion.hpp"
 #include "PLAScene.hpp"
 #include "Core/Input/PLAInput.hpp"
 #include "PLACollision.hpp"
@@ -17,13 +16,14 @@
 #include "Layer/PLALayer.hpp"
 #include "Layer/IPLALYRTileDataSource.hpp"
 #include "Grain/GRABinder.hpp"
-#include "Node/PLANodeHolder.hpp"
-#include "Node/PLAMotionThread.hpp"
+#include "Timeline/PLATimeline.hpp"
+#include "Timeline/PLAMotionNode.hpp"
+#include "Timeline/PLAMotionThread.hpp"
 
 class PLARenderer;
 
 class PLAActor final :
-  public PLAObject, public PLAInputContext, public PLANodeHolder,
+  public PLAObject, public PLAInputContext, public PLATimeline,
   public GRAListener<PLAScene, PLAScene::FunctionCode>,
   public GRABinder<PLAActor>::Item
 {
@@ -45,7 +45,7 @@ private:
   PLATransform _transform = kPLATransformNorm;
   //-- Not affect child actors
   /*
-  PLAMotion _motion = PLAMotion();
+  PLAMotionNode _motion = PLAMotionNode();
   std::map<PLAMotionType, PLAProperty> _motionProperties =
     std::map<PLAMotionType, PLAProperty>();
   */
@@ -63,7 +63,7 @@ protected:
            const PLAColor &aColor,
            const PLATransform &aTransform,
            PLALayer *aLayer);//,
-           //PLAMotion *aMotion);
+           //PLAMotionNode *aMotion);
 
 public:
   /*
@@ -157,7 +157,7 @@ public:
   const PLALYRCircle *GetLayerCircle() const;
   */
 
-  //void AddMotion(PLAMotion *aMotion);
+  //void AddMotion(PLAMotionNode *aMotion);
   /*
   void AddMotion(PLAMotionType aType, const PLAProperty &aDistance,
                  PLAFloat aDuration);
@@ -201,8 +201,8 @@ public:
   { _functor.SetFunction(aKey, aFunc); };
 
   void AddTileMotion(const PLAVec2s &aAddress, PLAMotionThread *aThread);
-  //void AddTileMotions(const PLAVec2s &aAddress, const std::vector<PLAMotion *> &aMotion);
-  //void SetTileMotion(const PLAVec2s &aAddress, PLAMotion *aMotion);
+  //void AddTileMotions(const PLAVec2s &aAddress, const std::vector<PLAMotionNode *> &aMotion);
+  //void SetTileMotion(const PLAVec2s &aAddress, PLAMotionNode *aMotion);
 
 private:
   void OnUpdate();

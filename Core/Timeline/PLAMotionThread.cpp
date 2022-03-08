@@ -12,7 +12,7 @@ PLAMotionThread *PLAMotionThread::Create()
 }
 
 PLAMotionThread::PLAMotionThread():
-  PLANodeThread(nullptr)
+  PLATimelineThread(nullptr)
 {
 
 }
@@ -21,12 +21,12 @@ PLAMotionThread::PLAMotionThread():
 void PLAMotionThread::GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) const
 {
   //GRA_PRINT("GetProperty()\n");
-  const PLANode *currentNode = this->GetCurrentNode();
+  const PLATimelineNode *currentNode = this->GetCurrentNode();
   if (currentNode)
   {
-    static_cast<const PLAMotion *>(currentNode)->GetProperty(aProperties);
+    static_cast<const PLAMotionNode *>(currentNode)->GetProperty(aProperties);
   }
-  for (const PLANodeThread *thread : this->GetThreads())
+  for (const PLATimelineThread *thread : this->GetThreads())
   {
     static_cast<const PLAMotionThread *>(thread)->GetProperty(aProperties);
   }

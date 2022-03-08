@@ -17,7 +17,7 @@ PLAActor *PLAActor::CreateRect(const PLAVec3 &aPivot,
 {
   PLALayer *layer = PLALYRRect::Create(aRect, kPLAColorWhite, kPLAColorNone,
                                        kPLAStrUndefined, kPLARectNone);
-  //PLAMotion *motion = PLAMotion::Create();
+  //PLAMotionNode *motion = PLAMotionNode::Create();
   PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);//, motion);
   actor->Bind();
   return actor;
@@ -31,7 +31,7 @@ PLAActor *PLAActor::CreateRect(const PLAVec3 &aPivot,
 {
   PLALayer *layer = PLALYRRect::Create(aRect, aFillColor, kPLAColorNone,
                                        kPLAStrUndefined, kPLARectNone);
-  //PLAMotion *motion = PLAMotion::Create();
+  //PLAMotionNode *motion = PLAMotionNode::Create();
   PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);//, motion);
   actor->Bind();
   return actor;
@@ -46,7 +46,7 @@ PLAActor *PLAActor::CreateRect(const PLAVec3 &aPivot,
 {
   PLALayer *layer = PLALYRRect::Create(aRect, kPLAColorWhite, kPLAColorNone,
                                        aImageName, aClip);
-  //PLAMotion *motion = PLAMotion::Create();
+  //PLAMotionNode *motion = PLAMotionNode::Create();
   PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);//, motion);
   actor->Bind();
   return actor;
@@ -59,7 +59,7 @@ PLAActor *PLAActor::CreateCircle(const PLAVec3 &aPivot,
 {
   PLALayer *layer = PLALYRCircle::Create(aCircle, kPLAColorWhite, kPLAColorNone,
                                          kPLAStrUndefined, kPLARectNone);
-  //PLAMotion *motion = PLAMotion::Create();
+  //PLAMotionNode *motion = PLAMotionNode::Create();
   PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);//, motion);
   actor->Bind();
   return actor;
@@ -73,7 +73,7 @@ PLAActor *PLAActor::CreateCircle(const PLAVec3 &aPivot,
 {
   PLALayer *layer = PLALYRCircle::Create(aCircle, aFillColor, kPLAColorNone,
                                          kPLAStrUndefined, kPLARectNone);
-  //PLAMotion *motion = PLAMotion::Create();
+  //PLAMotionNode *motion = PLAMotionNode::Create();
   PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);//, motion);
   actor->Bind();
   return actor;
@@ -88,7 +88,7 @@ PLAActor *PLAActor::CreateCircle(const PLAVec3 &aPivot,
 {
   PLALayer *layer = PLALYRCircle::Create(aCircle, kPLAColorWhite, kPLAColorNone,
                                          aImageName, aClip);
-  //PLAMotion *motion = PLAMotion::Create();
+  //PLAMotionNode *motion = PLAMotionNode::Create();
   PLAActor *actor = new PLAActor(aPivot, aColor, aTransform, layer);//, motion);
   actor->Bind();
   return actor;
@@ -102,7 +102,7 @@ PLAActor *PLAActor::CreateTile(const PLAVec2 &aOffset,
 {
   PLALYRTile *layer = PLALYRTile::Create(aOffset, aImageName, aTileSize, aChipSize,
                                          aDataSource);
-  //PLAMotion *motion = PLAMotion::Create();
+  //PLAMotionNode *motion = PLAMotionNode::Create();
   PLAActor *actor = new PLAActor(kPLAVec3None, kPLAColorWhite,
                                  kPLATransformNorm, layer);//, motion);
   actor->Bind();
@@ -133,10 +133,10 @@ PLAActor::PLAActor(const PLAVec3 &aPivot,
                    const PLAColor &aColor,
                    const PLATransform &aTransform,
                    PLALayer *aLayer) ://,
-                   //PLAMotion *aMotion) :
+                   //PLAMotionNode *aMotion) :
   PLAObject(PLAObjectType::Actor),//"== PLAActor =="),
   GRABinder<PLAActor>::Item(),
-  //PLANode::Holder(aMotion),
+  //PLATimelineNode::Holder(aMotion),
   PLAInputContext(),
   _pivot(aPivot),
   _color(aColor),
@@ -263,7 +263,7 @@ PLATransform PLAActor::GetTransform() const
 };
 
 /*
-void PLAActor::AddMotion(PLAMotion *aMotion)
+void PLAActor::AddMotion(PLAMotionNode *aMotion)
 {
   _motion.AddQueue(aMotion);
 }
@@ -405,10 +405,10 @@ void PLAActor::UpdateMotions()
 
   for (const auto &[key, value] : properties) {
     if (!_motionProperties.contains(key)) {
-      _motionProperties[key] = PLAMotion::MakeProperty(key);
+      _motionProperties[key] = PLAMotionNode::MakeProperty(key);
     }
     _motionProperties[key] = properties[key];
-    GRA_PRINT("_motionProperties[%s]", PLAMotion::GetNameOfType(key));
+    GRA_PRINT("_motionProperties[%s]", PLAMotionNode::GetNameOfType(key));
     _motionProperties[key].Print();
   }
   for (PLAActor *actor : _actors) { actor->UpdateMotions(); }
@@ -427,7 +427,7 @@ void PLAActor::AddTileMotion(const PLAVec2s &aAddress, PLAMotionThread *aThread)
 
 /*
 void PLAActor::AddTileMotions(const PLAVec2s &aAddress,
-                              const std::vector<PLAMotion *> &aMotions)
+                              const std::vector<PLAMotionNode *> &aMotions)
 {
   PLALYRTile *layer = this->RefLYRTile();
   if (!layer) {
@@ -439,7 +439,7 @@ void PLAActor::AddTileMotions(const PLAVec2s &aAddress,
  */
 
 /*
-void PLAActor::SetTileMotion(const PLAVec2s &aAddress, PLAMotion *aMotion)
+void PLAActor::SetTileMotion(const PLAVec2s &aAddress, PLAMotionNode *aMotion)
 {
   PLALYRTile *layer = this->RefLYRTile();
   if (!layer) {

@@ -49,14 +49,14 @@ TEST_F(PLAActorTest, AddActor_AddActors_IncreaseActors)
 TEST_F(PLAActorTest, UpdateMotion_UpdateMotions_RefreshProperties)
 {
   PLAFloat duration = 0.1;//0.2;
-  PLAMotion m0 = PLAMotion(PLAMotionType::Translation,
-                           PLAVec3(0, 0, 0), PLAVec3( 10, 0, 0), duration);
+  PLAMotionNode m0 = PLAMotionNode(PLAMotionType::Translation,
+                                   PLAVec3(0, 0, 0), PLAVec3( 10, 0, 0), duration);
   m0.SetObjectName("m0");
-  PLAMotion m1 = PLAMotion(PLAMotionType::Translation,
-                           PLAVec3(10, 0, 0), PLAVec3(0, 0, 0), duration);
+  PLAMotionNode m1 = PLAMotionNode(PLAMotionType::Translation,
+                                   PLAVec3(10, 0, 0), PLAVec3(0, 0, 0), duration);
   m1.SetObjectName("m1");
   /*
-  PLAMotion motion = PLAMotion();
+  PLAMotionNode motion = PLAMotionNode();
   motion.AddMain(&m0);
   motion.AddQueue(&m1);
   _rootActor->SetMotion(motion);
