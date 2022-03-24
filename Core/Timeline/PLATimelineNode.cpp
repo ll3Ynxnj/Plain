@@ -19,43 +19,20 @@ PLATimelineNode *PLATimelineNode::Create(PLATimelineNode::Type aType)
   return node;
 }
 
-/*
-PLATimelineNode *PLATimelineNode::Create(PLATimelineNode::Type aType, PLATimelineNode::Holder *aHolder)
-{
-  PLATimelineNode *node = nullptr;
-  node = Create(aType);
-  node->_holder = aHolder;
-  return node;
-}
- */
-
 void PLATimelineNode::Bind()
 {
   this->PLAObject::Bind();
-
-  GRABinder<PLATimelineNode>::Error error(GRABinder<PLATimelineNode>::Error::None);
-  /*
-  PLATimelineNode::Manager::Instance()->Bind(this, &error);
-  if (error != GRABinder<PLATimelineNode>::Error::None)
-  {
-    PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                    "Failed PLATimelineNode binding. ERROR : %02d", error);
-  }
-   */
 }
 
 void PLATimelineNode::Unbind()
 {
   GRA_PRINT("PLATimelineNode::Unbind : %s\n", this->GetObjectName().c_str());
   GRABinder<PLATimelineNode>::Error error(GRABinder<PLATimelineNode>::Error::None);
-  //PLATimelineNode::Manager::Instance()->Unbind(this, &error);
   if (error != GRABinder<PLATimelineNode>::Error::None)
   {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Failed PLATimelineNode unbinding. ERROR : %02d", error);
   }
-
-  //PLAApp::Instance()->RemoveNode(this);
   this->PLAObject::Unbind();
 }
 
@@ -158,53 +135,3 @@ bool PLATimelineNode::IsFinished() const
 {
   return _length <= _steps;
 }
-
-// PLATimelineNode::Manager ////////////////////////////////////////////////////////
-/*
-PLATimelineNode::Manager PLATimelineNode::Manager::_instance = PLATimelineNode::Manager();
-
-PLATimelineNode::Manager::Manager() :
-GRABinder<PLATimelineNode>()
-{
-
-}
-
-PLATimelineNode::Manager::~Manager()
-{
-
-}
-
-PLATimelineNode *PLATimelineNode::Manager::Timeline(const std::string &aKey)
-{
-  GRABinder<PLATimelineNode>::Error error(GRABinder<PLATimelineNode>::Error::None);
-  return static_cast<PLATimelineNode *>(_instance.RefItem(aKey, &error));
-}
-
-void PLATimelineNode::Manager::PrintNodes() const
-{
-  GRA_PRINT("//-- PLATimelineNode::Manager::PrintNode"
-            "s --////////////////////////////////////\n");
-  GRA_PRINT("        SIZE |                          "
-            "                                    PATH\n");
-  GRA_PRINT("-------------|--------------------------"
-            "----------------------------------------\n");
-  for (PLATimelineNode::Item *item : this->GetItems())
-  { static_cast<const PLATimelineNode *>(item)->PrintNodes(); }
-  GRA_PRINT("////////////////////////////////////////"
-            "////////////////////////////////////////\n");
-};
-
-const PLATimelineNode *PLATimelineNode::Manager::GetNode(const std::string &aName) const
-{
-  PLATimelineNode::Error error = PLATimelineNode::Error::None;
-  const PLATimelineNode *resource =
-    static_cast<const PLATimelineNode *>(this->GetItem(aName, &error));
-  if (error != PLATimelineNode::Error::None)
-  {
-    PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                    "Failed to get resource. ERROR : %02d", error);
-  }
-  return resource;
-};
- */
-

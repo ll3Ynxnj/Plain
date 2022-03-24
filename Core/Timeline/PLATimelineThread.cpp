@@ -4,7 +4,6 @@
 
 #include "PLATimelineNode.hpp"
 #include "PLATimelineThread.hpp"
-#include "PLATimeline.hpp"
 #include "PLAError.hpp"
 
 PLATimelineThread *PLATimelineThread::Create(PLATimelineThread *aParent) {
@@ -26,7 +25,6 @@ PLATimelineThread::~PLATimelineThread() noexcept
 }
 
 void PLATimelineThread::Update() {
-
   DBG_PLANode_Update_Indent += "  ";
 
   //-- Update nodes.
@@ -34,12 +32,6 @@ void PLATimelineThread::Update() {
     thread->Update();
   }
   if (_current < _nodes.size()) { _nodes[_current]->Update(); }
-  /*
-  GRA_PRINT("%s| %s : Update(), _current: %2d, _steps: %3d, _length: %3d\n",
-            DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(), _current, _steps, _length);
-
-  DBG_PLANode_Update_Indent.erase(0, 2);
-  */
 }
 
 void PLATimelineThread::AddNode(PLATimelineNode *aNode)
@@ -71,18 +63,12 @@ void PLATimelineThread::Clear()
 
 void PLATimelineThread::OnFinishNode()
 {
-  /*
-  GRA_PRINT("%s| %s : OnFinishCurrent(), _current: %2d, _steps: %3d\n",
-            DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
-            _current, _steps);
-            */
   if (_current < _nodes.size())
   {
     ++_current;
     if (_current == _nodes.size())
     {
-      //this->OnFinishQueue();
-      if (_parent) { _parent->OnFinishThread(); }//OnFinishSubNode(); }
+      if (_parent) { _parent->OnFinishThread(); }
       this->Clear();
       if (_holder) { _holder->NodeDidFinish(); }
     }
@@ -95,22 +81,6 @@ void PLATimelineThread::OnFinishThread()
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
             _current);
 }
-
-/*
-void PLATimelineThread::OnFinishQueue()
-{
-  GRA_PRINT("%s| %s : OnFinishQueue(), _current: %2d, _steps: %3d\n",
-            DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
-            _current, _steps);
-}
-
-void PLATimelineThread::OnFinishSubNode()
-{
-  GRA_PRINT("%s| %s : OnFinishSubNode(), _current: %2d, _steps: %3d\n",
-            DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
-            _current, _steps);
-}
- */
 
 bool PLATimelineThread::IsFinished() const
 {
@@ -130,7 +100,7 @@ const PLATimelineNode *PLATimelineThread::GetCurrentNode() const
 {
   GRA_PRINT("_nodes.size(): %d\n", _nodes.size());
   if (!_nodes.size()) { return nullptr; }
-  if (_nodes.size() == _current) { return _nodes[_current - 1]; }//nullptr; }
+  if (_nodes.size() == _current) { return _nodes[_current - 1]; }
   if (_nodes.size() < _current || _current < 0)
   {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
@@ -138,13 +108,6 @@ const PLATimelineNode *PLATimelineThread::GetCurrentNode() const
   }
   return _nodes[_current];
 }
-
-/*
-const std::vector<PLATimelineNode *> &PLATimelineNode::GetBranch() const
-{
-  return _subNodes;
-};
- */
 
 void PLATimelineThread::PrintNodes() const
 {

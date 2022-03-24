@@ -32,14 +32,11 @@ public:
 
   void OnFinishNode();
   void OnFinishThread();
-  //void OnFinishQueue();
-  //void OnFinishSubNode();
 
   bool IsFinished() const;
   virtual const PLATimelineNode *GetCurrentNode() const;
   const std::vector<PLATimelineThread *> &GetThreads() const { return _threads; }
 
-  //void SetInfinity(PLABool aBool) { _nodes[_current]->SetInfinity(aBool); }
   void SetHolder(PLATimeline *aHolder) { _holder = aHolder; };
 
   void PrintNodes() const;

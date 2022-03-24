@@ -22,7 +22,6 @@ class PLATimelineNode: public PLAObject, private GRABinder<PLATimelineNode>::Ite
   using Item = GRABinder<PLATimelineNode>::Item;
   using Error = GRABinder<PLATimelineNode>::Error;
 
-// PLATimelineNode /////////////////////////////////////////////////////////////////////
 public:
   /// \~english Function to be executed at a specific point in time.
   /// \~japanese 特定の時点で実行される関数
@@ -54,7 +53,6 @@ private:
 
 public:
   static PLATimelineNode *Create(PLATimelineNode::Type aType);
-  //static PLATimelineNode *Create(PLATimelineNode::Type aType, Holder *aHolder);
 
   void Bind() override;
 
@@ -86,25 +84,6 @@ private:
   void OnStart();
   void OnUpdate();
   void OnStop();
-
-// Manager /////////////////////////////////////////////////////////////////////
-  /*
-public:
-  class Manager: public GRABinder<PLATimelineNode>
-  {
-    static Manager _instance;
-
-  public:
-    static Manager *Instance() { return &_instance; };
-    static PLATimelineNode *Timeline(const std::string &aKey);
-
-    Manager();
-    ~Manager();
-
-    const PLATimelineNode *GetNode(const std::string &aName) const;
-    void PrintNodes() const;
-  };
-  */
 };
 
 #endif //ANHR_PLATIMELINENODE_HPP

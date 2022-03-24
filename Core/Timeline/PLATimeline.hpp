@@ -19,8 +19,6 @@ public:
 
   void AddThread(PLATimelineThread *aThread);
 
-  void ClearNode();
-
   const PLATimelineThread *GetNodeThread() const { return _thread; }
 
   /*virtual*/ void NodeDidFinish();

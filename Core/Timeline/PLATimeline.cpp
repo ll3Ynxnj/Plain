@@ -6,7 +6,7 @@
 #include "PLATimelineThread.hpp"
 #include "PLAApp.hpp"
 
-// PLATimelineHolder ///////////////////////////////////////////////////////////
+// PLATimeline /////////////////////////////////////////////////////////////////
 
 PLATimeline::PLATimeline()
 {
@@ -32,11 +32,6 @@ void PLATimeline::AddThread(PLATimelineThread *aThread)
     PLAApp::Instance()->AddNodeThread(_thread);
   }
   _thread->AddThread(aThread);
-}
-
-void PLATimeline::ClearNode()
-{
-  _thread->Clear();
 }
 
 void PLATimeline::NodeDidFinish()
