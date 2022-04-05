@@ -4,7 +4,7 @@
 
 #include "PLATimeline.hpp"
 #include "PLATimelineThread.hpp"
-#include "PLAApp.hpp"
+#include "Core/Class/PLAApp.hpp"
 
 // PLATimeline /////////////////////////////////////////////////////////////////
 

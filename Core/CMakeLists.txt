@@ -1,16 +1,16 @@
 cmake_minimum_required(VERSION 3.1)
 
 add_library(Plain-Core STATIC
-  PLAObject.cpp
-  PLAProperty.cpp
-  PLAApp.cpp
-  PLAError.cpp
-  PLAScene.cpp
-  PLAStage.cpp
-  PLAImage.cpp
-  PLARenderer.cpp
-  PLAResource.cpp
-  PLAImageClip.cpp
+  Class/PLAObject.cpp
+  Class/PLAProperty.cpp
+  Class/PLAApp.cpp
+  Class/PLAError.cpp
+  Class/PLAScene.cpp
+  Class/PLAStage.cpp
+  Class/PLAImage.cpp
+  Class/PLARenderer.cpp
+  Class/PLAResource.cpp
+  Class/PLAImageClip.cpp
   Input/PLAInput.cpp
   Timeline/PLATimelineNode.cpp
   Timeline/PLATimelineThread.cpp

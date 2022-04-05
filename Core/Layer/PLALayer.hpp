@@ -1,9 +1,9 @@
 #ifndef PLAIN_ENGINE_PLALAYER_HPP
 #define PLAIN_ENGINE_PLALAYER_HPP
 
-#include "PLAObject.hpp"
+#include "Core/Class/PLAObject.hpp"
 #include "PLALayerType.hpp"
-#include "PLAImageClip.hpp"
+#include "Core/Class/PLAImageClip.hpp"
 #include "Timeline/PLAMotionNode.hpp"
 #include "Type/PLAVector.hpp"
 #include "Type/PLAPoint.hpp"

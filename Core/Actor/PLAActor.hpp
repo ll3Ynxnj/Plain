@@ -3,10 +3,10 @@
 
 #include <list>
 #include <functional>
-#include "PLAObject.hpp"
-#include "PLAScene.hpp"
+#include "Core/Class/PLAObject.hpp"
+#include "Core/Class/PLAScene.hpp"
 #include "Core/Input/PLAInput.hpp"
-#include "PLACollision.hpp"
+#include "Core/Type/PLACollision.hpp"
 #include "PLAActorCollisionCode.hpp"
 #include "PLAActorCollisyncCode.hpp"
 #include "PLAActorFunctionCode.hpp"
@@ -15,7 +15,7 @@
 #include "Type/PLATransform.hpp"
 #include "Layer/PLALayer.hpp"
 #include "Layer/IPLALYRTileDataSource.hpp"
-#include "Grain/GRABinder.hpp"
+#include "Grain/Class/GRABinder.hpp"
 #include "Timeline/PLATimeline.hpp"
 #include "Timeline/PLAMotionNode.hpp"
 #include "Timeline/PLAMotionThread.hpp"

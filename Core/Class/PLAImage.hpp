@@ -4,7 +4,7 @@
 #include "PLAObject.hpp"
 #include "PLAResource.hpp"
 #include "PLAImageType.hpp"
-#include <Grain/Type/GRAVector.hpp>
+#include "Grain/Type/GRAVector.hpp"
 
 using PLAImageSize = GRAVec2<PLASize>;
 static const PLAImageSize kPLAImageSizeNone = PLAImageSize(0);

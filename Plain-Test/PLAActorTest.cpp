@@ -1,4 +1,4 @@
-#include "PLAApp.hpp"
+#include "Core/Class/PLAApp.hpp"
 #include "Actor/PLAActor.hpp"
 #include "../Grain/Type/GRAType.hpp"
 

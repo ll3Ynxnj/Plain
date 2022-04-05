@@ -11,9 +11,9 @@
 #define ANHR_PLATIMELINENODE_HPP
 
 #include <vector>
-#include "Grain/GRAFunctor.hpp"
+#include "Grain/Class/GRAFunctor.hpp"
 #include "Type/PLAType.hpp"
-#include "PLAObject.hpp"
+#include "Core/Class/PLAObject.hpp"
 
 class PLATimelineThread;
 

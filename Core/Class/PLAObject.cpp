@@ -5,6 +5,9 @@
 const std::map<PLAObject::Binder::Error, const char *> PLAObject::kBinderErrorMessages =
 {
   { Binder::Error::OverwriteItem, "Overwrite item" },
+  { Binder::Error::NameConflict, "Item name conflict" },
+  { Binder::Error::NameOverride, "Item name has been over written" },
+  { Binder::Error::NameConversion, "Item name has been converted to system-generated" },
   { Binder::Error::RegisterExistingKeyToMap, "Register existing key to map" },
   { Binder::Error::NotExistInMap, "Not exist in map" },
 };
@@ -154,6 +157,28 @@ void PLAObject::SetVec4(const PLAString &aName, const PLAVec4 &aValue)
   _properties[aName].SetVec4(aValue);
 }
 
+void PLAObject::SetObjectName(const std::string &aName)
+{
+  Binder::Error error(Binder::Error::None);
+  this->Binder::Item::SetName(aName, &error);
+  if (error != Binder::Error::None)
+  {
+    switch (error) {
+      case Binder::Error::NameOverride :
+      case Binder::Error::NameConversion :
+        PLA_ERROR_ISSUE(PLAErrorType::Expect,
+                        "Succeed to set object name with error. ERROR : %02d : %s",
+                        error, GetBinderErrorMessage(error));
+        break;
+      default :
+        PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                        "Failure to set object name. ERROR : %02d : %s",
+                        error, GetBinderErrorMessage(error));
+        break;
+    }
+  }
+}
+
 // PLAObject::Manager //////////////////////////////////////////////////////////
 
 PLAObject::Manager PLAObject::Manager::_instance = PLAObject::Manager();
@@ -167,18 +192,6 @@ Binder()
 PLAObject::Manager::~Manager()
 {
 
-}
-
-void PLAObject::SetObjectName(const std::string &aName)
-{
-  Binder::Error error(Binder::Error::None);
-  this->Binder::Item::SetName(aName, &error);
-  if (error != Binder::Error::None)
-  {
-    PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                    "Failure to set object name. ERROR : %02d : %s",
-                    error, GetBinderErrorMessage(error));
-  }
 }
 
 void PLAObject::Manager::AddUnboundObject(PLAObject *aObject)

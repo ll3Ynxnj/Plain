@@ -1,5 +1,5 @@
 #include "PLALYRPoint.hpp"
-#include "PLACollision.hpp"
+#include "Core/Type/PLACollision.hpp"
 
 PLAVec3 PLALYRPoint::GetSize() const
 {

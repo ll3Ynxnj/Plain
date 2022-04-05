@@ -5,8 +5,8 @@
 #include <list>
 #include "PLAObject.hpp"
 #include "Core/Input/PLAInput.hpp"
-#include "Grain/GRABinder.hpp"
-#include "Grain/GRAListener.hpp"
+#include "Grain/Class/GRABinder.hpp"
+#include "Grain/Class/GRAListener.hpp"
 
 class PLAActor;
 

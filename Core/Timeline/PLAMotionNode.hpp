@@ -6,7 +6,7 @@
 #define ANHR_PLAMOTIONNODE_HPP
 
 #include "Timeline/PLATimelineNode.hpp"
-#include "PLAMotionType.hpp"
+#include "Core/Class/PLAMotionType.hpp"
 
 class PLAMotionNode final: public PLATimelineNode
 {

@@ -2,7 +2,7 @@
 #define PLAIN_PLACOLLISION_HPP
 
 #include "Type/PLAType.hpp"
-#include "Grain/GRACollision.hpp"
+#include "Grain/Class/GRACollision.hpp"
 
 using PLACollision = GRACollision<PLAFloat>;
 

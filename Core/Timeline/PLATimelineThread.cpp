@@ -4,7 +4,7 @@
 
 #include "PLATimelineNode.hpp"
 #include "PLATimelineThread.hpp"
-#include "PLAError.hpp"
+#include "Core/Class/PLAError.hpp"
 
 PLATimelineThread *PLATimelineThread::Create(PLATimelineThread *aParent) {
   PLATimelineThread *thread = new PLATimelineThread(aParent);
@@ -98,7 +98,7 @@ bool PLATimelineThread::IsFinished() const
 
 const PLATimelineNode *PLATimelineThread::GetCurrentNode() const
 {
-  GRA_PRINT("_nodes.size(): %d\n", _nodes.size());
+  GRA_PRINT("%s::_nodes.size(): %d\n", this->GetObjectName().c_str(), _nodes.size());
   if (!_nodes.size()) { return nullptr; }
   if (_nodes.size() == _current) { return _nodes[_current - 1]; }
   if (_nodes.size() < _current || _current < 0)

@@ -2,8 +2,8 @@
 #include "PLAGLUTEngine.hpp"
 #include "PLAGLUTRenderer.hpp"
 
-#include "PLAApp.hpp"
-#include "PLAStage.hpp"
+#include "Core/Class/PLAApp.hpp"
+#include "Core/Class/PLAStage.hpp"
 
 void PLAGLUTEngine::display(void)
 {

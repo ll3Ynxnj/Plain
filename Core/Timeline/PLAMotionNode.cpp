@@ -3,7 +3,7 @@
 //
 
 #include "PLAMotionNode.hpp"
-#include "PLAApp.hpp"
+#include "Core/Class/PLAApp.hpp"
 
 //const PLAMotionNode PLAMotionNode::kNone = PLAMotionNode();
 

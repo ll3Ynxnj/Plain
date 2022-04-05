@@ -1,8 +1,8 @@
 #include <math.h>
 
 #include "PLAGLUTRenderer.hpp"
-#include "PLAError.hpp"
-#include "PLAResource.hpp"
+#include "Core/Class/PLAError.hpp"
+#include "Core/Class/PLAResource.hpp"
 
 PLAGLUTRenderer *PLAGLUTRenderer::Create()
 {

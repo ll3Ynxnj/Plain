@@ -1,6 +1,6 @@
 #include "PLAActor.hpp"
 #include "Core/Input/PLAInput.hpp"
-#include "PLAError.hpp"
+#include "Core/Class/PLAError.hpp"
 
 #include "Layer/PLALYRPoint.hpp"
 #include "Layer/PLALYRLine.hpp"
@@ -8,7 +8,7 @@
 #include "Layer/PLALYRCircle.hpp"
 #include "Layer/PLALYRTile.hpp"
 
-#include "PLAError.hpp"
+#include "Core/Class/PLAError.hpp"
 
 PLAActor *PLAActor::CreateRect(const PLAVec3 &aPivot,
                                const PLAColor &aColor,

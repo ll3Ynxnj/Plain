@@ -4,6 +4,7 @@
 
 #include "PLAProperty.hpp"
 #include "PLAError.hpp"
+#include "Grain.h"
 
 const PLAProperty PLAProperty::kNone  = PLAProperty();
 const PLAProperty PLAProperty::kBool  = PLAProperty(PLABool(false));

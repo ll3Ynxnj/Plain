@@ -1,5 +1,5 @@
 #include "PLALYRTile.hpp"
-#include "PLACollision.hpp"
+#include "Core/Type/PLACollision.hpp"
 
 PLALYRTile *PLALYRTile::Create(const PLAVec2 &aOffset,
                                const std::string &aImageName,

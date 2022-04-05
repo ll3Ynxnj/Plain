@@ -6,7 +6,9 @@
 #include <string>
 #include "PLAObjectType.hpp"
 #include "PLAProperty.hpp"
-#include "Grain/GRABinder.hpp"
+
+#include "Grain/Grain.h"
+#include "Grain/Class/GRABinder.hpp"
 
 class PLAObject : private GRABinder<PLAObject>::Item
 {
