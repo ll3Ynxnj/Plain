@@ -26,4 +26,23 @@ enum class PLAObjectType : PLAInt
   None = kPLAIntUndefined,
 };
 
+static const char *kPLAObjectTypeName[static_cast<PLAInt>(PLAObjectType::kNumberOfItems)] = {
+  "App",
+  "Input",
+  "Scene",
+  "Stage",
+  "Actor",
+  "Layer",
+  "Style",
+  "Image",
+  "Error",
+  "Node",
+  "NodeThread",
+  "Resource",
+  "Renderer",
+  "ImageClip",
+
+  "LYRTileDataSource",
+};
+
 #endif //PLAIN_ENGINE_PLAOBJECTTYPE_HPP

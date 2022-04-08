@@ -211,16 +211,25 @@ void PLAObject::Manager::PrintObjects() const
 {
   GRA_PRINT("//-- PLAObject::Manager::PrintResource -"
             "-///////////////////////////////////////\n");
-  GRA_PRINT("  ID |                             NAME "
+  GRA_PRINT("INDEX |   ID |                             NAME "
             "| TYPE |                                \n");
-  GRA_PRINT("-----|----------------------------------"
-            "|------|--------------------------------\n");
-  for (Binder::Item *item : this->GetItems())
+  GRA_PRINT("------|------|----------------------------------"
+            "|------|------------------------\n");
+  for (size_t i = 0; Binder::Item *item : this->GetItems())
   {
-    const PLAObject *object = static_cast<const PLAObject *>(item);
-    GRA_PRINT("%04x | %32s | %4d |                               \n",
-              object->GetId(), object->GetName().c_str(),
-              object->GetObjectType());
+    if (item) {
+      const PLAObject *object = static_cast<const PLAObject *>(item);
+      PLAObjectType type = object->GetObjectType();
+      GRA_PRINT(" %04x | %04x | %32s | %4d | %22s\n",
+                i, object->GetId(), object->GetName().c_str(),
+                type,
+                kPLAObjectTypeName[static_cast<PLASize>(type)]);
+    } else {
+      GRA_PRINT(" %04x | %s | %s | %s | %22s\n",
+                i, "----", "------------------------ NULL --", "----",
+                "----------------------");
+    }
+    ++i;
   }
   GRA_PRINT("////////////////////////////////////////"
             "////////////////////////////////////////\n");

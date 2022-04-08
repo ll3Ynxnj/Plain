@@ -120,11 +120,11 @@ void PLAApp::Input(PLAInputDeviceType aDevice, PLAInputSignalCode aCode,
 void PLAApp::Update()
 {
   GRA_PRINT("-- Update -- _frame: %8d\n", _frame);
-  // DeleteはDestroyに名称変更
-  // 削除を実行するとレンダリング時にエラー。つまり削除済みノードへの参照が残っている。
+  PLAObject::Manager::Instance()->PrintObjects();
   PLAObject::Manager::Instance()->DeleteUnboundObjects();
   PLAInputManager::Instance()->Flush();
   UpdateNodeThread();
+  //PrintStageActors();
   _stage->Update();
   ++_frame;
 }
