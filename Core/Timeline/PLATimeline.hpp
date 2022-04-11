@@ -21,7 +21,7 @@ public:
 
   const PLATimelineThread *GetNodeThread() const { return _thread; }
 
-  /*virtual*/ void NodeDidFinish();
+  /*virtual*/ void OnFinishThread();
 };
 
 #endif //ANHR_PLATIMELINE_HPP

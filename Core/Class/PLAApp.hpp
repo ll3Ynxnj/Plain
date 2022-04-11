@@ -20,7 +20,7 @@ class PLAApp final : public PLAObject
   static PLAApp _instance;
 
   //std::map<std::string, PLATimelineNode *> _subNodes = std::map<std::string, PLATimelineNode *>();
-  PLATimelineThread _nodeThread = PLATimelineThread(nullptr); /// Infinity node
+  PLATimelineThread _rootThread = PLATimelineThread(nullptr); /// Infinity node
 
   PLAUInt _frame = 0;
 
@@ -38,9 +38,10 @@ public:
   static PLAStage *Stage() { return _instance._stage; };
   static PLAScene *Scene();
 
-  /*static */void AddNodeThread(PLATimelineThread *aThread);
-  /*static */void UpdateNodeThread();
-  //*static */void RemoveNode(const PLATimelineNode *aNode);
+  //_rootThreadの中のデータがおかしい。
+  /*static */void AddTimelineThread(PLATimelineThread *aThread);
+  /*static */void UpdateTimelineThread();
+  //*static */void RemoveTimelineThread(const PLATimelineThread *aThread);
 
   void PrintNodes() const;
 

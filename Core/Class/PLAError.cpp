@@ -71,9 +71,9 @@ void PLAError::Manager::Issue(const char *aFile, const char *aFunc,
   va_end(args);
   fprintf(stderr, message);
 
-  PLAError *error = PLAError::Create(aType, aFile, aLine, message);
-  _errors.push(error);
-  switch (error->GetType())
+  //PLAError *error = PLAError::Create(aType, aFile, aLine, message);
+  //_errors.push(error);
+  switch (aType)//error->GetType())
   {
     case PLAErrorType::Assert :
       GRA_ASSERT("PLAErrorType::Assert detected.");
@@ -82,7 +82,7 @@ void PLAError::Manager::Issue(const char *aFile, const char *aFunc,
       break;
     default :
       GRA_ASSERT("Unexpected PLAErrorType detected. type : %d",
-                 error->GetType());
+                 aType);//error->GetType());
       break;
   }
 }

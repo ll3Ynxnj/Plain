@@ -26,8 +26,8 @@ void PLAMotionThread::GetProperty(std::map<PLAMotionType, PLAProperty> *aPropert
   {
     static_cast<const PLAMotionNode *>(currentNode)->GetProperty(aProperties);
   }
-  for (const PLATimelineThread *thread : this->GetThreads())
+  for (const auto thread : this->GetThreads())
   {
-    static_cast<const PLAMotionThread *>(thread)->GetProperty(aProperties);
+    static_cast<const PLAMotionThread *>(thread.second)->GetProperty(aProperties);
   }
 }

@@ -82,6 +82,10 @@ void PLATimelineNode::Update()
     this->OnUpdate();
   }
 
+  //if (_thread->GetObjectName() == "ANHRStage::WalkPlayer::t0") {
+  //  GRA_TRACE("");
+  //}
+
   //-- OnStop
   if (this->IsFinished())
   {
@@ -89,6 +93,9 @@ void PLATimelineNode::Update()
     if (_thread) {
       GRA_PRINT("Object '%s' will call function OnFinishCurrent().",
                 this->GetObjectName().c_str());
+      if (_thread->GetObjectName() == "ANHRStage::WalkPlayer::t0") {
+        GRA_TRACE("");
+      }
       _thread->OnFinishNode();
     }
   }
@@ -133,5 +140,8 @@ void PLATimelineNode::OnStop()
 
 bool PLATimelineNode::IsFinished() const
 {
+  if (_thread->GetObjectName() == "ANHRStage::WalkPlayer::t0") {
+    GRA_TRACE("");
+  }
   return _length <= _steps;
 }

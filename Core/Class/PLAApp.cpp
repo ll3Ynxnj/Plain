@@ -10,32 +10,30 @@ PLAScene *PLAApp::Scene()
   return PLAScene::Manager::Instance()->RefCurrentScene();
 }
 
-void PLAApp::AddNodeThread(PLATimelineThread *aThread)
+void PLAApp::AddTimelineThread(PLATimelineThread *aThread)
 {
   //_instance._subNodes[aNode->GetObjectName()] = aNode;
-  _nodeThread.AddThread(aThread);
+  _rootThread.AddThread(aThread);
 }
 
-void PLAApp::UpdateNodeThread()
+void PLAApp::UpdateTimelineThread()
 {
   //for (const auto [name, node]: _instance._subNodes)
   //{ _instance._subNodes[name]->Update(); }
-  _nodeThread.Update();
-  this->PrintNodes();
-  ;
+  _rootThread.Update();
 }
 
-/*
-void PLAApp::RemoveNode(const PLATimelineNode *aNode)
-{
+
+//void PLAApp::RemoveTimelineThread(const PLATimelineThread *aThread)
+//{
   //_instance._subNodes.erase(aNode->GetObjectName());
-}
- */
+  //_rootThread.
+//}
 
 void PLAApp::PrintNodes() const
 {
   GRA_PRINT(" LV :  STEPS / LENGTH | CURRENT | NAME                             |\n");
-  _nodeThread.PrintNodes();
+  _rootThread.PrintNodes();
   GRA_PRINT("----:-----------------|---------|----------------------------------|\n");
 }
 
@@ -96,7 +94,7 @@ void PLAApp::Init(PLARenderer *aRenderer)
 {
   PLATimelineNode *node = PLATimelineNode::Create(PLATimelineNode::Type::None);
   node->SetInfinity(true);
-  _nodeThread.AddNode(node);
+  _rootThread.AddNode(node);
   _renderer = aRenderer;
   _renderer->Init();
   PLAError::Manager::Instance()->Init();
@@ -123,9 +121,10 @@ void PLAApp::Update()
   PLAObject::Manager::Instance()->PrintObjects();
   PLAObject::Manager::Instance()->DeleteUnboundObjects();
   PLAInputManager::Instance()->Flush();
-  UpdateNodeThread();
+  UpdateTimelineThread();
   //PrintStageActors();
   _stage->Update();
+  this->PrintNodes();
   ++_frame;
 }
 

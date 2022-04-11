@@ -19,6 +19,9 @@ const char *PLAObject::GetBinderErrorMessage(Binder::Error aError)
 
 void PLAObject::Destroy(PLAObject *aObject)
 {
+  if (aObject->GetObjectName() == "ANHRStage::WalkPlayer::t0") {
+    GRA_TRACE("");
+  }
   aObject->Unbind();
   //GRA_DELETE(aObject);
 }

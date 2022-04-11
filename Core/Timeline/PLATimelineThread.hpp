@@ -13,8 +13,9 @@ static PLAString DBG_PLANode_Update_Indent = "";
 class PLATimelineThread: public PLAObject
 {
   PLATimelineThread *_parent = nullptr;
-  std::vector<PLATimelineNode *>_nodes = std::vector<PLATimelineNode *>(0);
-  std::vector<PLATimelineThread *>_threads = std::vector<PLATimelineThread *>(0);
+  std::vector<PLATimelineNode *> _nodes = {};
+  std::map<PLASize, PLATimelineThread *> _threads = {};
+  std::vector<PLASize> _finishedThreadKeys = {};
   PLAUInt _current = 0;
   PLATimeline *_holder = nullptr;
 
@@ -31,11 +32,12 @@ public:
   void Clear();
 
   void OnFinishNode();
-  void OnFinishThread();
+  void OnFinishThread(const PLATimelineThread *aThread);
+  //void OnUnbindThread(const PLATimelineThread *aThread);
 
   bool IsFinished() const;
   virtual const PLATimelineNode *GetCurrentNode() const;
-  const std::vector<PLATimelineThread *> &GetThreads() const { return _threads; }
+  const std::map<PLASize, PLATimelineThread *> &GetThreads() const { return _threads; }
 
   void SetHolder(PLATimeline *aHolder) { _holder = aHolder; };
 

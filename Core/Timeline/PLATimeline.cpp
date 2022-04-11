@@ -16,7 +16,7 @@ PLATimeline::PLATimeline()
 PLATimeline::PLATimeline(PLATimelineThread *aThread):
   _thread(aThread)
 {
-  PLAApp::Instance()->AddNodeThread(aThread);
+  PLAApp::Instance()->AddTimelineThread(aThread);
 }
 
 PLATimeline::~PLATimeline() noexcept
@@ -29,13 +29,14 @@ void PLATimeline::AddThread(PLATimelineThread *aThread)
   if (!_thread) {
     _thread = PLATimelineThread::Create(nullptr);
     _thread->SetHolder(this);
-    PLAApp::Instance()->AddNodeThread(_thread);
+    PLAApp::Instance()->AddTimelineThread(_thread);
   }
   _thread->AddThread(aThread);
 }
 
-void PLATimeline::NodeDidFinish()
+void PLATimeline::OnFinishThread()
 {
+  //PLAApp::Instance()->RemoveTimelineThread(_thread);
   PLAObject::Destroy(_thread);
   _thread = nullptr;
 }
