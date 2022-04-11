@@ -2,23 +2,23 @@
 // Created by Kentaro Kawai on 2022/02/27.
 //
 
-#include "PLAMotionThread.hpp"
+#include "PLAMotion.hpp"
 
-PLAMotionThread *PLAMotionThread::Create()
+PLAMotion *PLAMotion::Create()
 {
-  PLAMotionThread *thread = new PLAMotionThread();
+  PLAMotion *thread = new PLAMotion();
   thread->Bind();
   return thread;
 }
 
-PLAMotionThread::PLAMotionThread():
-  PLATimelineThread(nullptr)
+PLAMotion::PLAMotion():
+  PLATimeline(nullptr)
 {
 
 }
 
 // GetPropertiesのほうが名称として適切なのでは？
-void PLAMotionThread::GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) const
+void PLAMotion::GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) const
 {
   //GRA_PRINT("GetProperty()\n");
   const PLATimelineNode *currentNode = this->GetCurrentNode();
@@ -28,6 +28,6 @@ void PLAMotionThread::GetProperty(std::map<PLAMotionType, PLAProperty> *aPropert
   }
   for (const auto thread : this->GetThreads())
   {
-    static_cast<const PLAMotionThread *>(thread.second)->GetProperty(aProperties);
+    static_cast<const PLAMotion *>(thread.second)->GetProperty(aProperties);
   }
 }

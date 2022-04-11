@@ -10,7 +10,7 @@
 #include "PLAState.hpp"
 #include "PLAScene.hpp"
 #include "PLAStage.hpp"
-#include "Timeline/PLATimelineThread.hpp"
+#include "Timeline/PLATimeline.hpp"
 #include "Actor/PLAActor.hpp"
 
 class PLARenderer;
@@ -20,7 +20,7 @@ class PLAApp final : public PLAObject
   static PLAApp _instance;
 
   //std::map<std::string, PLATimelineNode *> _subNodes = std::map<std::string, PLATimelineNode *>();
-  PLATimelineThread _rootThread = PLATimelineThread(nullptr); /// Infinity node
+  PLATimeline _rootThread = PLATimeline(nullptr); /// Infinity node
 
   PLAUInt _frame = 0;
 
@@ -39,9 +39,9 @@ public:
   static PLAScene *Scene();
 
   //_rootThreadの中のデータがおかしい。
-  /*static */void AddTimelineThread(PLATimelineThread *aThread);
+  /*static */void AddTimelineThread(PLATimeline *aThread);
   /*static */void UpdateTimelineThread();
-  //*static */void RemoveTimelineThread(const PLATimelineThread *aThread);
+  //*static */void RemoveTimelineThread(const PLATimeline *aThread);
 
   void PrintNodes() const;
 

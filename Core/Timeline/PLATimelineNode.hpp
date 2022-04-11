@@ -15,7 +15,7 @@
 #include "Type/PLAType.hpp"
 #include "Core/Class/PLAObject.hpp"
 
-class PLATimelineThread;
+class PLATimeline;
 
 class PLATimelineNode: public PLAObject, private GRABinder<PLATimelineNode>::Item
 {
@@ -49,12 +49,13 @@ private:
   PLAInt _steps = 0;
   PLAInt _length = 1;
   PLABool _infinity = false;
-  PLATimelineThread *_thread = nullptr;
+  PLATimeline *_timeline = nullptr;
 
 public:
   static PLATimelineNode *Create(PLATimelineNode::Type aType);
 
   void Bind() override;
+  void Unbind() override;
 
   PLATimelineNode();
   PLATimelineNode(PLATimelineNode::Type aType);
@@ -71,14 +72,11 @@ public:
   PLAFloat GetProgress() const
   { return static_cast<PLAFloat>(_steps) / static_cast<PLAFloat>(_length); };
 
-  void SetThread(PLATimelineThread *aThread) { _thread = aThread; }
+  void SetThread(PLATimeline *aThread) { _timeline = aThread; }
   void SetInfinity(PLABool aInfinity) { _infinity = aInfinity; }
   void SetFunction(FunctionCode aKey,
                    const std::function<void(PLATimelineNode *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
-
-protected:
-  void Unbind() override;
 
 private:
   void OnStart();

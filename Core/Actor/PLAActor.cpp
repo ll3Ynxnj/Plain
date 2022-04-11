@@ -415,7 +415,7 @@ void PLAActor::UpdateMotions()
 }
  */
 
-void PLAActor::AddTileMotion(const PLAVec2s &aAddress, PLAMotionThread *aThread)
+void PLAActor::AddTileMotion(const PLAVec2s &aAddress, PLAMotion *aThread)
 {
   PLALYRTile *layer = this->RefLYRTile();
   if (!layer) {

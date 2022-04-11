@@ -17,15 +17,6 @@ const char *PLAObject::GetBinderErrorMessage(Binder::Error aError)
   return kBinderErrorMessages.at(aError);
 }
 
-void PLAObject::Destroy(PLAObject *aObject)
-{
-  if (aObject->GetObjectName() == "ANHRStage::WalkPlayer::t0") {
-    GRA_TRACE("");
-  }
-  aObject->Unbind();
-  //GRA_DELETE(aObject);
-}
-
 void PLAObject::Bind()
 {
   Binder::Error error(Binder::Error::None);

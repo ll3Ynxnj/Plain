@@ -25,9 +25,9 @@ protected:
 
 public:
   static const char *GetBinderErrorMessage(Binder::Error aError);
-  static void Destroy(PLAObject *aObject);
 
   virtual void Bind();
+  virtual void Unbind();
 
   PLAObject() = delete;
   virtual ~PLAObject();
@@ -59,9 +59,6 @@ public:
   void SetVec4(const PLAString &aName, const PLAVec4 &aValue);
 
   std::string GetObjectDescription() const;
-
-protected:
-  virtual void Unbind();
 
 // Manager /////////////////////////////////////////////////////////////////////
 public:

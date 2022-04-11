@@ -5,23 +5,46 @@
 #ifndef ANHR_PLATIMELINE_HPP
 #define ANHR_PLATIMELINE_HPP
 
-class PLATimelineNode;
-class PLATimelineThread;
+#include "Timeline/PLATimelineNode.hpp";
+#include "Timeline/PLATimelineHolder.hpp";
 
-class PLATimeline
+static PLAString DBG_PLANode_Update_Indent = "";
+
+class PLATimeline: public PLAObject
 {
-  PLATimelineThread *_thread = nullptr;
+  PLATimeline *_parent = nullptr;
+  std::vector<PLATimelineNode *> _nodes = {};
+  std::map<PLASize, PLATimeline *> _threads = {};
+  std::vector<PLASize> _finishedThreadKeys = {};
+  PLAUInt _current = 0;
+  PLATimelineHolder *_holder = nullptr;
 
 public:
-  PLATimeline();
-  PLATimeline(PLATimelineThread *aThread);
-  virtual ~PLATimeline();
+  static PLATimeline *Create(PLATimeline *aParent);
 
-  void AddThread(PLATimelineThread *aThread);
+  PLATimeline(PLATimeline *aParent);
+  virtual ~PLATimeline() override;
 
-  const PLATimelineThread *GetNodeThread() const { return _thread; }
+  void Update();
 
-  /*virtual*/ void OnFinishThread();
+  void AddNode(PLATimelineNode *aNode);
+  void AddThread(PLATimeline *aNode);
+  void Clear();
+
+  void OnFinishNode();
+  void OnFinishThread(const PLATimeline *aThread);
+  //void OnUnbindThread(const PLATimeline *aThread);
+
+  bool IsFinished() const;
+  virtual const PLATimelineNode *GetCurrentNode() const;
+  const std::map<PLASize, PLATimeline *> &GetThreads() const { return _threads; }
+
+  void SetHolder(PLATimelineHolder *aHolder) { _holder = aHolder; };
+
+  void PrintNodes() const;
 };
+
+
+
 
 #endif //ANHR_PLATIMELINE_HPP

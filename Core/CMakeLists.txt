@@ -13,10 +13,10 @@ add_library(Plain-Core STATIC
   Class/PLAImageClip.cpp
   Input/PLAInput.cpp
   Timeline/PLATimelineNode.cpp
-  Timeline/PLATimelineThread.cpp
   Timeline/PLATimeline.cpp
+  Timeline/PLATimelineHolder.cpp
   Timeline/PLAMotionNode.cpp
-  Timeline/PLAMotionThread.cpp
+  Timeline/PLAMotion.cpp
   Actor/PLAActor.cpp
   Layer/PLALayer.cpp
   Layer/PLALYRPoint.cpp

@@ -3,8 +3,8 @@
 
 #include "PLALayer.hpp"
 #include "Type/PLATile.hpp"
-#include "Timeline/PLATimeline.hpp"
-#include "Timeline/PLAMotionThread.hpp"
+#include "Timeline/PLATimelineHolder.hpp"
+#include "Timeline/PLAMotion.hpp"
 
 #include "IPLALYRTileDataSource.hpp"
 
@@ -14,15 +14,15 @@ class PLALYRTile : public PLALayer
   GRAVec2<PLASize> _tileSize = GRAVec2<PLASize>(0);
   GRAVec2<PLASize> _chipSize = GRAVec2<PLASize>(0);
   const IPLALYRTileDataSource *_dataSource = nullptr;
-  std::vector<std::vector<PLATimeline *>> _nodeHolders =
-    std::vector<std::vector<PLATimeline *>>(0);
+  std::vector<std::vector<PLATimelineHolder *>> _nodeHolders =
+    std::vector<std::vector<PLATimelineHolder *>>(0);
 
 protected:
   PLALYRTile(const PLAVec2 &aOffset, const PLAImage *aImage,
              const GRAVec2<PLASize> &aTileSize,
              const GRAVec2<PLASize> &aChipSize,
              const IPLALYRTileDataSource *aDataSource,
-             const std::vector<std::vector<PLATimeline *>> &aNodeHolders);
+             const std::vector<std::vector<PLATimelineHolder *>> &aNodeHolders);
 
 public:
   static PLALYRTile *Create(const PLAVec2 &aOffset,
@@ -37,7 +37,7 @@ public:
 
   //void UpdateMotionProperties() override;
 
-  void AddMotionThread(const PLAVec2s &aAddress, PLAMotionThread *aThread);
+  void AddMotionThread(const PLAVec2s &aAddress, PLAMotion *aThread);
   //void AddMotions(const PLAVec2s &aAddress,
   //                const std::vector<PLAMotionNode *> &aMotions);
   //void SetMotion(const PLAVec2s &aAddress, PLAMotionNode *aMotion);
@@ -49,7 +49,7 @@ public:
   { return _dataSource->GetTileChip(aAddress); }
   //const PLAMotionNode *GetMotion(const PLAVec2s &aAddress) const
   //{ return _motions[aAddress.y][aAddress.x]; }
-  const PLAMotionThread *GetMotionThread(const PLAVec2s &aAddress) const;
+  const PLAMotion *GetMotionThread(const PLAVec2s &aAddress) const;
 
   PLASize GetNumberOfChips() const { return _tileSize.x * _tileSize.y; };
 

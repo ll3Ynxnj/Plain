@@ -9,11 +9,11 @@ PLALYRTile *PLALYRTile::Create(const PLAVec2 &aOffset,
 {
   PLAImage *image = PLAImage::CreateRaw(aImageName);
 
-  std::vector<std::vector<PLATimeline *>> motionHolders(0);
+  std::vector<std::vector<PLATimelineHolder *>> motionHolders(0);
   for (PLASize y = 0; y < aTileSize.y; y++) {
-    std::vector<PLATimeline *> holders(0);
+    std::vector<PLATimelineHolder *> holders(0);
     for (PLASize x = 0; x < aTileSize.x; x++) {
-      holders.push_back(new PLATimeline());//PLAMotionNode::Create()));
+      holders.push_back(new PLATimelineHolder());//PLAMotionNode::Create()));
     }
     motionHolders.push_back(holders);
   }
@@ -27,7 +27,7 @@ PLALYRTile::PLALYRTile(const PLAVec2 &aOffset, const PLAImage *aImage,
                        const GRAVec2<PLASize> &aTileSize,
                        const GRAVec2<PLASize> &aChipSize,
                        const IPLALYRTileDataSource *aDataSource,
-                       const std::vector<std::vector<PLATimeline *>> &aNodeHolders) :
+                       const std::vector<std::vector<PLATimelineHolder *>> &aNodeHolders) :
 PLALayer(PLALayerType::Tile, PLAVec3(aOffset.x, aOffset.y, 0)),
   _image(aImage), _tileSize(aTileSize),
   _chipSize(aChipSize), _dataSource(aDataSource),
@@ -67,9 +67,9 @@ void PLALYRTile::UpdateMotionProperties()
  */
 
 void PLALYRTile::AddMotionThread(const PLAVec2s &aAddress,
-                                 PLAMotionThread *aThread)
+                                 PLAMotion *aThread)
 {
-  _nodeHolders[aAddress.y][aAddress.x]->PLATimeline::AddThread(aThread);
+  _nodeHolders[aAddress.y][aAddress.x]->PLATimelineHolder::AddThread(aThread);
 };
 
 /*
@@ -90,9 +90,9 @@ void PLALYRTile::SetMotion(const PLAVec2s &aAddress, PLAMotionNode *aMotion)
 };
  */
 
-const PLAMotionThread *PLALYRTile::GetMotionThread(const PLAVec2s &aAddress) const
+const PLAMotion *PLALYRTile::GetMotionThread(const PLAVec2s &aAddress) const
 {
-  return static_cast<const PLAMotionThread *>
+  return static_cast<const PLAMotion *>
   (_nodeHolders[aAddress.y][aAddress.x]->GetNodeThread());
   /*
   if (_motionHolders.contains(aAddress.y))

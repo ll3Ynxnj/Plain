@@ -16,14 +16,14 @@
 #include "Layer/PLALayer.hpp"
 #include "Layer/IPLALYRTileDataSource.hpp"
 #include "Grain/Class/GRABinder.hpp"
-#include "Timeline/PLATimeline.hpp"
+#include "Timeline/PLATimelineHolder.hpp"
 #include "Timeline/PLAMotionNode.hpp"
-#include "Timeline/PLAMotionThread.hpp"
+#include "Timeline/PLAMotion.hpp"
 
 class PLARenderer;
 
 class PLAActor final :
-  public PLAObject, public PLAInputContext, public PLATimeline,
+  public PLAObject, public PLAInputContext, public PLATimelineHolder,
   public GRAListener<PLAScene, PLAScene::FunctionCode>,
   public GRABinder<PLAActor>::Item
 {
@@ -200,7 +200,7 @@ public:
                    const std::function<void(PLAActor *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
 
-  void AddTileMotion(const PLAVec2s &aAddress, PLAMotionThread *aThread);
+  void AddTileMotion(const PLAVec2s &aAddress, PLAMotion *aThread);
   //void AddTileMotions(const PLAVec2s &aAddress, const std::vector<PLAMotionNode *> &aMotion);
   //void SetTileMotion(const PLAVec2s &aAddress, PLAMotionNode *aMotion);
 

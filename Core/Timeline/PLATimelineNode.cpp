@@ -82,7 +82,7 @@ void PLATimelineNode::Update()
     this->OnUpdate();
   }
 
-  //if (_thread->GetObjectName() == "ANHRStage::WalkPlayer::t0") {
+  //if (_timeline->GetObjectName() == "ANHRStage::WalkPlayer::t0") {
   //  GRA_TRACE("");
   //}
 
@@ -90,13 +90,13 @@ void PLATimelineNode::Update()
   if (this->IsFinished())
   {
     this->OnStop();
-    if (_thread) {
+    if (_timeline) {
       GRA_PRINT("Object '%s' will call function OnFinishCurrent().",
                 this->GetObjectName().c_str());
-      if (_thread->GetObjectName() == "ANHRStage::WalkPlayer::t0") {
+      if (_timeline->GetObjectName() == "ANHRStage::WalkPlayer::t0") {
         GRA_TRACE("");
       }
-      _thread->OnFinishNode();
+      _timeline->OnFinishNode();
     }
   }
 
@@ -140,7 +140,7 @@ void PLATimelineNode::OnStop()
 
 bool PLATimelineNode::IsFinished() const
 {
-  if (_thread->GetObjectName() == "ANHRStage::WalkPlayer::t0") {
+  if (_timeline->GetObjectName() == "ANHRStage::WalkPlayer::t0") {
     GRA_TRACE("");
   }
   return _length <= _steps;
