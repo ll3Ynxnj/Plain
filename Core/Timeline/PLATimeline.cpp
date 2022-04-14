@@ -41,6 +41,14 @@ void PLATimeline::Update() {
 
   //-- Update nodes.
   if (_current < _nodes.size()) { _nodes[_current]->Update(); }
+
+  //-- Destruct
+  if (this->IsFinished())//_current == _nodes.size())
+  {
+    if (_parent) { _parent->OnFinishThread(this); }
+    this->Clear();
+    if (_holder) { _holder->OnFinishThread(); }
+  }
 }
 
 void PLATimeline::AddNode(PLATimelineNode *aNode)
@@ -72,17 +80,7 @@ void PLATimeline::Clear()
 
 void PLATimeline::OnFinishNode()
 {
-  if (_current < _nodes.size())
-  {
-    ++_current;
-  }
-
-  if (this->IsFinished())//_current == _nodes.size())
-  {
-    if (_parent) { _parent->OnFinishThread(this); }
-    this->Clear();
-    if (_holder) { _holder->OnFinishThread(); }
-  }
+  if (_current < _nodes.size()) { ++_current; }
 }
 
 void PLATimeline::OnFinishThread(const PLATimeline *aThread)

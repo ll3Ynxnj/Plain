@@ -36,6 +36,6 @@ void PLATimelineHolder::AddThread(PLATimeline *aThread)
 
 void PLATimelineHolder::OnFinishThread()
 {
-  _thread->Unbind();
+  //_thread->Unbind();
   _thread = nullptr;
 }
