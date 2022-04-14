@@ -78,7 +78,7 @@ void PLATimelineNode::Update()
   //-- OnUpdate
   if (_steps < _length)
   {
-    if (!_infinity) { ++_steps; };
+    ++_steps;
     this->OnUpdate();
   }
 

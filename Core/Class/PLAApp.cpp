@@ -89,16 +89,12 @@ PLAApp::~PLAApp()
 
 void PLAApp::Init(PLARenderer *aRenderer)
 {
-  PLATimelineNode *node = PLATimelineNode::Create(PLATimelineNode::Type::None);
-  node->SetInfinity(true);
-  _rootThread.AddNode(node);
   _renderer = aRenderer;
   _renderer->Init();
   PLAError::Manager::Instance()->Init();
   PLAScene::Manager::Instance()->Init();
   _stage = PLAStage::Create();
   PLAInputManager::Instance()->SetHandler(_stage);
-  //PLA_ERROR_ISSUE(PLAErrorType::Assert, "[%s] : %d %x %p", "TEST", 0, 1, this);
 }
 
 void PLAApp::Reset()

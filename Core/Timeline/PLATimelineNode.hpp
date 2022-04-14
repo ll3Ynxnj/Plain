@@ -48,7 +48,6 @@ private:
   Type _type = Type::None;
   PLAInt _steps = 0;
   PLAInt _length = 1;
-  PLABool _infinity = false;
   PLATimeline *_timeline = nullptr;
 
 public:
@@ -73,7 +72,7 @@ public:
   { return static_cast<PLAFloat>(_steps) / static_cast<PLAFloat>(_length); };
 
   void SetThread(PLATimeline *aThread) { _timeline = aThread; }
-  void SetInfinity(PLABool aInfinity) { _infinity = aInfinity; }
+  //void SetInfinity(PLABool aInfinity) { _infinity = aInfinity; }
   void SetFunction(FunctionCode aKey,
                    const std::function<void(PLATimelineNode *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
