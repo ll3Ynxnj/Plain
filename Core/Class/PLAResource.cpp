@@ -64,9 +64,22 @@ void PLAResource::ReleaseData()
   //GRA_DELETE_ARRAY(_data)
 }
 
+const char *PLAResource::GetResourceTypeName() const
+{
+  static const char *kName = "== STUB ==";
+  return kName;
+}
+
 void PLAResource::PrintResource() const
 {
   GRA_PRINT("%12d | %65s\n", this->GetSize(), _path.c_str());
+}
+
+// GRABinder::Item /////////////////////////////////////////////////////////////
+
+const char *PLAResource::GetBinderItemTypeName() const
+{
+  return this->GetResourceTypeName();
 }
 
 // PLAResource::Manager ////////////////////////////////////////////////////////

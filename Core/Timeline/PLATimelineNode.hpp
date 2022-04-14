@@ -17,10 +17,10 @@
 
 class PLATimeline;
 
-class PLATimelineNode: public PLAObject, private GRABinder<PLATimelineNode>::Item
+class PLATimelineNode: public PLAObject//, private GRABinder<PLATimelineNode>::Item
 {
-  using Item = GRABinder<PLATimelineNode>::Item;
-  using Error = GRABinder<PLATimelineNode>::Error;
+  //using Item = GRABinder<PLATimelineNode>::Item;
+  //using Error = GRABinder<PLATimelineNode>::Error;
 
 public:
   /// \~english Function to be executed at a specific point in time.

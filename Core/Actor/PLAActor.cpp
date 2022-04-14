@@ -198,6 +198,12 @@ void PLAActor::PrintActors() const
   --indentLevel;
 }
 
+const char *PLAActor::GetActorTypeName() const
+{
+  static const char *kName = "== STUB ==";
+  return kName;
+}
+
 bool PLAActor::IsCollideWithPoint(PLAPoint aPoint) const
 {
   //*
@@ -472,3 +478,8 @@ void PLAActor::OnUpdateMotions()
   for (PLAActor *actor : _actors) { actor->OnUpdateMotions(); }
 }
  */
+
+const char *PLAActor::GetBinderItemTypeName() const
+{
+  return this->GetActorTypeName();
+}

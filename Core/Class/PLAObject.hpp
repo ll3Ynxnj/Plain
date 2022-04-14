@@ -37,6 +37,7 @@ public:
   GRASize GetObjectId() const { return this->GetId(); }
   const std::string &GetObjectName() const { return this->GetName(); };
   PLAObjectType GetObjectType() const { return _type; };
+  const char *GetObjectTypeName() const;
 
   PLABool GetBool(const PLAString &aName) const;
   PLAInt GetInt(const PLAString &aName) const;
@@ -60,6 +61,10 @@ public:
 
   std::string GetObjectDescription() const;
 
+// GRABinder::Item /////////////////////////////////////////////////////////////
+private:
+  const char *GetBinderItemTypeName() const override;
+
 // Manager /////////////////////////////////////////////////////////////////////
 public:
   class Manager: public GRABinder<PLAObject>
@@ -79,8 +84,5 @@ public:
     void PrintObjects() const;
   };
 };
-
-
-
 
 #endif // PLAIN_ENGINE_PLAOBJECT_HPP

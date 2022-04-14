@@ -17,6 +17,11 @@ const char *PLAObject::GetBinderErrorMessage(Binder::Error aError)
   return kBinderErrorMessages.at(aError);
 }
 
+const char *PLAObject::GetObjectTypeName() const
+{
+  return kPLAObjectTypeName[static_cast<PLASize>(_type)];
+}
+
 void PLAObject::Bind()
 {
   Binder::Error error(Binder::Error::None);
@@ -171,6 +176,13 @@ void PLAObject::SetObjectName(const std::string &aName)
         break;
     }
   }
+}
+
+// GRABinder::Item /////////////////////////////////////////////////////////////
+
+const char *PLAObject::GetBinderItemTypeName() const
+{
+  return PLAObject::GetObjectTypeName();
 }
 
 // PLAObject::Manager //////////////////////////////////////////////////////////

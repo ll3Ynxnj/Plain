@@ -14,8 +14,8 @@ enum class PLAObjectType : PLAInt
   Style,
   Image,
   Error,
-  Node,
-  NodeThread,
+  Timeline,
+  TimelineNode,
   Resource,
   Renderer,
   ImageClip,
@@ -26,7 +26,7 @@ enum class PLAObjectType : PLAInt
   None = kPLAIntUndefined,
 };
 
-static const char *kPLAObjectTypeName[static_cast<PLAInt>(PLAObjectType::kNumberOfItems)] = {
+static const char *kPLAObjectTypeName[static_cast<PLASize>(PLAObjectType::kNumberOfItems)] = {
   "App",
   "Input",
   "Scene",
@@ -36,8 +36,8 @@ static const char *kPLAObjectTypeName[static_cast<PLAInt>(PLAObjectType::kNumber
   "Style",
   "Image",
   "Error",
-  "Node",
-  "NodeThread",
+  "Timeline",
+  "TimelineNode",
   "Resource",
   "Renderer",
   "ImageClip",

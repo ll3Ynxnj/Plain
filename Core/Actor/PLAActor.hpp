@@ -25,7 +25,7 @@ class PLARenderer;
 class PLAActor final :
   public PLAObject, public PLAInputContext, public PLATimelineHolder,
   public GRAListener<PLAScene, PLAScene::FunctionCode>,
-  public GRABinder<PLAActor>::Item
+  /*private*/public GRABinder<PLAActor>::Item
 {
 public:
   //static void Bind(PLAActor *aObject);
@@ -127,6 +127,8 @@ public:
 
   void PrintActors() const;
 
+  const char *GetActorTypeName() const;
+
   //bool IsCollideWithInput(const PLAInput &aInput) const;
   bool IsCollideWithActor(const PLAActor *aActor) const;
   bool IsCollideWithPoint(PLAPoint aPoint) const;
@@ -210,6 +212,11 @@ private:
 
   //void UpdateMotions();
   void RefreshLayerOffset();
+
+//-- GRABinder::Item --/////////////////////////////////////////////////////////
+private:
+  const char *GetBinderItemTypeName() const override;
+
 };
 
 #endif // PLAIN_ENGINE_PLAACTOR_HPP

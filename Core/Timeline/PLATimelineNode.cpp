@@ -37,20 +37,20 @@ void PLATimelineNode::Unbind()
 }
 
 PLATimelineNode::PLATimelineNode():
-PLAObject(PLAObjectType::Node)
+PLAObject(PLAObjectType::TimelineNode)
 {
 
 }
 
 PLATimelineNode::PLATimelineNode(PLATimelineNode::Type aType):
-PLAObject(PLAObjectType::Node),
+PLAObject(PLAObjectType::TimelineNode),
 _type(aType)
 {
 
 }
 
 PLATimelineNode::PLATimelineNode(PLATimelineNode::Type aType, PLAInt aLength):
-PLAObject(PLAObjectType::Node),
+PLAObject(PLAObjectType::TimelineNode),
 _type(aType),
 _length(aLength)
 {
@@ -58,7 +58,7 @@ _length(aLength)
 }
 
 PLATimelineNode::PLATimelineNode(PLATimelineNode::Type aType, PLAInt aLength, const std::string &aName):
-PLAObject(PLAObjectType::Node, aName),
+PLAObject(PLAObjectType::TimelineNode, aName),
 _type(aType),
 _length(aLength)
 {
@@ -72,6 +72,10 @@ PLATimelineNode::~PLATimelineNode()
 
 void PLATimelineNode::Update()
 {
+  if (_timeline->GetObjectName() == "Timeline-22") {
+    GRA_TRACE("");
+  }
+
   //-- OnStart
   if (_steps == 0) { this->OnStart(); }
 
@@ -82,20 +86,11 @@ void PLATimelineNode::Update()
     this->OnUpdate();
   }
 
-  //if (_timeline->GetObjectName() == "ANHRStage::WalkPlayer::t0") {
-  //  GRA_TRACE("");
-  //}
-
   //-- OnStop
   if (this->IsFinished())
   {
     this->OnStop();
     if (_timeline) {
-      GRA_PRINT("Object '%s' will call function OnFinishCurrent().",
-                this->GetObjectName().c_str());
-      if (_timeline->GetObjectName() == "ANHRStage::WalkPlayer::t0") {
-        GRA_TRACE("");
-      }
       _timeline->OnFinishNode();
     }
   }
@@ -140,8 +135,5 @@ void PLATimelineNode::OnStop()
 
 bool PLATimelineNode::IsFinished() const
 {
-  if (_timeline->GetObjectName() == "ANHRStage::WalkPlayer::t0") {
-    GRA_TRACE("");
-  }
   return _length <= _steps;
 }

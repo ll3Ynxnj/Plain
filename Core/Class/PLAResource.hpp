@@ -37,6 +37,7 @@ public:
   void AllocData();
   void ReleaseData();
 
+  const char *GetResourceTypeName() const;
   const PLAUInt8 *GetData() const { return _data; };
   PLASize GetSize() const { return _size; };
 
@@ -44,6 +45,11 @@ public:
 
 protected:
   void Unbind() override;
+
+// GRABinder::Item /////////////////////////////////////////////////////////////
+
+private:
+  const char *GetBinderItemTypeName() const override;
 
 // Manager /////////////////////////////////////////////////////////////////////
 public:

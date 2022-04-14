@@ -13,7 +13,7 @@ PLATimeline *PLATimeline::Create(PLATimeline *aParent) {
 }
 
 PLATimeline::PLATimeline(PLATimeline *aParent):
-  PLAObject(PLAObjectType::NodeThread),
+  PLAObject(PLAObjectType::Timeline),
   _parent(aParent)
 {
 
@@ -34,9 +34,6 @@ void PLATimeline::Update() {
 
   //-- Erase finished threads.
   for (auto key: _finishedThreadKeys) {
-    if (_threads[key]->GetObjectName() == "ANHRStage::WalkPlayer::t0") {
-      GRA_TRACE("");
-    }
     _threads[key]->Unbind();
     _threads.erase(key);
   }
@@ -71,7 +68,6 @@ void PLATimeline::Clear()
   }
   _nodes.clear();
   GRA_PRINT("  _queue.size(): %s", _nodes.size());
-  //PLAObject::Destroy(this);
 }
 
 void PLATimeline::OnFinishNode()
@@ -81,7 +77,7 @@ void PLATimeline::OnFinishNode()
     ++_current;
   }
 
-  if (_current == _nodes.size())
+  if (this->IsFinished())//_current == _nodes.size())
   {
     if (_parent) { _parent->OnFinishThread(this); }
     this->Clear();
@@ -95,10 +91,6 @@ void PLATimeline::OnFinishThread(const PLATimeline *aThread)
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
             _current);
   _finishedThreadKeys.push_back(aThread->GetObjectId());
-  //this->AdvanceNode();
-  if (aThread->GetObjectName() == "ANHRStage::WalkPlayer::t0") {
-    GRA_TRACE("");
-  }
 }
 
 /*

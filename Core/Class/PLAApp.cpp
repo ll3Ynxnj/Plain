@@ -12,23 +12,20 @@ PLAScene *PLAApp::Scene()
 
 void PLAApp::AddTimelineThread(PLATimeline *aThread)
 {
-  //_instance._subNodes[aNode->GetObjectName()] = aNode;
   _rootThread.AddThread(aThread);
 }
 
 void PLAApp::UpdateTimelineThread()
 {
-  //for (const auto [name, node]: _instance._subNodes)
-  //{ _instance._subNodes[name]->Update(); }
   _rootThread.Update();
 }
 
-
-//void PLAApp::RemoveTimelineThread(const PLATimeline *aThread)
-//{
-  //_instance._subNodes.erase(aNode->GetObjectName());
-  //_rootThread.
-//}
+/*
+void PLAApp::RemoveTimelineThread(const PLATimeline *aThread)
+{
+  _rootThread.
+}
+ */
 
 void PLAApp::PrintNodes() const
 {
