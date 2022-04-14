@@ -214,12 +214,12 @@ void PLAObject::Manager::PrintObjects() const
     if (item) {
       const PLAObject *object = static_cast<const PLAObject *>(item);
       PLAObjectType type = object->GetObjectType();
-      GRA_PRINT(" %04x | %04x | %32s | %4d | %22s\n",
+      GRA_PRINT(" %4d | %4d | %32s | %4d | %22s\n",
                 i, object->GetId(), object->GetName().c_str(),
                 type,
                 kPLAObjectTypeName[static_cast<PLASize>(type)]);
     } else {
-      GRA_PRINT(" %04x | %s | %s | %s | %22s\n",
+      GRA_PRINT(" %4d | %s | %s | %s | %22s\n",
                 i, "----", "------------------------ NULL --", "----",
                 "----------------------");
     }
