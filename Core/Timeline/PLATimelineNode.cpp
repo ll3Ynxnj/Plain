@@ -72,10 +72,6 @@ PLATimelineNode::~PLATimelineNode()
 
 void PLATimelineNode::Update()
 {
-  if (_timeline->GetObjectName() == "Timeline-22") {
-    GRA_TRACE("");
-  }
-
   //-- OnStart
   if (_steps == 0) { this->OnStart(); }
 

@@ -65,7 +65,6 @@ void PLATimeline::AddThread(PLATimeline *aThread)
 
 void PLATimeline::Clear()
 {
-  GRA_PRINT("%s::Clear()\n", this->GetObjectName().c_str());
   for (auto thread: _threads) {
     thread.second->Clear();
   }
@@ -75,7 +74,6 @@ void PLATimeline::Clear()
     node->Unbind();
   }
   _nodes.clear();
-  GRA_PRINT("  _queue.size(): %s", _nodes.size());
 }
 
 void PLATimeline::OnFinishNode()
@@ -85,9 +83,6 @@ void PLATimeline::OnFinishNode()
 
 void PLATimeline::OnFinishThread(const PLATimeline *aThread)
 {
-  GRA_PRINT("%s| %s : OnFinishQueue(), _current: %2d\n",
-            DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
-            _current);
   _finishedThreadKeys.push_back(aThread->GetObjectId());
 }
 
@@ -102,9 +97,7 @@ bool PLATimeline::IsFinished() const
 {
   if (_current < _nodes.size()) { return false; }
   for (const auto thread: _threads)
-  {
-    if (!thread.second->IsFinished()) { return false; }
-  }
+  { if (!thread.second->IsFinished()) { return false; } }
 
   if (this->GetCurrentNode())
   { return this->GetCurrentNode()->IsFinished(); }
@@ -114,7 +107,6 @@ bool PLATimeline::IsFinished() const
 
 const PLATimelineNode *PLATimeline::GetCurrentNode() const
 {
-  GRA_PRINT("%s::_nodes.size(): %d\n", this->GetObjectName().c_str(), _nodes.size());
   if (!_nodes.size()) { return nullptr; }
   if (_nodes.size() == _current) { return _nodes[_current - 1]; }
   if (_nodes.size() < _current || _current < 0)
