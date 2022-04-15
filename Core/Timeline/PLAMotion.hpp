@@ -15,7 +15,7 @@ public:
 
   PLAMotion();
   ~PLAMotion() override {}
-  void GetProperty(std::map<PLAMotionType, PLAProperty> *aProperties) const;
+  void GetProperties(std::map<PLAMotionType, PLAProperty> *aProperties) const;
 };
 
 #endif //ANHR_PLAMOTION_HPP

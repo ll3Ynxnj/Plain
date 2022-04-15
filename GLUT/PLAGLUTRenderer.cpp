@@ -421,7 +421,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       {
         std::map<PLAMotionType, PLAProperty> properties =
           std::map<PLAMotionType, PLAProperty>();
-        motionThread->GetProperty(&properties);
+        motionThread->GetProperties(&properties);
         if (properties.contains(PLAMotionType::Translation))
         {
           translation = properties.at(PLAMotionType::Translation).GetVec3();

@@ -407,7 +407,7 @@ void PLAActor::UpdateMotions()
 
   std::map<PLAMotionType, PLAProperty> properties =
     std::map<PLAMotionType, PLAProperty>();
-  _motion.GetProperty(&properties);
+  _motion.GetProperties(&properties);
 
   for (const auto &[key, value] : properties) {
     if (!_motionProperties.contains(key)) {
