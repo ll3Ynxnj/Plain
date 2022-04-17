@@ -16,8 +16,8 @@ protected:
 
 public:
   PLAImageClip() = delete;
-  static PLAImageClip *Create(const std::string &aImageName);
-  static PLAImageClip *Create(const std::string &aImageName,
+  static PLAImageClip *Create(const PLAString &aImageName);
+  static PLAImageClip *Create(const PLAString &aImageName,
                               const PLARect &aClip);
 
   ~PLAImageClip();

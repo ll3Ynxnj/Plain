@@ -48,7 +48,7 @@ public:
   //-- このStage関連のメソッド、Stage()から呼べばいいので不要なのでは？
   static void InitStage();
   static void AddActor(PLAActor *aActor);
-  static PLAActor *Actor(const std::string &aKey);
+  static PLAActor *Actor(const PLAString &aName);
   static void SetStageFunction(PLAStage::FunctionCode aKey,
                                const std::function<void(PLAStage *)> &aFunc);
   static PLAVec3 GetStageSize();
@@ -59,7 +59,7 @@ public:
 
   ~PLAApp();
 
-  void Init(PLARenderer *aType);
+  void Init(PLARendererType aType);
   void Reset();
   void Input(PLAInputDeviceType aDevice, PLAInputSignalCode aCode,
              PLAInputSignal aSignal, const PLAPoint &aPoint);

@@ -1,11 +1,11 @@
 #include "PLAImageClip.hpp"
 
-PLAImageClip *PLAImageClip::Create(const std::string &aImageName)
+PLAImageClip *PLAImageClip::Create(const PLAString &aImageName)
 {
   PLAImageClip::Create(aImageName, kPLARectNorm);
 }
 
-PLAImageClip *PLAImageClip::Create(const std::string &aImageName,
+PLAImageClip *PLAImageClip::Create(const PLAString &aImageName,
                                    const PLARect &aClip)
 {
   const PLAImage *image = PLAImage::CreateRaw(aImageName);

@@ -2,10 +2,21 @@
 #include "PLAApp.hpp"
 #include "Actor/PLAActor.hpp"
 
-PLAScene *PLAScene::Create() {
+PLAScene *PLAScene::Create()
+{
   PLAScene *scene = new PLAScene();
   scene->PLAObject::Bind();
   return scene;
+}
+
+PLAScene *PLAScene::Scene(const PLAString &aName)
+{
+  return static_cast<PLAScene *>(PLAObject::Object(aName));
+}
+
+PLAScene *PLAScene::Scene(PLAId aId)
+{
+  return static_cast<PLAScene *>(PLAObject::Object(aId));
 }
 
 PLAScene::PLAScene() :
@@ -59,11 +70,11 @@ void PLAScene::RemoveActor(PLAActor *aActor) {
   this->GRABinder<PLAActor>::Unbind(aActor, &error);
 }
 
-const PLAActor *PLAScene::GetActor(const std::string &aName) const {
+const PLAActor *PLAScene::GetActor(const PLAString &aName) const {
   return this->RefActor(aName);
 }
 
-PLAActor *PLAScene::RefActor(const std::string &aName) const {
+PLAActor *PLAScene::RefActor(const PLAString &aName) const {
   GRABinder<PLAActor>::Error error(GRABinder<PLAActor>::Error::None);
   PLAScene *scene = PLAScene::Manager::Instance()->RefCurrentScene();
   PLAActor *actor = static_cast<PLAActor *>(scene->RefItem(aName, &error));
@@ -76,6 +87,7 @@ PLAScene::Manager PLAScene::Manager::_instance = PLAScene::Manager();
 
 void PLAScene::Manager::Init()
 {
-  PLAScene *scene = PLAScene::Create();
-  _scenes.push(scene);
+  //PLAScene *scene = PLAScene::Create();
+  //_scenes.push(scene);
 }
+

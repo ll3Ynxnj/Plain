@@ -14,8 +14,8 @@ class PLATimeline: public PLAObject
 {
   PLATimeline *_parent = nullptr;
   std::vector<PLATimelineNode *> _nodes = {};
-  std::map<PLASize, PLATimeline *> _threads = {};
-  std::vector<PLASize> _finishedThreadKeys = {};
+  std::map<PLAId, PLATimeline *> _threads = {};
+  std::vector<PLAId> _finishedThreadKeys = {};
   PLAUInt _current = 0;
   PLATimelineHolder *_holder = nullptr;
 
@@ -37,7 +37,7 @@ public:
 
   bool IsFinished() const;
   virtual const PLATimelineNode *GetCurrentNode() const;
-  const std::map<PLASize, PLATimeline *> &GetThreads() const { return _threads; }
+  const std::map<PLAId, PLATimeline *> &GetThreads() const { return _threads; }
 
   void SetHolder(PLATimelineHolder *aHolder) { _holder = aHolder; };
 

@@ -21,10 +21,12 @@ class PLAObject : private GRABinder<PLAObject>::Item
 
 protected:
   PLAObject(PLAObjectType aType);
-  PLAObject(PLAObjectType aType, const std::string &aName);
+  PLAObject(PLAObjectType aType, const PLAString &aName);
 
 public:
   static const char *GetBinderErrorMessage(Binder::Error aError);
+  static PLAObject *Object(const PLAString &aName);
+  static PLAObject *Object(PLAId aId);
 
   virtual void Bind();
   virtual void Unbind();
@@ -35,7 +37,7 @@ public:
   virtual void Print();
 
   GRASize GetObjectId() const { return this->GetId(); }
-  const std::string &GetObjectName() const { return this->GetName(); };
+  const PLAString &GetObjectName() const { return this->GetName(); };
   PLAObjectType GetObjectType() const { return _type; };
   const char *GetObjectTypeName() const;
 
@@ -48,7 +50,7 @@ public:
   const PLAVec3 &GetVec3(const PLAString &aName) const;
   const PLAVec4 &GetVec4(const PLAString &aName) const;
 
-  void SetObjectName(const std::string &aName);
+  void SetObjectName(const PLAString &aName);
 
   void SetBool(const PLAString &aName, PLABool aValue);
   void SetInt(const PLAString &aName, PLAInt aValue);
@@ -59,11 +61,12 @@ public:
   void SetVec3(const PLAString &aName, const PLAVec3 &aValue);
   void SetVec4(const PLAString &aName, const PLAVec4 &aValue);
 
-  std::string GetObjectDescription() const;
+  PLAString GetObjectDescription() const;
 
 // GRABinder::Item /////////////////////////////////////////////////////////////
 private:
   const char *GetBinderItemTypeName() const override;
+
 
 // Manager /////////////////////////////////////////////////////////////////////
 public:
@@ -74,7 +77,6 @@ public:
 
   public:
     static Manager *Instance() { return &_instance; };
-    static PLAObject *Object(const std::string &aKey);
 
     Manager();
     ~Manager();

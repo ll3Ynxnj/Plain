@@ -16,9 +16,9 @@ class PLAImage : public PLAObject
   PLAImageType _type = PLAImageType::None;
 
 public:
-  static PLAImage *CreateRaw(const std::string &aName);
+  static PLAImage *CreateRaw(const PLAString &aName);
 
-  PLAImage(const std::string &aName, const PLAImageSize &aSize,
+  PLAImage(const PLAString &aName, const PLAImageSize &aSize,
            PLAImageType aType);
   ~PLAImage();
 

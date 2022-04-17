@@ -1,15 +1,15 @@
 #include "PLAError.hpp"
 
-PLAError * PLAError::Create(PLAErrorType aType, const std::string &aFile,
-                            int aLine, const std::string &aMessage)
+PLAError * PLAError::Create(PLAErrorType aType, const PLAString &aFile,
+                            PLAInt aLine, const PLAString &aMessage)
 {
   PLAError *error = new PLAError(aType, aFile, aLine, aMessage);
   error->Bind();
   return error;
 }
 
-PLAError::PLAError(PLAErrorType aType, const std::string &aFile, int aLine,
-                   const std::string &aMessage) :
+PLAError::PLAError(PLAErrorType aType, const PLAString &aFile, PLAInt aLine,
+                   const PLAString &aMessage) :
   PLAObject(PLAObjectType::Error),//, "== PLAError =="),
   _type(aType), _file(aFile), _line(aLine), _message(aMessage)
 {
@@ -26,7 +26,7 @@ PLAErrorType PLAError::GetType()
   return _type;
 }
 
-const std::string &PLAError::GetMessage()
+const PLAString &PLAError::GetMessage()
 {
   return _message;
 }

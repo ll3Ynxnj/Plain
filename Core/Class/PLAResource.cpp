@@ -1,7 +1,7 @@
 #include "PLAResource.hpp"
 #include "PLAError.hpp"
 
-PLAResource *PLAResource::Create(const std::string &aName, const std::string &aPath)
+PLAResource *PLAResource::Create(const PLAString &aName, const PLAString &aPath)
 {
   PLAResource *resource = new PLAResource(aName, aPath);
   resource->Bind();
@@ -30,7 +30,7 @@ void PLAResource::Unbind()
   this->PLAObject::Unbind();
 }
 
-PLAResource::PLAResource(const std::string &aName, const std::string &aPath) :
+PLAResource::PLAResource(const PLAString &aName, const PLAString &aPath) :
   PLAObject(PLAObjectType::Resource, aName),
   GRABinder<PLAResource>::Item(aName, Manager::Instance()),
   _path(aPath)
@@ -98,7 +98,7 @@ PLAResource::Manager::~Manager()
 
 }
 
-PLAResource *PLAResource::Manager::Resource(const std::string &aKey)
+PLAResource *PLAResource::Manager::Resource(const PLAString &aKey)
 {
   GRABinder<PLAResource>::Error error(GRABinder<PLAResource>::Error::None);
   return static_cast<PLAResource *>(_instance.RefItem(aKey, &error));
@@ -118,7 +118,7 @@ void PLAResource::Manager::PrintResources() const
             "////////////////////////////////////////\n");
 };
 
-const PLAResource *PLAResource::Manager::GetResource(const std::string &aName) const
+const PLAResource *PLAResource::Manager::GetResource(const PLAString &aName) const
 {
   PLAResourceError error = PLAResourceError::None;
   const PLAResource *resource =
@@ -131,9 +131,9 @@ const PLAResource *PLAResource::Manager::GetResource(const std::string &aName) c
   return resource;
 };
 
-void PLAResource::Manager::LoadResource(const std::string &aName)
+void PLAResource::Manager::LoadResource(const PLAString &aName)
 {
-  std::string path = "/Users/ll3ynxnj/Projects/anhr/";
+  PLAString path = "/Users/ll3ynxnj/Projects/anhr/";
   path.append(aName);
   PLAResource *resource = PLAResource::Create(aName, path);
   resource->AllocData();

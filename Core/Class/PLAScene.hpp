@@ -36,13 +36,15 @@ protected:
 
 public:
   static PLAScene *Create();
+  static PLAScene *Scene(const PLAString &aName);
+  static PLAScene *Scene(PLAId aId);
 
   virtual ~PLAScene();
 
   void AddActor(PLAActor *aActor);
   void RemoveActor(PLAActor *aActor);
-  const PLAActor *GetActor(const std::string &aName) const;
-  PLAActor *RefActor(const std::string &aName) const;
+  const PLAActor *GetActor(const PLAString &aName) const;
+  PLAActor *RefActor(const PLAString &aName) const;
 
   void Init();
   void Update();
@@ -59,9 +61,12 @@ public:
                    const std::function<void(PLAScene *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
 
+  // Agent /////////////////////////////////////////////////////////////////////
+
+
   // Manager ///////////////////////////////////////////////////////////////////
 public:
-  class Manager {
+  class Manager final {
     static Manager _instance;
     std::stack<PLAScene *>_scenes = std::stack<PLAScene *>();
 

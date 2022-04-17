@@ -23,4 +23,6 @@ add_library(Plain-Core STATIC
   Layer/PLALYRLine.cpp
   Layer/PLALYRRect.cpp
   Layer/PLALYRCircle.cpp
-  Layer/PLALYRTile.cpp)
+  Layer/PLALYRTile.cpp
+  Agent/PLAAgent.cpp
+  Agent/PLAAGTScene.cpp)

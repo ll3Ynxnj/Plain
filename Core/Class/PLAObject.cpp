@@ -17,9 +17,38 @@ const char *PLAObject::GetBinderErrorMessage(Binder::Error aError)
   return kBinderErrorMessages.at(aError);
 }
 
+PLAObject *PLAObject::Object(const PLAString &aName)
+{
+  Binder::Error error = Binder::Error::None;
+  Binder::Item *item = PLAObject::Manager::Instance()->RefItem(aName, &error);
+  switch (error) {
+    case Binder::Error::None :
+      break;
+    default :
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "Failed to get object.",
+                      PLAObject::GetBinderErrorMessage(error));
+  }
+  return static_cast<PLAObject *>(item);
+}
+
+PLAObject *PLAObject::Object(PLAId aId)
+{
+  GRABinder<PLAObject>::Error error = GRABinder<PLAObject>::Error::None;
+  GRABinder<PLAObject>::Item *item =
+    PLAObject::Manager::Instance()->RefItem(aId, &error);
+  switch (error) {
+    case Binder::Error::None :
+      break;
+    default :
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "Failed to get object.",
+                      PLAObject::GetBinderErrorMessage(error));
+  }
+  return static_cast<PLAObject *>(item);
+}
+
 const char *PLAObject::GetObjectTypeName() const
 {
-  return kPLAObjectTypeName[static_cast<PLASize>(_type)];
+  return kPLAObjectTypeName[static_cast<PLAId>(_type)];
 }
 
 void PLAObject::Bind()
@@ -52,11 +81,19 @@ void PLAObject::Print()
   GRA_PRINT("PLAObject : %8d, %d\n", this->GetId(), this);
 }
 
-PLAObject *PLAObject::Manager::Object(const std::string &aKey)
+/*
+PLAObject *PLAObject::Manager::Object(const PLAString &aKey)
 {
   Binder::Error error(Binder::Error::None);
   return static_cast<PLAObject *>(_instance.RefItem(aKey, &error));
 }
+
+PLAObject *PLAObject::Manager::Object(PLASize aId)
+{
+  Binder::Error error(Binder::Error::None);
+  return static_cast<PLAObject *>(_instance.RefItem(aId, &error));
+}
+ */
 
 PLAObject::PLAObject(PLAObjectType aType) :
 Binder::Item(kPLAStrUndefined, Manager::Instance()),
@@ -65,7 +102,7 @@ _type(aType)
 
 }
 
-PLAObject::PLAObject(PLAObjectType aType, const std::string &aName) :
+PLAObject::PLAObject(PLAObjectType aType, const PLAString &aName) :
 Binder::Item(aName, Manager::Instance()),
 _type(aType)
 {
@@ -77,7 +114,7 @@ PLAObject::~PLAObject()
 
 }
 
-std::string PLAObject::GetObjectDescription() const
+PLAString PLAObject::GetObjectDescription() const
 {
   return grautil::format("PLAObject [ id : %04x, name : %s, type : %d, ]\n",
                          this->GetId(), this->GetName().c_str(), _type);
@@ -156,7 +193,7 @@ void PLAObject::SetVec4(const PLAString &aName, const PLAVec4 &aValue)
   _properties[aName].SetVec4(aValue);
 }
 
-void PLAObject::SetObjectName(const std::string &aName)
+void PLAObject::SetObjectName(const PLAString &aName)
 {
   Binder::Error error(Binder::Error::None);
   this->Binder::Item::SetName(aName, &error);
@@ -229,7 +266,7 @@ void PLAObject::Manager::PrintObjects() const
       GRA_PRINT(" %4d | %4d | %32s | %4d | %22s\n",
                 i, object->GetId(), object->GetName().c_str(),
                 type,
-                kPLAObjectTypeName[static_cast<PLASize>(type)]);
+                kPLAObjectTypeName[static_cast<PLAId>(type)]);
     } else {
       GRA_PRINT(" %4d | %s | %s | %s | %22s\n",
                 i, "----", "------------------------ NULL --", "----",

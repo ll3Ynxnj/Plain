@@ -12,7 +12,7 @@ protected:
   PLARenderer();
 
 public:
-  static PLARenderer *Create();
+  static PLARenderer *Create(PLARendererType aType);
 
   virtual ~PLARenderer();
 

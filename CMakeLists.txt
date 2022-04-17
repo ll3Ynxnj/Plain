@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.1)
 
 project(Plain CXX)
 
+add_library(Plain STATIC Plain.cpp)
+
 include_directories(Core)
 include_directories(GLUT)
 include_directories(Grain)

@@ -13,23 +13,23 @@ Issue(__FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
 class PLAError : public PLAObject
 {
   PLAErrorType _type = PLAErrorType::None;
-  const std::string _file = kPLAStrUndefined;
-  const int _line = 0;
-  std::string _message = kPLAStrUndefined;
+  const PLAString _file = kPLAStrUndefined;
+  const PLAInt _line = 0;
+  PLAString _message = kPLAStrUndefined;
 
 protected:
   PLAError();
-  PLAError(PLAErrorType aType, const std::string &aFile, int aLine,
-           const std::string &aMessage);
+  PLAError(PLAErrorType aType, const PLAString &aFile, PLAInt aLine,
+           const PLAString &aMessage);
 
 public:
-  static PLAError *Create(PLAErrorType aType, const std::string &aFile,
-                          int aLine, const std::string &aMessage);
+  static PLAError *Create(PLAErrorType aType, const PLAString &aFile,
+                          PLAInt aLine, const PLAString &aMessage);
 
   virtual ~PLAError();
 
   PLAErrorType GetType();
-  const std::string &GetMessage();
+  const PLAString &GetMessage();
 
 // Manager /////////////////////////////////////////////////////////////////////
 public:

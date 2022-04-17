@@ -25,13 +25,13 @@ public:
 private:
   PLAUInt8 *_data = nullptr;
   PLASize _size = 1024 * 1024 * 4;
-  const std::string _path = "";
+  const PLAString _path = "";
 
 public:
-  static PLAResource *Create(const std::string &aName, const std::string &aPath);
+  static PLAResource *Create(const PLAString &aName, const PLAString &aPath);
   void Bind() override;
 
-  PLAResource(const std::string &aName, const std::string &aPath);
+  PLAResource(const PLAString &aName, const PLAString &aPath);
   virtual ~PLAResource();
 
   void AllocData();
@@ -61,16 +61,16 @@ public:
     //static const Manager *Instance() { return &_instance; };
     //static Manager *RefInstance() { return &_instance; };
     static Manager *Instance() { return &_instance; };
-    static PLAResource *Resource(const std::string &aKey);
+    static PLAResource *Resource(const PLAString &aKey);
 
     Manager();
     ~Manager();
 
-    const PLAResource *GetResource(const std::string &aName) const;
+    const PLAResource *GetResource(const PLAString &aName) const;
     void PrintResources() const;
 
   private:
-    void LoadResource(const std::string &aName);
+    void LoadResource(const PLAString &aName);
   };
 };
 

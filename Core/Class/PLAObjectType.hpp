@@ -7,6 +7,7 @@ enum class PLAObjectType : PLAInt
 {
   App,
   Input,
+  Agent,
   Scene,
   Stage,
   Actor,
@@ -26,9 +27,10 @@ enum class PLAObjectType : PLAInt
   None = kPLAIntUndefined,
 };
 
-static const char *kPLAObjectTypeName[static_cast<PLASize>(PLAObjectType::kNumberOfItems)] = {
+static const char *kPLAObjectTypeName[static_cast<PLAId>(PLAObjectType::kNumberOfItems)] = {
   "App",
   "Input",
+  "Agent",
   "Scene",
   "Stage",
   "Actor",
