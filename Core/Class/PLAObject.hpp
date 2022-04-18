@@ -10,6 +10,8 @@
 #include "Grain/Grain.h"
 #include "Grain/Class/GRABinder.hpp"
 
+class PLAAgent;
+
 class PLAObject : private GRABinder<PLAObject>::Item
 {
   using Binder = GRABinder<PLAObject>;
@@ -18,6 +20,7 @@ class PLAObject : private GRABinder<PLAObject>::Item
   PLAObjectType _type = PLAObjectType::None;
   std::map<PLAString, PLAProperty> _properties =
     std::map<PLAString, PLAProperty>();
+  std::vector<const PLAAgent *> _agents;
 
 protected:
   PLAObject(PLAObjectType aType);
@@ -40,6 +43,7 @@ public:
   const PLAString &GetObjectName() const { return this->GetName(); };
   PLAObjectType GetObjectType() const { return _type; };
   const char *GetObjectTypeName() const;
+  PLAString GetObjectDescription() const;
 
   PLABool GetBool(const PLAString &aName) const;
   PLAInt GetInt(const PLAString &aName) const;
@@ -61,7 +65,8 @@ public:
   void SetVec3(const PLAString &aName, const PLAVec3 &aValue);
   void SetVec4(const PLAString &aName, const PLAVec4 &aValue);
 
-  PLAString GetObjectDescription() const;
+protected:
+  const PLAAgent *AssignAgent();
 
 // GRABinder::Item /////////////////////////////////////////////////////////////
 private:

@@ -9,6 +9,7 @@
 #include "Grain/Class/GRAListener.hpp"
 
 class PLAActor;
+class PLAAGTScene;
 
 class PLAScene final :
   public PLAObject, public GRABinder<PLAActor>
@@ -63,6 +64,7 @@ public:
 
   // Agent /////////////////////////////////////////////////////////////////////
 
+  const PLAAGTScene *AssignAgent();
 
   // Manager ///////////////////////////////////////////////////////////////////
 public:

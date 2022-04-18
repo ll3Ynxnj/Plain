@@ -1,4 +1,5 @@
 #include "PLAObject.hpp"
+#include "../Agent/PLAAgent.hpp"
 #include "PLAError.hpp"
 
 // PLAObject ///////////////////////////////////////////////////////////////////
@@ -46,11 +47,6 @@ PLAObject *PLAObject::Object(PLAId aId)
   return static_cast<PLAObject *>(item);
 }
 
-const char *PLAObject::GetObjectTypeName() const
-{
-  return kPLAObjectTypeName[static_cast<PLAId>(_type)];
-}
-
 void PLAObject::Bind()
 {
   Binder::Error error(Binder::Error::None);
@@ -76,25 +72,6 @@ void PLAObject::Unbind()
   PLAObject::Manager::Instance()->AddUnboundObject(this);
 }
 
-void PLAObject::Print()
-{
-  GRA_PRINT("PLAObject : %8d, %d\n", this->GetId(), this);
-}
-
-/*
-PLAObject *PLAObject::Manager::Object(const PLAString &aKey)
-{
-  Binder::Error error(Binder::Error::None);
-  return static_cast<PLAObject *>(_instance.RefItem(aKey, &error));
-}
-
-PLAObject *PLAObject::Manager::Object(PLASize aId)
-{
-  Binder::Error error(Binder::Error::None);
-  return static_cast<PLAObject *>(_instance.RefItem(aId, &error));
-}
- */
-
 PLAObject::PLAObject(PLAObjectType aType) :
 Binder::Item(kPLAStrUndefined, Manager::Instance()),
 _type(aType)
@@ -112,6 +89,16 @@ _type(aType)
 PLAObject::~PLAObject()
 {
 
+}
+
+void PLAObject::Print()
+{
+  GRA_PRINT("PLAObject : %8d, %d\n", this->GetId(), this);
+}
+
+const char *PLAObject::GetObjectTypeName() const
+{
+  return kPLAObjectTypeName[static_cast<PLAId>(_type)];
 }
 
 PLAString PLAObject::GetObjectDescription() const
@@ -213,6 +200,13 @@ void PLAObject::SetObjectName(const PLAString &aName)
         break;
     }
   }
+}
+
+const PLAAgent *PLAObject::AssignAgent()
+{
+  const PLAAgent *agent = PLAAgent::Create(this);
+  _agents.push_back(agent);
+  return agent;
 }
 
 // GRABinder::Item /////////////////////////////////////////////////////////////

@@ -15,7 +15,8 @@ void Plain::Init(PLARendererType aType)
 const PLAAGTScene *Plain::Scene::Create()
 {
   PLAScene *scene = PLAScene::Create();
-  return PLAAGTScene::Create(scene);
+  return scene->AssignAgent();
+  //return PLAAGTScene::Create(scene);
 }
 
 void Plain::Scene::Push(const PLAAGTScene *aAgent)

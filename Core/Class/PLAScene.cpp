@@ -1,6 +1,7 @@
 #include "PLAScene.hpp"
 #include "PLAApp.hpp"
 #include "Actor/PLAActor.hpp"
+#include "Agent/PLAAGTScene.hpp"
 
 PLAScene *PLAScene::Create()
 {
@@ -79,6 +80,11 @@ PLAActor *PLAScene::RefActor(const PLAString &aName) const {
   PLAScene *scene = PLAScene::Manager::Instance()->RefCurrentScene();
   PLAActor *actor = static_cast<PLAActor *>(scene->RefItem(aName, &error));
   return actor;
+}
+
+const PLAAGTScene *PLAScene::AssignAgent()
+{
+  return static_cast<const PLAAGTScene *>(PLAObject::AssignAgent());
 }
 
 // PLAScene::Manager ///////////////////////////////////////////////////////////
