@@ -26,11 +26,14 @@ public:
   class Scene {
   public:
     static const PLAAGTScene *Create();
+    static const PLAAGTScene *Create(const PLAString &aName);
+    static const PLAAGTScene *Assign(const PLAString &aName);
     static void Push(const PLAAGTScene *aCreate);
   };
 
 private:
-  static const PLAObject *GetObject(const PLAAgent *aAgent);
+  static const PLAObject *Object(const PLAAgent *aAgent);
+  static const PLAAgent *Assign(const PLAString &aName);
 };
 
 #endif //PLAIN_ENGINE_PLAIN_HPP

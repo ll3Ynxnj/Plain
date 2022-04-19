@@ -4,7 +4,7 @@
 
 #include "PLAAGTScene.hpp"
 
-const PLAAGTScene *PLAAGTScene::Create(PLAScene *aScene)
+PLAAGTScene *PLAAGTScene::Create(PLAScene *aScene)
 {
   auto agent = new PLAAGTScene(aScene);
   agent->PLAObject::Bind();

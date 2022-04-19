@@ -39,6 +39,9 @@ public:
 
   virtual void Print();
 
+  const PLAAgent *AssignAgent();
+  void ReleaseAgent(const PLAAgent *aAgent);
+
   GRASize GetObjectId() const { return this->GetId(); }
   const PLAString &GetObjectName() const { return this->GetName(); };
   PLAObjectType GetObjectType() const { return _type; };
@@ -64,9 +67,6 @@ public:
   void SetVec2(const PLAString &aName, const PLAVec2 &aValue);
   void SetVec3(const PLAString &aName, const PLAVec3 &aValue);
   void SetVec4(const PLAString &aName, const PLAVec4 &aValue);
-
-protected:
-  const PLAAgent *AssignAgent();
 
 // GRABinder::Item /////////////////////////////////////////////////////////////
 private:

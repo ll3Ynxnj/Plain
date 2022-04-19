@@ -8,20 +8,24 @@
 
 #include "PLAAGTScene.hpp"
 
-const PLAAgent *PLAAgent::Create(PLAObject *aObject)
+PLAAgent *PLAAgent::Create(PLAObject *aOwner)
 {
-  PLAObjectType type = aObject->GetObjectType();
-  switch (type) {
+  PLAAgent *agent = nullptr;
+  switch (aOwner->GetObjectType()) {
     case PLAObjectType::Scene :
-      return PLAAGTScene::Create(static_cast<PLAScene *>(aObject));
+      agent = PLAAGTScene::Create(static_cast<PLAScene *>(aOwner));
+      break;
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "Unexpected object type detected.");
   }
+  PLAString name = "Agent(" + PLAString(aOwner->GetObjectName() + ")");
+  agent->SetObjectName(name);
+  return agent;
 }
 
 PLAAgent::PLAAgent(PLAObject *aObject) :
   PLAObject(PLAObjectType::Agent),
-  _object(aObject)
+  _owner(aObject)
 {
 
 }
@@ -31,3 +35,8 @@ PLAAgent::~PLAAgent()
 
 }
 
+void PLAAgent::Release() const
+{
+  _owner->ReleaseAgent(this);
+  _owner->Unbind();
+}

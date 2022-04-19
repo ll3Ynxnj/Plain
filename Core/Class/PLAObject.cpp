@@ -11,6 +11,7 @@ const std::map<PLAObject::Binder::Error, const char *> PLAObject::kBinderErrorMe
   { Binder::Error::NameConversion, "Item name has been converted to system-generated" },
   { Binder::Error::RegisterExistingKeyToMap, "Register existing key to map" },
   { Binder::Error::NotExistInMap, "Not exist in map" },
+  { Binder::Error::OutOfRange, "Out of range" },
 };
 
 const char *PLAObject::GetBinderErrorMessage(Binder::Error aError)
@@ -26,8 +27,9 @@ PLAObject *PLAObject::Object(const PLAString &aName)
     case Binder::Error::None :
       break;
     default :
-      PLA_ERROR_ISSUE(PLAErrorType::Assert, "Failed to get object.",
-                      PLAObject::GetBinderErrorMessage(error));
+      return nullptr;
+      //PLA_ERROR_ISSUE(PLAErrorType::Assert, "Failed to get object.",
+      //                PLAObject::GetBinderErrorMessage(error));
   }
   return static_cast<PLAObject *>(item);
 }
@@ -60,6 +62,12 @@ void PLAObject::Bind()
 
 void PLAObject::Unbind()
 {
+  if (_agents.size())
+  {
+    GRA_PRINT("PLAObject::Unbind : == CANCELED == : %s\n",
+              this->GetObjectName().c_str());
+    return;
+  }
   GRA_PRINT("PLAObject::Unbind : %s\n", this->GetObjectName().c_str());
   Binder::Error error(Binder::Error::None);
   PLAObject::Manager::Instance()->Unbind(this, &error);
@@ -94,6 +102,19 @@ PLAObject::~PLAObject()
 void PLAObject::Print()
 {
   GRA_PRINT("PLAObject : %8d, %d\n", this->GetId(), this);
+}
+
+const PLAAgent *PLAObject::AssignAgent()
+{
+  const PLAAgent *agent = PLAAgent::Create(this);
+  _agents.push_back(agent);
+  return agent;
+}
+
+void PLAObject::ReleaseAgent(const PLAAgent *aAgent)
+{
+  PLAObject::Object(aAgent->GetObjectId())->Unbind();
+  std::erase(_agents, aAgent);
 }
 
 const char *PLAObject::GetObjectTypeName() const
@@ -200,13 +221,6 @@ void PLAObject::SetObjectName(const PLAString &aName)
         break;
     }
   }
-}
-
-const PLAAgent *PLAObject::AssignAgent()
-{
-  const PLAAgent *agent = PLAAgent::Create(this);
-  _agents.push_back(agent);
-  return agent;
 }
 
 // GRABinder::Item /////////////////////////////////////////////////////////////

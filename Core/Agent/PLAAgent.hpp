@@ -9,13 +9,18 @@
 
 class PLAAgent: public PLAObject
 {
-  PLAObject *_object = nullptr;
+  PLAObject *_owner = nullptr;
 
 public:
-  static const PLAAgent *Create(PLAObject *aObject);
+  static PLAAgent *Create(PLAObject *aObject);
 
-  const PLAObject *GetObject() const { return _object; }
-  PLAId GetObjectId() const { return _object->GetObjectId(); }
+  void Release() const;
+
+  const PLAObject *GetOwner() const { return _owner; }
+
+  PLAId GetOwnerId() const { return _owner->GetObjectId(); }
+  PLAObjectType GetOwnerType() const { return _owner->GetObjectType(); }
+  const char *GetOwnerTypeName() const { return _owner->GetObjectTypeName(); }
 
 protected:
   PLAAgent(PLAObject *aObject);

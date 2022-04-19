@@ -89,7 +89,7 @@ void PLATimeline::OnFinishThread(const PLATimeline *aThread)
 /*
 void PLATimeline::OnUnbindThread(const PLATimeline *aThread)
 {
-  _threads.erase(aThread->GetObjectId());
+  _threads.erase(aThread->GetOwnerId());
 }
  */
 
