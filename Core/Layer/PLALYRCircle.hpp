@@ -11,7 +11,7 @@ class PLALYRCircle : public PLALayer
   PLAColor _strokeColor = kPLAColorNone;
   PLAImageClip *_imageClip = nullptr;
 
-protected:
+public:
   PLALYRCircle(const PLAVec3 &aOffset, PLAFloat aRadius,
                const PLAColor &aFillColor, const PLAColor &aStrokeColor,
                const std::string &aImageName, const PLARect &aClip) :
@@ -23,7 +23,18 @@ protected:
       }
     };
 
-public:
+  PLALYRCircle(const PLACircle aCircle,
+               const PLAColor &aFillColor, const PLAColor &aStrokeColor,
+               const std::string &aImageName, const PLARect &aClip) :
+    PLALayer(PLALayerType::Circle,
+             PLAVec3(aCircle.origin.x, aCircle.origin.y, 0)),//, "== PLALYRRect =="),
+    _radius(aCircle.radius), _fillColor(aFillColor), _strokeColor(aStrokeColor)
+  {
+    if (aImageName != kPLAStrUndefined) {
+      _imageClip = PLAImageClip::Create(aImageName, aClip);
+    }
+  };
+
   static PLALYRCircle *Create(const PLACircle &aCircle);
   /*
   static PLALYRCircle *Create(const PLACircle &aCircle,

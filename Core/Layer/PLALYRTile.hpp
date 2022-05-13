@@ -14,17 +14,16 @@ class PLALYRTile : public PLALayer
   GRAVec2<PLASize> _tileSize = GRAVec2<PLASize>(0);
   GRAVec2<PLASize> _chipSize = GRAVec2<PLASize>(0);
   const IPLALYRTileDataSource *_dataSource = nullptr;
-  std::vector<std::vector<PLATimelineHolder *>> _nodeHolders =
+  std::vector<std::vector<PLATimelineHolder *>> _timelineHolders =
     std::vector<std::vector<PLATimelineHolder *>>(0);
 
-protected:
-  PLALYRTile(const PLAVec2 &aOffset, const PLAImage *aImage,
+public:
+  PLALYRTile(const PLAVec2 &aOffset, const std::string &aImageName,
              const GRAVec2<PLASize> &aTileSize,
              const GRAVec2<PLASize> &aChipSize,
-             const IPLALYRTileDataSource *aDataSource,
-             const std::vector<std::vector<PLATimelineHolder *>> &aNodeHolders);
+             const IPLALYRTileDataSource *aDataSource);//,
+             //const std::vector<std::vector<PLATimelineHolder *>> &aNodeHolders);
 
-public:
   static PLALYRTile *Create(const PLAVec2 &aOffset,
                             const std::string &aImageName,
                             const GRAVec2<PLASize> &aTileSize,

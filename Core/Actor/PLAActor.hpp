@@ -116,6 +116,7 @@ public:
                               const IPLALYRTileDataSource *aDataSource);
 
   virtual ~PLAActor() override;
+  virtual void Unbind() override;
 
   void AddActor(PLAActor *aActor);
   void Input(const PLAInput *aInput);

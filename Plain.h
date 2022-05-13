@@ -16,6 +16,7 @@ class Plain {
 public:
   using Renderer = PLARendererType;
   static void Init(PLARendererType aType);
+  static void Delete(const std::string &aName);
   static PLAAGTStage *Stage();
 
   class State {

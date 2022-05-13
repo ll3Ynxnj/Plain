@@ -74,29 +74,47 @@ void PLAAGTActor::AddTileMotion(const PLAVec2s &aAddress, PLAMotion *aThread) co
 void PLAAGTActor::SetFunctorForInputWithTouch
   (PLAInputSignalCodeForTouch aSignalCode,
    PLAInputActionCodeForTouch aActionCode,
-   const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc)
+   const std::function<void(PLAAGTActor *, const PLAInput &)> &aFunc)
 {
-  this->RefActor()->SetFunctorForInputWithTouch(aSignalCode,
-                                                aActionCode,
-                                                aFunc);
+  this->RefActor()->SetFunctorForInputWithTouch
+  (aSignalCode, aActionCode,
+   [aFunc](PLAInputContext *aContext, const PLAInput &aInput)
+   {
+    PLAActor *actor = static_cast<PLAActor *>(aContext);
+    PLAAGTActor *agent = static_cast<PLAAGTActor *>(actor->AssignAgent());
+    aFunc(agent, aInput);
+    agent->Release();
+   });
 }
 
 void PLAAGTActor::SetFunctorForInputWithMouse
   (PLAInputSignalCodeForMouse aSignalCode,
    PLAInputActionCodeForMouse aActionCode,
-   const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc)
+   const std::function<void(PLAAGTActor *, const PLAInput &)> &aFunc)
 {
-  this->RefActor()->SetFunctorForInputWithMouse(aSignalCode,
-                                                aActionCode,
-                                                aFunc);
+  this->RefActor()->SetFunctorForInputWithMouse
+    (aSignalCode, aActionCode,
+     [aFunc](PLAInputContext *aContext, const PLAInput &aInput)
+     {
+       PLAActor *actor = static_cast<PLAActor *>(aContext);
+       PLAAGTActor *agent = static_cast<PLAAGTActor *>(actor->AssignAgent());
+       aFunc(agent, aInput);
+       agent->Release();
+     });
 }
 
 void PLAAGTActor::SetFunctorForInputWithKeyboard
   (PLAInputSignalCodeForKeyboard aSignalCode,
    PLAInputActionCodeForKeyboard aActionCode,
-   const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc)
+   const std::function<void(PLAAGTActor *, const PLAInput &)> &aFunc)
 {
-  this->RefActor()->SetFunctorForInputWithKeyboard(aSignalCode,
-                                                   aActionCode,
-                                                   aFunc);
+  this->RefActor()->SetFunctorForInputWithKeyboard
+    (aSignalCode, aActionCode,
+     [aFunc](PLAInputContext *aContext, const PLAInput &aInput)
+     {
+       PLAActor *actor = static_cast<PLAActor *>(aContext);
+       PLAAGTActor *agent = static_cast<PLAAGTActor *>(actor->AssignAgent());
+       aFunc(agent, aInput);
+       agent->Release();
+     });
 }

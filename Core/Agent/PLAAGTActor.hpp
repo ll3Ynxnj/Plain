@@ -34,15 +34,15 @@ public:
   void SetFunctorForInputWithTouch
     (PLAInputSignalCodeForTouch aSignalCode,
      PLAInputActionCodeForTouch aActionCode,
-     const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc);
+     const std::function<void(PLAAGTActor *, const PLAInput &)> &aFunc);
   void SetFunctorForInputWithMouse
     (PLAInputSignalCodeForMouse aSignalCode,
      PLAInputActionCodeForMouse aActionCode,
-     const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc);
+     const std::function<void(PLAAGTActor *, const PLAInput &)> &aFunc);
   void SetFunctorForInputWithKeyboard
     (PLAInputSignalCodeForKeyboard aSignalCode,
      PLAInputActionCodeForKeyboard aActionCode,
-     const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc);
+     const std::function<void(PLAAGTActor *, const PLAInput &)> &aFunc);
 
 
 protected:

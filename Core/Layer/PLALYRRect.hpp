@@ -11,19 +11,29 @@ class PLALYRRect : public PLALayer
   PLAColor _strokeColor = kPLAColorNone;
   PLAImageClip *_imageClip = nullptr;
 
-protected:
+public:
   PLALYRRect(const PLAVec3 &aOffset, const PLAVec2 &aVector,
              const PLAColor &aFillColor, const PLAColor &aStrokeColor,
              const std::string &aImageName, const PLARect &aClip) :
     PLALayer(PLALayerType::Rect, aOffset),//, "== PLALYRRect =="),
-    _vector(aVector), _fillColor(aFillColor)
+    _vector(aVector), _fillColor(aFillColor), _strokeColor(aStrokeColor)
   {
     if (aImageName != kPLAStrUndefined) {
       _imageClip = PLAImageClip::Create(aImageName, aClip);
     }
   };
 
-public:
+  PLALYRRect(const PLARect &aRect,
+             const PLAColor &aFillColor, const PLAColor &aStrokeColor,
+             const std::string &aImageName, const PLARect &aClip) :
+             PLALayer(PLALayerType::Rect, PLAVec3(aRect.pos.x, aRect.pos.y, 0)),
+             _vector(aRect.size), _fillColor(aFillColor),
+             _strokeColor(aStrokeColor)
+  {
+    if (aImageName != kPLAStrUndefined) {
+      _imageClip = PLAImageClip::Create(aImageName, aClip);
+    }
+  }
 
   static PLALYRRect *Create(const PLARect &aRect);
   /*

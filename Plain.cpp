@@ -12,6 +12,10 @@ void Plain::Init(PLARendererType aType)
   PLAApp::Instance()->Init(aType);
 }
 
+void Plain::Delete(const std::string &aName) {
+  PLAApp::Object(aName)->Unbind();
+}
+
 PLAAGTStage *Plain::Stage()
 {
   static PLAAGTStage *agent = nullptr;

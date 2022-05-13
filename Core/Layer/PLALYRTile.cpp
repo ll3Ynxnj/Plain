@@ -7,8 +7,7 @@ PLALYRTile *PLALYRTile::Create(const PLAVec2 &aOffset,
                                const GRAVec2<PLASize> &aChipSize,
                                const IPLALYRTileDataSource *aDataSource)
 {
-  PLAImage *image = PLAImage::CreateRaw(aImageName);
-
+  /*
   std::vector<std::vector<PLATimelineHolder *>> motionHolders(0);
   for (PLASize y = 0; y < aTileSize.y; y++) {
     std::vector<PLATimelineHolder *> holders(0);
@@ -17,22 +16,32 @@ PLALYRTile *PLALYRTile::Create(const PLAVec2 &aOffset,
     }
     motionHolders.push_back(holders);
   }
+   */
   PLALYRTile *layer =
-    new PLALYRTile(aOffset, image, aTileSize, aChipSize, aDataSource, motionHolders);
+    new PLALYRTile(aOffset, aImageName, aTileSize, aChipSize, aDataSource);//, motionHolders);
   layer->Bind();
   return layer;
 }
 
-PLALYRTile::PLALYRTile(const PLAVec2 &aOffset, const PLAImage *aImage,
+PLALYRTile::PLALYRTile(const PLAVec2 &aOffset, const std::string &aImageName,
                        const GRAVec2<PLASize> &aTileSize,
                        const GRAVec2<PLASize> &aChipSize,
-                       const IPLALYRTileDataSource *aDataSource,
-                       const std::vector<std::vector<PLATimelineHolder *>> &aNodeHolders) :
-PLALayer(PLALayerType::Tile, PLAVec3(aOffset.x, aOffset.y, 0)),
-  _image(aImage), _tileSize(aTileSize),
-  _chipSize(aChipSize), _dataSource(aDataSource),
-  _nodeHolders(aNodeHolders)
+                       const IPLALYRTileDataSource *aDataSource) ://,
+                       //const std::vector<std::vector<PLATimelineHolder *>> &aNodeHolders) :
+  PLALayer(PLALayerType::Tile, PLAVec3(aOffset.x, aOffset.y, 0)),
+  _tileSize(aTileSize),
+  _chipSize(aChipSize), _dataSource(aDataSource)//,
+  //_nodeHolders(aNodeHolders)
 {
+  _image = PLAImage::CreateRaw(aImageName);
+  //std::vector<std::vector<PLATimelineHolder *>> motionHolders(0);
+  for (PLASize y = 0; y < aTileSize.y; y++) {
+    std::vector<PLATimelineHolder *> holders(0);
+    for (PLASize x = 0; x < aTileSize.x; x++) {
+      holders.push_back(new PLATimelineHolder());//PLAMotionNode::Create()));
+    }
+    _timelineHolders.push_back(holders);
+  }
   /*
   for (PLASize y = 0; y < aTileSize.y; y++) {
     std::vector<PLAMotionHolder *> holders(0);
@@ -69,7 +78,7 @@ void PLALYRTile::UpdateMotionProperties()
 void PLALYRTile::AddMotionThread(const PLAVec2s &aAddress,
                                  PLAMotion *aThread)
 {
-  _nodeHolders[aAddress.y][aAddress.x]->PLATimelineHolder::AddThread(aThread);
+  _timelineHolders[aAddress.y][aAddress.x]->PLATimelineHolder::AddThread(aThread);
 };
 
 /*
@@ -93,7 +102,7 @@ void PLALYRTile::SetMotion(const PLAVec2s &aAddress, PLAMotionNode *aMotion)
 const PLAMotion *PLALYRTile::GetMotionThread(const PLAVec2s &aAddress) const
 {
   return static_cast<const PLAMotion *>
-  (_nodeHolders[aAddress.y][aAddress.x]->GetNodeThread());
+  (_timelineHolders[aAddress.y][aAddress.x]->GetNodeThread());
   /*
   if (_motionHolders.contains(aAddress.y))
   {

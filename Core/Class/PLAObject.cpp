@@ -67,6 +67,7 @@ void PLAObject::Unbind()
   {
     GRA_PRINT("PLAObject::Unbind : == CANCELED == : %s\n",
               this->GetObjectName().c_str());
+    PLA_ERROR_ISSUE(PLAErrorType::Expect, "Agent referenced form somewhere.");
     return;
   }
   GRA_PRINT("PLAObject::Unbind : %s\n", this->GetObjectName().c_str());
@@ -277,8 +278,8 @@ void PLAObject::Manager::DeleteUnboundObjects()
 
 void PLAObject::Manager::PrintObjects() const
 {
-  GRA_PRINT("//-- PLAObject::Manager::PrintResource -"
-            "-///////////////////////////////////////\n");
+  GRA_PRINT("//-- PLAObject::Manager::PrintResource --"
+            "///////////////////////////////////////\n");
   GRA_PRINT("INDEX |   ID |                             NAME "
             "| TYPE |                                \n");
   GRA_PRINT("------|------|----------------------------------"
