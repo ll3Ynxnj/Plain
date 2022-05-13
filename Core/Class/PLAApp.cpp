@@ -10,6 +10,14 @@ PLAScene *PLAApp::Scene()
   return PLAScene::Manager::Instance()->RefCurrentScene();
 }
 
+PLAActor *PLAApp::Actor(const PLAString &aName)
+{
+  PLAObject *object = PLAObject::Object(aName);
+  if (object && object->GetObjectType() == PLAObjectType::Actor)
+  { return static_cast<PLAActor *>(object); }
+  return nullptr;
+}
+
 void PLAApp::AddTimelineThread(PLATimeline *aThread)
 {
   _rootThread.AddThread(aThread);
@@ -34,6 +42,7 @@ void PLAApp::PrintNodes() const
   GRA_PRINT("----:-----------------|---------|----------------------------------|\n");
 }
 
+/*
 void PLAApp::InitStage()
 {
   _instance._stage->Init();
@@ -45,29 +54,26 @@ void PLAApp::AddActor(PLAActor *aActor)
   PLAScene::Manager::Instance()->RefCurrentScene()->AddActor(aActor);
 }
 
-PLAActor *PLAApp::Actor(const PLAString &aName)
-{
-  PLAObject *object = PLAObject::Object(aName);
-  if (object && object->GetObjectType() == PLAObjectType::Actor)
-  { return static_cast<PLAActor *>(object); }
-  return nullptr;
-}
-
 PLAVec3 PLAApp::GetStageSize()
 {
   _instance._stage->GetSize();
 }
+*/
 
+/*
 void PLAApp::SetStageFunction(PLAStage::FunctionCode aKey,
                              const std::function<void(PLAStage *)> &aFunc)
 {
   _instance._stage->SetFunction(aKey, aFunc);
 }
+ */
 
+/*
 void PLAApp::PrintStageActors()
 {
   _instance._stage->PrintActors();
 }
+*/
 
 PLAInputSignalCode PLAApp::GetInputSignalCodeFromChar(unsigned char aCharacter)
 {
@@ -94,6 +100,7 @@ void PLAApp::Init(PLARendererType aRendererType)
   PLAError::Manager::Instance()->Init();
   PLAScene::Manager::Instance()->Init();
   _stage = PLAStage::Create();
+  _stage->PrintActors();
   PLAInputManager::Instance()->SetHandler(_stage);
 }
 
@@ -115,7 +122,7 @@ void PLAApp::Update()
   PLAInputManager::Instance()->Flush();
   UpdateTimelineThread();
   _stage->Update();
-  PrintStageActors();
+  _stage->PrintActors();
   PLAObject::Manager::Instance()->PrintObjects();
   this->PrintNodes();
   ++_frame;

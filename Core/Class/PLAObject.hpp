@@ -20,7 +20,9 @@ class PLAObject : private GRABinder<PLAObject>::Item
   PLAObjectType _type = PLAObjectType::None;
   std::map<PLAString, PLAProperty> _properties =
     std::map<PLAString, PLAProperty>();
-  std::vector<const PLAAgent *> _agents;
+  //std::vector<PLAAgent *> _agents;
+  PLAAgent *_agent = nullptr;
+  PLAInt _agentReferenceCounter = 0;
 
 protected:
   PLAObject(PLAObjectType aType);
@@ -39,8 +41,9 @@ public:
 
   virtual void Print();
 
-  const PLAAgent *AssignAgent();
-  void ReleaseAgent(const PLAAgent *aAgent);
+  virtual PLAAgent *AssignAgent();
+  //void ReleaseAgent(const PLAAgent *aAgent);
+  void ReleaseAgent();
 
   GRASize GetObjectId() const { return this->GetId(); }
   const PLAString &GetObjectName() const { return this->GetName(); };
@@ -67,6 +70,11 @@ public:
   void SetVec2(const PLAString &aName, const PLAVec2 &aValue);
   void SetVec3(const PLAString &aName, const PLAVec3 &aValue);
   void SetVec4(const PLAString &aName, const PLAVec4 &aValue);
+
+protected:
+  //std::vector<PLAAgent *> GetAgents() { return _agents; }
+  const PLAAgent *GetAgent() const { return _agent; }
+  PLAAgent *RefAgent() const { return _agent; }
 
 // GRABinder::Item /////////////////////////////////////////////////////////////
 private:

@@ -14,9 +14,6 @@ public:
   /// Agent is const method only.
   static PLAAGTScene *Create(PLAScene *aScene);
 
-  const PLAScene *GetScene() const
-  { return static_cast<const PLAScene *>(this->GetOwner()); }
-
   virtual ~PLAAGTScene();
 
 protected:

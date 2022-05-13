@@ -12,6 +12,7 @@
 #include "PLAStage.hpp"
 #include "Timeline/PLATimeline.hpp"
 #include "Actor/PLAActor.hpp"
+#include "Agent/PLAAGTStage.hpp"
 
 class PLARenderer;
 
@@ -37,8 +38,8 @@ public:
   static PLAApp *Instance() { return &_instance; };
   static PLAStage *Stage() { return _instance._stage; };
   static PLAScene *Scene();
+  static PLAActor *Actor(const PLAString &aName);
 
-  //_rootThreadの中のデータがおかしい。
   /*static */void AddTimelineThread(PLATimeline *aThread);
   /*static */void UpdateTimelineThread();
   //*static */void RemoveTimelineThread(const PLATimeline *aThread);
@@ -46,13 +47,15 @@ public:
   void PrintNodes() const;
 
   //-- このStage関連のメソッド、Stage()から呼べばいいので不要なのでは？
+  /*
   static void InitStage();
   static void AddActor(PLAActor *aActor);
   static PLAActor *Actor(const PLAString &aName);
-  static void SetStageFunction(PLAStage::FunctionCode aKey,
-                               const std::function<void(PLAStage *)> &aFunc);
+  //static void SetStageFunction(PLAAGTStage::FunctionCode aKey,
+  //                             const std::function<void(PLAStage *)> &aFunc);
   static PLAVec3 GetStageSize();
   static void PrintStageActors();
+  */
   //--------------------------------------------------------------------------//
 
   static PLAInputSignalCode GetInputSignalCodeFromChar(const unsigned char aCharacter);

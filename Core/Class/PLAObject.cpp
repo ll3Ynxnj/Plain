@@ -8,7 +8,7 @@ const std::map<PLAObject::Binder::Error, const char *> PLAObject::kBinderErrorMe
   { Binder::Error::OverwriteItem, "Overwrite item" },
   { Binder::Error::NameConflict, "Item name conflict" },
   { Binder::Error::NameOverride, "Item name has been over written" },
-  { Binder::Error::NameConversion, "Item name has been converted to system-generated" },
+  { Binder::Error::NameConvertedBySystem, "Item name has been converted to system-generated" },
   { Binder::Error::RegisterExistingKeyToMap, "Register existing key to map" },
   { Binder::Error::NotExistInMap, "Not exist in map" },
   { Binder::Error::OutOfRange, "Out of range" },
@@ -62,7 +62,8 @@ void PLAObject::Bind()
 
 void PLAObject::Unbind()
 {
-  if (_agents.size())
+  //if (_agents.size())
+  if (0 < _agentReferenceCounter)
   {
     GRA_PRINT("PLAObject::Unbind : == CANCELED == : %s\n",
               this->GetObjectName().c_str());
@@ -104,17 +105,33 @@ void PLAObject::Print()
   GRA_PRINT("PLAObject : %8d, %d\n", this->GetId(), this);
 }
 
-const PLAAgent *PLAObject::AssignAgent()
+PLAAgent *PLAObject::AssignAgent()
 {
-  const PLAAgent *agent = PLAAgent::Create(this);
+  if (!_agent) {
+    _agent = PLAAgent::Create(this);
+  }
+  ++_agentReferenceCounter;
+  return _agent;
+
+  /*
+  PLAAgent *agent = PLAAgent::Create(this);
   _agents.push_back(agent);
   return agent;
+   */
 }
 
-void PLAObject::ReleaseAgent(const PLAAgent *aAgent)
+void PLAObject::ReleaseAgent()/*const PLAAgent *aAgent)*/
 {
+  --_agentReferenceCounter;
+  if (_agentReferenceCounter == 0)
+  {
+    //PLAObject::Object(aAgent->GetObjectId())->Unbind();
+    _agent->Unbind();
+  }
+  /*
   PLAObject::Object(aAgent->GetObjectId())->Unbind();
   std::erase(_agents, aAgent);
+   */
 }
 
 const char *PLAObject::GetObjectTypeName() const
@@ -209,7 +226,7 @@ void PLAObject::SetObjectName(const PLAString &aName)
   {
     switch (error) {
       case Binder::Error::NameOverride :
-      case Binder::Error::NameConversion :
+      case Binder::Error::NameConvertedBySystem:
         PLA_ERROR_ISSUE(PLAErrorType::Expect,
                         "Succeed to set object name with error. ERROR : %02d : %s",
                         error, GetBinderErrorMessage(error));

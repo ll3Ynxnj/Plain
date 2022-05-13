@@ -5,8 +5,8 @@
 #ifndef ANHR_PLATIMELINE_HPP
 #define ANHR_PLATIMELINE_HPP
 
-#include "Timeline/PLATimelineNode.hpp";
-#include "Timeline/PLATimelineHolder.hpp";
+#include "Timeline/PLATimelineNode.hpp"
+#include "Timeline/PLATimelineHolder.hpp"
 
 static PLAString DBG_PLANode_Update_Indent = "";
 

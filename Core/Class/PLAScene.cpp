@@ -82,10 +82,12 @@ PLAActor *PLAScene::RefActor(const PLAString &aName) const {
   return actor;
 }
 
+/*
 const PLAAGTScene *PLAScene::AssignAgent()
 {
   return static_cast<const PLAAGTScene *>(PLAObject::AssignAgent());
 }
+ */
 
 // PLAScene::Manager ///////////////////////////////////////////////////////////
 

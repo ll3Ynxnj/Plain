@@ -200,7 +200,7 @@ void PLAActor::PrintActors() const
 
 const char *PLAActor::GetActorTypeName() const
 {
-  static const char *kName = "== STUB ==";
+  static const char *kName = "(ActorType)";//"== STUB ==";
   return kName;
 }
 
@@ -311,7 +311,7 @@ void PLAActor::AddMotionScale(const PLAVec3 &aScale, PLAFloat aDuration)
 PLAActor *PLAActor::RefResponsiveActor(const PLAInputDeviceType aDeviceType,
                                        const PLAInputSignalCode aSignalCode)
 {
-  for (std::list<PLAActor *>::reverse_iterator it = _actors.rbegin();
+  for (std::list<PLAActor *>::const_reverse_iterator it = _actors.rbegin();
        it != _actors.rend(); it++)
   {
     PLAActor *actor = (*it)->RefResponsiveActor(aDeviceType, aSignalCode);
