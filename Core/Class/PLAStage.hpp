@@ -2,6 +2,7 @@
 #define PLAIN_ENGINE_PLASTAGE_HPP
 
 #include "PLAObject.hpp"
+#include "Input/PLAInputHandler.hpp"
 #include "Core/Actor/PLAActor.hpp"
 
 class PLAAGTStage;

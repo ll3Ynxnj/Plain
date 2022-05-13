@@ -5,7 +5,7 @@
 #include <functional>
 #include "Core/Class/PLAObject.hpp"
 #include "Core/Class/PLAScene.hpp"
-#include "Core/Input/PLAInput.hpp"
+#include "Core/Input/PLAInputContext.hpp"
 #include "Core/Type/PLACollision.hpp"
 #include "PLAActorCollisionCode.hpp"
 #include "PLAActorCollisyncCode.hpp"

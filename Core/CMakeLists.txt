@@ -12,6 +12,10 @@ add_library(Plain-Core STATIC
   Class/PLAResource.cpp
   Class/PLAImageClip.cpp
   Input/PLAInput.cpp
+  Input/PLAInputState.cpp
+  Input/PLAInputContext.cpp
+  Input/PLAInputHandler.cpp
+  Input/PLAInputManager.cpp
   Timeline/PLATimelineNode.cpp
   Timeline/PLATimeline.cpp
   Timeline/PLATimelineHolder.cpp

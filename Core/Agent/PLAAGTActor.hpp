@@ -34,32 +34,15 @@ public:
   void SetFunctorForInputWithTouch
     (PLAInputSignalCodeForTouch aSignalCode,
      PLAInputActionCodeForTouch aActionCode,
-     const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc)
-  {
-    this->RefActor()->SetFunctorForInputWithTouch(aSignalCode,
-                                                  aActionCode,
-                                                  aFunc);
-  }
-
+     const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc);
   void SetFunctorForInputWithMouse
     (PLAInputSignalCodeForMouse aSignalCode,
      PLAInputActionCodeForMouse aActionCode,
-     const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc)
-  {
-    this->RefActor()->SetFunctorForInputWithMouse(aSignalCode,
-                                                  aActionCode,
-                                                  aFunc);
-  }
-
+     const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc);
   void SetFunctorForInputWithKeyboard
     (PLAInputSignalCodeForKeyboard aSignalCode,
      PLAInputActionCodeForKeyboard aActionCode,
-     const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc)
-  {
-    this->RefActor()->SetFunctorForInputWithKeyboard(aSignalCode,
-                                                     aActionCode,
-                                                     aFunc);
-  }
+     const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc);
 
 
 protected:

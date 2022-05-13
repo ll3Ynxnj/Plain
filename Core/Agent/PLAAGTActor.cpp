@@ -70,3 +70,33 @@ void PLAAGTActor::AddTileMotion(const PLAVec2s &aAddress, PLAMotion *aThread) co
   PLAActor *actor = this->RefActor();
   actor->AddTileMotion(aAddress, aThread);
 }
+
+void PLAAGTActor::SetFunctorForInputWithTouch
+  (PLAInputSignalCodeForTouch aSignalCode,
+   PLAInputActionCodeForTouch aActionCode,
+   const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc)
+{
+  this->RefActor()->SetFunctorForInputWithTouch(aSignalCode,
+                                                aActionCode,
+                                                aFunc);
+}
+
+void PLAAGTActor::SetFunctorForInputWithMouse
+  (PLAInputSignalCodeForMouse aSignalCode,
+   PLAInputActionCodeForMouse aActionCode,
+   const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc)
+{
+  this->RefActor()->SetFunctorForInputWithMouse(aSignalCode,
+                                                aActionCode,
+                                                aFunc);
+}
+
+void PLAAGTActor::SetFunctorForInputWithKeyboard
+  (PLAInputSignalCodeForKeyboard aSignalCode,
+   PLAInputActionCodeForKeyboard aActionCode,
+   const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc)
+{
+  this->RefActor()->SetFunctorForInputWithKeyboard(aSignalCode,
+                                                   aActionCode,
+                                                   aFunc);
+}
