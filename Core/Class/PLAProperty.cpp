@@ -74,6 +74,8 @@ PLAProperty::PLAProperty(PLAPropertyType aType): _type(aType)
     case PLAPropertyType::Vec2  : _value.v2 = kPLAVec2None;  break;
     case PLAPropertyType::Vec3  : _value.v3 = kPLAVec3None;  break;
     case PLAPropertyType::Vec4  : _value.v4 = kPLAVec4None;  break;
+    default:
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
   }
 }
 
@@ -267,6 +269,19 @@ PLAProperty PLAProperty::operator *(const PLAProperty &aProperty) const
   }
 }
 
+PLAProperty PLAProperty::operator *(PLAFloat aValue) const
+{
+  switch (_type) {
+    case PLAPropertyType::Float : return PLAProperty(this->GetFloat() * aValue);
+    case PLAPropertyType::Vec2  : return PLAProperty(this->GetVec2()  * aValue);
+    case PLAPropertyType::Vec3  : return PLAProperty(this->GetVec3()  * aValue);
+    case PLAPropertyType::Vec4  : return PLAProperty(this->GetVec4()  * aValue);
+    default:
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
+      return PLAProperty(aValue);
+  }
+}
+
 void PLAProperty::operator *=(const PLAProperty &aProperty)
 {
   switch (aProperty._type)
@@ -276,6 +291,27 @@ void PLAProperty::operator *=(const PLAProperty &aProperty)
     default :
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       break;
+  }
+}
+
+
+void PLAProperty::operator *=(PLAFloat aValue)
+{
+  switch (_type) {
+    case PLAPropertyType::Float :
+      this->SetFloat(this->GetFloat() * aValue);
+      break;
+    case PLAPropertyType::Vec2 :
+      this->SetVec2(this->GetVec2() * aValue);
+      break;
+    case PLAPropertyType::Vec3 :
+      this->SetVec3(this->GetVec3() * aValue);
+      break;
+    case PLAPropertyType::Vec4 :
+      this->SetVec4(this->GetVec4() * aValue);
+      break;
+    default:
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
   }
 }
 

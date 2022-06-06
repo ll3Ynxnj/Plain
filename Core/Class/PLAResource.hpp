@@ -32,7 +32,7 @@ public:
   void Bind() override;
 
   PLAResource(const PLAString &aName, const PLAString &aPath);
-  virtual ~PLAResource();
+  virtual ~PLAResource() noexcept;
 
   void AllocData();
   void ReleaseData();

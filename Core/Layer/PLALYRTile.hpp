@@ -54,8 +54,7 @@ public:
 
   //void RefreshChips(const std::vector<std::vector<PLATileChip>> &aChips);
 
-  const PLAVec2s &GetDataAddress() const
-  { return _dataSource->GetDataAddress(); };
+  PLAVec2s GetDataAddress() const { return _dataSource->GetDataAddress(); };
 
   virtual PLAVec3 GetSize() const;
   virtual void GetSize(PLAVec3 *aSize) const;

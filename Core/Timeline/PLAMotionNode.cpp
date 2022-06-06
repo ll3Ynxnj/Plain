@@ -59,7 +59,9 @@ const PLAProperty &PLAMotionNode::MakeProperty(const PLAMotionType aType)
     case PLAMotionType::Translation : return PLAProperty::kVec3;
     case PLAMotionType::Rotation    : return PLAProperty::kVec3;
     case PLAMotionType::Scale       : return PLAProperty::kVec3;
-    default : PLA_ERROR_ISSUE(PLAErrorType::Assert, "Detect unexpected types.");
+    default :
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "Detect unexpected types.");
+      return PLAProperty::kNone;
   }
 }
 
@@ -88,8 +90,8 @@ PLAMotionNode::PLAMotionNode(PLAMotionType aType, const PLAColor &aBegin,
   _begin(PLAProperty(aBegin)),
   _end(PLAProperty(aEnd)),
   _distance(PLAProperty(PLAColor(aEnd.r - aBegin.r, aEnd.g - aBegin.g,
-                                 aEnd.b - aBegin.b, aEnd.a - aBegin.a))),
-  _duration(aDuration)
+                                 aEnd.b - aBegin.b, aEnd.a - aBegin.a)))//,
+  //_duration(aDuration)
 {
 
 }
@@ -100,8 +102,8 @@ PLAMotionNode::PLAMotionNode(PLAMotionType aType, const PLAVec3 &aBegin,
   _type(aType),
   _begin(PLAProperty(aBegin)),
   _end(PLAProperty(aEnd)),
-  _distance(PLAProperty(aEnd - aBegin)),
-  _duration(aDuration)
+  _distance(PLAProperty(aEnd - aBegin))//,
+  //_duration(aDuration)
 {
 
 }

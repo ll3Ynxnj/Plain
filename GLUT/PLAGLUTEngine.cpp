@@ -19,8 +19,12 @@ void PLAGLUTEngine::timer(int value)
 {
   PLAApp::Instance()->Update();
   PLAApp::Instance()->Render();
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   //glutPostRedisplay();
   glutTimerFunc(17, timer, 0);
+#pragma clang diagnostic pop
 }
 
 void PLAGLUTEngine::mouse(int button, int state, int x, int y)
@@ -77,6 +81,8 @@ void PLAGLUTEngine::keyboardUp(unsigned char key, int x, int y)
 }
 
 void PLAGLUTEngine::glut(int argc, char *argv[], int width, int height, void (*init)(void)) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_RGBA);
   glutInitWindowSize(width, height);
@@ -94,4 +100,6 @@ void PLAGLUTEngine::glut(int argc, char *argv[], int width, int height, void (*i
   timer(0);
 
   glutMainLoop();
+#pragma clang diagnostic pop
 }
+

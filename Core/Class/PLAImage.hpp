@@ -13,7 +13,10 @@ class PLAImage : public PLAObject
 {
   const PLAResource *_resource = nullptr;
   PLAImageSize _size = kPLAImageSizeNone;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-private-field"
   PLAImageType _type = PLAImageType::None;
+#pragma clang diagnostic pop
 
 public:
   static PLAImage *CreateRaw(const PLAString &aName);

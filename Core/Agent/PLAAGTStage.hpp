@@ -34,8 +34,9 @@ public:
   /// Agent is const method only.
   static PLAAGTStage *Create(PLAStage *aScene);
 
-  virtual ~PLAAGTStage();
+  virtual ~PLAAGTStage() noexcept;
 
+  void Init();
   void AddActor(PLAAGTActor *aAgent);
   void PrintActors() const;
 
@@ -59,7 +60,7 @@ public:
   PLAVec3 GetSize() const;
 
 protected:
-  PLAAGTStage(PLAStage *aScene);
+  explicit PLAAGTStage(PLAStage *aScene);
 
   const PLAStage *GetStage() const
   { return static_cast<const PLAStage *>(this->GetOwner()); }

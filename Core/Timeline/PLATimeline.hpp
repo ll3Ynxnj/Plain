@@ -23,7 +23,7 @@ public:
   static PLATimeline *Create(PLATimeline *aParent);
 
   PLATimeline(PLATimeline *aParent);
-  virtual ~PLATimeline() override;
+  virtual ~PLATimeline() noexcept;
 
   void Update();
 

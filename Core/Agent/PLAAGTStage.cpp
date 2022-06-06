@@ -23,6 +23,11 @@ PLAAGTStage::~PLAAGTStage() noexcept
 
 }
 
+void PLAAGTStage::Init()
+{
+  static_cast<PLAStage *>(this->RefOwner())->Init();
+}
+
 void PLAAGTStage::AddActor(PLAAGTActor *aAgent)
 {
   PLAId actorId = aAgent->GetOwnerId();

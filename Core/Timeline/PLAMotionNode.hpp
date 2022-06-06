@@ -14,7 +14,7 @@ class PLAMotionNode final: public PLATimelineNode
   PLAProperty _begin = PLAProperty();
   PLAProperty _end = PLAProperty();
   PLAProperty _distance = PLAProperty();
-  PLAFloat _duration = 0;
+  //PLAFloat _duration = 0;
 
 public:
   static const PLAMotionNode kNone;

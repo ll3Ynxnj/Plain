@@ -2,10 +2,12 @@
 #define PLAIN_ENGINE_PLAIN_HPP
 
 #include "Grain/Grain.h"
+
 #include "Core/Type/PLAType.hpp"
 #include "Core/Layer/IPLALYRTileDataSource.hpp"
 
 #include "Core/Class/PLARendererType.hpp"
+#include "Core/Class/PLAError.hpp"
 
 #include "Core/Class/PLAObject.hpp"
 #include "Core/Agent/PLAAGTStage.hpp"
@@ -18,6 +20,11 @@ public:
   static void Init(PLARendererType aType);
   static void Delete(const std::string &aName);
   static PLAAGTStage *Stage();
+
+  class Error {
+    static void Assert(const std::string &aMessage);
+    static void Expect(const std::string &aMessage);
+  };
 
   class State {
   public:

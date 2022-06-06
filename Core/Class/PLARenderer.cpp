@@ -10,6 +10,7 @@ PLARenderer *PLARenderer::Create(PLARendererType aType)
     default :
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Unexpected renderer type detected.");
+      return nullptr;
   }
 }
 

@@ -2,7 +2,7 @@
 
 PLAImageClip *PLAImageClip::Create(const PLAString &aImageName)
 {
-  PLAImageClip::Create(aImageName, kPLARectNorm);
+  return PLAImageClip::Create(aImageName, kPLARectNorm);
 }
 
 PLAImageClip *PLAImageClip::Create(const PLAString &aImageName,

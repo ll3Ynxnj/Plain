@@ -91,7 +91,7 @@ void PLAStage::SetSize(const PLAVec3 &aSize)
 PLAInputContext *PLAStage::RefContextWithInput(const PLAInput &aInput) const
 {
   PLAInputContext *inputContext = nullptr;
-  PLAActor *responsiveActor = nullptr;
+  //PLAActor *responsiveActor = nullptr;
   switch (aInput.GetInputDeviceType())
   {
     case PLAInputDeviceType::Touch :
@@ -108,6 +108,9 @@ PLAInputContext *PLAStage::RefContextWithInput(const PLAInput &aInput) const
         _context->RefResponsiveActor(aInput.GetInputDeviceType(),
                                      aInput.GetInputSignalCode());
       break;
+    default:
+      PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                      "Unexpected PLAInputDeviceType detected.");
   }
   //stageContext->Release();
   return inputContext;

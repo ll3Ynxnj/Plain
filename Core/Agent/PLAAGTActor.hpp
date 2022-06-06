@@ -15,7 +15,7 @@ public:
   /// Agent is const method only.
   static PLAAGTActor *Create(PLAActor *aActor);
 
-  virtual ~PLAAGTActor();
+  virtual ~PLAAGTActor() noexcept;
 
   void SetColor(const PLAColor &aColor) const;
   void SetTransform(const PLATransform &aTransform) const;
@@ -46,7 +46,7 @@ public:
 
 
 protected:
-  PLAAGTActor(PLAActor *aActor);
+  explicit PLAAGTActor(PLAActor *aActor);
   const PLAActor *GetActor() const
   { return static_cast<const PLAActor *>(this->GetOwner()); }
   PLAActor *RefActor() const

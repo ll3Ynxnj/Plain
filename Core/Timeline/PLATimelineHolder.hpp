@@ -15,7 +15,7 @@ class PLATimelineHolder
 public:
   PLATimelineHolder();
   PLATimelineHolder(PLATimeline *aThread);
-  virtual ~PLATimelineHolder();
+  virtual ~PLATimelineHolder() noexcept;
 
   void AddThread(PLATimeline *aThread);
 

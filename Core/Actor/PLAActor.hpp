@@ -115,7 +115,7 @@ public:
                               const GRAVec2<PLASize> &aChipSize,
                               const IPLALYRTileDataSource *aDataSource);
 
-  virtual ~PLAActor() override;
+  virtual ~PLAActor() noexcept;// override;
   virtual void Unbind() override;
 
   void AddActor(PLAActor *aActor);

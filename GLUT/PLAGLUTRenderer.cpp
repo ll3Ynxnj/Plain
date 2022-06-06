@@ -4,6 +4,9 @@
 #include "Core/Class/PLAError.hpp"
 #include "Core/Class/PLAResource.hpp"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 PLAGLUTRenderer *PLAGLUTRenderer::Create()
 {
   return new PLAGLUTRenderer();
@@ -461,9 +464,12 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
 
       if (kIsDebug) {
         for (int i = 0; i < kNumVertices;) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunsequenced"
           GRA_PRINT("x: %d, y: %d,"
                     " vertices: [%d] x: %.2f, [%d] y: %.2f, [%d] z: %.2f\n",
                     x, y, i, vertices[i++], i, vertices[i++], i, vertices[i++]);
+#pragma clang diagnostic pop
         }
       }
 
@@ -501,8 +507,11 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
 
       if (kIsDebug) {
         for (int i = 0; i < kNumCoords;) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunsequenced"
           GRA_PRINT("x: %d, y: %d, coords: [%d] x: %.2f, [%d] y: %.2f\n",
                     x, y, i, coords[i++], i, coords[i++]);
+#pragma clang diagnostic pop
         }
       }
 
@@ -519,3 +528,5 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
     }
   }
 }
+
+#pragma clang diagnostic pop

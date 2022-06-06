@@ -69,7 +69,7 @@ void PLAError::Manager::Issue(const char *aFile, const char *aFunc,
   va_start(args, aFormat);
   vsnprintf(message, kLogBuffer, log, args);
   va_end(args);
-  fprintf(stderr, message);
+  fprintf(stderr, "%s", message);
 
   //PLAError *error = PLAError::Create(aType, aFile, aLine, message);
   //_errors.push(error);

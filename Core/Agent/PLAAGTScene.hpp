@@ -14,10 +14,10 @@ public:
   /// Agent is const method only.
   static PLAAGTScene *Create(PLAScene *aScene);
 
-  virtual ~PLAAGTScene();
+  virtual ~PLAAGTScene() noexcept;
 
 protected:
-  PLAAGTScene(PLAScene *aScene);
+  explicit PLAAGTScene(PLAScene *aScene);
 };
 
 
