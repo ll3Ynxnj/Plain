@@ -3,16 +3,16 @@
 
 #include "Grain/Grain.h"
 
-#include "Core/Type/PLAType.hpp"
-#include "Core/Layer/IPLALYRTileDataSource.hpp"
+#include "Primitive/PLAPrimitive.hpp"
+#include "Object/Layer/IPLALYRTileDataSource.hpp"
 
-#include "Core/Class/PLARendererType.hpp"
-#include "Core/Class/PLAError.hpp"
+#include "Object/PLARendererType.hpp"
+#include "Object/PLAError.hpp"
 
-#include "Core/Class/PLAObject.hpp"
-#include "Core/Agent/PLAAGTStage.hpp"
-#include "Core/Agent/PLAAGTScene.hpp"
-#include "Core/Agent/PLAAGTActor.hpp"
+#include "Object/PLAObject.hpp"
+#include "Object/Agent/PLAAGTStage.hpp"
+#include "Object/Agent/PLAAGTScene.hpp"
+#include "Object/Agent/PLAAGTActor.hpp"
 
 class Plain {
 public:

@@ -2,7 +2,7 @@
 // Created by Kentaro Kawai on 2021/08/15.
 //
 
-#include "Timeline/PLATimelineNode.hpp"
+#include "Object/Timeline/PLATimelineNode.hpp"
 
 class PLANodeTest : public ::testing::Test
 {

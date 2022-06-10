@@ -2,8 +2,8 @@
 // Created by Kawai Kentaro on 2020/11/13.
 //
 
-#include "../Core/Layer/PLALYRRect.hpp"
-#include "../Core/Layer/PLALYRCircle.hpp"
+#include "../Core/Object/Layer/PLALYRRect.hpp"
+#include "../Core/Object/Layer/PLALYRCircle.hpp"
 
 class PLALayerTest : public ::testing::Test
 {

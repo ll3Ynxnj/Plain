@@ -1,8 +1,8 @@
 #include <math.h>
 
 #include "PLAGLUTRenderer.hpp"
-#include "Core/Class/PLAError.hpp"
-#include "Core/Class/PLAResource.hpp"
+#include "Object/PLAError.hpp"
+#include "Object/PLAResource.hpp"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"

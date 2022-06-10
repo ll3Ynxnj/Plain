@@ -4,8 +4,8 @@
 
 #include "Plain.h"
 
-#include "Class/PLAApp.hpp"
-#include "Class/PLAError.hpp"
+#include "Object/PLAApp.hpp"
+#include "Object/PLAError.hpp"
 
 void Plain::Init(PLARendererType aType)
 {
