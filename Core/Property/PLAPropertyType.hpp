@@ -5,7 +5,7 @@
 #ifndef ANHR_PLAPROPERTYTYPE_HPP
 #define ANHR_PLAPROPERTYTYPE_HPP
 
-#include "Primitive/PLAPrimitive.hpp"
+#include "Primitive/PLAPRMType.hpp"
 
 enum class PLAPropertyType: PLAInt {
   Bool,

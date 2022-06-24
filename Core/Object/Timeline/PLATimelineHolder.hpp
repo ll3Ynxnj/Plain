@@ -5,21 +5,21 @@
 #ifndef ANHR_PLATIMELINEHOLDER_HPP
 #define ANHR_PLATIMELINEHOLDER_HPP
 
-class PLATimelineNode;
-class PLATimeline;
+class PLAOBJTimelineNode;
+class PLAOBJTimeline;
 
 class PLATimelineHolder
 {
-  PLATimeline *_thread = nullptr;
+  PLAOBJTimeline *_thread = nullptr;
 
 public:
   PLATimelineHolder();
-  PLATimelineHolder(PLATimeline *aThread);
+  PLATimelineHolder(PLAOBJTimeline *aThread);
   virtual ~PLATimelineHolder() noexcept;
 
-  void AddThread(PLATimeline *aThread);
+  void AddThread(PLAOBJTimeline *aThread);
 
-  const PLATimeline *GetNodeThread() const { return _thread; }
+  const PLAOBJTimeline *GetNodeThread() const { return _thread; }
 
   /*virtual*/ void OnFinishThread();
 };

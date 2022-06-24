@@ -1,37 +1,37 @@
 #ifndef PLAIN_PLALYRCIRCLE_HPP
 #define PLAIN_PLALYRCIRCLE_HPP
 
-#include "PLALayer.hpp"
-#include "Primitive/PLAColor.hpp"
+#include "PLAOBJLayer.hpp"
+#include "Primitive/PLAPRMColor.hpp"
 
-class PLALYRCircle : public PLALayer
+class PLALYRCircle : public PLAOBJLayer
 {
   PLAFloat _radius = 0;
   PLAColor _fillColor = kPLAColorWhite;
   PLAColor _strokeColor = kPLAColorNone;
-  PLAImageClip *_imageClip = nullptr;
+  PLAOBJImageClip *_imageClip = nullptr;
 
 public:
   PLALYRCircle(const PLAVec3 &aOffset, PLAFloat aRadius,
                const PLAColor &aFillColor, const PLAColor &aStrokeColor,
                const std::string &aImageName, const PLARect &aClip) :
-    PLALayer(PLALayerType::Circle, aOffset),//, "== PLALYRRect =="),
+    PLAOBJLayer(PLAOBJLayerType::Circle, aOffset),//, "== PLALYRRect =="),
     _radius(aRadius), _fillColor(aFillColor), _strokeColor(aStrokeColor)
     {
       if (aImageName != kPLAStrUndefined) {
-        _imageClip = PLAImageClip::Create(aImageName, aClip);
+        _imageClip = PLAOBJImageClip::Create(aImageName, aClip);
       }
     };
 
   PLALYRCircle(const PLACircle aCircle,
                const PLAColor &aFillColor, const PLAColor &aStrokeColor,
                const std::string &aImageName, const PLARect &aClip) :
-    PLALayer(PLALayerType::Circle,
-             PLAVec3(aCircle.origin.x, aCircle.origin.y, 0)),//, "== PLALYRRect =="),
+    PLAOBJLayer(PLAOBJLayerType::Circle,
+                PLAVec3(aCircle.origin.x, aCircle.origin.y, 0)),//, "== PLALYRRect =="),
     _radius(aCircle.radius), _fillColor(aFillColor), _strokeColor(aStrokeColor)
   {
     if (aImageName != kPLAStrUndefined) {
-      _imageClip = PLAImageClip::Create(aImageName, aClip);
+      _imageClip = PLAOBJImageClip::Create(aImageName, aClip);
     }
   };
 
@@ -75,7 +75,7 @@ public:
   void SetStrokeColor(const PLAColor &aColor) { _strokeColor = aColor; };
   const PLAColor &GetFillColor() const { return _fillColor; };
   void SetFillColor(const PLAColor &aColor) { _fillColor = aColor; };
-  const PLAImageClip *GetImageClip() const { return _imageClip; };
+  const PLAOBJImageClip *GetImageClip() const { return _imageClip; };
 
   virtual void SetFillColor(const PLAColor &aColor) const;
   virtual void SetStrokeColor(const PLAColor &aColor) const;

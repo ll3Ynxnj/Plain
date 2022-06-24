@@ -3,11 +3,11 @@
 
 #include "Grain/Grain.h"
 
-#include "Primitive/PLAPrimitive.hpp"
-#include "Object/Layer/IPLALYRTileDataSource.hpp"
+#include "Primitive/PLAPRMType.hpp"
+#include "Object/Layer/IPLATileLayerDataSource.hpp"
 
 #include "Object/PLARendererType.hpp"
-#include "Object/PLAError.hpp"
+#include "Object/PLAOBJError.hpp"
 
 #include "Object/PLAObject.hpp"
 #include "Object/Agent/PLAAGTStage.hpp"
@@ -17,6 +17,7 @@
 class Plain {
 public:
   using Renderer = PLARendererType;
+
   static void Init(PLARendererType aType);
   static void Delete(const std::string &aName);
   static PLAAGTStage *Stage();
@@ -35,12 +36,12 @@ public:
   public:
     static const void AddActor(PLAAGTActor *aActor);
     /*
-    void AddListener(GRAListener<PLAAGTStage, PLAAGTStage::FunctionCode> *aListener);
-    void RemoveListener(GRAListener<PLAAGTStage, PLAAGTStage::FunctionCode> *aListener);
+    void AddListener(GRAOBJListener<PLAAGTStage, PLAAGTStage::FunctionCode> *aListener);
+    void RemoveListener(GRAOBJListener<PLAAGTStage, PLAAGTStage::FunctionCode> *aListener);
     void SetFunction(PLAAGTStage::FunctionCode aKey,
                      const std::function<void(PLAAGTStage *)> &aFunc);
 
-    void AddActor(PLAActor *aActor);
+    void AddActor(PLAOBJActor *aActor);
     void PrintActors() const;
      */
   };
@@ -94,13 +95,13 @@ public:
                                    const std::string &aImageName,
                                    const GRAVec2<PLASize> &aTileSize,
                                    const GRAVec2<PLASize> &aChipSize,
-                                   const IPLALYRTileDataSource *aDataSource);
+                                   const IPLATileLayerDataSource *aDataSource);
     static PLAAGTActor *Assign(const PLAString &aName);
   };
 
 private:
-  static const PLAObject *Object(const PLAAgent *aAgent);
-  static PLAAgent *Assign(const PLAString &aName);
+  static const PLAObject *Object(const PLAOBJAgent *aAgent);
+  static PLAOBJAgent *Assign(const PLAString &aName);
 };
 
 #endif //PLAIN_ENGINE_PLAIN_HPP

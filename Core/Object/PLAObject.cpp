@@ -1,6 +1,6 @@
 #include "PLAObject.hpp"
-#include "../Object/Agent/PLAAgent.hpp"
-#include "PLAError.hpp"
+#include "../Object/Agent/PLAOBJAgent.hpp"
+#include "PLAOBJError.hpp"
 
 // PLAObject ///////////////////////////////////////////////////////////////////
 const std::map<PLAObject::Binder::Error, const char *> PLAObject::kBinderErrorMessages =
@@ -28,7 +28,7 @@ PLAObject *PLAObject::Object(const PLAString &aName)
       break;
     default :
       return nullptr;
-      //PLA_ERROR_ISSUE(PLAErrorType::Assert, "Failed to get object.",
+      //PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Failed to get object.",
       //                PLAObject::GetBinderErrorMessage(error));
   }
   return static_cast<PLAObject *>(item);
@@ -36,14 +36,14 @@ PLAObject *PLAObject::Object(const PLAString &aName)
 
 PLAObject *PLAObject::Object(PLAId aId)
 {
-  GRABinder<PLAObject>::Error error = GRABinder<PLAObject>::Error::None;
-  GRABinder<PLAObject>::Item *item =
+  GRAOBJBinder<PLAObject>::Error error = GRAOBJBinder<PLAObject>::Error::None;
+  GRAOBJBinder<PLAObject>::Item *item =
     PLAObject::Manager::Instance()->RefItem(aId, &error);
   switch (error) {
     case Binder::Error::None :
       break;
     default :
-      PLA_ERROR_ISSUE(PLAErrorType::Assert, "Failed to get object.",
+      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Failed to get object.",
                       PLAObject::GetBinderErrorMessage(error));
   }
   return static_cast<PLAObject *>(item);
@@ -54,7 +54,7 @@ void PLAObject::Bind()
   Binder::Error error(Binder::Error::None);
   PLAObject::Manager::Instance()->Bind(this, &error);
   if (error != Binder::Error::None) {
-    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
                     "Failed PLAObject binding. ERROR : %02d : %s",
                     error, GetBinderErrorMessage(error));
   }
@@ -67,14 +67,14 @@ void PLAObject::Unbind()
   {
     GRA_PRINT("PLAObject::Unbind : == CANCELED == : %s\n",
               this->GetObjectName().c_str());
-    PLA_ERROR_ISSUE(PLAErrorType::Expect, "Agent referenced form somewhere.");
+    PLA_ERROR_ISSUE(PLAOBJErrorType::Expect, "Agent referenced form somewhere.");
     return;
   }
   GRA_PRINT("PLAObject::Unbind : %s\n", this->GetObjectName().c_str());
   Binder::Error error(Binder::Error::None);
   PLAObject::Manager::Instance()->Unbind(this, &error);
   if (error != Binder::Error::None) {
-    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
                     "Failed PLAObject unbinding. ERROR : %02d : %s",
                     error, GetBinderErrorMessage(error));
   }
@@ -106,22 +106,22 @@ void PLAObject::Print()
   GRA_PRINT("PLAObject : %8d, %d\n", this->GetId(), this);
 }
 
-PLAAgent *PLAObject::AssignAgent()
+PLAOBJAgent *PLAObject::AssignAgent()
 {
   if (!_agent) {
-    _agent = PLAAgent::Create(this);
+    _agent = PLAOBJAgent::Create(this);
   }
   ++_agentReferenceCounter;
   return _agent;
 
   /*
-  PLAAgent *agent = PLAAgent::Create(this);
+  PLAOBJAgent *agent = PLAOBJAgent::Create(this);
   _agents.push_back(agent);
   return agent;
    */
 }
 
-void PLAObject::ReleaseAgent()/*const PLAAgent *aAgent)*/
+void PLAObject::ReleaseAgent()/*const PLAOBJAgent *aAgent)*/
 {
   --_agentReferenceCounter;
   if (_agentReferenceCounter == 0)
@@ -149,7 +149,7 @@ PLAString PLAObject::GetObjectDescription() const
 PLABool PLAObject::GetBool(const PLAString &aName) const
 {
   if (!_properties.contains(aName))
-  { PLA_ERROR_ISSUE(PLAErrorType::Assert,
+  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
                     "Property %s does not exist.", aName.c_str()); }
   return _properties.at(aName).GetBool();
 }
@@ -157,35 +157,35 @@ PLABool PLAObject::GetBool(const PLAString &aName) const
 PLAInt PLAObject::GetInt(const PLAString &aName) const
 {
   if (!_properties.contains(aName))
-  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Property does not exist."); }
+  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Property does not exist."); }
   return _properties.at(aName).GetInt();
 }
 
 PLAFloat PLAObject::GetFloat(const PLAString &aName) const
 {
   if (!_properties.contains(aName))
-  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Property does not exist."); }
+  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Property does not exist."); }
   return _properties.at(aName).GetFloat();
 }
 
 const PLAVec2 &PLAObject::GetVec2(const PLAString &aName) const
 {
   if (!_properties.contains(aName))
-  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Property does not exist."); }
+  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Property does not exist."); }
   return _properties.at(aName).GetVec2();
 }
 
 const PLAVec3 &PLAObject::GetVec3(const PLAString &aName) const
 {
   if (!_properties.contains(aName))
-  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Property does not exist."); }
+  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Property does not exist."); }
   return _properties.at(aName).GetVec3();
 }
 
 const PLAVec4 &PLAObject::GetVec4(const PLAString &aName) const
 {
   if (!_properties.contains(aName))
-  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Property does not exist."); }
+  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Property does not exist."); }
   return _properties.at(aName).GetVec4();
 }
 
@@ -228,12 +228,12 @@ void PLAObject::SetObjectName(const PLAString &aName)
     switch (error) {
       case Binder::Error::NameOverride :
       case Binder::Error::NameConvertedBySystem:
-        PLA_ERROR_ISSUE(PLAErrorType::Expect,
+        PLA_ERROR_ISSUE(PLAOBJErrorType::Expect,
                         "Succeed to set object name with error. ERROR : %02d : %s",
                         error, GetBinderErrorMessage(error));
         break;
       default :
-        PLA_ERROR_ISSUE(PLAErrorType::Assert,
+        PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
                         "Failure to set object name. ERROR : %02d : %s",
                         error, GetBinderErrorMessage(error));
         break;
@@ -241,7 +241,7 @@ void PLAObject::SetObjectName(const PLAString &aName)
   }
 }
 
-// GRABinder::Item /////////////////////////////////////////////////////////////
+// GRAOBJBinder::Item /////////////////////////////////////////////////////////////
 
 const char *PLAObject::GetBinderItemTypeName() const
 {

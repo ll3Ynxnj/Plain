@@ -4,15 +4,15 @@
 
 #include "PLAAGTActor.hpp"
 
-PLAAGTActor *PLAAGTActor::Create(PLAActor *aActor)
+PLAAGTActor *PLAAGTActor::Create(PLAOBJActor *aActor)
 {
   auto agent = new PLAAGTActor(aActor);
   agent->PLAObject::Bind();
   return agent;
 }
 
-PLAAGTActor::PLAAGTActor(PLAActor *aActor) :
-  PLAAgent(aActor)
+PLAAGTActor::PLAAGTActor(PLAOBJActor *aActor) :
+  PLAOBJAgent(aActor)
 {
 
 }
@@ -24,50 +24,50 @@ PLAAGTActor::~PLAAGTActor() noexcept
 
 void PLAAGTActor::SetColor(const PLAColor &aColor) const
 {
-  PLAActor *actor = this->RefActor();
+  PLAOBJActor *actor = this->RefActor();
   actor->SetColor(aColor);
 }
 
 void PLAAGTActor::SetTransform(const PLATransform &aTransform) const
 {
-  PLAActor *actor = this->RefActor();
+  PLAOBJActor *actor = this->RefActor();
   actor->SetTransform(aTransform);
 };
 
 void PLAAGTActor::SetSize(const PLAVec3 &aSize) const
 {
-  PLAActor *actor = this->RefActor();
+  PLAOBJActor *actor = this->RefActor();
   actor->SetSize(aSize);
 };
 
 void PLAAGTActor::SetTranslation(const PLAVec3 &aTranslation) const
 {
-  PLAActor *actor = this->RefActor();
+  PLAOBJActor *actor = this->RefActor();
   actor->SetTranslation(aTranslation);
 };
 
 void PLAAGTActor::SetRotation(const PLAVec3 &aRotation) const
 {
-  PLAActor *actor = this->RefActor();
+  PLAOBJActor *actor = this->RefActor();
   actor->SetRotation(aRotation);
 };
 
 void PLAAGTActor::SetScale(const PLAVec3 &aScale) const
 {
-  PLAActor *actor = this->RefActor();
+  PLAOBJActor *actor = this->RefActor();
   actor->SetScale(aScale);
 };
 
-void PLAAGTActor::SetFunction(PLAActorFunctionCode aKey,
-                              const std::function<void(PLAActor *)> &aFunc) const
+void PLAAGTActor::SetFunction(PLAOBJActorFunctionCode aKey,
+                              const std::function<void(PLAOBJActor *)> &aFunc) const
 {
-  PLAActor *actor = this->RefActor();
+  PLAOBJActor *actor = this->RefActor();
   actor->SetFunction(aKey, aFunc);
 };
 
-void PLAAGTActor::AddTileMotion(const PLAVec2s &aAddress, PLAMotion *aThread) const
+void PLAAGTActor::AddTileMotion(const PLAVec2s &aAddress, PLATMLMotion *aThread) const
 {
-  PLAActor *actor = this->RefActor();
+  PLAOBJActor *actor = this->RefActor();
   actor->AddTileMotion(aAddress, aThread);
 }
 
@@ -80,7 +80,7 @@ void PLAAGTActor::SetFunctorForInputWithTouch
   (aSignalCode, aActionCode,
    [aFunc](PLAInputContext *aContext, const PLAInput &aInput)
    {
-    PLAActor *actor = static_cast<PLAActor *>(aContext);
+    PLAOBJActor *actor = static_cast<PLAOBJActor *>(aContext);
     PLAAGTActor *agent = static_cast<PLAAGTActor *>(actor->AssignAgent());
     aFunc(agent, aInput);
     agent->Release();
@@ -96,7 +96,7 @@ void PLAAGTActor::SetFunctorForInputWithMouse
     (aSignalCode, aActionCode,
      [aFunc](PLAInputContext *aContext, const PLAInput &aInput)
      {
-       PLAActor *actor = static_cast<PLAActor *>(aContext);
+       PLAOBJActor *actor = static_cast<PLAOBJActor *>(aContext);
        PLAAGTActor *agent = static_cast<PLAAGTActor *>(actor->AssignAgent());
        aFunc(agent, aInput);
        agent->Release();
@@ -112,7 +112,7 @@ void PLAAGTActor::SetFunctorForInputWithKeyboard
     (aSignalCode, aActionCode,
      [aFunc](PLAInputContext *aContext, const PLAInput &aInput)
      {
-       PLAActor *actor = static_cast<PLAActor *>(aContext);
+       PLAOBJActor *actor = static_cast<PLAOBJActor *>(aContext);
        PLAAGTActor *agent = static_cast<PLAAGTActor *>(actor->AssignAgent());
        aFunc(agent, aInput);
        agent->Release();

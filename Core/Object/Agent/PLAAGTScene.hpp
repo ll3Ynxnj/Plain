@@ -5,19 +5,19 @@
 #ifndef ANHR_PLAAGTSCENE_HPP
 #define ANHR_PLAAGTSCENE_HPP
 
-#include "PLAAgent.hpp"
-#include "Object/PLAScene.hpp"
+#include "PLAOBJAgent.hpp"
+#include "Object/PLAOBJScene.hpp"
 
-class PLAAGTScene final : public PLAAgent
+class PLAAGTScene final : public PLAOBJAgent
 {
 public:
   /// Agent is const method only.
-  static PLAAGTScene *Create(PLAScene *aScene);
+  static PLAAGTScene *Create(PLAOBJScene *aScene);
 
   virtual ~PLAAGTScene() noexcept;
 
 protected:
-  explicit PLAAGTScene(PLAScene *aScene);
+  explicit PLAAGTScene(PLAOBJScene *aScene);
 };
 
 

@@ -1,7 +1,7 @@
-#ifndef PLAIN_ENGINE_PLAINPUTTYPE_HPP
-#define PLAIN_ENGINE_PLAINPUTTYPE_HPP
+#ifndef PLAIN_ENGINE_PLAOBJINPUTTYPE_HPP
+#define PLAIN_ENGINE_PLAOBJINPUTTYPE_HPP
 
-#include "Primitive/PLAVector.hpp"
+#include "Primitive/PLAPRMVector.hpp"
 
 enum class PLAInputDeviceType : PLAInt
 { Touch, Mouse, Keyboard, kNumberOfItems, None = kPLAIntUndefined };
@@ -51,4 +51,4 @@ enum class PLAInputSignalCodeForKeyboard : PLAInputSignalCode
   kNumberOfItems, None = kPLAInputSignalCodeUndefined,
 };
 
-#endif //PLAIN_ENGINE_PLAINPUTTYPE_HPP
+#endif //PLAIN_ENGINE_PLAOBJINPUTTYPE_HPP

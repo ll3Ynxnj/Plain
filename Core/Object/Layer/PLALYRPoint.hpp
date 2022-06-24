@@ -1,10 +1,10 @@
 #ifndef PLAIN_PLALYRPOINT_HPP
 #define PLAIN_PLALYRPOINT_HPP
 
-#include "PLALayer.hpp"
-#include "Primitive/PLAColor.hpp"
+#include "PLAOBJLayer.hpp"
+#include "Primitive/PLAPRMColor.hpp"
 
-class PLALYRPoint : public PLALayer
+class PLALYRPoint : public PLAOBJLayer
 {
   PLAColor _color = kPLAColorNone;
 
@@ -13,7 +13,7 @@ public:
 
   PLALYRPoint() = delete;
   PLALYRPoint(const PLAVec3 &aOffset, const PLAColor &aColor) :
-    PLALayer(PLALayerType::Point, aOffset),//, "== PLALYRPoint =="),
+    PLAOBJLayer(PLAOBJLayerType::Point, aOffset),//, "== PLALYRPoint =="),
     _color(aColor) {};//, aStyle) {};
   virtual ~PLALYRPoint() {};
 

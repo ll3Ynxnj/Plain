@@ -1,12 +1,12 @@
-#ifndef PLAIN_ENGINE_PLAINPUT_HPP
-#define PLAIN_ENGINE_PLAINPUT_HPP
+#ifndef PLAIN_ENGINE_PLAOBJINPUT_HPP
+#define PLAIN_ENGINE_PLAOBJINPUT_HPP
 
 #include <set>
 #include <map>
 #include <queue>
 #include "Object/PLAObject.hpp"
 #include "PLAInputType.hpp"
-#include "Primitive/PLAPoint.hpp"
+#include "Primitive/PLAPRMPoint.hpp"
 
 class PLAInput : public PLAObject
 {
@@ -35,4 +35,4 @@ public:
 };
 
 
-#endif //PLAIN_ENGINE_PLAINPUT_HPP
+#endif //PLAIN_ENGINE_PLAOBJINPUT_HPP

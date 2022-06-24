@@ -3,7 +3,7 @@
 //
 
 #include "PLAInputContext.hpp"
-#include "Object/PLAError.hpp"
+#include "Object/PLAOBJError.hpp"
 
 PLAInputContext::PLAInputContext()
 {

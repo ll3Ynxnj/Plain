@@ -1,6 +1,6 @@
 #include "PLAInput.hpp"
-#include "Object/PLAApp.hpp"
-#include "Object/PLAError.hpp"
+#include "Object/PLAOBJApp.hpp"
+#include "Object/PLAOBJError.hpp"
 
 /*
 PLAInput *PLAInput::Create(PLAInputDeviceType aType, PLAInputCode aCode,

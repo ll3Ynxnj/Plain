@@ -1,37 +1,37 @@
 #ifndef PLAIN_PLALYRRECT_HPP
 #define PLAIN_PLALYRRECT_HPP
 
-#include "PLALayer.hpp"
-#include "Primitive/PLAColor.hpp"
+#include "PLAOBJLayer.hpp"
+#include "Primitive/PLAPRMColor.hpp"
 
-class PLALYRRect : public PLALayer
+class PLALYRRect : public PLAOBJLayer
 {
   PLAVec2 _vector = kPLAVec2None;
   PLAColor _fillColor = kPLAColorWhite;
   PLAColor _strokeColor = kPLAColorNone;
-  PLAImageClip *_imageClip = nullptr;
+  PLAOBJImageClip *_imageClip = nullptr;
 
 public:
   PLALYRRect(const PLAVec3 &aOffset, const PLAVec2 &aVector,
              const PLAColor &aFillColor, const PLAColor &aStrokeColor,
              const std::string &aImageName, const PLARect &aClip) :
-    PLALayer(PLALayerType::Rect, aOffset),//, "== PLALYRRect =="),
+    PLAOBJLayer(PLAOBJLayerType::Rect, aOffset),//, "== PLALYRRect =="),
     _vector(aVector), _fillColor(aFillColor), _strokeColor(aStrokeColor)
   {
     if (aImageName != kPLAStrUndefined) {
-      _imageClip = PLAImageClip::Create(aImageName, aClip);
+      _imageClip = PLAOBJImageClip::Create(aImageName, aClip);
     }
   };
 
   PLALYRRect(const PLARect &aRect,
              const PLAColor &aFillColor, const PLAColor &aStrokeColor,
              const std::string &aImageName, const PLARect &aClip) :
-             PLALayer(PLALayerType::Rect, PLAVec3(aRect.pos.x, aRect.pos.y, 0)),
-             _vector(aRect.size), _fillColor(aFillColor),
-             _strokeColor(aStrokeColor)
+    PLAOBJLayer(PLAOBJLayerType::Rect, PLAVec3(aRect.pos.x, aRect.pos.y, 0)),
+    _vector(aRect.size), _fillColor(aFillColor),
+    _strokeColor(aStrokeColor)
   {
     if (aImageName != kPLAStrUndefined) {
-      _imageClip = PLAImageClip::Create(aImageName, aClip);
+      _imageClip = PLAOBJImageClip::Create(aImageName, aClip);
     }
   }
 
@@ -74,7 +74,7 @@ public:
   void SetStrokeColor(const PLAColor &aColor) { _strokeColor = aColor; };
   const PLAColor &GetFillColor() const { return _fillColor; };
   void SetFillColor(const PLAColor &aColor) { _fillColor = aColor; };
-  const PLAImageClip *GetImageClip() const { return _imageClip; };
+  const PLAOBJImageClip *GetImageClip() const { return _imageClip; };
 };
 
 #endif //PLAIN_PLALYRRECT_HPP

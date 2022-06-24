@@ -3,7 +3,7 @@
 //
 
 #include "PLAInputHandler.hpp"
-#include "Object/PLAError.hpp"
+#include "Object/PLAOBJError.hpp"
 
 PLAInputHandler::PLAInputHandler()
 {
@@ -22,7 +22,7 @@ void PLAInputHandler::Input(const PLAInput &aInput, const PLAInputState *aState)
     _context = this->RefContextWithInput(aInput);
     if (!_context)
     {
-      PLA_ERROR_ISSUE(PLAErrorType::Expect, "Context not found.");
+      PLA_ERROR_ISSUE(PLAOBJErrorType::Expect, "Context not found.");
       return;
     }
   }
@@ -39,7 +39,7 @@ void PLAInputHandler::Input(const PLAInput &aInput, const PLAInputState *aState)
       this->InputForKeyboard(aInput, aState);
       break;
     default:
-      PLA_ERROR_ISSUE(PLAErrorType::Assert,
+      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
                       "Detect unexpected PLAInputDeviceType.");
       break;
   }
@@ -94,12 +94,12 @@ void PLAInputHandler::InputForTouch(const PLAInput &aInput,
       }
       else
       {
-        PLA_ERROR_ISSUE(PLAErrorType::Assert, "Detected unexpected input.");
+        PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Detected unexpected input.");
       }
     }
     else
     { // Context not found
-      PLA_ERROR_ISSUE(PLAErrorType::Expect, "Context not found");
+      PLA_ERROR_ISSUE(PLAOBJErrorType::Expect, "Context not found");
     }
   }
   */

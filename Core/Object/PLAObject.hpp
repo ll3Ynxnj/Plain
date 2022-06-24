@@ -8,20 +8,20 @@
 #include "Property/PLAProperty.hpp"
 
 #include "Grain/Grain.h"
-#include "Grain/Object/GRABinder.hpp"
+#include "Grain/Object/GRAOBJBinder.hpp"
 
-class PLAAgent;
+class PLAOBJAgent;
 
-class PLAObject : private GRABinder<PLAObject>::Item
+class PLAObject : private GRAOBJBinder<PLAObject>::Item
 {
-  using Binder = GRABinder<PLAObject>;
+  using Binder = GRAOBJBinder<PLAObject>;
   static const std::map<Binder::Error, const char *> kBinderErrorMessages;
 
   PLAObjectType _type = PLAObjectType::None;
   std::map<PLAString, PLAProperty> _properties =
     std::map<PLAString, PLAProperty>();
-  //std::vector<PLAAgent *> _agents;
-  PLAAgent *_agent = nullptr;
+  //std::vector<PLAOBJAgent *> _agents;
+  PLAOBJAgent *_agent = nullptr;
   PLAInt _agentReferenceCounter = 0;
 
 protected:
@@ -41,8 +41,8 @@ public:
 
   virtual void Print();
 
-  virtual PLAAgent *AssignAgent();
-  //void ReleaseAgent(const PLAAgent *aAgent);
+  virtual PLAOBJAgent *AssignAgent();
+  //void ReleaseAgent(const PLAOBJAgent *aAgent);
   void ReleaseAgent();
 
   GRASize GetObjectId() const { return this->GetId(); }
@@ -72,18 +72,18 @@ public:
   void SetVec4(const PLAString &aName, const PLAVec4 &aValue);
 
 protected:
-  //std::vector<PLAAgent *> GetAgents() { return _agents; }
-  const PLAAgent *GetAgent() const { return _agent; }
-  PLAAgent *RefAgent() const { return _agent; }
+  //std::vector<PLAOBJAgent *> GetAgents() { return _agents; }
+  const PLAOBJAgent *GetAgent() const { return _agent; }
+  PLAOBJAgent *RefAgent() const { return _agent; }
 
-// GRABinder::Item /////////////////////////////////////////////////////////////
+// GRAOBJBinder::Item /////////////////////////////////////////////////////////////
 private:
   const char *GetBinderItemTypeName() const override;
 
 
 // Manager /////////////////////////////////////////////////////////////////////
 public:
-  class Manager: public GRABinder<PLAObject>
+  class Manager: public GRAOBJBinder<PLAObject>
   {
     static Manager _instance;
     std::vector<PLAObject *> _unboundObjects;

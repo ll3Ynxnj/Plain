@@ -3,7 +3,7 @@
 //
 
 #include "PLAInputState.hpp"
-#include "Object/PLAError.hpp"
+#include "Object/PLAOBJError.hpp"
 
 PLAInputState::PLAInputState()
 {
@@ -35,7 +35,7 @@ PLAInput PLAInputState::GetInput(PLAInputDeviceType aDevice,
 {
   if (aCode >= PLAInput::GetNumberOfInputCodes(aDevice))
   {
-    PLA_ERROR_ISSUE(PLAErrorType::Assert, "Detected unexpected PLAInputCode.");
+    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Detected unexpected PLAInputCode.");
   }
   return _inputs[static_cast<unsigned>(aDevice)][aCode];
 }

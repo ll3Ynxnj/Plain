@@ -1,10 +1,10 @@
 #ifndef PLAIN_PLALYRLINE_HPP
 #define PLAIN_PLALYRLINE_HPP
 
-#include "PLALayer.hpp"
-#include "Primitive/PLAColor.hpp"
+#include "PLAOBJLayer.hpp"
+#include "Primitive/PLAPRMColor.hpp"
 
-class PLALYRLine : public PLALayer
+class PLALYRLine : public PLAOBJLayer
 {
   PLAVec2 _vector = kPLAVec2None;
   PLAColor _color = kPLAColorNone;
@@ -15,7 +15,7 @@ public:
   PLALYRLine() = delete;
   PLALYRLine(const PLAVec3 &aOffset, const PLAVec2 &aVector,
              const PLAColor &aColor) :
-    PLALayer(PLALayerType::Line, aOffset),//, "== PLALYRLine =="),
+    PLAOBJLayer(PLAOBJLayerType::Line, aOffset),//, "== PLALYRLine =="),
     _vector(aVector), _color(aColor) {};
   virtual ~PLALYRLine() {};
 

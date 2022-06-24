@@ -2,23 +2,23 @@
 #include "PLAGLUTEngine.hpp"
 #include "PLAGLUTRenderer.hpp"
 
-#include "Object/PLAApp.hpp"
-#include "Object/PLAStage.hpp"
+#include "Object/PLAOBJApp.hpp"
+#include "Object/PLAOBJStage.hpp"
 
 void PLAGLUTEngine::display(void)
 {
-  PLAApp::Instance()->Render();
+  PLAOBJApp::Instance()->Render();
 }
 
 void PLAGLUTEngine::reshape(int w, int h)
 {
-  PLAApp::Instance()->RefreshScreenSize(w, h);
+  PLAOBJApp::Instance()->RefreshScreenSize(w, h);
 }
 
 void PLAGLUTEngine::timer(int value)
 {
-  PLAApp::Instance()->Update();
-  PLAApp::Instance()->Render();
+  PLAOBJApp::Instance()->Update();
+  PLAOBJApp::Instance()->Render();
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -56,11 +56,11 @@ void PLAGLUTEngine::mouse(int button, int state, int x, int y)
   }
 
   /*
-  PLAApp::Instance()->
+  PLAOBJApp::Instance()->
   Input(PLAInputDeviceType::Mouse, inputCode, inputSignal, { float(x), float(y) });
   /*/
-  PLAVec3 contentScaleFactor = PLAApp::Instance()->GetContentScaleFactor();
-  PLAApp::Instance()->
+  PLAVec3 contentScaleFactor = PLAOBJApp::Instance()->GetContentScaleFactor();
+  PLAOBJApp::Instance()->
     Input(PLAInputDeviceType::Touch, inputCode, inputSignal,
           { float(x / contentScaleFactor.x), float(y / contentScaleFactor.y) });
   //*/
@@ -68,15 +68,15 @@ void PLAGLUTEngine::mouse(int button, int state, int x, int y)
 
 void PLAGLUTEngine::keyboard(unsigned char key, int x, int y)
 {
-  PLAInputSignalCode inputCode = PLAApp::GetInputSignalCodeFromChar(key);
-  PLAApp::Instance()->Input(PLAInputDeviceType::Keyboard, inputCode, 1,
+  PLAInputSignalCode inputCode = PLAOBJApp::GetInputSignalCodeFromChar(key);
+  PLAOBJApp::Instance()->Input(PLAInputDeviceType::Keyboard, inputCode, 1,
                                { float(x), float(y) });
 }
 
 void PLAGLUTEngine::keyboardUp(unsigned char key, int x, int y)
 {
-  PLAInputSignalCode inputCode = PLAApp::GetInputSignalCodeFromChar(key);
-  PLAApp::Instance()->Input(PLAInputDeviceType::Keyboard, inputCode, 0,
+  PLAInputSignalCode inputCode = PLAOBJApp::GetInputSignalCodeFromChar(key);
+  PLAOBJApp::Instance()->Input(PLAInputDeviceType::Keyboard, inputCode, 0,
                                { float(x), float(y) });
 }
 

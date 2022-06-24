@@ -5,13 +5,13 @@
 #ifndef ANHR_PLAAGTSTAGE_HPP
 #define ANHR_PLAAGTSTAGE_HPP
 
-#include "PLAAgent.hpp"
+#include "PLAOBJAgent.hpp"
 #include "Object/Input/PLAInput.hpp"
-#include "Object/PLAStage.hpp"
+#include "Object/PLAOBJStage.hpp"
 
 class PLAAGTActor;
 
-class PLAAGTStage final : public PLAAgent/*, public PLAInputHandler*/
+class PLAAGTStage final : public PLAOBJAgent/*, public PLAInputHandler*/
 {
 public:
   enum class FunctionCode : PLAFunctionCode
@@ -25,14 +25,14 @@ public:
   };
 
 private:
-  std::list<GRAListener<PLAAGTStage, FunctionCode> *> _listeners =
-    std::list<GRAListener<PLAAGTStage, FunctionCode> *>();
-  GRAFunctor<PLAAGTStage, FunctionCode> _functor =
-    GRAFunctor<PLAAGTStage, FunctionCode>();
+  std::list<GRAOBJListener<PLAAGTStage, FunctionCode> *> _listeners =
+    std::list<GRAOBJListener<PLAAGTStage, FunctionCode> *>();
+  GRAOBJFunctor<PLAAGTStage, FunctionCode> _functor =
+    GRAOBJFunctor<PLAAGTStage, FunctionCode>();
 
 public:
   /// Agent is const method only.
-  static PLAAGTStage *Create(PLAStage *aScene);
+  static PLAAGTStage *Create(PLAOBJStage *aScene);
 
   virtual ~PLAAGTStage() noexcept;
 
@@ -40,10 +40,10 @@ public:
   void AddActor(PLAAGTActor *aAgent);
   void PrintActors() const;
 
-  void AddListener(GRAListener<PLAAGTStage, FunctionCode> *aListener)
+  void AddListener(GRAOBJListener<PLAAGTStage, FunctionCode> *aListener)
   { _listeners.push_back(aListener); };
 
-  void RemoveListener(GRAListener<PLAAGTStage, FunctionCode> *aListener)
+  void RemoveListener(GRAOBJListener<PLAAGTStage, FunctionCode> *aListener)
   { _listeners.remove(aListener); };
 
   void SetFunction(FunctionCode aKey,
@@ -53,19 +53,19 @@ public:
   void RunFunction(FunctionCode aKey)
   {
     _functor.RunFunction(aKey, this);
-    for (GRAListener<PLAAGTStage, PLAAGTStage::FunctionCode> *listener: _listeners)
+    for (GRAOBJListener<PLAAGTStage, PLAAGTStage::FunctionCode> *listener: _listeners)
     { listener->RunListener(aKey, this); }
   };
 
   PLAVec3 GetSize() const;
 
 protected:
-  explicit PLAAGTStage(PLAStage *aScene);
+  explicit PLAAGTStage(PLAOBJStage *aScene);
 
-  const PLAStage *GetStage() const
-  { return static_cast<const PLAStage *>(this->GetOwner()); }
-  PLAStage *RefStage() const
-  { return static_cast<PLAStage *>(this->RefOwner()); }
+  const PLAOBJStage *GetStage() const
+  { return static_cast<const PLAOBJStage *>(this->GetOwner()); }
+  PLAOBJStage *RefStage() const
+  { return static_cast<PLAOBJStage *>(this->RefOwner()); }
 
 // PLAInputHandler /////////////////////////////////////////////////////////////
 /*
@@ -73,5 +73,6 @@ public:
   virtual PLAInputContext *RefContextWithInput(const PLAInput &aInput) const;
 */
 };
+
 
 #endif //ANHR_PLAAGTSTAGE_HPP

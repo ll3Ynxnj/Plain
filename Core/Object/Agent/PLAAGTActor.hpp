@@ -6,14 +6,14 @@
 #define ANHR_PLAAGTACTOR_HPP
 
 
-#include "PLAAgent.hpp"
-#include "Object/Actor/PLAActor.hpp"
+#include "PLAOBJAgent.hpp"
+#include "Object/Actor/PLAOBJActor.hpp"
 
-class PLAAGTActor final : public PLAAgent//, public PLAInputContext
+class PLAAGTActor final : public PLAOBJAgent//, public PLAInputContext
 {
 public:
   /// Agent is const method only.
-  static PLAAGTActor *Create(PLAActor *aActor);
+  static PLAAGTActor *Create(PLAOBJActor *aActor);
 
   virtual ~PLAAGTActor() noexcept;
 
@@ -25,10 +25,10 @@ public:
   void SetRotation(const PLAVec3 &aRotation) const;
   void SetScale(const PLAVec3 &aScale) const;
 
-  void SetFunction(PLAActorFunctionCode aKey,
-                   const std::function<void(PLAActor *)> &aFunc) const;
+  void SetFunction(PLAOBJActorFunctionCode aKey,
+                   const std::function<void(PLAOBJActor *)> &aFunc) const;
 
-  void AddTileMotion(const PLAVec2s &aAddress, PLAMotion *aThread) const;
+  void AddTileMotion(const PLAVec2s &aAddress, PLATMLMotion *aThread) const;
 
   /// Path-through to InputContext /////////////////////////////////////////////
   void SetFunctorForInputWithTouch
@@ -46,11 +46,11 @@ public:
 
 
 protected:
-  explicit PLAAGTActor(PLAActor *aActor);
-  const PLAActor *GetActor() const
-  { return static_cast<const PLAActor *>(this->GetOwner()); }
-  PLAActor *RefActor() const
-  { return static_cast<PLAActor *>(this->RefOwner()); }
+  explicit PLAAGTActor(PLAOBJActor *aActor);
+  const PLAOBJActor *GetActor() const
+  { return static_cast<const PLAOBJActor *>(this->GetOwner()); }
+  PLAOBJActor *RefActor() const
+  { return static_cast<PLAOBJActor *>(this->RefOwner()); }
 };
 
 

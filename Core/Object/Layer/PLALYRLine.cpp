@@ -1,5 +1,5 @@
 #include "PLALYRLine.hpp"
-#include "Core/Library/PLACollision.hpp"
+#include "Core/Library/PLALIBCollision.hpp"
 
 PLAVec3 PLALYRLine::GetSize() const
 {

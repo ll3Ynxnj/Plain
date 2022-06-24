@@ -5,9 +5,9 @@
 #ifndef ANHR_PLAPROPERTY_HPP
 #define ANHR_PLAPROPERTY_HPP
 
-#include "Primitive/PLAPrimitive.hpp"
-#include "Primitive/PLAColor.hpp"
-#include "Primitive/PLAVector.hpp"
+#include "Primitive/PLAPRMType.hpp"
+#include "Primitive/PLAPRMColor.hpp"
+#include "Primitive/PLAPRMVector.hpp"
 #include "PLAPropertyType.hpp"
 
 class PLAProperty

@@ -1,8 +1,8 @@
 #include <math.h>
 
 #include "PLAGLUTRenderer.hpp"
-#include "Object/PLAError.hpp"
-#include "Object/PLAResource.hpp"
+#include "Object/PLAOBJError.hpp"
+#include "Object/PLAOBJResource.hpp"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -68,7 +68,7 @@ void PLAGLUTRenderer::Flush() const
   glFlush();
 }
 
-void PLAGLUTRenderer::Render(const PLAActor *aActor) const
+void PLAGLUTRenderer::Render(const PLAOBJActor *aActor) const
 {
   glMatrixMode(GL_MODELVIEW);
   this->Draw(aActor, kPLAColorNorm);
@@ -115,7 +115,7 @@ void PLAGLUTRenderer::GetRectTexCoords(GLfloat aCoords[8],
   aCoords[7] = aPos.y + aSize.y;
 }
 
-void PLAGLUTRenderer::Draw(const PLAActor *aActor, const PLAColor &aColor) const
+void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) const
 {
   /*
   GRA_PRINT("Draw(aActor: %s, aColor: {r: %.2f, g: %.2f, b: %.2f, a: %.2f}\n",
@@ -135,26 +135,26 @@ void PLAGLUTRenderer::Draw(const PLAActor *aActor, const PLAColor &aColor) const
   glRotatef(transform.rotation.z, 0.0, 0.0, 1.0);
   glScalef(transform.scale.x, transform.scale.y, transform.scale.z);
 
-  const PLALayer *layer = aActor->GetLayer();
+  const PLAOBJLayer *layer = aActor->GetLayer();
   PLAColor color = aActor->GetColor();
   color *= aColor;
   switch (layer->GetLayerType())
   {
-    case PLALayerType::Rect :
+    case PLAOBJLayerType::Rect :
       this->DrawRect(static_cast<const PLALYRRect *>(layer), color);
       break;
-    case PLALayerType::Circle :
+    case PLAOBJLayerType::Circle :
       this->DrawCircle(static_cast<const PLALYRCircle *>(layer), color);
       break;
-    case PLALayerType::Tile :
+    case PLAOBJLayerType::Tile :
       this->DrawTile(static_cast<const PLALYRTile *>(layer), color);
       break;
     default :
-      PLA_ERROR_ISSUE(PLAErrorType::Assert,
+      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
                       "Unexpected PLARenderingDataType detected.");
       break;
   }
-  for (const PLAActor *actor : *aActor->GetActors())
+  for (const PLAOBJActor *actor : *aActor->GetActors())
   {
     this->Draw(actor, color);
   }
@@ -170,10 +170,10 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor)
             aLayer->GetObjectName().c_str(),
             aColor.r, aColor.g, aColor.b, aColor.a);
             */
-  const PLAImageClip *imageClip = aLayer->GetImageClip();
+  const PLAOBJImageClip *imageClip = aLayer->GetImageClip();
   if (imageClip)
   {
-    const PLAImage *texImage = imageClip->GetImage();
+    const PLAOBJImage *texImage = imageClip->GetImage();
     glEnable(GL_TEXTURE_2D);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetSize().x,
                  texImage->GetSize().y, 0,
@@ -259,10 +259,10 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
             " aColor: {r: %.2f, g: %.2f, b: %.2f, a: %.2f})\n",
             aLayer->GetObjectName().c_str(),
             aColor.r, aColor.g, aColor.b, aColor.a);
-  const PLAImageClip *imageClip = aLayer->GetImageClip();
+  const PLAOBJImageClip *imageClip = aLayer->GetImageClip();
   if (imageClip)
   {
-    const PLAImage *texImage = imageClip->GetImage();
+    const PLAOBJImage *texImage = imageClip->GetImage();
     glEnable(GL_TEXTURE_2D);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetSize().x,
                  texImage->GetSize().y, 0,
@@ -364,7 +364,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
   //-- This method is an inefficient implementation.
   static bool kIsDebug = false;//false;
 
-  const PLAImage *texImage = aLayer->GetImage();
+  const PLAOBJImage *texImage = aLayer->GetImage();
   if (texImage && !kIsDebug) {
     glEnable(GL_TEXTURE_2D);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetSize().x,
@@ -416,26 +416,26 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       const PLATileChip &chip = aLayer->GetChip(address);
       if (chip.code == kPLATileChipCodeNone) { continue; }
 
-      const PLAMotion *motionThread = aLayer->GetMotionThread(address);
+      const PLATMLMotion *motionThread = aLayer->GetMotionThread(address);
       PLAVec3 translation = kPLAVec3None;
       PLAVec3 rotation = kPLAVec3None;
       PLAVec3 scale = kPLAVec3Norm;
       if (motionThread)
       {
-        std::map<PLAMotionType, PLAProperty> properties =
-          std::map<PLAMotionType, PLAProperty>();
+        std::map<PLATMLMotionType, PLAProperty> properties =
+          std::map<PLATMLMotionType, PLAProperty>();
         motionThread->GetProperties(&properties);
-        if (properties.contains(PLAMotionType::Translation))
+        if (properties.contains(PLATMLMotionType::Translation))
         {
-          translation = properties.at(PLAMotionType::Translation).GetVec3();
+          translation = properties.at(PLATMLMotionType::Translation).GetVec3();
         }
-        if (properties.contains(PLAMotionType::Rotation))
+        if (properties.contains(PLATMLMotionType::Rotation))
         {
-          rotation = properties.at(PLAMotionType::Rotation).GetVec3();
+          rotation = properties.at(PLATMLMotionType::Rotation).GetVec3();
         }
-        if (properties.contains(PLAMotionType::Scale))
+        if (properties.contains(PLATMLMotionType::Scale))
         {
-          scale = properties.at(PLAMotionType::Scale).GetVec3();
+          scale = properties.at(PLATMLMotionType::Scale).GetVec3();
         }
       }
 

@@ -5,15 +5,15 @@
 #include "PLAAGTStage.hpp"
 #include "PLAAGTActor.hpp"
 
-PLAAGTStage *PLAAGTStage::Create(PLAStage *aStage)
+PLAAGTStage *PLAAGTStage::Create(PLAOBJStage *aStage)
 {
   auto agent = new PLAAGTStage(aStage);
   agent->PLAObject::Bind();
   return agent;
 }
 
-PLAAGTStage::PLAAGTStage(PLAStage *aStage) :
-  PLAAgent(aStage)
+PLAAGTStage::PLAAGTStage(PLAOBJStage *aStage) :
+  PLAOBJAgent(aStage)
 {
 
 }
@@ -25,27 +25,27 @@ PLAAGTStage::~PLAAGTStage() noexcept
 
 void PLAAGTStage::Init()
 {
-  static_cast<PLAStage *>(this->RefOwner())->Init();
+  static_cast<PLAOBJStage *>(this->RefOwner())->Init();
 }
 
 void PLAAGTStage::AddActor(PLAAGTActor *aAgent)
 {
   PLAId actorId = aAgent->GetOwnerId();
-  PLAActor *actor = static_cast<PLAActor *>(PLAObject::Object(actorId));
+  PLAOBJActor *actor = static_cast<PLAOBJActor *>(PLAObject::Object(actorId));
   PLAId stageId = this->GetOwnerId();
-  PLAStage *stage = static_cast<PLAStage *>(PLAObject::Object(stageId));
+  PLAOBJStage *stage = static_cast<PLAOBJStage *>(PLAObject::Object(stageId));
   stage->AddActor(actor);
 }
 
 void PLAAGTStage::PrintActors() const
 {
-  const PLAStage *stage = this->GetStage();
+  const PLAOBJStage *stage = this->GetStage();
   stage->PrintActors();
 }
 
 PLAVec3 PLAAGTStage::GetSize() const
 {
-  const PLAStage *stage = this->GetStage();
+  const PLAOBJStage *stage = this->GetStage();
   return stage->GetSize();
 }
 
@@ -54,9 +54,9 @@ PLAVec3 PLAAGTStage::GetSize() const
 PLAInputContext *PLAAGTStage::RefContextWithInput(const PLAInput &aInput) const
 {
   PLAInputContext *inputContext = nullptr;
-  PLAActor *inputContextActor = nullptr;
-  const PLAStage *stage = this->GetStage();
-  PLAActor *stageContext = stage->RefContext();
+  PLAOBJActor *inputContextActor = nullptr;
+  const PLAOBJStage *stage = this->GetStage();
+  PLAOBJActor *stageContext = stage->RefContext();
   const PLAAGTActor *stageContextAgent =
     static_cast<const PLAAGTActor *>(stageContext->AssignAgent());
   switch (aInput.GetInputDeviceType())

@@ -2,23 +2,23 @@
 // Created by Kentaro Kawai on 2021/08/15.
 //
 
-#include "Object/Timeline/PLATimelineNode.hpp"
+#include "Object/Timeline/PLAOBJTimelineNode.hpp"
 
 class PLANodeTest : public ::testing::Test
 {
 protected:
-  //PLATimelineNode *_rootNode = nullptr;
+  //PLAOBJTimelineNode *_rootNode = nullptr;
 
-  //std::vector<PLATimelineNode *>_subNodes = std::vector<PLATimelineNode *>();
+  //std::vector<PLAOBJTimelineNode *>_subNodes = std::vector<PLAOBJTimelineNode *>();
 
   virtual void SetUp()
   {
     /*
-    _rootNode = PLATimelineNode::Create(1);
-    _subNodes.push_back(PLATimelineNode::Create(1));
-    _subNodes.push_back(PLATimelineNode::Create(2));
-    _subNodes.push_back(PLATimelineNode::Create(3));
-    _subNodes.push_back(PLATimelineNode::Create(4));
+    _rootNode = PLAOBJTimelineNode::Create(1);
+    _subNodes.push_back(PLAOBJTimelineNode::Create(1));
+    _subNodes.push_back(PLAOBJTimelineNode::Create(2));
+    _subNodes.push_back(PLAOBJTimelineNode::Create(3));
+    _subNodes.push_back(PLAOBJTimelineNode::Create(4));
     */
   }
 
@@ -26,7 +26,7 @@ protected:
   {
     /*
     PLAObject::Delete(_rootNode);
-    for (PLATimelineNode *node : _subNodes)
+    for (PLAOBJTimelineNode *node : _subNodes)
     {
       PLAObject::Delete(node);
     }
@@ -37,24 +37,24 @@ protected:
 TEST_F(PLANodeTest, Update_UpdateNodes_IncreaseProgress)
 {
   uint i = 0;
-  std::vector<PLATimelineNode *> nodes = {
-    PLATimelineNode::Create(1),
-    PLATimelineNode::Create(2),
-    PLATimelineNode::Create(3),
-    PLATimelineNode::Create(4),
+  std::vector<PLAOBJTimelineNode *> nodes = {
+    PLAOBJTimelineNode::Create(1),
+    PLAOBJTimelineNode::Create(2),
+    PLAOBJTimelineNode::Create(3),
+    PLAOBJTimelineNode::Create(4),
   };
 
-  for (PLATimelineNode *node : nodes) {
+  for (PLAOBJTimelineNode *node : nodes) {
     GRA_PRINT("-- nodes[%d] --------\n", i);
-    node->SetFunction(PLATimelineNode::FunctionCode::OnStart, [i](PLATimelineNode *node) {
+    node->SetFunction(PLAOBJTimelineNode::FunctionCode::OnStart, [i](PLAOBJTimelineNode *node) {
       GRA_PRINT("    nodes[%d] %4d OnStart\n", i, node->GetSteps());
     });
-    node->SetFunction(PLATimelineNode::FunctionCode::OnUpdate, [i](PLATimelineNode *node) {
+    node->SetFunction(PLAOBJTimelineNode::FunctionCode::OnUpdate, [i](PLAOBJTimelineNode *node) {
       PLAFloat progress = node->GetProgress();
       GRA_PRINT("    nodes[%d] %4d OnUpdate : progress : %f\n",
                 i, node->GetSteps(), progress);
     });
-    node->SetFunction(PLATimelineNode::FunctionCode::OnStop, [i](PLATimelineNode *node) {
+    node->SetFunction(PLAOBJTimelineNode::FunctionCode::OnStop, [i](PLAOBJTimelineNode *node) {
       GRA_PRINT("    nodes[%d] %4d OnStop\n", i, node->GetSteps());
     });
     PLAInt length = node->GetLength();
@@ -97,25 +97,25 @@ TEST_F(PLANodeTest, Update_UpdateNodes_UpdatesPropagateToChildNodes)
    */
 
   static const int kNodeLength = 40;
-  PLATimelineNode *node = PLATimelineNode::Create(kNodeLength, "node");
+  PLAOBJTimelineNode *node = PLAOBJTimelineNode::Create(kNodeLength, "node");
 
-  PLATimelineNode *node0 = PLATimelineNode::Create(10, "node0");
-  PLATimelineNode *node1 = PLATimelineNode::Create(10, "node1");
-  PLATimelineNode *node2 = PLATimelineNode::Create(10, "node2");
+  PLAOBJTimelineNode *node0 = PLAOBJTimelineNode::Create(10, "node0");
+  PLAOBJTimelineNode *node1 = PLAOBJTimelineNode::Create(10, "node1");
+  PLAOBJTimelineNode *node2 = PLAOBJTimelineNode::Create(10, "node2");
 
   node->AddQueue(node0);
   node->AddQueue(node1);
   node->AddQueue(node2);
 
-  PLATimelineNode *node0_0_0 = PLATimelineNode::Create(3, "node0_0_0");
-  PLATimelineNode *node0_1_0 = PLATimelineNode::Create(3, "node0_1_0");
-  PLATimelineNode *node0_2_0 = PLATimelineNode::Create(3, "node0_2_0");
+  PLAOBJTimelineNode *node0_0_0 = PLAOBJTimelineNode::Create(3, "node0_0_0");
+  PLAOBJTimelineNode *node0_1_0 = PLAOBJTimelineNode::Create(3, "node0_1_0");
+  PLAOBJTimelineNode *node0_2_0 = PLAOBJTimelineNode::Create(3, "node0_2_0");
 
   node0->AddSubNode(node0_0_0);
   node0->AddSubNode(node0_1_0);
   node0->AddSubNode(node0_2_0);
 
-  PLATimelineNode *node1_0_0 = PLATimelineNode::Create(3, "node1_0_0");
+  PLAOBJTimelineNode *node1_0_0 = PLAOBJTimelineNode::Create(3, "node1_0_0");
 
   node1->AddSubNode(node1_0_0);
 

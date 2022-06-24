@@ -1,5 +1,5 @@
 #include "PLALYRRect.hpp"
-#include "Core/Library/PLACollision.hpp"
+#include "Core/Library/PLALIBCollision.hpp"
 
 PLALYRRect *PLALYRRect::Create(const PLARect &aRect)
 {
