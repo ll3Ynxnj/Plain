@@ -28,7 +28,7 @@ public:
   void Update();
 
   void AddNode(PLAOBJTimelineNode *aNode);
-  void AddThread(PLAOBJTimeline *aNode);
+  void AddThread(PLAOBJTimeline *aThread);
   void Clear();
 
   void OnFinishNode();
