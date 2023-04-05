@@ -10,10 +10,8 @@ PLAOBJStage *PLAOBJStage::Create()
 }
 
 PLAOBJStage::PLAOBJStage() :
-PLAObject(PLAObjectType::Stage)//,//, "== PLAOBJStage =="),
-//PLAInputHandler()
+PLAObject(PLAObjectType::Stage)
 {
-  //PLALYRRect layer(kPLAVec3None, kPLAVec2None, kPLAColorWhite);
   _context = PLAOBJActor::CreateRect(kPLAVec3None, kPLAColorGray,
                                      kPLATransformNorm, kPLARectNone);
   _context->SetObjectName("StageContext");
@@ -29,31 +27,17 @@ void PLAOBJStage::Init()
 {
   _context->Init();
 
-  //for (PLAOBJAgent *agent: this->GetAgents()) {
   PLAOBJAgent *agent = this->RefAgent();
-    PLAAGTStage *stageAgent = static_cast<PLAAGTStage *>(agent);
-    stageAgent->RunFunction(PLAAGTStage::FunctionCode::OnInit);
-  //}
-  /*
-  _functor.RunFunction(FunctionCode::OnInit, this);
-  for (GRAOBJListener<PLAAGTStage, FunctionCode> *listener: _listeners)
-  { listener->RunListener(FunctionCode::OnInit, this); }
-   */
+  PLAAGTStage *stageAgent = static_cast<PLAAGTStage *>(agent);
+  stageAgent->RunFunction(PLAAGTStage::FunctionCode::OnInit);
 }
 
 void PLAOBJStage::Update()
 {
   _context->Update();
-  //for (PLAOBJAgent *agent: this->GetAgents()) {
   PLAOBJAgent *agent = this->RefAgent();
-    PLAAGTStage *stageAgent = static_cast<PLAAGTStage *>(agent);
-    stageAgent->RunFunction(PLAAGTStage::FunctionCode::OnUpdate);
-  //}
-  /*
-  _functor.RunFunction(FunctionCode::OnUpdate, this);
-  for (GRAOBJListener<PLAAGTStage, FunctionCode> *listener: _listeners)
-  { listener->RunListener(FunctionCode::OnUpdate, this); }
-  */
+  PLAAGTStage *stageAgent = static_cast<PLAAGTStage *>(agent);
+  stageAgent->RunFunction(PLAAGTStage::FunctionCode::OnUpdate);
 }
 
 void PLAOBJStage::AddActor(PLAOBJActor *aActor)
@@ -75,36 +59,26 @@ void PLAOBJStage::PrintActors() const
 void PLAOBJStage::SetSize(const PLAVec3 &aSize)
 {
   _context->SetSize(aSize);
-  //for (PLAOBJAgent *agent: this->GetAgents()) {
   PLAOBJAgent *agent = this->RefAgent();
-    PLAAGTStage *stageAgent = static_cast<PLAAGTStage *>(agent);
-    stageAgent->RunFunction(PLAAGTStage::FunctionCode::OnResize);
-  //}
-  /*
-  _functor.RunFunction(FunctionCode::OnResize, this);
-  for (GRAOBJListener<PLAAGTStage, FunctionCode> *listener: _listeners)
-  { listener->RunListener(FunctionCode::OnResize, this); }
-   */
+  PLAAGTStage *stageAgent = static_cast<PLAAGTStage *>(agent);
+  stageAgent->RunFunction(PLAAGTStage::FunctionCode::OnResize);
 }
 
 // PLAInputHandler /////////////////////////////////////////////////////////////
 PLAInputContext *PLAOBJStage::RefContextWithInput(const PLAInput &aInput) const
 {
   PLAInputContext *inputContext = nullptr;
-  //PLAOBJActor *responsiveActor = nullptr;
   switch (aInput.GetInputDeviceType())
   {
     case PLAInputDeviceType::Touch :
     case PLAInputDeviceType::Mouse :
       inputContext =
-      //responsiveActor =
         _context->RefResponsiveActorWithPoint(aInput.GetScreenPoint(),
                                               aInput.GetInputDeviceType(),
                                               aInput.GetInputSignalCode());
       break;
     case PLAInputDeviceType::Keyboard :
       inputContext =
-      //responsiveActor =
         _context->RefResponsiveActor(aInput.GetInputDeviceType(),
                                      aInput.GetInputSignalCode());
       break;
@@ -112,6 +86,5 @@ PLAInputContext *PLAOBJStage::RefContextWithInput(const PLAInput &aInput) const
       PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
                       "Unexpected PLAInputDeviceType detected.");
   }
-  //stageContext->Release();
   return inputContext;
 }
