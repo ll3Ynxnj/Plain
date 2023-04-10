@@ -6,8 +6,9 @@ add_library(Plain-Core STATIC
   Object/PLAObject.cpp
   Object/PLAOBJApp.cpp
   Object/PLAOBJError.cpp
-  Object/PLAOBJScene.cpp
+  Object/PLAOBJState.cpp
   Object/PLAOBJStage.cpp
+  Object/PLAOBJScene.cpp
   Object/PLAOBJImage.cpp
   Object/PLAOBJRenderer.cpp
   Object/PLAOBJResource.cpp
@@ -25,6 +26,8 @@ add_library(Plain-Core STATIC
   Object/Timeline/PLATMLMotionNode.cpp
   Object/Timeline/PLATMLMotion.cpp
 
+  Object/Model/PLAOBJModel.cpp
+
   Object/Actor/PLAOBJActor.cpp
 
   Object/Layer/PLAOBJLayer.cpp
@@ -35,7 +38,9 @@ add_library(Plain-Core STATIC
   Object/Layer/PLALYRTile.cpp
 
   Object/Agent/PLAOBJAgent.cpp
+  Object/Agent/PLAAGTModel.cpp
   Object/Agent/PLAAGTActor.cpp
+  Object/Agent/PLAAGTState.cpp
   Object/Agent/PLAAGTStage.cpp
   Object/Agent/PLAAGTScene.cpp
 

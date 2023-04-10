@@ -10,8 +10,10 @@
 #include "Object/PLAOBJError.hpp"
 
 #include "Object/PLAObject.hpp"
-#include "Object/Agent/PLAAGTStage.hpp"
 #include "Object/Agent/PLAAGTScene.hpp"
+#include "Object/Agent/PLAAGTState.hpp"
+#include "Object/Agent/PLAAGTModel.hpp"
+#include "Object/Agent/PLAAGTStage.hpp"
 #include "Object/Agent/PLAAGTActor.hpp"
 
 class Plain {
@@ -20,6 +22,7 @@ public:
 
   static void Init(PLARendererType aType);
   static void Delete(const std::string &aName);
+  static PLAAGTState *State();
   static PLAAGTStage *Stage();
 
   class Error {
@@ -29,7 +32,7 @@ public:
 
   class State {
   public:
-    //static const void AddModel(PLAAGTModel *aModel);
+    static const void AddModel(PLAAGTModel *aModel);
   };
 
   class Stage {
@@ -56,7 +59,7 @@ public:
 
   class Model {
   public:
-    //static const PLAAGTModel *Model();
+    static PLAAGTModel *Create();
   };
 
   class Actor {

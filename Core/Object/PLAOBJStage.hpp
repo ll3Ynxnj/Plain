@@ -9,8 +9,6 @@ class PLAAGTStage;
 
 class PLAOBJStage final: public PLAObject, public PLAInputHandler
 {
-private:
-
   PLAOBJActor *_context = nullptr;
 
 protected:

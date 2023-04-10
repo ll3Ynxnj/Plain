@@ -25,6 +25,7 @@ class PLAOBJApp final : public PLAObject
 
   PLAUInt _frame = 0;
 
+  PLAOBJState *_state = nullptr;
   PLAOBJStage *_stage = nullptr;
   PLAOBJRenderer *_renderer = nullptr;
   PLAVec3 _contentScaleFactor = kPLAVec3Norm;
@@ -36,6 +37,7 @@ public:
   static const int kBaseScreenLength = 320;
 
   static PLAOBJApp *Instance() { return &_instance; };
+  static PLAOBJState *State() { return _instance._state; };
   static PLAOBJStage *Stage() { return _instance._stage; };
   static PLAOBJScene *Scene();
   static PLAOBJActor *Actor(const PLAString &aName);

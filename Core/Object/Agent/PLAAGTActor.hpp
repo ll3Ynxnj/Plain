@@ -47,6 +47,7 @@ public:
 
 protected:
   explicit PLAAGTActor(PLAOBJActor *aActor);
+
   const PLAOBJActor *GetActor() const
   { return static_cast<const PLAOBJActor *>(this->GetOwner()); }
   PLAOBJActor *RefActor() const

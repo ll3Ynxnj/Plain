@@ -9,6 +9,8 @@ enum class PLAObjectType : PLAInt
   Input,
   Agent,
   Scene,
+  State,
+  Model,
   Stage,
   Actor,
   Layer,

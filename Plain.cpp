@@ -16,6 +16,16 @@ void Plain::Delete(const std::string &aName) {
   PLAOBJApp::Object(aName)->Unbind();
 }
 
+PLAAGTState *Plain::State()
+{
+  static PLAAGTState *agent = nullptr;
+  if (agent == nullptr) {
+    PLAOBJState *state = PLAOBJApp::State();
+    agent = static_cast<PLAAGTState *>(state->AssignAgent());
+  }
+  return agent;
+}
+
 PLAAGTStage *Plain::Stage()
 {
   static PLAAGTStage *agent = nullptr;
@@ -77,6 +87,12 @@ void Plain::Scene::Push(const PLAAGTScene *aAgent)
   PLAId id = aAgent->GetOwnerId();
   PLAOBJScene *scene = static_cast<PLAOBJScene *>(PLAObject::Object(id));
   PLAOBJScene::Manager::Instance()->PushScene(scene);
+}
+
+PLAAGTModel *Plain::Model::Create()
+{
+  PLAOBJModel *model = PLAOBJModel::Create();
+  return static_cast<PLAAGTModel *>(model->AssignAgent());
 }
 
 PLAAGTActor *Plain::Actor::CreateRect(const PLAVec3 &aPivot,

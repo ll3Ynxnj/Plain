@@ -88,6 +88,8 @@ PLAObject(PLAObjectType::App)//, "== PLAOBJApp ==")
 
 PLAOBJApp::~PLAOBJApp()
 {
+  if (_state) { delete _state; };
+  _state = nullptr;
   if (_stage) { delete _stage; };
   _stage = nullptr;
   _renderer = nullptr;
@@ -99,6 +101,8 @@ void PLAOBJApp::Init(PLARendererType aRendererType)
   _renderer->Init();
   PLAOBJError::Manager::Instance()->Init();
   PLAOBJScene::Manager::Instance()->Init();
+  _state = PLAOBJState::Create();
+  _state->PrintModels();
   _stage = PLAOBJStage::Create();
   _stage->PrintActors();
   PLAInputManager::Instance()->SetHandler(_stage);

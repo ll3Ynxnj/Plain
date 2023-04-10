@@ -21,4 +21,3 @@ PLAAGTScene::~PLAAGTScene() noexcept
 {
 
 }
-

@@ -18,8 +18,8 @@ class PLAObject : private GRAOBJBinder<PLAObject>::Item
   static const std::map<Binder::Error, const char *> kBinderErrorMessages;
 
   PLAObjectType _type = PLAObjectType::None;
-  std::map<PLAString, PLAProperty> _properties =
-    std::map<PLAString, PLAProperty>();
+  //std::map<PLAString, PLAProperty> _properties =
+  //  std::map<PLAString, PLAProperty>();
   //std::vector<PLAOBJAgent *> _agents;
   PLAOBJAgent *_agent = nullptr;
   PLAInt _agentReferenceCounter = 0;
@@ -51,25 +51,7 @@ public:
   const char *GetObjectTypeName() const;
   PLAString GetObjectDescription() const;
 
-  PLABool GetBool(const PLAString &aName) const;
-  PLAInt GetInt(const PLAString &aName) const;
-  PLAFloat GetFloat(const PLAString &aName) const;
-  PLAColor GetColor(const PLAColor &aName) const;
-  const PLAString &GetString(const PLAString &aName) const;
-  const PLAVec2 &GetVec2(const PLAString &aName) const;
-  const PLAVec3 &GetVec3(const PLAString &aName) const;
-  const PLAVec4 &GetVec4(const PLAString &aName) const;
-
   void SetObjectName(const PLAString &aName);
-
-  void SetBool(const PLAString &aName, PLABool aValue);
-  void SetInt(const PLAString &aName, PLAInt aValue);
-  void SetFloat(const PLAString &aName, PLAFloat aValue);
-  void SetColor(const PLAString &aName, const PLAColor &aValue);
-  void SetString(const PLAString &aName, const PLAString &aValue);
-  void SetVec2(const PLAString &aName, const PLAVec2 &aValue);
-  void SetVec3(const PLAString &aName, const PLAVec3 &aValue);
-  void SetVec4(const PLAString &aName, const PLAVec4 &aValue);
 
 protected:
   //std::vector<PLAOBJAgent *> GetAgents() { return _agents; }

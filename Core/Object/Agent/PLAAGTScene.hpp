@@ -18,6 +18,11 @@ public:
 
 protected:
   explicit PLAAGTScene(PLAOBJScene *aScene);
+
+  const PLAOBJScene *GetStage() const
+  { return static_cast<const PLAOBJScene *>(this->GetOwner()); }
+  PLAOBJScene *RefStage() const
+  { return static_cast<PLAOBJScene *>(this->RefOwner()); }
 };
 
 

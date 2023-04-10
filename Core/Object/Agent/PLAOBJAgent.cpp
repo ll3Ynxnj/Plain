@@ -6,7 +6,9 @@
 #include "Object/PLAObject.hpp"
 #include "Object/PLAOBJError.hpp"
 
+#include "PLAAGTModel.hpp"
 #include "PLAAGTActor.hpp"
+#include "PLAAGTState.hpp"
 #include "PLAAGTStage.hpp"
 #include "PLAAGTScene.hpp"
 
@@ -14,8 +16,14 @@ PLAOBJAgent *PLAOBJAgent::Create(PLAObject *aOwner)
 {
   PLAOBJAgent *agent = nullptr;
   switch (aOwner->GetObjectType()) {
+    case PLAObjectType::Model :
+      agent = PLAAGTModel::Create(static_cast<PLAOBJModel *>(aOwner));
+      break;
     case PLAObjectType::Actor :
       agent = PLAAGTActor::Create(static_cast<PLAOBJActor *>(aOwner));
+      break;
+    case PLAObjectType::State :
+      agent = PLAAGTState::Create(static_cast<PLAOBJState *>(aOwner));
       break;
     case PLAObjectType::Stage :
       agent = PLAAGTStage::Create(static_cast<PLAOBJStage *>(aOwner));
