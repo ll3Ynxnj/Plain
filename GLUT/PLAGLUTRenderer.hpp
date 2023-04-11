@@ -20,15 +20,15 @@ public:
   virtual void Flush() const;
   virtual void Render(const PLAOBJActor *aActor) const;
 
-  virtual void RefreshScreenSize(const PLAVec3 &aFrameSize,
-                                 const PLAVec3 &aStageSize);
+  virtual void RefreshScreenSize(const PLAVec3f &aFrameSize,
+                                 const PLAVec3f &aStageSize);
 private :
   static void GetRectVertices(GLfloat aVertices[12],
-                              const PLAVec3 &aPos, const PLAVec2 &aSize);
+                              const PLAVec3f &aPos, const PLAVec2f &aSize);
   static void GetRectColors(GLfloat aColors[16],
                             const PLAColor &aColor);
   static void GetRectTexCoords(GLfloat aCoords[8],
-                               const PLAVec2 &aPos, const PLAVec2 &aSize);
+                               const PLAVec2f &aPos, const PLAVec2f &aSize);
 
   void Draw(const PLAOBJActor *aActor, const PLAColor &aColor) const;
   void DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor) const;

@@ -19,11 +19,11 @@ public:
 
   void SetColor(const PLAColor &aColor) const;
   void SetTransform(const PLATransform &aTransform) const;
-  void SetSize(const PLAVec3 &aSize) const;
+  void SetSize(const PLAVec3f &aSize) const;
 
-  void SetTranslation(const PLAVec3 &aTranslation) const;
-  void SetRotation(const PLAVec3 &aRotation) const;
-  void SetScale(const PLAVec3 &aScale) const;
+  void SetTranslation(const PLAVec3f &aTranslation) const;
+  void SetRotation(const PLAVec3f &aRotation) const;
+  void SetScale(const PLAVec3f &aScale) const;
 
   void SetFunction(PLAOBJActorFunctionCode aKey,
                    const std::function<void(PLAOBJActor *)> &aFunc) const;

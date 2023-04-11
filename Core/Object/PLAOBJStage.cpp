@@ -12,7 +12,7 @@ PLAOBJStage *PLAOBJStage::Create()
 PLAOBJStage::PLAOBJStage() :
 PLAObject(PLAObjectType::Stage)
 {
-  _context = PLAOBJActor::CreateRect(kPLAVec3None, kPLAColorGray,
+  _context = PLAOBJActor::CreateRect(kPLAVec3fNone, kPLAColorGray,
                                      kPLATransformNorm, kPLARectNone);
   _context->SetObjectName("StageContext");
 }
@@ -56,7 +56,7 @@ void PLAOBJStage::PrintActors() const
   _context->PrintActors();
 }
 
-void PLAOBJStage::SetSize(const PLAVec3 &aSize)
+void PLAOBJStage::SetSize(const PLAVec3f &aSize)
 {
   _context->SetSize(aSize);
   PLAOBJAgent *agent = this->RefAgent();

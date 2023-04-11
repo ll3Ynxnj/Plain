@@ -6,13 +6,13 @@
 
 class PLALYRRect : public PLAOBJLayer
 {
-  PLAVec2 _vector = kPLAVec2None;
+  PLAVec2f _vector = kPLAVec2fNone;
   PLAColor _fillColor = kPLAColorWhite;
   PLAColor _strokeColor = kPLAColorNone;
   PLAOBJImageClip *_imageClip = nullptr;
 
 public:
-  PLALYRRect(const PLAVec3 &aOffset, const PLAVec2 &aVector,
+  PLALYRRect(const PLAVec3f &aOffset, const PLAVec2f &aVector,
              const PLAColor &aFillColor, const PLAColor &aStrokeColor,
              const std::string &aImageName, const PLARect &aClip) :
     PLAOBJLayer(PLAOBJLayerType::Rect, aOffset),//, "== PLALYRRect =="),
@@ -26,7 +26,7 @@ public:
   PLALYRRect(const PLARect &aRect,
              const PLAColor &aFillColor, const PLAColor &aStrokeColor,
              const std::string &aImageName, const PLARect &aClip) :
-    PLAOBJLayer(PLAOBJLayerType::Rect, PLAVec3(aRect.pos.x, aRect.pos.y, 0)),
+    PLAOBJLayer(PLAOBJLayerType::Rect, PLAVec3f(aRect.pos.x, aRect.pos.y, 0)),
     _vector(aRect.size), _fillColor(aFillColor),
     _strokeColor(aStrokeColor)
   {
@@ -59,9 +59,9 @@ public:
   PLALYRRect() = delete;
   virtual ~PLALYRRect() {};
 
-  virtual PLAVec3 GetSize() const;
-  virtual void GetSize(PLAVec3 *aSize) const;
-  virtual void SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot);
+  virtual PLAVec3f GetSize() const;
+  virtual void GetSize(PLAVec3f *aSize) const;
+  virtual void SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot);
 
   virtual bool IsCollideWithPoint(const PLAPoint &aPoint) const;
   virtual bool IsCollideWithLine(const PLALine &aLine) const;

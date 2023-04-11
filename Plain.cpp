@@ -95,7 +95,29 @@ PLAAGTModel *Plain::Model::Create()
   return static_cast<PLAAGTModel *>(model->AssignAgent());
 }
 
-PLAAGTActor *Plain::Actor::CreateRect(const PLAVec3 &aPivot,
+PLAAGTModel *Plain::Model::Create(const PLAString &aName)
+{
+  if (PLAObject::Object(aName))
+  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Duplicate object names."); }
+  PLAOBJModel *model = PLAOBJModel::Create();
+  model->SetObjectName(aName);
+  return static_cast<PLAAGTModel *>(model->AssignAgent());
+}
+
+PLAAGTModel *Plain::Model::Assign(const PLAString &aName)
+{
+  PLAOBJAgent *agent = Plain::Assign(aName);
+  const PLAObject *owner = PLAObject::Object(agent->GetOwnerId());
+  if (owner->GetObjectType() != PLAObjectType::Model)
+  {
+    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+                    "Object type %s does not match return type %s",
+                    owner->GetObjectTypeName(), "PLAAGTModel");
+  }
+  return static_cast<PLAAGTModel *>(agent);
+}
+
+PLAAGTActor *Plain::Actor::CreateRect(const PLAVec3f &aPivot,
                                       const PLAColor &aColor,
                                       const PLATransform &aTransform,
                                       const PLARect &aRect)
@@ -104,7 +126,7 @@ PLAAGTActor *Plain::Actor::CreateRect(const PLAVec3 &aPivot,
   return static_cast<PLAAGTActor *>(actor->AssignAgent());
 }
 
-PLAAGTActor *Plain::Actor::CreateRect(const PLAVec3 &aPivot,
+PLAAGTActor *Plain::Actor::CreateRect(const PLAVec3f &aPivot,
                                       const PLAColor &aColor,
                                       const PLATransform &aTransform,
                                       const PLARect &aRect,
@@ -115,7 +137,7 @@ PLAAGTActor *Plain::Actor::CreateRect(const PLAVec3 &aPivot,
   return static_cast<PLAAGTActor *>(actor->AssignAgent());
 }
 
-PLAAGTActor *Plain::Actor::CreateRect(const PLAVec3 &aPivot,
+PLAAGTActor *Plain::Actor::CreateRect(const PLAVec3f &aPivot,
                                       const PLAColor &aColor,
                                       const PLATransform &aTransform,
                                       const PLARect &aRect,
@@ -127,7 +149,7 @@ PLAAGTActor *Plain::Actor::CreateRect(const PLAVec3 &aPivot,
   return static_cast<PLAAGTActor *>(actor->AssignAgent());
 }
 
-PLAAGTActor *Plain::Actor::CreateCircle(const PLAVec3 &aPivot,
+PLAAGTActor *Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
                                         const PLAColor &aColor,
                                         const PLATransform &aTransform,
                                         const PLACircle &aCircle)
@@ -136,7 +158,7 @@ PLAAGTActor *Plain::Actor::CreateCircle(const PLAVec3 &aPivot,
   return static_cast<PLAAGTActor *>(actor->AssignAgent());
 }
 
-PLAAGTActor *Plain::Actor::CreateCircle(const PLAVec3 &aPivot,
+PLAAGTActor *Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
                                         const PLAColor &aColor,
                                         const PLATransform &aTransform,
                                         const PLACircle &aCircle,
@@ -147,7 +169,7 @@ PLAAGTActor *Plain::Actor::CreateCircle(const PLAVec3 &aPivot,
   return static_cast<PLAAGTActor *>(actor->AssignAgent());
 }
 
-PLAAGTActor *Plain::Actor::CreateCircle(const PLAVec3 &aPivot,
+PLAAGTActor *Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
                                         const PLAColor &aColor,
                                         const PLATransform &aTransform,
                                         const PLACircle &aCircle,
@@ -159,7 +181,7 @@ PLAAGTActor *Plain::Actor::CreateCircle(const PLAVec3 &aPivot,
   return static_cast<PLAAGTActor *>(actor->AssignAgent());
 }
 
-PLAAGTActor *Plain::Actor::CreateTile(const PLAVec2 &aOffset,
+PLAAGTActor *Plain::Actor::CreateTile(const PLAVec2f &aOffset,
                                       const std::string &aImageName,
                                       const GRAVec2<PLASize> &aTileSize,
                                       const GRAVec2<PLASize> &aChipSize,

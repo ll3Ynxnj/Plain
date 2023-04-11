@@ -25,17 +25,17 @@ TEST(PLALYRRectTest, IsCollideWithPoint)
   PLALYRRect *layer = PLALYRRect::Create(kPLARectNone);
 
   EXPECT_EQ(false, layer->IsCollideWithPoint(point));
-  layer->SetSize(PLAVec3(1, 1, 0), kPLAVec3None);
+  layer->SetSize(PLAVec3f(1, 1, 0), kPLAVec3fNone);
   EXPECT_EQ(true, layer->IsCollideWithPoint(point));
   point.x = 1;
   EXPECT_EQ(false, layer->IsCollideWithPoint(point));
   point.y = 1;
   EXPECT_EQ(false, layer->IsCollideWithPoint(point));
-  layer->SetSize(PLAVec3(2, 2, 0), kPLAVec3None);
+  layer->SetSize(PLAVec3f(2, 2, 0), kPLAVec3fNone);
   EXPECT_EQ(true, layer->IsCollideWithPoint(point));
-  layer->SetOffset(PLAVec3(1, 1, 0));
+  layer->SetOffset(PLAVec3f(1, 1, 0));
   EXPECT_EQ(true, layer->IsCollideWithPoint(point));
-  layer->SetOffset(PLAVec3(-1, -1, 0));
+  layer->SetOffset(PLAVec3f(-1, -1, 0));
   EXPECT_EQ(false, layer->IsCollideWithPoint(point));
 }
 
@@ -43,17 +43,17 @@ TEST(PLALYRCircleTest, IsCollideWithPoint)
 {
   {
     PLAPoint point = kPLAPointNone;
-    PLALYRCircle *layer = PLALYRCircle::Create(PLACircle(kPLAVec2None, 0));
+    PLALYRCircle *layer = PLALYRCircle::Create(PLACircle(kPLAVec2fNone, 0));
     EXPECT_EQ(false, layer->IsCollideWithPoint(point));
   }
   {
     PLAPoint point = kPLAPointNone;
-    PLALYRCircle *layer = PLALYRCircle::Create(PLACircle(PLAVec2(1, 1), 1));
+    PLALYRCircle *layer = PLALYRCircle::Create(PLACircle(PLAVec2f(1, 1), 1));
     EXPECT_EQ(false, layer->IsCollideWithPoint(point));
   }
   {
     PLAPoint point = kPLAPointNone;
-    PLALYRCircle *layer = PLALYRCircle::Create(PLACircle(PLAVec2(1, 1), 2));
+    PLALYRCircle *layer = PLALYRCircle::Create(PLACircle(PLAVec2f(1, 1), 2));
     EXPECT_EQ(true, layer->IsCollideWithPoint(point));
   }
 }

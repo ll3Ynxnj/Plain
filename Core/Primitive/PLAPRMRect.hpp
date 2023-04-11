@@ -5,7 +5,7 @@
 #include "Grain/Primitive/GRAPRMRect.hpp"
 
 using PLARect = GRAPRMRect<PLAFloat>;
-static const PLARect kPLARectNone = PLARect(kPLAVec2None, kPLAVec2None);
-static const PLARect kPLARectNorm = PLARect(kPLAVec2None, kPLAVec2Norm);
+static const PLARect kPLARectNone = PLARect(kPLAVec2fNone, kPLAVec2fNone);
+static const PLARect kPLARectNorm = PLARect(kPLAVec2fNone, kPLAVec2fNorm);
 
 #endif //PLAIN_PLARECT_HPP

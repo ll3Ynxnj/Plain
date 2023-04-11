@@ -60,41 +60,43 @@ public:
   class Model {
   public:
     static PLAAGTModel *Create();
+    static PLAAGTModel *Create(const PLAString &aName);
+    static PLAAGTModel *Assign(const PLAString &aName);
   };
 
   class Actor {
   public:
-    static PLAAGTActor *CreateRect(const PLAVec3 &aPivot,
+    static PLAAGTActor *CreateRect(const PLAVec3f &aPivot,
                                    const PLAColor &aColor,
                                    const PLATransform &aTransform,
                                    const PLARect &aRect);
-    static PLAAGTActor *CreateRect(const PLAVec3 &aPivot,
+    static PLAAGTActor *CreateRect(const PLAVec3f &aPivot,
                                    const PLAColor &aColor,
                                    const PLATransform &aTransform,
                                    const PLARect &aRect,
                                    const PLAColor &aFillColor);
-    static PLAAGTActor *CreateRect(const PLAVec3 &aPivot,
+    static PLAAGTActor *CreateRect(const PLAVec3f &aPivot,
                                    const PLAColor &aColor,
                                    const PLATransform &aTransform,
                                    const PLARect &aRect,
                                    const std::string &aImage,
                                    const PLARect &aClip);
-    static PLAAGTActor *CreateCircle(const PLAVec3 &aPivot,
+    static PLAAGTActor *CreateCircle(const PLAVec3f &aPivot,
                                      const PLAColor &aColor,
                                      const PLATransform &aTransform,
                                      const PLACircle &aCircle);
-    static PLAAGTActor *CreateCircle(const PLAVec3 &aPivot,
+    static PLAAGTActor *CreateCircle(const PLAVec3f &aPivot,
                                      const PLAColor &aColor,
                                      const PLATransform &aTransform,
                                      const PLACircle &aCircle,
                                      const PLAColor &aFillColor);
-    static PLAAGTActor *CreateCircle(const PLAVec3 &aPivot,
+    static PLAAGTActor *CreateCircle(const PLAVec3f &aPivot,
                                      const PLAColor &aColor,
                                      const PLATransform &aTransform,
                                      const PLACircle &aCircle,
                                      const std::string &aImage,
                                      const PLARect &aClip);
-    static PLAAGTActor *CreateTile(const PLAVec2 &aOffset,
+    static PLAAGTActor *CreateTile(const PLAVec2f &aOffset,
                                    const std::string &aImageName,
                                    const GRAVec2<PLASize> &aTileSize,
                                    const GRAVec2<PLASize> &aChipSize,

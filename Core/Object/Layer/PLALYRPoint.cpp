@@ -1,19 +1,19 @@
 #include "PLALYRPoint.hpp"
 #include "Core/Library/PLALIBCollision.hpp"
 
-PLAVec3 PLALYRPoint::GetSize() const
+PLAVec3f PLALYRPoint::GetSize() const
 {
-  return kPLAVec3None;
+  return kPLAVec3fNone;
 }
 
-void PLALYRPoint::GetSize(PLAVec3 *aSize) const
+void PLALYRPoint::GetSize(PLAVec3f *aSize) const
 {
   aSize->x = 0;
   aSize->y = 0;
   aSize->z = 0;
 }
 
-void PLALYRPoint::SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot)
+void PLALYRPoint::SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot)
 {
   return;
 }

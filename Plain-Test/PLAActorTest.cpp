@@ -10,16 +10,16 @@ protected:
 
   virtual void SetUp()
   {
-    //_rootActor = PLAOBJActor::CreateRect(kPLAVec3Norm, kPLAColorWhite,
-    //                                  kGRATransformNorm, PLARect(kPLAVec3None, kPLAVec2None));
-    _rootActor = PLAOBJActor::CreateRect(kPLAVec3Norm, kPLAColorWhite,
+    //_rootActor = PLAOBJActor::CreateRect(kPLAVec3fNorm, kPLAColorWhite,
+    //                                  kGRATransformNorm, PLARect(kPLAVec3fNone, kPLAVec2fNone));
+    _rootActor = PLAOBJActor::CreateRect(kPLAVec3fNorm, kPLAColorWhite,
                                          kPLATransformNorm, kPLARectNorm);
     _rootActor->SetObjectName("_rootActor");
 
     static const int kNumberOfActors = 3;
     for (int i = 0; i < kNumberOfActors; i++)
     {
-      PLAOBJActor *actor = PLAOBJActor::CreateRect(kPLAVec3Norm, kPLAColorWhite,
+      PLAOBJActor *actor = PLAOBJActor::CreateRect(kPLAVec3fNorm, kPLAColorWhite,
                                                    kPLATransformNorm, kPLARectNorm);
       actor->SetObjectName("actor");
       _actors.push_back(actor);
@@ -50,10 +50,10 @@ TEST_F(PLAActorTest, UpdateMotion_UpdateMotions_RefreshProperties)
 {
   PLAFloat duration = 0.1;//0.2;
   PLATMLMotionNode m0 = PLATMLMotionNode(PLATMLMotionType::Translation,
-                                         PLAVec3(0, 0, 0), PLAVec3( 10, 0, 0), duration);
+                                         PLAVec3f(0, 0, 0), PLAVec3f( 10, 0, 0), duration);
   m0.SetObjectName("m0");
   PLATMLMotionNode m1 = PLATMLMotionNode(PLATMLMotionType::Translation,
-                                         PLAVec3(10, 0, 0), PLAVec3(0, 0, 0), duration);
+                                         PLAVec3f(10, 0, 0), PLAVec3f(0, 0, 0), duration);
   m1.SetObjectName("m1");
   /*
   PLATMLMotionNode motion = PLATMLMotionNode();
@@ -73,7 +73,7 @@ TEST_F(PLAActorTest, UpdateMotion_UpdateMotions_RefreshProperties)
     GRA_PRINT("%3d : _rootActor.GetTransform.translation.x : %f\n", i, ttx);
     PLAProperty p = _rootActor->GetMotionProperty(PLATMLMotionType::Translation);
     if (p.GetPropertyType() == PLAPropertyType::None) { continue; }
-    PLAVec3 pt = p.GetVec3();
+    PLAVec3f pt = p.GetVec3f();
     PLAFloat ptx = pt.x;
     GRA_PRINT("ptx: %f\n", i, ptx);
     GRA_PRINT("-----------------\n");

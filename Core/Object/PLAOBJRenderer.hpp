@@ -21,8 +21,8 @@ public:
   virtual void Flush() const = 0;
   virtual void Render(const PLAOBJActor *aActor) const = 0;
 
-  virtual void RefreshScreenSize(const PLAVec3 &aFrameSize,
-                                 const PLAVec3 &aStageSize) = 0;
+  virtual void RefreshScreenSize(const PLAVec3f &aFrameSize,
+                                 const PLAVec3f &aStageSize) = 0;
 };
 
 #endif // PLAIN_ENGINE_PLAOBJRENDERER_HPP

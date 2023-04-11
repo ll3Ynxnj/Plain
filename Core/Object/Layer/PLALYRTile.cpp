@@ -1,7 +1,7 @@
 #include "PLALYRTile.hpp"
 #include "Core/Library/PLALIBCollision.hpp"
 
-PLALYRTile *PLALYRTile::Create(const PLAVec2 &aOffset,
+PLALYRTile *PLALYRTile::Create(const PLAVec2f &aOffset,
                                const std::string &aImageName,
                                const GRAVec2<PLASize> &aTileSize,
                                const GRAVec2<PLASize> &aChipSize,
@@ -23,12 +23,12 @@ PLALYRTile *PLALYRTile::Create(const PLAVec2 &aOffset,
   return layer;
 }
 
-PLALYRTile::PLALYRTile(const PLAVec2 &aOffset, const std::string &aImageName,
+PLALYRTile::PLALYRTile(const PLAVec2f &aOffset, const std::string &aImageName,
                        const GRAVec2<PLASize> &aTileSize,
                        const GRAVec2<PLASize> &aChipSize,
                        const IPLATileLayerDataSource *aDataSource) ://,
                        //const std::vector<std::vector<PLATimelineHolder *>> &aNodeHolders) :
-  PLAOBJLayer(PLAOBJLayerType::Tile, PLAVec3(aOffset.x, aOffset.y, 0)),
+  PLAOBJLayer(PLAOBJLayerType::Tile, PLAVec3f(aOffset.x, aOffset.y, 0)),
   _tileSize(aTileSize),
   _chipSize(aChipSize), _dataSource(aDataSource)//,
   //_nodeHolders(aNodeHolders)
@@ -117,19 +117,19 @@ const PLATMLMotion *PLALYRTile::GetMotionThread(const PLAVec2s &aAddress) const
    */
 };
 
-PLAVec3 PLALYRTile::GetSize() const
+PLAVec3f PLALYRTile::GetSize() const
 {
-  return PLAVec3(_chipSize.x * _tileSize.x, _chipSize.y * _tileSize.y, 0);
+  return PLAVec3f(_chipSize.x * _tileSize.x, _chipSize.y * _tileSize.y, 0);
 }
 
-void PLALYRTile::GetSize(PLAVec3 *aSize) const
+void PLALYRTile::GetSize(PLAVec3f *aSize) const
 {
   aSize->x = _chipSize.x * _tileSize.x;
   aSize->y = _chipSize.y * _tileSize.y;
   aSize->z = 0;
 }
 
-void PLALYRTile::SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot)
+void PLALYRTile::SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot)
 {
   return;
 }
@@ -156,7 +156,7 @@ bool PLALYRTile::IsCollideWithCircle(const PLACircle &aCircle) const
 
 PLARect PLALYRTile::GetRect() const
 {
-  PLAVec3 offset = this->GetOffset();
-  PLAVec3 size = this->GetSize();
+  PLAVec3f offset = this->GetOffset();
+  PLAVec3f size = this->GetSize();
   return { { offset.x, offset.y }, { size.x, size.y } };
 }

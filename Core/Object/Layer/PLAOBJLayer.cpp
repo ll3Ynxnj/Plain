@@ -29,7 +29,7 @@ Layer *Layer::Create(const Layer &aLayer)
 }
  */
 
-PLAOBJLayer::PLAOBJLayer(PLAOBJLayerType aType, const PLAVec3 &aOffset) :
+PLAOBJLayer::PLAOBJLayer(PLAOBJLayerType aType, const PLAVec3f &aOffset) :
 PLAObject(PLAObjectType::Layer),
 _type(aType), _offset(aOffset)
 {

@@ -10,7 +10,7 @@
 
 #include "Object/PLAOBJError.hpp"
 
-PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec3 &aPivot,
+PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec3f &aPivot,
                                      const PLAColor &aColor,
                                      const PLATransform &aTransform,
                                      const PLARect &aRect)
@@ -25,7 +25,7 @@ PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec3 &aPivot,
   return actor;
 }
 
-PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec3 &aPivot,
+PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec3f &aPivot,
                                      const PLAColor &aColor,
                                      const PLATransform &aTransform,
                                      const PLARect &aRect,
@@ -40,7 +40,7 @@ PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec3 &aPivot,
   return actor;
 }
 
-PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec3 &aPivot,
+PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec3f &aPivot,
                                      const PLAColor &aColor,
                                      const PLATransform &aTransform,
                                      const PLARect &aRect,
@@ -56,7 +56,7 @@ PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec3 &aPivot,
   return actor;
 }
 
-PLAOBJActor *PLAOBJActor::CreateCircle(const PLAVec3 &aPivot,
+PLAOBJActor *PLAOBJActor::CreateCircle(const PLAVec3f &aPivot,
                                        const PLAColor &aColor,
                                        const PLATransform &aTransform,
                                        const PLACircle &aCircle)
@@ -70,7 +70,7 @@ PLAOBJActor *PLAOBJActor::CreateCircle(const PLAVec3 &aPivot,
   return actor;
 }
 
-PLAOBJActor *PLAOBJActor::CreateCircle(const PLAVec3 &aPivot,
+PLAOBJActor *PLAOBJActor::CreateCircle(const PLAVec3f &aPivot,
                                        const PLAColor &aColor,
                                        const PLATransform &aTransform,
                                        const PLACircle &aCircle,
@@ -85,7 +85,7 @@ PLAOBJActor *PLAOBJActor::CreateCircle(const PLAVec3 &aPivot,
   return actor;
 }
 
-PLAOBJActor *PLAOBJActor::CreateCircle(const PLAVec3 &aPivot,
+PLAOBJActor *PLAOBJActor::CreateCircle(const PLAVec3f &aPivot,
                                        const PLAColor &aColor,
                                        const PLATransform &aTransform,
                                        const PLACircle &aCircle,
@@ -101,7 +101,7 @@ PLAOBJActor *PLAOBJActor::CreateCircle(const PLAVec3 &aPivot,
   return actor;
 }
 
-PLAOBJActor *PLAOBJActor::CreateTile(const PLAVec2 &aOffset,
+PLAOBJActor *PLAOBJActor::CreateTile(const PLAVec2f &aOffset,
                                      const std::string &aImageName,
                                      const GRAVec2<PLASize> &aTileSize,
                                      const GRAVec2<PLASize> &aChipSize,
@@ -111,7 +111,7 @@ PLAOBJActor *PLAOBJActor::CreateTile(const PLAVec2 &aOffset,
   //                                       aDataSource);
   PLALYRTile *layer = new PLALYRTile(aOffset, aImageName, aTileSize, aChipSize,
                                      aDataSource);
-  PLAOBJActor *actor = new PLAOBJActor(kPLAVec3None, kPLAColorWhite,
+  PLAOBJActor *actor = new PLAOBJActor(kPLAVec3fNone, kPLAColorWhite,
                                        kPLATransformNorm, layer);//, motion);
   actor->Bind();
   return actor;
@@ -137,7 +137,7 @@ void PLAOBJActor::Unbind(PLAOBJActor *aActor)
 }
 */
 
-PLAOBJActor::PLAOBJActor(const PLAVec3 &aPivot,
+PLAOBJActor::PLAOBJActor(const PLAVec3f &aPivot,
                          const PLAColor &aColor,
                          const PLATransform &aTransform,
                          PLAOBJLayer *aLayer) ://,
@@ -226,7 +226,7 @@ bool PLAOBJActor::IsCollideWithPoint(PLAPoint aPoint) const
   return _layer->IsCollideWithPoint(aPoint);
   /*/
   // Provisional : Design that include PLACollider class is desirable.
-  const PLAVec3 basePoint = _layer->GetOffset();
+  const PLAVec3f basePoint = _layer->GetOffset();
   const PLAPoint p0 = PLAPointMake(basePoint.x, basePoint.y);
   const PLAPoint p1 = PLAPointMake(basePoint.x + this->GetSize().x,
                                    basePoint.y + this->GetSize().y);
@@ -266,16 +266,16 @@ PLATransform PLAOBJActor::GetTransform() const
   if (this->GetProperties().contains(PLATMLMotionType::Translation))
   {
     transform.translation +=
-      this->GetProperties().at(PLATMLMotionType::Translation).GetVec3();
+      this->GetProperties().at(PLATMLMotionType::Translation).GetVec3f();
   }
   if (this->GetProperties().contains(PLATMLMotionType::Rotation))
   {
     transform.rotation +=
-      this->GetProperties().at(PLATMLMotionType::Rotation).GetVec3();
+      this->GetProperties().at(PLATMLMotionType::Rotation).GetVec3f();
   }
   if (this->GetProperties().contains(PLATMLMotionType::Scale))
   {
-    PLAVec3 scale = this->GetProperties().at(PLATMLMotionType::Scale).GetVec3();
+    PLAVec3f scale = this->GetProperties().at(PLATMLMotionType::Scale).GetVec3f();
     transform.scale.x *= scale.x;
     transform.scale.y *= scale.y;
     transform.scale.z *= scale.z;
@@ -308,17 +308,17 @@ void PLAOBJActor::AddMotionColor(const PLAColor &aColor, PLAFloat aDuration)
 
 }
 
-void PLAOBJActor::AddMotionTranslation(const PLAVec3 &aTranslation, PLAFloat aDuration)
+void PLAOBJActor::AddMotionTranslation(const PLAVec3f &aTranslation, PLAFloat aDuration)
 {
 
 }
 
-void PLAOBJActor::AddMotionRotation(const PLAVec3 &aRotation, PLAFloat aDuration)
+void PLAOBJActor::AddMotionRotation(const PLAVec3f &aRotation, PLAFloat aDuration)
 {
 
 }
 
-void PLAOBJActor::AddMotionScale(const PLAVec3 &aScale, PLAFloat aDuration)
+void PLAOBJActor::AddMotionScale(const PLAVec3f &aScale, PLAFloat aDuration)
 {
 
 }
@@ -474,8 +474,8 @@ void PLAOBJActor::SetTileMotion(const PLAVec2s &aAddress, PLATMLMotionNode *aMot
 
 void PLAOBJActor::RefreshLayerOffset()
 {
-  PLAVec3 size(this->GetSize());
-  _layer->SetOffset(-PLAVec3(size.x * _pivot.x,
+  PLAVec3f size(this->GetSize());
+  _layer->SetOffset(-PLAVec3f(size.x * _pivot.x,
                              size.y * _pivot.y,
                              size.z * _pivot.z));
 }

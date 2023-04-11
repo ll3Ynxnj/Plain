@@ -23,8 +23,8 @@ PLATMLMotionNode *PLATMLMotionNode::CreateColor(const PLAColor &aBegin, const PL
   return motion;
 }
 
-PLATMLMotionNode *PLATMLMotionNode::CreateTranslation(const PLAVec3 &aBegin,
-                                                      const PLAVec3 &aEnd,
+PLATMLMotionNode *PLATMLMotionNode::CreateTranslation(const PLAVec3f &aBegin,
+                                                      const PLAVec3f &aEnd,
                                                       PLATimeInterval aDuration)
 {
   PLATMLMotionNode *motion =
@@ -33,7 +33,7 @@ PLATMLMotionNode *PLATMLMotionNode::CreateTranslation(const PLAVec3 &aBegin,
   return motion;
 }
 
-PLATMLMotionNode *PLATMLMotionNode::CreateRotation(const PLAVec3 &aBegin, const PLAVec3 &aEnd,
+PLATMLMotionNode *PLATMLMotionNode::CreateRotation(const PLAVec3f &aBegin, const PLAVec3f &aEnd,
                                                    PLATimeInterval aDuration)
 {
   PLATMLMotionNode *motion =
@@ -42,7 +42,7 @@ PLATMLMotionNode *PLATMLMotionNode::CreateRotation(const PLAVec3 &aBegin, const 
   return motion;
 }
 
-PLATMLMotionNode *PLATMLMotionNode::CreateScale(const PLAVec3 &aBegin, const PLAVec3 &aEnd,
+PLATMLMotionNode *PLATMLMotionNode::CreateScale(const PLAVec3f &aBegin, const PLAVec3f &aEnd,
                                                 PLATimeInterval aDuration)
 {
   PLATMLMotionNode *motion =
@@ -56,9 +56,9 @@ const PLAProperty &PLATMLMotionNode::MakeProperty(const PLATMLMotionType aType)
   switch (aType)
   {
     case PLATMLMotionType::Color       : return PLAProperty::kColor;
-    case PLATMLMotionType::Translation : return PLAProperty::kVec3;
-    case PLATMLMotionType::Rotation    : return PLAProperty::kVec3;
-    case PLATMLMotionType::Scale       : return PLAProperty::kVec3;
+    case PLATMLMotionType::Translation : return PLAProperty::kVec3f;
+    case PLATMLMotionType::Rotation    : return PLAProperty::kVec3f;
+    case PLATMLMotionType::Scale       : return PLAProperty::kVec3f;
     default :
       PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Detect unexpected types.");
       return PLAProperty::kNone;
@@ -96,8 +96,8 @@ PLATMLMotionNode::PLATMLMotionNode(PLATMLMotionType aType, const PLAColor &aBegi
 
 }
 
-PLATMLMotionNode::PLATMLMotionNode(PLATMLMotionType aType, const PLAVec3 &aBegin,
-                                   const PLAVec3 &aEnd, PLATimeInterval aDuration):
+PLATMLMotionNode::PLATMLMotionNode(PLATMLMotionType aType, const PLAVec3f &aBegin,
+                                   const PLAVec3f &aEnd, PLATimeInterval aDuration):
   PLAOBJTimelineNode(PLAOBJTimelineNode::Type::Motion, aDuration * PLAOBJApp::kRefreshRate),
   _type(aType),
   _begin(PLAProperty(aBegin)),
@@ -125,11 +125,11 @@ void PLATMLMotionNode::GetProperty(std::map<PLATMLMotionType, PLAProperty> *aPro
   property += (_distance * this->GetProgress());
   if (_type == PLATMLMotionType::Translation)
   {
-    PLAVec3 translation = property.GetVec3();
+    PLAVec3f translation = property.GetVec3f();
     GRA_PRINT("translation : %f, %f, %f\n",
               translation.x, translation.y, translation.z);
-    GRA_PRINT("_distance.MulFloat(this->GetProgress().GetVec3().x) : %f\n",
-              (_distance * this->GetProgress()).GetVec3().x);
+    GRA_PRINT("_distance.MulFloat(this->GetProgress().GetVec3f().x) : %f\n",
+              (_distance * this->GetProgress()).GetVec3f().x);
   }
   (*aProperties)[_type] += property;
 }

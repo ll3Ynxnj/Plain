@@ -4,7 +4,7 @@
 #include "Grain/Primitive/GRAPRMLine.hpp"
 
 using PLALine = GRAPRMLine<PLAFloat>;
-static const PLALine kPLALineNone = PLALine(kPLAVec2None, kPLAVec2None);
-static const PLALine kPLALineNorm = PLALine(kPLAVec2None, kPLAVec2Norm);
+static const PLALine kPLALineNone = PLALine(kPLAVec2fNone, kPLAVec2fNone);
+static const PLALine kPLALineNorm = PLALine(kPLAVec2fNone, kPLAVec2fNorm);
 
 #endif //PLAIN_PLALINE_HPP

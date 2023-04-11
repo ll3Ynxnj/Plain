@@ -34,25 +34,25 @@ void PLAAGTActor::SetTransform(const PLATransform &aTransform) const
   actor->SetTransform(aTransform);
 };
 
-void PLAAGTActor::SetSize(const PLAVec3 &aSize) const
+void PLAAGTActor::SetSize(const PLAVec3f &aSize) const
 {
   PLAOBJActor *actor = this->RefActor();
   actor->SetSize(aSize);
 };
 
-void PLAAGTActor::SetTranslation(const PLAVec3 &aTranslation) const
+void PLAAGTActor::SetTranslation(const PLAVec3f &aTranslation) const
 {
   PLAOBJActor *actor = this->RefActor();
   actor->SetTranslation(aTranslation);
 };
 
-void PLAAGTActor::SetRotation(const PLAVec3 &aRotation) const
+void PLAAGTActor::SetRotation(const PLAVec3f &aRotation) const
 {
   PLAOBJActor *actor = this->RefActor();
   actor->SetRotation(aRotation);
 };
 
-void PLAAGTActor::SetScale(const PLAVec3 &aScale) const
+void PLAAGTActor::SetScale(const PLAVec3f &aScale) const
 {
   PLAOBJActor *actor = this->RefActor();
   actor->SetScale(aScale);

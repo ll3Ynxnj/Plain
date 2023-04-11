@@ -51,6 +51,7 @@ PLAObject *PLAObject::Object(PLAId aId)
 
 void PLAObject::Bind()
 {
+  GRA_PRINT("PLAObject::Bind : %s\n", this->GetObjectName().c_str());
   Binder::Error error(Binder::Error::None);
   PLAObject::Manager::Instance()->Bind(this, &error);
   if (error != Binder::Error::None) {
@@ -58,11 +59,13 @@ void PLAObject::Bind()
                     "Failed PLAObject binding. ERROR : %02d : %s",
                     error, GetBinderErrorMessage(error));
   }
+
+  PLAObject::Manager::Instance()->PrintObjects();
 }
 
 void PLAObject::Unbind()
 {
-  //if (_agents.size())
+  GRA_PRINT("PLAObject::Unbind : %s\n", this->GetObjectName().c_str());
   if (0 < _agentReferenceCounter)
   {
     GRA_PRINT("PLAObject::Unbind : == CANCELED == : %s\n",
@@ -70,7 +73,6 @@ void PLAObject::Unbind()
     PLA_ERROR_ISSUE(PLAOBJErrorType::Expect, "Agent referenced form somewhere.");
     return;
   }
-  GRA_PRINT("PLAObject::Unbind : %s\n", this->GetObjectName().c_str());
   Binder::Error error(Binder::Error::None);
   PLAObject::Manager::Instance()->Unbind(this, &error);
   if (error != Binder::Error::None) {
@@ -80,6 +82,8 @@ void PLAObject::Unbind()
   }
 
   PLAObject::Manager::Instance()->AddUnboundObject(this);
+
+  PLAObject::Manager::Instance()->PrintObjects();
 }
 
 PLAObject::PLAObject(PLAObjectType aType) :

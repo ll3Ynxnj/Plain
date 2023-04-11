@@ -12,7 +12,7 @@ class PLALYRCircle : public PLAOBJLayer
   PLAOBJImageClip *_imageClip = nullptr;
 
 public:
-  PLALYRCircle(const PLAVec3 &aOffset, PLAFloat aRadius,
+  PLALYRCircle(const PLAVec3f &aOffset, PLAFloat aRadius,
                const PLAColor &aFillColor, const PLAColor &aStrokeColor,
                const std::string &aImageName, const PLARect &aClip) :
     PLAOBJLayer(PLAOBJLayerType::Circle, aOffset),//, "== PLALYRRect =="),
@@ -27,7 +27,7 @@ public:
                const PLAColor &aFillColor, const PLAColor &aStrokeColor,
                const std::string &aImageName, const PLARect &aClip) :
     PLAOBJLayer(PLAOBJLayerType::Circle,
-                PLAVec3(aCircle.origin.x, aCircle.origin.y, 0)),//, "== PLALYRRect =="),
+                PLAVec3f(aCircle.origin.x, aCircle.origin.y, 0)),//, "== PLALYRRect =="),
     _radius(aCircle.radius), _fillColor(aFillColor), _strokeColor(aStrokeColor)
   {
     if (aImageName != kPLAStrUndefined) {
@@ -59,9 +59,9 @@ public:
   PLALYRCircle() = delete;
   virtual ~PLALYRCircle() {};
 
-  virtual PLAVec3 GetSize() const;
-  virtual void GetSize(PLAVec3 *aSize) const;
-  virtual void SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot);
+  virtual PLAVec3f GetSize() const;
+  virtual void GetSize(PLAVec3f *aSize) const;
+  virtual void SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot);
 
   virtual bool IsCollideWithPoint(const PLAPoint &aPoint) const;
   virtual bool IsCollideWithLine(const PLALine &aLine) const;

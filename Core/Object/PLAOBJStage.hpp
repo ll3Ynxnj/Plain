@@ -26,11 +26,11 @@ public:
   void PrintActors() const;
 
   const PLAOBJActor *GetContext() const { return _context; }
-  PLAVec3 GetSize() const { return _context->GetSize(); }
+  PLAVec3f GetSize() const { return _context->GetSize(); }
 
   PLAOBJActor *RefContext() const { return _context; }
 
-  void SetSize(const PLAVec3 &aSize);
+  void SetSize(const PLAVec3f &aSize);
 
 // PLAInputHandler /////////////////////////////////////////////////////////////
 public:

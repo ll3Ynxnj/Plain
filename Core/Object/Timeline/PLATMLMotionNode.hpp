@@ -22,11 +22,11 @@ public:
   static PLATMLMotionNode *Create();
   static PLATMLMotionNode *CreateColor(const PLAColor &aBegin, const PLAColor &aEnd,
                                        PLATimeInterval aDuration);
-  static PLATMLMotionNode *CreateTranslation(const PLAVec3 &aBegin, const PLAVec3 &aEnd,
+  static PLATMLMotionNode *CreateTranslation(const PLAVec3f &aBegin, const PLAVec3f &aEnd,
                                              PLATimeInterval aDuration);
-  static PLATMLMotionNode *CreateRotation(const PLAVec3 &aBegin, const PLAVec3 &aEnd,
+  static PLATMLMotionNode *CreateRotation(const PLAVec3f &aBegin, const PLAVec3f &aEnd,
                                           PLATimeInterval aDuration);
-  static PLATMLMotionNode *CreateScale(const PLAVec3 &aBegin, const PLAVec3 &aEnd,
+  static PLATMLMotionNode *CreateScale(const PLAVec3f &aBegin, const PLAVec3f &aEnd,
                                        PLATimeInterval aDuration);
 
   static const PLAProperty &MakeProperty(const PLATMLMotionType aType);
@@ -36,7 +36,7 @@ public:
   PLATMLMotionNode();
   PLATMLMotionNode(PLATMLMotionType aType, const PLAColor &aBegin, const PLAColor &aEnd,
                    PLATimeInterval aDuration);
-  PLATMLMotionNode(PLATMLMotionType aType, const PLAVec3 &aBegin, const PLAVec3 &aEnd,
+  PLATMLMotionNode(PLATMLMotionType aType, const PLAVec3f &aBegin, const PLAVec3f &aEnd,
                    PLATimeInterval aDuration);
 
   ~PLATMLMotionNode() override;

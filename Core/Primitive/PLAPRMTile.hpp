@@ -7,8 +7,8 @@
 #include "Grain/Primitive/GRAPRMTile.hpp"
 
 using PLATile = GRAPRMTile<PLAFloat>;
-static const PLATile kPLATileNone = PLATile(kPLAVec2sNone, kPLAVec2None);
-static const PLATile kPLATileNorm = PLATile(kPLAVec2sNone, kPLAVec2Norm);
+static const PLATile kPLATileNone = PLATile(kPLAVec2sNone, kPLAVec2fNone);
+static const PLATile kPLATileNorm = PLATile(kPLAVec2sNone, kPLAVec2fNorm);
 
 using PLATileChipCode = PLAUInt;
 static const PLATileChipCode kPLATileChipCodeNone = kPLAUIntUndefined;
@@ -16,11 +16,11 @@ static const PLATileChipCode kPLATileChipCodeNone = kPLAUIntUndefined;
 struct PLATileChip {
   PLATileChipCode code = kPLATileChipCodeNone;
   PLAColor color = kPLAColorWhite;
-  PLAVec2 offset = kPLAVec2None;
+  PLAVec2f offset = kPLAVec2fNone;
 
   PLATileChip() {};
   PLATileChip(PLATileChipCode aCode,
-              const PLAColor &aColor, const PLAVec2 &aOffset):
+              const PLAColor &aColor, const PLAVec2f &aOffset):
               code(aCode), color(aColor), offset(aOffset) {};
   ~PLATileChip() {};
 };

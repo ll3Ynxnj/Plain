@@ -1,23 +1,23 @@
 #include "PLALYRLine.hpp"
 #include "Core/Library/PLALIBCollision.hpp"
 
-PLAVec3 PLALYRLine::GetSize() const
+PLAVec3f PLALYRLine::GetSize() const
 {
   return { abs(_vector.x), abs(_vector.y), 0 };
 }
 
-void PLALYRLine::GetSize(PLAVec3 *aSize) const
+void PLALYRLine::GetSize(PLAVec3f *aSize) const
 {
   aSize->x = abs(_vector.x);
   aSize->y = abs(_vector.y);
   aSize->z = 0;
 }
 
-void PLALYRLine::SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot)
+void PLALYRLine::SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot)
 {
   _vector.x = aSize.x;
   _vector.y = aSize.y;
-  PLAVec3 offset = PLAVec3( aSize.x * aPivot.x, aSize.y * aPivot.y, 0 );
+  PLAVec3f offset = PLAVec3f( aSize.x * aPivot.x, aSize.y * aPivot.y, 0 );
   this->SetOffset(offset);
 }
 

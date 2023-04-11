@@ -22,8 +22,8 @@ PLAGLUTRenderer::~PLAGLUTRenderer()
 
 }
 
-void PLAGLUTRenderer::RefreshScreenSize(const PLAVec3 &aFrameSize,
-                                        const PLAVec3 &aStageSize)
+void PLAGLUTRenderer::RefreshScreenSize(const PLAVec3f &aFrameSize,
+                                        const PLAVec3f &aStageSize)
 {
   glViewport(0, 0, aFrameSize.x, aFrameSize.y);
   glMatrixMode(GL_PROJECTION);
@@ -75,8 +75,8 @@ void PLAGLUTRenderer::Render(const PLAOBJActor *aActor) const
 }
 
 void PLAGLUTRenderer::GetRectVertices(GLfloat aVertices[12],
-                                      const PLAVec3 &aPos,
-                                      const PLAVec2 &aSize)
+                                      const PLAVec3f &aPos,
+                                      const PLAVec2f &aSize)
 {
   aVertices[ 0] =  aPos.x;
   aVertices[ 1] = -aPos.y;
@@ -102,8 +102,8 @@ void PLAGLUTRenderer::GetRectColors(GLfloat aColors[16],
 }
 
 void PLAGLUTRenderer::GetRectTexCoords(GLfloat aCoords[8],
-                                       const PLAVec2 &aPos,
-                                       const PLAVec2 &aSize)
+                                       const PLAVec2f &aPos,
+                                       const PLAVec2f &aSize)
 {
   aCoords[0] = aPos.x;
   aCoords[1] = aPos.y;
@@ -184,7 +184,7 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor)
     glDisable(GL_TEXTURE_2D);
   }
 
-  const PLAVec3 offset = aLayer->GetOffset();
+  const PLAVec3f offset = aLayer->GetOffset();
 
   GLfloat vertices[] = {
      offset.x,
@@ -279,7 +279,7 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
   {
     const double radius = aLayer->GetRadius();
     const double step = M_PI * 2 / split;
-    const PLAVec2 origin = PLAVec2( radius + aLayer->GetOffset().x,
+    const PLAVec2f origin = PLAVec2f( radius + aLayer->GetOffset().x,
                                    -radius - aLayer->GetOffset().y);
 
     double radian = 0;
@@ -324,9 +324,9 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
   GLfloat texCoords[numVertices * 2];
   {
     const double radius = 0.625 * 0.5;
-    const PLAVec2 offset = PLAVec2(0.5, 0.5);
+    const PLAVec2f offset = PLAVec2f(0.5, 0.5);
     const double step = M_PI * 2 / split;
-    const PLAVec2 origin = PLAVec2( radius + offset.x,
+    const PLAVec2f origin = PLAVec2f( radius + offset.x,
                                    -radius - offset.y);
 
     double radian = 0;
@@ -417,9 +417,9 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       if (chip.code == kPLATileChipCodeNone) { continue; }
 
       const PLATMLMotion *motionThread = aLayer->GetMotionThread(address);
-      PLAVec3 translation = kPLAVec3None;
-      PLAVec3 rotation = kPLAVec3None;
-      PLAVec3 scale = kPLAVec3Norm;
+      PLAVec3f translation = kPLAVec3fNone;
+      PLAVec3f rotation = kPLAVec3fNone;
+      PLAVec3f scale = kPLAVec3fNorm;
       if (motionThread)
       {
         std::map<PLATMLMotionType, PLAProperty> properties =
@@ -427,15 +427,15 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
         motionThread->GetProperties(&properties);
         if (properties.contains(PLATMLMotionType::Translation))
         {
-          translation = properties.at(PLATMLMotionType::Translation).GetVec3();
+          translation = properties.at(PLATMLMotionType::Translation).GetVec3f();
         }
         if (properties.contains(PLATMLMotionType::Rotation))
         {
-          rotation = properties.at(PLATMLMotionType::Rotation).GetVec3();
+          rotation = properties.at(PLATMLMotionType::Rotation).GetVec3f();
         }
         if (properties.contains(PLATMLMotionType::Scale))
         {
-          scale = properties.at(PLATMLMotionType::Scale).GetVec3();
+          scale = properties.at(PLATMLMotionType::Scale).GetVec3f();
         }
       }
 
@@ -445,7 +445,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
         GRA_TRACE("");
       }
 
-      const PLAVec3 offset = PLAVec3(pxTable[x], pyTable[y], 0) + translation;
+      const PLAVec3f offset = PLAVec3f(pxTable[x], pyTable[y], 0) + translation;
       static const PLAUInt kNumVertices = 12;
       GLfloat vertices[kNumVertices] = {
         offset.x,

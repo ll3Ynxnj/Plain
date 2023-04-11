@@ -43,22 +43,22 @@ TEST_F(PLAPropertyTest, SettingAndGettingValue)
   ASSERT_EQ(color.b, _properties.at("Color").GetColor().b);
   ASSERT_EQ(color.a, _properties.at("Color").GetColor().a);
   PLAFloat x(1.414), y(1.618);
-  PLAVec2 vec2 = PLAVec2(x, y);
-  _properties.at("Vec2").SetVec2(vec2);
-  ASSERT_EQ(vec2.x, _properties.at("Vec2").GetVec2().x);
-  ASSERT_EQ(vec2.y, _properties.at("Vec2").GetVec2().y);
+  PLAVec2f vec2 = PLAVec2f(x, y);
+  _properties.at("Vec2").SetVec2fvec2);
+  ASSERT_EQ(vec2.x, _properties.at("Vec2").GetVec2f().x);
+  ASSERT_EQ(vec2.y, _properties.at("Vec2").GetVec2f().y);
   PLAFloat z(3.141);
-  PLAVec3 vec3 = PLAVec3(x, y, z);
-  _properties.at("Vec3").SetVec3(vec3);
-  ASSERT_EQ(vec3.x, _properties.at("Vec3").GetVec3().x);
-  ASSERT_EQ(vec3.y, _properties.at("Vec3").GetVec3().y);
-  ASSERT_EQ(vec3.z, _properties.at("Vec3").GetVec3().z);
+  PLAVec3f vec3 = PLAVec3f(x, y, z);
+  _properties.at("Vec3").SetVec3fvec3);
+  ASSERT_EQ(vec3.x, _properties.at("Vec3").GetVec3f().x);
+  ASSERT_EQ(vec3.y, _properties.at("Vec3").GetVec3f().y);
+  ASSERT_EQ(vec3.z, _properties.at("Vec3").GetVec3f().z);
   PLAFloat w(0.382);
-  PLAVec4 vec4(x, y, z, w);
-  _properties.at("Vec4").SetVec4(vec4);
-  ASSERT_EQ(vec4.x, _properties.at("Vec4").GetVec4().x);
-  ASSERT_EQ(vec4.y, _properties.at("Vec4").GetVec4().y);
-  ASSERT_EQ(vec4.z, _properties.at("Vec4").GetVec4().z);
-  ASSERT_EQ(vec4.w, _properties.at("Vec4").GetVec4().w);
+  PLAVec4f vec4(x, y, z, w);
+  _properties.at("Vec4").SetVec4f(vec4);
+  ASSERT_EQ(vec4.x, _properties.at("Vec4").GetVec4f().x);
+  ASSERT_EQ(vec4.y, _properties.at("Vec4").GetVec4f().y);
+  ASSERT_EQ(vec4.z, _properties.at("Vec4").GetVec4f().z);
+  ASSERT_EQ(vec4.w, _properties.at("Vec4").GetVec4f().w);
 }
 

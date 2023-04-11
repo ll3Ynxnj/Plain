@@ -43,7 +43,7 @@ void PLAAGTStage::PrintActors() const
   stage->PrintActors();
 }
 
-PLAVec3 PLAAGTStage::GetSize() const
+PLAVec3f PLAAGTStage::GetSize() const
 {
   const PLAOBJStage *stage = this->GetStage();
   return stage->GetSize();

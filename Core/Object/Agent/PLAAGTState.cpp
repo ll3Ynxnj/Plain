@@ -33,8 +33,8 @@ void PLAAGTState::AddModel(PLAAGTModel *aAgent)
   PLAId modelId = aAgent->GetOwnerId();
   PLAOBJModel *model = static_cast<PLAOBJModel *>(PLAObject::Object(modelId));
   PLAId stateId = this->GetOwnerId();
-  PLAOBJState *stage = static_cast<PLAOBJState *>(PLAObject::Object(stateId));
-  stage->AddModel(model);
+  PLAOBJState *state = static_cast<PLAOBJState *>(PLAObject::Object(stateId));
+  state->AddModel(model);
 }
 
 void PLAAGTState::PrintModels() const

@@ -18,13 +18,13 @@ class PLALYRTile : public PLAOBJLayer
     std::vector<std::vector<PLATimelineHolder *>>(0);
 
 public:
-  PLALYRTile(const PLAVec2 &aOffset, const std::string &aImageName,
+  PLALYRTile(const PLAVec2f &aOffset, const std::string &aImageName,
              const GRAVec2<PLASize> &aTileSize,
              const GRAVec2<PLASize> &aChipSize,
              const IPLATileLayerDataSource *aDataSource);//,
              //const std::vector<std::vector<PLATimelineHolder *>> &aNodeHolders);
 
-  static PLALYRTile *Create(const PLAVec2 &aOffset,
+  static PLALYRTile *Create(const PLAVec2f &aOffset,
                             const std::string &aImageName,
                             const GRAVec2<PLASize> &aTileSize,
                             const GRAVec2<PLASize> &aChipSize,
@@ -56,10 +56,10 @@ public:
 
   PLAVec2s GetDataAddress() const { return _dataSource->GetDataAddress(); };
 
-  virtual PLAVec3 GetSize() const;
-  virtual void GetSize(PLAVec3 *aSize) const;
+  virtual PLAVec3f GetSize() const;
+  virtual void GetSize(PLAVec3f *aSize) const;
 
-  virtual void SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot);
+  virtual void SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot);
 
   virtual bool IsCollideWithPoint(const PLAPoint &aPoint) const;
   virtual bool IsCollideWithLine(const PLALine &aLine) const;

@@ -28,7 +28,7 @@ class PLAOBJApp final : public PLAObject
   PLAOBJState *_state = nullptr;
   PLAOBJStage *_stage = nullptr;
   PLAOBJRenderer *_renderer = nullptr;
-  PLAVec3 _contentScaleFactor = kPLAVec3Norm;
+  PLAVec3f _contentScaleFactor = kPLAVec3fNorm;
 
   PLAOBJApp();
 
@@ -55,7 +55,7 @@ public:
   static PLAOBJActor *Actor(const PLAString &aName);
   //static void SetStageFunction(PLAAGTStage::FunctionCode aKey,
   //                             const std::function<void(PLAOBJStage *)> &aFunc);
-  static PLAVec3 GetStageSize();
+  static PLAVec3f GetStageSize();
   static void PrintStageActors();
   */
   //--------------------------------------------------------------------------//
@@ -73,7 +73,7 @@ public:
 
   void RefreshScreenSize(int aWidth, int aHeight);
 
-  const PLAVec3 &GetContentScaleFactor() { return _contentScaleFactor; }
+  const PLAVec3f &GetContentScaleFactor() { return _contentScaleFactor; }
 };
 
 #endif // PLAIN_ENGINE_PLAOBJAPP

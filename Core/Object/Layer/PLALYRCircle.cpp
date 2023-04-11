@@ -4,7 +4,7 @@
 PLALYRCircle *PLALYRCircle::Create(const PLACircle &aCircle)
 {
   PLALYRCircle *layer =
-    new PLALYRCircle(PLAVec3(aCircle.origin.x - aCircle.radius,
+    new PLALYRCircle(PLAVec3f(aCircle.origin.x - aCircle.radius,
                              aCircle.origin.y - aCircle.radius, 0),
                      aCircle.radius, kPLAColorWhite, kPLAColorNone,
                      kPLAStrUndefined, kPLARectNone);
@@ -19,29 +19,29 @@ PLALYRCircle *PLALYRCircle::Create(const PLACircle &aCircle,
                                    const PLARect &aClip)
 {
   PLALYRCircle *layer =
-    new PLALYRCircle(PLAVec3(aCircle.origin.x - aCircle.radius,
+    new PLALYRCircle(PLAVec3f(aCircle.origin.x - aCircle.radius,
                              aCircle.origin.y - aCircle.radius, 0),
                      aCircle.radius, aFillColor, aStrokeColor, aImage, aClip);
   layer->Bind();
   return layer;
 }
 
-PLAVec3 PLALYRCircle::GetSize() const
+PLAVec3f PLALYRCircle::GetSize() const
 {
   return { _radius * 2, _radius * 2, 0 };
 }
 
-void PLALYRCircle::GetSize(PLAVec3 *aSize) const
+void PLALYRCircle::GetSize(PLAVec3f *aSize) const
 {
   aSize->x = _radius * 2;
   aSize->y = _radius * 2;
   aSize->z = 0;
 }
 
-void PLALYRCircle::SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot)
+void PLALYRCircle::SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot)
 {
   _radius = aSize.x > aSize.y ? aSize.x : aSize.y;
-  this->SetOffset(PLAVec3((aPivot.x - 0.5) * _radius * 2,
+  this->SetOffset(PLAVec3f((aPivot.x - 0.5) * _radius * 2,
                           (aPivot.y - 0.5) * _radius * 2,
                           0));
 }

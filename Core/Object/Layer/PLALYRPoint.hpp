@@ -12,14 +12,14 @@ public:
   static PLALYRPoint *Create(const PLAPoint &aPoint);
 
   PLALYRPoint() = delete;
-  PLALYRPoint(const PLAVec3 &aOffset, const PLAColor &aColor) :
+  PLALYRPoint(const PLAVec3f &aOffset, const PLAColor &aColor) :
     PLAOBJLayer(PLAOBJLayerType::Point, aOffset),//, "== PLALYRPoint =="),
     _color(aColor) {};//, aStyle) {};
   virtual ~PLALYRPoint() {};
 
-  virtual PLAVec3 GetSize() const;
-  virtual void GetSize(PLAVec3 *aSize) const;
-  virtual void SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot);
+  virtual PLAVec3f GetSize() const;
+  virtual void GetSize(PLAVec3f *aSize) const;
+  virtual void SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot);
 
   virtual bool IsCollideWithPoint(const PLAPoint &aPoint) const;
   virtual bool IsCollideWithLine(const PLALine &aLine) const;

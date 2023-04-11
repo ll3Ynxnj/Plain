@@ -18,6 +18,12 @@ PLAObject(PLAObjectType::Model)
 
 }
 
+PLAOBJModel::PLAOBJModel(PLAString aName) :
+PLAObject(PLAObjectType::Model, aName)
+{
+
+}
+
 PLAOBJModel::~PLAOBJModel()
 {
 
@@ -58,6 +64,13 @@ PLAInt PLAOBJModel::GetInt(const PLAString &aName) const
   return _properties.at(aName).GetInt();
 }
 
+PLAUInt PLAOBJModel::GetUInt(const PLAString &aName) const
+{
+  if (!_properties.contains(aName))
+  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Property does not exist."); }
+  return _properties.at(aName).GetUInt();
+}
+
 PLAFloat PLAOBJModel::GetFloat(const PLAString &aName) const
 {
   if (!_properties.contains(aName))
@@ -65,25 +78,67 @@ PLAFloat PLAOBJModel::GetFloat(const PLAString &aName) const
   return _properties.at(aName).GetFloat();
 }
 
-const PLAVec2 &PLAOBJModel::GetVec2(const PLAString &aName) const
+const PLAVec2f &PLAOBJModel::GetVec2f(const PLAString &aName) const
 {
   if (!_properties.contains(aName))
   { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Property does not exist."); }
-  return _properties.at(aName).GetVec2();
+  return _properties.at(aName).GetVec2f();
 }
 
-const PLAVec3 &PLAOBJModel::GetVec3(const PLAString &aName) const
+const PLAVec3f &PLAOBJModel::GetVec3f(const PLAString &aName) const
 {
   if (!_properties.contains(aName))
   { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Property does not exist."); }
-  return _properties.at(aName).GetVec3();
+  return _properties.at(aName).GetVec3f();
 }
 
-const PLAVec4 &PLAOBJModel::GetVec4(const PLAString &aName) const
+const PLAVec4f &PLAOBJModel::GetVec4f(const PLAString &aName) const
 {
   if (!_properties.contains(aName))
   { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Property does not exist."); }
-  return _properties.at(aName).GetVec4();
+  return _properties.at(aName).GetVec4f();
+}
+
+const PLAVec2i &PLAOBJModel::GetVec2i(const PLAString &aName) const
+{
+  if (!_properties.contains(aName))
+  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Property does not exist."); }
+  return _properties.at(aName).GetVec2i();
+}
+
+const PLAVec3i &PLAOBJModel::GetVec3i(const PLAString &aName) const
+{
+  if (!_properties.contains(aName))
+  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Property does not exist."); }
+  return _properties.at(aName).GetVec3i();
+}
+
+const PLAVec4i &PLAOBJModel::GetVec4i(const PLAString &aName) const
+{
+  if (!_properties.contains(aName))
+  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Property does not exist."); }
+  return _properties.at(aName).GetVec4i();
+}
+
+const PLAVec2s &PLAOBJModel::GetVec2s(const PLAString &aName) const
+{
+  if (!_properties.contains(aName))
+  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Property does not exist."); }
+  return _properties.at(aName).GetVec2s();
+}
+
+const PLAVec3s &PLAOBJModel::GetVec3s(const PLAString &aName) const
+{
+  if (!_properties.contains(aName))
+  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Property does not exist."); }
+  return _properties.at(aName).GetVec3s();
+}
+
+const PLAVec4s &PLAOBJModel::GetVec4s(const PLAString &aName) const
+{
+  if (!_properties.contains(aName))
+  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Property does not exist."); }
+  return _properties.at(aName).GetVec4s();
 }
 
 void PLAOBJModel::SetBool(const PLAString &aName, PLABool aValue)
@@ -96,24 +151,59 @@ void PLAOBJModel::SetInt(const PLAString &aName, PLAInt aValue)
   _properties[aName].SetInt(aValue);
 }
 
+void PLAOBJModel::SetUInt(const PLAString &aName, PLAUInt aValue)
+{
+  _properties[aName].SetUInt(aValue);
+}
+
 void PLAOBJModel::SetFloat(const PLAString &aName, PLAFloat aValue)
 {
   _properties[aName].SetFloat(aValue);
 }
 
-void PLAOBJModel::SetVec2(const PLAString &aName, const PLAVec2 &aValue)
+void PLAOBJModel::SetVec2f(const PLAString &aName, const PLAVec2f &aValue)
 {
-  _properties[aName].SetVec2(aValue);
+  _properties[aName].SetVec2f(aValue);
 }
 
-void PLAOBJModel::SetVec3(const PLAString &aName, const PLAVec3 &aValue)
+void PLAOBJModel::SetVec3f(const PLAString &aName, const PLAVec3f &aValue)
 {
-  _properties[aName].SetVec3(aValue);
+  _properties[aName].SetVec3f(aValue);
 }
 
-void PLAOBJModel::SetVec4(const PLAString &aName, const PLAVec4 &aValue)
+void PLAOBJModel::SetVec4f(const PLAString &aName, const PLAVec4f &aValue)
 {
-  _properties[aName].SetVec4(aValue);
+  _properties[aName].SetVec4f(aValue);
+}
+
+void PLAOBJModel::SetVec2i(const PLAString &aName, const PLAVec2i &aValue)
+{
+  _properties[aName].SetVec2i(aValue);
+}
+
+void PLAOBJModel::SetVec3i(const PLAString &aName, const PLAVec3i &aValue)
+{
+  _properties[aName].SetVec3i(aValue);
+}
+
+void PLAOBJModel::SetVec4i(const PLAString &aName, const PLAVec4i &aValue)
+{
+  _properties[aName].SetVec4i(aValue);
+}
+
+void PLAOBJModel::SetVec2s(const PLAString &aName, const PLAVec2s &aValue)
+{
+  _properties[aName].SetVec2s(aValue);
+}
+
+void PLAOBJModel::SetVec3s(const PLAString &aName, const PLAVec3s &aValue)
+{
+  _properties[aName].SetVec3s(aValue);
+}
+
+void PLAOBJModel::SetVec4s(const PLAString &aName, const PLAVec4s &aValue)
+{
+  _properties[aName].SetVec4s(aValue);
 }
 
 /*

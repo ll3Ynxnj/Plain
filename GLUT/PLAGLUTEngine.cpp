@@ -59,7 +59,7 @@ void PLAGLUTEngine::mouse(int button, int state, int x, int y)
   PLAOBJApp::Instance()->
   Input(PLAInputDeviceType::Mouse, inputCode, inputSignal, { float(x), float(y) });
   /*/
-  PLAVec3 contentScaleFactor = PLAOBJApp::Instance()->GetContentScaleFactor();
+  PLAVec3f contentScaleFactor = PLAOBJApp::Instance()->GetContentScaleFactor();
   PLAOBJApp::Instance()->
     Input(PLAInputDeviceType::Touch, inputCode, inputSignal,
           { float(x / contentScaleFactor.x), float(y / contentScaleFactor.y) });

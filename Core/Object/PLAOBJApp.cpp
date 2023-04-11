@@ -54,7 +54,7 @@ void PLAOBJApp::AddActor(PLAOBJActor *aActor)
   PLAOBJScene::Manager::Instance()->RefCurrentScene()->AddActor(aActor);
 }
 
-PLAVec3 PLAOBJApp::GetStageSize()
+PLAVec3f PLAOBJApp::GetStageSize()
 {
   _instance._stage->GetSize();
 }
@@ -142,13 +142,13 @@ void PLAOBJApp::Render()
 
 void PLAOBJApp::RefreshScreenSize(int aWidth, int aHeight)
 {
-  PLAVec3 frameSize(aWidth, aHeight, 0);
-  PLAVec3 stageSize(kBaseScreenLength);
+  PLAVec3f frameSize(aWidth, aHeight, 0);
+  PLAVec3f stageSize(kBaseScreenLength);
 
   if (aWidth < aHeight) { stageSize.y *= PLAFloat(aHeight) / PLAFloat(aWidth ); }
   else if (aWidth > aHeight) { stageSize.x *= PLAFloat(aWidth ) / PLAFloat(aHeight); }
 
-  _contentScaleFactor = PLAVec3(frameSize.x / stageSize.x,
+  _contentScaleFactor = PLAVec3f(frameSize.x / stageSize.x,
                                 frameSize.y / stageSize.y,
                                 frameSize.z / stageSize.z);
 

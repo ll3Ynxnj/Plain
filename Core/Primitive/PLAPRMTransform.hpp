@@ -6,8 +6,8 @@
 
 using PLATransform = GRAPRMTransform<PLAFloat>;
 static const PLATransform kPLATransformNone =
-  PLATransform(kPLAVec3None, kPLAVec3None, kPLAVec3None);
+  PLATransform(kPLAVec3fNone, kPLAVec3fNone, kPLAVec3fNone);
 static const PLATransform kPLATransformNorm =
-  PLATransform(kPLAVec3None, kPLAVec3None, kPLAVec3Norm);
+  PLATransform(kPLAVec3fNone, kPLAVec3fNone, kPLAVec3fNorm);
 
 #endif //PLAIN_PLATRANSFORM_HPP

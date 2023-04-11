@@ -40,7 +40,7 @@ private:
   };
 
   std::list<PLAOBJActor *> _actors = {};
-  PLAVec3 _pivot = kPLAVec3None;
+  PLAVec3f _pivot = kPLAVec3fNone;
   PLAColor _color = kPLAColorWhite;
   PLATransform _transform = kPLATransformNorm;
   //-- Not affect child actors
@@ -59,7 +59,7 @@ private:
   /// Calculate from pivot. Must be updated when pivot changes.
 
 protected:
-  PLAOBJActor(const PLAVec3 &aPivot,
+  PLAOBJActor(const PLAVec3f &aPivot,
               const PLAColor &aColor,
               const PLATransform &aTransform,
               PLAOBJLayer *aLayer);//,
@@ -67,49 +67,49 @@ protected:
 
 public:
   /*
-  static PLAOBJActor *Create(const PLAVec3 &aPivot,
+  static PLAOBJActor *Create(const PLAVec3f &aPivot,
                           const PLAColor &aColor,
                           const PLATransform &aTransform,
                           const Layer &aLayer);
                           */
 
-  static PLAOBJActor *CreateRect(const PLAVec3 &aPivot,
+  static PLAOBJActor *CreateRect(const PLAVec3f &aPivot,
                                  const PLAColor &aColor,
                                  const PLATransform &aTransform,
                                  const PLARect &aRect);
 
-  static PLAOBJActor *CreateRect(const PLAVec3 &aPivot,
+  static PLAOBJActor *CreateRect(const PLAVec3f &aPivot,
                                  const PLAColor &aColor,
                                  const PLATransform &aTransform,
                                  const PLARect &aRect,
                                  const PLAColor &aFillColor);
 
-  static PLAOBJActor *CreateRect(const PLAVec3 &aPivot,
+  static PLAOBJActor *CreateRect(const PLAVec3f &aPivot,
                                  const PLAColor &aColor,
                                  const PLATransform &aTransform,
                                  const PLARect &aRect,
                                  const std::string &aImage,
                                  const PLARect &aClip);
 
-  static PLAOBJActor *CreateCircle(const PLAVec3 &aPivot,
+  static PLAOBJActor *CreateCircle(const PLAVec3f &aPivot,
                                    const PLAColor &aColor,
                                    const PLATransform &aTransform,
                                    const PLACircle &aCircle);
 
-  static PLAOBJActor *CreateCircle(const PLAVec3 &aPivot,
+  static PLAOBJActor *CreateCircle(const PLAVec3f &aPivot,
                                    const PLAColor &aColor,
                                    const PLATransform &aTransform,
                                    const PLACircle &aCircle,
                                    const PLAColor &aFillColor);
 
-  static PLAOBJActor *CreateCircle(const PLAVec3 &aPivot,
+  static PLAOBJActor *CreateCircle(const PLAVec3f &aPivot,
                                    const PLAColor &aColor,
                                    const PLATransform &aTransform,
                                    const PLACircle &aCircle,
                                    const std::string &aImage,
                                    const PLARect &aClip);
 
-  static PLAOBJActor *CreateTile(const PLAVec2 &aOffset,
+  static PLAOBJActor *CreateTile(const PLAVec2f &aOffset,
                                  const std::string &aImageName,
                                  const GRAVec2<PLASize> &aTileSize,
                                  const GRAVec2<PLASize> &aChipSize,
@@ -136,15 +136,15 @@ public:
   //bool IsCollideWithRect(PLARect aRect) const;
 
   const std::list<PLAOBJActor *> *GetActors() const { return &_actors; };
-  const PLAVec3 &GetPivot() const { return _pivot; };
-  void SetPivot(const PLAVec3 &aPivot)
+  const PLAVec3f &GetPivot() const { return _pivot; };
+  void SetPivot(const PLAVec3f &aPivot)
   { _pivot = aPivot; this->RefreshLayerOffset(); };
   PLAColor GetColor() const;
   PLATransform GetTransform() const;
   const PLAOBJLayer *GetLayer() const { return _layer; }
-  PLAVec3 GetSize() const { return _layer->GetSize(); };
-  void GetSize(PLAVec3 *aSize) const { return _layer->GetSize(aSize); };
-  const PLAVec3 &GetLayerOffset() const { return _layer->GetOffset(); };
+  PLAVec3f GetSize() const { return _layer->GetSize(); };
+  void GetSize(PLAVec3f *aSize) const { return _layer->GetSize(aSize); };
+  const PLAVec3f &GetLayerOffset() const { return _layer->GetOffset(); };
 
   PLAOBJLayerType GetLayerType() const { return _layer->GetLayerType(); };
 
@@ -166,9 +166,9 @@ public:
                  PLAFloat aDuration);
   void AddMotionAlpha(PLAFloat aAlpha, PLAFloat aDuration);
   void AddMotionColor(const PLAColor &aColor, PLAFloat aDuration);
-  void AddMotionTranslation(const PLAVec3 &aTranslation, PLAFloat aDuration);
-  void AddMotionRotation(const PLAVec3 &aRotation, PLAFloat aDuration);
-  void AddMotionScale(const PLAVec3 &aScale, PLAFloat aDuration);
+  void AddMotionTranslation(const PLAVec3f &aTranslation, PLAFloat aDuration);
+  void AddMotionRotation(const PLAVec3f &aRotation, PLAFloat aDuration);
+  void AddMotionScale(const PLAVec3f &aScale, PLAFloat aDuration);
    */
 
   size_t GetNumberOfActors() { return _actors.size(); };
@@ -189,14 +189,14 @@ public:
   { _color = aColor; };
   void SetTransform(const PLATransform &aTransform)
   { _transform = aTransform; };
-  virtual void SetSize(const PLAVec3 &aSize)
+  virtual void SetSize(const PLAVec3f &aSize)
   { _layer->SetSize(aSize, _pivot); this->RefreshLayerOffset(); };
 
-  void SetTranslation(const PLAVec3 &aTranslation)
+  void SetTranslation(const PLAVec3f &aTranslation)
   { _transform.translation = aTranslation; };
-  void SetRotation(const PLAVec3 &aRotation)
+  void SetRotation(const PLAVec3f &aRotation)
   { _transform.rotation = aRotation; };
-  void SetScale(const PLAVec3 &aScale)
+  void SetScale(const PLAVec3f &aScale)
   { _transform.scale = aScale; };
 
   void SetFunction(PLAOBJActorFunctionCode aKey,

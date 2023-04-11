@@ -4,20 +4,23 @@
 #include "Primitive/PLAPRMType.hpp"
 #include "Grain/Primitive/GRAPRMVector.hpp"
 
-using PLAVec2 = GRAVec2<PLAFloat>;
-static const PLAVec2 kPLAVec2None = PLAVec2(0);
-static const PLAVec2 kPLAVec2Norm = PLAVec2(1);
-static const PLAVec2 kPLAVec2Undefined = PLAVec2(kPLAFloatUndefined);
 
-using PLAVec3 = GRAVec3<PLAFloat>;
-static const PLAVec3 kPLAVec3None = PLAVec3(0);
-static const PLAVec3 kPLAVec3Norm = PLAVec3(1);
-static const PLAVec3 kPLAVec3Undefined = PLAVec3(kPLAFloatUndefined);
+//-- Float --///////////////////////////////////////////////////////////////////
 
-using PLAVec4 = GRAVec4<PLAFloat>;
-static const PLAVec4 kPLAVec4None = PLAVec4(0);
-static const PLAVec4 kPLAVec4Norm = PLAVec4(1);
-static const PLAVec4 kPLAVec4Undefined = PLAVec4(kPLAFloatUndefined);
+using PLAVec2f = GRAVec2<PLAFloat>;
+static const PLAVec2f kPLAVec2fNone = PLAVec2f(0);
+static const PLAVec2f kPLAVec2fNorm = PLAVec2f(1);
+static const PLAVec2f kPLAVec2fUndefined = PLAVec2f(kPLAFloatUndefined);
+
+using PLAVec3f = GRAVec3<PLAFloat>;
+static const PLAVec3f kPLAVec3fNone = PLAVec3f(0);
+static const PLAVec3f kPLAVec3fNorm = PLAVec3f(1);
+static const PLAVec3f kPLAVec3fUndefined = PLAVec3f(kPLAFloatUndefined);
+
+using PLAVec4f = GRAVec4<PLAFloat>;
+static const PLAVec4f kPLAVec4fNone = PLAVec4f(0);
+static const PLAVec4f kPLAVec4fNorm = PLAVec4f(1);
+static const PLAVec4f kPLAVec4fUndefined = PLAVec4f(kPLAFloatUndefined);
 
 
 //-- Integer --/////////////////////////////////////////////////////////////////
@@ -73,22 +76,5 @@ static const PLAVec4s kPLAVec4sNone = PLAVec4s(0);
 static const PLAVec4s kPLAVec4sNorm = PLAVec4s(1);
 static const PLAVec4s kPLAVec4sUndefined = PLAVec4s(kPLASizeUndefined);
 
-
-//-- Float --///////////////////////////////////////////////////////////////////
-
-using PLAVec2f = GRAVec2<PLAFloat>;
-static const PLAVec2f kPLAVec2fNone = PLAVec2f(0);
-static const PLAVec2f kPLAVec2fNorm = PLAVec2f(1);
-static const PLAVec2f kPLAVec2fUndefined = PLAVec2f(kPLASizeUndefined);
-
-using PLAVec3f = GRAVec3<PLAFloat>;
-static const PLAVec3f kPLAVec3fNone = PLAVec3f(0);
-static const PLAVec3f kPLAVec3fNorm = PLAVec3f(1);
-static const PLAVec3f kPLAVec3fUndefined = PLAVec3f(kPLASizeUndefined);
-
-using PLAVec4f = GRAVec4<PLAFloat>;
-static const PLAVec4f kPLAVec4fNone = PLAVec4f(0);
-static const PLAVec4f kPLAVec4fNorm = PLAVec4f(1);
-static const PLAVec4f kPLAVec4fUndefined = PLAVec4f(kPLASizeUndefined);
 
 #endif //PLAIN_PLAVECTOR_HPP

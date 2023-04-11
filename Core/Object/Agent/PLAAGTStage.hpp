@@ -57,7 +57,7 @@ public:
     { listener->RunListener(aKey, this); }
   };
 
-  PLAVec3 GetSize() const;
+  PLAVec3f GetSize() const;
 
 protected:
   explicit PLAAGTStage(PLAOBJStage *aScene);

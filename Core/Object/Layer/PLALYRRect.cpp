@@ -3,7 +3,7 @@
 
 PLALYRRect *PLALYRRect::Create(const PLARect &aRect)
 {
-  PLALYRRect *layer = new PLALYRRect(PLAVec3(aRect.pos.x,
+  PLALYRRect *layer = new PLALYRRect(PLAVec3f(aRect.pos.x,
                                              aRect.pos.y, 0),
                                      aRect.size,
                                      kPLAColorWhite,
@@ -20,7 +20,7 @@ PLALYRRect *PLALYRRect::Create(const PLARect &aRect,
                                const std::string &aImage,
                                const PLARect &aClip)
 {
-  PLALYRRect *layer = new PLALYRRect(PLAVec3(aRect.pos.x,
+  PLALYRRect *layer = new PLALYRRect(PLAVec3f(aRect.pos.x,
                                              aRect.pos.y, 0),
                                      aRect.size,
                                      aFillColor,
@@ -30,21 +30,21 @@ PLALYRRect *PLALYRRect::Create(const PLARect &aRect,
   return layer;
 }
 
-PLAVec3 PLALYRRect::GetSize() const
+PLAVec3f PLALYRRect::GetSize() const
 {
   return { abs(_vector.x), abs(_vector.y), 0 };
 }
 
-void PLALYRRect::GetSize(PLAVec3 *aSize) const
+void PLALYRRect::GetSize(PLAVec3f *aSize) const
 {
   aSize->x = abs(_vector.x);
   aSize->y = abs(_vector.y);
   aSize->z = 0;
 }
 
-void PLALYRRect::SetSize(const PLAVec3 &aSize, const PLAVec3 &aPivot)
+void PLALYRRect::SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot)
 {
-  this->SetOffset(PLAVec3(aSize.x * aPivot.x, aSize.y * aPivot.y, 0));
+  this->SetOffset(PLAVec3f(aSize.x * aPivot.x, aSize.y * aPivot.y, 0));
   _vector.x = aSize.x;
   _vector.y = aSize.y;
 }
