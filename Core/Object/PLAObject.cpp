@@ -116,6 +116,9 @@ PLAOBJAgent *PLAObject::AssignAgent()
     _agent = PLAOBJAgent::Create(this);
   }
   ++_agentReferenceCounter;
+
+  GRA_PRINT("AssignAgent : %s : %d\n",
+            this->GetObjectName().c_str(), _agentReferenceCounter);
   return _agent;
 
   /*
@@ -137,6 +140,8 @@ void PLAObject::ReleaseAgent()/*const PLAOBJAgent *aAgent)*/
   PLAObject::Object(aAgent->GetObjectId())->Unbind();
   std::erase(_agents, aAgent);
    */
+  GRA_PRINT("ReleaseAgent : %s : %d\n",
+            this->GetObjectName().c_str(), _agentReferenceCounter);
 }
 
 const char *PLAObject::GetObjectTypeName() const

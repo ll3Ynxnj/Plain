@@ -7,7 +7,7 @@
 
 #include "Object/PLAObject.hpp"
 
-class PLAOBJAgent: protected PLAObject
+class PLAOBJAgent: public PLAObject
 {
   PLAObject *_owner = nullptr;
 

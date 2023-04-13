@@ -65,6 +65,10 @@ public:
   void SetVec4s(const PLAString &aName, const PLAVec4s &aValue);
 
   void PrintModels() const;
+
+private:
+  void ValidateNameIsNotEmpty(const PLAString &aName) const;
+  void ValidatePropertyIsExist(const PLAString &aName) const;
 };
 
 
