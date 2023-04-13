@@ -8,12 +8,12 @@
 PLAAGTState *PLAAGTState::Create(PLAOBJState *aState)
 {
   auto agent = new PLAAGTState(aState);
-  agent->PLAObject::Bind();
+  //agent->PLAObject::Bind();
   return agent;
 }
 
 PLAAGTState::PLAAGTState(PLAOBJState *aState) :
-  PLAOBJAgent(aState)
+  PLAAgent(aState)
 {
 
 }

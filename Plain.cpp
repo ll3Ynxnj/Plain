@@ -81,7 +81,7 @@ PLAAGTScene *Plain::Scene::Create(const PLAString &aName)
 
 PLAAGTScene *Plain::Scene::Assign(const PLAString &aName)
 {
-  PLAOBJAgent *agent = Plain::Assign(aName);
+  PLAAgent *agent = Plain::Assign(aName);
   const PLAObject *owner = PLAObject::Object(agent->GetOwnerId());
   if (owner->GetObjectType() != PLAObjectType::Scene)
   {
@@ -116,7 +116,7 @@ PLAAGTModel *Plain::Model::Create(const PLAString &aName)
 
 PLAAGTModel *Plain::Model::Assign(const PLAString &aName)
 {
-  PLAOBJAgent *agent = Plain::Assign(aName);
+  PLAAgent *agent = Plain::Assign(aName);
   const PLAObject *owner = PLAObject::Object(agent->GetOwnerId());
   if (owner->GetObjectType() != PLAObjectType::Model)
   {
@@ -204,7 +204,7 @@ PLAAGTActor *Plain::Actor::CreateTile(const PLAVec2f &aOffset,
 
 PLAAGTActor *Plain::Actor::Assign(const PLAString &aName)
 {
-  PLAOBJAgent *agent = Plain::Assign(aName);
+  PLAAgent *agent = Plain::Assign(aName);
   const PLAObject *owner = PLAObject::Object(agent->GetOwnerId());
   if (owner->GetObjectType() != PLAObjectType::Actor)
   {
@@ -215,14 +215,14 @@ PLAAGTActor *Plain::Actor::Assign(const PLAString &aName)
   return static_cast<PLAAGTActor *>(agent);
 }
 
-const PLAObject *Plain::Object(const PLAOBJAgent *aAgent)
+const PLAObject *Plain::Object(const PLAAgent *aAgent)
 {
   PLAId id = aAgent->GetOwnerId();
   PLAObject *object = PLAObject::Object(id);
   return object;
 }
 
-PLAOBJAgent *Plain::Assign(const PLAString &aName)
+PLAAgent *Plain::Assign(const PLAString &aName)
 {
   PLAObject *object = PLAObject::Object(aName);
   if (!object)

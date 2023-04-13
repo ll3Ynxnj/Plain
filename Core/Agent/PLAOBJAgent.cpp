@@ -2,6 +2,7 @@
 // Created by Kentaro Kawai on 2022/04/16.
 //
 
+/*
 #include "PLAOBJAgent.hpp"
 #include "Object/PLAObject.hpp"
 #include "Object/PLAOBJError.hpp"
@@ -48,7 +49,7 @@ PLAOBJAgent::PLAOBJAgent(PLAObject *aObject) :
 
 PLAOBJAgent::~PLAOBJAgent()
 {
-
+  this->Release();
 }
 
 void PLAOBJAgent::Release() const
@@ -56,3 +57,4 @@ void PLAOBJAgent::Release() const
   _owner->ReleaseAgent();
   _owner->Unbind();
 }
+*/

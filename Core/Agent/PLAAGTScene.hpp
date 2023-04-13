@@ -5,10 +5,10 @@
 #ifndef ANHR_PLAAGTSCENE_HPP
 #define ANHR_PLAAGTSCENE_HPP
 
-#include "PLAOBJAgent.hpp"
+#include "PLAAgent.hpp"
 #include "Object/PLAOBJScene.hpp"
 
-class PLAAGTScene final : public PLAOBJAgent
+class PLAAGTScene final : public PLAAgent
 {
 public:
   /// Agent is const method only.

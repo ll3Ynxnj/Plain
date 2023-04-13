@@ -10,11 +10,12 @@
 #include "Object/PLAOBJError.hpp"
 
 #include "Object/PLAObject.hpp"
-#include "Object/Agent/PLAAGTScene.hpp"
-#include "Object/Agent/PLAAGTState.hpp"
-#include "Object/Agent/PLAAGTModel.hpp"
-#include "Object/Agent/PLAAGTStage.hpp"
-#include "Object/Agent/PLAAGTActor.hpp"
+
+#include "Agent/PLAAGTScene.hpp"
+#include "Agent/PLAAGTState.hpp"
+#include "Agent/PLAAGTModel.hpp"
+#include "Agent/PLAAGTStage.hpp"
+#include "Agent/PLAAGTActor.hpp"
 
 class Plain {
 public:
@@ -106,8 +107,8 @@ public:
   };
 
 private:
-  static const PLAObject *Object(const PLAOBJAgent *aAgent);
-  static PLAOBJAgent *Assign(const PLAString &aName);
+  static const PLAObject *Object(const PLAAgent *aAgent);
+  static PLAAgent *Assign(const PLAString &aName);
 };
 
 #endif //PLAIN_ENGINE_PLAIN_HPP

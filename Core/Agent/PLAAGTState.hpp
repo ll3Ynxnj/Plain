@@ -6,12 +6,12 @@
 #define ANHR_PLAAGTSTATE_HPP
 
 
-#include "PLAOBJAgent.hpp"
+#include "PLAAgent.hpp"
 #include "Object/PLAOBJState.hpp"
 
 class PLAAGTModel;
 
-class PLAAGTState final : public PLAOBJAgent
+class PLAAGTState final : public PLAAgent
 {
 public:
   /// Agent is const method only.

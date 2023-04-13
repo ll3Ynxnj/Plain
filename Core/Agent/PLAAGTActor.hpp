@@ -6,10 +6,10 @@
 #define ANHR_PLAAGTACTOR_HPP
 
 
-#include "PLAOBJAgent.hpp"
+#include "PLAAgent.hpp"
 #include "Object/Actor/PLAOBJActor.hpp"
 
-class PLAAGTActor final : public PLAOBJAgent//, public PLAInputContext
+class PLAAGTActor final : public PLAAgent//, public PLAInputContext
 {
 public:
   /// Agent is const method only.

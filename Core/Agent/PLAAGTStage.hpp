@@ -5,13 +5,13 @@
 #ifndef ANHR_PLAAGTSTAGE_HPP
 #define ANHR_PLAAGTSTAGE_HPP
 
-#include "PLAOBJAgent.hpp"
+#include "PLAAgent.hpp"
 #include "Object/Input/PLAInput.hpp"
 #include "Object/PLAOBJStage.hpp"
 
 class PLAAGTActor;
 
-class PLAAGTStage final : public PLAOBJAgent/*, public PLAInputHandler*/
+class PLAAGTStage final : public PLAAgent/*, public PLAInputHandler*/
 {
 public:
   enum class FunctionCode : PLAFunctionCode

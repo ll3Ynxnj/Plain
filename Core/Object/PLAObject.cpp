@@ -1,6 +1,6 @@
 #include "PLAObject.hpp"
-#include "../Object/Agent/PLAOBJAgent.hpp"
 #include "PLAOBJError.hpp"
+#include "Agent/PLAAgent.hpp"
 
 // PLAObject ///////////////////////////////////////////////////////////////////
 const std::map<PLAObject::Binder::Error, const char *> PLAObject::kBinderErrorMessages =
@@ -110,10 +110,10 @@ void PLAObject::Print()
   GRA_PRINT("PLAObject : %8d, %d\n", this->GetId(), this);
 }
 
-PLAOBJAgent *PLAObject::AssignAgent()
+PLAAgent *PLAObject::AssignAgent()
 {
   if (!_agent) {
-    _agent = PLAOBJAgent::Create(this);
+    _agent = PLAAgent::Create(this);
   }
   ++_agentReferenceCounter;
 
@@ -134,7 +134,8 @@ void PLAObject::ReleaseAgent()/*const PLAOBJAgent *aAgent)*/
   if (_agentReferenceCounter == 0)
   {
     //PLAObject::Object(aAgent->GetObjectId())->Unbind();
-    _agent->Unbind();
+    //_agent->Unbind();
+    delete(_agent);
   }
   /*
   PLAObject::Object(aAgent->GetObjectId())->Unbind();
@@ -217,22 +218,23 @@ void PLAObject::Manager::PrintObjects() const
   GRA_PRINT("//-- PLAObject::Manager::PrintResource --"
             "///////////////////////////////////////\n");
   GRA_PRINT("INDEX |   ID |                             NAME "
-            "| TYPE |                                \n");
+            "| TYPE | AGENT |                        \n");
   GRA_PRINT("------|------|----------------------------------"
-            "|------|------------------------\n");
+            "|------|-------|----------------\n");
   for (size_t i = 0; Binder::Item *item : this->GetItems())
   {
     if (item) {
       const PLAObject *object = static_cast<const PLAObject *>(item);
       PLAObjectType type = object->GetObjectType();
-      GRA_PRINT(" %4d | %4d | %32s | %4d | %22s\n",
-                i, object->GetId(), object->GetName().c_str(),
-                type,
+      GRA_PRINT(" %4d | %4d | %32s | %4d | %5s | %14s\n",
+                i, object->GetId(), object->GetName().c_str(), type,
+                object->GetAgent() ?
+                std::to_string(object->_agentReferenceCounter).c_str() : "NULL",
                 kPLAObjectTypeName[static_cast<PLAId>(type)]);
     } else {
-      GRA_PRINT(" %4d | %s | %s | %s | %22s\n",
+      GRA_PRINT(" %4d | %s | %s | %s | %s | %s\n",
                 i, "----", "------------------------ NULL --", "----",
-                "----------------------");
+                "-----", "--------------");
     }
     ++i;
   }

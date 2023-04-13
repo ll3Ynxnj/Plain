@@ -7,12 +7,12 @@
 PLAAGTModel *PLAAGTModel::Create(PLAOBJModel *aModel)
 {
   auto agent = new PLAAGTModel(aModel);
-  agent->PLAObject::Bind();
+  //agent->PLAObject::Bind();
   return agent;
 }
 
 PLAAGTModel::PLAAGTModel(PLAOBJModel *aModel) :
-  PLAOBJAgent(aModel)
+  PLAAgent(aModel)
 {
 
 }

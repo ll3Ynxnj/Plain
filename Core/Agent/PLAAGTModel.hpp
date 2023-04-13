@@ -6,10 +6,10 @@
 #define ANHR_PLAAGTMODEL_HPP
 
 
-#include "PLAAGTState.hpp"
-#include "PLAOBJAgent.hpp"
+#include "PLAAgent.hpp"
+#include "Object/Model/PLAOBJModel.hpp"
 
-class PLAAGTModel final : public PLAOBJAgent//, public PLAInputContext
+class PLAAGTModel final : public PLAAgent//, public PLAInputContext
 {
 public:
   /// Agent is const method only.

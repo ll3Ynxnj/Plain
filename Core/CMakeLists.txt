@@ -37,12 +37,12 @@ add_library(Plain-Core STATIC
   Object/Layer/PLALYRCircle.cpp
   Object/Layer/PLALYRTile.cpp
 
-  Object/Agent/PLAOBJAgent.cpp
-  Object/Agent/PLAAGTModel.cpp
-  Object/Agent/PLAAGTActor.cpp
-  Object/Agent/PLAAGTState.cpp
-  Object/Agent/PLAAGTStage.cpp
-  Object/Agent/PLAAGTScene.cpp
+  Agent/PLAAgent.cpp
+  Agent/PLAAGTModel.cpp
+  Agent/PLAAGTActor.cpp
+  Agent/PLAAGTState.cpp
+  Agent/PLAAGTStage.cpp
+  Agent/PLAAGTScene.cpp
 
   Property/PLAProperty.cpp
   )

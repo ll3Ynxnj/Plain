@@ -8,12 +8,12 @@
 PLAAGTStage *PLAAGTStage::Create(PLAOBJStage *aStage)
 {
   auto agent = new PLAAGTStage(aStage);
-  agent->PLAObject::Bind();
+  //agent->PLAObject::Bind();
   return agent;
 }
 
 PLAAGTStage::PLAAGTStage(PLAOBJStage *aStage) :
-  PLAOBJAgent(aStage)
+  PLAAgent(aStage)
 {
 
 }

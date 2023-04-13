@@ -7,12 +7,12 @@
 PLAAGTActor *PLAAGTActor::Create(PLAOBJActor *aActor)
 {
   auto agent = new PLAAGTActor(aActor);
-  agent->PLAObject::Bind();
+  //agent->PLAObject::Bind();
   return agent;
 }
 
 PLAAGTActor::PLAAGTActor(PLAOBJActor *aActor) :
-  PLAOBJAgent(aActor)
+  PLAAgent(aActor)
 {
 
 }

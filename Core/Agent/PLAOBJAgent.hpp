@@ -2,8 +2,10 @@
 // Created by Kentaro Kawai on 2022/04/16.
 //
 
+/*
 #ifndef ANHR_PLAOBJAGENT_HPP
 #define ANHR_PLAOBJAGENT_HPP
+
 
 #include "Object/PLAObject.hpp"
 
@@ -36,3 +38,5 @@ protected:
 
 
 #endif //ANHR_PLAOBJAGENT_HPP
+
+*/

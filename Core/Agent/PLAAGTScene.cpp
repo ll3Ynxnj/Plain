@@ -7,12 +7,12 @@
 PLAAGTScene *PLAAGTScene::Create(PLAOBJScene *aScene)
 {
   auto agent = new PLAAGTScene(aScene);
-  agent->PLAObject::Bind();
+  //agent->PLAObject::Bind();
   return agent;
 }
 
 PLAAGTScene::PLAAGTScene(PLAOBJScene *aScene) :
-  PLAOBJAgent(aScene)
+  PLAAgent(aScene)
 {
 
 }

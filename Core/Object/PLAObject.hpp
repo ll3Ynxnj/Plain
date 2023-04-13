@@ -10,7 +10,7 @@
 #include "Grain/Grain.h"
 #include "Grain/Object/GRAOBJBinder.hpp"
 
-class PLAOBJAgent;
+class PLAAgent;
 
 class PLAObject : private GRAOBJBinder<PLAObject>::Item
 {
@@ -21,7 +21,7 @@ class PLAObject : private GRAOBJBinder<PLAObject>::Item
   //std::map<PLAString, PLAProperty> _properties =
   //  std::map<PLAString, PLAProperty>();
   //std::vector<PLAOBJAgent *> _agents;
-  PLAOBJAgent *_agent = nullptr;
+  PLAAgent *_agent = nullptr;
   PLAInt _agentReferenceCounter = 0;
 
 protected:
@@ -41,7 +41,7 @@ public:
 
   virtual void Print();
 
-  virtual PLAOBJAgent *AssignAgent();
+  virtual PLAAgent *AssignAgent();
   //void ReleaseAgent(const PLAOBJAgent *aAgent);
   void ReleaseAgent();
 
@@ -55,8 +55,8 @@ public:
 
 protected:
   //std::vector<PLAOBJAgent *> GetAgents() { return _agents; }
-  const PLAOBJAgent *GetAgent() const { return _agent; }
-  PLAOBJAgent *RefAgent() const { return _agent; }
+  const PLAAgent *GetAgent() const { return _agent; }
+  PLAAgent *RefAgent() const { return _agent; }
 
 // GRAOBJBinder::Item /////////////////////////////////////////////////////////////
 private:
