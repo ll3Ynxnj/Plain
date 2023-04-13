@@ -37,9 +37,11 @@ void PLAOBJApp::RemoveTimelineThread(const PLAOBJTimeline *aThread)
 
 void PLAOBJApp::PrintNodes() const
 {
-  GRA_PRINT(" LV :  STEPS / LENGTH | CURRENT | NAME                             |\n");
+  GRA_PRINT("//-- void PLAOBJApp::PrintNodes() const ////////////////////////////////////////\n");
+  GRA_PRINT(" LV :  STEPS / LENGTH | CURRENT | NAME                                         |\n");
   _rootThread.PrintNodes();
-  GRA_PRINT("----:-----------------|---------|----------------------------------|\n");
+  GRA_PRINT("----:-----------------|---------|----------------------------------------------|\n");
+  GRA_PRINT("////////////////////////////////////////////////////////////////////////////////\n");
 }
 
 /*
@@ -121,14 +123,21 @@ void PLAOBJApp::Input(PLAInputDeviceType aDevice, PLAInputSignalCode aCode,
 
 void PLAOBJApp::Update()
 {
-  GRA_PRINT("-- Update -- _frame: %8d\n", _frame);
+  static auto isDebugging = false;
+  if (isDebugging) {
+    GRA_PRINT("//-- PLAOBJApp::Update() -- _frame: %8d \n", _frame);
+    GRA_PRINT("--////////////////////////////////\n");
+  }
   PLAObject::Manager::Instance()->DeleteUnboundObjects();
   PLAInputManager::Instance()->Flush();
   UpdateTimelineThread();
   _stage->Update();
-  _stage->PrintActors();
-  PLAObject::Manager::Instance()->PrintObjects();
-  this->PrintNodes();
+  if (isDebugging)
+  {
+    _stage->PrintActors();
+    PLAObject::Manager::Instance()->PrintObjects();
+    this->PrintNodes();
+  }
   ++_frame;
 }
 

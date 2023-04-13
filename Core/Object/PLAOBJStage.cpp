@@ -53,7 +53,11 @@ void PLAOBJStage::AddActor(PLAOBJActor *aActor)
 
 void PLAOBJStage::PrintActors() const
 {
+  GRA_PRINT("//-- PLAOBJStage::PrintActors() const --\n");
+  GRA_PRINT("////////////////////////////////////////\n");
   _context->PrintActors();
+  GRA_PRINT("////////////////////////////////////////\n");
+  GRA_PRINT("////////////////////////////////////////\n");
 }
 
 void PLAOBJStage::SetSize(const PLAVec3f &aSize)
