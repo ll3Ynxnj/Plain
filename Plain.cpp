@@ -36,6 +36,16 @@ PLAAGTStage *Plain::Stage()
   return agent;
 }
 
+PLAAGTScene *Plain::Scene()
+{
+  static PLAAGTScene *agent = nullptr;
+  if (agent == nullptr) {
+    PLAOBJScene *scene = PLAOBJApp::Scene();
+    agent = static_cast<PLAAGTScene *>(scene->AssignAgent());
+  }
+  return agent;
+}
+
 /*
 void Plain::Stage::AddListener(GRAOBJListener<PLAAGTStage, PLAAGTStage::FunctionCode> *aListener)
 {

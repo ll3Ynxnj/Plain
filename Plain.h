@@ -24,6 +24,7 @@ public:
   static void Delete(const std::string &aName);
   static PLAAGTState *State();
   static PLAAGTStage *Stage();
+  static PLAAGTScene *Scene();
 
   class Error {
     static void Assert(const std::string &aMessage);
