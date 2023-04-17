@@ -13,8 +13,20 @@ PLAOBJState *PLAOBJState::Create()
   return state;
 }
 
+PLAOBJState *PLAOBJState::Object(const PLAString &aName)
+{
+  auto object = PLAObject::Object(PLAObjectType::State, aName);
+  return static_cast<PLAOBJState *>(object);
+}
+
+PLAOBJState *PLAOBJState::Object(PLAId aId)
+{
+  auto object = PLAObject::Object(PLAObjectType::State, aId);
+  return static_cast<PLAOBJState *>(object);
+}
+
 PLAOBJState::PLAOBJState() :
-  PLAObject(PLAObjectType::Stage)
+  PLAObject(PLAObjectType::State)
 {
   _context = PLAOBJModel::Create();
   _context->SetObjectName("StateContext");
@@ -29,6 +41,10 @@ PLAOBJState::~PLAOBJState()
 void PLAOBJState::Init()
 {
   _context->Init();
+}
+
+PLAAGTState PLAOBJState::AssignAgent() {
+  return PLAAGTState(this);
 }
 
 void PLAOBJState::AddModel(PLAOBJModel *aModel)

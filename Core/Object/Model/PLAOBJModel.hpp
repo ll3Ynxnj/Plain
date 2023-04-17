@@ -11,6 +11,8 @@
 #include "Object/PLAObject.hpp"
 #include "Property/PLAProperty.hpp"
 
+class PLAAGTModel;
+
 class PLAOBJModel :
 public PLAObject
 {
@@ -20,6 +22,8 @@ public PLAObject
 
 public:
   static PLAOBJModel *Create();
+  static PLAOBJModel *Object(const PLAString &aName);
+  static PLAOBJModel *Object(PLAId aId);
 
   PLAOBJModel();
   explicit PLAOBJModel(PLAString aName);
@@ -27,6 +31,7 @@ public:
 
   void Init();
 
+  PLAAGTModel AssignAgent();
   void AddModel(PLAOBJModel *aModel);
 
   const PLAProperty &GetProperty(const PLAString &aKey);

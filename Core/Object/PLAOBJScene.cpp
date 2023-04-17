@@ -10,14 +10,16 @@ PLAOBJScene *PLAOBJScene::Create()
   return scene;
 }
 
-PLAOBJScene *PLAOBJScene::Scene(const PLAString &aName)
+PLAOBJScene *PLAOBJScene::Object(const PLAString &aName)
 {
-  return static_cast<PLAOBJScene *>(PLAObject::Object(aName));
+  auto object = PLAObject::Object(PLAObjectType::Scene, aName);
+  return static_cast<PLAOBJScene *>(object);
 }
 
-PLAOBJScene *PLAOBJScene::Scene(PLAId aId)
+PLAOBJScene *PLAOBJScene::Object(PLAId aId)
 {
-  return static_cast<PLAOBJScene *>(PLAObject::Object(aId));
+  auto object = PLAObject::Object(PLAObjectType::Scene, aId);
+  return static_cast<PLAOBJScene *>(object);
 }
 
 PLAOBJScene::PLAOBJScene() :
@@ -33,27 +35,32 @@ PLAOBJScene::~PLAOBJScene() {
 
 void PLAOBJScene::Init() {
   _functor.RunFunction(FunctionCode::OnInit, this);
-  for (GRAOBJListener<PLAOBJScene, FunctionCode> *listener: _listeners)
+  for (GRAOBJListener<PLAOBJScene *, FunctionCode> *listener: _listeners)
   { listener->RunListener(FunctionCode::OnInit, this); }
 };
 
 void PLAOBJScene::Update() {
   _functor.RunFunction(FunctionCode::OnUpdate, this);
-  for (GRAOBJListener<PLAOBJScene, FunctionCode> *listener: _listeners)
+  for (GRAOBJListener<PLAOBJScene *, FunctionCode> *listener: _listeners)
   { listener->RunListener(FunctionCode::OnUpdate, this); }
 };
 
 void PLAOBJScene::Appear() {
   _functor.RunFunction(FunctionCode::OnAppear, this);
-  for (GRAOBJListener<PLAOBJScene, FunctionCode> *listener: _listeners)
+  for (GRAOBJListener<PLAOBJScene *, FunctionCode> *listener: _listeners)
   { listener->RunListener(FunctionCode::OnAppear, this); }
 };
 
 void PLAOBJScene::Disappear() {
   _functor.RunFunction(FunctionCode::OnDisappear, this);
-  for (GRAOBJListener<PLAOBJScene, FunctionCode> *listener: _listeners)
+  for (GRAOBJListener<PLAOBJScene *, FunctionCode> *listener: _listeners)
   { listener->RunListener(FunctionCode::OnDisappear, this); }
 };
+
+PLAAGTScene PLAOBJScene::AssignAgent()
+{
+  return PLAAGTScene(this);
+}
 
 void PLAOBJScene::AddActor(PLAOBJActor *aActor) {
   //PLAOBJActor::Bind(aActor);

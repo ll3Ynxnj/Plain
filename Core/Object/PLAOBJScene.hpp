@@ -15,6 +15,7 @@ class PLAOBJScene final :
   public PLAObject, public GRAOBJBinder<PLAOBJActor>
 {
 public:
+
   enum class FunctionCode : PLAFunctionCode
   {
     OnInit,
@@ -27,18 +28,18 @@ public:
   };
 
 private:
-  std::list<GRAOBJListener<PLAOBJScene, FunctionCode> *> _listeners =
-    std::list<GRAOBJListener<PLAOBJScene, FunctionCode> *>();
-  GRAOBJFunctor<PLAOBJScene, FunctionCode> _functor =
-    GRAOBJFunctor<PLAOBJScene, FunctionCode>();
+  std::list<GRAOBJListener<PLAOBJScene *, FunctionCode> *> _listeners =
+    std::list<GRAOBJListener<PLAOBJScene *, FunctionCode> *>();
+  GRAOBJFunctor<PLAOBJScene *, FunctionCode> _functor =
+    GRAOBJFunctor<PLAOBJScene *, FunctionCode>();
 
 protected:
   PLAOBJScene();
 
 public:
   static PLAOBJScene *Create();
-  static PLAOBJScene *Scene(const PLAString &aName);
-  static PLAOBJScene *Scene(PLAId aId);
+  static PLAOBJScene *Object(const PLAString &aName);
+  static PLAOBJScene *Object(PLAId aId);
 
   virtual ~PLAOBJScene();
 
@@ -52,10 +53,12 @@ public:
   void Appear();
   void Disappear();
 
-  void AddListener(GRAOBJListener<PLAOBJScene, FunctionCode> *aListener)
+  PLAAGTScene AssignAgent();
+
+  void AddListener(GRAOBJListener<PLAOBJScene *, FunctionCode> *aListener)
   { _listeners.push_back(aListener); };
 
-  void RemoveListener(GRAOBJListener<PLAOBJScene, FunctionCode> *aListener)
+  void RemoveListener(GRAOBJListener<PLAOBJScene *, FunctionCode> *aListener)
   { _listeners.remove(aListener); };
 
   void SetFunction(FunctionCode aKey,

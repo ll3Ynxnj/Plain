@@ -19,7 +19,7 @@ const char *PLAObject::GetBinderErrorMessage(Binder::Error aError)
   return kBinderErrorMessages.at(aError);
 }
 
-PLAObject *PLAObject::Object(const PLAString &aName)
+PLAObject *PLAObject::Object(PLAObjectType aType, const PLAString &aName)
 {
   Binder::Error error = Binder::Error::None;
   Binder::Item *item = PLAObject::Manager::Instance()->RefItem(aName, &error);
@@ -28,13 +28,17 @@ PLAObject *PLAObject::Object(const PLAString &aName)
       break;
     default :
       return nullptr;
-      //PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Failed to get object.",
-      //                PLAObject::GetBinderErrorMessage(error));
+      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Failed to get object.",
+                      PLAObject::GetBinderErrorMessage(error));
   }
-  return static_cast<PLAObject *>(item);
+  auto object = static_cast<PLAObject *>(item);
+  if (object->GetObjectType() != aType) {
+    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Object type is not matched.");
+  }
+  return object;
 }
 
-PLAObject *PLAObject::Object(PLAId aId)
+PLAObject *PLAObject::Object(PLAObjectType aType, PLAId aId)
 {
   GRAOBJBinder<PLAObject>::Error error = GRAOBJBinder<PLAObject>::Error::None;
   GRAOBJBinder<PLAObject>::Item *item =
@@ -46,7 +50,11 @@ PLAObject *PLAObject::Object(PLAId aId)
       PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Failed to get object.",
                       PLAObject::GetBinderErrorMessage(error));
   }
-  return static_cast<PLAObject *>(item);
+  auto object = static_cast<PLAObject *>(item);
+  if (object->GetObjectType() != aType) {
+    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Object type is not matched.");
+  }
+  return object;
 }
 
 void PLAObject::Bind()
@@ -110,37 +118,15 @@ void PLAObject::Print()
   GRA_PRINT("PLAObject : %8d, %d\n", this->GetId(), this);
 }
 
-PLAAgent *PLAObject::AssignAgent()
-{
-  if (!_agent) {
-    _agent = PLAAgent::Create(this);
-  }
+void PLAObject::RetainAgent() {
   ++_agentReferenceCounter;
-
-  GRA_PRINT("AssignAgent : %s : %d\n",
+  GRA_PRINT("RetainAgent : %s : %d\n",
             this->GetObjectName().c_str(), _agentReferenceCounter);
-  return _agent;
-
-  /*
-  PLAOBJAgent *agent = PLAOBJAgent::Create(this);
-  _agents.push_back(agent);
-  return agent;
-   */
 }
 
 void PLAObject::ReleaseAgent()/*const PLAOBJAgent *aAgent)*/
 {
   --_agentReferenceCounter;
-  if (_agentReferenceCounter == 0)
-  {
-    //PLAObject::Object(aAgent->GetObjectId())->Unbind();
-    //_agent->Unbind();
-    delete(_agent);
-  }
-  /*
-  PLAObject::Object(aAgent->GetObjectId())->Unbind();
-  std::erase(_agents, aAgent);
-   */
   GRA_PRINT("ReleaseAgent : %s : %d\n",
             this->GetObjectName().c_str(), _agentReferenceCounter);
 }
@@ -228,8 +214,7 @@ void PLAObject::Manager::PrintObjects() const
       PLAObjectType type = object->GetObjectType();
       GRA_PRINT(" %4d | %4d | %32s | %4d | %5s | %14s\n",
                 i, object->GetId(), object->GetName().c_str(), type,
-                object->GetAgent() ?
-                std::to_string(object->_agentReferenceCounter).c_str() : "NULL",
+                std::to_string(object->_agentReferenceCounter).c_str(),
                 kPLAObjectTypeName[static_cast<PLAId>(type)]);
     } else {
       GRA_PRINT(" %4d | %s | %s | %s | %s | %s\n",

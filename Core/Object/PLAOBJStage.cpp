@@ -9,6 +9,18 @@ PLAOBJStage *PLAOBJStage::Create()
   return stage;
 }
 
+PLAOBJStage *PLAOBJStage::Object(const PLAString &aName)
+{
+  auto object = PLAObject::Object(PLAObjectType::Stage, aName);
+  return static_cast<PLAOBJStage *>(object);
+}
+
+PLAOBJStage *PLAOBJStage::Object(PLAId aId)
+{
+  auto object = PLAObject::Object(PLAObjectType::Stage, aId);
+  return static_cast<PLAOBJStage *>(object);
+}
+
 PLAOBJStage::PLAOBJStage() :
 PLAObject(PLAObjectType::Stage)
 {
@@ -27,18 +39,45 @@ void PLAOBJStage::Init()
 {
   _context->Init();
 
-  PLAAgent *agent = this->RefAgent();
-  PLAAGTStage *stageAgent = static_cast<PLAAGTStage *>(agent);
-  stageAgent->RunFunction(PLAAGTStage::FunctionCode::OnInit);
+  //PLAAgent *agent = this->RefAgent();
+  //PLAAGTStage *stageAgent = static_cast<PLAAGTStage *>(agent);
+  //stageAgent->RunFunction(PLAAGTStage::FunctionCode::OnInit);
+  PLAAGTStage agent = this->AssignAgent();
+  agent.RunFunction(PLAOBJStage::FunctionCode::OnInit);
 }
 
 void PLAOBJStage::Update()
 {
   _context->Update();
-  PLAAgent *agent = this->RefAgent();
-  PLAAGTStage *stageAgent = static_cast<PLAAGTStage *>(agent);
-  stageAgent->RunFunction(PLAAGTStage::FunctionCode::OnUpdate);
+
+  //PLAAgent *agent = this->RefAgent();
+  //PLAAGTStage *stageAgent = static_cast<PLAAGTStage *>(agent);
+  //stageAgent->RunFunction(PLAAGTStage::FunctionCode::OnUpdate);
+  PLAAGTStage agent = this->AssignAgent();
+  agent.RunFunction(PLAOBJStage::FunctionCode::OnUpdate);
 }
+
+PLAAGTStage PLAOBJStage::AssignAgent()
+{
+  return PLAAGTStage(this);
+}
+
+void PLAOBJStage::AddListener(GRAOBJListener<PLAAGTStage, PLAOBJStage::FunctionCode> *aListener)
+{ _listeners.push_back(aListener); };
+
+void PLAOBJStage::RemoveListener(GRAOBJListener<PLAAGTStage, PLAOBJStage::FunctionCode> *aListener)
+{ _listeners.remove(aListener); };
+
+void PLAOBJStage::SetFunction(PLAOBJStage::FunctionCode aKey,
+                 const std::function<void(PLAAGTStage)> &aFunc)
+{ _functor.SetFunction(aKey, aFunc); };
+
+void PLAOBJStage::RunFunction(PLAOBJStage::FunctionCode aKey)
+{
+  _functor.RunFunction(aKey, this->AssignAgent());//this->RefStage());
+  for (GRAOBJListener<PLAAGTStage, PLAOBJStage::FunctionCode> *listener: _listeners)
+  { listener->RunListener(aKey, this->AssignAgent()); }//this->RefStage()); }
+};
 
 void PLAOBJStage::AddActor(PLAOBJActor *aActor)
 {
@@ -63,9 +102,11 @@ void PLAOBJStage::PrintActors() const
 void PLAOBJStage::SetSize(const PLAVec3f &aSize)
 {
   _context->SetSize(aSize);
-  PLAAgent *agent = this->RefAgent();
-  PLAAGTStage *stageAgent = static_cast<PLAAGTStage *>(agent);
-  stageAgent->RunFunction(PLAAGTStage::FunctionCode::OnResize);
+  //PLAAgent *agent = this->RefAgent();
+  //PLAAGTStage *stageAgent = static_cast<PLAAGTStage *>(agent);
+  //stageAgent->RunFunction(PLAAGTStage::FunctionCode::OnResize);
+  PLAAGTStage agent = this->AssignAgent();
+  agent.RunFunction(PLAOBJStage::FunctionCode::OnResize);
 }
 
 // PLAInputHandler /////////////////////////////////////////////////////////////

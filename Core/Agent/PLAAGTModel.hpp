@@ -13,8 +13,10 @@ class PLAAGTModel final : public PLAAgent//, public PLAInputContext
 {
 public:
   /// Agent is const method only.
-  static PLAAGTModel *Create(PLAOBJModel *aModel);
+  //static PLAAGTModel *Create(PLAOBJModel *aModel);
 
+  PLAAGTModel() = default;
+  explicit PLAAGTModel(PLAOBJModel *aModel);
   virtual ~PLAAGTModel() noexcept;
 
   PLABool GetBool(const PLAString &aName) const;
@@ -32,26 +34,24 @@ public:
   const PLAVec3s &GetVec3s(const PLAString &aName) const;
   const PLAVec4s &GetVec4s(const PLAString &aName) const;
 
-  void SetBool(const PLAString &aName, PLABool aValue);
-  void SetInt(const PLAString &aName, PLAInt aValue);
-  void SetUInt(const PLAString &aName, PLAUInt aValue);
-  void SetFloat(const PLAString &aName, PLAFloat aValue);
+  void SetBool(const PLAString &aName, PLABool aValue) const;
+  void SetInt(const PLAString &aName, PLAInt aValue) const;
+  void SetUInt(const PLAString &aName, PLAUInt aValue) const;
+  void SetFloat(const PLAString &aName, PLAFloat aValue) const;
 
-  void SetVec2f(const PLAString &aName, const PLAVec2f &aValue);
-  void SetVec3f(const PLAString &aName, const PLAVec3f &aValue);
-  void SetVec4f(const PLAString &aName, const PLAVec4f &aValue);
-  void SetVec2i(const PLAString &aName, const PLAVec2i &aValue);
-  void SetVec3i(const PLAString &aName, const PLAVec3i &aValue);
-  void SetVec4i(const PLAString &aName, const PLAVec4i &aValue);
-  void SetVec2s(const PLAString &aName, const PLAVec2s &aValue);
-  void SetVec3s(const PLAString &aName, const PLAVec3s &aValue);
-  void SetVec4s(const PLAString &aName, const PLAVec4s &aValue);
+  void SetVec2f(const PLAString &aName, const PLAVec2f &aValue) const;
+  void SetVec3f(const PLAString &aName, const PLAVec3f &aValue) const;
+  void SetVec4f(const PLAString &aName, const PLAVec4f &aValue) const;
+  void SetVec2i(const PLAString &aName, const PLAVec2i &aValue) const;
+  void SetVec3i(const PLAString &aName, const PLAVec3i &aValue) const;
+  void SetVec4i(const PLAString &aName, const PLAVec4i &aValue) const;
+  void SetVec2s(const PLAString &aName, const PLAVec2s &aValue) const;
+  void SetVec3s(const PLAString &aName, const PLAVec3s &aValue) const;
+  void SetVec4s(const PLAString &aName, const PLAVec4s &aValue) const;
 
   void PrintModels() const;
 
 protected:
-  explicit PLAAGTModel(PLAOBJModel *aModel);
-
   const PLAOBJModel *GetModel() const
   { return static_cast<const PLAOBJModel *>(this->GetOwner()); }
   PLAOBJModel *RefModel() const

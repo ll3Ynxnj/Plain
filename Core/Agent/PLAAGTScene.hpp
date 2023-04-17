@@ -12,13 +12,12 @@ class PLAAGTScene final : public PLAAgent
 {
 public:
   /// Agent is const method only.
-  static PLAAGTScene *Create(PLAOBJScene *aScene);
+  //static PLAAGTScene *Create(PLAOBJScene *aScene);
 
+  explicit PLAAGTScene(PLAOBJScene *aScene);
   virtual ~PLAAGTScene() noexcept;
 
 protected:
-  explicit PLAAGTScene(PLAOBJScene *aScene);
-
   const PLAOBJScene *GetStage() const
   { return static_cast<const PLAOBJScene *>(this->GetOwner()); }
   PLAOBJScene *RefStage() const

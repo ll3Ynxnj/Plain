@@ -13,8 +13,9 @@ class PLAAGTActor final : public PLAAgent//, public PLAInputContext
 {
 public:
   /// Agent is const method only.
-  static PLAAGTActor *Create(PLAOBJActor *aActor);
+  //static PLAAGTActor *Create(PLAOBJActor *aActor);
 
+  explicit PLAAGTActor(PLAOBJActor *aActor);
   virtual ~PLAAGTActor() noexcept;
 
   void SetColor(const PLAColor &aColor) const;
@@ -34,20 +35,18 @@ public:
   void SetFunctorForInputWithTouch
     (PLAInputSignalCodeForTouch aSignalCode,
      PLAInputActionCodeForTouch aActionCode,
-     const std::function<void(PLAAGTActor *, const PLAInput &)> &aFunc);
+     const std::function<void(const PLAAGTActor &, const PLAInput &)> &aFunc) const;
   void SetFunctorForInputWithMouse
     (PLAInputSignalCodeForMouse aSignalCode,
      PLAInputActionCodeForMouse aActionCode,
-     const std::function<void(PLAAGTActor *, const PLAInput &)> &aFunc);
+     const std::function<void(const PLAAGTActor &, const PLAInput &)> &aFunc) const;
   void SetFunctorForInputWithKeyboard
     (PLAInputSignalCodeForKeyboard aSignalCode,
      PLAInputActionCodeForKeyboard aActionCode,
-     const std::function<void(PLAAGTActor *, const PLAInput &)> &aFunc);
+     const std::function<void(const PLAAGTActor &, const PLAInput &)> &aFunc) const;
 
 
 protected:
-  explicit PLAAGTActor(PLAOBJActor *aActor);
-
   const PLAOBJActor *GetActor() const
   { return static_cast<const PLAOBJActor *>(this->GetOwner()); }
   PLAOBJActor *RefActor() const

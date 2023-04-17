@@ -12,10 +12,13 @@ PLAOBJScene *PLAOBJApp::Scene()
 
 PLAOBJActor *PLAOBJApp::Actor(const PLAString &aName)
 {
+  /*
   PLAObject *object = PLAObject::Object(aName);
   if (object && object->GetObjectType() == PLAObjectType::Actor)
   { return static_cast<PLAOBJActor *>(object); }
   return nullptr;
+   */
+  return PLAOBJActor::Object(aName);
 }
 
 void PLAOBJApp::AddTimelineThread(PLAOBJTimeline *aThread)

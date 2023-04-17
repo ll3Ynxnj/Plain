@@ -23,9 +23,9 @@ public:
 
   static void Init(PLARendererType aType);
   static void Delete(const std::string &aName);
-  static PLAAGTState *State();
-  static PLAAGTStage *Stage();
-  static PLAAGTScene *Scene();
+  static PLAAGTState State();
+  static PLAAGTStage Stage();
+  static PLAAGTScene Scene();
 
   class Error {
     static void Assert(const std::string &aMessage);
@@ -34,12 +34,12 @@ public:
 
   class State {
   public:
-    static const void AddModel(PLAAGTModel *aModel);
+    static const void AddModel(const PLAAGTModel &aModel);
   };
 
   class Stage {
   public:
-    static const void AddActor(PLAAGTActor *aActor);
+    static const void AddActor(const PLAAGTActor &aActor);
     /*
     void AddListener(GRAOBJListener<PLAAGTStage, PLAAGTStage::FunctionCode> *aListener);
     void RemoveListener(GRAOBJListener<PLAAGTStage, PLAAGTStage::FunctionCode> *aListener);
@@ -53,62 +53,62 @@ public:
 
   class Scene {
   public:
-    static PLAAGTScene *Create();
-    static PLAAGTScene *Create(const PLAString &aName);
-    static PLAAGTScene *Assign(const PLAString &aName);
-    static void Push(const PLAAGTScene *aCreate);
+    static PLAAGTScene Create();
+    static PLAAGTScene Create(const PLAString &aName);
+    static PLAAGTScene Assign(const PLAString &aName);
+    static void Push(const PLAAGTScene &aAgent);
   };
 
   class Model {
   public:
-    static PLAAGTModel *Create();
-    static PLAAGTModel *Create(const PLAString &aName);
-    static PLAAGTModel *Assign(const PLAString &aName);
+    static PLAAGTModel Create();
+    static PLAAGTModel Create(const PLAString &aName);
+    static PLAAGTModel Assign(const PLAString &aName);
   };
 
   class Actor {
   public:
-    static PLAAGTActor *CreateRect(const PLAVec3f &aPivot,
-                                   const PLAColor &aColor,
-                                   const PLATransform &aTransform,
-                                   const PLARect &aRect);
-    static PLAAGTActor *CreateRect(const PLAVec3f &aPivot,
-                                   const PLAColor &aColor,
-                                   const PLATransform &aTransform,
-                                   const PLARect &aRect,
-                                   const PLAColor &aFillColor);
-    static PLAAGTActor *CreateRect(const PLAVec3f &aPivot,
-                                   const PLAColor &aColor,
-                                   const PLATransform &aTransform,
-                                   const PLARect &aRect,
-                                   const std::string &aImage,
-                                   const PLARect &aClip);
-    static PLAAGTActor *CreateCircle(const PLAVec3f &aPivot,
-                                     const PLAColor &aColor,
-                                     const PLATransform &aTransform,
-                                     const PLACircle &aCircle);
-    static PLAAGTActor *CreateCircle(const PLAVec3f &aPivot,
-                                     const PLAColor &aColor,
-                                     const PLATransform &aTransform,
-                                     const PLACircle &aCircle,
-                                     const PLAColor &aFillColor);
-    static PLAAGTActor *CreateCircle(const PLAVec3f &aPivot,
-                                     const PLAColor &aColor,
-                                     const PLATransform &aTransform,
-                                     const PLACircle &aCircle,
-                                     const std::string &aImage,
-                                     const PLARect &aClip);
-    static PLAAGTActor *CreateTile(const PLAVec2f &aOffset,
-                                   const std::string &aImageName,
-                                   const GRAVec2<PLASize> &aTileSize,
-                                   const GRAVec2<PLASize> &aChipSize,
-                                   const IPLATileLayerDataSource *aDataSource);
-    static PLAAGTActor *Assign(const PLAString &aName);
+    static PLAAGTActor CreateRect(const PLAVec3f &aPivot,
+                                  const PLAColor &aColor,
+                                  const PLATransform &aTransform,
+                                  const PLARect &aRect);
+    static PLAAGTActor CreateRect(const PLAVec3f &aPivot,
+                                  const PLAColor &aColor,
+                                  const PLATransform &aTransform,
+                                  const PLARect &aRect,
+                                  const PLAColor &aFillColor);
+    static PLAAGTActor CreateRect(const PLAVec3f &aPivot,
+                                  const PLAColor &aColor,
+                                  const PLATransform &aTransform,
+                                  const PLARect &aRect,
+                                  const std::string &aImage,
+                                  const PLARect &aClip);
+    static PLAAGTActor CreateCircle(const PLAVec3f &aPivot,
+                                    const PLAColor &aColor,
+                                    const PLATransform &aTransform,
+                                    const PLACircle &aCircle);
+    static PLAAGTActor CreateCircle(const PLAVec3f &aPivot,
+                                    const PLAColor &aColor,
+                                    const PLATransform &aTransform,
+                                    const PLACircle &aCircle,
+                                    const PLAColor &aFillColor);
+    static PLAAGTActor CreateCircle(const PLAVec3f &aPivot,
+                                    const PLAColor &aColor,
+                                    const PLATransform &aTransform,
+                                    const PLACircle &aCircle,
+                                    const std::string &aImage,
+                                    const PLARect &aClip);
+    static PLAAGTActor CreateTile(const PLAVec2f &aOffset,
+                                  const std::string &aImageName,
+                                  const GRAVec2<PLASize> &aTileSize,
+                                  const GRAVec2<PLASize> &aChipSize,
+                                  const IPLATileLayerDataSource *aDataSource);
+    static PLAAGTActor Assign(const PLAString &aName);
   };
 
 private:
   static const PLAObject *Object(const PLAAgent *aAgent);
-  static PLAAgent *Assign(const PLAString &aName);
+  //static PLAAgent *Assign(const PLAString &aName);
 };
 
 #endif //PLAIN_ENGINE_PLAIN_HPP

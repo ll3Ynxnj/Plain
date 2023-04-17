@@ -40,7 +40,7 @@ public:
   static PLAOBJState *State() { return _instance._state; };
   static PLAOBJStage *Stage() { return _instance._stage; };
   static PLAOBJScene *Scene();
-  static PLAOBJActor *Actor(const PLAString &aName);
+  static PLAOBJActor *Actor(const PLAString &aName); // PLAOBJActor::Object(aName)があるので不要では？
 
   /*static */void AddTimelineThread(PLAOBJTimeline *aThread);
   /*static */void UpdateTimelineThread();

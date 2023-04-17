@@ -10,6 +10,20 @@
 
 #include "Object/PLAOBJError.hpp"
 
+#include "Agent/PLAAGTActor.hpp"
+
+PLAOBJActor *PLAOBJActor::Object(const PLAString &aName)
+{
+  auto object = PLAObject::Object(PLAObjectType::Actor, aName);
+  return static_cast<PLAOBJActor *>(object);
+}
+
+PLAOBJActor *PLAOBJActor::Object(PLAId aId)
+{
+  auto object = PLAObject::Object(PLAObjectType::Actor, aId);
+  return static_cast<PLAOBJActor *>(object);
+}
+
 PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec3f &aPivot,
                                      const PLAColor &aColor,
                                      const PLATransform &aTransform,
@@ -201,6 +215,10 @@ void PLAOBJActor::Disappear()
   for (PLAOBJActor *actor : _actors) { actor->Disappear(); }
 }
 
+PLAAGTActor PLAOBJActor::AssignAgent() {
+  return PLAAGTActor(this);
+}
+
 void PLAOBJActor::PrintActors() const
 {
   static int indentLevel = 0;
@@ -216,7 +234,7 @@ void PLAOBJActor::PrintActors() const
 
 const char *PLAOBJActor::GetActorTypeName() const
 {
-  static const char *kName = "(ActorType)";//"== STUB ==";
+  static const char *kName = "(STUB: ActorType)";//"== STUB ==";
   return kName;
 }
 

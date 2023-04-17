@@ -21,6 +21,7 @@
 #include "Object/Timeline/PLATMLMotion.hpp"
 
 class PLAOBJRenderer;
+class PLAAGTActor;
 
 class PLAOBJActor final :
   public PLAObject, public PLAInputContext, public PLATimelineHolder,
@@ -30,6 +31,10 @@ class PLAOBJActor final :
 public:
   //static void Bind(PLAOBJActor *aObject);
   //static void Unbind(PLAOBJActor *aObject);
+
+  //static PLAOBJActor *Create();
+  static PLAOBJActor *Object(const PLAString &aName);
+  static PLAOBJActor *Object(PLAId aId);
 
 private:
   struct CollisionItem
@@ -54,7 +59,7 @@ private:
   //PLAStyle _style = PLAStyle();
   CollisionItem collisions[static_cast<unsigned>(PLAOBJActorCollisionCode::kNumberOfItems)];
 
-  GRAOBJFunctor<PLAOBJActor, PLAOBJActorFunctionCode> _functor = GRAOBJFunctor<PLAOBJActor, PLAOBJActorFunctionCode>();
+  GRAOBJFunctor<PLAOBJActor *, PLAOBJActorFunctionCode> _functor = GRAOBJFunctor<PLAOBJActor *, PLAOBJActorFunctionCode>();
 
   /// Calculate from pivot. Must be updated when pivot changes.
 
@@ -125,6 +130,8 @@ public:
   void Update();
   void Appear();
   void Disappear();
+
+  PLAAGTActor AssignAgent();
 
   void PrintActors() const;
 

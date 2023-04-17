@@ -4,6 +4,8 @@
 #include "PLAObject.hpp"
 #include "Object/Model/PLAOBJModel.hpp"
 
+class PLAAGTState;
+
 class PLAOBJState final: public PLAObject
 {
   PLAOBJModel *_context = nullptr;
@@ -13,10 +15,14 @@ protected:
 
 public:
   static PLAOBJState *Create();
+  static PLAOBJState *Object(const PLAString &aName);
+  static PLAOBJState *Object(PLAId aId);
 
   ~PLAOBJState();
 
   void Init();
+
+  PLAAGTState AssignAgent();
 
   void AddModel(PLAOBJModel *aModel);
   void PrintModels() const;

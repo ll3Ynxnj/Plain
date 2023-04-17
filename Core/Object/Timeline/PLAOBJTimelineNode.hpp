@@ -43,8 +43,8 @@ public:
   };
 
 private:
-  GRAOBJFunctor<PLAOBJTimelineNode, FunctionCode> _functor =
-    GRAOBJFunctor<PLAOBJTimelineNode, FunctionCode>();
+  GRAOBJFunctor<PLAOBJTimelineNode *, FunctionCode> _functor =
+    GRAOBJFunctor<PLAOBJTimelineNode *, FunctionCode>();
   Type _type = Type::None;
   PLAInt _steps = 0;
   PLAInt _length = 1;

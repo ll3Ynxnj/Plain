@@ -18,6 +18,7 @@
 #include "PLAAGTStage.hpp"
 #include "PLAAGTScene.hpp"
 
+/*
 PLAAgent *PLAAgent::Create(PLAObject *aOwner)
 {
   PLAAgent *agent = nullptr;
@@ -44,21 +45,33 @@ PLAAgent *PLAAgent::Create(PLAObject *aOwner)
   //agent->SetObjectName(name);
   return agent;
 }
+ */
+
+PLAAgent::PLAAgent() noexcept {
+
+}
 
 PLAAgent::PLAAgent(PLAObject *aObject) :
   //PLAObject(PLAObjectType::Agent),
   _owner(aObject)
 {
+  _owner->RetainAgent();
+}
 
+PLAAgent::PLAAgent(const PLAAgent &aAgent) noexcept {
+  _owner = aAgent._owner;
+  _owner->RetainAgent();
 }
 
 PLAAgent::~PLAAgent()
 {
-  this->Release();
+  _owner->ReleaseAgent();
 }
 
+/*
 void PLAAgent::Release() const
 {
   _owner->ReleaseAgent();
   _owner->Unbind();
 }
+ */

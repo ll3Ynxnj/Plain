@@ -5,12 +5,14 @@
 #include "PLAAGTState.hpp"
 #include "PLAAGTModel.hpp"
 
+/*
 PLAAGTState *PLAAGTState::Create(PLAOBJState *aState)
 {
   auto agent = new PLAAGTState(aState);
   //agent->PLAObject::Bind();
   return agent;
 }
+ */
 
 PLAAGTState::PLAAGTState(PLAOBJState *aState) :
   PLAAgent(aState)
@@ -23,17 +25,19 @@ PLAAGTState::~PLAAGTState() noexcept
 
 }
 
-void PLAAGTState::Init()
+void PLAAGTState::Init() const
 {
   static_cast<PLAOBJState *>(this->RefOwner())->Init();
 }
 
-void PLAAGTState::AddModel(PLAAGTModel *aAgent)
+void PLAAGTState::AddModel(const PLAAGTModel &aAgent) const
 {
-  PLAId modelId = aAgent->GetOwnerId();
-  PLAOBJModel *model = static_cast<PLAOBJModel *>(PLAObject::Object(modelId));
+  PLAId modelId = aAgent.GetOwnerId();
+  //PLAOBJModel *model = static_cast<PLAOBJModel *>(PLAObject::Object(modelId));
+  PLAOBJModel *model = PLAOBJModel::Object(modelId);
   PLAId stateId = this->GetOwnerId();
-  PLAOBJState *state = static_cast<PLAOBJState *>(PLAObject::Object(stateId));
+  //PLAOBJState *state = static_cast<PLAOBJState *>(PLAObject::Object(stateId));
+  PLAOBJState *state = PLAOBJState::Object(stateId);
   state->AddModel(model);
 }
 

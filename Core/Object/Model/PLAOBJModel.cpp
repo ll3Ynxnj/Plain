@@ -4,12 +4,25 @@
 
 #include "PLAOBJModel.hpp"
 #include "Object/PLAOBJError.hpp"
+#include "Agent/PLAAGTModel.hpp"
 
 PLAOBJModel *PLAOBJModel::Create()
 {
   PLAOBJModel *model = new PLAOBJModel();
   model->Bind();
   return model;
+}
+
+PLAOBJModel *PLAOBJModel::Object(const PLAString &aName)
+{
+  auto object = PLAObject::Object(PLAObjectType::Model, aName);
+  return static_cast<PLAOBJModel *>(object);
+}
+
+PLAOBJModel *PLAOBJModel::Object(PLAId aId)
+{
+  auto object = PLAObject::Object(PLAObjectType::Model, aId);
+  return static_cast<PLAOBJModel *>(object);
 }
 
 PLAOBJModel::PLAOBJModel() :
@@ -32,6 +45,11 @@ PLAOBJModel::~PLAOBJModel()
 void PLAOBJModel::Init()
 {
 
+}
+
+PLAAGTModel PLAOBJModel::AssignAgent()
+{
+  return PLAAGTModel(this);
 }
 
 void PLAOBJModel::AddModel(PLAOBJModel *aModel)

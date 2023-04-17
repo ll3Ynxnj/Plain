@@ -15,17 +15,16 @@ class PLAAGTState final : public PLAAgent
 {
 public:
   /// Agent is const method only.
-  static PLAAGTState *Create(PLAOBJState *aScene);
+  //static PLAAGTState *Create(PLAOBJState *aScene);
+  explicit PLAAGTState(PLAOBJState *aState);
 
   virtual ~PLAAGTState() noexcept;
 
-  void Init();
-  void AddModel(PLAAGTModel *aAgent);
+  void Init() const;
+  void AddModel(const PLAAGTModel &aAgent) const;
   void PrintModels() const;
 
 protected:
-  explicit PLAAGTState(PLAOBJState *aState);
-
   const PLAOBJState *GetState() const
   { return static_cast<const PLAOBJState *>(this->GetOwner()); }
   PLAOBJState *RefState() const

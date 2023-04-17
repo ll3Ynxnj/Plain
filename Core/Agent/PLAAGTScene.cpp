@@ -4,12 +4,14 @@
 
 #include "PLAAGTScene.hpp"
 
+/*
 PLAAGTScene *PLAAGTScene::Create(PLAOBJScene *aScene)
 {
   auto agent = new PLAAGTScene(aScene);
   //agent->PLAObject::Bind();
   return agent;
 }
+ */
 
 PLAAGTScene::PLAAGTScene(PLAOBJScene *aScene) :
   PLAAgent(aScene)

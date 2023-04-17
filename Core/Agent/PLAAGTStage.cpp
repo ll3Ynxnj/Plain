@@ -5,12 +5,14 @@
 #include "PLAAGTStage.hpp"
 #include "PLAAGTActor.hpp"
 
+/*
 PLAAGTStage *PLAAGTStage::Create(PLAOBJStage *aStage)
 {
   auto agent = new PLAAGTStage(aStage);
   //agent->PLAObject::Bind();
   return agent;
 }
+ */
 
 PLAAGTStage::PLAAGTStage(PLAOBJStage *aStage) :
   PLAAgent(aStage)
@@ -23,17 +25,18 @@ PLAAGTStage::~PLAAGTStage() noexcept
 
 }
 
-void PLAAGTStage::Init()
+void PLAAGTStage::Init() const
 {
   static_cast<PLAOBJStage *>(this->RefOwner())->Init();
 }
 
-void PLAAGTStage::AddActor(PLAAGTActor *aAgent)
+void PLAAGTStage::AddActor(const PLAAGTActor &aAgent) const
 {
-  PLAId actorId = aAgent->GetOwnerId();
-  PLAOBJActor *actor = static_cast<PLAOBJActor *>(PLAObject::Object(actorId));
+  PLAId actorId = aAgent.GetOwnerId();
+  //PLAOBJActor *actor = static_cast<PLAOBJActor *>(PLAObject::Object(actorId));
+  PLAOBJActor *actor = PLAOBJActor::Object(actorId);
   PLAId stageId = this->GetOwnerId();
-  PLAOBJStage *stage = static_cast<PLAOBJStage *>(PLAObject::Object(stageId));
+  PLAOBJStage *stage = PLAOBJStage::Object(stageId);
   stage->AddActor(actor);
 }
 
