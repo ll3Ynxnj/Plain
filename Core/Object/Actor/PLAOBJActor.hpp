@@ -26,13 +26,9 @@ class PLAAGTActor;
 class PLAOBJActor final :
   public PLAObject, public PLAInputContext, public PLATimelineHolder,
   public GRAOBJListener<PLAOBJScene, PLAOBJScene::FunctionCode>,
-  /*private*/public GRAOBJBinder<PLAOBJActor>::Item
+  public GRAOBJBinder<PLAOBJActor>::Item
 {
 public:
-  //static void Bind(PLAOBJActor *aObject);
-  //static void Unbind(PLAOBJActor *aObject);
-
-  //static PLAOBJActor *Create();
   static PLAOBJActor *Object(const PLAString &aName);
   static PLAOBJActor *Object(PLAId aId);
 
@@ -48,15 +44,7 @@ private:
   PLAVec3f _pivot = kPLAVec3fNone;
   PLAColor _color = kPLAColorWhite;
   PLATransform _transform = kPLATransformNorm;
-  //-- Not affect child actors
-  /*
-  PLATMLMotionNode _motion = PLATMLMotionNode();
-  std::map<PLATMLMotionType, PLAProperty> _motionProperties =
-    std::map<PLATMLMotionType, PLAProperty>();
-  */
-
   PLAOBJLayer *_layer = nullptr;
-  //PLAStyle _style = PLAStyle();
   CollisionItem collisions[static_cast<unsigned>(PLAOBJActorCollisionCode::kNumberOfItems)];
 
   GRAOBJFunctor<PLAOBJActor *, PLAOBJActorFunctionCode> _functor = GRAOBJFunctor<PLAOBJActor *, PLAOBJActorFunctionCode>();
@@ -68,16 +56,8 @@ protected:
               const PLAColor &aColor,
               const PLATransform &aTransform,
               PLAOBJLayer *aLayer);//,
-           //PLATMLMotionNode *aMotion);
 
 public:
-  /*
-  static PLAOBJActor *Create(const PLAVec3f &aPivot,
-                          const PLAColor &aColor,
-                          const PLATransform &aTransform,
-                          const Layer &aLayer);
-                          */
-
   static PLAOBJActor *CreateRect(const PLAVec3f &aPivot,
                                  const PLAColor &aColor,
                                  const PLATransform &aTransform,
@@ -137,10 +117,8 @@ public:
 
   const char *GetActorTypeName() const;
 
-  //bool IsCollideWithInput(const PLAInput &aInput) const;
   bool IsCollideWithActor(const PLAOBJActor *aActor) const;
   bool IsCollideWithPoint(PLAPoint aPoint) const;
-  //bool IsCollideWithRect(PLARect aRect) const;
 
   const std::list<PLAOBJActor *> *GetActors() const { return &_actors; };
   const PLAVec3f &GetPivot() const { return _pivot; };
@@ -155,29 +133,6 @@ public:
 
   PLAOBJLayerType GetLayerType() const { return _layer->GetLayerType(); };
 
-  //const PLAProperty &GetMotionProperty(PLATMLMotionType aType)
-  //{ return _motionProperties[aType]; };
-  //const PLAStyle *GetLayerStyle() const { return _layer->GetStyle(); }
-
-  //const PLAStyle *GetStyle() const { return &_style; };
-  //void SetStyle(const PLAStyle &aStyle) { _style = aStyle; }
-
-  /*
-  const PLALYRRect *GetLayerRect() const;
-  const PLALYRCircle *GetLayerCircle() const;
-  */
-
-  //void AddMotion(PLATMLMotionNode *aMotion);
-  /*
-  void AddMotion(PLATMLMotionType aType, const PLAProperty &aDistance,
-                 PLAFloat aDuration);
-  void AddMotionAlpha(PLAFloat aAlpha, PLAFloat aDuration);
-  void AddMotionColor(const PLAColor &aColor, PLAFloat aDuration);
-  void AddMotionTranslation(const PLAVec3f &aTranslation, PLAFloat aDuration);
-  void AddMotionRotation(const PLAVec3f &aRotation, PLAFloat aDuration);
-  void AddMotionScale(const PLAVec3f &aScale, PLAFloat aDuration);
-   */
-
   size_t GetNumberOfActors() { return _actors.size(); };
 
   class PLALYRPoint *RefLYRPoint();
@@ -190,7 +145,6 @@ public:
   PLAOBJActor *RefResponsiveActorWithPoint(const PLAPoint &aPoint,
                                            const PLAInputDeviceType aDeviceType,
                                            const PLAInputSignalCode aSignalCode);
-  //PLAOBJActor *RefActorWithInput(const PLAInput &aInput);
 
   void SetColor(const PLAColor &aColor)
   { _color = aColor; };
@@ -211,14 +165,9 @@ public:
   { _functor.SetFunction(aKey, aFunc); };
 
   void AddTileMotion(const PLAVec2s &aAddress, PLATMLMotion *aThread);
-  //void AddTileMotions(const PLAVec2s &aAddress, const std::vector<PLATMLMotionNode *> &aMotion);
-  //void SetTileMotion(const PLAVec2s &aAddress, PLATMLMotionNode *aMotion);
 
 private:
   void OnUpdate();
-  //void OnUpdateMotions();
-
-  //void UpdateMotions();
   void RefreshLayerOffset();
 
 //-- GRAOBJBinder::Item --/////////////////////////////////////////////////////////

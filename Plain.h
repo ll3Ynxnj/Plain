@@ -28,6 +28,8 @@ public:
   static PLAAGTScene Scene();
 
   class Error {
+  public:
+    using Type = PLAOBJErrorType;
     static void Assert(const std::string &aMessage);
     static void Expect(const std::string &aMessage);
   };
@@ -39,6 +41,7 @@ public:
 
   class Stage {
   public:
+    using Function = PLAOBJStage::FunctionCode;
     static const void AddActor(const PLAAGTActor &aActor);
     /*
     void AddListener(GRAOBJListener<PLAAGTStage, PLAAGTStage::FunctionCode> *aListener);
@@ -53,6 +56,7 @@ public:
 
   class Scene {
   public:
+    using Function = PLAOBJScene::FunctionCode;
     static PLAAGTScene Create();
     static PLAAGTScene Create(const PLAString &aName);
     static PLAAGTScene Assign(const PLAString &aName);

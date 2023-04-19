@@ -38,10 +38,6 @@ PLAOBJStage::~PLAOBJStage()
 void PLAOBJStage::Init()
 {
   _context->Init();
-
-  //PLAAgent *agent = this->RefAgent();
-  //PLAAGTStage *stageAgent = static_cast<PLAAGTStage *>(agent);
-  //stageAgent->RunFunction(PLAAGTStage::FunctionCode::OnInit);
   PLAAGTStage agent = this->AssignAgent();
   agent.RunFunction(PLAOBJStage::FunctionCode::OnInit);
 }
@@ -49,10 +45,6 @@ void PLAOBJStage::Init()
 void PLAOBJStage::Update()
 {
   _context->Update();
-
-  //PLAAgent *agent = this->RefAgent();
-  //PLAAGTStage *stageAgent = static_cast<PLAAGTStage *>(agent);
-  //stageAgent->RunFunction(PLAAGTStage::FunctionCode::OnUpdate);
   PLAAGTStage agent = this->AssignAgent();
   agent.RunFunction(PLAOBJStage::FunctionCode::OnUpdate);
 }
@@ -102,9 +94,6 @@ void PLAOBJStage::PrintActors() const
 void PLAOBJStage::SetSize(const PLAVec3f &aSize)
 {
   _context->SetSize(aSize);
-  //PLAAgent *agent = this->RefAgent();
-  //PLAAGTStage *stageAgent = static_cast<PLAAGTStage *>(agent);
-  //stageAgent->RunFunction(PLAAGTStage::FunctionCode::OnResize);
   PLAAGTStage agent = this->AssignAgent();
   agent.RunFunction(PLAOBJStage::FunctionCode::OnResize);
 }

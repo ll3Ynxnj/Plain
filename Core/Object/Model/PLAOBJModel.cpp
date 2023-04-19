@@ -247,23 +247,6 @@ void PLAOBJModel::SetVec4s(const PLAString &aName, const PLAVec4s &aValue)
   _properties[aName].SetVec4s(aValue);
 }
 
-/*
-void PLAOBJModel::PrintModels() const
-{
-  static int indentLevel = 0;
-  GRA_PRINT(this->GetObjectDescription().c_str());
-  ++indentLevel;
-  GRA_PRINT("0: _models.size() = %d\n", _models.size());
-  for (const PLAOBJModel *model : _models)
-  {
-    GRA_PRINT("1: _models.size() = %d\n", _models.size());
-    for (int i = 0; i < indentLevel; i++) { GRA_PRINT("  "); }
-    model->PrintModels();
-  }
-  --indentLevel;
-}
- */
-
 void PLAOBJModel::PrintModels() const
 {
   static int indentLevel = 0;

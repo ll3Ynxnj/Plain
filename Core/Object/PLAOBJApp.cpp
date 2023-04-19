@@ -12,12 +12,6 @@ PLAOBJScene *PLAOBJApp::Scene()
 
 PLAOBJActor *PLAOBJApp::Actor(const PLAString &aName)
 {
-  /*
-  PLAObject *object = PLAObject::Object(aName);
-  if (object && object->GetObjectType() == PLAObjectType::Actor)
-  { return static_cast<PLAOBJActor *>(object); }
-  return nullptr;
-   */
   return PLAOBJActor::Object(aName);
 }
 
@@ -46,39 +40,6 @@ void PLAOBJApp::PrintNodes() const
   GRA_PRINT("----:-----------------|---------|----------------------------------------------|\n");
   GRA_PRINT("////////////////////////////////////////////////////////////////////////////////\n");
 }
-
-/*
-void PLAOBJApp::InitStage()
-{
-  _instance._stage->Init();
-}
-
-void PLAOBJApp::AddActor(PLAOBJActor *aActor)
-{
-  _instance._stage->AddActor(aActor);
-  PLAOBJScene::Manager::Instance()->RefCurrentScene()->AddActor(aActor);
-}
-
-PLAVec3f PLAOBJApp::GetStageSize()
-{
-  _instance._stage->GetSize();
-}
-*/
-
-/*
-void PLAOBJApp::SetStageFunction(PLAOBJStage::FunctionCode aKey,
-                             const std::function<void(PLAOBJStage *)> &aFunc)
-{
-  _instance._stage->SetFunction(aKey, aFunc);
-}
- */
-
-/*
-void PLAOBJApp::PrintStageActors()
-{
-  _instance._stage->PrintActors();
-}
-*/
 
 PLAInputSignalCode PLAOBJApp::GetInputSignalCodeFromChar(unsigned char aCharacter)
 {

@@ -42,22 +42,12 @@ public:
   static PLAOBJScene *Scene();
   static PLAOBJActor *Actor(const PLAString &aName); // PLAOBJActor::Object(aName)があるので不要では？
 
-  /*static */void AddTimelineThread(PLAOBJTimeline *aThread);
-  /*static */void UpdateTimelineThread();
-  //*static */void RemoveTimelineThread(const PLAOBJTimeline *aThread);
+  void AddTimelineThread(PLAOBJTimeline *aThread);
+  void UpdateTimelineThread();
+  //void RemoveTimelineThread(const PLAOBJTimeline *aThread);
 
   void PrintNodes() const;
 
-  //-- このStage関連のメソッド、Stage()から呼べばいいので不要なのでは？
-  /*
-  static void InitStage();
-  static void AddActor(PLAOBJActor *aActor);
-  static PLAOBJActor *Actor(const PLAString &aName);
-  //static void SetStageFunction(PLAAGTStage::FunctionCode aKey,
-  //                             const std::function<void(PLAOBJStage *)> &aFunc);
-  static PLAVec3f GetStageSize();
-  static void PrintStageActors();
-  */
   //--------------------------------------------------------------------------//
 
   static PLAInputSignalCode GetInputSignalCodeFromChar(const unsigned char aCharacter);
