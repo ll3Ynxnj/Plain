@@ -78,7 +78,10 @@ void PLAObject::Unbind()
   {
     GRA_PRINT("PLAObject::Unbind : == CANCELED == : %s\n",
               this->GetObjectName().c_str());
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Expect, "Agent referenced form somewhere.");
+    PLA_ERROR_ISSUE(PLAOBJErrorType::Expect,
+                    "Object `%s` referenced from agent. : referenceCounter : %d\n",
+                    this->GetObjectName().c_str(),
+                    _agentReferenceCounter);
     return;
   }
   Binder::Error error(Binder::Error::None);
@@ -120,15 +123,15 @@ void PLAObject::Print()
 
 void PLAObject::RetainAgent() {
   ++_agentReferenceCounter;
-  GRA_PRINT("RetainAgent : %s : %d\n",
-            this->GetObjectName().c_str(), _agentReferenceCounter);
+  //GRA_PRINT("RetainAgent : %s : %d\n",
+  //          this->GetObjectName().c_str(), _agentReferenceCounter);
 }
 
 void PLAObject::ReleaseAgent()/*const PLAOBJAgent *aAgent)*/
 {
   --_agentReferenceCounter;
-  GRA_PRINT("ReleaseAgent : %s : %d\n",
-            this->GetObjectName().c_str(), _agentReferenceCounter);
+  //GRA_PRINT("ReleaseAgent : %s : %d\n",
+  //          this->GetObjectName().c_str(), _agentReferenceCounter);
 }
 
 const char *PLAObject::GetObjectTypeName() const
