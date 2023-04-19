@@ -1,6 +1,10 @@
-//
-// Created by Kentaro Kawai on 2023/04/13.
-//
+/*
+ * @class PLAAgent
+ * @brief
+ * \~english Agent class is a wrapper and an agent for an object. It provides an interface for users. Since it is expected to be used as a value type, there is no Create
+ * \~japanese エージェントクラスは、オブジェクトのラッパーであり代理人です。利用者がオブジェクトを操作するためのインターフェースを提供します。値型として利用されることを想定している為、Createメソッドはありません。
+ * @author ll3Ynxnj
+ */
 
 #ifndef ANHR_PLAAGENT_HPP
 #define ANHR_PLAAGENT_HPP
