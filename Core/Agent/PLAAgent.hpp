@@ -17,7 +17,7 @@ public:
 
   virtual ~PLAAgent();
 
-  //void Release() const;
+  void Release();
 
   PLAId GetOwnerId() const { return _owner->GetObjectId(); }
   PLAObjectType GetOwnerType() const { return _owner->GetObjectType(); }

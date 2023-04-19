@@ -65,13 +65,15 @@ PLAAgent::PLAAgent(const PLAAgent &aAgent) noexcept {
 
 PLAAgent::~PLAAgent()
 {
-  _owner->ReleaseAgent();
+  if (_owner)
+  {
+    _owner->ReleaseAgent();
+  }
 }
 
-/*
-void PLAAgent::Release() const
+void PLAAgent::Release()
 {
   _owner->ReleaseAgent();
   _owner->Unbind();
+  _owner = nullptr;
 }
- */
