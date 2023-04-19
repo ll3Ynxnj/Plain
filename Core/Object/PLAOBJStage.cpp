@@ -38,15 +38,17 @@ PLAOBJStage::~PLAOBJStage()
 void PLAOBJStage::Init()
 {
   _context->Init();
-  PLAAGTStage agent = this->AssignAgent();
-  agent.RunFunction(PLAOBJStage::FunctionCode::OnInit);
+  //PLAAGTStage agent = this->AssignAgent();
+  //agent.RunFunction(PLAOBJStage::FunctionCode::OnInit);
+  this->RunFunction(PLAOBJStage::FunctionCode::OnInit);
 }
 
 void PLAOBJStage::Update()
 {
   _context->Update();
-  PLAAGTStage agent = this->AssignAgent();
-  agent.RunFunction(PLAOBJStage::FunctionCode::OnUpdate);
+  //PLAAGTStage agent = this->AssignAgent();
+  //agent.RunFunction(PLAOBJStage::FunctionCode::OnUpdate);
+  this->RunFunction(PLAOBJStage::FunctionCode::OnUpdate);
 }
 
 PLAAGTStage PLAOBJStage::AssignAgent()
@@ -94,8 +96,9 @@ void PLAOBJStage::PrintActors() const
 void PLAOBJStage::SetSize(const PLAVec3f &aSize)
 {
   _context->SetSize(aSize);
-  PLAAGTStage agent = this->AssignAgent();
-  agent.RunFunction(PLAOBJStage::FunctionCode::OnResize);
+  //PLAAGTStage agent = this->AssignAgent();
+  //agent.RunFunction(PLAOBJStage::FunctionCode::OnResize);
+  this->RunFunction(PLAOBJStage::FunctionCode::OnResize);
 }
 
 // PLAInputHandler /////////////////////////////////////////////////////////////
