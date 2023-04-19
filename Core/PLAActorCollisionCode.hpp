@@ -1,7 +1,7 @@
 #ifndef PLAIN_PLAACTORCOLLISIONCODE_HPP
 #define PLAIN_PLAACTORCOLLISIONCODE_HPP
 
-enum class PLAOBJActorCollisionCode : PLAInt
+enum class PLAActorCollisionCode : PLAInt
 {
   Input,
   Actor,

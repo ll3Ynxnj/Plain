@@ -1,7 +1,7 @@
 #ifndef PLAIN_PLAIMAGETYPE_HPP
 #define PLAIN_PLAIMAGETYPE_HPP
 
-enum class PLAOBJImageType: PLAInt
+enum class PLAImageType: PLAInt
 {
   Raw,
   Jpg,

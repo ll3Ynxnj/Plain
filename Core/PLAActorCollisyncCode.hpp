@@ -1,7 +1,7 @@
 #ifndef PLAIN_PLAACTORCOLLISYNCCODE_HPP
 #define PLAIN_PLAACTORCOLLISYNCCODE_HPP
 
-enum class PLAOBJActorCollisyncCode : PLAInt
+enum class PLAActorCollisyncCode : PLAInt
 {
   Size,
   Layer,

@@ -60,7 +60,7 @@ void PLAAGTActor::SetScale(const PLAVec3f &aScale) const
   actor->SetScale(aScale);
 };
 
-void PLAAGTActor::SetFunction(PLAOBJActorFunctionCode aKey,
+void PLAAGTActor::SetFunction(PLAFunctionCode::Actor aKey,
                               const std::function<void(PLAOBJActor *)> &aFunc) const
 {
   PLAOBJActor *actor = this->RefActor();
@@ -83,10 +83,8 @@ void PLAAGTActor::SetFunctorForInputWithTouch
    [aFunc](PLAInputContext *aContext, const PLAInput &aInput)
    {
     PLAOBJActor *actor = static_cast<PLAOBJActor *>(aContext);
-    //PLAAGTActor *agent = static_cast<PLAAGTActor *>(actor->AssignAgent());
     PLAAGTActor agent = actor->AssignAgent();
     aFunc(agent, aInput);
-    //agent.Release();
    });
 }
 
@@ -100,10 +98,8 @@ void PLAAGTActor::SetFunctorForInputWithMouse
      [aFunc](PLAInputContext *aContext, const PLAInput &aInput)
      {
        PLAOBJActor *actor = static_cast<PLAOBJActor *>(aContext);
-       //PLAAGTActor *agent = static_cast<PLAAGTActor *>(actor->AssignAgent());
        PLAAGTActor agent = actor->AssignAgent();
        aFunc(agent, aInput);
-       //agent.Release();
      });
 }
 
@@ -117,9 +113,17 @@ void PLAAGTActor::SetFunctorForInputWithKeyboard
      [aFunc](PLAInputContext *aContext, const PLAInput &aInput)
      {
        PLAOBJActor *actor = static_cast<PLAOBJActor *>(aContext);
-       //PLAAGTActor *agent = static_cast<PLAAGTActor *>(actor->AssignAgent());
        PLAAGTActor agent = actor->AssignAgent();
        aFunc(agent, aInput);
-       //agent.Release();
      });
+}
+
+const PLAOBJActor *PLAAGTActor::GetActor() const
+{
+  return static_cast<const PLAOBJActor *>(this->GetOwner());
+}
+
+PLAOBJActor *PLAAGTActor::RefActor() const
+{
+  return static_cast<PLAOBJActor *>(this->RefOwner());
 }

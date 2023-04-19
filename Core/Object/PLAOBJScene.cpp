@@ -34,27 +34,27 @@ PLAOBJScene::~PLAOBJScene() {
 }
 
 void PLAOBJScene::Init() {
-  _functor.RunFunction(FunctionCode::OnInit, this);
-  for (GRAOBJListener<PLAOBJScene *, FunctionCode> *listener: _listeners)
-  { listener->RunListener(FunctionCode::OnInit, this); }
+  _functor.RunFunction(PLAFunctionCode::Scene::OnInit, this);
+  for (GRAOBJListener<PLAOBJScene *, PLAFunctionCode::Scene> *listener: _listeners)
+  { listener->RunListener(PLAFunctionCode::Scene::OnInit, this); }
 };
 
 void PLAOBJScene::Update() {
-  _functor.RunFunction(FunctionCode::OnUpdate, this);
-  for (GRAOBJListener<PLAOBJScene *, FunctionCode> *listener: _listeners)
-  { listener->RunListener(FunctionCode::OnUpdate, this); }
+  _functor.RunFunction(PLAFunctionCode::Scene::OnUpdate, this);
+  for (GRAOBJListener<PLAOBJScene *, PLAFunctionCode::Scene> *listener: _listeners)
+  { listener->RunListener(PLAFunctionCode::Scene::OnUpdate, this); }
 };
 
 void PLAOBJScene::Appear() {
-  _functor.RunFunction(FunctionCode::OnAppear, this);
-  for (GRAOBJListener<PLAOBJScene *, FunctionCode> *listener: _listeners)
-  { listener->RunListener(FunctionCode::OnAppear, this); }
+  _functor.RunFunction(PLAFunctionCode::Scene::OnAppear, this);
+  for (GRAOBJListener<PLAOBJScene *, PLAFunctionCode::Scene> *listener: _listeners)
+  { listener->RunListener(PLAFunctionCode::Scene::OnAppear, this); }
 };
 
 void PLAOBJScene::Disappear() {
-  _functor.RunFunction(FunctionCode::OnDisappear, this);
-  for (GRAOBJListener<PLAOBJScene *, FunctionCode> *listener: _listeners)
-  { listener->RunListener(FunctionCode::OnDisappear, this); }
+  _functor.RunFunction(PLAFunctionCode::Scene::OnDisappear, this);
+  for (GRAOBJListener<PLAOBJScene *, PLAFunctionCode::Scene> *listener: _listeners)
+  { listener->RunListener(PLAFunctionCode::Scene::OnDisappear, this); }
 };
 
 PLAAGTScene PLAOBJScene::AssignAgent()
@@ -67,7 +67,7 @@ void PLAOBJScene::AddActor(PLAOBJActor *aActor) {
   GRAOBJBinder<PLAOBJActor>::Error error(GRAOBJBinder<PLAOBJActor>::Error::None);
   this->GRAOBJBinder<PLAOBJActor>::Bind(aActor, &error);
   if (error != GRAOBJBinder<PLAOBJActor>::Error::None) {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Failed PLAObject binding. ERROR : %02d", error);
   }
 }

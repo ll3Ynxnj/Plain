@@ -3,7 +3,7 @@
 
 #include "PLAObject.hpp"
 #include "PLAOBJResource.hpp"
-#include "PLAOBJImageType.hpp"
+#include "PLAImageType.hpp"
 #include "Grain/Primitive/GRAPRMVector.hpp"
 
 using PLAOBJImageSize = GRAVec2<PLASize>;
@@ -15,14 +15,14 @@ class PLAOBJImage : public PLAObject
   PLAOBJImageSize _size = kPLAOBJImageSizeNone;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-private-field"
-  PLAOBJImageType _type = PLAOBJImageType::None;
+  PLAImageType _type = PLAImageType::None;
 #pragma clang diagnostic pop
 
 public:
   static PLAOBJImage *CreateRaw(const PLAString &aName);
 
   PLAOBJImage(const PLAString &aName, const PLAOBJImageSize &aSize,
-           PLAOBJImageType aType);
+              PLAImageType aType);
   ~PLAOBJImage();
 
   const PLAOBJImageSize &GetSize() const { return _size; };

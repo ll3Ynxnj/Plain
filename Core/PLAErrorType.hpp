@@ -3,7 +3,7 @@
 
 #include "Primitive/PLAPRMVector.hpp"
 
-enum class PLAOBJErrorType : PLAInt
+enum class PLAErrorType : PLAInt
 {
   Assert,
   Expect,

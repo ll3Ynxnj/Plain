@@ -10,23 +10,14 @@ class PLAAGTStage;
 class PLAOBJStage final: public PLAObject, public PLAInputHandler
 {
 public:
-  enum class FunctionCode : PLAFunctionCode
-  {
-    OnInit,
-    OnUpdate,
-    OnResize,
-
-    kNumberOfItems,
-    None = kPLAFunctionCodeNone,
-  };
+  using Listener = GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage>;
+  using Functor = GRAOBJFunctor<PLAAGTStage, PLAFunctionCode::Stage>;
 
   PLAOBJActor *_context = nullptr;
 
 private:
-  std::list<GRAOBJListener<PLAAGTStage, FunctionCode> *> _listeners =
-    std::list<GRAOBJListener<PLAAGTStage, FunctionCode> *>();
-  GRAOBJFunctor<PLAAGTStage, FunctionCode> _functor =
-    GRAOBJFunctor<PLAAGTStage, FunctionCode>();
+  std::list<Listener *> _listeners = std::list<Listener *>();
+  Functor _functor = Functor();
 
 protected:
   PLAOBJStage();
@@ -43,11 +34,11 @@ public:
 
   PLAAGTStage AssignAgent();
 
-  void AddListener(GRAOBJListener<PLAAGTStage, PLAOBJStage::FunctionCode> *aListener);
-  void RemoveListener(GRAOBJListener<PLAAGTStage, PLAOBJStage::FunctionCode> *aListener);
-  void SetFunction(PLAOBJStage::FunctionCode aKey,
+  void AddListener(GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage> *aListener);
+  void RemoveListener(GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage> *aListener);
+  void SetFunction(PLAFunctionCode::Stage aKey,
                    const std::function<void(PLAAGTStage)> &aFunc);
-  void RunFunction(PLAOBJStage::FunctionCode aKey);
+  void RunFunction(PLAFunctionCode::Stage aKey);
 
   void AddActor(PLAOBJActor *aActor);
   void PrintActors() const;

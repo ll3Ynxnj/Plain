@@ -111,7 +111,7 @@ const PLAOBJTimelineNode *PLAOBJTimeline::GetCurrentNode() const
   if (_nodes.size() == _current) { return _nodes[_current - 1]; }
   if (_nodes.size() < _current || _current < 0)
   {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Current node value %d is invalid.", _current);
   }
   return _nodes[_current];

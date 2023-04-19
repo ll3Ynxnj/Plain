@@ -2,8 +2,8 @@
 #define PLAIN_ENGINE_PLAOBJAPP_HPP
 
 #include "PLAObject.hpp"
-#include "Object/Input/PLAInputType.hpp"
-#include "Object/PLARendererType.hpp"
+#include "Core/PLAInputType.hpp"
+#include "Core/PLARendererType.hpp"
 #include "Primitive/PLAPRMVector.hpp"
 #include "Primitive/PLAPRMPoint.hpp"
 

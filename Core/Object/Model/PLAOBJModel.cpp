@@ -267,11 +267,11 @@ void PLAOBJModel::PrintModels() const
 void PLAOBJModel::ValidateNameIsNotEmpty(const PLAString &aName) const
 {
   if (aName.empty())
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Property name is empty."); }
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Property name is empty."); }
 }
 
 void PLAOBJModel::ValidatePropertyIsExist(const PLAString &aName) const
 {
   if (!_properties.contains(aName))
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Property `%s` does not exist.", aName.c_str()); }
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Property `%s` does not exist.", aName.c_str()); }
 }

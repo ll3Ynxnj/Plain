@@ -5,6 +5,8 @@
 #include "PLAAGTStage.hpp"
 #include "PLAAGTActor.hpp"
 
+#include "Object/PLAOBJStage.hpp"
+
 /*
 PLAAGTStage *PLAAGTStage::Create(PLAOBJStage *aStage)
 {
@@ -46,41 +48,43 @@ void PLAAGTStage::PrintActors() const
   stage->PrintActors();
 }
 
+void PLAAGTStage::AddListener(GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage> *aListener)
+{
+  auto owner = this->RefStage();
+  owner->AddListener(aListener);
+};
+
+void PLAAGTStage::RemoveListener(GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage> *aListener)
+{
+  auto owner = this->RefStage();
+  owner->RemoveListener(aListener);
+};
+
+void PLAAGTStage::SetFunction(PLAFunctionCode::Stage aKey,
+                 const std::function<void(PLAAGTStage)> &aFunc)
+{
+  auto owner = this->RefStage();
+  owner->SetFunction(aKey, aFunc);
+};
+
+void PLAAGTStage::RunFunction(PLAFunctionCode::Stage aKey)
+{
+  auto owner = this->RefStage();
+  owner->RunFunction(aKey);//this->RefStage());
+};
+
 PLAVec3f PLAAGTStage::GetSize() const
 {
   const PLAOBJStage *stage = this->GetStage();
   return stage->GetSize();
 }
 
-// PLAInputHandler /////////////////////////////////////////////////////////////
-/*
-PLAInputContext *PLAAGTStage::RefContextWithInput(const PLAInput &aInput) const
+const PLAOBJStage *PLAAGTStage::GetStage() const
 {
-  PLAInputContext *inputContext = nullptr;
-  PLAOBJActor *inputContextActor = nullptr;
-  const PLAOBJStage *stage = this->GetStage();
-  PLAOBJActor *stageContext = stage->RefContext();
-  const PLAAGTActor *stageContextAgent =
-    static_cast<const PLAAGTActor *>(stageContext->AssignAgent());
-  switch (aInput.GetInputDeviceType())
-  {
-    case PLAInputDeviceType::Touch :
-    case PLAInputDeviceType::Mouse :
-      inputContextActor =
-        stageContext->RefResponsiveActorWithPoint(aInput.GetScreenPoint(),
-                                                  aInput.GetInputDeviceType(),
-                                                  aInput.GetInputSignalCode());
-      break;
-    case PLAInputDeviceType::Keyboard :
-      inputContextActor =
-        stageContext->RefResponsiveActor(aInput.GetInputDeviceType(),
-                                         aInput.GetInputSignalCode());
-      break;
-  }
-  return static_cast<PLAAGTActor *>(inputContextActor->AssignAgent());
-  //ここから
-  // Agentの管理を参照カウンタ方式に変更した
-  // ここでAssignしたらどこでReleaseするの？
-  // ↑Assignしない。InputHandlerもInputContextもAgentではなくObjectに戻す。Objectの_agentが参照カウンタ方式で単一になったので、そこからAgentを引っ張れる
+  return static_cast<const PLAOBJStage *>(this->GetOwner());
 }
-*/
+
+PLAOBJStage *PLAAGTStage::RefStage() const
+{
+  return static_cast<PLAOBJStage *>(this->RefOwner());
+}

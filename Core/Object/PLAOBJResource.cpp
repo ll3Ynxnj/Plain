@@ -15,7 +15,7 @@ void PLAOBJResource::Bind()
   GRAOBJBinder<PLAOBJResource>::Error error(GRAOBJBinder<PLAOBJResource>::Error::None);
   PLAOBJResource::Manager::Instance()->Bind(this, &error);
   if (error != GRAOBJBinder<PLAOBJResource>::Error::None)
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Failed PLAOBJResource binding. ERROR : %02d", error); }
 }
 
@@ -24,7 +24,7 @@ void PLAOBJResource::Unbind()
   GRAOBJBinder<PLAOBJResource>::Error error(GRAOBJBinder<PLAOBJResource>::Error::None);
   PLAOBJResource::Manager::Instance()->Unbind(this, &error);
   if (error != GRAOBJBinder<PLAOBJResource>::Error::None)
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Failed PLAOBJResource unbinding. ERROR : %02d", error); }
 
   this->PLAObject::Unbind();
@@ -125,7 +125,7 @@ const PLAOBJResource *PLAOBJResource::Manager::GetResource(const PLAString &aNam
     static_cast<const PLAOBJResource *>(this->GetItem(aName, &error));
   if (error != PLAResourceError::None)
   {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Failed to get resource. ERROR : %02d", error);
   }
   return resource;

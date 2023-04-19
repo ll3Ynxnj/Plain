@@ -40,7 +40,7 @@ void PLAOBJStage::Init()
   _context->Init();
   //PLAAGTStage agent = this->AssignAgent();
   //agent.RunFunction(PLAOBJStage::FunctionCode::OnInit);
-  this->RunFunction(PLAOBJStage::FunctionCode::OnInit);
+  this->RunFunction(PLAFunctionCode::Stage::OnInit);
 }
 
 void PLAOBJStage::Update()
@@ -48,7 +48,7 @@ void PLAOBJStage::Update()
   _context->Update();
   //PLAAGTStage agent = this->AssignAgent();
   //agent.RunFunction(PLAOBJStage::FunctionCode::OnUpdate);
-  this->RunFunction(PLAOBJStage::FunctionCode::OnUpdate);
+  this->RunFunction(PLAFunctionCode::Stage::OnUpdate);
 }
 
 PLAAGTStage PLAOBJStage::AssignAgent()
@@ -56,20 +56,20 @@ PLAAGTStage PLAOBJStage::AssignAgent()
   return PLAAGTStage(this);
 }
 
-void PLAOBJStage::AddListener(GRAOBJListener<PLAAGTStage, PLAOBJStage::FunctionCode> *aListener)
+void PLAOBJStage::AddListener(GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage> *aListener)
 { _listeners.push_back(aListener); };
 
-void PLAOBJStage::RemoveListener(GRAOBJListener<PLAAGTStage, PLAOBJStage::FunctionCode> *aListener)
+void PLAOBJStage::RemoveListener(GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage> *aListener)
 { _listeners.remove(aListener); };
 
-void PLAOBJStage::SetFunction(PLAOBJStage::FunctionCode aKey,
+void PLAOBJStage::SetFunction(PLAFunctionCode::Stage aKey,
                  const std::function<void(PLAAGTStage)> &aFunc)
 { _functor.SetFunction(aKey, aFunc); };
 
-void PLAOBJStage::RunFunction(PLAOBJStage::FunctionCode aKey)
+void PLAOBJStage::RunFunction(PLAFunctionCode::Stage aKey)
 {
   _functor.RunFunction(aKey, this->AssignAgent());//this->RefStage());
-  for (GRAOBJListener<PLAAGTStage, PLAOBJStage::FunctionCode> *listener: _listeners)
+  for (GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage> *listener: _listeners)
   { listener->RunListener(aKey, this->AssignAgent()); }//this->RefStage()); }
 };
 
@@ -98,7 +98,7 @@ void PLAOBJStage::SetSize(const PLAVec3f &aSize)
   _context->SetSize(aSize);
   //PLAAGTStage agent = this->AssignAgent();
   //agent.RunFunction(PLAOBJStage::FunctionCode::OnResize);
-  this->RunFunction(PLAOBJStage::FunctionCode::OnResize);
+  this->RunFunction(PLAFunctionCode::Stage::OnResize);
 }
 
 // PLAInputHandler /////////////////////////////////////////////////////////////
@@ -120,7 +120,7 @@ PLAInputContext *PLAOBJStage::RefContextWithInput(const PLAInput &aInput) const
                                      aInput.GetInputSignalCode());
       break;
     default:
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+      PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Unexpected PLAInputDeviceType detected.");
   }
   return inputContext;

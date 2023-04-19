@@ -4,6 +4,8 @@
 
 #include "PLAAGTScene.hpp"
 
+#include "Object/PLAOBJScene.hpp"
+
 /*
 PLAAGTScene *PLAAGTScene::Create(PLAOBJScene *aScene)
 {
@@ -22,4 +24,14 @@ PLAAGTScene::PLAAGTScene(PLAOBJScene *aScene) :
 PLAAGTScene::~PLAAGTScene() noexcept
 {
 
+}
+
+const PLAOBJScene *PLAAGTScene::GetStage() const
+{
+  return static_cast<const PLAOBJScene *>(this->GetOwner());
+}
+
+PLAOBJScene *PLAAGTScene::RefStage() const
+{
+  return static_cast<PLAOBJScene *>(this->RefOwner());
 }

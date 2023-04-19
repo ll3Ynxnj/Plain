@@ -28,7 +28,7 @@ PLALYRTile::PLALYRTile(const PLAVec2f &aOffset, const std::string &aImageName,
                        const GRAVec2<PLASize> &aChipSize,
                        const IPLATileLayerDataSource *aDataSource) ://,
                        //const std::vector<std::vector<PLATimelineHolder *>> &aNodeHolders) :
-  PLAOBJLayer(PLAOBJLayerType::Tile, PLAVec3f(aOffset.x, aOffset.y, 0)),
+  PLAOBJLayer(PLALayerType::Tile, PLAVec3f(aOffset.x, aOffset.y, 0)),
   _tileSize(aTileSize),
   _chipSize(aChipSize), _dataSource(aDataSource)//,
   //_nodeHolders(aNodeHolders)

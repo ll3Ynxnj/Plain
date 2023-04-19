@@ -1,6 +1,6 @@
 #include "PLAOBJError.hpp"
 
-PLAOBJError * PLAOBJError::Create(PLAOBJErrorType aType, const PLAString &aFile,
+PLAOBJError * PLAOBJError::Create(PLAErrorType aType, const PLAString &aFile,
                                   PLAInt aLine, const PLAString &aMessage)
 {
   PLAOBJError *error = new PLAOBJError(aType, aFile, aLine, aMessage);
@@ -8,7 +8,7 @@ PLAOBJError * PLAOBJError::Create(PLAOBJErrorType aType, const PLAString &aFile,
   return error;
 }
 
-PLAOBJError::PLAOBJError(PLAOBJErrorType aType, const PLAString &aFile, PLAInt aLine,
+PLAOBJError::PLAOBJError(PLAErrorType aType, const PLAString &aFile, PLAInt aLine,
                          const PLAString &aMessage) :
   PLAObject(PLAObjectType::Error),//, "== PLAOBJError =="),
   _type(aType), _file(aFile), _line(aLine), _message(aMessage)
@@ -21,7 +21,7 @@ PLAOBJError::~PLAOBJError()
 
 }
 
-PLAOBJErrorType PLAOBJError::GetType()
+PLAErrorType PLAOBJError::GetType()
 {
   return _type;
 }
@@ -56,7 +56,7 @@ void PLAOBJError::Manager::Reset()
 }
 
 void PLAOBJError::Manager::Issue(const char *aFile, const char *aFunc,
-                                 const int aLine, PLAOBJErrorType aType,
+                                 const int aLine, PLAErrorType aType,
                                  const char *aFormat, ...)
 {
   static const char *kLogFormat = GRADebug::kLogFormat;
@@ -75,13 +75,13 @@ void PLAOBJError::Manager::Issue(const char *aFile, const char *aFunc,
   //_errors.push(error);
   switch (aType)//error->GetType())
   {
-    case PLAOBJErrorType::Assert :
-      GRA_ASSERT("PLAOBJErrorType::Assert detected.");
+    case PLAErrorType::Assert :
+      GRA_ASSERT("PLAErrorType::Assert detected.");
       break;
-    case PLAOBJErrorType::Expect :
+    case PLAErrorType::Expect :
       break;
     default :
-      GRA_ASSERT("Unexpected PLAOBJErrorType detected. type : %d",
+      GRA_ASSERT("Unexpected PLAErrorType detected. type : %d",
                  aType);//error->GetType());
       break;
   }

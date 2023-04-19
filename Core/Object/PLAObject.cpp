@@ -28,12 +28,12 @@ PLAObject *PLAObject::Object(PLAObjectType aType, const PLAString &aName)
       break;
     default :
       return nullptr;
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Failed to get object.",
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "Failed to get object.",
                       PLAObject::GetBinderErrorMessage(error));
   }
   auto object = static_cast<PLAObject *>(item);
   if (object->GetObjectType() != aType) {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Object type is not matched.");
+    PLA_ERROR_ISSUE(PLAErrorType::Assert, "Object type is not matched.");
   }
   return object;
 }
@@ -47,12 +47,12 @@ PLAObject *PLAObject::Object(PLAObjectType aType, PLAId aId)
     case Binder::Error::None :
       break;
     default :
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Failed to get object.",
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "Failed to get object.",
                       PLAObject::GetBinderErrorMessage(error));
   }
   auto object = static_cast<PLAObject *>(item);
   if (object->GetObjectType() != aType) {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Object type is not matched.");
+    PLA_ERROR_ISSUE(PLAErrorType::Assert, "Object type is not matched.");
   }
   return object;
 }
@@ -63,7 +63,7 @@ void PLAObject::Bind()
   Binder::Error error(Binder::Error::None);
   PLAObject::Manager::Instance()->Bind(this, &error);
   if (error != Binder::Error::None) {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Failed PLAObject binding. ERROR : %02d : %s",
                     error, GetBinderErrorMessage(error));
   }
@@ -78,7 +78,7 @@ void PLAObject::Unbind()
   {
     GRA_PRINT("PLAObject::Unbind : == CANCELED == : %s\n",
               this->GetObjectName().c_str());
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Expect,
+    PLA_ERROR_ISSUE(PLAErrorType::Expect,
                     "Object `%s` referenced from agent. : referenceCounter : %d\n",
                     this->GetObjectName().c_str(),
                     _agentReferenceCounter);
@@ -87,7 +87,7 @@ void PLAObject::Unbind()
   Binder::Error error(Binder::Error::None);
   PLAObject::Manager::Instance()->Unbind(this, &error);
   if (error != Binder::Error::None) {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Failed PLAObject unbinding. ERROR : %02d : %s",
                     error, GetBinderErrorMessage(error));
   }
@@ -154,12 +154,12 @@ void PLAObject::SetObjectName(const PLAString &aName)
     switch (error) {
       case Binder::Error::NameOverride :
       case Binder::Error::NameConvertedBySystem:
-        PLA_ERROR_ISSUE(PLAOBJErrorType::Expect,
+        PLA_ERROR_ISSUE(PLAErrorType::Expect,
                         "Succeed to set object name with error. ERROR : %02d : %s",
                         error, GetBinderErrorMessage(error));
         break;
       default :
-        PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+        PLA_ERROR_ISSUE(PLAErrorType::Assert,
                         "Failure to set object name. ERROR : %02d : %s",
                         error, GetBinderErrorMessage(error));
         break;

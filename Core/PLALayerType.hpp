@@ -3,7 +3,7 @@
 
 #include "Primitive/PLAPRMVector.hpp"
 
-enum class PLAOBJLayerType : PLAInt
+enum class PLALayerType : PLAInt
 {
   Point,
   Line,

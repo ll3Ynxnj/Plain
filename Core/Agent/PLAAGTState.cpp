@@ -5,6 +5,8 @@
 #include "PLAAGTState.hpp"
 #include "PLAAGTModel.hpp"
 
+#include "Object/PLAOBJState.hpp"
+
 /*
 PLAAGTState *PLAAGTState::Create(PLAOBJState *aState)
 {
@@ -45,4 +47,14 @@ void PLAAGTState::PrintModels() const
 {
   const PLAOBJState *state = this->GetState();
   state->PrintModels();
+}
+
+const PLAOBJState *PLAAGTState::GetState() const
+{
+  return static_cast<const PLAOBJState *>(this->GetOwner());
+}
+
+PLAOBJState *PLAAGTState::RefState() const
+{
+  return static_cast<PLAOBJState *>(this->RefOwner());
 }

@@ -140,17 +140,17 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
   color *= aColor;
   switch (layer->GetLayerType())
   {
-    case PLAOBJLayerType::Rect :
+    case PLALayerType::Rect :
       this->DrawRect(static_cast<const PLALYRRect *>(layer), color);
       break;
-    case PLAOBJLayerType::Circle :
+    case PLALayerType::Circle :
       this->DrawCircle(static_cast<const PLALYRCircle *>(layer), color);
       break;
-    case PLAOBJLayerType::Tile :
+    case PLALayerType::Tile :
       this->DrawTile(static_cast<const PLALYRTile *>(layer), color);
       break;
     default :
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+      PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Unexpected PLARenderingDataType detected.");
       break;
   }

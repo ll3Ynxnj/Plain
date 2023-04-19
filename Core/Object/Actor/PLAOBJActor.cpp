@@ -124,7 +124,8 @@ PLAOBJActor::PLAOBJActor(const PLAVec3f &aPivot,
   PLAObject(PLAObjectType::Actor),//"== PLAOBJActor =="),
   PLAInputContext(),
   PLATimelineHolder(),
-  GRAOBJListener<PLAOBJScene, PLAOBJScene::FunctionCode>(),
+  //GRAOBJListener<PLAOBJScene, PLAFunctionCode::Scene>(),
+  PLAOBJScene::Listener(),
   GRAOBJBinder<PLAOBJActor>::Item(),
   _pivot(aPivot),
   _color(aColor),
@@ -156,7 +157,7 @@ void PLAOBJActor::Input(const PLAInput *aInput)
 
 void PLAOBJActor::Init()
 {
-  _functor.RunFunction(PLAOBJActorFunctionCode::OnInit, this);
+  _functor.RunFunction(PLAFunctionCode::Actor::OnInit, this);
   for (PLAOBJActor *actor : _actors) { actor->Init(); }
 }
 
@@ -168,13 +169,13 @@ void PLAOBJActor::Update()
 
 void PLAOBJActor::Appear()
 {
-  _functor.RunFunction(PLAOBJActorFunctionCode::OnAppear, this);
+  _functor.RunFunction(PLAFunctionCode::Actor::OnAppear, this);
   for (PLAOBJActor *actor : _actors) { actor->Appear(); }
 }
 
 void PLAOBJActor::Disappear()
 {
-  _functor.RunFunction(PLAOBJActorFunctionCode::OnDisappear, this);
+  _functor.RunFunction(PLAFunctionCode::Actor::OnDisappear, this);
   for (PLAOBJActor *actor : _actors) { actor->Disappear(); }
 }
 
@@ -261,31 +262,31 @@ PLAOBJActor *PLAOBJActor::RefResponsiveActorWithPoint
 
 PLALYRPoint *PLAOBJActor::RefLYRPoint()
 {
-  if (_layer->GetLayerType() != PLAOBJLayerType::Point) { return nullptr; }
+  if (_layer->GetLayerType() != PLALayerType::Point) { return nullptr; }
   return static_cast<PLALYRPoint *>(_layer);
 }
 
 PLALYRLine *PLAOBJActor::RefLYRLine()
 {
-  if (_layer->GetLayerType() != PLAOBJLayerType::Line) { return nullptr; }
+  if (_layer->GetLayerType() != PLALayerType::Line) { return nullptr; }
   return static_cast<PLALYRLine *>(_layer);
 }
 
 PLALYRRect *PLAOBJActor::RefLYRRect()
 {
-  if (_layer->GetLayerType() != PLAOBJLayerType::Rect) { return nullptr; }
+  if (_layer->GetLayerType() != PLALayerType::Rect) { return nullptr; }
   return static_cast<PLALYRRect *>(_layer);
 }
 
 PLALYRCircle *PLAOBJActor::RefLYRCircle()
 {
-  if (_layer->GetLayerType() != PLAOBJLayerType::Circle) { return nullptr; }
+  if (_layer->GetLayerType() != PLALayerType::Circle) { return nullptr; }
   return static_cast<PLALYRCircle *>(_layer);
 }
 
 PLALYRTile *PLAOBJActor::RefLYRTile()
 {
-  if (_layer->GetLayerType() != PLAOBJLayerType::Tile) { return nullptr; }
+  if (_layer->GetLayerType() != PLALayerType::Tile) { return nullptr; }
   return static_cast<PLALYRTile *>(_layer);
 }
 
@@ -293,7 +294,7 @@ void PLAOBJActor::AddTileMotion(const PLAVec2s &aAddress, PLATMLMotion *aThread)
 {
   PLALYRTile *layer = this->RefLYRTile();
   if (!layer) {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "LayerType is not Tile.");
   }
   layer->AddMotionThread(aAddress, aThread);
@@ -309,7 +310,7 @@ void PLAOBJActor::RefreshLayerOffset()
 
 void PLAOBJActor::OnUpdate()
 {
-  _functor.RunFunction(PLAOBJActorFunctionCode::OnUpdate, this);
+  _functor.RunFunction(PLAFunctionCode::Actor::OnUpdate, this);
   for (PLAOBJActor *actor : _actors) { actor->OnUpdate(); }
 }
 

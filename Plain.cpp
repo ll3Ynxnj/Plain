@@ -3,9 +3,14 @@
 //
 
 #include "Plain.h"
+#include "Grain/Grain.h"
 
+#include "Object/PLAObject.hpp"
 #include "Object/PLAOBJApp.hpp"
 #include "Object/PLAOBJError.hpp"
+#include "Object/Layer/IPLATileLayerDataSource.hpp"
+
+#include "Primitive/PLAPRMType.hpp"
 
 void Plain::Init(PLARendererType aType)
 {
@@ -16,41 +21,34 @@ void Plain::Delete(const std::string &aName) {
   //PLAOBJApp::Object(aName)->Unbind();
 }
 
-PLAAGTState Plain::State()
+void Plain::Print::Objects()
+{
+  PLAObject::Manager::Instance()->PrintObjects();
+}
+
+void Plain::Print::Resources()
+{
+  PLAOBJResource::Manager::Instance()->PrintResources();
+}
+
+void Plain::Push(const PLAAGTScene &aAgent)
+{
+  PLAId id = aAgent.GetOwnerId();
+  PLAOBJScene *scene = PLAOBJScene::Object(id);
+  PLAOBJScene::Manager::Instance()->PushScene(scene);
+}
+
+PLAAGTState Plain::State::Assign()
 {
   PLAOBJState *state = PLAOBJApp::State();
   return state->AssignAgent();
 }
 
-PLAAGTStage Plain::Stage()
+PLAAGTStage Plain::Stage::Assign()
 {
   PLAOBJStage *stage = PLAOBJApp::Stage();
   return stage->AssignAgent();
 }
-
-PLAAGTScene Plain::Scene()
-{
-  PLAOBJScene *scene = PLAOBJApp::Scene();
-  return scene->AssignAgent();
-}
-
-/*
-void Plain::Stage::AddListener(GRAOBJListener<PLAAGTStage, PLAAGTStage::FunctionCode> *aListener)
-{
-
-}
-
-void Plain::Stage::RemoveListener(GRAOBJListener<PLAAGTStage, PLAAGTStage::FunctionCode> *aListener)
-{
-
-}
-
-void Plain::Stage::SetFunction(PLAAGTStage::FunctionCode aKey,
-                               const std::function<void(PLAAGTStage *)> &aFunc)
-{
-
-}
- */
 
 PLAAGTScene Plain::Scene::Create()
 {
@@ -70,13 +68,6 @@ PLAAGTScene Plain::Scene::Assign(const PLAString &aName)
   return scene->AssignAgent();
 }
 
-void Plain::Scene::Push(const PLAAGTScene &aAgent)
-{
-  PLAId id = aAgent.GetOwnerId();
-  PLAOBJScene *scene = PLAOBJScene::Object(id);
-  PLAOBJScene::Manager::Instance()->PushScene(scene);
-}
-
 PLAAGTModel Plain::Model::Create()
 {
   PLAOBJModel *model = PLAOBJModel::Create();
@@ -86,7 +77,7 @@ PLAAGTModel Plain::Model::Create()
 PLAAGTModel Plain::Model::Create(const PLAString &aName)
 {
   if (PLAObject::Object(PLAObjectType::Model, aName))
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Duplicate object names."); }
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Duplicate object names."); }
   PLAOBJModel *model = PLAOBJModel::Create();
   model->SetObjectName(aName);
   return model->AssignAgent();

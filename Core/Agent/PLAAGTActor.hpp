@@ -9,7 +9,7 @@
 #include "PLAAgent.hpp"
 #include "Object/Actor/PLAOBJActor.hpp"
 
-class PLAAGTActor final : public PLAAgent//, public PLAInputContext
+class PLAAGTActor final : public PLAAgent
 {
 public:
   /// Agent is const method only.
@@ -26,7 +26,7 @@ public:
   void SetRotation(const PLAVec3f &aRotation) const;
   void SetScale(const PLAVec3f &aScale) const;
 
-  void SetFunction(PLAOBJActorFunctionCode aKey,
+  void SetFunction(PLAFunctionCode::Actor aKey,
                    const std::function<void(PLAOBJActor *)> &aFunc) const;
 
   void AddTileMotion(const PLAVec2s &aAddress, PLATMLMotion *aThread) const;
@@ -47,10 +47,8 @@ public:
 
 
 protected:
-  const PLAOBJActor *GetActor() const
-  { return static_cast<const PLAOBJActor *>(this->GetOwner()); }
-  PLAOBJActor *RefActor() const
-  { return static_cast<PLAOBJActor *>(this->RefOwner()); }
+  const PLAOBJActor *GetActor() const;
+  PLAOBJActor *RefActor() const;
 };
 
 

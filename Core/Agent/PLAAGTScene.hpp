@@ -6,7 +6,8 @@
 #define ANHR_PLAAGTSCENE_HPP
 
 #include "PLAAgent.hpp"
-#include "Object/PLAOBJScene.hpp"
+
+class PLAOBJScene;
 
 class PLAAGTScene final : public PLAAgent
 {
@@ -18,10 +19,8 @@ public:
   virtual ~PLAAGTScene() noexcept;
 
 protected:
-  const PLAOBJScene *GetStage() const
-  { return static_cast<const PLAOBJScene *>(this->GetOwner()); }
-  PLAOBJScene *RefStage() const
-  { return static_cast<PLAOBJScene *>(this->RefOwner()); }
+  const PLAOBJScene *GetStage() const;
+  PLAOBJScene *RefStage() const;
 };
 
 

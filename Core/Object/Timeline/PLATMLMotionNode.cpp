@@ -60,7 +60,7 @@ const PLAProperty &PLATMLMotionNode::MakeProperty(const PLATMLMotionType aType)
     case PLATMLMotionType::Rotation    : return PLAProperty::kVec3f;
     case PLATMLMotionType::Scale       : return PLAProperty::kVec3f;
     default :
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Detect unexpected types.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "Detect unexpected types.");
       return PLAProperty::kNone;
   }
 }

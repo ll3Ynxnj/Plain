@@ -30,7 +30,7 @@ void PLAOBJTimelineNode::Unbind()
   GRAOBJBinder<PLAOBJTimelineNode>::Error error(GRAOBJBinder<PLAOBJTimelineNode>::Error::None);
   if (error != GRAOBJBinder<PLAOBJTimelineNode>::Error::None)
   {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Failed PLAOBJTimelineNode unbinding. ERROR : %02d", error);
   }
   this->PLAObject::Unbind();
@@ -109,7 +109,7 @@ void PLAOBJTimelineNode::OnStart()
   GRA_PRINT("%s| %s : OnStart(), _steps: %3d\n",
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
             _steps);
-  _functor.RunFunction(FunctionCode::OnStart, this);
+  _functor.RunFunction(PLAFunctionCode::TimelineNode::OnStart, this);
 }
 
 void PLAOBJTimelineNode::OnUpdate()
@@ -117,7 +117,7 @@ void PLAOBJTimelineNode::OnUpdate()
   GRA_PRINT("%s| %s : OnUpdate(), _steps: %3d\n",
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
             _steps);
-  _functor.RunFunction(FunctionCode::OnUpdate, this);
+  _functor.RunFunction(PLAFunctionCode::TimelineNode::OnUpdate, this);
 }
 
 void PLAOBJTimelineNode::OnStop()
@@ -125,7 +125,7 @@ void PLAOBJTimelineNode::OnStop()
   GRA_PRINT("%s| %s : OnStop(), _steps: %3d\n",
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
             _steps);
-  _functor.RunFunction(FunctionCode::OnStop,  this);
+  _functor.RunFunction(PLAFunctionCode::TimelineNode::OnStop,  this);
 }
 
 

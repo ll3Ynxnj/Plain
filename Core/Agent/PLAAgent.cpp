@@ -3,56 +3,13 @@
 //
 
 #include "PLAAgent.hpp"
-
-//
-// Created by Kentaro Kawai on 2022/04/16.
-//
-
-#include "PLAAgent.hpp"
-//#include "Object/PLAObject.hpp"
-//#include "Object/PLAOBJError.hpp"
-
-#include "PLAAGTModel.hpp"
-#include "PLAAGTActor.hpp"
-#include "PLAAGTState.hpp"
-#include "PLAAGTStage.hpp"
-#include "PLAAGTScene.hpp"
-
-/*
-PLAAgent *PLAAgent::Create(PLAObject *aOwner)
-{
-  PLAAgent *agent = nullptr;
-  switch (aOwner->GetObjectType()) {
-    case PLAObjectType::Model :
-      agent = PLAAGTModel::Create(static_cast<PLAOBJModel *>(aOwner));
-      break;
-    case PLAObjectType::Actor :
-      agent = PLAAGTActor::Create(static_cast<PLAOBJActor *>(aOwner));
-      break;
-    case PLAObjectType::State :
-      agent = PLAAGTState::Create(static_cast<PLAOBJState *>(aOwner));
-      break;
-    case PLAObjectType::Stage :
-      agent = PLAAGTStage::Create(static_cast<PLAOBJStage *>(aOwner));
-      break;
-    case PLAObjectType::Scene :
-      agent = PLAAGTScene::Create(static_cast<PLAOBJScene *>(aOwner));
-      break;
-    default:
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Unexpected object type detected.");
-  }
-  //PLAString name = "Agent(" + PLAString(aOwner->GetObjectName() + ")");
-  //agent->SetObjectName(name);
-  return agent;
-}
- */
+#include "Object/PLAObject.hpp"
 
 PLAAgent::PLAAgent() noexcept {
 
 }
 
 PLAAgent::PLAAgent(PLAObject *aObject) :
-  //PLAObject(PLAObjectType::Agent),
   _owner(aObject)
 {
   _owner->RetainAgent();
@@ -76,4 +33,39 @@ void PLAAgent::Release()
   _owner->ReleaseAgent();
   _owner->Unbind();
   _owner = nullptr;
+}
+
+PLAId PLAAgent::GetOwnerId() const
+{
+  return _owner->GetObjectId();
+}
+
+PLAObjectType PLAAgent::GetOwnerType() const
+{
+  return _owner->GetObjectType();
+}
+
+const char *PLAAgent::GetOwnerTypeName() const
+{
+  return _owner->GetObjectTypeName();
+}
+
+const PLAString &PLAAgent::GetName()
+{
+  return _owner->GetObjectName();
+}
+
+void PLAAgent::SetName(const PLAString &aName)
+{
+  _owner->SetObjectName(aName);
+}
+
+const PLAObject *PLAAgent::GetOwner() const
+{
+  return _owner;
+}
+
+PLAObject *PLAAgent::RefOwner() const
+{
+  return _owner;
 }

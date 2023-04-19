@@ -2,13 +2,13 @@
 
 PLAOBJImage *PLAOBJImage::CreateRaw(const PLAString &aName)
 {
-  PLAOBJImage *image = new PLAOBJImage(aName, PLAOBJImageSize(1024), PLAOBJImageType::Raw);
+  PLAOBJImage *image = new PLAOBJImage(aName, PLAOBJImageSize(1024), PLAImageType::Raw);
   image->Bind();
   return image;
 }
 
 PLAOBJImage::PLAOBJImage(const PLAString &aName, const PLAOBJImageSize &aSize,
-                   PLAOBJImageType aType) :
+                         PLAImageType aType) :
   PLAObject(PLAObjectType::Image),
   _resource(PLAOBJResource::Manager::Instance()->GetResource(aName)),
   _size(aSize), _type(aType)

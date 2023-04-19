@@ -90,16 +90,4 @@ static const PLATimeInterval kPLATimeIntervalUndefined = kGRATimeIntervalUndefin
 //-- Identifier --//////////////////////////////////////////////////////////////
 using PLAId = GRAId;
 
-//-- Binders --/////////////////////////////////////////////////////////////////
-//using PLAObjectBinder = GRAOBJBinder<PLAObject>;
-
-//-- Collisions --//////////////////////////////////////////////////////////////
-
-//-- Functors --////////////////////////////////////////////////////////////////
-using PLAFunctionCode = PLAUInt;
-static const PLAFunctionCode kPLAFunctionCodeNone = kPLAUIntUndefined;
-
-//using PLATileChip = PLAUInt;
-//static const PLATileChip kPLATileChipNone = kPLAUIntUndefined;
-
 #endif // PLAIN_ENGINE_PLAOBJTYPE_HPP

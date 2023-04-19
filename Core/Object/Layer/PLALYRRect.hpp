@@ -15,7 +15,7 @@ public:
   PLALYRRect(const PLAVec3f &aOffset, const PLAVec2f &aVector,
              const PLAColor &aFillColor, const PLAColor &aStrokeColor,
              const std::string &aImageName, const PLARect &aClip) :
-    PLAOBJLayer(PLAOBJLayerType::Rect, aOffset),//, "== PLALYRRect =="),
+    PLAOBJLayer(PLALayerType::Rect, aOffset),//, "== PLALYRRect =="),
     _vector(aVector), _fillColor(aFillColor), _strokeColor(aStrokeColor)
   {
     if (aImageName != kPLAStrUndefined) {
@@ -26,7 +26,7 @@ public:
   PLALYRRect(const PLARect &aRect,
              const PLAColor &aFillColor, const PLAColor &aStrokeColor,
              const std::string &aImageName, const PLARect &aClip) :
-    PLAOBJLayer(PLAOBJLayerType::Rect, PLAVec3f(aRect.pos.x, aRect.pos.y, 0)),
+    PLAOBJLayer(PLALayerType::Rect, PLAVec3f(aRect.pos.x, aRect.pos.y, 0)),
     _vector(aRect.size), _fillColor(aFillColor),
     _strokeColor(aStrokeColor)
   {

@@ -15,6 +15,9 @@
 #include "Primitive/PLAPRMType.hpp"
 #include "Object/PLAObject.hpp"
 
+#include "PLAOBJTimelineNode.hpp"
+#include "PLAFunctionCode.hpp"
+
 class PLAOBJTimeline;
 
 class PLAOBJTimelineNode: public PLAObject//, private GRAOBJBinder<PLAOBJTimelineNode>::Item
@@ -25,6 +28,7 @@ class PLAOBJTimelineNode: public PLAObject//, private GRAOBJBinder<PLAOBJTimelin
 public:
   /// \~english Function to be executed at a specific point in time.
   /// \~japanese 特定の時点で実行される関数
+  /*
   enum class FunctionCode: PLAFunctionCode
   {
     OnStart,  ///< \~english Runs before first update. \~japanese 初回の更新より前に実行。
@@ -34,6 +38,7 @@ public:
     kNumberOfItems,
     None = kPLAFunctionCodeNone,
   };
+  */
 
   enum class Type
   {
@@ -43,8 +48,8 @@ public:
   };
 
 private:
-  GRAOBJFunctor<PLAOBJTimelineNode *, FunctionCode> _functor =
-    GRAOBJFunctor<PLAOBJTimelineNode *, FunctionCode>();
+  GRAOBJFunctor<PLAOBJTimelineNode *, PLAFunctionCode::TimelineNode> _functor =
+    GRAOBJFunctor<PLAOBJTimelineNode *, PLAFunctionCode::TimelineNode>();
   Type _type = Type::None;
   PLAInt _steps = 0;
   PLAInt _length = 1;
@@ -73,7 +78,7 @@ public:
 
   void SetThread(PLAOBJTimeline *aThread) { _timeline = aThread; }
   //void SetInfinity(PLABool aInfinity) { _infinity = aInfinity; }
-  void SetFunction(FunctionCode aKey,
+  void SetFunction(PLAFunctionCode::TimelineNode aKey,
                    const std::function<void(PLAOBJTimelineNode *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
 

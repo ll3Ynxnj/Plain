@@ -101,7 +101,7 @@ void PLAProperty::Print()
       GRA_PRINT("None");
       break;
     default :
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+      PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Detected unexpected PLAPropertyType.");
   }
   GRA_PRINT("}\n");
@@ -127,105 +127,105 @@ PLAProperty::PLAProperty(PLAPropertyType aType): _type(aType)
     case PLAPropertyType::Vec3s : _value.v3s = kPLAVec3sNone;  break;
     case PLAPropertyType::Vec4s : _value.v4s = kPLAVec4sNone;  break;
     default:
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
   }
 }
 
 PLABool PLAProperty::GetBool() const
 {
   if (_type != PLAPropertyType::Bool)
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Value is not PLABool type."); }
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLABool type."); }
   return _value.b;
 }
 
 PLAInt PLAProperty::GetInt() const
 {
   if (_type != PLAPropertyType::Int)
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Value is not PLAInt type."); }
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLAInt type."); }
   return _value.i;
 }
 
 PLAUInt PLAProperty::GetUInt() const
 {
   if (_type != PLAPropertyType::UInt)
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Value is not PLAUInt type."); }
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLAUInt type."); }
   return _value.ui;
 }
 
 PLAFloat PLAProperty::GetFloat() const
 {
   if (_type != PLAPropertyType::Float)
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Value is not PLAFloat type."); }
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLAFloat type."); }
   return _value.f;
 }
 
 const PLAColor &PLAProperty::GetColor() const
 {
   if (_type != PLAPropertyType::Color)
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Value is not PLAColor type."); }
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLAColor type."); }
   return _value.c;
 }
 
 const PLAVec2f &PLAProperty::GetVec2f() const
 {
   if (_type != PLAPropertyType::Vec2f)
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Value is not PLAVec2f type."); }
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLAVec2f type."); }
   return _value.v2f;
 }
 
 const PLAVec3f &PLAProperty::GetVec3f() const
 {
   if (_type != PLAPropertyType::Vec3f)
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Value is not PLAVec3f type."); }
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLAVec3f type."); }
   return _value.v3f;
 }
 
 const PLAVec4f &PLAProperty::GetVec4f() const
 {
   if (_type != PLAPropertyType::Vec4f)
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Value is not PLAVec4f type."); }
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLAVec4f type."); }
   return _value.v4f;
 }
 
 const PLAVec2i &PLAProperty::GetVec2i() const
 {
   if (_type != PLAPropertyType::Vec2i)
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Value is not PLAVec2i type."); }
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLAVec2i type."); }
   return _value.v2i;
 }
 
 const PLAVec3i &PLAProperty::GetVec3i() const
 {
   if (_type != PLAPropertyType::Vec3i)
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Value is not PLAVec3i type."); }
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLAVec3i type."); }
   return _value.v3i;
 }
 
 const PLAVec4i &PLAProperty::GetVec4i() const
 {
   if (_type != PLAPropertyType::Vec4i)
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Value is not PLAVec4i type."); }
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLAVec4i type."); }
   return _value.v4i;
 }
 
 const PLAVec2s &PLAProperty::GetVec2s() const
 {
   if (_type != PLAPropertyType::Vec2s)
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Value is not PLAVec2s type."); }
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLAVec2s type."); }
   return _value.v2s;
 }
 
 const PLAVec3s &PLAProperty::GetVec3s() const
 {
   if (_type != PLAPropertyType::Vec3s)
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Value is not PLAVec3s type."); }
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLAVec3s type."); }
   return _value.v3s;
 }
 
 const PLAVec4s &PLAProperty::GetVec4s() const
 {
   if (_type != PLAPropertyType::Vec4s)
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "Value is not PLAVec4s type."); }
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not PLAVec4s type."); }
   return _value.v4s;
 }
 
@@ -248,7 +248,7 @@ void PLAProperty::Set(const PLAProperty &aProperty)
     case PLAPropertyType::Vec3s : SetVec3s(aProperty.GetVec3s()); break;
     case PLAPropertyType::Vec4s : SetVec4s(aProperty.GetVec4s()); break;
     default :
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       break;
   }
 }
@@ -258,7 +258,7 @@ void PLAProperty::SetBool(PLABool aValue)
   if (_type == PLAPropertyType::None) { _type = PLAPropertyType::Bool; }
   if (_type != PLAPropertyType::Bool)
   {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLABool type.");
   }
   _value.b = aValue;
@@ -269,7 +269,7 @@ void PLAProperty::SetInt(PLAInt aValue)
   if (_type == PLAPropertyType::None) { _type = PLAPropertyType::Int; }
   if (_type != PLAPropertyType::Int)
   {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLAInt type.");
   }
   _value.i = aValue;
@@ -280,7 +280,7 @@ void PLAProperty::SetUInt(PLAUInt aValue)
   if (_type == PLAPropertyType::None) { _type = PLAPropertyType::UInt; }
   if (_type != PLAPropertyType::UInt)
   {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLAUInt type.");
   }
   _value.ui = aValue;
@@ -291,7 +291,7 @@ void PLAProperty::SetFloat(PLAFloat aValue)
   if (_type == PLAPropertyType::None) { _type = PLAPropertyType::Float; }
   if (_type != PLAPropertyType::Float)
   {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLAFloat type.");
   }
   _value.f = aValue;
@@ -302,7 +302,7 @@ void PLAProperty::SetColor(const PLAColor &aValue)
   if (_type == PLAPropertyType::None) { _type = PLAPropertyType::Color; }
   if (_type != PLAPropertyType::Color)
   {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLAColor type.");
   }
   _value.c = aValue;
@@ -313,7 +313,7 @@ void PLAProperty::SetVec2f(const PLAVec2f &aValue)
   if (_type == PLAPropertyType::None) { _type = PLAPropertyType::Vec2f; }
   if (_type != PLAPropertyType::Vec2f)
   {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLAVec2f type.");
   }
   _value.v2f = aValue;
@@ -324,7 +324,7 @@ void PLAProperty::SetVec3f(const PLAVec3f &aValue)
   if (_type == PLAPropertyType::None) { _type = PLAPropertyType::Vec3f; }
   if (_type != PLAPropertyType::Vec3f)
   {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLAVec3f type.");
   }
   _value.v3f = aValue;
@@ -335,7 +335,7 @@ void PLAProperty::SetVec4f(const PLAVec4f &aValue)
   if (_type == PLAPropertyType::None) { _type = PLAPropertyType::Vec4f; }
   if (_type != PLAPropertyType::Vec4f)
   {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLAVec4f type.");
   }
   _value.v4f = aValue;
@@ -346,7 +346,7 @@ void PLAProperty::SetVec2i(const PLAVec2i &aValue)
   if (_type == PLAPropertyType::None) { _type = PLAPropertyType::Vec2i; }
   if (_type != PLAPropertyType::Vec2i)
   {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLAVec2i type.");
   }
   _value.v2i = aValue;
@@ -357,7 +357,7 @@ void PLAProperty::SetVec3i(const PLAVec3i &aValue)
   if (_type == PLAPropertyType::None) { _type = PLAPropertyType::Vec3i; }
   if (_type != PLAPropertyType::Vec3i)
   {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLAVec3i type.");
   }
   _value.v3i = aValue;
@@ -368,7 +368,7 @@ void PLAProperty::SetVec4i(const PLAVec4i &aValue)
   if (_type == PLAPropertyType::None) { _type = PLAPropertyType::Vec4i; }
   if (_type != PLAPropertyType::Vec4i)
   {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLAVec4i type.");
   }
   _value.v4i = aValue;
@@ -379,7 +379,7 @@ void PLAProperty::SetVec2s(const PLAVec2s &aValue)
   if (_type == PLAPropertyType::None) { _type = PLAPropertyType::Vec2s; }
   if (_type != PLAPropertyType::Vec2s)
   {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLAVec2s type.");
   }
   _value.v2s = aValue;
@@ -390,7 +390,7 @@ void PLAProperty::SetVec3s(const PLAVec3s &aValue)
   if (_type == PLAPropertyType::None) { _type = PLAPropertyType::Vec3s; }
   if (_type != PLAPropertyType::Vec3s)
   {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLAVec3s type.");
   }
   _value.v3s = aValue;
@@ -401,7 +401,7 @@ void PLAProperty::SetVec4s(const PLAVec4s &aValue)
   if (_type == PLAPropertyType::None) { _type = PLAPropertyType::Vec4s; }
   if (_type != PLAPropertyType::Vec4s)
   {
-    PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Cannot be set except for PLAVec4s type.");
   }
   _value.v4s = aValue;
@@ -439,7 +439,7 @@ PLAProperty PLAProperty::operator +(const PLAProperty &aProperty) const
     case PLAPropertyType::Vec4s :
       return *this + aProperty.GetVec4s();
     default :
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       return PLAProperty::kNone;
   }
 }
@@ -497,7 +497,7 @@ void PLAProperty::operator +=(const PLAProperty &aProperty)
     case PLAPropertyType::Vec3s : *this += aProperty.GetVec3s(); break;
     case PLAPropertyType::Vec4s : *this += aProperty.GetVec4s(); break;
     default :
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       break;
   }
 }
@@ -570,7 +570,7 @@ PLAProperty PLAProperty::operator -(const PLAProperty &aProperty) const
     case PLAPropertyType::Vec4s :
       return *this - aProperty.GetVec4s();
     default :
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       return PLAProperty::kNone;
   }
 }
@@ -628,7 +628,7 @@ void PLAProperty::operator -=(const PLAProperty &aProperty)
     case PLAPropertyType::Vec3s : *this -= aProperty.GetVec3s(); break;
     case PLAPropertyType::Vec4s : *this -= aProperty.GetVec4s(); break;
     default :
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       break;
   }
 }
@@ -679,7 +679,7 @@ PLAProperty PLAProperty::operator *(const PLAProperty &aProperty) const
     case PLAPropertyType::UInt  : return *this * aProperty.GetUInt();
     case PLAPropertyType::Float : return *this * aProperty.GetFloat();
     default :
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       return PLAProperty::kNone;
   }
 }
@@ -692,7 +692,7 @@ PLAProperty PLAProperty::operator *(PLAInt aValue) const
     case PLAPropertyType::Vec3i : return PLAProperty(this->GetVec3i() * aValue);
     case PLAPropertyType::Vec4i : return PLAProperty(this->GetVec4i() * aValue);
     default:
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       return PLAProperty(aValue);
   }
 }
@@ -705,7 +705,7 @@ PLAProperty PLAProperty::operator *(PLAUInt aValue) const
     case PLAPropertyType::Vec3s : return PLAProperty(this->GetVec3s() * aValue);
     case PLAPropertyType::Vec4s : return PLAProperty(this->GetVec4s() * aValue);
     default:
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       return PLAProperty(aValue);
   }
 }
@@ -718,7 +718,7 @@ PLAProperty PLAProperty::operator *(PLAFloat aValue) const
     case PLAPropertyType::Vec3f : return PLAProperty(this->GetVec3f() * aValue);
     case PLAPropertyType::Vec4f : return PLAProperty(this->GetVec4f() * aValue);
     default:
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       return PLAProperty(aValue);
   }
 }
@@ -730,7 +730,7 @@ void PLAProperty::operator *=(const PLAProperty &aProperty)
     case PLAPropertyType::UInt  : *this *= aProperty.GetUInt();  break;
     case PLAPropertyType::Float : *this *= aProperty.GetFloat(); break;
     default :
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       break;
   }
 }
@@ -743,7 +743,7 @@ void PLAProperty::operator *=(PLAInt aValue)
     case PLAPropertyType::Vec3i : this->SetVec3i(this->GetVec3i() * aValue); break;
     case PLAPropertyType::Vec4i : this->SetVec4i(this->GetVec4i() * aValue); break;
     default:
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
   }
 }
 
@@ -755,7 +755,7 @@ void PLAProperty::operator *=(PLAUInt aValue)
     case PLAPropertyType::Vec3s : this->SetVec3s(this->GetVec3s() * aValue); break;
     case PLAPropertyType::Vec4s : this->SetVec4s(this->GetVec4s() * aValue); break;
     default:
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
   }
 }
 
@@ -767,7 +767,7 @@ void PLAProperty::operator *=(PLAFloat aValue)
     case PLAPropertyType::Vec3f : this->SetVec3f(this->GetVec3f() * aValue); break;
     case PLAPropertyType::Vec4f : this->SetVec4f(this->GetVec4f() * aValue); break;
     default:
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
   }
 }
 
@@ -780,7 +780,7 @@ PLAProperty PLAProperty::operator /(const PLAProperty &aProperty) const
     case PLAPropertyType::UInt  : return *this / aProperty.GetUInt();
     case PLAPropertyType::Float : return *this / aProperty.GetFloat();
     default :
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       return PLAProperty::kNone;
   }
 }
@@ -793,7 +793,7 @@ PLAProperty PLAProperty::operator /(PLAInt aValue) const
     case PLAPropertyType::Vec3i : return PLAProperty(this->GetVec3i() / aValue);
     case PLAPropertyType::Vec4i : return PLAProperty(this->GetVec4i() / aValue);
     default:
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       return PLAProperty::kNone;
   }
 }
@@ -806,7 +806,7 @@ PLAProperty PLAProperty::operator /(PLAUInt aValue) const
     case PLAPropertyType::Vec3s : return PLAProperty(this->GetVec3s() / aValue);
     case PLAPropertyType::Vec4s : return PLAProperty(this->GetVec4s() / aValue);
     default:
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       return PLAProperty::kNone;
   }
 }
@@ -819,7 +819,7 @@ PLAProperty PLAProperty::operator /(PLAFloat aValue) const
     case PLAPropertyType::Vec3f : return PLAProperty(this->GetVec3f() / aValue);
     case PLAPropertyType::Vec4f : return PLAProperty(this->GetVec4f() / aValue);
     default:
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       return PLAProperty::kNone;
   }
 }
@@ -831,7 +831,7 @@ void PLAProperty::operator /=(const PLAProperty &aProperty)
     case PLAPropertyType::UInt  : *this /= aProperty.GetUInt();  break;
     case PLAPropertyType::Float : *this /= aProperty.GetFloat(); break;
     default :
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       break;
   }
 }
@@ -844,7 +844,7 @@ void PLAProperty::operator /=(PLAInt aValue)
     case PLAPropertyType::Vec3i : this->SetVec3i(this->GetVec3i() / aValue); break;
     case PLAPropertyType::Vec4i : this->SetVec4i(this->GetVec4i() / aValue); break;
     default:
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
   }
 }
 
@@ -856,7 +856,7 @@ void PLAProperty::operator /=(PLAUInt aValue)
     case PLAPropertyType::Vec3s : this->SetVec3s(this->GetVec3s() / aValue); break;
     case PLAPropertyType::Vec4s : this->SetVec4s(this->GetVec4s() / aValue); break;
     default:
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
   }
 }
 
@@ -868,6 +868,6 @@ void PLAProperty::operator /=(PLAFloat aValue)
     case PLAPropertyType::Vec3f : this->SetVec3f(this->GetVec3f() / aValue); break;
     case PLAPropertyType::Vec4f : this->SetVec4f(this->GetVec4f() / aValue); break;
     default:
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert, "No compatible type.");
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
   }
 }

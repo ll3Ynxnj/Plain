@@ -81,10 +81,10 @@ PLACircle PLALYRCircle::GetCircle() const
 
 void PLALYRCircle::SetFillColor(const PLAColor &aColor) const
 {
-  PLA_ERROR_ISSUE(PLAOBJErrorType::Expect, "Undefined Method.");
+  PLA_ERROR_ISSUE(PLAErrorType::Expect, "Undefined Method.");
 }
 
 void PLALYRCircle::SetStrokeColor(const PLAColor &aColor) const
 {
-  PLA_ERROR_ISSUE(PLAOBJErrorType::Expect, "Undefined Method.");
+  PLA_ERROR_ISSUE(PLAErrorType::Expect, "Undefined Method.");
 }

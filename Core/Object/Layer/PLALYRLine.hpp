@@ -15,7 +15,7 @@ public:
   PLALYRLine() = delete;
   PLALYRLine(const PLAVec3f &aOffset, const PLAVec2f &aVector,
              const PLAColor &aColor) :
-    PLAOBJLayer(PLAOBJLayerType::Line, aOffset),//, "== PLALYRLine =="),
+    PLAOBJLayer(PLALayerType::Line, aOffset),//, "== PLALYRLine =="),
     _vector(aVector), _color(aColor) {};
   virtual ~PLALYRLine() {};
 

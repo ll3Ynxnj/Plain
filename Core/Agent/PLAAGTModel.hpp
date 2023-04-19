@@ -7,9 +7,10 @@
 
 
 #include "PLAAgent.hpp"
-#include "Object/Model/PLAOBJModel.hpp"
 
-class PLAAGTModel final : public PLAAgent//, public PLAInputContext
+class PLAOBJModel;
+
+class PLAAGTModel final : public PLAAgent
 {
 public:
   /// Agent is const method only.
@@ -52,10 +53,8 @@ public:
   void PrintModels() const;
 
 protected:
-  const PLAOBJModel *GetModel() const
-  { return static_cast<const PLAOBJModel *>(this->GetOwner()); }
-  PLAOBJModel *RefModel() const
-  { return static_cast<PLAOBJModel *>(this->RefOwner()); }
+  const PLAOBJModel *GetModel() const;
+  PLAOBJModel *RefModel() const;
 };
 
 #endif //ANHR_PLAAGTMODEL_HPP

@@ -8,6 +8,8 @@
 #include "Grain/Object/GRAOBJBinder.hpp"
 #include "Grain/Object/GRAOBJListener.hpp"
 
+#include "PLAFunctionCode.hpp"
+
 class PLAOBJActor;
 class PLAAGTScene;
 
@@ -15,23 +17,12 @@ class PLAOBJScene final :
   public PLAObject, public GRAOBJBinder<PLAOBJActor>
 {
 public:
-
-  enum class FunctionCode : PLAFunctionCode
-  {
-    OnInit,
-    OnUpdate,
-    OnAppear,
-    OnDisappear,
-
-    kNumberOfItems,
-    None = kPLAFunctionCodeNone,
-  };
+  using Listener = GRAOBJListener<PLAOBJScene *, PLAFunctionCode::Scene>;
+  using Functor = GRAOBJFunctor<PLAOBJScene *, PLAFunctionCode::Scene>;
 
 private:
-  std::list<GRAOBJListener<PLAOBJScene *, FunctionCode> *> _listeners =
-    std::list<GRAOBJListener<PLAOBJScene *, FunctionCode> *>();
-  GRAOBJFunctor<PLAOBJScene *, FunctionCode> _functor =
-    GRAOBJFunctor<PLAOBJScene *, FunctionCode>();
+  std::list<Listener *> _listeners = std::list<Listener *>();
+  Functor _functor = Functor();
 
 protected:
   PLAOBJScene();
@@ -55,13 +46,13 @@ public:
 
   PLAAGTScene AssignAgent();
 
-  void AddListener(GRAOBJListener<PLAOBJScene *, FunctionCode> *aListener)
+  void AddListener(GRAOBJListener<PLAOBJScene *, PLAFunctionCode::Scene> *aListener)
   { _listeners.push_back(aListener); };
 
-  void RemoveListener(GRAOBJListener<PLAOBJScene *, FunctionCode> *aListener)
+  void RemoveListener(GRAOBJListener<PLAOBJScene *, PLAFunctionCode::Scene> *aListener)
   { _listeners.remove(aListener); };
 
-  void SetFunction(FunctionCode aKey,
+  void SetFunction(PLAFunctionCode::Scene aKey,
                    const std::function<void(PLAOBJScene *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
 

@@ -3,29 +3,35 @@
 
 #include <list>
 #include <functional>
+
 #include "Object/PLAObject.hpp"
-#include "Object/PLAOBJScene.hpp"
 #include "Object/Input/PLAInputContext.hpp"
+//#include "Grain/Object/GRAOBJListener.hpp"
+#include "Object/PLAOBJScene.hpp"
+#include "Grain/Object/GRAOBJBinder.hpp"
+
+#include "PLAFunctionCode.hpp"
 #include "Core/Library/PLALIBCollision.hpp"
-#include "PLAOBJActorCollisionCode.hpp"
-#include "PLAOBJActorCollisyncCode.hpp"
-#include "PLAOBJActorFunctionCode.hpp"
+#include "PLAActorCollisionCode.hpp"
+#include "PLAActorCollisyncCode.hpp"
 #include "Primitive/PLAPRMColor.hpp"
 #include "Primitive/PLAPRMVector.hpp"
 #include "Primitive/PLAPRMTransform.hpp"
 #include "Object/Layer/PLAOBJLayer.hpp"
 #include "Object/Layer/IPLATileLayerDataSource.hpp"
-#include "Grain/Object/GRAOBJBinder.hpp"
 #include "Object/Timeline/PLATimelineHolder.hpp"
 #include "Object/Timeline/PLATMLMotionNode.hpp"
 #include "Object/Timeline/PLATMLMotion.hpp"
+
+#include "PLAFunctionCode.hpp"
 
 class PLAOBJRenderer;
 class PLAAGTActor;
 
 class PLAOBJActor final :
   public PLAObject, public PLAInputContext, public PLATimelineHolder,
-  public GRAOBJListener<PLAOBJScene, PLAOBJScene::FunctionCode>,
+  //public GRAOBJListener<PLAOBJScene, PLAFunctionCode::Scene>,
+  public PLAOBJScene::Listener,
   public GRAOBJBinder<PLAOBJActor>::Item
 {
 public:
@@ -36,7 +42,7 @@ private:
   struct CollisionItem
   {
     PLACollision *collision = nullptr;
-    bool syncMode[static_cast<unsigned>(PLAOBJActorCollisyncCode::kNumberOfItems)] =
+    bool syncMode[static_cast<unsigned>(PLAActorCollisyncCode::kNumberOfItems)] =
     { false };
   };
 
@@ -45,9 +51,9 @@ private:
   PLAColor _color = kPLAColorWhite;
   PLATransform _transform = kPLATransformNorm;
   PLAOBJLayer *_layer = nullptr;
-  CollisionItem collisions[static_cast<unsigned>(PLAOBJActorCollisionCode::kNumberOfItems)];
+  CollisionItem collisions[static_cast<unsigned>(PLAActorCollisionCode::kNumberOfItems)];
 
-  GRAOBJFunctor<PLAOBJActor *, PLAOBJActorFunctionCode> _functor = GRAOBJFunctor<PLAOBJActor *, PLAOBJActorFunctionCode>();
+  GRAOBJFunctor<PLAOBJActor *, PLAFunctionCode::Actor> _functor = GRAOBJFunctor<PLAOBJActor *, PLAFunctionCode::Actor>();
 
   /// Calculate from pivot. Must be updated when pivot changes.
 
@@ -131,7 +137,7 @@ public:
   void GetSize(PLAVec3f *aSize) const { return _layer->GetSize(aSize); };
   const PLAVec3f &GetLayerOffset() const { return _layer->GetOffset(); };
 
-  PLAOBJLayerType GetLayerType() const { return _layer->GetLayerType(); };
+  PLALayerType GetLayerType() const { return _layer->GetLayerType(); };
 
   size_t GetNumberOfActors() { return _actors.size(); };
 
@@ -160,7 +166,7 @@ public:
   void SetScale(const PLAVec3f &aScale)
   { _transform.scale = aScale; };
 
-  void SetFunction(PLAOBJActorFunctionCode aKey,
+  void SetFunction(PLAFunctionCode::Actor aKey,
                    const std::function<void(PLAOBJActor *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
 

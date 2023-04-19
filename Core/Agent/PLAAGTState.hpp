@@ -7,9 +7,9 @@
 
 
 #include "PLAAgent.hpp"
-#include "Object/PLAOBJState.hpp"
 
 class PLAAGTModel;
+class PLAOBJState;
 
 class PLAAGTState final : public PLAAgent
 {
@@ -25,10 +25,8 @@ public:
   void PrintModels() const;
 
 protected:
-  const PLAOBJState *GetState() const
-  { return static_cast<const PLAOBJState *>(this->GetOwner()); }
-  PLAOBJState *RefState() const
-  { return static_cast<PLAOBJState *>(this->RefOwner()); }
+  const PLAOBJState *GetState() const;
+  PLAOBJState *RefState() const;
 
 };
 

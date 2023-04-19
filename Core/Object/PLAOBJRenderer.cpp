@@ -8,7 +8,7 @@ PLAOBJRenderer *PLAOBJRenderer::Create(PLARendererType aType)
   {
     case PLARendererType::GLUT : return PLAGLUTRenderer::Create();
     default :
-      PLA_ERROR_ISSUE(PLAOBJErrorType::Assert,
+      PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Unexpected renderer type detected.");
       return nullptr;
   }

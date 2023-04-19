@@ -15,7 +15,7 @@ public:
   PLALYRCircle(const PLAVec3f &aOffset, PLAFloat aRadius,
                const PLAColor &aFillColor, const PLAColor &aStrokeColor,
                const std::string &aImageName, const PLARect &aClip) :
-    PLAOBJLayer(PLAOBJLayerType::Circle, aOffset),//, "== PLALYRRect =="),
+    PLAOBJLayer(PLALayerType::Circle, aOffset),//, "== PLALYRRect =="),
     _radius(aRadius), _fillColor(aFillColor), _strokeColor(aStrokeColor)
     {
       if (aImageName != kPLAStrUndefined) {
@@ -26,7 +26,7 @@ public:
   PLALYRCircle(const PLACircle aCircle,
                const PLAColor &aFillColor, const PLAColor &aStrokeColor,
                const std::string &aImageName, const PLARect &aClip) :
-    PLAOBJLayer(PLAOBJLayerType::Circle,
+    PLAOBJLayer(PLALayerType::Circle,
                 PLAVec3f(aCircle.origin.x, aCircle.origin.y, 0)),//, "== PLALYRRect =="),
     _radius(aCircle.radius), _fillColor(aFillColor), _strokeColor(aStrokeColor)
   {

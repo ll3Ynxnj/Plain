@@ -4,6 +4,8 @@
 
 #include "PLAAGTModel.hpp"
 
+#include "Object/Model/PLAOBJModel.hpp"
+
 /*
 PLAAGTModel *PLAAGTModel::Create(PLAOBJModel *aModel)
 {
@@ -183,4 +185,14 @@ void PLAAGTModel::SetVec4s(const PLAString &aName, const PLAVec4s &aValue) const
 void PLAAGTModel::PrintModels() const {
   auto model = this->GetModel();
   model->PrintModels();
+}
+
+const PLAOBJModel *PLAAGTModel::GetModel() const
+{
+  return static_cast<const PLAOBJModel *>(this->GetOwner());
+}
+
+PLAOBJModel *PLAAGTModel::RefModel() const
+{
+  return static_cast<PLAOBJModel *>(this->RefOwner());
 }

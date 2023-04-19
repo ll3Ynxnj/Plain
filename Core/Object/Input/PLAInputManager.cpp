@@ -3,7 +3,7 @@
 //
 
 #include "PLAInputManager.hpp"
-#include "Object/PLAOBJErrorType.hpp"
+#include "Core/PLAErrorType.hpp"
 
 PLAInputManager PLAInputManager::_instance = PLAInputManager();
 
@@ -67,13 +67,13 @@ void PLAInputManager::AddHandler(PLAInputHandler *aHandler)
 {
   try { _handlers.insert(aHandler); }
   catch(...)
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Expect, "Failed to add context."); }
+  { PLA_ERROR_ISSUE(PLAErrorType::Expect, "Failed to add context."); }
 }
 
 void PLAInputManager::RemoveHandler(PLAInputHandler *aHandler)
 {
   try { _handlers.erase(aHandler); }
   catch(...)
-  { PLA_ERROR_ISSUE(PLAOBJErrorType::Expect, "Failed to remove context."); }
+  { PLA_ERROR_ISSUE(PLAErrorType::Expect, "Failed to remove context."); }
 }
  */

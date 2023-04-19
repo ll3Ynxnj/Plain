@@ -2,7 +2,7 @@
 #define PLAIN_ENGINE_PLAOBJLAYER_HPP
 
 #include "Object/PLAObject.hpp"
-#include "PLAOBJLayerType.hpp"
+#include "PLALayerType.hpp"
 #include "Object/PLAOBJImageClip.hpp"
 #include "Object/Timeline/PLATMLMotionNode.hpp"
 #include "Primitive/PLAPRMVector.hpp"
@@ -13,11 +13,11 @@
 
 class PLAOBJLayer : public PLAObject
 {
-  PLAOBJLayerType _type = PLAOBJLayerType::None;
+  PLALayerType _type = PLALayerType::None;
   PLAVec3f _offset = kPLAVec3fNone;
 
 protected:
-  PLAOBJLayer(PLAOBJLayerType aType, const PLAVec3f &aOffset);//, const std::string &aName);
+  PLAOBJLayer(PLALayerType aType, const PLAVec3f &aOffset);//, const std::string &aName);
 
 public:
   //static Layer *Create(const Layer &aLayer);
@@ -27,7 +27,7 @@ public:
 
   //virtual void UpdateMotionProperties() {};
 
-  PLAOBJLayerType GetLayerType() const { return _type; };
+  PLALayerType GetLayerType() const { return _type; };
   const PLAVec3f &GetOffset() const { return _offset; };
   void SetOffset(const PLAVec3f &aOffset) { _offset = aOffset; }
 

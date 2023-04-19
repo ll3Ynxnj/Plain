@@ -13,7 +13,7 @@ public:
 
   PLALYRPoint() = delete;
   PLALYRPoint(const PLAVec3f &aOffset, const PLAColor &aColor) :
-    PLAOBJLayer(PLAOBJLayerType::Point, aOffset),//, "== PLALYRPoint =="),
+    PLAOBJLayer(PLALayerType::Point, aOffset),//, "== PLALYRPoint =="),
     _color(aColor) {};//, aStyle) {};
   virtual ~PLALYRPoint() {};
 
