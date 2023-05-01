@@ -10,42 +10,49 @@ enum class PLAObjectType : PLAInt
   Agent,
   Scene,
   State,
+
   Model,
   Stage,
   Actor,
   Layer,
   Style,
+
   Image,
   Error,
   Timeline,
   TimelineNode,
   Resource,
+
   Renderer,
   ImageClip,
-
   LYRTileDataSource,
 
   kNumberOfItems,
   None = kPLAIntUndefined,
 };
 
-static const char *kPLAObjectTypeName[static_cast<PLAId>(PLAObjectType::kNumberOfItems)] = {
+/// CAUTION: This array must be synchronized with PLAObjectType. ///////////////
+static const char *kPLAObjectTypeName[static_cast<size_t>(PLAObjectType::kNumberOfItems)] = {
   "App",
   "Input",
   "Agent",
   "Scene",
+  "State",
+
+  "Model",
   "Stage",
   "Actor",
   "Layer",
   "Style",
+
   "Image",
   "Error",
   "Timeline",
   "TimelineNode",
   "Resource",
+
   "Renderer",
   "ImageClip",
-
   "LYRTileDataSource",
 };
 
