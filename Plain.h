@@ -10,6 +10,9 @@
 #include "Core/PLARendererType.hpp"
 #include "Core/PLAFunctionCode.hpp"
 
+using PLAModel = PLAAGTModel;
+using PLAActor = PLAAGTActor;
+
 namespace Plain
 {
   using Renderer = PLARendererType;
@@ -63,6 +66,7 @@ namespace Plain
 
   namespace Model
   {
+    //using Agent = PLAAGTModel;
     PLAAGTModel Create();
     PLAAGTModel Create(const PLAString &aName);
     PLAAGTModel Assign(const PLAString &aName);
@@ -70,6 +74,7 @@ namespace Plain
 
   namespace Actor
   {
+    //using Agent = PLAAGTActor;
     PLAAGTActor CreateRect(const PLAVec3f &aPivot,
                            const PLAColor &aColor,
                            const PLATransform &aTransform,
