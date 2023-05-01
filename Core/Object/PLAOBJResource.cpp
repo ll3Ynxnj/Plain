@@ -88,14 +88,21 @@ PLAOBJResource::Manager PLAOBJResource::Manager::_instance = PLAOBJResource::Man
 
 PLAOBJResource::Manager::Manager() : GRAOBJBinder<PLAOBJResource>()
 {
-  this->LoadResource("sample0.raw");
-  this->LoadResource("sample1.raw");
-  this->LoadResource("sample2.raw");
+
 }
 
 PLAOBJResource::Manager::~Manager()
 {
 
+}
+
+void PLAOBJResource::Manager::Init()
+{
+  GRAOBJBinder<PLAOBJResource>::Init();
+
+  this->LoadResource("sample0.raw");
+  this->LoadResource("sample1.raw");
+  this->LoadResource("sample2.raw");
 }
 
 PLAOBJResource *PLAOBJResource::Manager::Resource(const PLAString &aKey)

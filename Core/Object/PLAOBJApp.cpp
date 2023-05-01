@@ -63,6 +63,7 @@ PLAOBJApp::~PLAOBJApp()
 
 void PLAOBJApp::Init(PLARendererType aRendererType)
 {
+  PLAOBJResource::Manager::Instance()->Init();
   _renderer = PLAOBJRenderer::Create(aRendererType);
   _renderer->Init();
   PLAOBJError::Manager::Instance()->Init();

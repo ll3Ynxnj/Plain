@@ -66,6 +66,8 @@ public:
     Manager();
     ~Manager();
 
+    void Init();
+
     const PLAOBJResource *GetResource(const PLAString &aName) const;
     void PrintResources() const;
 
