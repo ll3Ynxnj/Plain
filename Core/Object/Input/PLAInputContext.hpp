@@ -9,20 +9,12 @@
 
 class PLAInputContext
 {
-  /*
-  std::function<void(PLAInputContext *, const PLAInput &)> _fInputTrigger =
-  [](PLAInputContext *aContext, const PLAInput &aInput){};
-  std::function<void(PLAInputContext *, const PLAInput &)> _fInputRefresh =
-  [](PLAInputContext *aContext, const PLAInput &aInput){};
-  std::function<void(PLAInputContext *, const PLAInput &)> _fInputRelease =
-  [](PLAInputContext *aContext, const PLAInput &aInput){};
-   */
-
-  std::map<PLAInputDeviceType, std::map<PLAInputSignalCode, std::map<PLAInputActionCode,
-    std::function<void(PLAInputContext *, const PLAInput &)>>>> _fInputFunctors =
   std::map<PLAInputDeviceType, std::map<PLAInputSignalCode,
-    std::map<PLAInputActionCode,
-    std::function<void(PLAInputContext *, const PLAInput &)>>>>();
+  std::map<PLAInputActionCode,
+  std::function<void(PLAInputContext *, const PLAInput &)>>>> _fInputFunctors =
+  std::map<PLAInputDeviceType, std::map<PLAInputSignalCode,
+  std::map<PLAInputActionCode,
+  std::function<void(PLAInputContext *, const PLAInput &)>>>>();
 
 public :
   PLAInputContext();
@@ -36,11 +28,6 @@ public :
                       PLAInputActionCodeForMouse aAction);
   void InputWithKeyboard(const PLAInput &aInput,
                          PLAInputActionCodeForKeyboard aAction);
-  /*
-  void InputTrigger(const PLAInput &aInput) { _fInputTrigger(this, aInput); };
-  void InputRefresh(const PLAInput &aInput) { _fInputRefresh(this, aInput); };
-  void InputRelease(const PLAInput &aInput) { _fInputRelease(this, aInput); };
-  */
 
   void SetFunctorForInputWithTouch
     (PLAInputSignalCodeForTouch aSignalCode,
@@ -54,17 +41,7 @@ public :
     (PLAInputSignalCodeForKeyboard aSignalCode,
      PLAInputActionCodeForKeyboard aActionCode,
      const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc);
-  /*
-  void SetFunctorForInputTrigger
-  (const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc)
-  { _fInputTrigger = aFunc; }
-  void SetFunctorForInputRefresh
-  (const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc)
-  { _fInputRefresh = aFunc; }
-  void SetFunctorForInputRelease
-  (const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc)
-  { _fInputRelease = aFunc; }
-   */
+
 private:
   void Input(const PLAInput &aInput, PLAInputActionCode aAction);
   void SetFunctorForInput

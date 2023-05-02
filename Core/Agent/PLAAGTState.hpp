@@ -15,7 +15,6 @@ class PLAAGTState final : public PLAAgent
 {
 public:
   /// Agent is const method only.
-  //static PLAAGTState *Create(PLAOBJState *aScene);
   explicit PLAAGTState(PLAOBJState *aState);
 
   virtual ~PLAAGTState() noexcept;

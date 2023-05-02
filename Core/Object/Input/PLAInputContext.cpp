@@ -7,16 +7,7 @@
 
 PLAInputContext::PLAInputContext()
 {
-  /*
-  for (PLAUInt device = 0;
-       device < static_cast<PLAUInt>(PLAInputDeviceType::kNumberOfItems);
-       device++)
-  {
-    _fInputFunctors[static_cast<PLAInputDeviceType>(device)] =
-      std::map<PLAInputSignalCode, std::map<PLAInputActionCode,
-        std::function<void(PLAInputContext *, const PLAInput &)>>>();
-  }
-   */
+
 }
 
 PLAInputContext::~PLAInputContext()
@@ -27,16 +18,14 @@ PLAInputContext::~PLAInputContext()
 bool PLAInputContext::IsResponsive(PLAInputDeviceType aDeviceType,
                                    PLAInputSignalCode aSignalCode)
 {
-  std::map<PLAInputDeviceType,
-    std::map<PLAInputSignalCode,
-      std::map<PLAInputActionCode,
-        std::function<void(PLAInputContext *, const PLAInput &)>>>>::iterator devItr =
+  std::map<PLAInputDeviceType, std::map<PLAInputSignalCode,
+  std::map<PLAInputActionCode,
+  std::function<void(PLAInputContext *, const PLAInput &)>>>>::iterator devItr =
     _fInputFunctors.find(aDeviceType);
   if (devItr == _fInputFunctors.end()) { return false; }
 
-  std::map<PLAInputSignalCode,
-    std::map<PLAInputActionCode,
-      std::function<void(PLAInputContext *, const PLAInput &)>>>::iterator sigItr =
+  std::map<PLAInputSignalCode, std::map<PLAInputActionCode,
+  std::function<void(PLAInputContext *, const PLAInput &)>>>::iterator sigItr =
     (*devItr).second.find(aSignalCode);
   if (sigItr == (*devItr).second.end()) { return false; }
 

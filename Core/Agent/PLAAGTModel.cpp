@@ -6,15 +6,6 @@
 
 #include "Object/Model/PLAOBJModel.hpp"
 
-/*
-PLAAGTModel *PLAAGTModel::Create(PLAOBJModel *aModel)
-{
-  auto agent = new PLAAGTModel(aModel);
-  //agent->PLAObject::Bind();
-  return agent;
-}
- */
-
 PLAAGTModel::PLAAGTModel(PLAOBJModel *aModel) :
   PLAAgent(aModel)
 {

@@ -4,17 +4,7 @@
 
 #include "PLAAGTStage.hpp"
 #include "PLAAGTActor.hpp"
-
 #include "Object/PLAOBJStage.hpp"
-
-/*
-PLAAGTStage *PLAAGTStage::Create(PLAOBJStage *aStage)
-{
-  auto agent = new PLAAGTStage(aStage);
-  //agent->PLAObject::Bind();
-  return agent;
-}
- */
 
 PLAAGTStage::PLAAGTStage(PLAOBJStage *aStage) :
   PLAAgent(aStage)

@@ -4,17 +4,7 @@
 
 #include "PLAAGTState.hpp"
 #include "PLAAGTModel.hpp"
-
 #include "Object/PLAOBJState.hpp"
-
-/*
-PLAAGTState *PLAAGTState::Create(PLAOBJState *aState)
-{
-  auto agent = new PLAAGTState(aState);
-  //agent->PLAObject::Bind();
-  return agent;
-}
- */
 
 PLAAGTState::PLAAGTState(PLAOBJState *aState) :
   PLAAgent(aState)

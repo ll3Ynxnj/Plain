@@ -5,6 +5,7 @@
 #ifndef ANHR_PLAAGTSCENE_HPP
 #define ANHR_PLAAGTSCENE_HPP
 
+
 #include "PLAAgent.hpp"
 
 class PLAOBJScene;
@@ -13,8 +14,6 @@ class PLAAGTScene final : public PLAAgent
 {
 public:
   /// Agent is const method only.
-  //static PLAAGTScene *Create(PLAOBJScene *aScene);
-
   explicit PLAAGTScene(PLAOBJScene *aScene);
   virtual ~PLAAGTScene() noexcept;
 

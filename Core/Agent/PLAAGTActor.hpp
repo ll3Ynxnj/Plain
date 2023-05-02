@@ -13,8 +13,6 @@ class PLAAGTActor final : public PLAAgent
 {
 public:
   /// Agent is const method only.
-  //static PLAAGTActor *Create(PLAOBJActor *aActor);
-
   explicit PLAAGTActor(PLAOBJActor *aActor);
   virtual ~PLAAGTActor() noexcept;
 

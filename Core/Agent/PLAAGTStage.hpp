@@ -5,6 +5,7 @@
 #ifndef ANHR_PLAAGTSTAGE_HPP
 #define ANHR_PLAAGTSTAGE_HPP
 
+
 #include "PLAAgent.hpp"
 #include "PLAFunctionCode.hpp"
 #include "Grain/Object/GRAOBJListener.hpp"
@@ -18,8 +19,6 @@ public:
 
 public:
   /// Agent is const method only.
-  //static PLAAGTStage *Create(PLAOBJStage *aScene);
-
   explicit PLAAGTStage(PLAOBJStage *aScene);
   virtual ~PLAAGTStage() noexcept;
 

@@ -4,15 +4,6 @@
 
 #include "PLAAGTActor.hpp"
 
-/*
-PLAAGTActor *PLAAGTActor::Create(PLAOBJActor *aActor)
-{
-  auto agent = new PLAAGTActor(aActor);
-  //agent->PLAObject::Bind();
-  return agent;
-}
- */
-
 PLAAGTActor::PLAAGTActor(PLAOBJActor *aActor) :
   PLAAgent(aActor)
 {
