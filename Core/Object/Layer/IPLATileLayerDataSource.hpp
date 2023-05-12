@@ -1,5 +1,5 @@
-#ifndef ANHR_IPLATILELAYERDATASOURCE_HPP
-#define ANHR_IPLATILELAYERDATASOURCE_HPP
+#ifndef PLAIN_IPLATILELAYERDATASOURCE_HPP
+#define PLAIN_IPLATILELAYERDATASOURCE_HPP
 
 #include "Primitive/PLAPRMType.hpp"
 #include "Primitive/PLAPRMVector.hpp"
@@ -31,4 +31,4 @@ public:
   virtual const PLATileChip &GetTileChip(const PLAVec2s &aAddress) const = 0;
 };
 
-#endif //ANHR_IPLATILELAYERDATASOURCE_HPP
+#endif //PLAIN_IPLATILELAYERDATASOURCE_HPP

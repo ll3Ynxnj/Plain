@@ -21,8 +21,7 @@ public:
   PLALYRTile(const PLAVec2f &aOffset, const std::string &aImageName,
              const GRAVec2<PLASize> &aTileSize,
              const GRAVec2<PLASize> &aChipSize,
-             const IPLATileLayerDataSource *aDataSource);//,
-             //const std::vector<std::vector<PLATimelineHolder *>> &aNodeHolders);
+             const IPLATileLayerDataSource *aDataSource);
 
   static PLALYRTile *Create(const PLAVec2f &aOffset,
                             const std::string &aImageName,
@@ -34,25 +33,16 @@ public:
 
   virtual ~PLALYRTile();
 
-  //void UpdateMotionProperties() override;
-
   void AddMotionThread(const PLAVec2s &aAddress, PLATMLMotion *aThread);
-  //void AddMotions(const PLAVec2s &aAddress,
-  //                const std::vector<PLATMLMotionNode *> &aMotions);
-  //void SetMotion(const PLAVec2s &aAddress, PLATMLMotionNode *aMotion);
 
   const PLAOBJImage *GetImage() const { return _image; };
   const PLAVec2s &GetTileSize() const { return _tileSize; };
   const PLAVec2s &GetChipSize() const { return _chipSize; };
   const PLATileChip &GetChip(const PLAVec2s &aAddress) const
   { return _dataSource->GetTileChip(aAddress); }
-  //const PLATMLMotionNode *GetMotion(const PLAVec2s &aAddress) const
-  //{ return _motions[aAddress.y][aAddress.x]; }
   const PLATMLMotion *GetMotionThread(const PLAVec2s &aAddress) const;
 
   PLASize GetNumberOfChips() const { return _tileSize.x * _tileSize.y; };
-
-  //void RefreshChips(const std::vector<std::vector<PLATileChip>> &aChips);
 
   PLAVec2s GetDataAddress() const { return _dataSource->GetDataAddress(); };
 
