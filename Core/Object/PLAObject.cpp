@@ -204,7 +204,7 @@ void PLAObject::Manager::DeleteUnboundObjects()
 
 void PLAObject::Manager::PrintObjects() const
 {
-  GRA_PRINT("//-- PLAObject::Manager::PrintResource --"
+  GRA_PRINT("//-- PLAObject::Manager::PrintObjects --/"
             "///////////////////////////////////////\n");
   GRA_PRINT("INDEX |   ID |                             NAME "
             "| TYPE | AGENT |                        \n");

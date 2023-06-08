@@ -25,6 +25,7 @@ class PLAOBJApp final : public PLAObject
 
   PLAUInt _frame = 0;
 
+  PLAOBJScene *_scene = nullptr;
   PLAOBJState *_state = nullptr;
   PLAOBJStage *_stage = nullptr;
   PLAOBJRenderer *_renderer = nullptr;
@@ -39,7 +40,7 @@ public:
   static PLAOBJApp *Instance() { return &_instance; };
   static PLAOBJState *State() { return _instance._state; };
   static PLAOBJStage *Stage() { return _instance._stage; };
-  static PLAOBJScene *Scene();
+  static PLAOBJScene *Scene() { return _instance._scene; };
   static PLAOBJActor *Actor(const PLAString &aName); // PLAOBJActor::Object(aName)があるので不要では？
 
   void AddTimelineThread(PLAOBJTimeline *aThread);

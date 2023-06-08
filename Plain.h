@@ -4,6 +4,7 @@
 #include "Agent/PLAAGTScene.hpp"
 #include "Agent/PLAAGTState.hpp"
 #include "Agent/PLAAGTModel.hpp"
+#include "Agent/PLAAGTPhase.hpp"
 #include "Agent/PLAAGTStage.hpp"
 #include "Agent/PLAAGTActor.hpp"
 
@@ -20,16 +21,18 @@ namespace Plain
   void Init(PLARendererType aType);
   void Delete(const std::string &aName);
 
+  void Push(const PLAAGTPhase &aPhase);
+
   void Add(const PLAAGTActor &aActor);
   void Add(const PLAAGTModel &aModel);
-
-  void Push(const PLAAGTScene &aAgent);
 
   namespace Event
   {
     using Actor = PLAFunctionCode::Actor;
+    using Phase = PLAFunctionCode::Phase;
     using Stage = PLAFunctionCode::Stage;
     using Scene = PLAFunctionCode::Scene;
+    using TimeLineNode = PLAFunctionCode::TimelineNode;
   };
 
   namespace Error
@@ -46,6 +49,11 @@ namespace Plain
     void Resources();
   };
 
+  namespace Scene
+  {
+    PLAAGTScene Assign();
+  };
+
   namespace State
   {
     PLAAGTState Assign();
@@ -57,11 +65,11 @@ namespace Plain
     void SetFunction(Event::Stage aEventCode);
   };
 
-  namespace Scene
+  namespace Phase
   {
-    PLAAGTScene Create();
-    PLAAGTScene Create(const PLAString &aName);
-    PLAAGTScene Assign(const PLAString &aName);
+    PLAAGTPhase Create();
+    PLAAGTPhase Create(const PLAString &aName);
+    PLAAGTPhase Assign(const PLAString &aName);
   };
 
   namespace Model

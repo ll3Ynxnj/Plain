@@ -6,21 +6,27 @@
 enum class PLAObjectType : PLAInt
 {
   App,
+
   Input,
   Agent,
+
   Scene,
   State,
-
-  Model,
   Stage,
+
+  Phase,
+  Model,
   Actor,
+
   Layer,
   Style,
 
   Image,
   Error,
+
   Timeline,
   TimelineNode,
+
   Resource,
 
   Renderer,
@@ -34,21 +40,27 @@ enum class PLAObjectType : PLAInt
 /// CAUTION: This array must be synchronized with PLAObjectType. ///////////////
 static const char *kPLAObjectTypeName[static_cast<size_t>(PLAObjectType::kNumberOfItems)] = {
   "App",
+
   "Input",
   "Agent",
+
   "Scene",
   "State",
-
-  "Model",
   "Stage",
+
+  "Phase",
+  "Model",
   "Actor",
+
   "Layer",
   "Style",
 
   "Image",
   "Error",
+
   "Timeline",
   "TimelineNode",
+
   "Resource",
 
   "Renderer",

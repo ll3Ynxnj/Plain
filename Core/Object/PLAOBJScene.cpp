@@ -1,7 +1,10 @@
 #include "PLAOBJScene.hpp"
-#include "PLAOBJApp.hpp"
-#include "Actor/PLAOBJActor.hpp"
 #include "Agent/PLAAGTScene.hpp"
+
+PLAAGTScene PLAOBJScene::AssignAgent()
+{
+  return PLAAGTScene(this);
+}
 
 PLAOBJScene *PLAOBJScene::Create()
 {
@@ -23,86 +26,50 @@ PLAOBJScene *PLAOBJScene::Object(PLAId aId)
 }
 
 PLAOBJScene::PLAOBJScene() :
-  PLAObject(PLAObjectType::Scene),
-  GRAOBJBinder<PLAOBJActor>()
+  PLAObject(PLAObjectType::Scene)
 {
-
+  _context = PLAOBJPhase::Create();
+  _context->SetObjectName("SceneContext");
 }
 
 PLAOBJScene::~PLAOBJScene() {
 
 }
 
-void PLAOBJScene::Init() {
-  _functor.RunFunction(PLAFunctionCode::Scene::OnInit, this);
-  for (GRAOBJListener<PLAOBJScene *, PLAFunctionCode::Scene> *listener: _listeners)
-  { listener->RunListener(PLAFunctionCode::Scene::OnInit, this); }
-};
-
-void PLAOBJScene::Update() {
-  _functor.RunFunction(PLAFunctionCode::Scene::OnUpdate, this);
-  for (GRAOBJListener<PLAOBJScene *, PLAFunctionCode::Scene> *listener: _listeners)
-  { listener->RunListener(PLAFunctionCode::Scene::OnUpdate, this); }
-};
-
-void PLAOBJScene::Appear() {
-  _functor.RunFunction(PLAFunctionCode::Scene::OnAppear, this);
-  for (GRAOBJListener<PLAOBJScene *, PLAFunctionCode::Scene> *listener: _listeners)
-  { listener->RunListener(PLAFunctionCode::Scene::OnAppear, this); }
-};
-
-void PLAOBJScene::Disappear() {
-  _functor.RunFunction(PLAFunctionCode::Scene::OnDisappear, this);
-  for (GRAOBJListener<PLAOBJScene *, PLAFunctionCode::Scene> *listener: _listeners)
-  { listener->RunListener(PLAFunctionCode::Scene::OnDisappear, this); }
-};
-
-PLAAGTScene PLAOBJScene::AssignAgent()
+void PLAOBJScene::Init()
 {
-  return PLAAGTScene(this);
+  _context->Init();
+  this->RunFunction(PLAFunctionCode::Scene::OnInit);
 }
 
-void PLAOBJScene::AddActor(PLAOBJActor *aActor) {
-  //PLAOBJActor::Bind(aActor);
-  GRAOBJBinder<PLAOBJActor>::Error error(GRAOBJBinder<PLAOBJActor>::Error::None);
-  this->GRAOBJBinder<PLAOBJActor>::Bind(aActor, &error);
-  if (error != GRAOBJBinder<PLAOBJActor>::Error::None) {
-    PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                    "Failed PLAObject binding. ERROR : %02d", error);
-  }
-}
-
-void PLAOBJScene::RemoveActor(PLAOBJActor *aActor) {
-  //PLAOBJActor::Unbind(aActor);
-  GRAOBJBinder<PLAOBJActor>::Error error(GRAOBJBinder<PLAOBJActor>::Error::None);
-  this->GRAOBJBinder<PLAOBJActor>::Unbind(aActor, &error);
-}
-
-const PLAOBJActor *PLAOBJScene::GetActor(const PLAString &aName) const {
-  return this->RefActor(aName);
-}
-
-PLAOBJActor *PLAOBJScene::RefActor(const PLAString &aName) const {
-  GRAOBJBinder<PLAOBJActor>::Error error(GRAOBJBinder<PLAOBJActor>::Error::None);
-  PLAOBJScene *scene = PLAOBJScene::Manager::Instance()->RefCurrentScene();
-  PLAOBJActor *actor = static_cast<PLAOBJActor *>(scene->RefItem(aName, &error));
-  return actor;
-}
-
-/*
-const PLAAGTScene *PLAOBJScene::AssignAgent()
+void PLAOBJScene::Update()
 {
-  return static_cast<const PLAAGTScene *>(PLAObject::AssignAgent());
+  //_context->Update();
+  this->RunFunction(PLAFunctionCode::Scene::OnUpdate);
 }
- */
 
-// PLAOBJScene::Manager ///////////////////////////////////////////////////////////
+void PLAOBJScene::AddListener(GRAOBJListener<PLAAGTScene, PLAFunctionCode::Scene> *aListener)
+{ _listeners.push_back(aListener); };
 
-PLAOBJScene::Manager PLAOBJScene::Manager::_instance = PLAOBJScene::Manager();
+void PLAOBJScene::RemoveListener(GRAOBJListener<PLAAGTScene, PLAFunctionCode::Scene> *aListener)
+{ _listeners.remove(aListener); };
 
-void PLAOBJScene::Manager::Init()
+void PLAOBJScene::SetFunction(PLAFunctionCode::Scene aKey,
+                              const std::function<void(PLAAGTScene)> &aFunc)
+{ _functor.SetFunction(aKey, aFunc); };
+
+void PLAOBJScene::RunFunction(PLAFunctionCode::Scene aKey)
 {
-  //PLAOBJScene *scene = PLAOBJScene::Create();
-  //_scenes.push(scene);
-}
+  _functor.RunFunction(aKey, this->AssignAgent());//this->RefStage());
+  for (GRAOBJListener<PLAAGTScene, PLAFunctionCode::Scene> *listener: _listeners)
+  { listener->RunListener(aKey, this->AssignAgent()); }//this->RefStage()); }
+};
 
+void PLAOBJScene::PrintPhases() const
+{
+  GRA_PRINT("//-- PLAOBJScene::PrintPhases() const --");
+  GRA_PRINT("////////////////////////////////////////\n");
+  _context->PrintPhases();
+  GRA_PRINT("////////////////////////////////////////");
+  GRA_PRINT("////////////////////////////////////////\n");
+}

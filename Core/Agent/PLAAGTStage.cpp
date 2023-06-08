@@ -32,36 +32,36 @@ void PLAAGTStage::AddActor(const PLAAGTActor &aAgent) const
   stage->AddActor(actor);
 }
 
-void PLAAGTStage::PrintActors() const
-{
-  const PLAOBJStage *stage = this->GetStage();
-  stage->PrintActors();
-}
-
-void PLAAGTStage::AddListener(GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage> *aListener)
+void PLAAGTStage::AddListener(GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage> *aListener) const
 {
   auto owner = this->RefStage();
   owner->AddListener(aListener);
 };
 
-void PLAAGTStage::RemoveListener(GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage> *aListener)
+void PLAAGTStage::RemoveListener(GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage> *aListener) const
 {
   auto owner = this->RefStage();
   owner->RemoveListener(aListener);
 };
 
 void PLAAGTStage::SetFunction(PLAFunctionCode::Stage aKey,
-                 const std::function<void(PLAAGTStage)> &aFunc)
+                              const std::function<void(PLAAGTStage)> &aFunc) const
 {
   auto owner = this->RefStage();
   owner->SetFunction(aKey, aFunc);
 };
 
-void PLAAGTStage::RunFunction(PLAFunctionCode::Stage aKey)
+void PLAAGTStage::RunFunction(PLAFunctionCode::Stage aKey) const
 {
   auto owner = this->RefStage();
   owner->RunFunction(aKey);//this->RefStage());
 };
+
+void PLAAGTStage::PrintActors() const
+{
+  const PLAOBJStage *stage = this->GetStage();
+  stage->PrintActors();
+}
 
 PLAVec3f PLAAGTStage::GetSize() const
 {

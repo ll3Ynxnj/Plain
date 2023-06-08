@@ -2,18 +2,19 @@
 #define PLAIN_ENGINE_PLAOBJSTAGE_HPP
 
 #include "PLAObject.hpp"
+#include "Object/Actor/PLAOBJActor.hpp"
+
 #include "Object/Input/PLAInputHandler.hpp"
-#include "Actor/PLAOBJActor.hpp"
 
 class PLAAGTStage;
 
 class PLAOBJStage final: public PLAObject, public PLAInputHandler
 {
+  PLAOBJActor *_context = nullptr;
+
 public:
   using Listener = GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage>;
   using Functor = GRAOBJFunctor<PLAAGTStage, PLAFunctionCode::Stage>;
-
-  PLAOBJActor *_context = nullptr;
 
 private:
   std::list<Listener *> _listeners = std::list<Listener *>();

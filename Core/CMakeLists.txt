@@ -26,6 +26,8 @@ add_library(Plain-Core STATIC
   Object/Timeline/PLATMLMotionNode.cpp
   Object/Timeline/PLATMLMotion.cpp
 
+  Object/Phase/PLAOBJPhase.cpp
+
   Object/Model/PLAOBJModel.cpp
 
   Object/Actor/PLAOBJActor.cpp
@@ -38,11 +40,12 @@ add_library(Plain-Core STATIC
   Object/Layer/PLALYRTile.cpp
 
   Agent/PLAAgent.cpp
+  Agent/PLAAGTPhase.cpp
   Agent/PLAAGTModel.cpp
   Agent/PLAAGTActor.cpp
+  Agent/PLAAGTScene.cpp
   Agent/PLAAGTState.cpp
   Agent/PLAAGTStage.cpp
-  Agent/PLAAGTScene.cpp
 
   Property/PLAProperty.cpp
-  )
+)

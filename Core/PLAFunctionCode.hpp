@@ -11,7 +11,8 @@
 //using PLAFunctionCode = PLAUInt;
 //static const PLAFunctionCode kPLAFunctionCodeNone = kPLAUIntUndefined;
 
-namespace PLAFunctionCode {
+namespace PLAFunctionCode
+{
   using Code = PLAUInt;
 
   static const Code kNone = kPLAUIntUndefined;
@@ -27,12 +28,18 @@ namespace PLAFunctionCode {
     None = kNone,
   };
 
-  enum class Scene : Code
+  enum class Phase : Code
+  {
+    OnInit,
+
+    kNumberOfItems,
+    None = kNone,
+  };
+
+  enum class Scene: Code
   {
     OnInit,
     OnUpdate,
-    OnAppear,
-    OnDisappear,
 
     kNumberOfItems,
     None = kNone,

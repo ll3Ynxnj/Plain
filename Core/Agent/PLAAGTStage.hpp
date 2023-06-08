@@ -26,11 +26,11 @@ public:
   void AddActor(const PLAAGTActor &aAgent) const;
   void PrintActors() const;
 
-  void AddListener(GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage> *aListener);
-  void RemoveListener(GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage> *aListener);
+  void AddListener(GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage> *aListener) const;
+  void RemoveListener(GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage> *aListener) const;
   void SetFunction(PLAFunctionCode::Stage aKey,
-                   const std::function<void(PLAAGTStage)> &aFunc);
-  void RunFunction(PLAFunctionCode::Stage aKey);
+                   const std::function<void(PLAAGTStage)> &aFunc) const;
+  void RunFunction(PLAFunctionCode::Stage aKey) const;
 
   PLAVec3f GetSize() const;
 

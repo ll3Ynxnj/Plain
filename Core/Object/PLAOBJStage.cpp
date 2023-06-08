@@ -38,16 +38,12 @@ PLAOBJStage::~PLAOBJStage()
 void PLAOBJStage::Init()
 {
   _context->Init();
-  //PLAAGTStage agent = this->AssignAgent();
-  //agent.RunFunction(PLAOBJStage::FunctionCode::OnInit);
   this->RunFunction(PLAFunctionCode::Stage::OnInit);
 }
 
 void PLAOBJStage::Update()
 {
   _context->Update();
-  //PLAAGTStage agent = this->AssignAgent();
-  //agent.RunFunction(PLAOBJStage::FunctionCode::OnUpdate);
   this->RunFunction(PLAFunctionCode::Stage::OnUpdate);
 }
 
@@ -57,14 +53,20 @@ PLAAGTStage PLAOBJStage::AssignAgent()
 }
 
 void PLAOBJStage::AddListener(GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage> *aListener)
-{ _listeners.push_back(aListener); };
+{
+  _listeners.push_back(aListener);
+};
 
 void PLAOBJStage::RemoveListener(GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage> *aListener)
-{ _listeners.remove(aListener); };
+{
+  _listeners.remove(aListener);
+};
 
 void PLAOBJStage::SetFunction(PLAFunctionCode::Stage aKey,
-                 const std::function<void(PLAAGTStage)> &aFunc)
-{ _functor.SetFunction(aKey, aFunc); };
+                              const std::function<void(PLAAGTStage)> &aFunc)
+{
+  _functor.SetFunction(aKey, aFunc);
+};
 
 void PLAOBJStage::RunFunction(PLAFunctionCode::Stage aKey)
 {
@@ -86,10 +88,10 @@ void PLAOBJStage::AddActor(PLAOBJActor *aActor)
 
 void PLAOBJStage::PrintActors() const
 {
-  GRA_PRINT("//-- PLAOBJStage::PrintActors() const --\n");
+  GRA_PRINT("//-- PLAOBJStage::PrintActors() const --");
   GRA_PRINT("////////////////////////////////////////\n");
   _context->PrintActors();
-  GRA_PRINT("////////////////////////////////////////\n");
+  GRA_PRINT("////////////////////////////////////////");
   GRA_PRINT("////////////////////////////////////////\n");
 }
 

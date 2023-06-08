@@ -7,7 +7,10 @@
 
 
 #include "PLAAgent.hpp"
+#include "PLAFunctionCode.hpp"
+#include "Grain/Object/GRAOBJListener.hpp"
 
+class PLAAGTPhase;
 class PLAOBJScene;
 
 class PLAAGTScene final : public PLAAgent
@@ -17,9 +20,20 @@ public:
   explicit PLAAGTScene(PLAOBJScene *aScene);
   virtual ~PLAAGTScene() noexcept;
 
+  void Init() const;
+  void PushPhase(const PLAAGTPhase &aAgent) const;
+
+  void AddListener(GRAOBJListener<PLAAGTScene, PLAFunctionCode::Scene> *aListener) const;
+  void RemoveListener(GRAOBJListener<PLAAGTScene, PLAFunctionCode::Scene> *aListener) const;
+  void SetFunction(PLAFunctionCode::Scene aKey,
+                   const std::function<void(PLAAGTScene)> &aFunc) const;
+  void RunFunction(PLAFunctionCode::Scene aKey) const;
+
+  void PrintPhases() const;
+
 protected:
-  const PLAOBJScene *GetStage() const;
-  PLAOBJScene *RefStage() const;
+  const PLAOBJScene *GetScene() const;
+  PLAOBJScene *RefScene() const;
 };
 
 

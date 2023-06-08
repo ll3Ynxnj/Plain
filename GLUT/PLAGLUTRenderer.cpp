@@ -367,8 +367,8 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
   const PLAOBJImage *texImage = aLayer->GetImage();
   if (texImage && !kIsDebug) {
     glEnable(GL_TEXTURE_2D);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetSize().x,
-                 texImage->GetSize().y, 0,
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+                 texImage->GetSize().x, texImage->GetSize().y, 0,
                  GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
   } else {
     glDisable(GL_TEXTURE_2D);

@@ -5,11 +5,6 @@
 
 PLAOBJApp PLAOBJApp::_instance = PLAOBJApp();
 
-PLAOBJScene *PLAOBJApp::Scene()
-{
-  return PLAOBJScene::Manager::Instance()->RefCurrentScene();
-}
-
 PLAOBJActor *PLAOBJApp::Actor(const PLAString &aName)
 {
   return PLAOBJActor::Object(aName);
@@ -69,9 +64,8 @@ void PLAOBJApp::Init(PLARendererType aRendererType)
   PLAOBJError::Manager::Instance()->Init();
   PLAOBJScene::Manager::Instance()->Init();
   _state = PLAOBJState::Create();
-  _state->PrintModels();
   _stage = PLAOBJStage::Create();
-  _stage->PrintActors();
+  _scene = PLAOBJScene::Create();
   PLAInputManager::Instance()->SetHandler(_stage);
 }
 
@@ -88,21 +82,11 @@ void PLAOBJApp::Input(PLAInputDeviceType aDevice, PLAInputSignalCode aCode,
 
 void PLAOBJApp::Update()
 {
-  static auto isDebugging = false;
-  if (isDebugging) {
-    GRA_PRINT("//-- PLAOBJApp::Update() -- _frame: %8d \n", _frame);
-    GRA_PRINT("--////////////////////////////////\n");
-  }
   PLAObject::Manager::Instance()->DeleteUnboundObjects();
   PLAInputManager::Instance()->Flush();
   UpdateTimelineThread();
+  _scene->Update();
   _stage->Update();
-  if (isDebugging)
-  {
-    _stage->PrintActors();
-    PLAObject::Manager::Instance()->PrintObjects();
-    this->PrintNodes();
-  }
   ++_frame;
 }
 

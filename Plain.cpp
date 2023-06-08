@@ -31,11 +31,16 @@ void Plain::Print::Resources()
   PLAOBJResource::Manager::Instance()->PrintResources();
 }
 
-void Plain::Push(const PLAAGTScene &aAgent)
+void Plain::Push(const PLAAGTPhase &aPhase)
 {
-  PLAId id = aAgent.GetOwnerId();
-  PLAOBJScene *scene = PLAOBJScene::Object(id);
-  PLAOBJScene::Manager::Instance()->PushScene(scene);
+  auto scene = Plain::Scene::Assign();
+  scene.PushPhase(aPhase);
+}
+
+PLAAGTScene Plain::Scene::Assign()
+{
+  PLAOBJScene *scene = PLAOBJApp::Scene();
+  return scene->AssignAgent();
 }
 
 PLAAGTState Plain::State::Assign()
@@ -50,22 +55,25 @@ PLAAGTStage Plain::Stage::Assign()
   return stage->AssignAgent();
 }
 
-PLAAGTScene Plain::Scene::Create()
+PLAAGTPhase Plain::Phase::Create()
 {
-  PLAOBJScene *scene = PLAOBJScene::Create();
-  return scene->AssignAgent();
+  PLAOBJPhase *phase = PLAOBJPhase::Create();
+  return phase->AssignAgent();
 }
 
-PLAAGTScene Plain::Scene::Create(const PLAString &aName)
+PLAAGTPhase Plain::Phase::Create(const PLAString &aName)
 {
-  PLAOBJScene *scene = PLAOBJScene::Object(aName);
-  return scene->AssignAgent();
+  if (PLAObject::Object(PLAObjectType::Phase, aName))
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Duplicate object names."); }
+  PLAOBJPhase *phase = PLAOBJPhase::Create();
+  phase->SetObjectName(aName);
+  return phase->AssignAgent();
 }
 
-PLAAGTScene Plain::Scene::Assign(const PLAString &aName)
+PLAAGTPhase Plain::Phase::Assign(const PLAString &aName)
 {
-  PLAOBJScene *scene = PLAOBJScene::Object(aName);
-  return scene->AssignAgent();
+  PLAOBJPhase *phase = PLAOBJPhase::Object(aName);
+  return phase->AssignAgent();
 }
 
 PLAAGTModel Plain::Model::Create()

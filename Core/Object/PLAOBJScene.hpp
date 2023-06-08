@@ -3,22 +3,24 @@
 
 #include <stack>
 #include <list>
+
 #include "PLAObject.hpp"
-#include "Object/Input/PLAInput.hpp"
+#include "Object/Phase/PLAOBJPhase.hpp"
+
 #include "Grain/Object/GRAOBJBinder.hpp"
 #include "Grain/Object/GRAOBJListener.hpp"
 
 #include "PLAFunctionCode.hpp"
 
-class PLAOBJActor;
 class PLAAGTScene;
 
-class PLAOBJScene final :
-  public PLAObject, public GRAOBJBinder<PLAOBJActor>
+class PLAOBJScene final : public PLAObject
 {
+  PLAOBJPhase *_context = nullptr;
+
 public:
-  using Listener = GRAOBJListener<PLAOBJScene *, PLAFunctionCode::Scene>;
-  using Functor = GRAOBJFunctor<PLAOBJScene *, PLAFunctionCode::Scene>;
+  using Listener = GRAOBJListener<PLAAGTScene, PLAFunctionCode::Scene>;
+  using Functor = GRAOBJFunctor<PLAAGTScene, PLAFunctionCode::Scene>;
 
 private:
   std::list<Listener *> _listeners = std::list<Listener *>();
@@ -32,50 +34,27 @@ public:
   static PLAOBJScene *Object(const PLAString &aName);
   static PLAOBJScene *Object(PLAId aId);
 
-  virtual ~PLAOBJScene();
-
-  void AddActor(PLAOBJActor *aActor);
-  void RemoveActor(PLAOBJActor *aActor);
-  const PLAOBJActor *GetActor(const PLAString &aName) const;
-  PLAOBJActor *RefActor(const PLAString &aName) const;
+  ~PLAOBJScene();
 
   void Init();
   void Update();
-  void Appear();
-  void Disappear();
 
   PLAAGTScene AssignAgent();
 
-  void AddListener(GRAOBJListener<PLAOBJScene *, PLAFunctionCode::Scene> *aListener)
-  { _listeners.push_back(aListener); };
-
-  void RemoveListener(GRAOBJListener<PLAOBJScene *, PLAFunctionCode::Scene> *aListener)
-  { _listeners.remove(aListener); };
-
+  void AddListener(GRAOBJListener<PLAAGTScene, PLAFunctionCode::Scene> *aListener);
+  void RemoveListener(GRAOBJListener<PLAAGTScene, PLAFunctionCode::Scene> *aListener);
   void SetFunction(PLAFunctionCode::Scene aKey,
-                   const std::function<void(PLAOBJScene *)> &aFunc)
-  { _functor.SetFunction(aKey, aFunc); };
+                   const std::function<void(PLAAGTScene)> &aFunc);
+  void RunFunction(PLAFunctionCode::Scene aKey);
 
-  // Agent /////////////////////////////////////////////////////////////////////
+  const PLAOBJPhase *GetContext() const { return _context; }
 
-  //const PLAAGTScene *AssignAgent();
+  const PLAOBJPhase *GetCurrentPhase() const { return _context->GetCurrentPhase(); };
+  PLAOBJPhase *RefCurrentPhase() const { return _context->RefCurrentPhase(); };
+  void PushPhase(PLAOBJPhase *aPhase) { _context->PushPhase(aPhase); };
+  void PopPhase() { _context->PopPhase(); }
 
-  // Manager ///////////////////////////////////////////////////////////////////
-public:
-  class Manager final {
-    static Manager _instance;
-    std::stack<PLAOBJScene *>_scenes = std::stack<PLAOBJScene *>();
-
-  public:
-    static Manager *Instance() { return &_instance; };
-
-    void Init();
-
-    const PLAOBJScene *GetCurrentScene() const { return _scenes.top(); };
-    PLAOBJScene *RefCurrentScene() const { return _scenes.top(); };
-    void PushScene(PLAOBJScene *aScene) { _scenes.push(aScene); };
-    void PopScene() { _scenes.pop(); }
-  };
+  void PrintPhases() const;
 };
 
 #endif //PLAIN_ENGINE_PLAOBJSCENE_HPP
