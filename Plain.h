@@ -47,6 +47,10 @@ namespace Plain
   {
     void Objects();
     void Resources();
+    void Phases();
+    void Models();
+    void Actors();
+    void TimelineNodes();
   };
 
   namespace Scene
@@ -62,7 +66,6 @@ namespace Plain
   namespace Stage
   {
     PLAAGTStage Assign();
-    void SetFunction(Event::Stage aEventCode);
   };
 
   namespace Phase
@@ -127,6 +130,7 @@ namespace Plain
 
     PLAAGTActor Assign(const PLAString &aName);
   };
+
 };
 
 #endif //PLAIN_ENGINE_PLAIN_HPP

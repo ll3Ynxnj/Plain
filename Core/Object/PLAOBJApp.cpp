@@ -12,18 +12,18 @@ PLAOBJActor *PLAOBJApp::Actor(const PLAString &aName)
 
 void PLAOBJApp::AddTimelineThread(PLAOBJTimeline *aThread)
 {
-  _rootThread.AddThread(aThread);
+  _timeline.AddThread(aThread);
 }
 
 void PLAOBJApp::UpdateTimelineThread()
 {
-  _rootThread.Update();
+  _timeline.Update();
 }
 
 /*
 void PLAOBJApp::RemoveTimelineThread(const PLAOBJTimeline *aThread)
 {
-  _rootThread.
+  _timeline.
 }
  */
 
@@ -31,7 +31,7 @@ void PLAOBJApp::PrintNodes() const
 {
   GRA_PRINT("//-- void PLAOBJApp::PrintNodes() const ////////////////////////////////////////\n");
   GRA_PRINT(" LV :  STEPS / LENGTH | CURRENT | NAME                                         |\n");
-  _rootThread.PrintNodes();
+  _timeline.PrintNodes();
   GRA_PRINT("----:-----------------|---------|----------------------------------------------|\n");
   GRA_PRINT("////////////////////////////////////////////////////////////////////////////////\n");
 }
@@ -112,4 +112,8 @@ void PLAOBJApp::RefreshScreenSize(int aWidth, int aHeight)
 
   _renderer->RefreshScreenSize(frameSize, stageSize);
   _stage->SetSize(stageSize);
+}
+
+void PLAOBJApp::PrintTimelineNodes() const {
+  _timeline.PrintNodes();
 }

@@ -31,6 +31,22 @@ void Plain::Print::Resources()
   PLAOBJResource::Manager::Instance()->PrintResources();
 }
 
+void Plain::Print::Phases() {
+  Plain::Scene::Assign().PrintPhases();
+}
+
+void Plain::Print::Actors() {
+  Plain::Stage::Assign().PrintActors();
+}
+
+void Plain::Print::Models() {
+  Plain::State::Assign().PrintModels();
+}
+
+void Plain::Print::TimelineNodes() {
+  PLAOBJApp::Instance()->PrintTimelineNodes();
+}
+
 void Plain::Push(const PLAAGTPhase &aPhase)
 {
   auto scene = Plain::Scene::Assign();

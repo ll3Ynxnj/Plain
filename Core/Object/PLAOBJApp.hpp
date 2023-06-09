@@ -21,7 +21,7 @@ class PLAOBJApp final : public PLAObject
   static PLAOBJApp _instance;
 
   //std::map<std::string, PLAOBJTimelineNode *> _subNodes = std::map<std::string, PLAOBJTimelineNode *>();
-  PLAOBJTimeline _rootThread = PLAOBJTimeline(nullptr); /// Infinity node
+  PLAOBJTimeline _timeline = PLAOBJTimeline(nullptr); /// Infinity node
 
   PLAUInt _frame = 0;
 
@@ -63,6 +63,8 @@ public:
   void Render();
 
   void RefreshScreenSize(int aWidth, int aHeight);
+
+  void PrintTimelineNodes() const;
 
   const PLAVec3f &GetContentScaleFactor() { return _contentScaleFactor; }
 };
