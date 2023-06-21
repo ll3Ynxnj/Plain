@@ -6,19 +6,16 @@
 #include "Grain/Grain.h"
 
 #include "Object/PLAObject.hpp"
-#include "Object/PLAOBJApp.hpp"
+#include "Core/App/PLAApp.hpp"
 #include "Object/PLAOBJError.hpp"
-#include "Object/Layer/IPLATileLayerDataSource.hpp"
-
-#include "Primitive/PLAPRMType.hpp"
 
 void Plain::Init(PLARendererType aType)
 {
-  PLAOBJApp::Instance()->Init(aType);
+  PLAApp::Instance()->Init(aType);
 }
 
 void Plain::Delete(const std::string &aName) {
-  //PLAOBJApp::Object(aName)->Unbind();
+  //PLAApp::Object(aName)->Unbind();
 }
 
 void Plain::Print::Objects()
@@ -44,7 +41,7 @@ void Plain::Print::Models() {
 }
 
 void Plain::Print::TimelineNodes() {
-  PLAOBJApp::Instance()->PrintTimelineNodes();
+  PLAApp::Instance()->PrintTimelineNodes();
 }
 
 void Plain::Push(const PLAAGTPhase &aPhase)
@@ -55,19 +52,19 @@ void Plain::Push(const PLAAGTPhase &aPhase)
 
 PLAAGTScene Plain::Scene::Assign()
 {
-  PLAOBJScene *scene = PLAOBJApp::Scene();
+  PLAOBJScene *scene = PLAApp::Scene();
   return scene->AssignAgent();
 }
 
 PLAAGTState Plain::State::Assign()
 {
-  PLAOBJState *state = PLAOBJApp::State();
+  PLAOBJState *state = PLAApp::State();
   return state->AssignAgent();
 }
 
 PLAAGTStage Plain::Stage::Assign()
 {
-  PLAOBJStage *stage = PLAOBJApp::Stage();
+  PLAOBJStage *stage = PLAApp::Stage();
   return stage->AssignAgent();
 }
 
@@ -194,4 +191,109 @@ PLAAGTActor Plain::Actor::Assign(const PLAString &aName)
 {
   PLAOBJActor *actor = PLAOBJActor::Object(aName);
   return actor->AssignAgent();
+}
+
+/*
+PLAAGTTimeline Plain::Timeline::Create(const PLAAGTTimeline &aParent)
+{
+  PLAId ownerId = aParent.GetOwnerId();
+  PLAOBJTimeline *parent = PLAOBJTimeline::Object(ownerId);
+  PLAOBJTimeline *motion = PLAOBJTimeline::Create(parent);
+  return motion->AssignAgent();
+}
+
+PLAAGTTimeline Plain::Timeline::Create(const PLAString &aName)
+{
+  if (PLAObject::Object(PLAObjectType::Timeline, aName))
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Duplicate object names."); }
+  PLAOBJTimeline *motion = PLAOBJTimeline::Create();
+  motion->SetObjectName(aName);
+  return motion->AssignAgent();
+}
+
+PLAAGTTimeline Plain::Timeline::Assign(const PLAString &aName)
+{
+  PLAOBJTimeline *motion = PLAOBJTimeline::Object(aName);
+  return motion->AssignAgent();
+}
+
+PLAAGTTimelineNode Plain::TimelineNode::Create()
+{
+  auto object = PLAOBJTimelineNode::Create();
+  return object->AssignAgent();
+}
+
+PLAAGTTimelineNode Plain::TimelineNode::Create(const PLAString &aName)
+{
+  if (PLAObject::Object(PLAObjectType::Model, aName))
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Duplicate object names."); }
+  PLAOBJTimelineNode *timelineNode = PLAOBJTimelineNode::Create();
+  timelineNode->SetObjectName(aName);
+  return timelineNode->AssignAgent();
+}
+
+PLAAGTTimelineNode Plain::TimelineNode::Assign(const PLAString &aName)
+{
+  PLAOBJTimelineNode *timelineNode = PLAOBJTimelineNode::Object(aName);
+  return timelineNode->AssignAgent();
+}
+ */
+
+PLAAGTMotion Plain::Motion::Create()
+{
+  PLATMLMotion *motion = PLATMLMotion::Create();
+  return motion->AssignAgent();
+}
+
+PLAAGTMotion Plain::Motion::Create(const PLAString &aName)
+{
+  if (PLAObject::Object(PLAObjectType::Motion, aName))
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Duplicate object names."); }
+  PLATMLMotion *motion = PLATMLMotion::Create();
+  motion->SetObjectName(aName);
+  return motion->AssignAgent();
+}
+
+PLAAGTMotion Plain::Motion::Assign(const PLAString &aName)
+{
+  PLATMLMotion *motion = PLATMLMotion::Object(aName);
+  return motion->AssignAgent();
+}
+
+PLAAGTMotionNode Plain::MotionNode::Create()
+{
+  auto object = PLATMLMotionNode::Create();
+  return object->AssignAgent();
+}
+
+PLAAGTMotionNode Plain::MotionNode::CreateColor(const PLAColor &aBegin,
+                                               const PLAColor &aEnd,
+                                               PLATimeInterval aDuration)
+{
+  auto object = PLATMLMotionNode::CreateColor(aBegin, aEnd, aDuration);
+  return object->AssignAgent();
+}
+
+PLAAGTMotionNode Plain::MotionNode::CreateTranslation(const PLAVec3f &aBegin,
+                                                     const PLAVec3f &aEnd,
+                                                     PLATimeInterval aDuration)
+{
+  auto object = PLATMLMotionNode::CreateTranslation(aBegin, aEnd, aDuration);
+  return object->AssignAgent();
+}
+
+PLAAGTMotionNode Plain::MotionNode::CreateRotation(const PLAVec3f &aBegin,
+                                                   const PLAVec3f &aEnd,
+                                                   PLATimeInterval aDuration)
+{
+  auto object = PLATMLMotionNode::CreateRotation(aBegin, aEnd, aDuration);
+  return object->AssignAgent();
+}
+
+PLAAGTMotionNode Plain::MotionNode::CreateScale(const PLAVec3f &aBegin,
+                                                const PLAVec3f &aEnd,
+                                                PLATimeInterval aDuration)
+{
+  auto object = PLATMLMotionNode::CreateScale(aBegin, aEnd, aDuration);
+  return object->AssignAgent();
 }

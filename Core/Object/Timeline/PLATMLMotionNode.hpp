@@ -8,6 +8,8 @@
 #include "PLAOBJTimelineNode.hpp"
 #include "PLATMLMotionType.hpp"
 
+class PLAAGTMotionNode;
+
 class PLATMLMotionNode final: public PLAOBJTimelineNode
 {
   PLATMLMotionType _type = PLATMLMotionType::None;
@@ -19,6 +21,8 @@ class PLATMLMotionNode final: public PLAOBJTimelineNode
 public:
   static const PLATMLMotionNode kNone;
 
+  static PLATMLMotionNode *Object(const PLAString &aName);
+  static PLATMLMotionNode *Object(PLAId aId);
   static PLATMLMotionNode *Create();
   static PLATMLMotionNode *CreateColor(const PLAColor &aBegin, const PLAColor &aEnd,
                                        PLATimeInterval aDuration);
@@ -40,6 +44,8 @@ public:
                    PLATimeInterval aDuration);
 
   ~PLATMLMotionNode() override;
+
+  PLAAGTMotionNode AssignAgent();
 
   const char *GetNameOfType() { return GetNameOfType(_type); };
 

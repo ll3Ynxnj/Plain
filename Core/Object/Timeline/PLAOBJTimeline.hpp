@@ -10,6 +10,8 @@
 
 static PLAString DBG_PLANode_Update_Indent = "";
 
+class PLAAGTTimeline;
+
 class PLAOBJTimeline: public PLAObject
 {
   PLAOBJTimeline *_parent = nullptr;
@@ -20,9 +22,12 @@ class PLAOBJTimeline: public PLAObject
   PLATimelineHolder *_holder = nullptr;
 
 public:
+  static PLAOBJTimeline *Object(const PLAString &aName);
+  static PLAOBJTimeline *Object(PLAId aId);
   static PLAOBJTimeline *Create(PLAOBJTimeline *aParent);
 
-  PLAOBJTimeline(PLAOBJTimeline *aParent);
+  PLAOBJTimeline(PLAObjectType aType);
+  PLAOBJTimeline(PLAOBJTimeline *aParent, PLAObjectType aType);
   virtual ~PLAOBJTimeline() noexcept;
 
   void Update();
@@ -30,6 +35,8 @@ public:
   void AddNode(PLAOBJTimelineNode *aNode);
   void AddThread(PLAOBJTimeline *aThread);
   void Clear();
+
+  PLAAGTTimeline AssignAgent();
 
   void OnFinishNode();
   void OnFinishThread(const PLAOBJTimeline *aThread);

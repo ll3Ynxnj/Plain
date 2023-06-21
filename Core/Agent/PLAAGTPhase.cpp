@@ -6,8 +6,8 @@
 
 #include "Object/Phase/PLAOBJPhase.hpp"
 
-PLAAGTPhase::PLAAGTPhase(PLAOBJPhase *aPhase) :
-  PLAAgent(aPhase)
+PLAAGTPhase::PLAAGTPhase(PLAOBJPhase *aOwner) :
+  PLAAgent(aOwner)
 {
 
 }

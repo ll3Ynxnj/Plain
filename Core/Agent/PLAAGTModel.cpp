@@ -6,8 +6,8 @@
 
 #include "Object/Model/PLAOBJModel.hpp"
 
-PLAAGTModel::PLAAGTModel(PLAOBJModel *aModel) :
-  PLAAgent(aModel)
+PLAAGTModel::PLAAGTModel(PLAOBJModel *aOwner) :
+  PLAAgent(aOwner)
 {
 
 }

@@ -19,7 +19,7 @@ public:
 
 public:
   /// Agent is const method only.
-  explicit PLAAGTStage(PLAOBJStage *aScene);
+  explicit PLAAGTStage(PLAOBJStage *aOwner);
   virtual ~PLAAGTStage() noexcept;
 
   void Init() const;

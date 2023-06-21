@@ -5,15 +5,35 @@
 #include "PLAOBJTimelineNode.hpp"
 #include "PLAOBJTimeline.hpp"
 #include "Object/PLAOBJError.hpp"
+#include "Agent/PLAAGTTimeline.hpp"
+
+PLAOBJTimeline *PLAOBJTimeline::Object(const PLAString &aName)
+{
+  auto object = PLAObject::Object(PLAObjectType::Timeline, aName);
+  return static_cast<PLAOBJTimeline *>(object);
+}
+
+PLAOBJTimeline *PLAOBJTimeline::Object(PLAId aId)
+{
+  auto object = PLAObject::Object(PLAObjectType::Timeline, aId);
+  return static_cast<PLAOBJTimeline *>(object);
+}
 
 PLAOBJTimeline *PLAOBJTimeline::Create(PLAOBJTimeline *aParent) {
-  PLAOBJTimeline *thread = new PLAOBJTimeline(aParent);
+  PLAOBJTimeline *thread = new PLAOBJTimeline(aParent, PLAObjectType::Timeline);
   thread->Bind();
   return thread;
 }
 
-PLAOBJTimeline::PLAOBJTimeline(PLAOBJTimeline *aParent):
-  PLAObject(PLAObjectType::Timeline),
+PLAOBJTimeline::PLAOBJTimeline(PLAObjectType aType):
+  PLAObject(aType),
+  _parent(nullptr)
+{
+
+}
+
+PLAOBJTimeline::PLAOBJTimeline(PLAOBJTimeline *aParent, PLAObjectType aType):
+  PLAObject(aType),
   _parent(aParent)
 {
 
@@ -74,6 +94,11 @@ void PLAOBJTimeline::Clear()
     node->Unbind();
   }
   _nodes.clear();
+}
+
+PLAAGTTimeline PLAOBJTimeline::AssignAgent()
+{
+  return PLAAGTTimeline(this);
 }
 
 void PLAOBJTimeline::OnFinishNode()

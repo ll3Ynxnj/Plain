@@ -1,5 +1,5 @@
 #include "PLAInput.hpp"
-#include "Object/PLAOBJApp.hpp"
+#include "Core/App/PLAApp.hpp"
 #include "Object/PLAOBJError.hpp"
 
 /*

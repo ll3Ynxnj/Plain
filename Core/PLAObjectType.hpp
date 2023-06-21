@@ -27,6 +27,9 @@ enum class PLAObjectType : PLAInt
   Timeline,
   TimelineNode,
 
+  Motion,
+  MotionNode,
+
   Resource,
 
   Renderer,
@@ -60,6 +63,9 @@ static const char *kPLAObjectTypeName[static_cast<size_t>(PLAObjectType::kNumber
 
   "Timeline",
   "TimelineNode",
+
+  "Motion",
+  "MotionNode",
 
   "Resource",
 

@@ -7,9 +7,20 @@
 #include "Agent/PLAAGTPhase.hpp"
 #include "Agent/PLAAGTStage.hpp"
 #include "Agent/PLAAGTActor.hpp"
+#include "Agent/PLAAGTTimeline.hpp"
+#include "Agent/PLAAGTTimelineNode.hpp"
+#include "Agent/PLAAGTMotion.hpp"
+#include "Agent/PLAAGTMotionNode.hpp"
 
 #include "Core/PLARendererType.hpp"
 #include "Core/PLAFunctionCode.hpp"
+
+#include "Core/PLAErrorType.hpp"
+
+#include "Primitive/PLAPrimitive.hpp"
+
+#include "Object/Layer/IPLATileLayerDataSource.hpp"
+#include "Object/PLAOBJError.hpp"
 
 using PLAModel = PLAAGTModel;
 using PLAActor = PLAAGTActor;
@@ -129,6 +140,45 @@ namespace Plain
                            const IPLATileLayerDataSource *aDataSource);
 
     PLAAGTActor Assign(const PLAString &aName);
+  };
+
+  /*
+  namespace Timeline
+  {
+    PLAAGTTimeline Create(const PLAAGTTimeline &aParent);
+    PLAAGTTimeline Create(const PLAString &aName);
+    PLAAGTTimeline Assign(const PLAString &aName);
+  };
+
+  namespace TimelineNode
+  {
+    PLAAGTTimelineNode Create();
+    PLAAGTTimelineNode Create(const PLAString &aName);
+    PLAAGTTimelineNode Assign(const PLAString &aName);
+  };
+   */
+
+  namespace Motion
+  {
+    PLAAGTMotion Create();
+    PLAAGTMotion Create(const PLAString &aName);
+    PLAAGTMotion Assign(const PLAString &aName);
+  };
+
+  namespace MotionNode
+  {
+    PLAAGTMotionNode Create();
+    PLAAGTMotionNode Create(const PLAString &aName);
+    PLAAGTMotionNode Assign(const PLAString &aName);
+
+    PLAAGTMotionNode CreateColor(const PLAColor &aBegin, const PLAColor &aEnd,
+                                 PLATimeInterval aDuration);
+    PLAAGTMotionNode CreateTranslation(const PLAVec3f &aBegin, const PLAVec3f &aEnd,
+                                       PLATimeInterval aDuration);
+    PLAAGTMotionNode CreateRotation(const PLAVec3f &aBegin, const PLAVec3f &aEnd,
+                                    PLATimeInterval aDuration);
+    PLAAGTMotionNode CreateScale(const PLAVec3f &aBegin, const PLAVec3f &aEnd,
+                                         PLATimeInterval aDuration);
   };
 
 };

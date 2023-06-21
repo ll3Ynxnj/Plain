@@ -6,8 +6,8 @@
 #include "PLAAGTActor.hpp"
 #include "Object/PLAOBJStage.hpp"
 
-PLAAGTStage::PLAAGTStage(PLAOBJStage *aStage) :
-  PLAAgent(aStage)
+PLAAGTStage::PLAAGTStage(PLAOBJStage *aOwner) :
+  PLAAgent(aOwner)
 {
 
 }
@@ -25,10 +25,12 @@ void PLAAGTStage::Init() const
 void PLAAGTStage::AddActor(const PLAAGTActor &aAgent) const
 {
   PLAId actorId = aAgent.GetOwnerId();
-  //PLAOBJActor *actor = static_cast<PLAOBJActor *>(PLAObject::Object(actorId));
   PLAOBJActor *actor = PLAOBJActor::Object(actorId);
+  /*
   PLAId stageId = this->GetOwnerId();
   PLAOBJStage *stage = PLAOBJStage::Object(stageId);
+   */
+  auto stage = this->RefStage();
   stage->AddActor(actor);
 }
 

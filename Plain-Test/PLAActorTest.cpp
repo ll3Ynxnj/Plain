@@ -1,4 +1,4 @@
-#include "Object/PLAOBJApp.hpp"
+#include "Core/App/PLAApp.hpp"
 #include "Object/Actor/PLAOBJActor.hpp"
 #include "../Grain/Primitive/GRAPRMType.hpp"
 
@@ -65,7 +65,7 @@ TEST_F(PLAActorTest, UpdateMotion_UpdateMotions_RefreshProperties)
   this->_rootActor->AddMotion(&m0);
   this->_rootActor->AddMotion(&m1);
    //*/
-  PLAUInt totalSteps = ceil(PLAOBJApp::kRefreshRate * duration) * 2;
+  PLAUInt totalSteps = ceil(PLAApp::kRefreshRate * duration) * 2;
   for (PLAUInt i = 0; i < totalSteps + 3; i++) {
     GRA_PRINT("-- FRAME : %3d --\n", i);
     _rootActor->Update();

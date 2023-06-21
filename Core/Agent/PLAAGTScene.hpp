@@ -17,7 +17,7 @@ class PLAAGTScene final : public PLAAgent
 {
 public:
   /// Agent is const method only.
-  explicit PLAAGTScene(PLAOBJScene *aScene);
+  explicit PLAAGTScene(PLAOBJScene *aOwner);
   virtual ~PLAAGTScene() noexcept;
 
   void Init() const;
@@ -27,7 +27,7 @@ public:
   void RemoveListener(GRAOBJListener<PLAAGTScene, PLAFunctionCode::Scene> *aListener) const;
   void SetFunction(PLAFunctionCode::Scene aKey,
                    const std::function<void(PLAAGTScene)> &aFunc) const;
-  void RunFunction(PLAFunctionCode::Scene aKey) const;
+  //void RunFunction(PLAFunctionCode::Scene aKey) const;
 
   void PrintPhases() const;
 

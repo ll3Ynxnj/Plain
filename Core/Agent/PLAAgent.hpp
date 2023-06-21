@@ -36,8 +36,8 @@ public:
 
 protected:
   PLAAgent() noexcept;
-  PLAAgent(const PLAAgent &aAgent) noexcept;
-  PLAAgent(PLAObject *aObject);
+  explicit PLAAgent(const PLAAgent &aAgent) noexcept;
+  explicit PLAAgent(PLAObject *aOwner);
 
   const PLAObject *GetOwner() const;
   PLAObject *RefOwner() const;

@@ -3,9 +3,20 @@
 //
 
 #include "PLATMLMotionNode.hpp"
-#include "Object/PLAOBJApp.hpp"
+#include "Core/App/PLAApp.hpp"
+#include "Agent/PLAAGTMotionNode.hpp"
 
-//const PLATMLMotionNode PLATMLMotionNode::kNone = PLATMLMotionNode();
+PLATMLMotionNode *PLATMLMotionNode::Object(const PLAString &aName)
+{
+  auto object = PLAObject::Object(PLAObjectType::MotionNode, aName);
+  return static_cast<PLATMLMotionNode *>(object);
+}
+
+PLATMLMotionNode *PLATMLMotionNode::Object(PLAId aId)
+{
+  auto object = PLAObject::Object(PLAObjectType::MotionNode, aId);
+  return static_cast<PLATMLMotionNode *>(object);
+}
 
 PLATMLMotionNode *PLATMLMotionNode::Create()
 {
@@ -85,7 +96,7 @@ PLATMLMotionNode::PLATMLMotionNode():
 
 PLATMLMotionNode::PLATMLMotionNode(PLATMLMotionType aType, const PLAColor &aBegin,
                                    const PLAColor &aEnd, PLATimeInterval aDuration):
-  PLAOBJTimelineNode(PLAOBJTimelineNode::Type::Motion, aDuration * PLAOBJApp::kRefreshRate),
+  PLAOBJTimelineNode(PLAOBJTimelineNode::Type::Motion, aDuration * PLAApp::kRefreshRate),
   _type(aType),
   _begin(PLAProperty(aBegin)),
   _end(PLAProperty(aEnd)),
@@ -98,7 +109,7 @@ PLATMLMotionNode::PLATMLMotionNode(PLATMLMotionType aType, const PLAColor &aBegi
 
 PLATMLMotionNode::PLATMLMotionNode(PLATMLMotionType aType, const PLAVec3f &aBegin,
                                    const PLAVec3f &aEnd, PLATimeInterval aDuration):
-  PLAOBJTimelineNode(PLAOBJTimelineNode::Type::Motion, aDuration * PLAOBJApp::kRefreshRate),
+  PLAOBJTimelineNode(PLAOBJTimelineNode::Type::Motion, aDuration * PLAApp::kRefreshRate),
   _type(aType),
   _begin(PLAProperty(aBegin)),
   _end(PLAProperty(aEnd)),
@@ -111,6 +122,11 @@ PLATMLMotionNode::PLATMLMotionNode(PLATMLMotionType aType, const PLAVec3f &aBegi
 PLATMLMotionNode::~PLATMLMotionNode()
 {
 
+}
+
+PLAAGTMotionNode PLATMLMotionNode::AssignAgent()
+{
+  return PLAAGTMotionNode(this);
 }
 
 void PLATMLMotionNode::GetProperty(std::map<PLATMLMotionType, PLAProperty> *aProperties) const

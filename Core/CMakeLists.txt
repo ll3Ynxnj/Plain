@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.1)
 
 add_library(Plain-Core STATIC
   Object/PLAObject.cpp
-  Object/PLAOBJApp.cpp
+  App/PLAApp.cpp
   Object/PLAOBJError.cpp
   Object/PLAOBJState.cpp
   Object/PLAOBJStage.cpp
@@ -46,6 +46,10 @@ add_library(Plain-Core STATIC
   Agent/PLAAGTScene.cpp
   Agent/PLAAGTState.cpp
   Agent/PLAAGTStage.cpp
+  Agent/PLAAGTTimeline.cpp
+  Agent/PLAAGTTimelineNode.cpp
+  Agent/PLAAGTMotion.cpp
+  Agent/PLAAGTMotionNode.cpp
 
   Property/PLAProperty.cpp
 )

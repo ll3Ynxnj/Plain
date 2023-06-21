@@ -9,8 +9,8 @@ PLAAgent::PLAAgent() noexcept {
 
 }
 
-PLAAgent::PLAAgent(PLAObject *aObject) :
-  _owner(aObject)
+PLAAgent::PLAAgent(PLAObject *aOwner) :
+  _owner(aOwner)
 {
   _owner->RetainAgent();
 }

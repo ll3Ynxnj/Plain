@@ -8,13 +8,21 @@
 #include "PLAOBJTimeline.hpp"
 #include "PLATMLMotionNode.hpp"
 
+class PLAAGTMotion;
+
 class PLATMLMotion: public PLAOBJTimeline
 {
 public:
+  static PLATMLMotion *Object(const PLAString &aName);
+  static PLATMLMotion *Object(PLAId aId);
+
   static PLATMLMotion *Create();
 
   PLATMLMotion();
   ~PLATMLMotion() override {}
+
+  PLAAGTMotion AssignAgent();
+
   void GetProperties(std::map<PLATMLMotionType, PLAProperty> *aProperties) const;
 };
 

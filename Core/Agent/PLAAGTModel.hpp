@@ -15,7 +15,7 @@ class PLAAGTModel final : public PLAAgent
 public:
   /// Agent is const method only.
   PLAAGTModel() = default;
-  explicit PLAAGTModel(PLAOBJModel *aModel);
+  explicit PLAAGTModel(PLAOBJModel *aOwner);
   virtual ~PLAAGTModel() noexcept;
 
   PLABool GetBool(const PLAString &aName) const;

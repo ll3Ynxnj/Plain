@@ -4,7 +4,7 @@
 
 #include "PLATimelineHolder.hpp"
 #include "PLAOBJTimeline.hpp"
-#include "Object/PLAOBJApp.hpp"
+#include "Core/App/PLAApp.hpp"
 
 // PLATimelineHolder ///////////////////////////////////////////////////////////
 
@@ -16,7 +16,7 @@ PLATimelineHolder::PLATimelineHolder()
 PLATimelineHolder::PLATimelineHolder(PLAOBJTimeline *aThread):
   _thread(aThread)
 {
-  PLAOBJApp::Instance()->AddTimelineThread(aThread);
+  PLAApp::Instance()->AddTimelineThread(aThread);
 }
 
 PLATimelineHolder::~PLATimelineHolder() noexcept
@@ -29,7 +29,7 @@ void PLATimelineHolder::AddThread(PLAOBJTimeline *aThread)
   if (!_thread) {
     _thread = PLAOBJTimeline::Create(nullptr);
     _thread->SetHolder(this);
-    PLAOBJApp::Instance()->AddTimelineThread(_thread);
+    PLAApp::Instance()->AddTimelineThread(_thread);
   }
   _thread->AddThread(aThread);
 }

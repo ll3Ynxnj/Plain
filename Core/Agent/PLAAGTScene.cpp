@@ -6,8 +6,8 @@
 #include "PLAAGTPhase.hpp"
 #include "Object/PLAOBJScene.hpp"
 
-PLAAGTScene::PLAAGTScene(PLAOBJScene *aScene) :
-  PLAAgent(aScene)
+PLAAGTScene::PLAAGTScene(PLAOBJScene *aOwner) :
+  PLAAgent(aOwner)
 {
 
 }
@@ -50,11 +50,13 @@ void PLAAGTScene::SetFunction(PLAFunctionCode::Scene aKey,
   owner->SetFunction(aKey, aFunc);
 };
 
+/*
 void PLAAGTScene::RunFunction(PLAFunctionCode::Scene aKey) const
 {
   auto owner = this->RefScene();
   owner->RunFunction(aKey);//this->RefStage());
 };
+ */
 
 void PLAAGTScene::PrintPhases() const
 {

@@ -15,7 +15,7 @@ class PLAAGTPhase: public PLAAgent
 public:
   /// Agent is const method only.
   PLAAGTPhase() = default;
-  explicit PLAAGTPhase(PLAOBJPhase *aPhase);
+  explicit PLAAGTPhase(PLAOBJPhase *aOwner);
   virtual ~PLAAGTPhase() noexcept;
 };
 

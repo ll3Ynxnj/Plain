@@ -6,8 +6,8 @@
 #include "PLAAGTModel.hpp"
 #include "Object/PLAOBJState.hpp"
 
-PLAAGTState::PLAAGTState(PLAOBJState *aState) :
-  PLAAgent(aState)
+PLAAGTState::PLAAGTState(PLAOBJState *aOwner) :
+  PLAAgent(aOwner)
 {
 
 }

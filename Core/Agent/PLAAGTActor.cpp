@@ -3,9 +3,12 @@
 //
 
 #include "PLAAGTActor.hpp"
+#include "PLAAGTMotion.hpp"
 
-PLAAGTActor::PLAAGTActor(PLAOBJActor *aActor) :
-  PLAAgent(aActor)
+#include "Object/Actor/PLAOBJActor.hpp"
+
+PLAAGTActor::PLAAGTActor(PLAOBJActor *aOwner) :
+  PLAAgent(aOwner)
 {
 
 }
@@ -58,10 +61,12 @@ void PLAAGTActor::SetFunction(PLAFunctionCode::Actor aKey,
   actor->SetFunction(aKey, aFunc);
 };
 
-void PLAAGTActor::AddTileMotion(const PLAVec2s &aAddress, PLATMLMotion *aThread) const
+void PLAAGTActor::AddTileMotion(const PLAVec2s &aAddress, const PLAAGTMotion &aMotion) const
 {
-  PLAOBJActor *actor = this->RefActor();
-  actor->AddTileMotion(aAddress, aThread);
+  auto motionId = aMotion.GetOwnerId();
+  auto motion = PLATMLMotion::Object(motionId);
+  auto actor = this->RefActor();
+  actor->AddTileMotion(aAddress, motion);
 }
 
 void PLAAGTActor::SetFunctorForInputWithTouch

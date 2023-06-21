@@ -1,27 +1,29 @@
+// Copyright (c) 2023. CLAYWORK Inc. All rights reserved.
+
 #ifndef PLAIN_ENGINE_PLAOBJAPP_HPP
 #define PLAIN_ENGINE_PLAOBJAPP_HPP
 
-#include "PLAObject.hpp"
+#include "Core/Object/PLAObject.hpp"
 #include "Core/PLAInputType.hpp"
 #include "Core/PLARendererType.hpp"
 #include "Primitive/PLAPRMVector.hpp"
 #include "Primitive/PLAPRMPoint.hpp"
 
-#include "PLAOBJState.hpp"
-#include "PLAOBJScene.hpp"
-#include "PLAOBJStage.hpp"
+#include "Core/Object/PLAOBJState.hpp"
+#include "Core/Object/PLAOBJScene.hpp"
+#include "Core/Object/PLAOBJStage.hpp"
 #include "Object/Timeline/PLAOBJTimeline.hpp"
-#include "Actor/PLAOBJActor.hpp"
+#include "Core/Object/Actor/PLAOBJActor.hpp"
 #include "Agent/PLAAGTStage.hpp"
 
 class PLAOBJRenderer;
 
-class PLAOBJApp final : public PLAObject
+class PLAApp// final : public PLAObject
 {
-  static PLAOBJApp _instance;
+  static PLAApp _instance;
 
   //std::map<std::string, PLAOBJTimelineNode *> _subNodes = std::map<std::string, PLAOBJTimelineNode *>();
-  PLAOBJTimeline _timeline = PLAOBJTimeline(nullptr); /// Infinity node
+  PLAOBJTimeline *_timeline = nullptr;//PLAOBJTimeline(nullptr); /// Infinity node
 
   PLAUInt _frame = 0;
 
@@ -31,13 +33,13 @@ class PLAOBJApp final : public PLAObject
   PLAOBJRenderer *_renderer = nullptr;
   PLAVec3f _contentScaleFactor = kPLAVec3fNorm;
 
-  PLAOBJApp();
+  PLAApp();
 
 public:
   static const int kRefreshRate = 60;
   static const int kBaseScreenLength = 320;
 
-  static PLAOBJApp *Instance() { return &_instance; };
+  static PLAApp *Instance() { return &_instance; };
   static PLAOBJState *State() { return _instance._state; };
   static PLAOBJStage *Stage() { return _instance._stage; };
   static PLAOBJScene *Scene() { return _instance._scene; };
@@ -53,7 +55,7 @@ public:
 
   static PLAInputSignalCode GetInputSignalCodeFromChar(const unsigned char aCharacter);
 
-  ~PLAOBJApp();
+  ~PLAApp();
 
   void Init(PLARendererType aType);
   void Reset();

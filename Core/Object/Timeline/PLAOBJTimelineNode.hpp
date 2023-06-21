@@ -19,11 +19,15 @@
 #include "PLAFunctionCode.hpp"
 
 class PLAOBJTimeline;
+class PLAAGTTimelineNode;
 
 class PLAOBJTimelineNode: public PLAObject//, private GRAOBJBinder<PLAOBJTimelineNode>::Item
 {
   //using Item = GRAOBJBinder<PLAOBJTimelineNode>::Item;
   //using Error = GRAOBJBinder<PLAOBJTimelineNode>::Error;
+
+  //using Listener = GRAOBJListener<PLAAGTTimelineNode, PLAFunctionCode::TimelineNode>;
+  using Functor = GRAOBJFunctor<PLAAGTTimelineNode, PLAFunctionCode::TimelineNode>;
 
 public:
   /// \~english Function to be executed at a specific point in time.
@@ -48,14 +52,15 @@ public:
   };
 
 private:
-  GRAOBJFunctor<PLAOBJTimelineNode *, PLAFunctionCode::TimelineNode> _functor =
-    GRAOBJFunctor<PLAOBJTimelineNode *, PLAFunctionCode::TimelineNode>();
+  Functor _functor = Functor();
   Type _type = Type::None;
   PLAInt _steps = 0;
   PLAInt _length = 1;
   PLAOBJTimeline *_timeline = nullptr;
 
 public:
+  static PLAOBJTimelineNode *Object(const PLAString &aName);
+  static PLAOBJTimelineNode *Object(PLAId aId);
   static PLAOBJTimelineNode *Create(PLAOBJTimelineNode::Type aType);
 
   void Bind() override;
@@ -69,6 +74,8 @@ public:
 
   void Update();
 
+  PLAAGTTimelineNode AssignAgent();
+
   PLABool IsFinished() const;
   Type GetNodeType() const { return _type; };
   PLAInt GetSteps() const { return _steps; };
@@ -79,7 +86,7 @@ public:
   void SetThread(PLAOBJTimeline *aThread) { _timeline = aThread; }
   //void SetInfinity(PLABool aInfinity) { _infinity = aInfinity; }
   void SetFunction(PLAFunctionCode::TimelineNode aKey,
-                   const std::function<void(PLAOBJTimelineNode *)> &aFunc)
+                   const std::function<void(PLAAGTTimelineNode)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
 
 private:

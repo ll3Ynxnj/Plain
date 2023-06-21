@@ -3,10 +3,23 @@
 //
 
 #include "PLAOBJTimelineNode.hpp"
-#include "Object/PLAOBJApp.hpp"
+#include "Core/App/PLAApp.hpp"
 #include "Object/PLAOBJError.hpp"
+#include "Agent/PLAAGTTimelineNode.hpp"
 
 // PLAOBJTimelineNode /////////////////////////////////////////////////////////////
+
+PLAOBJTimelineNode *PLAOBJTimelineNode::Object(const PLAString &aName)
+{
+  auto object = PLAObject::Object(PLAObjectType::TimelineNode, aName);
+  return static_cast<PLAOBJTimelineNode *>(object);
+}
+
+PLAOBJTimelineNode *PLAOBJTimelineNode::Object(PLAId aId)
+{
+  auto object = PLAObject::Object(PLAObjectType::TimelineNode, aId);
+  return static_cast<PLAOBJTimelineNode *>(object);
+}
 
 PLAOBJTimelineNode *PLAOBJTimelineNode::Create(PLAOBJTimelineNode::Type aType)
 {
@@ -104,12 +117,18 @@ void PLAOBJTimelineNode::Update()
   //if ((_length - aStep * 0.5) < _steps) { _steps = _length; }
 }
 
+PLAAGTTimelineNode PLAOBJTimelineNode::AssignAgent()
+{
+  return PLAAGTTimelineNode(this);
+}
+
 void PLAOBJTimelineNode::OnStart()
 {
   GRA_PRINT("%s| %s : OnStart(), _steps: %3d\n",
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
             _steps);
-  _functor.RunFunction(PLAFunctionCode::TimelineNode::OnStart, this);
+  _functor.RunFunction(PLAFunctionCode::TimelineNode::OnStart,
+                       PLAAGTTimelineNode(this));
 }
 
 void PLAOBJTimelineNode::OnUpdate()
@@ -117,7 +136,8 @@ void PLAOBJTimelineNode::OnUpdate()
   GRA_PRINT("%s| %s : OnUpdate(), _steps: %3d\n",
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
             _steps);
-  _functor.RunFunction(PLAFunctionCode::TimelineNode::OnUpdate, this);
+  _functor.RunFunction(PLAFunctionCode::TimelineNode::OnUpdate,
+                       PLAAGTTimelineNode(this));
 }
 
 void PLAOBJTimelineNode::OnStop()
@@ -125,7 +145,8 @@ void PLAOBJTimelineNode::OnStop()
   GRA_PRINT("%s| %s : OnStop(), _steps: %3d\n",
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
             _steps);
-  _functor.RunFunction(PLAFunctionCode::TimelineNode::OnStop,  this);
+  _functor.RunFunction(PLAFunctionCode::TimelineNode::OnStop,
+                       PLAAGTTimelineNode(this));
 }
 
 

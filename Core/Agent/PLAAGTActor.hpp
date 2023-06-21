@@ -7,13 +7,21 @@
 
 
 #include "PLAAgent.hpp"
-#include "Object/Actor/PLAOBJActor.hpp"
+#include "PLAAGTMotion.hpp"
+#include "PLAFunctionCode.hpp"
+
+#include "Primitive/PLAPRMColor.hpp"
+#include "Primitive/PLAPRMTransform.hpp"
+
+#include "Object/Input/PLAInput.hpp"
+
+class PLAOBJActor;
 
 class PLAAGTActor final : public PLAAgent
 {
 public:
   /// Agent is const method only.
-  explicit PLAAGTActor(PLAOBJActor *aActor);
+  explicit PLAAGTActor(PLAOBJActor *aOwner);
   virtual ~PLAAGTActor() noexcept;
 
   void SetColor(const PLAColor &aColor) const;
@@ -27,7 +35,7 @@ public:
   void SetFunction(PLAFunctionCode::Actor aKey,
                    const std::function<void(PLAOBJActor *)> &aFunc) const;
 
-  void AddTileMotion(const PLAVec2s &aAddress, PLATMLMotion *aThread) const;
+  void AddTileMotion(const PLAVec2s &aAddress, const PLAAGTMotion &aThread) const;
 
   /// Path-through to InputContext /////////////////////////////////////////////
   void SetFunctorForInputWithTouch

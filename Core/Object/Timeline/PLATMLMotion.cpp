@@ -3,6 +3,19 @@
 //
 
 #include "PLATMLMotion.hpp"
+#include "Agent/PLAAGTMotion.hpp"
+
+PLATMLMotion *PLATMLMotion::Object(const PLAString &aName)
+{
+  auto object = PLAObject::Object(PLAObjectType::Motion, aName);
+  return static_cast<PLATMLMotion *>(object);
+}
+
+PLATMLMotion *PLATMLMotion::Object(PLAId aId)
+{
+  auto object = PLAObject::Object(PLAObjectType::Motion, aId);
+  return static_cast<PLATMLMotion *>(object);
+}
 
 PLATMLMotion *PLATMLMotion::Create()
 {
@@ -12,9 +25,14 @@ PLATMLMotion *PLATMLMotion::Create()
 }
 
 PLATMLMotion::PLATMLMotion():
-  PLAOBJTimeline(nullptr)
+  PLAOBJTimeline(nullptr, PLAObjectType::Motion)
 {
 
+}
+
+PLAAGTMotion PLATMLMotion::AssignAgent()
+{
+  return PLAAGTMotion(this);
 }
 
 void PLATMLMotion::GetProperties(std::map<PLATMLMotionType, PLAProperty> *aProperties) const
