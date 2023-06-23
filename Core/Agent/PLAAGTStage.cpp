@@ -53,11 +53,13 @@ void PLAAGTStage::SetFunction(PLAFunctionCode::Stage aKey,
   owner->SetFunction(aKey, aFunc);
 };
 
+/*
 void PLAAGTStage::RunFunction(PLAFunctionCode::Stage aKey) const
 {
   auto owner = this->RefStage();
   owner->RunFunction(aKey);//this->RefStage());
 };
+ */
 
 void PLAAGTStage::PrintActors() const
 {

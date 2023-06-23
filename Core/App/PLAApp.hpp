@@ -3,17 +3,20 @@
 #ifndef PLAIN_ENGINE_PLAOBJAPP_HPP
 #define PLAIN_ENGINE_PLAOBJAPP_HPP
 
-#include "Core/Object/PLAObject.hpp"
-#include "Core/PLAInputType.hpp"
-#include "Core/PLARendererType.hpp"
+#include "Object/PLAObject.hpp"
+
+#include "PLAInputType.hpp"
+#include "PLARendererType.hpp"
+
 #include "Primitive/PLAPRMVector.hpp"
 #include "Primitive/PLAPRMPoint.hpp"
 
-#include "Core/Object/PLAOBJState.hpp"
-#include "Core/Object/PLAOBJScene.hpp"
-#include "Core/Object/PLAOBJStage.hpp"
+#include "Object/PLAOBJState.hpp"
+#include "Object/PLAOBJScene.hpp"
+#include "Object/PLAOBJStage.hpp"
 #include "Object/Timeline/PLAOBJTimeline.hpp"
-#include "Core/Object/Actor/PLAOBJActor.hpp"
+#include "Object/Actor/PLAOBJActor.hpp"
+
 #include "Agent/PLAAGTStage.hpp"
 
 class PLAOBJRenderer;

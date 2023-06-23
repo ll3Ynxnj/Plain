@@ -31,6 +31,13 @@ void PLAAGTScene::PushPhase(const PLAAGTPhase &aAgent) const
   scene->PushPhase(phase);
 }
 
+void PLAAGTScene::PopPhase() const
+{
+  PLAId sceneId = this->GetOwnerId();
+  PLAOBJScene *scene = PLAOBJScene::Object(sceneId);
+  scene->PopPhase();
+}
+
 void PLAAGTScene::AddListener(GRAOBJListener<PLAAGTScene, PLAFunctionCode::Scene> *aListener) const
 {
   auto owner = this->RefScene();
@@ -49,14 +56,6 @@ void PLAAGTScene::SetFunction(PLAFunctionCode::Scene aKey,
   auto owner = this->RefScene();
   owner->SetFunction(aKey, aFunc);
 };
-
-/*
-void PLAAGTScene::RunFunction(PLAFunctionCode::Scene aKey) const
-{
-  auto owner = this->RefScene();
-  owner->RunFunction(aKey);//this->RefStage());
-};
- */
 
 void PLAAGTScene::PrintPhases() const
 {

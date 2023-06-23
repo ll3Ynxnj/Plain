@@ -7,6 +7,8 @@
 
 
 #include "PLAAgent.hpp"
+#include "PLAFunctionCode.hpp"
+#include "Grain/Object/GRAOBJListener.hpp"
 
 class PLAOBJPhase;
 
@@ -17,6 +19,15 @@ public:
   PLAAGTPhase() = default;
   explicit PLAAGTPhase(PLAOBJPhase *aOwner);
   virtual ~PLAAGTPhase() noexcept;
+
+  void AddListener(GRAOBJListener<PLAAGTPhase, PLAFunctionCode::Phase> *aListener) const;
+  void RemoveListener(GRAOBJListener<PLAAGTPhase, PLAFunctionCode::Phase> *aListener) const;
+  void SetFunction(PLAFunctionCode::Phase aKey,
+                   const std::function<void(PLAAGTPhase)> &aFunc) const;
+
+protected:
+  const PLAOBJPhase *GetPhase() const;
+  PLAOBJPhase *RefPhase() const;
 };
 
 

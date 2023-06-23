@@ -24,6 +24,10 @@ public:
   explicit PLAAGTActor(PLAOBJActor *aOwner);
   virtual ~PLAAGTActor() noexcept;
 
+  void AddActor(PLAAGTActor aActor) const;
+  void RemoveActor(PLAAGTActor aActor) const;
+  void RemoveFromParentActor() const;
+
   void SetColor(const PLAColor &aColor) const;
   void SetTransform(const PLATransform &aTransform) const;
   void SetSize(const PLAVec3f &aSize) const;

@@ -32,6 +32,15 @@ namespace PLAFunctionCode
   {
     OnInit,
 
+    OnPushed,
+    OnPopped,
+
+    OnPushedOver,
+    OnPoppedOver,
+
+    OnPushChild,
+    OnPopChild,
+
     kNumberOfItems,
     None = kNone,
   };

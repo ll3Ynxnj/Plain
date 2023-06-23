@@ -45,16 +45,21 @@ public:
   void RemoveListener(GRAOBJListener<PLAAGTScene, PLAFunctionCode::Scene> *aListener);
   void SetFunction(PLAFunctionCode::Scene aKey,
                    const std::function<void(PLAAGTScene)> &aFunc);
-  void RunFunction(PLAFunctionCode::Scene aKey);
+
+  void PushPhase(PLAOBJPhase *aPhase);
+  //void PushPhase(const PLAString &aPath, PLAOBJPhase *aPhase);
+  void PopPhase();
+  //void PopPhase(const PLAString &aPath);
 
   const PLAOBJPhase *GetContext() const { return _context; }
 
   const PLAOBJPhase *GetCurrentPhase() const { return _context->GetCurrentPhase(); };
   PLAOBJPhase *RefCurrentPhase() const { return _context->RefCurrentPhase(); };
-  void PushPhase(PLAOBJPhase *aPhase) { _context->PushPhase(aPhase); };
-  void PopPhase() { _context->PopPhase(); }
 
   void PrintPhases() const;
+
+private:
+  void RunFunction(PLAFunctionCode::Scene aKey);
 };
 
 #endif //PLAIN_ENGINE_PLAOBJSCENE_HPP

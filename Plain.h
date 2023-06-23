@@ -32,11 +32,6 @@ namespace Plain
   void Init(PLARendererType aType);
   void Delete(const std::string &aName);
 
-  void Push(const PLAAGTPhase &aPhase);
-
-  void Add(const PLAAGTActor &aActor);
-  void Add(const PLAAGTModel &aModel);
-
   namespace Event
   {
     using Actor = PLAFunctionCode::Actor;
@@ -67,16 +62,19 @@ namespace Plain
   namespace Scene
   {
     PLAAGTScene Assign();
+    void PushPhase(const PLAAGTPhase &aPhase);
   };
 
   namespace State
   {
     PLAAGTState Assign();
+    void AddModel(const PLAAGTModel &aModel);
   };
 
   namespace Stage
   {
     PLAAGTStage Assign();
+    void AddActor(const PLAAGTActor &aActor);
   };
 
   namespace Phase
@@ -98,41 +96,29 @@ namespace Plain
   {
     //using Agent = PLAAGTActor;
     PLAAGTActor CreateRect(const PLAVec3f &aPivot,
-                           const PLAColor &aColor,
                            const PLATransform &aTransform,
                            const PLARect &aRect);
-
     PLAAGTActor CreateRect(const PLAVec3f &aPivot,
-                           const PLAColor &aColor,
                            const PLATransform &aTransform,
                            const PLARect &aRect,
                            const PLAColor &aFillColor);
-
     PLAAGTActor CreateRect(const PLAVec3f &aPivot,
-                           const PLAColor &aColor,
                            const PLATransform &aTransform,
                            const PLARect &aRect,
                            const std::string &aImage,
                            const PLARect &aClip);
-
     PLAAGTActor CreateCircle(const PLAVec3f &aPivot,
-                             const PLAColor &aColor,
                              const PLATransform &aTransform,
                              const PLACircle &aCircle);
-
     PLAAGTActor CreateCircle(const PLAVec3f &aPivot,
-                             const PLAColor &aColor,
                              const PLATransform &aTransform,
                              const PLACircle &aCircle,
                              const PLAColor &aFillColor);
-
     PLAAGTActor CreateCircle(const PLAVec3f &aPivot,
-                             const PLAColor &aColor,
                              const PLATransform &aTransform,
                              const PLACircle &aCircle,
                              const std::string &aImage,
                              const PLARect &aClip);
-
     PLAAGTActor CreateTile(const PLAVec2f &aOffset,
                            const std::string &aImageName,
                            const GRAVec2<PLASize> &aTileSize,

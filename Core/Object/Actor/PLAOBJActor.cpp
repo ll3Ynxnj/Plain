@@ -142,12 +142,26 @@ PLAOBJActor::~PLAOBJActor() noexcept
 
 void PLAOBJActor::Unbind()
 {
+  this->RemoveFromParentActor();
   PLAObject::Unbind();
 }
 
 void PLAOBJActor::AddActor(PLAOBJActor *aActor)
 {
+  aActor->_parent = this;
   _actors.push_back(aActor);
+}
+
+void PLAOBJActor::RemoveActor(PLAOBJActor *aActor)
+{
+  aActor->_parent = nullptr;
+  _actors.remove(aActor);
+}
+
+void PLAOBJActor::RemoveFromParentActor()
+{
+  if (_parent) { _parent->RemoveActor(this); }
+  else { PLA_ERROR_ISSUE(PLAErrorType::Expect, "Parent actor is not exist."); }
 }
 
 void PLAOBJActor::Input(const PLAInput *aInput)

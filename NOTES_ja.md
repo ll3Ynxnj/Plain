@@ -10,6 +10,8 @@ Timeline関連のAgentを実装した。
 
 # Memo
 Phaseの切り替えをStageとModelに検知させる。
+ActorのOnAppear, OnDisappearを利用して、画面を遷移させる感じかな。
+すべてのObjectに名前付きのCreateメソッド、Create(PLAString aName)を追加する。
 
 # ライフサイクルについて
 1. 入力の受け取り
@@ -18,4 +20,4 @@ Phaseの切り替えをStageとModelに検知させる。
 # ファンクタの実行について
 
 # Agentについて
-Agentは、Objectの代理人です。ユーザーはAgentを通してObjectを操作します。Agentはconstメソッドしか持ちません。AgentをAssignした場合、ポインタではなく実態が生成され、スコープ外に出ると破棄されます。
+Agentは、Objectの代理人です。ユーザーはAgentを通してObjectを操作します。Agentはconstメソッドしか持ちません。AgentをAssignした場合、ポインタではなく実態が生成され、スコープ外に出ると破棄されます。Agentの実態は、オブジェクトへの参照のみなので、参照を利用する機会は多分ありません。

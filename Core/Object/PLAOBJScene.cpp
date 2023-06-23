@@ -49,21 +49,24 @@ void PLAOBJScene::Update()
 }
 
 void PLAOBJScene::AddListener(GRAOBJListener<PLAAGTScene, PLAFunctionCode::Scene> *aListener)
-{ _listeners.push_back(aListener); };
+{ _listeners.push_back(aListener); }
 
 void PLAOBJScene::RemoveListener(GRAOBJListener<PLAAGTScene, PLAFunctionCode::Scene> *aListener)
-{ _listeners.remove(aListener); };
+{ _listeners.remove(aListener); }
 
 void PLAOBJScene::SetFunction(PLAFunctionCode::Scene aKey,
                               const std::function<void(PLAAGTScene)> &aFunc)
-{ _functor.SetFunction(aKey, aFunc); };
+{ _functor.SetFunction(aKey, aFunc); }
 
-void PLAOBJScene::RunFunction(PLAFunctionCode::Scene aKey)
+void PLAOBJScene::PushPhase(PLAOBJPhase *aPhase)
 {
-  _functor.RunFunction(aKey, this->AssignAgent());//this->RefStage());
-  for (GRAOBJListener<PLAAGTScene, PLAFunctionCode::Scene> *listener: _listeners)
-  { listener->RunListener(aKey, this->AssignAgent()); }//this->RefStage()); }
-};
+  _context->PushChild(aPhase);
+}
+
+void PLAOBJScene::PopPhase()
+{
+  _context->PopChild();
+}
 
 void PLAOBJScene::PrintPhases() const
 {
@@ -72,4 +75,11 @@ void PLAOBJScene::PrintPhases() const
   _context->PrintPhases();
   GRA_PRINT("////////////////////////////////////////");
   GRA_PRINT("////////////////////////////////////////\n");
+}
+
+void PLAOBJScene::RunFunction(PLAFunctionCode::Scene aKey)
+{
+  _functor.RunFunction(aKey, this->AssignAgent());//this->RefStage());
+  for (GRAOBJListener<PLAAGTScene, PLAFunctionCode::Scene> *listener: _listeners)
+  { listener->RunListener(aKey, this->AssignAgent()); }//this->RefStage()); }
 }

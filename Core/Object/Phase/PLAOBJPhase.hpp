@@ -10,6 +10,9 @@
 
 #include "Object/PLAObject.hpp"
 
+#include "Grain/Object/GRAOBJBinder.hpp"
+#include "Grain/Object/GRAOBJListener.hpp"
+
 #include "PLAFunctionCode.hpp"
 #include "Grain/Object/GRAOBJListener.hpp"
 
@@ -18,10 +21,11 @@ class PLAAGTPhase;
 class PLAOBJPhase : public PLAObject
 {
   std::stack<PLAOBJPhase *>_phases = std::stack<PLAOBJPhase *>();
+  PLAOBJPhase *_poppedPhase = nullptr;
 
 public:
-  using Listener = GRAOBJListener<PLAOBJPhase *, PLAFunctionCode::Phase>;
-  using Functor = GRAOBJFunctor<PLAOBJPhase *, PLAFunctionCode::Phase>;
+  using Listener = GRAOBJListener<PLAAGTPhase, PLAFunctionCode::Phase>;
+  using Functor = GRAOBJFunctor<PLAAGTPhase, PLAFunctionCode::Phase>;
 
 private:
   std::list<Listener *> _listeners = std::list<Listener *>();
@@ -31,6 +35,7 @@ public:
   static PLAOBJPhase *Create();
   static PLAOBJPhase *Object(const PLAString &aName);
   static PLAOBJPhase *Object(PLAId aId);
+  static PLABool IsValidPath(const PLAString &aPath);
 
   PLAOBJPhase();
   explicit PLAOBJPhase(PLAString aName);
@@ -40,23 +45,23 @@ public:
 
   PLAAGTPhase AssignAgent();
 
+  void AddListener(GRAOBJListener<PLAAGTPhase, PLAFunctionCode::Phase> *aListener);
+  void RemoveListener(GRAOBJListener<PLAAGTPhase, PLAFunctionCode::Phase> *aListener);
+  void SetFunction(PLAFunctionCode::Phase aKey,
+                   const std::function<void(PLAAGTPhase)> &aFunc);
+
+  void PushChild(PLAOBJPhase *aPhase);
+  //void PushChild(const PLAString &aPath, PLAOBJPhase *aPhase);
+  void PopChild();
+  //void PopChild(const PLAString &aPath);
+
   const PLAOBJPhase *GetCurrentPhase() const { return _phases.top(); };
   PLAOBJPhase *RefCurrentPhase() const { return _phases.top(); };
-  void PushPhase(PLAOBJPhase *aPhase) { _phases.push(aPhase); };
-  void PopPhase() { _phases.pop(); }
 
   void PrintPhases() const;
 
-protected:
-  void AddListener(GRAOBJListener<PLAOBJPhase *, PLAFunctionCode::Phase> *aListener)
-  { _listeners.push_back(aListener); };
-
-  void RemoveListener(GRAOBJListener<PLAOBJPhase *, PLAFunctionCode::Phase> *aListener)
-  { _listeners.remove(aListener); };
-
-  void SetFunction(PLAFunctionCode::Phase aKey,
-                   const std::function<void(PLAOBJPhase *)> &aFunc)
-  { _functor.SetFunction(aKey, aFunc); };
+private:
+  void RunFunction(PLAFunctionCode::Phase aKey);
 };
 
 

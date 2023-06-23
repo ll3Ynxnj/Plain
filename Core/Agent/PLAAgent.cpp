@@ -50,12 +50,12 @@ const char *PLAAgent::GetOwnerTypeName() const
   return _owner->GetObjectTypeName();
 }
 
-const PLAString &PLAAgent::GetName()
+const PLAString &PLAAgent::GetName() const
 {
   return _owner->GetObjectName();
 }
 
-void PLAAgent::SetName(const PLAString &aName)
+void PLAAgent::SetName(const PLAString &aName) const
 {
   _owner->SetObjectName(aName);
 }

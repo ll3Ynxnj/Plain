@@ -103,7 +103,7 @@ void PLAApp::Update()
   PLAObject::Manager::Instance()->DeleteUnboundObjects();
   PLAInputManager::Instance()->Flush();
   UpdateTimelineThread();
-  _scene->Update();
+  //_scene->Update();
   _stage->Update();
   ++_frame;
 }

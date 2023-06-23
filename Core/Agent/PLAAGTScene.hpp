@@ -22,12 +22,12 @@ public:
 
   void Init() const;
   void PushPhase(const PLAAGTPhase &aAgent) const;
+  void PopPhase() const;
 
   void AddListener(GRAOBJListener<PLAAGTScene, PLAFunctionCode::Scene> *aListener) const;
   void RemoveListener(GRAOBJListener<PLAAGTScene, PLAFunctionCode::Scene> *aListener) const;
   void SetFunction(PLAFunctionCode::Scene aKey,
                    const std::function<void(PLAAGTScene)> &aFunc) const;
-  //void RunFunction(PLAFunctionCode::Scene aKey) const;
 
   void PrintPhases() const;
 

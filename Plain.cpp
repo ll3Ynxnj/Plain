@@ -44,16 +44,16 @@ void Plain::Print::TimelineNodes() {
   PLAApp::Instance()->PrintTimelineNodes();
 }
 
-void Plain::Push(const PLAAGTPhase &aPhase)
-{
-  auto scene = Plain::Scene::Assign();
-  scene.PushPhase(aPhase);
-}
-
 PLAAGTScene Plain::Scene::Assign()
 {
   PLAOBJScene *scene = PLAApp::Scene();
   return scene->AssignAgent();
+}
+
+void Plain::Scene::PushPhase(const PLAAGTPhase &aPhase)
+{
+  auto scene = Plain::Scene::Assign();
+  scene.PushPhase(aPhase);
 }
 
 PLAAGTState Plain::State::Assign()
@@ -62,10 +62,22 @@ PLAAGTState Plain::State::Assign()
   return state->AssignAgent();
 }
 
+void Plain::State::AddModel(const PLAAGTModel &aModel)
+{
+  auto state = Plain::State::Assign();
+  state.AddModel(aModel);
+}
+
 PLAAGTStage Plain::Stage::Assign()
 {
   PLAOBJStage *stage = PLAApp::Stage();
   return stage->AssignAgent();
+}
+
+void Plain::Stage::AddActor(const PLAAGTActor &aActor)
+{
+  auto stage = Plain::Stage::Assign();
+  stage.AddActor(aActor);
 }
 
 PLAAGTPhase Plain::Phase::Create()
@@ -111,67 +123,61 @@ PLAAGTModel Plain::Model::Assign(const PLAString &aName)
 }
 
 PLAAGTActor Plain::Actor::CreateRect(const PLAVec3f &aPivot,
-                                     const PLAColor &aColor,
                                      const PLATransform &aTransform,
                                      const PLARect &aRect)
 {
-  PLAOBJActor *actor = PLAOBJActor::CreateRect(aPivot, aColor, aTransform,
+  PLAOBJActor *actor = PLAOBJActor::CreateRect(aPivot, kPLAColorNone, aTransform,
                                                aRect);
   return actor->AssignAgent();
 }
 
 PLAAGTActor Plain::Actor::CreateRect(const PLAVec3f &aPivot,
-                                     const PLAColor &aColor,
                                      const PLATransform &aTransform,
                                      const PLARect &aRect,
                                      const PLAColor &aFillColor)
 {
-  PLAOBJActor *actor = PLAOBJActor::CreateRect(aPivot, aColor, aTransform,
+  PLAOBJActor *actor = PLAOBJActor::CreateRect(aPivot, kPLAColorWhite, aTransform,
                                                aRect, aFillColor);
   return actor->AssignAgent();
 }
 
 PLAAGTActor Plain::Actor::CreateRect(const PLAVec3f &aPivot,
-                                     const PLAColor &aColor,
                                      const PLATransform &aTransform,
                                      const PLARect &aRect,
                                      const std::string &aImage,
                                      const PLARect &aClip)
 {
-  PLAOBJActor *actor = PLAOBJActor::CreateRect(aPivot, aColor, aTransform,
+  PLAOBJActor *actor = PLAOBJActor::CreateRect(aPivot, kPLAColorWhite, aTransform,
                                                aRect, aImage, aClip);
   return actor->AssignAgent();
 }
 
 PLAAGTActor Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
-                                       const PLAColor &aColor,
                                        const PLATransform &aTransform,
                                        const PLACircle &aCircle)
 {
-  PLAOBJActor *actor = PLAOBJActor::CreateCircle(aPivot, aColor, aTransform,
+  PLAOBJActor *actor = PLAOBJActor::CreateCircle(aPivot, kPLAColorWhite, aTransform,
                                                  aCircle);
   return actor->AssignAgent();
 }
 
 PLAAGTActor Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
-                                       const PLAColor &aColor,
                                        const PLATransform &aTransform,
                                        const PLACircle &aCircle,
                                        const PLAColor &aFillColor)
 {
-  PLAOBJActor *actor = PLAOBJActor::CreateCircle(aPivot, aColor, aTransform,
+  PLAOBJActor *actor = PLAOBJActor::CreateCircle(aPivot, kPLAColorWhite, aTransform,
                                                  aCircle, aFillColor);
   return actor->AssignAgent();
 }
 
 PLAAGTActor Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
-                                       const PLAColor &aColor,
                                        const PLATransform &aTransform,
                                        const PLACircle &aCircle,
                                        const std::string &aImage,
                                        const PLARect &aClip)
 {
-  PLAOBJActor *actor = PLAOBJActor::CreateCircle(aPivot, aColor, aTransform,
+  PLAOBJActor *actor = PLAOBJActor::CreateCircle(aPivot, kPLAColorWhite, aTransform,
                                                  aCircle, aImage, aClip);
   return actor->AssignAgent();
 }

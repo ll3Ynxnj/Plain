@@ -30,9 +30,9 @@ public:
   PLAObjectType GetOwnerType() const;
   const char *GetOwnerTypeName() const;
 
-  const PLAString &GetName();
+  const PLAString &GetName() const;
 
-  void SetName(const PLAString &aName);
+  void SetName(const PLAString &aName) const;
 
 protected:
   PLAAgent() noexcept;

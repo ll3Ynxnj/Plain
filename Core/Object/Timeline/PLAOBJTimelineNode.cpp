@@ -124,7 +124,7 @@ PLAAGTTimelineNode PLAOBJTimelineNode::AssignAgent()
 
 void PLAOBJTimelineNode::OnStart()
 {
-  GRA_PRINT("%s| %s : OnStart(), _steps: %3d\n",
+  GRA_PRINT("%s| %s : WillStart(), _steps: %3d\n",
             DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
             _steps);
   _functor.RunFunction(PLAFunctionCode::TimelineNode::OnStart,

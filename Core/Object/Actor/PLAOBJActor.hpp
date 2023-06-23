@@ -46,6 +46,7 @@ private:
     { false };
   };
 
+  PLAOBJActor * _parent = nullptr;
   std::list<PLAOBJActor *> _actors = {};
   PLAVec3f _pivot = kPLAVec3fNone;
   PLAColor _color = kPLAColorWhite;
@@ -110,6 +111,8 @@ public:
   virtual void Unbind() override;
 
   void AddActor(PLAOBJActor *aActor);
+  void RemoveActor(PLAOBJActor *aActor);
+  void RemoveFromParentActor();
   void Input(const PLAInput *aInput);
 
   void Init();

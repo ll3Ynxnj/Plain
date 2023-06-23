@@ -18,6 +18,26 @@ PLAAGTActor::~PLAAGTActor() noexcept
 
 }
 
+void PLAAGTActor::AddActor(PLAAGTActor aActor) const
+{
+  auto parentOwner = this->RefActor();
+  auto childOwner = aActor.RefActor();
+  parentOwner->AddActor(childOwner);
+}
+
+void PLAAGTActor::RemoveActor(PLAAGTActor aActor) const
+{
+  auto parentOwner = this->RefActor();
+  auto childOwner = aActor.RefActor();
+  parentOwner->RemoveActor(childOwner);
+}
+
+void PLAAGTActor::RemoveFromParentActor() const
+{
+  auto owner = this->RefActor();
+  owner->RemoveFromParentActor();
+}
+
 void PLAAGTActor::SetColor(const PLAColor &aColor) const
 {
   PLAOBJActor *actor = this->RefActor();

@@ -30,7 +30,6 @@ public:
   void RemoveListener(GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage> *aListener) const;
   void SetFunction(PLAFunctionCode::Stage aKey,
                    const std::function<void(PLAAGTStage)> &aFunc) const;
-  void RunFunction(PLAFunctionCode::Stage aKey) const;
 
   PLAVec3f GetSize() const;
 
