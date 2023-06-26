@@ -36,6 +36,13 @@ class PLAApp// final : public PLAObject
   PLAOBJRenderer *_renderer = nullptr;
   PLAVec3f _contentScaleFactor = kPLAVec3fNorm;
 
+public:
+  using Functor = GRAOBJFunctor<const PLAApp *, PLAFunctionCode::App>;
+
+private:
+  Functor _functor = Functor();
+
+private:
   PLAApp();
 
 public:
@@ -51,6 +58,9 @@ public:
   void AddTimelineThread(PLAOBJTimeline *aThread);
   void UpdateTimelineThread();
   //void RemoveTimelineThread(const PLAOBJTimeline *aThread);
+
+  void SetFunction(PLAFunctionCode::App aKey,
+                   const std::function<void(const PLAApp *)> &aFunc);
 
   void PrintNodes() const;
 
@@ -72,6 +82,9 @@ public:
   void PrintTimelineNodes() const;
 
   const PLAVec3f &GetContentScaleFactor() { return _contentScaleFactor; }
+
+private:
+  void RunFunction(PLAFunctionCode::App aKey);
 };
 
 #endif // PLAIN_ENGINE_PLAOBJAPP

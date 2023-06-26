@@ -9,6 +9,7 @@
 PLAOBJState *PLAOBJState::Create()
 {
   PLAOBJState *state = new PLAOBJState();
+  state->Init();
   state->Bind();
   return state;
 }

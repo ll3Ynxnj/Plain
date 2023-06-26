@@ -1,6 +1,8 @@
 #ifndef PLAIN_ENGINE_PLAIN_HPP
 #define PLAIN_ENGINE_PLAIN_HPP
 
+#include "App/PLAApp.hpp"
+
 #include "Agent/PLAAGTScene.hpp"
 #include "Agent/PLAAGTState.hpp"
 #include "Agent/PLAAGTModel.hpp"
@@ -32,8 +34,11 @@ namespace Plain
   void Init(PLARendererType aType);
   void Delete(const std::string &aName);
 
+  PLAApp *App();
+
   namespace Event
   {
+    using App = PLAFunctionCode::App;
     using Actor = PLAFunctionCode::Actor;
     using Phase = PLAFunctionCode::Phase;
     using Stage = PLAFunctionCode::Stage;

@@ -6,7 +6,6 @@
 #include "Grain/Grain.h"
 
 #include "Object/PLAObject.hpp"
-#include "Core/App/PLAApp.hpp"
 #include "Object/PLAOBJError.hpp"
 
 void Plain::Init(PLARendererType aType)
@@ -14,8 +13,14 @@ void Plain::Init(PLARendererType aType)
   PLAApp::Instance()->Init(aType);
 }
 
-void Plain::Delete(const std::string &aName) {
+void Plain::Delete(const std::string &aName)
+{
   //PLAApp::Object(aName)->Unbind();
+}
+
+PLAApp *Plain::App()
+{
+  return PLAApp::Instance();
 }
 
 void Plain::Print::Objects()

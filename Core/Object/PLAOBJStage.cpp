@@ -5,6 +5,7 @@
 PLAOBJStage *PLAOBJStage::Create()
 {
   PLAOBJStage *stage = new PLAOBJStage();
+  stage->Init();
   stage->Bind();
   return stage;
 }
@@ -38,13 +39,13 @@ PLAOBJStage::~PLAOBJStage()
 void PLAOBJStage::Init()
 {
   //_context->Init();
-  this->RunFunction(PLAFunctionCode::Stage::OnInit);
+  //this->RunFunction(PLAFunctionCode::Stage::OnInit);
 }
 
 void PLAOBJStage::Update()
 {
   _context->Update();
-  this->RunFunction(PLAFunctionCode::Stage::OnUpdate);
+  //this->RunFunction(PLAFunctionCode::Stage::OnUpdate);
 }
 
 PLAAGTStage PLAOBJStage::AssignAgent()

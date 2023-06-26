@@ -9,7 +9,8 @@ PLAAGTScene PLAOBJScene::AssignAgent()
 PLAOBJScene *PLAOBJScene::Create()
 {
   PLAOBJScene *scene = new PLAOBJScene();
-  scene->PLAObject::Bind();
+  scene->Init();
+  scene->Bind();
   return scene;
 }
 
@@ -45,7 +46,7 @@ void PLAOBJScene::Init()
 void PLAOBJScene::Update()
 {
   //_context->Update();
-  this->RunFunction(PLAFunctionCode::Scene::OnUpdate);
+  //this->RunFunction(PLAFunctionCode::Scene::OnUpdate);
 }
 
 void PLAOBJScene::AddListener(GRAOBJListener<PLAAGTScene, PLAFunctionCode::Scene> *aListener)

@@ -1,6 +1,6 @@
 // Copyright (c) 2023. CLAYWORK Inc. All rights reserved.
 
-#include "PLAApp.hpp"
+#include "Core/App/PLAApp.hpp"
 #include "Object/Input/PLAInputManager.hpp"
 #include "Core/Object/PLAOBJRenderer.hpp"
 #include "Core/Object/PLAOBJError.hpp"
@@ -85,6 +85,8 @@ void PLAApp::Init(PLARendererType aRendererType)
   _stage = PLAOBJStage::Create();
   _scene = PLAOBJScene::Create();
   PLAInputManager::Instance()->SetHandler(_stage);
+
+  //this->RunFunction(PLAFunctionCode::App::OnInit);
 }
 
 void PLAApp::Reset()
@@ -105,6 +107,7 @@ void PLAApp::Update()
   UpdateTimelineThread();
   //_scene->Update();
   _stage->Update();
+  this->RunFunction(PLAFunctionCode::App::OnUpdate);
   ++_frame;
 }
 
@@ -132,6 +135,17 @@ void PLAApp::RefreshScreenSize(int aWidth, int aHeight)
   _stage->SetSize(stageSize);
 }
 
+void PLAApp::SetFunction(PLAFunctionCode::App aKey,
+                         const std::function<void(const PLAApp *)> &aFunc)
+{
+  _functor.SetFunction(aKey, aFunc);
+}
+
 void PLAApp::PrintTimelineNodes() const {
   _timeline->PrintNodes();
+}
+
+void PLAApp::RunFunction(PLAFunctionCode::App aKey)
+{
+  _functor.RunFunction(aKey, this);
 }

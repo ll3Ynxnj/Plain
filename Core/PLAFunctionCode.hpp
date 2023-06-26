@@ -17,9 +17,17 @@ namespace PLAFunctionCode
 
   static const Code kNone = kPLAUIntUndefined;
 
-  enum class Actor : Code
+  enum class App : Code
   {
     //OnInit,
+    OnUpdate,
+
+    kNumberOfItems,
+    None = kNone,
+  };
+
+  enum class Actor : Code
+  {
     OnUpdate,
     OnAppear,
     OnDisappear,
@@ -30,8 +38,6 @@ namespace PLAFunctionCode
 
   enum class Phase : Code
   {
-    //OnInit,
-
     OnPushed,
     OnPopped,
 
@@ -47,8 +53,7 @@ namespace PLAFunctionCode
 
   enum class Scene: Code
   {
-    //OnInit,
-    OnUpdate,
+    //OnUpdate,
 
     kNumberOfItems,
     None = kNone,
@@ -56,8 +61,7 @@ namespace PLAFunctionCode
 
   enum class Stage : Code
   {
-    OnInit,
-    OnUpdate,
+    //OnUpdate,
     OnResize,
 
     kNumberOfItems,
