@@ -88,7 +88,7 @@ void PLAOBJPhase::PushChild(PLAOBJPhase *aPhase)
   auto oldPhase = _phases.empty() ? nullptr : _phases.top();
   auto newPhase = aPhase;
   _phases.push(newPhase);
-  if (_poppedPhase != nullptr) { _poppedPhase->Unbind(); }
+  //if (_poppedPhase != nullptr) { _poppedPhase->Unbind(); }
   _poppedPhase = nullptr;
 
   this->RunFunction(PLAFunctionCode::Phase::OnPushChild);
@@ -104,7 +104,7 @@ void PLAOBJPhase::PopChild()
     return;
   }
 
-  if (_poppedPhase) { _poppedPhase->Unbind(); }
+  //if (_poppedPhase) { _poppedPhase->Unbind(); }
 
   auto oldPhase = _phases.top();
   _phases.pop();
