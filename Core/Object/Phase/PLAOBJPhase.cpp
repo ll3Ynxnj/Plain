@@ -13,6 +13,7 @@
 PLAOBJPhase *PLAOBJPhase::Create()
 {
   PLAOBJPhase *phase = new PLAOBJPhase();
+  phase->Init();
   phase->Bind();
   return phase;
 }
@@ -58,7 +59,7 @@ PLAOBJPhase::~PLAOBJPhase()
 
 void PLAOBJPhase::Init()
 {
-
+  this->RunFunction(PLAFunctionCode::Phase::OnInit);
 }
 
 PLAAGTPhase PLAOBJPhase::AssignAgent()

@@ -33,6 +33,7 @@ PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec3f &aPivot,
                                       kPLAStrUndefined, kPLARectNone);
 
   PLAOBJActor *actor = new PLAOBJActor(aPivot, aColor, aTransform, layer);//, motion);
+  actor->Init();
   actor->Bind();
   return actor;
 }
@@ -46,6 +47,7 @@ PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec3f &aPivot,
   PLAOBJLayer *layer = new PLALYRRect(aRect, aFillColor, kPLAColorNone,
                                       kPLAStrUndefined, kPLARectNone);
   PLAOBJActor *actor = new PLAOBJActor(aPivot, aColor, aTransform, layer);//, motion);
+  actor->Init();
   actor->Bind();
   return actor;
 }
@@ -60,6 +62,7 @@ PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec3f &aPivot,
   PLAOBJLayer *layer = new PLALYRRect(aRect, kPLAColorWhite, kPLAColorNone,
                                       aImageName, aClip);
   PLAOBJActor *actor = new PLAOBJActor(aPivot, aColor, aTransform, layer);//, motion);
+  actor->Init();
   actor->Bind();
   return actor;
 }
@@ -72,6 +75,7 @@ PLAOBJActor *PLAOBJActor::CreateCircle(const PLAVec3f &aPivot,
   PLAOBJLayer *layer = new PLALYRCircle(aCircle, kPLAColorWhite, kPLAColorNone,
                                         kPLAStrUndefined, kPLARectNone);
   PLAOBJActor *actor = new PLAOBJActor(aPivot, aColor, aTransform, layer);//, motion);
+  actor->Init();
   actor->Bind();
   return actor;
 }
@@ -85,6 +89,7 @@ PLAOBJActor *PLAOBJActor::CreateCircle(const PLAVec3f &aPivot,
   PLAOBJLayer *layer = new PLALYRCircle(aCircle, aFillColor, kPLAColorNone,
                                         kPLAStrUndefined, kPLARectNone);
   PLAOBJActor *actor = new PLAOBJActor(aPivot, aColor, aTransform, layer);//, motion);
+  actor->Init();
   actor->Bind();
   return actor;
 }
@@ -99,6 +104,7 @@ PLAOBJActor *PLAOBJActor::CreateCircle(const PLAVec3f &aPivot,
   PLAOBJLayer *layer = new PLALYRCircle(aCircle, kPLAColorWhite, kPLAColorNone,
                                         aImageName, aClip);
   PLAOBJActor *actor = new PLAOBJActor(aPivot, aColor, aTransform, layer);//, motion);
+  actor->Init();
   actor->Bind();
   return actor;
 }
@@ -113,6 +119,7 @@ PLAOBJActor *PLAOBJActor::CreateTile(const PLAVec2f &aOffset,
                                      aDataSource);
   PLAOBJActor *actor = new PLAOBJActor(kPLAVec3fNone, kPLAColorWhite,
                                        kPLATransformNorm, layer);//, motion);
+  actor->Init();
   actor->Bind();
   return actor;
 }
@@ -172,7 +179,7 @@ void PLAOBJActor::Input(const PLAInput *aInput)
 void PLAOBJActor::Init()
 {
   _functor.RunFunction(PLAFunctionCode::Actor::OnInit, this);
-  for (PLAOBJActor *actor : _actors) { actor->Init(); }
+  //for (PLAOBJActor *actor : _actors) { actor->Init(); }
 }
 
 void PLAOBJActor::Update()

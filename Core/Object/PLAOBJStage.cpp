@@ -37,7 +37,7 @@ PLAOBJStage::~PLAOBJStage()
 
 void PLAOBJStage::Init()
 {
-  _context->Init();
+  //_context->Init();
   this->RunFunction(PLAFunctionCode::Stage::OnInit);
 }
 

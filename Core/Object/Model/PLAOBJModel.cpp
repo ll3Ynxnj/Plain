@@ -9,6 +9,7 @@
 PLAOBJModel *PLAOBJModel::Create()
 {
   PLAOBJModel *model = new PLAOBJModel();
+  model->Init();
   model->Bind();
   return model;
 }

@@ -40,7 +40,7 @@ PLAOBJState::~PLAOBJState()
 
 void PLAOBJState::Init()
 {
-  _context->Init();
+  //_context->Init();
 }
 
 PLAAGTState PLAOBJState::AssignAgent() {
