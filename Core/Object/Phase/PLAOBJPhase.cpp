@@ -59,7 +59,7 @@ PLAOBJPhase::~PLAOBJPhase()
 
 void PLAOBJPhase::Init()
 {
-  this->RunFunction(PLAFunctionCode::Phase::OnInit);
+  //this->RunFunction(PLAFunctionCode::Phase::OnInit);
 }
 
 PLAAGTPhase PLAOBJPhase::AssignAgent()

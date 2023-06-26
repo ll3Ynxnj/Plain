@@ -178,7 +178,7 @@ void PLAOBJActor::Input(const PLAInput *aInput)
 
 void PLAOBJActor::Init()
 {
-  _functor.RunFunction(PLAFunctionCode::Actor::OnInit, this);
+  //_functor.RunFunction(PLAFunctionCode::Actor::OnInit, this);
   //for (PLAOBJActor *actor : _actors) { actor->Init(); }
 }
 

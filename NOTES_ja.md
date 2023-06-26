@@ -13,6 +13,9 @@ Phaseの切り替えをStageとModelに検知させる。
 ActorのOnAppear, OnDisappearを利用して、画面を遷移させる感じかな。
 すべてのObjectに名前付きのCreateメソッド、Create(PLAString aName)を追加する。
 
+# OnInitの廃止について
+OnInitは初期化を行うためのファンクタだが、初期化は実行されるタイミングがオブジェクト生成後一度きりのため、オブジェクト生成後にAddFunctor関数を使って登録しても、実行されない可能性が高い。ファンクタとして実装するのは不適切。CREATEメソッドに関数オブジェクトを含めるのが良いかも。
+
 # ライフサイクルについて
 1. 入力の受け取り
 2. Stageの更新

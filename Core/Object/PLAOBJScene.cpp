@@ -39,7 +39,7 @@ PLAOBJScene::~PLAOBJScene() {
 void PLAOBJScene::Init()
 {
   //_context->Init();
-  this->RunFunction(PLAFunctionCode::Scene::OnInit);
+  //this->RunFunction(PLAFunctionCode::Scene::OnInit);
 }
 
 void PLAOBJScene::Update()

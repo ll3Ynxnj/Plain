@@ -19,7 +19,7 @@ namespace PLAFunctionCode
 
   enum class Actor : Code
   {
-    OnInit,
+    //OnInit,
     OnUpdate,
     OnAppear,
     OnDisappear,
@@ -30,7 +30,7 @@ namespace PLAFunctionCode
 
   enum class Phase : Code
   {
-    OnInit,
+    //OnInit,
 
     OnPushed,
     OnPopped,
@@ -47,7 +47,7 @@ namespace PLAFunctionCode
 
   enum class Scene: Code
   {
-    OnInit,
+    //OnInit,
     OnUpdate,
 
     kNumberOfItems,
