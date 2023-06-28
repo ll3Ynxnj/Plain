@@ -103,6 +103,7 @@ void PLAOBJResource::Manager::Init()
   this->LoadResource("sample0.raw");
   this->LoadResource("sample1.raw");
   this->LoadResource("sample2.raw");
+  this->LoadResource("font0.raw");
 }
 
 PLAOBJResource *PLAOBJResource::Manager::Resource(const PLAString &aKey)

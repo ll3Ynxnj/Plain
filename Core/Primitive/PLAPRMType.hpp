@@ -78,6 +78,11 @@ using PLASize = GRASize;
 static const PLASize kPLASizeMax = kGRASizeMax;
 static const PLASize kPLASizeUndefined = kGRASizeUndefined;
 
+//-- Character value --/////////////////////////////////////////////////////////
+using PLAChar = GRAChar;
+static const PLAChar kPLACharMax = kGRACharMax;
+static const PLAChar kPLACharUndefined = kGRACharUndefined;
+
 //-- String value --////////////////////////////////////////////////////////////
 using PLAString = GRAString;
 static const char *kPLAStrUndefined = kGRAStrUndefined;

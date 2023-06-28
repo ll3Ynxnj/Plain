@@ -365,7 +365,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
   static bool kIsDebug = false;//false;
 
   const PLAOBJImage *texImage = aLayer->GetImage();
-  if (texImage && !kIsDebug) {
+  if (texImage) {// && !kIsDebug) {
     glEnable(GL_TEXTURE_2D);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
                  texImage->GetSize().x, texImage->GetSize().y, 0,
@@ -413,7 +413,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
     for (PLAInt x = 0; x < tileSize.x; x++)
     {
       PLAVec2s address(dataAddress.x + x, dataAddress.y + y);
-      const PLATileChip &chip = aLayer->GetChip(address);
+      const PLATileChip chip = aLayer->GetChip(address);
       if (chip.code == kPLATileChipCodeNone) { continue; }
 
       const PLATMLMotion *motionThread = aLayer->GetMotionThread(address);
@@ -474,6 +474,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       }
 
       PLAColor color = chip.color;
+      /*
       if (kIsDebug)
       {
         static const PLAColor kDebugColors[] = {
@@ -486,6 +487,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
                   " r: %.2f, g: %.2f, b: %.2f, a: %.2f,\n",
                   x, y, debugColorIndex, color.r, color.g, color.b, color.a);
       }
+       */
 
       static const PLAUInt kNumColors = 16;
       GLfloat colors[kNumColors] = {
