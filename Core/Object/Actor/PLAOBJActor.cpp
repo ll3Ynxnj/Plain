@@ -324,9 +324,11 @@ void PLAOBJActor::AddTileMotion(const PLAVec2s &aAddress, PLATMLMotion *aThread)
 void PLAOBJActor::RefreshLayerOffset()
 {
   PLAVec3f size(this->GetSize());
-  _layer->SetOffset(-PLAVec3f(size.x * _pivot.x,
-                             size.y * _pivot.y,
-                             size.z * _pivot.z));
+
+  auto offset = _layer->GetOffset();
+  _layer->SetOffset(PLAVec3f(offset.x - size.x * _pivot.x,
+                             offset.y - size.y * _pivot.y,
+                             offset.z - size.z * _pivot.z));
 }
 
 void PLAOBJActor::OnUpdate()
