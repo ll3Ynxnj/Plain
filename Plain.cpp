@@ -127,6 +127,14 @@ PLAAGTModel Plain::Model::Assign(const PLAString &aName)
   return model->AssignAgent();
 }
 
+PLAAGTActor Plain::Actor::CreateRect(const PLAVec2f &aOrigin,
+                                     const PLAVec2f &aSize,
+                                     const PLAColor &aFillColor)
+{
+  PLAOBJActor *actor = PLAOBJActor::CreateRect(aOrigin, aSize, aFillColor);
+  return actor->AssignAgent();
+}
+
 PLAAGTActor Plain::Actor::CreateRect(const PLAVec3f &aPivot,
                                      const PLATransform &aTransform,
                                      const PLARect &aRect)
@@ -154,6 +162,14 @@ PLAAGTActor Plain::Actor::CreateRect(const PLAVec3f &aPivot,
 {
   PLAOBJActor *actor = PLAOBJActor::CreateRect(aPivot, kPLAColorWhite, aTransform,
                                                aRect, aImage, aClip);
+  return actor->AssignAgent();
+}
+
+PLAAGTActor Plain::Actor::CreateCircle(const PLAVec2f &aOrigin,
+                                       const PLAFloat aRadius,
+                                       const PLAColor &aFillColor)
+{
+  PLAOBJActor *actor = PLAOBJActor::CreateCircle(aOrigin, aRadius, aFillColor);
   return actor->AssignAgent();
 }
 

@@ -24,6 +24,22 @@ PLAOBJActor *PLAOBJActor::Object(PLAId aId)
   return static_cast<PLAOBJActor *>(object);
 }
 
+PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec2f &aOrigin,
+                                     const PLAVec2f &aSize,
+                                     const PLAColor &aFillColor)
+{
+  PLARect rect = PLARect(kPLAVec2fNone, aSize);
+  PLAOBJLayer *layer = new PLALYRRect(rect, aFillColor, kPLAColorNone,
+                                      kPLAStrUndefined, kPLARectNone);
+  PLATransform transform = PLATransform(PLAVec3f(aOrigin.x, aOrigin.y, 0.0f),
+                                        kPLAVec3fNone, kPLAVec3fNorm);
+
+  PLAOBJActor *actor = new PLAOBJActor(kPLAVec3fNone, kPLAColorWhite, transform, layer);
+  actor->Init();
+  actor->Bind();
+  return actor;
+}
+
 PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec3f &aPivot,
                                      const PLAColor &aColor,
                                      const PLATransform &aTransform,
@@ -62,6 +78,22 @@ PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec3f &aPivot,
   PLAOBJLayer *layer = new PLALYRRect(aRect, kPLAColorWhite, kPLAColorNone,
                                       aImageName, aClip);
   PLAOBJActor *actor = new PLAOBJActor(aPivot, aColor, aTransform, layer);//, motion);
+  actor->Init();
+  actor->Bind();
+  return actor;
+}
+
+PLAOBJActor *PLAOBJActor::CreateCircle(const PLAVec2f &aOrigin,
+                                       const PLAFloat aRadius,
+                                       const PLAColor &aFillColor)
+{
+  PLACircle circle = PLACircle(kPLAVec2fNone, aRadius);
+  PLAOBJLayer *layer = new PLALYRCircle(circle, aFillColor, kPLAColorNone,
+                                        kPLAStrUndefined, kPLARectNone);
+  PLATransform transform = PLATransform(PLAVec3f(aOrigin.x, aOrigin.y, 0.0f),
+                                        kPLAVec3fNone, kPLAVec3fNorm);
+
+  PLAOBJActor *actor = new PLAOBJActor(kPLAVec3fNone, kPLAColorWhite, transform, layer);
   actor->Init();
   actor->Bind();
   return actor;

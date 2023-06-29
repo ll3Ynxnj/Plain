@@ -65,6 +65,10 @@ protected:
               PLAOBJLayer *aLayer);//,
 
 public:
+  static PLAOBJActor *CreateRect(const PLAVec2f &aOrigin,
+                                 const PLAVec2f &aSize,
+                                 const PLAColor &aFillColor);
+
   static PLAOBJActor *CreateRect(const PLAVec3f &aPivot,
                                  const PLAColor &aColor,
                                  const PLATransform &aTransform,
@@ -82,6 +86,10 @@ public:
                                  const PLARect &aRect,
                                  const std::string &aImage,
                                  const PLARect &aClip);
+
+  static PLAOBJActor *CreateCircle(const PLAVec2f &aOrigin,
+                                   const PLAFloat aRadius,
+                                   const PLAColor &aFillColor);
 
   static PLAOBJActor *CreateCircle(const PLAVec3f &aPivot,
                                    const PLAColor &aColor,

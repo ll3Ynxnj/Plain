@@ -100,6 +100,9 @@ namespace Plain
   namespace Actor
   {
     //using Agent = PLAAGTActor;
+    PLAAGTActor CreateRect(const PLAVec2f &aOrigin,
+                           const PLAVec2f &aSize,
+                           const PLAColor &aFillColor);
     PLAAGTActor CreateRect(const PLAVec3f &aPivot,
                            const PLATransform &aTransform,
                            const PLARect &aRect);
@@ -112,6 +115,9 @@ namespace Plain
                            const PLARect &aRect,
                            const std::string &aImage,
                            const PLARect &aClip);
+    PLAAGTActor CreateCircle(const PLAVec2f &aOrigin,
+                             const PLAFloat aRadius,
+                             const PLAColor &aFillColor);
     PLAAGTActor CreateCircle(const PLAVec3f &aPivot,
                              const PLATransform &aTransform,
                              const PLACircle &aCircle);
