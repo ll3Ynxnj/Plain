@@ -25,8 +25,9 @@ PLAOBJStage *PLAOBJStage::Object(PLAId aId)
 PLAOBJStage::PLAOBJStage() :
 PLAObject(PLAObjectType::Stage)
 {
-  _context = PLAOBJActor::CreateRect(kPLAVec3fNone, kPLAColorGray,
-                                     kPLATransformNorm, kPLARectNone);
+  _context = PLAOBJActor::CreateRect(kPLAVec3fNone, kPLAColorWhite,
+                                     kPLATransformNorm, kPLARectNone,
+                                     kPLAColorGray);
   _context->SetObjectName("StageContext");
 }
 
