@@ -324,3 +324,24 @@ PLAAGTMotionNode Plain::MotionNode::CreateScale(const PLAVec3f &aBegin,
   auto object = PLATMLMotionNode::CreateScale(aBegin, aEnd, aDuration);
   return object->AssignAgent();
 }
+
+/*
+PLAAGTImageClip Plain::ImageClip::Create(const PLAString &aImageName)
+{
+  auto object = PLAOBJImageClip::Create(aImageName);
+  return object->AssignAgent();
+}
+ */
+
+PLAAGTImageClip Plain::ImageClip::Create(const std::string &aImageName,
+                                         const PLARect &aClip)
+{
+  auto object = PLAOBJImageClip::Create(aImageName, aClip);
+  return object->AssignAgent();
+}
+
+PLAAGTImageClip Assign(const std::string &aName)
+{
+  auto object = PLAOBJImageClip::Object(aName);
+  return object->AssignAgent();
+}

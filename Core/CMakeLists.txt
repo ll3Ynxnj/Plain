@@ -50,6 +50,7 @@ add_library(Plain-Core STATIC
   Agent/PLAAGTTimelineNode.cpp
   Agent/PLAAGTMotion.cpp
   Agent/PLAAGTMotionNode.cpp
+  Agent/PLAAGTImageClip.cpp
 
   Property/PLAProperty.cpp
 )

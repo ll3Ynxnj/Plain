@@ -35,6 +35,8 @@ public:
   virtual void GetSize(PLAVec3f *aSize) const = 0;
   virtual void SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot) = 0;
 
+  virtual void SetImageClip(PLAOBJImageClip *aImageClip) = 0;
+
   virtual bool IsCollideWithPoint(const PLAPoint &aPoint) const = 0;
   virtual bool IsCollideWithLine(const PLALine &aLine) const = 0;
   virtual bool IsCollideWithRect(const PLARect &aRect) const = 0;

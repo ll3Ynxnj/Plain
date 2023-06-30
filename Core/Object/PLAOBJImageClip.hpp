@@ -5,6 +5,8 @@
 #include "PLAOBJImage.hpp"
 #include "Primitive/PLAPRMRect.hpp"
 
+class PLAAGTImageClip;
+
 class PLAOBJImageClip : public PLAObject
 {
   const PLAOBJImage *_image = nullptr;
@@ -19,8 +21,12 @@ public:
   static PLAOBJImageClip *Create(const PLAString &aImageName);
   static PLAOBJImageClip *Create(const PLAString &aImageName,
                                  const PLARect &aClip);
+  static PLAOBJImageClip *Object(const PLAString &aName);
+  static PLAOBJImageClip *Object(PLAId aId);
 
   ~PLAOBJImageClip();
+
+  PLAAGTImageClip AssignAgent();
 
   const PLAOBJImage *GetImage() const { return _image; };
   const PLARect &GetClip() const { return _clip; };

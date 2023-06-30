@@ -21,6 +21,8 @@ public:
   virtual void GetSize(PLAVec3f *aSize) const;
   virtual void SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot);
 
+  virtual void SetImageClip(PLAOBJImageClip *aImageClip) { return; } // Stab
+
   virtual bool IsCollideWithPoint(const PLAPoint &aPoint) const;
   virtual bool IsCollideWithLine(const PLALine &aLine) const;
   virtual bool IsCollideWithRect(const PLARect &aRect) const;

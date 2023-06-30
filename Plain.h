@@ -13,6 +13,7 @@
 #include "Agent/PLAAGTTimelineNode.hpp"
 #include "Agent/PLAAGTMotion.hpp"
 #include "Agent/PLAAGTMotionNode.hpp"
+#include "Agent/PLAAGTImageClip.hpp"
 
 #include "Core/PLARendererType.hpp"
 #include "Core/PLAFunctionCode.hpp"
@@ -176,6 +177,13 @@ namespace Plain
                                     PLATimeInterval aDuration);
     PLAAGTMotionNode CreateScale(const PLAVec3f &aBegin, const PLAVec3f &aEnd,
                                          PLATimeInterval aDuration);
+  };
+
+  namespace ImageClip
+  {
+    //PLAAGTImageClip Create(const PLAString &aImageName);
+    PLAAGTImageClip Create(const PLAString &aImageName, const PLARect &aClip);
+    PLAAGTImageClip Assign(const std::string &aName);
   };
 
 };

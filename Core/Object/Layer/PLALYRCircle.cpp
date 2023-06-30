@@ -46,6 +46,11 @@ void PLALYRCircle::SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot)
                           0));
 }
 
+void PLALYRCircle::SetImageClip(PLAOBJImageClip *aImageClip)
+{
+  _imageClip = aImageClip;
+}
+
 bool PLALYRCircle::IsCollideWithPoint(const PLAPoint &aPoint) const
 {
   return

@@ -38,6 +38,12 @@ void PLAAGTActor::RemoveFromParentActor() const
   owner->RemoveFromParentActor();
 }
 
+void PLAAGTActor::SetPivot(const PLAVec3f &aPivot) const
+{
+  PLAOBJActor *actor = this->RefActor();
+  actor->SetPivot(aPivot);
+}
+
 void PLAAGTActor::SetColor(const PLAColor &aColor) const
 {
   PLAOBJActor *actor = this->RefActor();
@@ -73,6 +79,13 @@ void PLAAGTActor::SetScale(const PLAVec3f &aScale) const
   PLAOBJActor *actor = this->RefActor();
   actor->SetScale(aScale);
 };
+
+void PLAAGTActor::SetImageClip(const PLAAGTImageClip &aImageClip) const
+{
+  PLAOBJImageClip *imageClip = aImageClip.RefImageClip();
+  PLAOBJActor *actor = this->RefActor();
+  actor->SetImageClip(imageClip);
+}
 
 void PLAAGTActor::SetFunction(PLAFunctionCode::Actor aKey,
                               const std::function<void(PLAOBJActor *)> &aFunc) const

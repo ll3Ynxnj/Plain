@@ -1,4 +1,5 @@
 #include "PLAOBJImageClip.hpp"
+#include "Agent/PLAAGTImageClip.hpp"
 
 PLAOBJImageClip *PLAOBJImageClip::Create(const PLAString &aImageName)
 {
@@ -14,6 +15,18 @@ PLAOBJImageClip *PLAOBJImageClip::Create(const PLAString &aImageName,
   return imageClip;
 }
 
+PLAOBJImageClip *PLAOBJImageClip::Object(const PLAString &aName)
+{
+  return static_cast<PLAOBJImageClip *>
+  (PLAObject::Object(PLAObjectType::ImageClip, aName));
+}
+
+PLAOBJImageClip *PLAOBJImageClip::Object(PLAId aId)
+{
+  return static_cast<PLAOBJImageClip *>
+  (PLAObject::Object(PLAObjectType::ImageClip, aId));
+}
+
 PLAOBJImageClip::PLAOBJImageClip(const PLAOBJImage *aImage, const PLARect &aClip) :
 PLAObject(PLAObjectType::ImageClip), _image(aImage), _clip(aClip)
 {
@@ -23,6 +36,11 @@ PLAObject(PLAObjectType::ImageClip), _image(aImage), _clip(aClip)
 PLAOBJImageClip::~PLAOBJImageClip()
 {
 
+}
+
+PLAAGTImageClip PLAOBJImageClip::AssignAgent()
+{
+  return PLAAGTImageClip(this);
 }
 
 void PLAOBJImageClip::SetClip(const PLARect &aClip)

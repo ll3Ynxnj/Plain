@@ -177,6 +177,9 @@ public:
   void SetScale(const PLAVec3f &aScale)
   { _transform.scale = aScale; };
 
+  void SetImageClip(PLAOBJImageClip *aClip)
+  { _layer->SetImageClip(aClip); };
+
   void SetFunction(PLAFunctionCode::Actor aKey,
                    const std::function<void(PLAOBJActor *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };

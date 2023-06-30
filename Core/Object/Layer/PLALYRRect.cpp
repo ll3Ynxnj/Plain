@@ -49,6 +49,11 @@ void PLALYRRect::SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot)
   _vector.y = aSize.y;
 }
 
+void PLALYRRect::SetImageClip(PLAOBJImageClip *aImageClip)
+{
+  _imageClip = aImageClip;
+}
+
 bool PLALYRRect::IsCollideWithPoint(const PLAPoint &aPoint) const
 {
   return
