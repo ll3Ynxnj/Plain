@@ -33,7 +33,7 @@ public:
 
   PLAVec3f GetSize() const;
 
-protected:
+//protected:
   const PLAOBJStage *GetStage() const;
   PLAOBJStage *RefStage() const;
 };

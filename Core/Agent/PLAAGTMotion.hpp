@@ -19,6 +19,10 @@ class PLAAGTMotion: public PLAAGTTimeline
     PLAAGTMotion() = default;
     explicit PLAAGTMotion(PLATMLMotion *aOwner);
     virtual ~PLAAGTMotion() noexcept;
+
+//protected:
+  const PLATMLMotion *GetMotion() const;
+  PLATMLMotion *RefMotion() const;
 };
 
 

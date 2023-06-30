@@ -25,7 +25,7 @@ public:
   void SetFunction(PLAFunctionCode::Phase aKey,
                    const std::function<void(PLAAGTPhase)> &aFunc) const;
 
-protected:
+//protected:
   const PLAOBJPhase *GetPhase() const;
   PLAOBJPhase *RefPhase() const;
 };

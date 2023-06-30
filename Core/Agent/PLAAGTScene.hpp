@@ -31,7 +31,7 @@ public:
 
   void PrintPhases() const;
 
-protected:
+//protected:
   const PLAOBJScene *GetScene() const;
   PLAOBJScene *RefScene() const;
 };

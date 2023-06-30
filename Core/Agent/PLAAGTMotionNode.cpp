@@ -17,3 +17,13 @@ PLAAGTMotionNode::~PLAAGTMotionNode() noexcept
 {
 
 }
+
+const PLATMLMotionNode *PLAAGTMotionNode::GetMotionNode() const
+{
+  return static_cast<const PLATMLMotionNode *>(this->GetOwner());
+}
+
+PLATMLMotionNode *PLAAGTMotionNode::RefMotionNode() const
+{
+  return static_cast<PLATMLMotionNode *>(this->RefOwner());
+}

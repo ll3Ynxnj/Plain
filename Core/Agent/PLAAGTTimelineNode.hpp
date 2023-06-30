@@ -24,7 +24,7 @@ public:
   void SetFunction(PLAFunctionCode::TimelineNode aKey,
                    const std::function<void(PLAAGTTimelineNode)> &aFunc) const;
 
-protected:
+//protected:
   const PLAOBJTimelineNode *GetTimelineNode() const;
   PLAOBJTimelineNode *RefTimelineNode() const;
 };

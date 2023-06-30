@@ -56,7 +56,7 @@ public:
      const std::function<void(const PLAAGTActor &, const PLAInput &)> &aFunc) const;
 
 
-protected:
+//protected:
   const PLAOBJActor *GetActor() const;
   PLAOBJActor *RefActor() const;
 };
