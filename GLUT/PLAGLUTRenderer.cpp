@@ -473,7 +473,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
         }
       }
 
-      PLAColor color = chip.color;
+      PLAColor color = aColor * chip.color;
       /*
       if (kIsDebug)
       {
