@@ -72,3 +72,11 @@ PLAOBJScene *PLAAGTScene::RefScene() const
 {
   return static_cast<PLAOBJScene *>(this->RefOwner());
 }
+
+PLAAGTPhase PLAAGTScene::GetCurrentPhase() const
+{
+  PLAId sceneId = this->GetOwnerId();
+  PLAOBJScene *scene = PLAOBJScene::Object(sceneId);
+  PLAOBJPhase *phase = scene->RefCurrentPhase();
+  return phase->AssignAgent();
+}

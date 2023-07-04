@@ -57,6 +57,7 @@ public:
   PLAString GetObjectDescription() const;
 
   void SetObjectName(const PLAString &aName);
+  void SetObjectTag(PLAId aTag);
 
 protected:
 
@@ -72,10 +73,11 @@ public:
     static Manager _instance;
     std::vector<PLAObject *> _unboundObjects;
 
+    Manager();
+
   public:
     static Manager *Instance() { return &_instance; };
 
-    Manager();
     ~Manager();
 
     void AddUnboundObject(PLAObject *aObject);

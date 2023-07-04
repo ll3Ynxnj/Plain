@@ -18,12 +18,17 @@
 
 class PLAAGTPhase;
 
-class PLAOBJPhase : public PLAObject
+class PLAOBJPhase : public PLAObject, private GRAOBJBinder<PLAOBJPhase>::Item
 {
+  using Binder = GRAOBJBinder<PLAOBJPhase>;
+  static const std::map<Binder::Error, const char *> kBinderErrorMessages;
+
   std::stack<PLAOBJPhase *>_phases = std::stack<PLAOBJPhase *>();
   PLAOBJPhase *_poppedPhase = nullptr;
 
 public:
+  using PLAPhaseItem = GRAOBJBinder<PLAOBJPhase>::Item;
+  using PLAPhaseError = GRAOBJBinder<PLAOBJPhase>::Error;
   using Listener = GRAOBJListener<PLAAGTPhase, PLAFunctionCode::Phase>;
   using Functor = GRAOBJFunctor<PLAAGTPhase, PLAFunctionCode::Phase>;
 
@@ -32,13 +37,22 @@ private:
   Functor _functor = Functor();
 
 public:
+  static const char *GetBinderErrorMessage(Binder::Error aError);
   static PLAOBJPhase *Create();
+  static PLAOBJPhase *CreateWithTag(PLAId aTag);
   static PLAOBJPhase *Object(const PLAString &aName);
   static PLAOBJPhase *Object(PLAId aId);
+  static PLAOBJPhase *ObjectWithTag(PLAId aTag);
   static PLABool IsValidPath(const PLAString &aPath);
+  void Bind() override;
 
+protected:
+  void Unbind() override;
+
+public:
   PLAOBJPhase();
-  explicit PLAOBJPhase(PLAString aName);
+  explicit PLAOBJPhase(PLAId aTag);
+  PLAOBJPhase(PLAId aTag, PLAString aName);
   ~PLAOBJPhase();
 
   void Init();
@@ -60,8 +74,37 @@ public:
 
   void PrintPhases() const;
 
+  const char *GetPhaseTypeName() const;
+
+  PLAId GetPhaseTag() const;
+  void SetPhaseTag(PLAId aTag);
+
 private:
   void RunFunction(PLAFunctionCode::Phase aKey);
+
+  //-- GRAOBJBinder::Item --/////////////////////////////////////////////////////////
+private:
+  const char *GetBinderItemTypeName() const override;
+
+  // Manager /////////////////////////////////////////////////////////////////////
+public:
+  class Manager: public GRAOBJBinder<PLAOBJPhase>
+  {
+    static Manager _instance;
+
+    Manager();
+
+  public:
+    static Manager *Instance() { return &_instance; };
+    static PLAOBJPhase *Phase(const PLAString &aKey);
+
+    ~Manager();
+
+    void Init();
+
+    const PLAOBJPhase *GetPhase(const PLAString &aName) const;
+    void PrintPhases() const;
+  };
 };
 
 

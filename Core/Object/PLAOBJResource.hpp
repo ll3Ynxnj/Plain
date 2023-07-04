@@ -31,6 +31,10 @@ public:
   static PLAOBJResource *Create(const PLAString &aName, const PLAString &aPath);
   void Bind() override;
 
+protected:
+  void Unbind() override;
+
+public:
   PLAOBJResource(const PLAString &aName, const PLAString &aPath);
   virtual ~PLAOBJResource() noexcept;
 
@@ -43,9 +47,6 @@ public:
 
   void PrintResource() const;
 
-protected:
-  void Unbind() override;
-
 // GRAOBJBinder::Item /////////////////////////////////////////////////////////////
 
 private:
@@ -57,13 +58,14 @@ public:
   {
     static Manager _instance;
 
+    Manager();
+
   public:
     //static const Manager *Instance() { return &_instance; };
     //static Manager *RefInstance() { return &_instance; };
     static Manager *Instance() { return &_instance; };
     static PLAOBJResource *Resource(const PLAString &aKey);
 
-    Manager();
     ~Manager();
 
     void Init();

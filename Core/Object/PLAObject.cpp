@@ -65,7 +65,7 @@ void PLAObject::Bind()
   if (error != Binder::Error::None) {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Failed PLAObject binding. ERROR : %02d : %s",
-                    error, GetBinderErrorMessage(error));
+                    error, PLAObject::GetBinderErrorMessage(error));
   }
 
   PLAObject::Manager::Instance()->PrintObjects();
@@ -89,7 +89,7 @@ void PLAObject::Unbind()
   if (error != Binder::Error::None) {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Failed PLAObject unbinding. ERROR : %02d : %s",
-                    error, GetBinderErrorMessage(error));
+                    error, PLAObject::GetBinderErrorMessage(error));
   }
 
   PLAObject::Manager::Instance()->AddUnboundObject(this);
@@ -156,12 +156,33 @@ void PLAObject::SetObjectName(const PLAString &aName)
       case Binder::Error::NameConvertedBySystem:
         PLA_ERROR_ISSUE(PLAErrorType::Expect,
                         "Succeed to set object name with error. ERROR : %02d : %s",
-                        error, GetBinderErrorMessage(error));
+                        error, PLAObject::GetBinderErrorMessage(error));
         break;
       default :
         PLA_ERROR_ISSUE(PLAErrorType::Assert,
                         "Failure to set object name. ERROR : %02d : %s",
-                        error, GetBinderErrorMessage(error));
+                        error, PLAObject::GetBinderErrorMessage(error));
+        break;
+    }
+  }
+}
+
+void PLAObject::SetObjectTag(PLAId aTag)
+{
+  Binder::Error error(Binder::Error::None);
+  this->Binder::Item::SetTag(aTag, &error);
+  if (error != Binder::Error::None)
+  {
+    switch (error) {
+      case Binder::Error::TagOverride :
+        PLA_ERROR_ISSUE(PLAErrorType::Expect,
+                        "Succeed to set object tag with error. ERROR : %02d : %s",
+                        error, PLAObject::GetBinderErrorMessage(error));
+        break;
+      default :
+        PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                        "Failure to set object tag. ERROR : %02d : %s",
+                        error, PLAObject::GetBinderErrorMessage(error));
         break;
     }
   }

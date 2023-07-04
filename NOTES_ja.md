@@ -1,5 +1,6 @@
 # Now
 Timeline関連のAgentを実装した。
+AgentからOwnerへのアクセサをpublicにしたコミットは取り消す。オーナーへのアクセスはIDからの間接参照で実現する方針。
 
 # Tasks
 - Phaseの切り替えにStageとModelをシームレスに連動させたい。
@@ -12,6 +13,8 @@ Timeline関連のAgentを実装した。
 Phaseの切り替えをStageとModelに検知させる。
 ActorのOnAppear, OnDisappearを利用して、画面を遷移させる感じかな。
 すべてのObjectに名前付きのCreateメソッド、Create(PLAString aName)を追加する。
+ActorのBinderをPLAOBJActorにしているが、Binderの用途は、たぶん階層に関わらず一意のIDで検索ができることなので、PLAOBJStageをBinderにするほうが適切なのでは？ただ、現状検討中なので、PhaseのBinderも同じ考え方でSceneではなくPhaseにしてみる。
+バインダーは全てPLAId型を持つようにしたら良いんでない？
 
 # OnInitの廃止について
 OnInitは初期化を行うためのファンクタだが、初期化は実行されるタイミングがオブジェクト生成後一度きりのため、オブジェクト生成後にAddFunctor関数を使って登録しても、実行されない可能性が高い。ファンクタとして実装するのは不適切。CREATEメソッドに関数オブジェクトを含めるのが良いかも。

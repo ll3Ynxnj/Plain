@@ -25,6 +25,8 @@ public:
   void SetFunction(PLAFunctionCode::Phase aKey,
                    const std::function<void(PLAAGTPhase)> &aFunc) const;
 
+  PLAId GetPhaseTag() const;
+
 //protected:
   const PLAOBJPhase *GetPhase() const;
   PLAOBJPhase *RefPhase() const;

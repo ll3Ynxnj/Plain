@@ -109,7 +109,7 @@ void PLAOBJResource::Manager::Init()
 PLAOBJResource *PLAOBJResource::Manager::Resource(const PLAString &aKey)
 {
   GRAOBJBinder<PLAOBJResource>::Error error(GRAOBJBinder<PLAOBJResource>::Error::None);
-  return static_cast<PLAOBJResource *>(_instance.RefItem(aKey, &error));
+  return static_cast<PLAOBJResource *>(_instance.RefItemWithName(aKey, &error));
 }
 
 void PLAOBJResource::Manager::PrintResources() const

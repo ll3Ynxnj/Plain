@@ -1,5 +1,6 @@
 #include "PLAOBJScene.hpp"
 #include "Agent/PLAAGTScene.hpp"
+#include "App/PLAApp.hpp"
 
 PLAAGTScene PLAOBJScene::AssignAgent()
 {

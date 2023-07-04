@@ -45,3 +45,9 @@ PLAOBJPhase *PLAAGTPhase::RefPhase() const
 {
   return static_cast<PLAOBJPhase *>(this->RefOwner());
 }
+
+PLAId PLAAGTPhase::GetPhaseTag() const
+{
+  auto owner = this->GetPhase();
+  return owner->GetPhaseTag();
+}

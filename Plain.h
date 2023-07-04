@@ -85,9 +85,11 @@ namespace Plain
 
   namespace Phase
   {
-    PLAAGTPhase Create();
-    PLAAGTPhase Create(const PLAString &aName);
+    //PLAAGTPhase Create();
+    //PLAAGTPhase Create(const PLAString &aName);
+    PLAAGTPhase CreateWithTag(PLAId aTag);
     PLAAGTPhase Assign(const PLAString &aName);
+    PLAAGTPhase AssignWithTag(PLAId aTag);
   };
 
   namespace Model

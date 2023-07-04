@@ -94,5 +94,7 @@ static const PLATimeInterval kPLATimeIntervalUndefined = kGRATimeIntervalUndefin
 
 //-- Identifier --//////////////////////////////////////////////////////////////
 using PLAId = GRAId;
+static const PLAId kPLAIdMax = kGRAIdMax;
+static const PLAId kPLAIdUndefined = kGRAIdUndefined;
 
 #endif // PLAIN_ENGINE_PLAOBJTYPE_HPP

@@ -85,6 +85,7 @@ void Plain::Stage::AddActor(const PLAAGTActor &aActor)
   stage.AddActor(aActor);
 }
 
+/*
 PLAAGTPhase Plain::Phase::Create()
 {
   PLAOBJPhase *phase = PLAOBJPhase::Create();
@@ -99,10 +100,25 @@ PLAAGTPhase Plain::Phase::Create(const PLAString &aName)
   phase->SetObjectName(aName);
   return phase->AssignAgent();
 }
+ */
+
+PLAAGTPhase Plain::Phase::CreateWithTag(PLAId aTag)
+{
+  if (PLAOBJPhase::Manager::Instance()->IsExistItemWithTag(aTag))
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Duplicate object tags."); }
+  PLAOBJPhase *phase = PLAOBJPhase::CreateWithTag(aTag);
+  return phase->AssignAgent();
+}
 
 PLAAGTPhase Plain::Phase::Assign(const PLAString &aName)
 {
   PLAOBJPhase *phase = PLAOBJPhase::Object(aName);
+  return phase->AssignAgent();
+}
+
+PLAAGTPhase Plain::Phase::AssignWithTag(PLAId aTag)
+{
+  PLAOBJPhase *phase = PLAOBJPhase::ObjectWithTag(aTag);
   return phase->AssignAgent();
 }
 

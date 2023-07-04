@@ -31,8 +31,8 @@ class PLAAGTActor;
 class PLAOBJActor final :
   public PLAObject, public PLAInputContext, public PLATimelineHolder,
   //public GRAOBJListener<PLAOBJScene, PLAFunctionCode::Scene>,
-  public PLAOBJPhase::Listener,
-  public GRAOBJBinder<PLAOBJActor>::Item
+  public PLAOBJPhase::Listener
+  //public GRAOBJBinder<PLAOBJActor>::Item
 {
 public:
   static PLAOBJActor *Object(const PLAString &aName);
