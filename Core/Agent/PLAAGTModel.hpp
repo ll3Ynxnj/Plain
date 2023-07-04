@@ -50,7 +50,7 @@ public:
 
   void PrintModels() const;
 
-//protected:
+protected:
   const PLAOBJModel *GetModel() const;
   PLAOBJModel *RefModel() const;
 };

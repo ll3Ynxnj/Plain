@@ -23,9 +23,10 @@ public:
   void AddModel(const PLAAGTModel &aAgent) const;
   void PrintModels() const;
 
-//protected:
+protected:
   const PLAOBJState *GetState() const;
   PLAOBJState *RefState() const;
+
 };
 
 

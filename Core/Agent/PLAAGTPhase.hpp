@@ -27,7 +27,7 @@ public:
 
   PLAId GetPhaseTag() const;
 
-//protected:
+protected:
   const PLAOBJPhase *GetPhase() const;
   PLAOBJPhase *RefPhase() const;
 };

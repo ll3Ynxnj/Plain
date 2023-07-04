@@ -20,7 +20,7 @@ public:
   explicit PLAAGTMotionNode(PLATMLMotionNode *aOwner);
   virtual ~PLAAGTMotionNode() noexcept;
 
-//protected:
+protected:
   const PLATMLMotionNode *GetMotionNode() const;
   PLATMLMotionNode *RefMotionNode() const;
 };

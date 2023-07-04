@@ -20,7 +20,7 @@ class PLAAGTMotion: public PLAAGTTimeline
     explicit PLAAGTMotion(PLATMLMotion *aOwner);
     virtual ~PLAAGTMotion() noexcept;
 
-//protected:
+protected:
   const PLATMLMotion *GetMotion() const;
   PLATMLMotion *RefMotion() const;
 };

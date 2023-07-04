@@ -23,7 +23,7 @@ public:
 
   void AddNode(const PLAAGTTimelineNode &aAgent);
 
-//protected:
+protected:
   const PLAOBJTimeline *GetTimeline() const;
   PLAOBJTimeline *RefTimeline() const;
 };
