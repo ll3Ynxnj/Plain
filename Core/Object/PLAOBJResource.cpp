@@ -130,7 +130,7 @@ const PLAOBJResource *PLAOBJResource::Manager::GetResource(const PLAString &aNam
 {
   PLAResourceError error = PLAResourceError::None;
   const PLAOBJResource *resource =
-    static_cast<const PLAOBJResource *>(this->GetItem(aName, &error));
+    static_cast<const PLAOBJResource *>(this->GetItemWithName(aName, &error));
   if (error != PLAResourceError::None)
   {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,

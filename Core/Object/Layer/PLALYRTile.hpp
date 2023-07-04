@@ -38,7 +38,7 @@ public:
   const PLAOBJImage *GetImage() const { return _image; };
   const PLAVec2s &GetTileSize() const { return _tileSize; };
   const PLAVec2s &GetChipSize() const { return _chipSize; };
-  const PLATileChip &GetChip(const PLAVec2s &aAddress) const
+  const PLATileChip GetChip(const PLAVec2s &aAddress) const
   { return _dataSource->GetTileChip(aAddress); }
   const PLATMLMotion *GetMotionThread(const PLAVec2s &aAddress) const;
 

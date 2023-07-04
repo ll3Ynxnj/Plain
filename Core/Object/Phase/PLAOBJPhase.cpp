@@ -267,7 +267,7 @@ void PLAOBJPhase::Manager::Init()
 PLAOBJPhase *PLAOBJPhase::Manager::Phase(const PLAString &aKey)
 {
   GRAOBJBinder<PLAOBJPhase>::Error error(GRAOBJBinder<PLAOBJPhase>::Error::None);
-  return static_cast<PLAOBJPhase *>(_instance.RefItem(aKey, &error));
+  return static_cast<PLAOBJPhase *>(_instance.RefItemWithName(aKey, &error));
 }
 
 void PLAOBJPhase::Manager::PrintPhases() const
@@ -279,7 +279,7 @@ const PLAOBJPhase *PLAOBJPhase::Manager::GetPhase(const PLAString &aName) const
 {
   PLAPhaseError error = PLAPhaseError::None;
   const PLAOBJPhase *resource =
-    static_cast<const PLAOBJPhase *>(this->GetItem(aName, &error));
+    static_cast<const PLAOBJPhase *>(this->GetItemWithName(aName, &error));
   if (error != PLAPhaseError::None)
   {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,

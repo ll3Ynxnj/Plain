@@ -22,7 +22,7 @@ const char *PLAObject::GetBinderErrorMessage(Binder::Error aError)
 PLAObject *PLAObject::Object(PLAObjectType aType, const PLAString &aName)
 {
   Binder::Error error = Binder::Error::None;
-  Binder::Item *item = PLAObject::Manager::Instance()->RefItem(aName, &error);
+  Binder::Item *item = PLAObject::Manager::Instance()->RefItemWithName(aName, &error);
   switch (error) {
     case Binder::Error::None :
       break;
@@ -42,7 +42,7 @@ PLAObject *PLAObject::Object(PLAObjectType aType, PLAId aId)
 {
   GRAOBJBinder<PLAObject>::Error error = GRAOBJBinder<PLAObject>::Error::None;
   GRAOBJBinder<PLAObject>::Item *item =
-    PLAObject::Manager::Instance()->RefItem(aId, &error);
+    PLAObject::Manager::Instance()->RefItemWithId(aId, &error);
   switch (error) {
     case Binder::Error::None :
       break;

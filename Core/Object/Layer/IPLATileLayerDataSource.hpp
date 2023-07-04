@@ -28,7 +28,7 @@ public:
   virtual PLATileDataAddress GetDataAddress() const = 0;
   virtual PLATileChunkSize GetChunkSize() const = 0;
   virtual PLATileChunkAddress GetChunkAddress() const = 0;
-  virtual const PLATileChip &GetTileChip(const PLAVec2s &aAddress) const = 0;
+  virtual const PLATileChip GetTileChip(const PLAVec2s &aAddress) const = 0;
 };
 
 #endif //PLAIN_IPLATILELAYERDATASOURCE_HPP
