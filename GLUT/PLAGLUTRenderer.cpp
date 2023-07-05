@@ -122,9 +122,9 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
             aActor->GetObjectName().c_str(),
             aColor.r, aColor.g, aColor.b, aColor.a);
   */
-  if (aActor->GetObjectName() == "ResponderActor") {
-    //GRA_TRACE("");
-  }
+
+  if (!aActor->IsVisible()) { return; }
+
   glPushMatrix();
 
   const PLATransform &transform = aActor->GetTransform();

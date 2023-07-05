@@ -81,6 +81,7 @@ namespace Plain
   {
     PLAAGTStage Assign();
     void AddActor(const PLAAGTActor &aActor);
+    void AddActor(const PLAString &aName);
   };
 
   namespace Phase

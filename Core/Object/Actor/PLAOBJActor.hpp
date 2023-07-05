@@ -53,6 +53,7 @@ private:
   PLATransform _transform = kPLATransformNorm;
   PLAOBJLayer *_layer = nullptr;
   CollisionItem collisions[static_cast<unsigned>(PLAActorCollisionCode::kNumberOfItems)];
+  PLABool _visible = true;
 
   GRAOBJFunctor<PLAOBJActor *, PLAFunctionCode::Actor> _functor = GRAOBJFunctor<PLAOBJActor *, PLAFunctionCode::Actor>();
 
@@ -147,6 +148,8 @@ public:
   PLAVec3f GetSize() const { return _layer->GetSize(); };
   void GetSize(PLAVec3f *aSize) const { return _layer->GetSize(aSize); };
   const PLAVec3f &GetLayerOffset() const { return _layer->GetOffset(); };
+  PLABool IsVisible() const { return _visible; };
+  void SetVisible(PLABool aValue) { _visible = aValue; };
 
   PLALayerType GetLayerType() const { return _layer->GetLayerType(); };
 

@@ -43,6 +43,9 @@ public:
   void SetFunction(PLAFunctionCode::Actor aKey,
                    const std::function<void(PLAOBJActor *)> &aFunc) const;
 
+  PLABool IsVisible() const;
+  void SetVisible(bool aVisible) const;
+
   void AddTileMotion(const PLAVec2s &aAddress, const PLAAGTMotion &aThread) const;
 
   /// Path-through to InputContext /////////////////////////////////////////////

@@ -94,6 +94,18 @@ void PLAAGTActor::SetFunction(PLAFunctionCode::Actor aKey,
   actor->SetFunction(aKey, aFunc);
 };
 
+PLABool PLAAGTActor::IsVisible() const
+{
+  PLAOBJActor *actor = this->RefActor();
+  return actor->IsVisible();
+}
+
+void PLAAGTActor::SetVisible(PLABool aVisible) const
+{
+  PLAOBJActor *actor = this->RefActor();
+  actor->SetVisible(aVisible);
+}
+
 void PLAAGTActor::AddTileMotion(const PLAVec2s &aAddress, const PLAAGTMotion &aMotion) const
 {
   auto motionId = aMotion.GetOwnerId();

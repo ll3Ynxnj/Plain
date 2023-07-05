@@ -85,6 +85,13 @@ void Plain::Stage::AddActor(const PLAAGTActor &aActor)
   stage.AddActor(aActor);
 }
 
+void Plain::Stage::AddActor(const PLAString &aName)
+{
+  auto stage = Plain::Stage::Assign();
+  auto actor = Plain::Actor::Assign(aName);
+  stage.AddActor(actor);
+}
+
 /*
 PLAAGTPhase Plain::Phase::Create()
 {
