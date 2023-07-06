@@ -26,14 +26,38 @@ PLAOBJModel *PLAOBJModel::Object(PLAId aId)
   return static_cast<PLAOBJModel *>(object);
 }
 
+void PLAOBJModel::Bind()
+{
+  this->PLAObject::Bind();
+
+  GRAOBJBinder<PLAOBJModel>::Error error(GRAOBJBinder<PLAOBJModel>::Error::None);
+  PLAOBJModel::Manager::Instance()->Bind(this, &error);
+  if (error != GRAOBJBinder<PLAOBJModel>::Error::None)
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed PLAOBJModel binding. ERROR : %02d", error); }
+}
+
+void PLAOBJModel::Unbind()
+{
+  GRAOBJBinder<PLAOBJModel>::Error error(GRAOBJBinder<PLAOBJModel>::Error::None);
+  PLAOBJModel::Manager::Instance()->Unbind(this, &error);
+  if (error != GRAOBJBinder<PLAOBJModel>::Error::None)
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed PLAOBJModel unbinding. ERROR : %02d", error); }
+
+  PLAObject::Unbind();
+}
+
 PLAOBJModel::PLAOBJModel() :
-PLAObject(PLAObjectType::Model)
+PLAObject(PLAObjectType::Model),
+GRAOBJBinder<PLAOBJModel>::Item(Manager::Instance())
 {
 
 }
 
 PLAOBJModel::PLAOBJModel(PLAString aName) :
-PLAObject(PLAObjectType::Model, aName)
+PLAObject(PLAObjectType::Model, aName),
+GRAOBJBinder<PLAOBJModel>::Item(Manager::Instance())
 {
 
 }
@@ -265,6 +289,12 @@ void PLAOBJModel::PrintModels() const
   --indentLevel;
 }
 
+const char *PLAOBJModel::GetModelTypeName() const
+{
+  static const char *kName = "(STUB: ModelType)";//"== STUB ==";
+  return kName;
+}
+
 void PLAOBJModel::ValidateNameIsNotEmpty(const PLAString &aName) const
 {
   if (aName.empty())
@@ -276,3 +306,53 @@ void PLAOBJModel::ValidatePropertyIsExist(const PLAString &aName) const
   if (!_properties.contains(aName))
   { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Property `%s` does not exist.", aName.c_str()); }
 }
+
+//-- GRAOBJBinder::Item --/////////////////////////////////////////////////////////
+
+const char *PLAOBJModel::GetBinderItemTypeName() const
+{
+  return this->GetModelTypeName();
+}
+
+// PLAOBJModel::Manager ////////////////////////////////////////////////////////
+
+PLAOBJModel::Manager PLAOBJModel::Manager::_instance = PLAOBJModel::Manager();
+
+PLAOBJModel::Manager::Manager() : GRAOBJBinder<PLAOBJModel>()
+{
+
+}
+
+PLAOBJModel::Manager::~Manager()
+{
+
+}
+
+void PLAOBJModel::Manager::Init()
+{
+  GRAOBJBinder<PLAOBJModel>::Init();
+}
+
+PLAOBJModel *PLAOBJModel::Manager::Model(const PLAString &aKey)
+{
+  GRAOBJBinder<PLAOBJModel>::Error error(GRAOBJBinder<PLAOBJModel>::Error::None);
+  return static_cast<PLAOBJModel *>(_instance.RefItemWithName(aKey, &error));
+}
+
+void PLAOBJModel::Manager::PrintModels() const
+{
+
+};
+
+const PLAOBJModel *PLAOBJModel::Manager::GetModel(const PLAString &aName) const
+{
+  PLAModelError error = PLAModelError::None;
+  const PLAOBJModel *resource =
+    static_cast<const PLAOBJModel *>(this->GetItemWithName(aName, &error));
+  if (error != PLAModelError::None)
+  {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed to get resource. ERROR : %02d", error);
+  }
+  return resource;
+};

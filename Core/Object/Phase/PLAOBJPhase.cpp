@@ -68,6 +68,16 @@ PLAOBJPhase *PLAOBJPhase::ObjectWithTag(PLAId aTag)
   return static_cast<PLAOBJPhase *>(object);
 }
 
+PLABool PLAOBJPhase::IsValidPath(const PLAString &aPath)
+{
+  for(char character : aPath) {
+    if(!std::isalnum(character) && character != '/') {
+      return false;
+    }
+  }
+  return true;
+}
+
 void PLAOBJPhase::Bind()
 {
   this->PLAObject::Bind();
@@ -88,16 +98,6 @@ void PLAOBJPhase::Unbind()
                     "Failed PLAOBJPhase unbinding. ERROR : %02d", error); }
 
   this->PLAObject::Unbind();
-}
-
-PLABool PLAOBJPhase::IsValidPath(const PLAString &aPath)
-{
-  for(char character : aPath) {
-    if(!std::isalnum(character) && character != '/') {
-      return false;
-    }
-  }
-  return true;
 }
 
 PLAOBJPhase::PLAOBJPhase() :

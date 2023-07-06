@@ -156,11 +156,35 @@ PLAOBJActor *PLAOBJActor::CreateTile(const PLAVec2f &aOffset,
   return actor;
 }
 
+void PLAOBJActor::Bind()
+{
+  this->PLAObject::Bind();
+
+  GRAOBJBinder<PLAOBJActor>::Error error(GRAOBJBinder<PLAOBJActor>::Error::None);
+  PLAOBJActor::Manager::Instance()->Bind(this, &error);
+  if (error != GRAOBJBinder<PLAOBJActor>::Error::None)
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed PLAOBJActor binding. ERROR : %02d", error); }
+}
+
+void PLAOBJActor::Unbind()
+{
+  GRAOBJBinder<PLAOBJActor>::Error error(GRAOBJBinder<PLAOBJActor>::Error::None);
+  PLAOBJActor::Manager::Instance()->Unbind(this, &error);
+  if (error != GRAOBJBinder<PLAOBJActor>::Error::None)
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed PLAOBJActor unbinding. ERROR : %02d", error); }
+
+  this->RemoveFromParentActor();
+  PLAObject::Unbind();
+}
+
 PLAOBJActor::PLAOBJActor(const PLAVec3f &aPivot,
                          const PLAColor &aColor,
                          const PLATransform &aTransform,
                          PLAOBJLayer *aLayer) :
   PLAObject(PLAObjectType::Actor),//"== PLAOBJActor =="),
+  GRAOBJBinder<PLAOBJActor>::Item(Manager::Instance()),
   PLAInputContext(),
   PLATimelineHolder(),
   //GRAOBJListener<PLAOBJScene, PLAFunctionCode::Scene>(),
@@ -177,12 +201,6 @@ PLAOBJActor::PLAOBJActor(const PLAVec3f &aPivot,
 PLAOBJActor::~PLAOBJActor() noexcept
 {
   GRA_DELETE(_layer);
-}
-
-void PLAOBJActor::Unbind()
-{
-  this->RemoveFromParentActor();
-  PLAObject::Unbind();
 }
 
 void PLAOBJActor::AddActor(PLAOBJActor *aActor)
@@ -369,7 +387,52 @@ void PLAOBJActor::OnUpdate()
   for (PLAOBJActor *actor : _actors) { actor->OnUpdate(); }
 }
 
+//-- GRAOBJBinder::Item --/////////////////////////////////////////////////////////
+
 const char *PLAOBJActor::GetBinderItemTypeName() const
 {
   return this->GetActorTypeName();
 }
+
+// PLAOBJActor::Manager ////////////////////////////////////////////////////////
+
+PLAOBJActor::Manager PLAOBJActor::Manager::_instance = PLAOBJActor::Manager();
+
+PLAOBJActor::Manager::Manager() : GRAOBJBinder<PLAOBJActor>()
+{
+
+}
+
+PLAOBJActor::Manager::~Manager()
+{
+
+}
+
+void PLAOBJActor::Manager::Init()
+{
+  GRAOBJBinder<PLAOBJActor>::Init();
+}
+
+PLAOBJActor *PLAOBJActor::Manager::Actor(const PLAString &aKey)
+{
+  GRAOBJBinder<PLAOBJActor>::Error error(GRAOBJBinder<PLAOBJActor>::Error::None);
+  return static_cast<PLAOBJActor *>(_instance.RefItemWithName(aKey, &error));
+}
+
+void PLAOBJActor::Manager::PrintActors() const
+{
+
+};
+
+const PLAOBJActor *PLAOBJActor::Manager::GetActor(const PLAString &aName) const
+{
+  PLAActorError error = PLAActorError::None;
+  const PLAOBJActor *resource =
+    static_cast<const PLAOBJActor *>(this->GetItemWithName(aName, &error));
+  if (error != PLAActorError::None)
+  {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed to get resource. ERROR : %02d", error);
+  }
+  return resource;
+};

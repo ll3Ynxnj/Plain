@@ -14,17 +14,29 @@
 class PLAAGTModel;
 
 class PLAOBJModel :
-public PLAObject
+public PLAObject,
+private GRAOBJBinder<PLAOBJModel>::Item
 {
+  using Binder = GRAOBJBinder<PLAOBJModel>;
+  static const std::map<Binder::Error, const char *> kBinderErrorMessages;
+
   std::map<PLAString, PLAProperty> _properties =
     std::map<PLAString, PLAProperty>();
   std::list<PLAOBJModel *> _models = {};
 
 public:
+  using PLAModelItem = GRAOBJBinder<PLAOBJModel>::Item;
+  using PLAModelError = GRAOBJBinder<PLAOBJModel>::Error;
+
   static PLAOBJModel *Create();
   static PLAOBJModel *Object(const PLAString &aName);
   static PLAOBJModel *Object(PLAId aId);
+  void Bind() override;
 
+protected:
+  void Unbind() override;
+
+public:
   PLAOBJModel();
   explicit PLAOBJModel(PLAString aName);
   ~PLAOBJModel();
@@ -71,9 +83,35 @@ public:
 
   void PrintModels() const;
 
+  const char *GetModelTypeName() const;
+
 private:
   void ValidateNameIsNotEmpty(const PLAString &aName) const;
   void ValidatePropertyIsExist(const PLAString &aName) const;
+
+  //-- GRAOBJBinder::Item --/////////////////////////////////////////////////////////
+private:
+  const char *GetBinderItemTypeName() const override;
+
+// Manager /////////////////////////////////////////////////////////////////////
+public:
+  class Manager: public GRAOBJBinder<PLAOBJModel>
+  {
+    static Manager _instance;
+
+    Manager();
+
+  public:
+    static Manager *Instance() { return &_instance; };
+    static PLAOBJModel *Model(const PLAString &aKey);
+
+    ~Manager();
+
+    void Init();
+
+    const PLAOBJModel *GetModel(const PLAString &aName) const;
+    void PrintModels() const;
+  };
 };
 
 

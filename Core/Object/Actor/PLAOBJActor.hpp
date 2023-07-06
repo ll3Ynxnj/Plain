@@ -29,16 +29,15 @@ class PLAOBJRenderer;
 class PLAAGTActor;
 
 class PLAOBJActor final :
-  public PLAObject, public PLAInputContext, public PLATimelineHolder,
-  //public GRAOBJListener<PLAOBJScene, PLAFunctionCode::Scene>,
-  public PLAOBJPhase::Listener
-  //public GRAOBJBinder<PLAOBJActor>::Item
+  public PLAObject,
+  public PLAInputContext,
+  public PLATimelineHolder,
+  public PLAOBJPhase::Listener,
+  private GRAOBJBinder<PLAOBJActor>::Item
 {
-public:
-  static PLAOBJActor *Object(const PLAString &aName);
-  static PLAOBJActor *Object(PLAId aId);
+  using Binder = GRAOBJBinder<PLAOBJActor>;
+  static const std::map<Binder::Error, const char *> kBinderErrorMessages;
 
-private:
   struct CollisionItem
   {
     PLACollision *collision = nullptr;
@@ -66,6 +65,12 @@ protected:
               PLAOBJLayer *aLayer);//,
 
 public:
+  using PLAActorItem = GRAOBJBinder<PLAOBJActor>::Item;
+  using PLAActorError = GRAOBJBinder<PLAOBJActor>::Error;
+
+  static PLAOBJActor *Object(const PLAString &aName);
+  static PLAOBJActor *Object(PLAId aId);
+
   static PLAOBJActor *CreateRect(const PLAVec2f &aOrigin,
                                  const PLAVec2f &aSize,
                                  const PLAColor &aFillColor);
@@ -116,8 +121,14 @@ public:
                                  const GRAVec2<PLASize> &aChipSize,
                                  const IPLATileLayerDataSource *aDataSource);
 
+  void Bind() override;
+
+protected:
+  void Unbind() override;
+
+public:
   virtual ~PLAOBJActor() noexcept;// override;
-  virtual void Unbind() override;
+  //virtual void Unbind() override;
 
   void AddActor(PLAOBJActor *aActor);
   void RemoveActor(PLAOBJActor *aActor);
@@ -197,6 +208,25 @@ private:
 private:
   const char *GetBinderItemTypeName() const override;
 
+// Manager /////////////////////////////////////////////////////////////////////
+public:
+  class Manager: public GRAOBJBinder<PLAOBJActor>
+  {
+    static Manager _instance;
+
+    Manager();
+
+  public:
+    static Manager *Instance() { return &_instance; };
+    static PLAOBJActor *Actor(const PLAString &aKey);
+
+    ~Manager();
+
+    void Init();
+
+    const PLAOBJActor *GetActor(const PLAString &aName) const;
+    void PrintActors() const;
+  };
 };
 
 #endif // PLAIN_ENGINE_PLAOBJACTOR_HPP
