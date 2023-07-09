@@ -26,6 +26,7 @@ public:
                    const std::function<void(PLAAGTPhase)> &aFunc) const;
 
   PLAId GetPhaseTag() const;
+  void SetPhaseTag(PLAId aTag) const;
 
 protected:
   const PLAOBJPhase *GetPhase() const;

@@ -141,6 +141,7 @@ namespace Plain
                            const IPLATileLayerDataSource *aDataSource);
 
     PLAAGTActor Assign(const PLAString &aName);
+    PLAAGTActor AssignWithTag(PLAId aTag);
   };
 
   /*

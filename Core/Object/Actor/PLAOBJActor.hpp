@@ -68,8 +68,10 @@ public:
   using PLAActorItem = GRAOBJBinder<PLAOBJActor>::Item;
   using PLAActorError = GRAOBJBinder<PLAOBJActor>::Error;
 
+  static const char *GetBinderErrorMessage(Binder::Error aError);
   static PLAOBJActor *Object(const PLAString &aName);
   static PLAOBJActor *Object(PLAId aId);
+  static PLAOBJActor *ObjectWithTag(PLAId aTag);
 
   static PLAOBJActor *CreateRect(const PLAVec2f &aOrigin,
                                  const PLAVec2f &aSize,
@@ -141,6 +143,9 @@ public:
   void Disappear();
 
   PLAAGTActor AssignAgent();
+
+  PLAId GetActorTag() const;
+  void SetActorTag(PLAId aTag);
 
   void PrintActors() const;
 

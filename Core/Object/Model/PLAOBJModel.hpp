@@ -28,9 +28,11 @@ public:
   using PLAModelItem = GRAOBJBinder<PLAOBJModel>::Item;
   using PLAModelError = GRAOBJBinder<PLAOBJModel>::Error;
 
+  static const char *GetBinderErrorMessage(Binder::Error aError);
   static PLAOBJModel *Create();
   static PLAOBJModel *Object(const PLAString &aName);
   static PLAOBJModel *Object(PLAId aId);
+  static PLAOBJModel *ObjectWithTag(PLAId aTag);
   void Bind() override;
 
 protected:
@@ -80,6 +82,9 @@ public:
   void SetVec2s(const PLAString &aName, const PLAVec2s &aValue);
   void SetVec3s(const PLAString &aName, const PLAVec3s &aValue);
   void SetVec4s(const PLAString &aName, const PLAVec4s &aValue);
+
+  PLAId GetModelTag() const;
+  void SetModelTag(PLAId aTag);
 
   void PrintModels() const;
 

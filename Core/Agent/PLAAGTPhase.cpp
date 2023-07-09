@@ -51,3 +51,9 @@ PLAId PLAAGTPhase::GetPhaseTag() const
   auto owner = this->GetPhase();
   return owner->GetPhaseTag();
 }
+
+void PLAAGTPhase::SetPhaseTag(PLAId aTag) const
+{
+  auto owner = this->RefPhase();
+  owner->SetPhaseTag(aTag);
+}

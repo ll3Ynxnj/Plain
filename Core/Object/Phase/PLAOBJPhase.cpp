@@ -185,6 +185,32 @@ void PLAOBJPhase::PopChild()
   newPhase->RunFunction(PLAFunctionCode::Phase::OnPoppedOver);
 }
 
+PLAId PLAOBJPhase::GetPhaseTag() const {
+  return this->GRAOBJBinder<PLAOBJPhase>::Item::GetTag();
+}
+
+void PLAOBJPhase::SetPhaseTag(PLAId aTag)
+{
+  //GRAOBJBinder<PLAOBJPhase>::Error error(GRAOBJBinder<PLAOBJPhase>::Error::None);
+  Binder::Error error(Binder::Error::None);
+  this->Binder::Item::SetTag(aTag, &error);
+  if (error != Binder::Error::None)
+  {
+    switch (error) {
+      case GRAOBJBinder<PLAOBJPhase>::Error::TagOverride :
+        PLA_ERROR_ISSUE(PLAErrorType::Expect,
+                        "Succeed to set phase tag with error. ERROR : %02d : %s",
+                        error, PLAOBJPhase::GetBinderErrorMessage(error));
+        break;
+      default :
+        PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                        "Failure to set phase tag. ERROR : %02d : %s",
+                        error, PLAOBJPhase::GetBinderErrorMessage(error));
+        break;
+    }
+  }
+}
+
 void PLAOBJPhase::PrintPhases() const
 {
   static int indentLevel = 0;
@@ -217,32 +243,6 @@ void PLAOBJPhase::RunFunction(PLAFunctionCode::Phase aKey)
 const char *PLAOBJPhase::GetBinderItemTypeName() const
 {
   return this->GetPhaseTypeName();
-}
-
-PLAId PLAOBJPhase::GetPhaseTag() const {
-  return this->GRAOBJBinder<PLAOBJPhase>::Item::GetTag();
-}
-
-void PLAOBJPhase::SetPhaseTag(PLAId aTag)
-{
-  //GRAOBJBinder<PLAOBJPhase>::Error error(GRAOBJBinder<PLAOBJPhase>::Error::None);
-  Binder::Error error(Binder::Error::None);
-  this->Binder::Item::SetTag(aTag, &error);
-  if (error != Binder::Error::None)
-  {
-    switch (error) {
-      case GRAOBJBinder<PLAOBJPhase>::Error::TagOverride :
-        PLA_ERROR_ISSUE(PLAErrorType::Expect,
-                        "Succeed to set phase tag with error. ERROR : %02d : %s",
-                        error, PLAOBJPhase::GetBinderErrorMessage(error));
-        break;
-      default :
-        PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                        "Failure to set phase tag. ERROR : %02d : %s",
-                        error, PLAOBJPhase::GetBinderErrorMessage(error));
-        break;
-    }
-  }
 }
 
 // PLAOBJPhase::Manager ////////////////////////////////////////////////////////

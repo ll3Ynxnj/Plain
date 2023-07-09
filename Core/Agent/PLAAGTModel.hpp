@@ -48,6 +48,9 @@ public:
   void SetVec3s(const PLAString &aName, const PLAVec3s &aValue) const;
   void SetVec4s(const PLAString &aName, const PLAVec4s &aValue) const;
 
+  PLAId GetModelTag() const;
+  void SetModelTag(PLAId aTag) const;
+
   void PrintModels() const;
 
 protected:

@@ -72,12 +72,12 @@ public:
   const PLAOBJPhase *GetCurrentPhase() const { return _phases.top(); };
   PLAOBJPhase *RefCurrentPhase() const { return _phases.top(); };
 
+  PLAId GetPhaseTag() const;
+  void SetPhaseTag(PLAId aTag);
+
   void PrintPhases() const;
 
   const char *GetPhaseTypeName() const;
-
-  PLAId GetPhaseTag() const;
-  void SetPhaseTag(PLAId aTag);
 
 private:
   void RunFunction(PLAFunctionCode::Phase aKey);

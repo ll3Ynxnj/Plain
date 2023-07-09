@@ -243,6 +243,12 @@ PLAAGTActor Plain::Actor::Assign(const PLAString &aName)
   return actor->AssignAgent();
 }
 
+PLAAGTActor Plain::Actor::AssignWithTag(PLAId aTag)
+{
+  PLAOBJActor *actor = PLAOBJActor::ObjectWithTag(aTag);
+  return actor->AssignAgent();
+}
+
 /*
 PLAAGTTimeline Plain::Timeline::Create(const PLAAGTTimeline &aParent)
 {

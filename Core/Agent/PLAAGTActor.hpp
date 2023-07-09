@@ -46,6 +46,9 @@ public:
   PLABool IsVisible() const;
   void SetVisible(bool aVisible) const;
 
+  PLAId GetActorTag() const;
+  void SetActorTag(PLAId aTag) const;
+
   void AddTileMotion(const PLAVec2s &aAddress, const PLAAGTMotion &aThread) const;
 
   /// Path-through to InputContext /////////////////////////////////////////////

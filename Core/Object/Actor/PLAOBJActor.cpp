@@ -12,6 +12,26 @@
 
 #include "Agent/PLAAGTActor.hpp"
 
+// 不要なのでは？同じくBinderItemであるPLAOBJResourceには無い。要調査。
+// It's not necessary? PLAOBJResource, which is also a BinderItem, does not have it. Need to investigate.
+const std::map<PLAOBJActor::Binder::Error, const char *> PLAOBJActor::kBinderErrorMessages =
+  {
+    { Binder::Error::OverwriteItem, "Overwrite item" },
+    { Binder::Error::NameConflict, "Item name conflict" },
+    { Binder::Error::NameOverride, "Item name has been over written" },
+    { Binder::Error::NameConvertedBySystem, "Item name has been converted to system-generated" },
+    { Binder::Error::RegisterExistingKeyToMap, "Register existing key to map" },
+    { Binder::Error::NotExistInMap, "Not exist in map" },
+    { Binder::Error::OutOfRange, "Out of range" },
+  };
+
+// 不要なのでは？同じくBinderItemであるPLAOBJResourceには無い。要調査。
+// It's not necessary? PLAOBJResource, which is also a BinderItem, does not have it. Need to investigate.
+const char *PLAOBJActor::GetBinderErrorMessage(Binder::Error aError)
+{
+  return kBinderErrorMessages.at(aError);
+}
+
 PLAOBJActor *PLAOBJActor::Object(const PLAString &aName)
 {
   auto object = PLAObject::Object(PLAObjectType::Actor, aName);
@@ -21,6 +41,18 @@ PLAOBJActor *PLAOBJActor::Object(const PLAString &aName)
 PLAOBJActor *PLAOBJActor::Object(PLAId aId)
 {
   auto object = PLAObject::Object(PLAObjectType::Actor, aId);
+  return static_cast<PLAOBJActor *>(object);
+}
+
+PLAOBJActor *PLAOBJActor::ObjectWithTag(PLAId aTag)
+{
+  GRAOBJBinder<PLAOBJActor>::Error error(GRAOBJBinder<PLAOBJActor>::Error::None);
+  auto object = Manager::Instance()->RefItemWithTag(aTag, &error);
+  if (error != GRAOBJBinder<PLAOBJActor>::Error::None)
+  {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed PLAOBJActor getting. ERROR : %02d", error);
+  }
   return static_cast<PLAOBJActor *>(object);
 }
 
@@ -252,6 +284,31 @@ void PLAOBJActor::Disappear()
 
 PLAAGTActor PLAOBJActor::AssignAgent() {
   return PLAAGTActor(this);
+}
+
+PLAId PLAOBJActor::GetActorTag() const {
+  return this->GRAOBJBinder<PLAOBJActor>::Item::GetTag();
+}
+
+void PLAOBJActor::SetActorTag(PLAId aTag)
+{
+  Binder::Error error(Binder::Error::None);
+  this->Binder::Item::SetTag(aTag, &error);
+  if (error != Binder::Error::None)
+  {
+    switch (error) {
+      case GRAOBJBinder<PLAOBJActor>::Error::TagOverride :
+        PLA_ERROR_ISSUE(PLAErrorType::Expect,
+                        "Succeed to set phase tag with error. ERROR : %02d : %s",
+                        error, PLAOBJActor::GetBinderErrorMessage(error));
+        break;
+      default :
+        PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                        "Failure to set phase tag. ERROR : %02d : %s",
+                        error, PLAOBJActor::GetBinderErrorMessage(error));
+        break;
+    }
+  }
 }
 
 void PLAOBJActor::PrintActors() const

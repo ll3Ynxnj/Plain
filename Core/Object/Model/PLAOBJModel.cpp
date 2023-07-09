@@ -6,6 +6,26 @@
 #include "Object/PLAOBJError.hpp"
 #include "Agent/PLAAGTModel.hpp"
 
+// 不要なのでは？同じくBinderItemであるPLAOBJResourceには無い。要調査。
+// It's not necessary? PLAOBJResource, which is also a BinderItem, does not have it. Need to investigate.
+const std::map<PLAOBJModel::Binder::Error, const char *> PLAOBJModel::kBinderErrorMessages =
+  {
+    { Binder::Error::OverwriteItem, "Overwrite item" },
+    { Binder::Error::NameConflict, "Item name conflict" },
+    { Binder::Error::NameOverride, "Item name has been over written" },
+    { Binder::Error::NameConvertedBySystem, "Item name has been converted to system-generated" },
+    { Binder::Error::RegisterExistingKeyToMap, "Register existing key to map" },
+    { Binder::Error::NotExistInMap, "Not exist in map" },
+    { Binder::Error::OutOfRange, "Out of range" },
+  };
+
+// 不要なのでは？同じくBinderItemであるPLAOBJResourceには無い。要調査。
+// It's not necessary? PLAOBJResource, which is also a BinderItem, does not have it. Need to investigate.
+const char *PLAOBJModel::GetBinderErrorMessage(Binder::Error aError)
+{
+  return kBinderErrorMessages.at(aError);
+}
+
 PLAOBJModel *PLAOBJModel::Create()
 {
   PLAOBJModel *model = new PLAOBJModel();
@@ -23,6 +43,18 @@ PLAOBJModel *PLAOBJModel::Object(const PLAString &aName)
 PLAOBJModel *PLAOBJModel::Object(PLAId aId)
 {
   auto object = PLAObject::Object(PLAObjectType::Model, aId);
+  return static_cast<PLAOBJModel *>(object);
+}
+
+PLAOBJModel *PLAOBJModel::ObjectWithTag(PLAId aTag)
+{
+  GRAOBJBinder<PLAOBJModel>::Error error(GRAOBJBinder<PLAOBJModel>::Error::None);
+  auto object = Manager::Instance()->RefItemWithTag(aTag, &error);
+  if (error != GRAOBJBinder<PLAOBJModel>::Error::None)
+  {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed PLAOBJModel getting. ERROR : %02d", error);
+  }
   return static_cast<PLAOBJModel *>(object);
 }
 
@@ -270,6 +302,31 @@ void PLAOBJModel::SetVec4s(const PLAString &aName, const PLAVec4s &aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
   _properties[aName].SetVec4s(aValue);
+}
+
+PLAId PLAOBJModel::GetModelTag() const {
+  return this->GRAOBJBinder<PLAOBJModel>::Item::GetTag();
+}
+
+void PLAOBJModel::SetModelTag(PLAId aTag)
+{
+  Binder::Error error(Binder::Error::None);
+  this->Binder::Item::SetTag(aTag, &error);
+  if (error != Binder::Error::None)
+  {
+    switch (error) {
+      case GRAOBJBinder<PLAOBJModel>::Error::TagOverride :
+        PLA_ERROR_ISSUE(PLAErrorType::Expect,
+                        "Succeed to set model tag with error. ERROR : %02d : %s",
+                        error, PLAOBJModel::GetBinderErrorMessage(error));
+        break;
+      default :
+        PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                        "Failure to set model tag. ERROR : %02d : %s",
+                        error, PLAOBJModel::GetBinderErrorMessage(error));
+        break;
+    }
+  }
 }
 
 void PLAOBJModel::PrintModels() const

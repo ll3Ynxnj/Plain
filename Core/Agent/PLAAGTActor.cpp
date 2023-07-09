@@ -106,6 +106,18 @@ void PLAAGTActor::SetVisible(PLABool aVisible) const
   actor->SetVisible(aVisible);
 }
 
+PLAId PLAAGTActor::GetActorTag() const
+{
+  auto actor = this->GetActor();
+  return actor->GetActorTag();
+}
+
+void PLAAGTActor::SetActorTag(PLAId aActorTag) const
+{
+  auto actor = this->RefActor();
+  actor->SetActorTag(aActorTag);
+}
+
 void PLAAGTActor::AddTileMotion(const PLAVec2s &aAddress, const PLAAGTMotion &aMotion) const
 {
   auto motionId = aMotion.GetOwnerId();
