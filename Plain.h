@@ -33,7 +33,7 @@ namespace Plain
   using Renderer = PLARendererType;
 
   void Init(PLARendererType aType);
-  void Delete(const std::string &aName);
+  //void Delete(const std::string &aName);
 
   PLAApp *App();
 
