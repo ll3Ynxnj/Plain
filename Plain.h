@@ -140,6 +140,7 @@ namespace Plain
                            const GRAVec2<PLASize> &aChipSize,
                            const IPLATileLayerDataSource *aDataSource);
 
+    PLAAGTActor Assign(PLAId aId);
     PLAAGTActor Assign(const PLAString &aName);
     PLAAGTActor AssignWithTag(PLAId aTag);
   };

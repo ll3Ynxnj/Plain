@@ -237,6 +237,12 @@ PLAAGTActor Plain::Actor::CreateTile(const PLAVec2f &aOffset,
   return actor->AssignAgent();
 }
 
+PLAAGTActor Plain::Actor::Assign(PLAId aId)
+{
+  PLAOBJActor *actor = PLAOBJActor::Object(aId);
+  return actor->AssignAgent();
+}
+
 PLAAGTActor Plain::Actor::Assign(const PLAString &aName)
 {
   PLAOBJActor *actor = PLAOBJActor::Object(aName);
