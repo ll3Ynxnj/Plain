@@ -35,22 +35,22 @@ void PLAAgent::Release()
   _owner = nullptr;
 }
 
-PLAId PLAAgent::GetOwnerId() const
+PLAId PLAAgent::GetObjectId() const
 {
   return _owner->GetObjectId();
 }
 
-PLAObjectType PLAAgent::GetOwnerType() const
+PLAObjectType PLAAgent::GetObjectType() const
 {
   return _owner->GetObjectType();
 }
 
-const char *PLAAgent::GetOwnerTypeName() const
+const char *PLAAgent::GetObjectTypeName() const
 {
   return _owner->GetObjectTypeName();
 }
 
-const PLAString &PLAAgent::GetName() const
+const PLAString &PLAAgent::GetObjectName() const
 {
   return _owner->GetObjectName();
 }

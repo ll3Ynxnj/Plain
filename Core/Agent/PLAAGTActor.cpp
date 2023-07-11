@@ -120,7 +120,7 @@ void PLAAGTActor::SetActorTag(PLAId aActorTag) const
 
 void PLAAGTActor::AddTileMotion(const PLAVec2s &aAddress, const PLAAGTMotion &aMotion) const
 {
-  auto motionId = aMotion.GetOwnerId();
+  auto motionId = aMotion.GetObjectId();
   auto motion = PLATMLMotion::Object(motionId);
   auto actor = this->RefActor();
   actor->AddTileMotion(aAddress, motion);

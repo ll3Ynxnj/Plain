@@ -24,10 +24,10 @@ void PLAAGTState::Init() const
 
 void PLAAGTState::AddModel(const PLAAGTModel &aAgent) const
 {
-  PLAId modelId = aAgent.GetOwnerId();
+  PLAId modelId = aAgent.GetObjectId();
   //PLAOBJModel *model = static_cast<PLAOBJModel *>(PLAObject::Object(modelId));
   PLAOBJModel *model = PLAOBJModel::Object(modelId);
-  PLAId stateId = this->GetOwnerId();
+  PLAId stateId = this->GetObjectId();
   //PLAOBJState *state = static_cast<PLAOBJState *>(PLAObject::Object(stateId));
   PLAOBJState *state = PLAOBJState::Object(stateId);
   state->AddModel(model);

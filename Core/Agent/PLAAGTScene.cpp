@@ -24,16 +24,16 @@ void PLAAGTScene::Init() const
 
 void PLAAGTScene::PushPhase(const PLAAGTPhase &aAgent) const
 {
-  PLAId phaseId = aAgent.GetOwnerId();
+  PLAId phaseId = aAgent.GetObjectId();
   PLAOBJPhase *phase = PLAOBJPhase::Object(phaseId);
-  PLAId sceneId = this->GetOwnerId();
+  PLAId sceneId = this->GetObjectId();
   PLAOBJScene *scene = PLAOBJScene::Object(sceneId);
   scene->PushPhase(phase);
 }
 
 void PLAAGTScene::PopPhase() const
 {
-  PLAId sceneId = this->GetOwnerId();
+  PLAId sceneId = this->GetObjectId();
   PLAOBJScene *scene = PLAOBJScene::Object(sceneId);
   scene->PopPhase();
 }
@@ -75,7 +75,7 @@ PLAOBJScene *PLAAGTScene::RefScene() const
 
 PLAAGTPhase PLAAGTScene::GetCurrentPhase() const
 {
-  PLAId sceneId = this->GetOwnerId();
+  PLAId sceneId = this->GetObjectId();
   PLAOBJScene *scene = PLAOBJScene::Object(sceneId);
   PLAOBJPhase *phase = scene->RefCurrentPhase();
   return phase->AssignAgent();

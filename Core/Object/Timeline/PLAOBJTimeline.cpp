@@ -114,7 +114,7 @@ void PLAOBJTimeline::OnFinishThread(const PLAOBJTimeline *aThread)
 /*
 void PLAOBJTimeline::OnUnbindThread(const PLAOBJTimeline *aThread)
 {
-  _threads.erase(aThread->GetOwnerId());
+  _threads.erase(aThread->GetObjectId());
 }
  */
 

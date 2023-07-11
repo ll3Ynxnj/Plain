@@ -252,7 +252,7 @@ PLAAGTActor Plain::Actor::AssignWithTag(PLAId aTag)
 /*
 PLAAGTTimeline Plain::Timeline::Create(const PLAAGTTimeline &aParent)
 {
-  PLAId ownerId = aParent.GetOwnerId();
+  PLAId ownerId = aParent.GetObjectId();
   PLAOBJTimeline *parent = PLAOBJTimeline::Object(ownerId);
   PLAOBJTimeline *motion = PLAOBJTimeline::Create(parent);
   return motion->AssignAgent();

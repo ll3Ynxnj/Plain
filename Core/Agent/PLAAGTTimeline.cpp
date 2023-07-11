@@ -32,7 +32,7 @@ PLAOBJTimeline *PLAAGTTimeline::RefTimeline() const
 
 void PLAAGTTimeline::AddNode(const PLAAGTTimelineNode &aAgent)
 {
-  PLAId nodeId = aAgent.GetOwnerId();
+  PLAId nodeId = aAgent.GetObjectId();
   PLAOBJTimelineNode *node = PLAOBJTimelineNode::Object(nodeId);
   auto timeline = this->RefTimeline();
   timeline->AddNode(node);

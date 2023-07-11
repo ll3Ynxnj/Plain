@@ -26,11 +26,11 @@ public:
 
   void Release();
 
-  PLAId GetOwnerId() const;
-  PLAObjectType GetOwnerType() const;
-  const char *GetOwnerTypeName() const;
+  PLAId GetObjectId() const;
+  PLAObjectType GetObjectType() const;
+  const char *GetObjectTypeName() const;
 
-  const PLAString &GetName() const;
+  const PLAString &GetObjectName() const;
 
   void SetName(const PLAString &aName) const;
 

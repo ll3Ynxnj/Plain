@@ -24,10 +24,10 @@ void PLAAGTStage::Init() const
 
 void PLAAGTStage::AddActor(const PLAAGTActor &aAgent) const
 {
-  PLAId actorId = aAgent.GetOwnerId();
+  PLAId actorId = aAgent.GetObjectId();
   PLAOBJActor *actor = PLAOBJActor::Object(actorId);
   /*
-  PLAId stageId = this->GetOwnerId();
+  PLAId stageId = this->GetObjectId();
   PLAOBJStage *stage = PLAOBJStage::Object(stageId);
    */
   auto stage = this->RefStage();
