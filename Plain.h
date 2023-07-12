@@ -28,6 +28,11 @@
 using PLAModel = PLAAGTModel;
 using PLAActor = PLAAGTActor;
 
+/// \~japanese /////////////////////////////////////////////////////////////////
+/// \brief 外部からのアクセスに利用する静的メソッド群です。内部からの利用は禁止します。内部からは各クラスに記述された静的メソッドを利用してください。
+/// \~english /////////////////////////////////////////////////////////////////
+/// \brief Static methods for external access. Internal access is prohibited. Use static methods described in each class.
+
 namespace Plain
 {
   using Renderer = PLARendererType;
@@ -89,6 +94,7 @@ namespace Plain
     //PLAAGTPhase Create();
     //PLAAGTPhase Create(const PLAString &aName);
     PLAAGTPhase CreateWithTag(PLAId aTag);
+    PLAAGTPhase Assign(const PLAId aId);
     PLAAGTPhase Assign(const PLAString &aName);
     PLAAGTPhase AssignWithTag(PLAId aTag);
   };
@@ -98,6 +104,7 @@ namespace Plain
     //using Agent = PLAAGTModel;
     PLAAGTModel Create();
     PLAAGTModel Create(const PLAString &aName);
+    PLAAGTModel Assign(const PLAId aId);
     PLAAGTModel Assign(const PLAString &aName);
   };
 
@@ -165,6 +172,7 @@ namespace Plain
   {
     PLAAGTMotion Create();
     PLAAGTMotion Create(const PLAString &aName);
+    PLAAGTMotion Assign(const PLAId aId);
     PLAAGTMotion Assign(const PLAString &aName);
   };
 
@@ -172,6 +180,7 @@ namespace Plain
   {
     PLAAGTMotionNode Create();
     PLAAGTMotionNode Create(const PLAString &aName);
+    PLAAGTMotionNode Assign(const PLAId &aId);
     PLAAGTMotionNode Assign(const PLAString &aName);
 
     PLAAGTMotionNode CreateColor(const PLAColor &aBegin, const PLAColor &aEnd,
@@ -188,6 +197,7 @@ namespace Plain
   {
     //PLAAGTImageClip Create(const PLAString &aImageName);
     PLAAGTImageClip Create(const PLAString &aImageName, const PLARect &aClip);
+    PLAAGTImageClip Assign(const PLAId &aId);
     PLAAGTImageClip Assign(const std::string &aName);
   };
 

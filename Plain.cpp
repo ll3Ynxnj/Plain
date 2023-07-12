@@ -119,6 +119,12 @@ PLAAGTPhase Plain::Phase::CreateWithTag(PLAId aTag)
   return phase->AssignAgent();
 }
 
+PLAAGTPhase Plain::Phase::Assign(const PLAId aId)
+{
+  PLAOBJPhase *phase = PLAOBJPhase::Object(aId);
+  return phase->AssignAgent();
+}
+
 PLAAGTPhase Plain::Phase::Assign(const PLAString &aName)
 {
   PLAOBJPhase *phase = PLAOBJPhase::Object(aName);
@@ -143,6 +149,12 @@ PLAAGTModel Plain::Model::Create(const PLAString &aName)
   { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Duplicate object names."); }
   PLAOBJModel *model = PLAOBJModel::Create();
   model->SetObjectName(aName);
+  return model->AssignAgent();
+}
+
+PLAAGTModel Plain::Model::Assign(const PLAId aId)
+{
+  PLAOBJModel *model = PLAOBJModel::Object(aId);
   return model->AssignAgent();
 }
 
@@ -318,6 +330,12 @@ PLAAGTMotion Plain::Motion::Create(const PLAString &aName)
   return motion->AssignAgent();
 }
 
+PLAAGTMotion Plain::Motion::Assign(PLAId aId)
+{
+  PLATMLMotion *motion = PLATMLMotion::Object(aId);
+  return motion->AssignAgent();
+}
+
 PLAAGTMotion Plain::Motion::Assign(const PLAString &aName)
 {
   PLATMLMotion *motion = PLATMLMotion::Object(aName);
@@ -374,6 +392,12 @@ PLAAGTImageClip Plain::ImageClip::Create(const std::string &aImageName,
                                          const PLARect &aClip)
 {
   auto object = PLAOBJImageClip::Create(aImageName, aClip);
+  return object->AssignAgent();
+}
+
+PLAAGTImageClip Plain::ImageClip::Assign(const PLAId &aId)
+{
+  auto object = PLAOBJImageClip::Object(aId);
   return object->AssignAgent();
 }
 
