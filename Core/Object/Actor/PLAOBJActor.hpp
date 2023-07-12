@@ -132,6 +132,10 @@ public:
   virtual ~PLAOBJActor() noexcept;// override;
   //virtual void Unbind() override;
 
+  // レイヤーの外部からの追加は禁止したい。レイヤは本オブジェクト破棄時に一緒にdeleteされるため。
+  // Prohibit adding from outside of the layer. Because the layer is deleted together when this object is destroyed.
+  void AddLayer(PLAOBJLayer *aLayer) = delete;
+
   void AddActor(PLAOBJActor *aActor);
   void RemoveActor(PLAOBJActor *aActor);
   void RemoveFromParentActor();

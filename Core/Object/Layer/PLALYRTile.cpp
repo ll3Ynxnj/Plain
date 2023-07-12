@@ -21,7 +21,8 @@ PLALYRTile::PLALYRTile(const PLAVec2f &aOffset, const std::string &aImageName,
   _tileSize(aTileSize),
   _chipSize(aChipSize), _dataSource(aDataSource)
 {
-  _image = PLAOBJImage::CreateRaw(aImageName);
+  //_image = PLAOBJImage::CreateRaw(aImageName);
+  _image = new PLAOBJImage(aImageName, PLAOBJImageSize(1024), PLAImageType::Raw);
   for (PLASize y = 0; y < aTileSize.y; y++) {
     std::vector<PLATimelineHolder *> holders(0);
     for (PLASize x = 0; x < aTileSize.x; x++) {
@@ -33,7 +34,12 @@ PLALYRTile::PLALYRTile(const PLAVec2f &aOffset, const std::string &aImageName,
 
 PLALYRTile::~PLALYRTile()
 {
-
+   for (PLASize y = 0; y < _tileSize.y; y++) {
+      for (PLASize x = 0; x < _tileSize.x; x++) {
+        GRA_DELETE(_timelineHolders[y][x]);
+      }
+   }
+   GRA_DELETE(_image);
 };
 
 void PLALYRTile::AddMotionThread(const PLAVec2s &aAddress,
