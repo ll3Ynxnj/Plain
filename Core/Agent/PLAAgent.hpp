@@ -35,7 +35,7 @@ public:
   void SetName(const PLAString &aName) const;
 
 protected:
-  PLAAgent() noexcept;
+  PLAAgent() = delete;
   explicit PLAAgent(const PLAAgent &aAgent) noexcept;
   explicit PLAAgent(PLAObject *aOwner);
 

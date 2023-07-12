@@ -16,7 +16,7 @@ class PLAAGTMotion: public PLAAGTTimeline
 {
   public:
     /// Agent is const method only.
-    PLAAGTMotion() = default;
+    PLAAGTMotion() = delete;
     explicit PLAAGTMotion(PLATMLMotion *aOwner);
     virtual ~PLAAGTMotion() noexcept;
 

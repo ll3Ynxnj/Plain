@@ -5,10 +5,6 @@
 #include "PLAAgent.hpp"
 #include "Object/PLAObject.hpp"
 
-PLAAgent::PLAAgent() noexcept {
-
-}
-
 PLAAgent::PLAAgent(PLAObject *aOwner) :
   _owner(aOwner)
 {

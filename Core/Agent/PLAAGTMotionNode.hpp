@@ -16,7 +16,7 @@ class PLAAGTMotionNode: public PLAAGTTimelineNode
 {
 public:
   /// Agent is const method only.
-  PLAAGTMotionNode() = default;
+  PLAAGTMotionNode() = delete;
   explicit PLAAGTMotionNode(PLATMLMotionNode *aOwner);
   virtual ~PLAAGTMotionNode() noexcept;
 

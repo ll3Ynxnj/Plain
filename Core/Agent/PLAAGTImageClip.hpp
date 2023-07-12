@@ -16,7 +16,7 @@ class PLAAGTImageClip: public PLAAgent
 {
 public:
   /// Agent is const method only.
-  PLAAGTImageClip() = default;
+  PLAAGTImageClip() = delete;
   explicit PLAAGTImageClip(PLAOBJImageClip *aOwner);
   virtual ~PLAAGTImageClip() noexcept;
 

@@ -17,7 +17,7 @@ class PLAAGTTimelineNode: public PLAAgent
 {
 public:
   /// Agent is const method only.
-  PLAAGTTimelineNode() = default;
+  PLAAGTTimelineNode() = delete;
   explicit PLAAGTTimelineNode(PLAOBJTimelineNode *aOwner);
   virtual ~PLAAGTTimelineNode() noexcept;
 

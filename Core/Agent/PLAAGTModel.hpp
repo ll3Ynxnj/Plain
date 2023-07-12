@@ -14,7 +14,7 @@ class PLAAGTModel final : public PLAAgent
 {
 public:
   /// Agent is const method only.
-  PLAAGTModel() = default;
+  PLAAGTModel() = delete;
   explicit PLAAGTModel(PLAOBJModel *aOwner);
   virtual ~PLAAGTModel() noexcept;
 
