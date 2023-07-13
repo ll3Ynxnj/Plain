@@ -54,6 +54,13 @@ const PLATMLMotion *PLALYRTile::GetMotionThread(const PLAVec2s &aAddress) const
   (_timelineHolders[aAddress.y][aAddress.x]->GetNodeThread());
 };
 
+PLARect PLALYRTile::GetRect() const
+{
+  PLAVec3f offset = this->GetOffset();
+  PLAVec3f size = this->GetSize();
+  return { { offset.x, offset.y }, { size.x, size.y } };
+}
+
 PLAVec3f PLALYRTile::GetSize() const
 {
   return PLAVec3f(_chipSize.x * _tileSize.x, _chipSize.y * _tileSize.y, 0);
@@ -91,9 +98,3 @@ bool PLALYRTile::IsCollideWithCircle(const PLACircle &aCircle) const
   return PLACollision::IsCollideWithRectAndCircle(this->GetRect(), aCircle);
 }
 
-PLARect PLALYRTile::GetRect() const
-{
-  PLAVec3f offset = this->GetOffset();
-  PLAVec3f size = this->GetSize();
-  return { { offset.x, offset.y }, { size.x, size.y } };
-}

@@ -42,7 +42,10 @@ add_library(Plain-Core STATIC
   Agent/PLAAgent.cpp
   Agent/PLAAGTPhase.cpp
   Agent/PLAAGTModel.cpp
-  Agent/PLAAGTActor.cpp
+  Agent/Actor/PLAAGTActor.cpp
+  Agent/Actor/PLAAGTActorForRect.cpp
+  Agent/Actor/PLAAGTActorForCircle.cpp
+  Agent/Actor/PLAAGTActorForTile.cpp
   Agent/PLAAGTScene.cpp
   Agent/PLAAGTState.cpp
   Agent/PLAAGTStage.cpp

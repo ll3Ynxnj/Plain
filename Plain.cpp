@@ -164,34 +164,34 @@ PLAAGTModel Plain::Model::Assign(const PLAString &aName)
   return model->AssignAgent();
 }
 
-PLAAGTActor Plain::Actor::CreateRect(const PLAVec2f &aOrigin,
+PLAAGTActorForRect Plain::Actor::CreateRect(const PLAVec2f &aOrigin,
                                      const PLAVec2f &aSize,
                                      const PLAColor &aFillColor)
 {
   PLAOBJActor *actor = PLAOBJActor::CreateRect(aOrigin, aSize, aFillColor);
-  return actor->AssignAgent();
+  return actor->AssignAgentForRect();
 }
 
-PLAAGTActor Plain::Actor::CreateRect(const PLAVec3f &aPivot,
+PLAAGTActorForRect Plain::Actor::CreateRect(const PLAVec3f &aPivot,
                                      const PLATransform &aTransform,
                                      const PLARect &aRect)
 {
   PLAOBJActor *actor = PLAOBJActor::CreateRect(aPivot, kPLAColorNone, aTransform,
                                                aRect);
-  return actor->AssignAgent();
+  return actor->AssignAgentForRect();
 }
 
-PLAAGTActor Plain::Actor::CreateRect(const PLAVec3f &aPivot,
+PLAAGTActorForRect Plain::Actor::CreateRect(const PLAVec3f &aPivot,
                                      const PLATransform &aTransform,
                                      const PLARect &aRect,
                                      const PLAColor &aFillColor)
 {
   PLAOBJActor *actor = PLAOBJActor::CreateRect(aPivot, kPLAColorWhite, aTransform,
                                                aRect, aFillColor);
-  return actor->AssignAgent();
+  return actor->AssignAgentForRect();
 }
 
-PLAAGTActor Plain::Actor::CreateRect(const PLAVec3f &aPivot,
+PLAAGTActorForRect Plain::Actor::CreateRect(const PLAVec3f &aPivot,
                                      const PLATransform &aTransform,
                                      const PLARect &aRect,
                                      const std::string &aImage,
@@ -199,37 +199,37 @@ PLAAGTActor Plain::Actor::CreateRect(const PLAVec3f &aPivot,
 {
   PLAOBJActor *actor = PLAOBJActor::CreateRect(aPivot, kPLAColorWhite, aTransform,
                                                aRect, aImage, aClip);
-  return actor->AssignAgent();
+  return actor->AssignAgentForRect();
 }
 
-PLAAGTActor Plain::Actor::CreateCircle(const PLAVec2f &aOrigin,
+PLAAGTActorForCircle Plain::Actor::CreateCircle(const PLAVec2f &aOrigin,
                                        const PLAFloat aRadius,
                                        const PLAColor &aFillColor)
 {
   PLAOBJActor *actor = PLAOBJActor::CreateCircle(aOrigin, aRadius, aFillColor);
-  return actor->AssignAgent();
+  return actor->AssignAgentForCircle();
 }
 
-PLAAGTActor Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
+PLAAGTActorForCircle Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
                                        const PLATransform &aTransform,
                                        const PLACircle &aCircle)
 {
   PLAOBJActor *actor = PLAOBJActor::CreateCircle(aPivot, kPLAColorWhite, aTransform,
                                                  aCircle);
-  return actor->AssignAgent();
+  return actor->AssignAgentForCircle();
 }
 
-PLAAGTActor Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
+PLAAGTActorForCircle Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
                                        const PLATransform &aTransform,
                                        const PLACircle &aCircle,
                                        const PLAColor &aFillColor)
 {
   PLAOBJActor *actor = PLAOBJActor::CreateCircle(aPivot, kPLAColorWhite, aTransform,
                                                  aCircle, aFillColor);
-  return actor->AssignAgent();
+  return actor->AssignAgentForCircle();
 }
 
-PLAAGTActor Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
+PLAAGTActorForCircle Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
                                        const PLATransform &aTransform,
                                        const PLACircle &aCircle,
                                        const std::string &aImage,
@@ -237,10 +237,10 @@ PLAAGTActor Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
 {
   PLAOBJActor *actor = PLAOBJActor::CreateCircle(aPivot, kPLAColorWhite, aTransform,
                                                  aCircle, aImage, aClip);
-  return actor->AssignAgent();
+  return actor->AssignAgentForCircle();
 }
 
-PLAAGTActor Plain::Actor::CreateTile(const PLAVec2f &aOffset,
+PLAAGTActorForTile Plain::Actor::CreateTile(const PLAVec2f &aOffset,
                                      const std::string &aImageName,
                                      const GRAVec2<PLASize> &aTileSize,
                                      const GRAVec2<PLASize> &aChipSize,
@@ -248,7 +248,7 @@ PLAAGTActor Plain::Actor::CreateTile(const PLAVec2f &aOffset,
 {
   PLAOBJActor *actor = PLAOBJActor::CreateTile(aOffset, aImageName, aTileSize,
                                                aChipSize, aDataSource);
-  return actor->AssignAgent();
+  return actor->AssignAgentForTile();
 }
 
 PLAAGTActor Plain::Actor::Assign(PLAId aId)
@@ -267,6 +267,12 @@ PLAAGTActor Plain::Actor::AssignWithTag(PLAId aTag)
 {
   PLAOBJActor *actor = PLAOBJActor::ObjectWithTag(aTag);
   return actor->AssignAgent();
+}
+
+PLAAGTActorForRect Plain::Actor::AssignRect(PLAId aId)
+{
+  PLAOBJActor *actor = PLAOBJActor::Object(aId);
+  return actor->AssignAgentForRect();
 }
 
 /*
@@ -349,16 +355,16 @@ PLAAGTMotionNode Plain::MotionNode::Create()
 }
 
 PLAAGTMotionNode Plain::MotionNode::CreateColor(const PLAColor &aBegin,
-                                               const PLAColor &aEnd,
-                                               PLATimeInterval aDuration)
+                                                const PLAColor &aEnd,
+                                                PLATimeInterval aDuration)
 {
   auto object = PLATMLMotionNode::CreateColor(aBegin, aEnd, aDuration);
   return object->AssignAgent();
 }
 
 PLAAGTMotionNode Plain::MotionNode::CreateTranslation(const PLAVec3f &aBegin,
-                                                     const PLAVec3f &aEnd,
-                                                     PLATimeInterval aDuration)
+                                                      const PLAVec3f &aEnd,
+                                                      PLATimeInterval aDuration)
 {
   auto object = PLATMLMotionNode::CreateTranslation(aBegin, aEnd, aDuration);
   return object->AssignAgent();

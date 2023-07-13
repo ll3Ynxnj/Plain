@@ -3,7 +3,7 @@
 //
 
 #include "PLAAGTStage.hpp"
-#include "PLAAGTActor.hpp"
+#include "Agent/Actor/PLAAGTActor.hpp"
 #include "Object/PLAOBJStage.hpp"
 
 PLAAGTStage::PLAAGTStage(PLAOBJStage *aOwner) :

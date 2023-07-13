@@ -57,6 +57,9 @@ public:
                             const PLARect &aClip);
 
   PLALYRRect() = delete;
+
+
+
   virtual ~PLALYRRect() {};
 
   virtual PLAVec3f GetSize() const;

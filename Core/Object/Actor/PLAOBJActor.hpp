@@ -27,6 +27,9 @@
 
 class PLAOBJRenderer;
 class PLAAGTActor;
+class PLAAGTActorForRect;
+class PLAAGTActorForCircle;
+class PLAAGTActorForTile;
 
 class PLAOBJActor final :
   public PLAObject,
@@ -147,6 +150,9 @@ public:
   void Disappear();
 
   PLAAGTActor AssignAgent();
+  PLAAGTActorForRect AssignAgentForRect();
+  PLAAGTActorForCircle AssignAgentForCircle();
+  PLAAGTActorForTile AssignAgentForTile();
 
   PLAId GetActorTag() const;
   void SetActorTag(PLAId aTag);
@@ -175,11 +181,11 @@ public:
 
   size_t GetNumberOfActors() { return _actors.size(); };
 
-  class PLALYRPoint *RefLYRPoint();
-  class PLALYRLine *RefLYRLine();
-  class PLALYRRect *RefLYRRect();
-  class PLALYRCircle *RefLYRCircle();
-  class PLALYRTile *RefLYRTile();
+  class PLALYRPoint *RefLayerForPoint();
+  class PLALYRLine *RefLayerForLine();
+  class PLALYRRect *RefLayerForRect();
+  class PLALYRCircle *RefLayerForCircle();
+  class PLALYRTile *RefLayerForTile();
   PLAOBJActor *RefResponsiveActor(const PLAInputDeviceType aDeviceType,
                                   const PLAInputSignalCode aSignalCode);
   PLAOBJActor *RefResponsiveActorWithPoint(const PLAPoint &aPoint,

@@ -46,18 +46,23 @@ public:
 
   PLAVec2s GetDataAddress() const { return _dataSource->GetDataAddress(); };
 
-  virtual PLAVec3f GetSize() const;
-  virtual void GetSize(PLAVec3f *aSize) const;
-  virtual void SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot);
-
-  virtual void SetImageClip(PLAOBJImageClip *aImageClip) { return; } // Stab
-
-  virtual bool IsCollideWithPoint(const PLAPoint &aPoint) const;
-  virtual bool IsCollideWithLine(const PLALine &aLine) const;
-  virtual bool IsCollideWithRect(const PLARect &aRect) const;
-  virtual bool IsCollideWithCircle(const PLACircle &aCircle) const;
-
   PLARect GetRect() const;
+
+  void SetDataSource(const IPLATileLayerDataSource *aDataSource)
+  { _dataSource = aDataSource; }
+
+  /// PLAOBJLayer //////////////////////////////////////////////////////////////
+
+  virtual PLAVec3f GetSize() const override;
+  virtual void GetSize(PLAVec3f *aSize) const override;
+  virtual void SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot) override;
+
+  virtual void SetImageClip(PLAOBJImageClip *aImageClip) override { return; } // Stab
+
+  virtual bool IsCollideWithPoint(const PLAPoint &aPoint) const override;
+  virtual bool IsCollideWithLine(const PLALine &aLine) const override;
+  virtual bool IsCollideWithRect(const PLARect &aRect) const override;
+  virtual bool IsCollideWithCircle(const PLACircle &aCircle) const override;
 };
 
 #endif //PLAIN_PLALYRTILE_HPP

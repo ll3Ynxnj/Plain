@@ -8,7 +8,10 @@
 #include "Agent/PLAAGTModel.hpp"
 #include "Agent/PLAAGTPhase.hpp"
 #include "Agent/PLAAGTStage.hpp"
-#include "Agent/PLAAGTActor.hpp"
+#include "Agent/Actor/PLAAGTActor.hpp"
+#include "Agent/Actor/PLAAGTActorForRect.hpp"
+#include "Agent/Actor/PLAAGTActorForCircle.hpp"
+#include "Agent/Actor/PLAAGTActorForTile.hpp"
 #include "Agent/PLAAGTTimeline.hpp"
 #include "Agent/PLAAGTTimelineNode.hpp"
 #include "Agent/PLAAGTMotion.hpp"
@@ -110,46 +113,58 @@ namespace Plain
 
   namespace Actor
   {
-    //using Agent = PLAAGTActor;
-    PLAAGTActor CreateRect(const PLAVec2f &aOrigin,
-                           const PLAVec2f &aSize,
-                           const PLAColor &aFillColor);
-    PLAAGTActor CreateRect(const PLAVec3f &aPivot,
-                           const PLATransform &aTransform,
-                           const PLARect &aRect);
-    PLAAGTActor CreateRect(const PLAVec3f &aPivot,
-                           const PLATransform &aTransform,
-                           const PLARect &aRect,
-                           const PLAColor &aFillColor);
-    PLAAGTActor CreateRect(const PLAVec3f &aPivot,
-                           const PLATransform &aTransform,
-                           const PLARect &aRect,
-                           const std::string &aImage,
-                           const PLARect &aClip);
-    PLAAGTActor CreateCircle(const PLAVec2f &aOrigin,
-                             const PLAFloat aRadius,
-                             const PLAColor &aFillColor);
-    PLAAGTActor CreateCircle(const PLAVec3f &aPivot,
-                             const PLATransform &aTransform,
-                             const PLACircle &aCircle);
-    PLAAGTActor CreateCircle(const PLAVec3f &aPivot,
-                             const PLATransform &aTransform,
-                             const PLACircle &aCircle,
-                             const PLAColor &aFillColor);
-    PLAAGTActor CreateCircle(const PLAVec3f &aPivot,
-                             const PLATransform &aTransform,
-                             const PLACircle &aCircle,
-                             const std::string &aImage,
-                             const PLARect &aClip);
-    PLAAGTActor CreateTile(const PLAVec2f &aOffset,
-                           const std::string &aImageName,
-                           const GRAVec2<PLASize> &aTileSize,
-                           const GRAVec2<PLASize> &aChipSize,
-                           const IPLATileLayerDataSource *aDataSource);
+    //using Agent = Actor;
+    PLAAGTActorForRect CreateRect(const PLAVec2f &aOrigin,
+                                  const PLAVec2f &aSize,
+                                  const PLAColor &aFillColor);
+    PLAAGTActorForRect CreateRect(const PLAVec3f &aPivot,
+                                  const PLATransform &aTransform,
+                                  const PLARect &aRect);
+    PLAAGTActorForRect CreateRect(const PLAVec3f &aPivot,
+                                  const PLATransform &aTransform,
+                                  const PLARect &aRect,
+                                  const PLAColor &aFillColor);
+    PLAAGTActorForRect CreateRect(const PLAVec3f &aPivot,
+                                  const PLATransform &aTransform,
+                                  const PLARect &aRect,
+                                  const std::string &aImage,
+                                  const PLARect &aClip);
+    PLAAGTActorForCircle CreateCircle(const PLAVec2f &aOrigin,
+                                      const PLAFloat aRadius,
+                                      const PLAColor &aFillColor);
+    PLAAGTActorForCircle CreateCircle(const PLAVec3f &aPivot,
+                                      const PLATransform &aTransform,
+                                      const PLACircle &aCircle);
+    PLAAGTActorForCircle CreateCircle(const PLAVec3f &aPivot,
+                                      const PLATransform &aTransform,
+                                      const PLACircle &aCircle,
+                                      const PLAColor &aFillColor);
+    PLAAGTActorForCircle CreateCircle(const PLAVec3f &aPivot,
+                                      const PLATransform &aTransform,
+                                      const PLACircle &aCircle,
+                                      const std::string &aImage,
+                                      const PLARect &aClip);
+    PLAAGTActorForTile CreateTile(const PLAVec2f &aOffset,
+                                  const std::string &aImageName,
+                                  const GRAVec2<PLASize> &aTileSize,
+                                  const GRAVec2<PLASize> &aChipSize,
+                                  const IPLATileLayerDataSource *aDataSource);
 
     PLAAGTActor Assign(PLAId aId);
     PLAAGTActor Assign(const PLAString &aName);
     PLAAGTActor AssignWithTag(PLAId aTag);
+
+    PLAAGTActorForRect AssignRect(PLAId aId);
+    PLAAGTActorForRect AssignRect(const PLAString &aName);
+    PLAAGTActorForRect AssignRectWithTag(PLAId aTag);
+
+    PLAAGTActorForCircle AssignCircle(PLAId aId);
+    PLAAGTActorForCircle AssignCircle(const PLAString &aName);
+    PLAAGTActorForCircle AssignCircleWithTag(PLAId aTag);
+
+    PLAAGTActorForTile AssignTile(PLAId aId);
+    PLAAGTActorForTile AssignTile(const PLAString &aName);
+    PLAAGTActorForTile AssignTileWithTag(PLAId aTag);
   };
 
   /*

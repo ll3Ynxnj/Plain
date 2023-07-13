@@ -1,3 +1,5 @@
+// Copyright (c) 2023. CLAYWORK Inc. All rights reserved.
+
 //
 // Created by Kentaro Kawai on 2022/04/28.
 //
@@ -6,9 +8,9 @@
 #define ANHR_PLAAGTACTOR_HPP
 
 
-#include "PLAAgent.hpp"
-#include "PLAAGTMotion.hpp"
-#include "PLAAGTImageClip.hpp"
+#include "Core/Agent/PLAAgent.hpp"
+#include "Core/Agent/PLAAGTMotion.hpp"
+#include "Core/Agent/PLAAGTImageClip.hpp"
 #include "PLAFunctionCode.hpp"
 
 #include "Primitive/PLAPRMColor.hpp"
@@ -18,7 +20,7 @@
 
 class PLAOBJActor;
 
-class PLAAGTActor final : public PLAAgent
+class PLAAGTActor : public PLAAgent
 {
 public:
   /// Agent is const method only.
@@ -70,6 +72,5 @@ protected:
   const PLAOBJActor *GetActor() const;
   PLAOBJActor *RefActor() const;
 };
-
 
 #endif //ANHR_PLAAGTACTOR_HPP

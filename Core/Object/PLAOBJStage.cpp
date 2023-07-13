@@ -1,6 +1,6 @@
 #include "PLAOBJStage.hpp"
 #include "Agent/PLAAGTStage.hpp"
-#include "Agent/PLAAGTActor.hpp"
+#include "Core/Agent/Actor/PLAAGTActor.hpp"
 
 PLAOBJStage *PLAOBJStage::Create()
 {

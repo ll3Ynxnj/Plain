@@ -10,7 +10,10 @@
 
 #include "Object/PLAOBJError.hpp"
 
-#include "Agent/PLAAGTActor.hpp"
+#include "Core/Agent/Actor/PLAAGTActor.hpp"
+#include "Core/Agent/Actor/PLAAGTActorForRect.hpp"
+#include "Core/Agent/Actor/PLAAGTActorForCircle.hpp"
+#include "Core/Agent/Actor/PLAAGTActorForTile.hpp"
 
 // 不要なのでは？同じくBinderItemであるPLAOBJResourceには無い。要調査。
 // It's not necessary? PLAOBJResource, which is also a BinderItem, does not have it. Need to investigate.
@@ -286,6 +289,24 @@ PLAAGTActor PLAOBJActor::AssignAgent() {
   return PLAAGTActor(this);
 }
 
+PLAAGTActorForRect PLAOBJActor::AssignAgentForRect() {
+  if (this->GetLayerType() != PLALayerType::Rect)
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Layer type is not rect."); }
+  return PLAAGTActorForRect(this);
+}
+
+PLAAGTActorForCircle PLAOBJActor::AssignAgentForCircle() {
+  if (this->GetLayerType() != PLALayerType::Circle)
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Layer type is not circle."); }
+  return PLAAGTActorForCircle(this);
+}
+
+PLAAGTActorForTile PLAOBJActor::AssignAgentForTile() {
+  if (this->GetLayerType() != PLALayerType::Tile)
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Layer type is not tile."); }
+  return PLAAGTActorForTile(this);
+}
+
 PLAId PLAOBJActor::GetActorTag() const {
   return this->GRAOBJBinder<PLAOBJActor>::Item::GetTag();
 }
@@ -388,31 +409,31 @@ PLAOBJActor *PLAOBJActor::RefResponsiveActorWithPoint
   return nullptr;
 }
 
-PLALYRPoint *PLAOBJActor::RefLYRPoint()
+PLALYRPoint *PLAOBJActor::RefLayerForPoint()
 {
   if (_layer->GetLayerType() != PLALayerType::Point) { return nullptr; }
   return static_cast<PLALYRPoint *>(_layer);
 }
 
-PLALYRLine *PLAOBJActor::RefLYRLine()
+PLALYRLine *PLAOBJActor::RefLayerForLine()
 {
   if (_layer->GetLayerType() != PLALayerType::Line) { return nullptr; }
   return static_cast<PLALYRLine *>(_layer);
 }
 
-PLALYRRect *PLAOBJActor::RefLYRRect()
+PLALYRRect *PLAOBJActor::RefLayerForRect()
 {
   if (_layer->GetLayerType() != PLALayerType::Rect) { return nullptr; }
   return static_cast<PLALYRRect *>(_layer);
 }
 
-PLALYRCircle *PLAOBJActor::RefLYRCircle()
+PLALYRCircle *PLAOBJActor::RefLayerForCircle()
 {
   if (_layer->GetLayerType() != PLALayerType::Circle) { return nullptr; }
   return static_cast<PLALYRCircle *>(_layer);
 }
 
-PLALYRTile *PLAOBJActor::RefLYRTile()
+PLALYRTile *PLAOBJActor::RefLayerForTile()
 {
   if (_layer->GetLayerType() != PLALayerType::Tile) { return nullptr; }
   return static_cast<PLALYRTile *>(_layer);
@@ -420,7 +441,7 @@ PLALYRTile *PLAOBJActor::RefLYRTile()
 
 void PLAOBJActor::AddTileMotion(const PLAVec2s &aAddress, PLATMLMotion *aThread)
 {
-  PLALYRTile *layer = this->RefLYRTile();
+  PLALYRTile *layer = this->RefLayerForTile();
   if (!layer) {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "LayerType is not Tile.");

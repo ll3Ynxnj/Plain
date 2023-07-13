@@ -1,9 +1,11 @@
+// Copyright (c) 2023. CLAYWORK Inc. All rights reserved.
+
 //
 // Created by Kentaro Kawai on 2022/04/28.
 //
 
 #include "PLAAGTActor.hpp"
-#include "PLAAGTMotion.hpp"
+#include "Core/Agent/PLAAGTMotion.hpp"
 
 #include "Object/Actor/PLAOBJActor.hpp"
 
