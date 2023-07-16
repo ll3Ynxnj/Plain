@@ -138,6 +138,7 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
   const PLAOBJLayer *layer = aActor->GetLayer();
   PLAColor color = aActor->GetColor();
   color *= aColor;
+
   switch (layer->GetLayerType())
   {
     case PLALayerType::Rect :
@@ -377,16 +378,18 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
   GRAVec2<PLASize> tileSize = aLayer->GetTileSize();
   GRAVec2<PLASize> chipSize = aLayer->GetChipSize();
 
+  PLAVec3f offset = aLayer->GetOffset();
+
   GLfloat pxTable[tileSize.x];
   for (PLAInt i = 0; i < tileSize.x; i++) {
-    GLfloat px = chipSize.x * i;
+    GLfloat px = offset.x + chipSize.x * i;
     pxTable[i] = px;
     if (kIsDebug) { GRA_PRINT("pxTable[%d]: %.2f\n", i, pxTable[i]); }
   }
 
   GLfloat pyTable[tileSize.y];
   for (PLAInt i = 0; i < tileSize.y; i++) {
-    GLfloat py = chipSize.x * i;
+    GLfloat py = offset.y + chipSize.x * i;
     pyTable[i] = py;
     if (kIsDebug) { GRA_PRINT("pyTable[%d]: %.2f\n", i, pyTable[i]); }
   }
