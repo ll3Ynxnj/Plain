@@ -165,16 +165,16 @@ PLAAGTModel Plain::Model::Assign(const PLAString &aName)
 }
 
 PLAAGTActorForRect Plain::Actor::CreateRect(const PLAVec2f &aOrigin,
-                                     const PLAVec2f &aSize,
-                                     const PLAColor &aFillColor)
+                                            const PLAVec2f &aSize,
+                                            const PLAColor &aFillColor)
 {
   PLAOBJActor *actor = PLAOBJActor::CreateRect(aOrigin, aSize, aFillColor);
   return actor->AssignAgentForRect();
 }
 
 PLAAGTActorForRect Plain::Actor::CreateRect(const PLAVec3f &aPivot,
-                                     const PLATransform &aTransform,
-                                     const PLARect &aRect)
+                                            const PLATransform &aTransform,
+                                            const PLARect &aRect)
 {
   PLAOBJActor *actor = PLAOBJActor::CreateRect(aPivot, kPLAColorNone, aTransform,
                                                aRect);
@@ -182,9 +182,9 @@ PLAAGTActorForRect Plain::Actor::CreateRect(const PLAVec3f &aPivot,
 }
 
 PLAAGTActorForRect Plain::Actor::CreateRect(const PLAVec3f &aPivot,
-                                     const PLATransform &aTransform,
-                                     const PLARect &aRect,
-                                     const PLAColor &aFillColor)
+                                            const PLATransform &aTransform,
+                                            const PLARect &aRect,
+                                            const PLAColor &aFillColor)
 {
   PLAOBJActor *actor = PLAOBJActor::CreateRect(aPivot, kPLAColorWhite, aTransform,
                                                aRect, aFillColor);
@@ -192,10 +192,10 @@ PLAAGTActorForRect Plain::Actor::CreateRect(const PLAVec3f &aPivot,
 }
 
 PLAAGTActorForRect Plain::Actor::CreateRect(const PLAVec3f &aPivot,
-                                     const PLATransform &aTransform,
-                                     const PLARect &aRect,
-                                     const std::string &aImage,
-                                     const PLARect &aClip)
+                                            const PLATransform &aTransform,
+                                            const PLARect &aRect,
+                                            const std::string &aImage,
+                                            const PLARect &aClip)
 {
   PLAOBJActor *actor = PLAOBJActor::CreateRect(aPivot, kPLAColorWhite, aTransform,
                                                aRect, aImage, aClip);
@@ -203,16 +203,16 @@ PLAAGTActorForRect Plain::Actor::CreateRect(const PLAVec3f &aPivot,
 }
 
 PLAAGTActorForCircle Plain::Actor::CreateCircle(const PLAVec2f &aOrigin,
-                                       const PLAFloat aRadius,
-                                       const PLAColor &aFillColor)
+                                                const PLAFloat aRadius,
+                                                const PLAColor &aFillColor)
 {
   PLAOBJActor *actor = PLAOBJActor::CreateCircle(aOrigin, aRadius, aFillColor);
   return actor->AssignAgentForCircle();
 }
 
 PLAAGTActorForCircle Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
-                                       const PLATransform &aTransform,
-                                       const PLACircle &aCircle)
+                                                const PLATransform &aTransform,
+                                                const PLACircle &aCircle)
 {
   PLAOBJActor *actor = PLAOBJActor::CreateCircle(aPivot, kPLAColorWhite, aTransform,
                                                  aCircle);
@@ -220,9 +220,9 @@ PLAAGTActorForCircle Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
 }
 
 PLAAGTActorForCircle Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
-                                       const PLATransform &aTransform,
-                                       const PLACircle &aCircle,
-                                       const PLAColor &aFillColor)
+                                                const PLATransform &aTransform,
+                                                const PLACircle &aCircle,
+                                                const PLAColor &aFillColor)
 {
   PLAOBJActor *actor = PLAOBJActor::CreateCircle(aPivot, kPLAColorWhite, aTransform,
                                                  aCircle, aFillColor);
@@ -230,10 +230,10 @@ PLAAGTActorForCircle Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
 }
 
 PLAAGTActorForCircle Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
-                                       const PLATransform &aTransform,
-                                       const PLACircle &aCircle,
-                                       const std::string &aImage,
-                                       const PLARect &aClip)
+                                                const PLATransform &aTransform,
+                                                const PLACircle &aCircle,
+                                                const std::string &aImage,
+                                                const PLARect &aClip)
 {
   PLAOBJActor *actor = PLAOBJActor::CreateCircle(aPivot, kPLAColorWhite, aTransform,
                                                  aCircle, aImage, aClip);
@@ -241,10 +241,10 @@ PLAAGTActorForCircle Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
 }
 
 PLAAGTActorForTile Plain::Actor::CreateTile(const PLAVec2f &aOffset,
-                                     const std::string &aImageName,
-                                     const GRAVec2<PLASize> &aTileSize,
-                                     const GRAVec2<PLASize> &aChipSize,
-                                     const IPLATileLayerDataSource *aDataSource)
+                                            const std::string &aImageName,
+                                            const GRAVec2<PLASize> &aTileSize,
+                                            const GRAVec2<PLASize> &aChipSize,
+                                            const IPLATileLayerDataSource *aDataSource)
 {
   PLAOBJActor *actor = PLAOBJActor::CreateTile(aOffset, aImageName, aTileSize,
                                                aChipSize, aDataSource);
