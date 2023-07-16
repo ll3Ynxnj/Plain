@@ -120,6 +120,14 @@ void PLAAGTActor::SetActorTag(PLAId aActorTag) const
   actor->SetActorTag(aActorTag);
 }
 
+void PLAAGTActor::AddMotion(const PLAAGTMotion &aMotion) const
+{
+  auto id = aMotion.GetObjectId();
+  auto motion = PLATMLMotion::Object(id);
+  auto actor = this->RefActor();
+  actor->AddThread(motion);
+}
+
 void PLAAGTActor::AddTileMotion(const PLAVec2s &aAddress, const PLAAGTMotion &aMotion) const
 {
   auto motionId = aMotion.GetObjectId();

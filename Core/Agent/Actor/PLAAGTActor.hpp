@@ -51,7 +51,8 @@ public:
   PLAId GetActorTag() const;
   void SetActorTag(PLAId aTag) const;
 
-  void AddTileMotion(const PLAVec2s &aAddress, const PLAAGTMotion &aThread) const;
+  void AddMotion(const PLAAGTMotion &aMotion) const;
+  void AddTileMotion(const PLAVec2s &aAddress, const PLAAGTMotion &aMotion) const;
 
   /// Path-through to InputContext /////////////////////////////////////////////
   void SetFunctorForInputWithTouch
