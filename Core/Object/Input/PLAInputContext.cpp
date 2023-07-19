@@ -15,8 +15,8 @@ PLAInputContext::~PLAInputContext()
 
 }
 
-bool PLAInputContext::IsResponsive(PLAInputDeviceType aDeviceType,
-                                   PLAInputSignalCode aSignalCode)
+bool PLAInputContext::IsInputResponsive(PLAInputDeviceType aDeviceType,
+                                        PLAInputSignalCode aSignalCode)
 {
   std::map<PLAInputDeviceType, std::map<PLAInputSignalCode,
   std::map<PLAInputActionCode,
@@ -83,10 +83,11 @@ void PLAInputContext::SetFunctorForInputWithKeyboard
 void PLAInputContext::Input(const PLAInput &aInput,
                             PLAInputActionCode aActionCode)
 {
+  if (!_active) { return; }
   // The following responsive checks are redundant because they are performed during context search.
   // 以下のレスポンシブチェックは、コンテキスト検索時に実行しているので冗長な処理。
-  if (!this->IsResponsive(aInput.GetInputDeviceType(),
-                          aInput.GetInputSignalCode())) { return; }
+  if (!this->IsInputResponsive(aInput.GetInputDeviceType(),
+                               aInput.GetInputSignalCode())) { return; }
 
   std::map<PLAInputActionCode,
     std::function<void(PLAInputContext *, const PLAInput &)>> actions =

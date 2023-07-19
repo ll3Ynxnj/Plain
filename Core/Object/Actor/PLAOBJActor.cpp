@@ -378,7 +378,7 @@ PLAOBJActor *PLAOBJActor::RefResponsiveActor(const PLAInputDeviceType aDeviceTyp
     if (actor) { return actor; }
   }
 
-  if (this->IsResponsive(aDeviceType, aSignalCode)) { return this; }
+  if (this->IsInputResponsive(aDeviceType, aSignalCode)) { return this; }
 
   return nullptr;
 }
@@ -403,7 +403,7 @@ PLAOBJActor *PLAOBJActor::RefResponsiveActorWithPoint
 
   if (this->IsCollideWithPoint(aPoint))
   {
-    if (this->IsResponsive(aDeviceType, aSignalCode)) { return this; }
+    if (this->IsInputResponsive(aDeviceType, aSignalCode)) { return this; }
   }
 
   return nullptr;

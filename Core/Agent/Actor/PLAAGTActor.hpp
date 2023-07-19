@@ -55,6 +55,7 @@ public:
   void AddTileMotion(const PLAVec2s &aAddress, const PLAAGTMotion &aMotion) const;
 
   /// Path-through to InputContext /////////////////////////////////////////////
+  void SetInputActive(bool aActive) const;
   void SetFunctorForInputWithTouch
     (PLAInputSignalCodeForTouch aSignalCode,
      PLAInputActionCodeForTouch aActionCode,

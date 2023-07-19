@@ -136,6 +136,12 @@ void PLAAGTActor::AddTileMotion(const PLAVec2s &aAddress, const PLAAGTMotion &aM
   actor->AddTileMotion(aAddress, motion);
 }
 
+void PLAAGTActor::SetInputActive(bool aActive) const
+{
+  auto actor = this->RefActor();
+  actor->SetInputActive(aActive);
+}
+
 void PLAAGTActor::SetFunctorForInputWithTouch
   (PLAInputSignalCodeForTouch aSignalCode,
    PLAInputActionCodeForTouch aActionCode,

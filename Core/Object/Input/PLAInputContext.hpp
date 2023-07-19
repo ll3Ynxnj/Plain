@@ -9,6 +9,8 @@
 
 class PLAInputContext
 {
+  PLABool _active = true;
+
   std::map<PLAInputDeviceType, std::map<PLAInputSignalCode,
   std::map<PLAInputActionCode,
   std::function<void(PLAInputContext *, const PLAInput &)>>>> _fInputFunctors =
@@ -20,8 +22,9 @@ public :
   PLAInputContext();
   ~PLAInputContext();
 
-  bool IsResponsive(PLAInputDeviceType aDeviceType,
-                    PLAInputSignalCode aSignalCode);
+  bool IsInputActive() const { return _active; };
+  bool IsInputResponsive(PLAInputDeviceType aDeviceType,
+                         PLAInputSignalCode aSignalCode);
   void InputWithTouch(const PLAInput &aInput,
                       PLAInputActionCodeForTouch aAction);
   void InputWithMouse(const PLAInput &aInput,
@@ -29,6 +32,7 @@ public :
   void InputWithKeyboard(const PLAInput &aInput,
                          PLAInputActionCodeForKeyboard aAction);
 
+  void SetInputActive(bool aValue) { _active = aValue; };
   void SetFunctorForInputWithTouch
     (PLAInputSignalCodeForTouch aSignalCode,
      PLAInputActionCodeForTouch aActionCode,
