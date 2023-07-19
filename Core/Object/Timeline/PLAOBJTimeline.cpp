@@ -79,6 +79,10 @@ void PLAOBJTimeline::AddNode(PLAOBJTimelineNode *aNode)
 
 void PLAOBJTimeline::AddThread(PLAOBJTimeline *aThread)
 {
+  if (aThread->_parent) {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "The thread is already added to another thread.");
+  }
   aThread->_parent = this;
   _threads[aThread->GetObjectId()] = aThread;
 }
