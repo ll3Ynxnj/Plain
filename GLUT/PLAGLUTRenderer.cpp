@@ -115,6 +115,31 @@ void PLAGLUTRenderer::GetRectTexCoords(GLfloat aCoords[8],
   aCoords[7] = aPos.y + aSize.y;
 }
 
+void PLAGLUTRenderer::GetMotionProperties(const PLATMLMotion *aNode,
+                                          MotionProperties *aProperties) {
+  //PLAVec3f translation = kPLAVec3fNone;
+  //PLAVec3f rotation = kPLAVec3fNone;
+  //PLAVec3f scale = kPLAVec3fNorm;
+  if (aNode)
+  {
+    std::map<PLATMLMotionType, PLAProperty> properties =
+      std::map<PLATMLMotionType, PLAProperty>();
+    aNode->GetProperties(&properties);
+    if (properties.contains(PLATMLMotionType::Translation))
+    {
+      aProperties->translation = properties.at(PLATMLMotionType::Translation).GetVec3f();
+    }
+    if (properties.contains(PLATMLMotionType::Rotation))
+    {
+      aProperties->rotation = properties.at(PLATMLMotionType::Rotation).GetVec3f();
+    }
+    if (properties.contains(PLATMLMotionType::Scale))
+    {
+      aProperties->scale = properties.at(PLATMLMotionType::Scale).GetVec3f();
+    }
+  }
+}
+
 void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) const
 {
   /*
@@ -139,16 +164,31 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
   PLAColor color = aActor->GetColor();
   color *= aColor;
 
+  auto motion = aActor->GetMotion();
+
+  if (motion) {
+    if (motion->GetObjectName() == "Telop")
+    {
+      GRA_TRACE("");
+    }
+  }
+  MotionProperties motionProperties = MotionProperties();
+  GetMotionProperties(motion, &motionProperties);
+  PLAGLUTRenderer::GetMotionProperties(motion, &motionProperties);
+  glTranslatef( motionProperties.translation.x,
+               -motionProperties.translation.y,
+                motionProperties.translation.z);
+
   switch (layer->GetLayerType())
   {
     case PLALayerType::Rect :
-      this->DrawRect(static_cast<const PLALYRRect *>(layer), color);
+      this->DrawRect(static_cast<const PLALYRRect *>(layer), color, motion);
       break;
     case PLALayerType::Circle :
-      this->DrawCircle(static_cast<const PLALYRCircle *>(layer), color);
+      this->DrawCircle(static_cast<const PLALYRCircle *>(layer), color, motion);
       break;
     case PLALayerType::Tile :
-      this->DrawTile(static_cast<const PLALYRTile *>(layer), color);
+      this->DrawTile(static_cast<const PLALYRTile *>(layer), color, motion);
       break;
     default :
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
@@ -163,7 +203,8 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
   glPopMatrix();
 }
 
-void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor) const
+void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
+                               const PLATMLMotion *aMotion) const
 {
   /*
   GRA_PRINT("DrawRect(aLayer: %s,"
@@ -183,6 +224,13 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor)
   else
   {
     glDisable(GL_TEXTURE_2D);
+  }
+
+  if (aMotion) {
+    if (aMotion->GetObjectName() == "Telop")
+    {
+      GRA_TRACE("");
+    }
   }
 
   const PLAVec3f offset = aLayer->GetOffset();
@@ -254,7 +302,8 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor)
   glEnd();
 }
 
-void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aColor) const
+void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aColor,
+                                 const PLATMLMotion *aMotion) const
 {
   GRA_PRINT("DrawCircle(aLayer: %s,"
             " aColor: {r: %.2f, g: %.2f, b: %.2f, a: %.2f})\n",
@@ -353,7 +402,8 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
 }
 
 void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
-                               const PLAColor &aColor) const
+                               const PLAColor &aColor,
+                               const PLATMLMotion *aMotion) const
 {
   /*
   GRA_PRINT("DrawTile(aLayer: %s,"
@@ -420,35 +470,10 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       if (chip.code == kPLATileChipCodeNone) { continue; }
 
       const PLATMLMotion *motionThread = aLayer->GetMotionThread(address);
-      PLAVec3f translation = kPLAVec3fNone;
-      PLAVec3f rotation = kPLAVec3fNone;
-      PLAVec3f scale = kPLAVec3fNorm;
-      if (motionThread)
-      {
-        std::map<PLATMLMotionType, PLAProperty> properties =
-          std::map<PLATMLMotionType, PLAProperty>();
-        motionThread->GetProperties(&properties);
-        if (properties.contains(PLATMLMotionType::Translation))
-        {
-          translation = properties.at(PLATMLMotionType::Translation).GetVec3f();
-        }
-        if (properties.contains(PLATMLMotionType::Rotation))
-        {
-          rotation = properties.at(PLATMLMotionType::Rotation).GetVec3f();
-        }
-        if (properties.contains(PLATMLMotionType::Scale))
-        {
-          scale = properties.at(PLATMLMotionType::Scale).GetVec3f();
-        }
-      }
-
-      if (translation.x || translation.y) {
-        GRA_PRINT("translation: %f, %f, %f\n",
-                  translation.x, translation.y, translation.z);
-        GRA_TRACE("");
-      }
-
-      const PLAVec3f offset = PLAVec3f(pxTable[x], pyTable[y], 0) + translation;
+      MotionProperties motionProperties = MotionProperties();
+      GetMotionProperties(motionThread, &motionProperties);
+      const PLAVec3f offset =
+        PLAVec3f(pxTable[x], pyTable[y], 0) + motionProperties.translation;
       static const PLAUInt kNumVertices = 12;
       GLfloat vertices[kNumVertices] = {
         offset.x,

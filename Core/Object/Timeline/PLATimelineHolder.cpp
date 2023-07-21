@@ -13,10 +13,10 @@ PLATimelineHolder::PLATimelineHolder()
 
 }
 
-PLATimelineHolder::PLATimelineHolder(PLAOBJTimeline *aThread):
-  _thread(aThread)
+PLATimelineHolder::PLATimelineHolder(PLAOBJTimeline *aTimeline):
+  _timeline(aTimeline)
 {
-  PLAApp::Instance()->AddTimelineThread(aThread);
+  PLAApp::Instance()->AddTimelineThread(aTimeline);
 }
 
 PLATimelineHolder::~PLATimelineHolder() noexcept
@@ -26,16 +26,16 @@ PLATimelineHolder::~PLATimelineHolder() noexcept
 
 void PLATimelineHolder::AddThread(PLAOBJTimeline *aThread)
 {
-  if (!_thread) {
-    _thread = PLAOBJTimeline::Create(nullptr);
-    _thread->SetHolder(this);
-    PLAApp::Instance()->AddTimelineThread(_thread);
+  if (!_timeline) {
+    _timeline = PLAOBJTimeline::Create(nullptr);
+    _timeline->SetHolder(this);
+    PLAApp::Instance()->AddTimelineThread(_timeline);
   }
-  _thread->AddThread(aThread);
+  _timeline->AddThread(aThread);
 }
 
-void PLATimelineHolder::OnFinishThread()
+void PLATimelineHolder::OnFinishTimeline()
 {
-  //_thread->Unbind();
-  _thread = nullptr;
+  //_timeline->Unbind();
+  _timeline = nullptr;
 }

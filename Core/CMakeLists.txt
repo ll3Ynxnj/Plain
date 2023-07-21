@@ -23,6 +23,7 @@ add_library(Plain-Core STATIC
   Object/Timeline/PLAOBJTimelineNode.cpp
   Object/Timeline/PLAOBJTimeline.cpp
   Object/Timeline/PLATimelineHolder.cpp
+  Object/Timeline/PLAMotionHolder.cpp
   Object/Timeline/PLATMLMotionNode.cpp
   Object/Timeline/PLATMLMotion.cpp
 

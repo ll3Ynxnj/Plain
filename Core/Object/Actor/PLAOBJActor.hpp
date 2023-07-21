@@ -19,7 +19,7 @@
 #include "Primitive/PLAPRMTransform.hpp"
 #include "Object/Layer/PLAOBJLayer.hpp"
 #include "Object/Layer/IPLATileLayerDataSource.hpp"
-#include "Object/Timeline/PLATimelineHolder.hpp"
+#include "Object/Timeline/PLAMotionHolder.hpp"
 #include "Object/Timeline/PLATMLMotionNode.hpp"
 #include "Object/Timeline/PLATMLMotion.hpp"
 
@@ -34,7 +34,7 @@ class PLAAGTActorForTile;
 class PLAOBJActor final :
   public PLAObject,
   public PLAInputContext,
-  public PLATimelineHolder,
+  public PLAMotionHolder,
   public PLAOBJPhase::Listener,
   private GRAOBJBinder<PLAOBJActor>::Item
 {

@@ -47,6 +47,11 @@ PLAOBJTimeline::~PLAOBJTimeline() noexcept
 void PLAOBJTimeline::Update() {
   DBG_PLANode_Update_Indent += "  ";
 
+  if (this->GetObjectName() == "Telop")
+  {
+    ;
+  }
+
   //-- Update threads.
   for (auto thread: _threads) {
     thread.second->Update();
@@ -67,7 +72,7 @@ void PLAOBJTimeline::Update() {
   {
     if (_parent) { _parent->OnFinishThread(this); }
     this->Clear();
-    if (_holder) { _holder->OnFinishThread(); }
+    if (_holder) { _holder->OnFinishTimeline(); }
   }
 }
 

@@ -45,13 +45,14 @@ PLALYRTile::~PLALYRTile()
 void PLALYRTile::AddMotionThread(const PLAVec2s &aAddress,
                                  PLATMLMotion *aThread)
 {
-  _timelineHolders[aAddress.y][aAddress.x]->PLATimelineHolder::AddThread(aThread);
+  _timelineHolders[aAddress.y][aAddress.x]->PLATimelineHolder::AddThread(
+    aThread);
 };
 
 const PLATMLMotion *PLALYRTile::GetMotionThread(const PLAVec2s &aAddress) const
 {
   return static_cast<const PLATMLMotion *>
-  (_timelineHolders[aAddress.y][aAddress.x]->GetNodeThread());
+  (_timelineHolders[aAddress.y][aAddress.x]->GetTimeline());
 };
 
 PLARect PLALYRTile::GetRect() const
@@ -97,4 +98,3 @@ bool PLALYRTile::IsCollideWithCircle(const PLACircle &aCircle) const
 {
   return PLACollision::IsCollideWithRectAndCircle(this->GetRect(), aCircle);
 }
-

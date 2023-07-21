@@ -9,6 +9,11 @@
 
 class PLAGLUTRenderer : public PLAOBJRenderer
 {
+  struct MotionProperties {
+    PLAVec3f translation = kPLAVec3fNone;
+    PLAVec3f rotation = kPLAVec3fNone;
+    PLAVec3f scale = kPLAVec3fNone;
+  };
 public:
   static PLAGLUTRenderer *Create();
 
@@ -29,11 +34,15 @@ private :
                             const PLAColor &aColor);
   static void GetRectTexCoords(GLfloat aCoords[8],
                                const PLAVec2f &aPos, const PLAVec2f &aSize);
-
+  static void GetMotionProperties(const PLATMLMotion *aNode,
+                                  MotionProperties *aMotionProperties);
   void Draw(const PLAOBJActor *aActor, const PLAColor &aColor) const;
-  void DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor) const;
-  void DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aColor) const;
-  void DrawTile(const PLALYRTile *aLayer, const PLAColor &aColor) const;
+  void DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
+                const PLATMLMotion *aMotion) const;
+  void DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aColor,
+                  const PLATMLMotion *aMotion) const;
+  void DrawTile(const PLALYRTile *aLayer, const PLAColor &aColor,
+                const PLATMLMotion *aMotion) const;
 };
 
 #endif // PLAIN_ENGINE_PLAGLUTRENDERER_HPP

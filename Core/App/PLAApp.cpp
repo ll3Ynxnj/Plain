@@ -128,8 +128,8 @@ void PLAApp::RefreshScreenSize(int aWidth, int aHeight)
   else if (aWidth > aHeight) { stageSize.x *= PLAFloat(aWidth ) / PLAFloat(aHeight); }
 
   _contentScaleFactor = PLAVec3f(frameSize.x / stageSize.x,
-                                frameSize.y / stageSize.y,
-                                frameSize.z / stageSize.z);
+                                 frameSize.y / stageSize.y,
+                                 frameSize.z / stageSize.z);
 
   _renderer->RefreshScreenSize(frameSize, stageSize);
   _stage->SetSize(stageSize);

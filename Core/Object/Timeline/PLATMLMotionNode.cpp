@@ -131,6 +131,9 @@ PLAAGTMotionNode PLATMLMotionNode::AssignAgent()
 
 void PLATMLMotionNode::GetProperty(std::map<PLATMLMotionType, PLAProperty> *aProperties) const
 {
+  if (this->GetObjectName() == "TelopNode") {
+    ;
+  }
   if (_type == PLATMLMotionType::None) { return; }
   if (!aProperties->contains(_type))
   {

@@ -85,6 +85,9 @@ PLAOBJTimelineNode::~PLAOBJTimelineNode()
 
 void PLAOBJTimelineNode::Update()
 {
+  if (this->GetObjectName() == "TelopNode") {
+    ;
+  }
   //-- OnStart
   if (_steps == 0) { this->OnStart(); }
 

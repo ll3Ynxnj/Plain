@@ -10,18 +10,18 @@ class PLAOBJTimeline;
 
 class PLATimelineHolder
 {
-  PLAOBJTimeline *_thread = nullptr;
+  PLAOBJTimeline *_timeline = nullptr;
 
 public:
   PLATimelineHolder();
-  PLATimelineHolder(PLAOBJTimeline *aThread);
+  PLATimelineHolder(PLAOBJTimeline *aTimeline);
   virtual ~PLATimelineHolder() noexcept;
 
   void AddThread(PLAOBJTimeline *aThread);
 
-  const PLAOBJTimeline *GetNodeThread() const { return _thread; }
+  const PLAOBJTimeline *GetTimeline() const { return _timeline; }
 
-  /*virtual*/ void OnFinishThread();
+  /*virtual*/ void OnFinishTimeline();
 };
 
 #endif //ANHR_PLATIMELINEHOLDER_HPP
