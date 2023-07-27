@@ -25,39 +25,50 @@ PLATMLMotionNode *PLATMLMotionNode::Create()
   return motion;
 }
 
-PLATMLMotionNode *PLATMLMotionNode::CreateColor(const PLAColor &aBegin, const PLAColor &aEnd,
+PLATMLMotionNode *PLATMLMotionNode::CreateColor(const PLAColor &aBegin,
+                                                const PLAColor &aEnd,
+                                                PLAEasing::Type aEasingType,
                                                 PLATimeInterval aDuration)
 {
   PLATMLMotionNode *motion =
-    new PLATMLMotionNode(PLATMLMotionType::Color, aBegin, aEnd, aDuration);
+    new PLATMLMotionNode(PLATMLMotionType::Color, aBegin, aEnd,
+                         aEasingType, aDuration);
   motion->Bind();
   return motion;
 }
 
 PLATMLMotionNode *PLATMLMotionNode::CreateTranslation(const PLAVec3f &aBegin,
                                                       const PLAVec3f &aEnd,
+                                                      PLAEasing::Type aEasingType,
                                                       PLATimeInterval aDuration)
 {
   PLATMLMotionNode *motion =
-    new PLATMLMotionNode(PLATMLMotionType::Translation, aBegin, aEnd, aDuration);
+    new PLATMLMotionNode(PLATMLMotionType::Translation, aBegin, aEnd,
+                         aEasingType, aDuration);
   motion->Bind();
   return motion;
 }
 
-PLATMLMotionNode *PLATMLMotionNode::CreateRotation(const PLAVec3f &aBegin, const PLAVec3f &aEnd,
+PLATMLMotionNode *PLATMLMotionNode::CreateRotation(const PLAVec3f &aBegin,
+                                                   const PLAVec3f &aEnd,
+                                                   PLAEasing::Type aEasingType,
                                                    PLATimeInterval aDuration)
 {
   PLATMLMotionNode *motion =
-    new PLATMLMotionNode(PLATMLMotionType::Rotation, aBegin, aEnd, aDuration);
+    new PLATMLMotionNode(PLATMLMotionType::Rotation, aBegin, aEnd,
+                         aEasingType, aDuration);
   motion->Bind();
   return motion;
 }
 
-PLATMLMotionNode *PLATMLMotionNode::CreateScale(const PLAVec3f &aBegin, const PLAVec3f &aEnd,
+PLATMLMotionNode *PLATMLMotionNode::CreateScale(const PLAVec3f &aBegin,
+                                                const PLAVec3f &aEnd,
+                                                PLAEasing::Type aEasingType,
                                                 PLATimeInterval aDuration)
 {
   PLATMLMotionNode *motion =
-    new PLATMLMotionNode(PLATMLMotionType::Scale, aBegin, aEnd, aDuration);
+    new PLATMLMotionNode(PLATMLMotionType::Scale, aBegin, aEnd,
+                         aEasingType, aDuration);
   motion->Bind();
   return motion;
 }
@@ -94,12 +105,16 @@ PLATMLMotionNode::PLATMLMotionNode():
 
 }
 
-PLATMLMotionNode::PLATMLMotionNode(PLATMLMotionType aType, const PLAColor &aBegin,
-                                   const PLAColor &aEnd, PLATimeInterval aDuration):
-  PLAOBJTimelineNode(PLAOBJTimelineNode::Type::Motion, aDuration * PLAApp::kRefreshRate),
+PLATMLMotionNode::PLATMLMotionNode(PLATMLMotionType aType,
+                                   const PLAColor &aBegin, const PLAColor &aEnd,
+                                   PLAEasing::Type aEasingType,
+                                   PLATimeInterval aDuration):
+  PLAOBJTimelineNode(PLAOBJTimelineNode::Type::Motion,
+                     aDuration * PLAApp::kRefreshRate),
   _type(aType),
   _begin(PLAProperty(aBegin)),
   _end(PLAProperty(aEnd)),
+  _easingType(aEasingType),
   _distance(PLAProperty(PLAColor(aEnd.r - aBegin.r, aEnd.g - aBegin.g,
                                  aEnd.b - aBegin.b, aEnd.a - aBegin.a)))//,
   //_duration(aDuration)
@@ -107,12 +122,16 @@ PLATMLMotionNode::PLATMLMotionNode(PLATMLMotionType aType, const PLAColor &aBegi
 
 }
 
-PLATMLMotionNode::PLATMLMotionNode(PLATMLMotionType aType, const PLAVec3f &aBegin,
-                                   const PLAVec3f &aEnd, PLATimeInterval aDuration):
-  PLAOBJTimelineNode(PLAOBJTimelineNode::Type::Motion, aDuration * PLAApp::kRefreshRate),
+PLATMLMotionNode::PLATMLMotionNode(PLATMLMotionType aType,
+                                   const PLAVec3f &aBegin, const PLAVec3f &aEnd,
+                                   PLAEasing::Type aEasingType,
+                                   PLATimeInterval aDuration):
+  PLAOBJTimelineNode(PLAOBJTimelineNode::Type::Motion,
+                     aDuration * PLAApp::kRefreshRate),
   _type(aType),
   _begin(PLAProperty(aBegin)),
   _end(PLAProperty(aEnd)),
+  _easingType(aEasingType),
   _distance(PLAProperty(aEnd - aBegin))//,
   //_duration(aDuration)
 {
@@ -129,11 +148,9 @@ PLAAGTMotionNode PLATMLMotionNode::AssignAgent()
   return PLAAGTMotionNode(this);
 }
 
-void PLATMLMotionNode::GetProperty(std::map<PLATMLMotionType, PLAProperty> *aProperties) const
+void PLATMLMotionNode::GetProperty(std::map<PLATMLMotionType,
+                                   PLAProperty> *aProperties) const
 {
-  if (this->GetObjectName() == "TelopNode") {
-    ;
-  }
   if (_type == PLATMLMotionType::None) { return; }
   if (!aProperties->contains(_type))
   {
@@ -141,7 +158,12 @@ void PLATMLMotionNode::GetProperty(std::map<PLATMLMotionType, PLAProperty> *aPro
   }
   GRA_PRINT("GetProgress() : %f\n", this->GetProgress());
   PLAProperty property = _begin;
-  property += (_distance * this->GetProgress());
+  auto progress = this->GetProgress();
+  auto easedProgress = GRALIBEasing::GetEasing(_easingType, progress);
+  property += (_distance * easedProgress);
+  (*aProperties)[_type] += property;
+
+  //-- for debug
   if (_type == PLATMLMotionType::Translation)
   {
     PLAVec3f translation = property.GetVec3f();
@@ -150,5 +172,4 @@ void PLATMLMotionNode::GetProperty(std::map<PLATMLMotionType, PLAProperty> *aPro
     GRA_PRINT("_distance.MulFloat(this->GetProgress().GetVec3f().x) : %f\n",
               (_distance * this->GetProgress()).GetVec3f().x);
   }
-  (*aProperties)[_type] += property;
 }

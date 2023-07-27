@@ -356,33 +356,41 @@ PLAAGTMotionNode Plain::MotionNode::Create()
 
 PLAAGTMotionNode Plain::MotionNode::CreateColor(const PLAColor &aBegin,
                                                 const PLAColor &aEnd,
+                                                PLAEasing::Type aEasingType,
                                                 PLATimeInterval aDuration)
 {
-  auto object = PLATMLMotionNode::CreateColor(aBegin, aEnd, aDuration);
+  auto object = PLATMLMotionNode::CreateColor(aBegin, aEnd,
+                                              aEasingType, aDuration);
   return object->AssignAgent();
 }
 
 PLAAGTMotionNode Plain::MotionNode::CreateTranslation(const PLAVec3f &aBegin,
                                                       const PLAVec3f &aEnd,
+                                                      PLAEasing::Type aEasingType,
                                                       PLATimeInterval aDuration)
 {
-  auto object = PLATMLMotionNode::CreateTranslation(aBegin, aEnd, aDuration);
+  auto object = PLATMLMotionNode::CreateTranslation(aBegin, aEnd,
+                                                    aEasingType, aDuration);
   return object->AssignAgent();
 }
 
 PLAAGTMotionNode Plain::MotionNode::CreateRotation(const PLAVec3f &aBegin,
                                                    const PLAVec3f &aEnd,
+                                                   PLAEasing::Type aEasingType,
                                                    PLATimeInterval aDuration)
 {
-  auto object = PLATMLMotionNode::CreateRotation(aBegin, aEnd, aDuration);
+  auto object = PLATMLMotionNode::CreateRotation(aBegin, aEnd,
+                                                 aEasingType, aDuration);
   return object->AssignAgent();
 }
 
 PLAAGTMotionNode Plain::MotionNode::CreateScale(const PLAVec3f &aBegin,
                                                 const PLAVec3f &aEnd,
+                                                PLAEasing::Type aEasingType,
                                                 PLATimeInterval aDuration)
 {
-  auto object = PLATMLMotionNode::CreateScale(aBegin, aEnd, aDuration);
+  auto object = PLATMLMotionNode::CreateScale(aBegin, aEnd,
+                                              aEasingType, aDuration);
   return object->AssignAgent();
 }
 

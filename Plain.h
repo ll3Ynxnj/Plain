@@ -199,13 +199,17 @@ namespace Plain
     PLAAGTMotionNode Assign(const PLAString &aName);
 
     PLAAGTMotionNode CreateColor(const PLAColor &aBegin, const PLAColor &aEnd,
+                                 PLAEasing::Type aEasingType,
                                  PLATimeInterval aDuration);
     PLAAGTMotionNode CreateTranslation(const PLAVec3f &aBegin, const PLAVec3f &aEnd,
+                                       PLAEasing::Type aEasingType,
                                        PLATimeInterval aDuration);
     PLAAGTMotionNode CreateRotation(const PLAVec3f &aBegin, const PLAVec3f &aEnd,
+                                    PLAEasing::Type aEasingType,
                                     PLATimeInterval aDuration);
     PLAAGTMotionNode CreateScale(const PLAVec3f &aBegin, const PLAVec3f &aEnd,
-                                         PLATimeInterval aDuration);
+                                 PLAEasing::Type aEasingType,
+                                 PLATimeInterval aDuration);
   };
 
   namespace ImageClip

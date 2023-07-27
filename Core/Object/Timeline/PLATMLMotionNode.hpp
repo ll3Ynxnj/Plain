@@ -7,6 +7,7 @@
 
 #include "PLAOBJTimelineNode.hpp"
 #include "PLATMLMotionType.hpp"
+#include "PLAEasing.hpp"
 
 class PLAAGTMotionNode;
 
@@ -16,6 +17,7 @@ class PLATMLMotionNode final: public PLAOBJTimelineNode
   PLAProperty _begin = PLAProperty();
   PLAProperty _end = PLAProperty();
   PLAProperty _distance = PLAProperty();
+  PLAEasing::Type _easingType = PLAEasing::Type::Linear;
   //PLAFloat _duration = 0;
 
 public:
@@ -24,13 +26,21 @@ public:
   static PLATMLMotionNode *Object(const PLAString &aName);
   static PLATMLMotionNode *Object(PLAId aId);
   static PLATMLMotionNode *Create();
-  static PLATMLMotionNode *CreateColor(const PLAColor &aBegin, const PLAColor &aEnd,
+  static PLATMLMotionNode *CreateColor(const PLAColor &aBegin,
+                                       const PLAColor &aEnd,
+                                       PLAEasing::Type aEasingType,
                                        PLATimeInterval aDuration);
-  static PLATMLMotionNode *CreateTranslation(const PLAVec3f &aBegin, const PLAVec3f &aEnd,
+  static PLATMLMotionNode *CreateTranslation(const PLAVec3f &aBegin,
+                                             const PLAVec3f &aEnd,
+                                             PLAEasing::Type aEasingType,
                                              PLATimeInterval aDuration);
-  static PLATMLMotionNode *CreateRotation(const PLAVec3f &aBegin, const PLAVec3f &aEnd,
+  static PLATMLMotionNode *CreateRotation(const PLAVec3f &aBegin,
+                                          const PLAVec3f &aEnd,
+                                          PLAEasing::Type aEasingType,
                                           PLATimeInterval aDuration);
-  static PLATMLMotionNode *CreateScale(const PLAVec3f &aBegin, const PLAVec3f &aEnd,
+  static PLATMLMotionNode *CreateScale(const PLAVec3f &aBegin,
+                                       const PLAVec3f &aEnd,
+                                       PLAEasing::Type aEasingType,
                                        PLATimeInterval aDuration);
 
   static const PLAProperty &MakeProperty(const PLATMLMotionType aType);
@@ -38,10 +48,12 @@ public:
   static const char *GetNameOfType(PLATMLMotionType aType);
 
   PLATMLMotionNode();
-  PLATMLMotionNode(PLATMLMotionType aType, const PLAColor &aBegin, const PLAColor &aEnd,
-                   PLATimeInterval aDuration);
-  PLATMLMotionNode(PLATMLMotionType aType, const PLAVec3f &aBegin, const PLAVec3f &aEnd,
-                   PLATimeInterval aDuration);
+  PLATMLMotionNode(PLATMLMotionType aType,
+                   const PLAColor &aBegin, const PLAColor &aEnd,
+                   PLAEasing::Type aEasingType, PLATimeInterval aDuration);
+  PLATMLMotionNode(PLATMLMotionType aType,
+                   const PLAVec3f &aBegin, const PLAVec3f &aEnd,
+                   PLAEasing::Type aEasingType, PLATimeInterval aDuration);
 
   ~PLATMLMotionNode() override;
 
