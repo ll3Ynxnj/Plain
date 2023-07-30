@@ -13,6 +13,7 @@ class PLAGLUTRenderer : public PLAOBJRenderer
     PLAVec3f translation = kPLAVec3fNone;
     PLAVec3f rotation = kPLAVec3fNone;
     PLAVec3f scale = kPLAVec3fNone;
+    PLAColor color = kPLAColorNorm;
   };
 public:
   static PLAGLUTRenderer *Create();

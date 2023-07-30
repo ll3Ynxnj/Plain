@@ -161,7 +161,17 @@ void PLATMLMotionNode::GetProperty(std::map<PLATMLMotionType,
   auto progress = this->GetProgress();
   auto easedProgress = GRALIBEasing::GetEasing(_easingType, progress);
   property += (_distance * easedProgress);
-  (*aProperties)[_type] += property;
+
+  switch (_type) {
+    case PLATMLMotionType::Translation:
+    case PLATMLMotionType::Rotation:
+      (*aProperties)[_type] += property;
+      break;
+    case PLATMLMotionType::Scale:
+    case PLATMLMotionType::Color:
+      (*aProperties)[_type] *= property;
+      break;
+  }
 
   //-- for debug
   if (_type == PLATMLMotionType::Translation)
@@ -171,5 +181,15 @@ void PLATMLMotionNode::GetProperty(std::map<PLATMLMotionType,
               translation.x, translation.y, translation.z);
     GRA_PRINT("_distance.MulFloat(this->GetProgress().GetVec3f().x) : %f\n",
               (_distance * this->GetProgress()).GetVec3f().x);
+  }
+
+  if (_type == PLATMLMotionType::Color)
+  {
+    PLAColor color = property.GetColor();
+    GRA_PRINT("color : %f, %f, %f, %f\n",
+              color.r, color.g, color.b, color.a);
+    GRA_PRINT("_distance.MulFloat(this->GetProgress().GetColor().a) : %f\n",
+              (_distance * this->GetProgress()).GetColor().a);
+    GRA_TRACE("");
   }
 }

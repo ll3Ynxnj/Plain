@@ -69,7 +69,8 @@ public:
   PLAOBJTimelineNode();
   PLAOBJTimelineNode(PLAOBJTimelineNode::Type aType);
   PLAOBJTimelineNode(PLAOBJTimelineNode::Type aType, PLAInt aLength);
-  PLAOBJTimelineNode(PLAOBJTimelineNode::Type aType, PLAInt aLength, const PLAString &aName);
+  PLAOBJTimelineNode(PLAOBJTimelineNode::Type aType, PLAInt aLength,
+                     const PLAString &aName);
   ~PLAOBJTimelineNode() override;
 
   void Update();

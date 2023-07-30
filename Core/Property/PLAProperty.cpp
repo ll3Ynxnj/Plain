@@ -426,6 +426,8 @@ PLAProperty PLAProperty::operator +(const PLAProperty &aProperty) const
       return *this + aProperty.GetVec3f();
     case PLAPropertyType::Vec4f :
       return *this + aProperty.GetVec4f();
+    case PLAPropertyType::Color :
+      return *this + aProperty.GetColor();
     case PLAPropertyType::Vec2i :
       return *this + aProperty.GetVec2i();
     case PLAPropertyType::Vec3i :
@@ -462,6 +464,9 @@ PLAProperty PLAProperty::operator +(const PLAVec3f &aValue) const
 PLAProperty PLAProperty::operator +(const PLAVec4f &aValue) const
 { return PLAProperty(this->GetVec4f() + aValue); };
 
+PLAProperty PLAProperty::operator +(const PLAColor &aValue) const
+{ return PLAProperty(this->GetColor() + aValue); };
+
 PLAProperty PLAProperty::operator +(const PLAVec2i &aValue) const
 { return PLAProperty(this->GetVec2i() + aValue); };
 
@@ -490,6 +495,7 @@ void PLAProperty::operator +=(const PLAProperty &aProperty)
     case PLAPropertyType::Vec2f : *this += aProperty.GetVec2f(); break;
     case PLAPropertyType::Vec3f : *this += aProperty.GetVec3f(); break;
     case PLAPropertyType::Vec4f : *this += aProperty.GetVec4f(); break;
+    case PLAPropertyType::Color : *this += aProperty.GetColor(); break;
     case PLAPropertyType::Vec2i : *this += aProperty.GetVec2i(); break;
     case PLAPropertyType::Vec3i : *this += aProperty.GetVec3i(); break;
     case PLAPropertyType::Vec4i : *this += aProperty.GetVec4i(); break;
@@ -519,6 +525,9 @@ void PLAProperty::operator +=(const PLAVec3f &aValue)
 
 void PLAProperty::operator +=(const PLAVec4f &aValue)
 { this->SetVec4f(this->GetVec4f() + aValue); };
+
+void PLAProperty::operator +=(const PLAColor &aValue)
+{ this->SetColor(this->GetColor() + aValue); };
 
 void PLAProperty::operator +=(const PLAVec2i &aValue)
 { this->SetVec2i(this->GetVec2i() + aValue); };
@@ -557,6 +566,8 @@ PLAProperty PLAProperty::operator -(const PLAProperty &aProperty) const
       return *this - aProperty.GetVec3f();
     case PLAPropertyType::Vec4f :
       return *this - aProperty.GetVec4f();
+    case PLAPropertyType::Color :
+      return *this - aProperty.GetColor();
     case PLAPropertyType::Vec2i :
       return *this - aProperty.GetVec2i();
     case PLAPropertyType::Vec3i :
@@ -593,6 +604,9 @@ PLAProperty PLAProperty::operator -(const PLAVec3f &aValue) const
 PLAProperty PLAProperty::operator -(const PLAVec4f &aValue) const
 { return PLAProperty(this->GetVec4f() - aValue); };
 
+PLAProperty PLAProperty::operator -(const PLAColor &aValue) const
+{ return PLAProperty(this->GetColor() - aValue); };
+
 PLAProperty PLAProperty::operator -(const PLAVec2i &aValue) const
 { return PLAProperty(this->GetVec2i() - aValue); };
 
@@ -621,6 +635,7 @@ void PLAProperty::operator -=(const PLAProperty &aProperty)
     case PLAPropertyType::Vec2f : *this -= aProperty.GetVec2f(); break;
     case PLAPropertyType::Vec3f : *this -= aProperty.GetVec3f(); break;
     case PLAPropertyType::Vec4f : *this -= aProperty.GetVec4f(); break;
+    case PLAPropertyType::Color : *this -= aProperty.GetColor(); break;
     case PLAPropertyType::Vec2i : *this -= aProperty.GetVec2i(); break;
     case PLAPropertyType::Vec3i : *this -= aProperty.GetVec3i(); break;
     case PLAPropertyType::Vec4i : *this -= aProperty.GetVec4i(); break;
@@ -651,6 +666,9 @@ void PLAProperty::operator -=(const PLAVec3f &aValue)
 void PLAProperty::operator -=(const PLAVec4f &aValue)
 { this->SetVec4f(this->GetVec4f() - aValue); };
 
+void PLAProperty::operator -=(const PLAColor &aValue)
+{ this->SetColor(this->GetColor() - aValue); };
+
 void PLAProperty::operator -=(const PLAVec2i &aValue)
 { this->SetVec2i(this->GetVec2i() - aValue); };
 
@@ -678,6 +696,7 @@ PLAProperty PLAProperty::operator *(const PLAProperty &aProperty) const
     case PLAPropertyType::Int   : return *this * aProperty.GetInt();
     case PLAPropertyType::UInt  : return *this * aProperty.GetUInt();
     case PLAPropertyType::Float : return *this * aProperty.GetFloat();
+    case PLAPropertyType::Color : return *this * aProperty.GetColor();
     default :
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       return PLAProperty::kNone;
@@ -704,6 +723,7 @@ PLAProperty PLAProperty::operator *(PLAUInt aValue) const
     case PLAPropertyType::Vec2s : return PLAProperty(this->GetVec2s() * aValue);
     case PLAPropertyType::Vec3s : return PLAProperty(this->GetVec3s() * aValue);
     case PLAPropertyType::Vec4s : return PLAProperty(this->GetVec4s() * aValue);
+    case PLAPropertyType::Color : return PLAProperty(this->GetColor() * aValue);
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       return PLAProperty(aValue);
@@ -717,11 +737,24 @@ PLAProperty PLAProperty::operator *(PLAFloat aValue) const
     case PLAPropertyType::Vec2f : return PLAProperty(this->GetVec2f() * aValue);
     case PLAPropertyType::Vec3f : return PLAProperty(this->GetVec3f() * aValue);
     case PLAPropertyType::Vec4f : return PLAProperty(this->GetVec4f() * aValue);
+    case PLAPropertyType::Color : return PLAProperty(this->GetColor() * aValue);
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       return PLAProperty(aValue);
   }
 }
+
+PLAProperty PLAProperty::operator *(const PLAColor &aValue) const
+{
+  switch (_type) {
+    case PLAPropertyType::Color :
+      return PLAProperty(this->GetColor() * aValue);
+    default:
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
+      return PLAProperty(aValue);
+  }
+}
+
 
 void PLAProperty::operator *=(const PLAProperty &aProperty)
 {
@@ -729,6 +762,7 @@ void PLAProperty::operator *=(const PLAProperty &aProperty)
     case PLAPropertyType::Int   : *this *= aProperty.GetInt();   break;
     case PLAPropertyType::UInt  : *this *= aProperty.GetUInt();  break;
     case PLAPropertyType::Float : *this *= aProperty.GetFloat(); break;
+    case PLAPropertyType::Color : *this *= aProperty.GetColor(); break;
     default :
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       break;
@@ -766,10 +800,23 @@ void PLAProperty::operator *=(PLAFloat aValue)
     case PLAPropertyType::Vec2f : this->SetVec2f(this->GetVec2f() * aValue); break;
     case PLAPropertyType::Vec3f : this->SetVec3f(this->GetVec3f() * aValue); break;
     case PLAPropertyType::Vec4f : this->SetVec4f(this->GetVec4f() * aValue); break;
+    case PLAPropertyType::Color : this->SetColor(this->GetColor() * aValue); break;
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
   }
 }
+
+void PLAProperty::operator *=(const PLAColor &aValue)
+{
+  switch (_type) {
+    case PLAPropertyType::Color :
+      this->SetColor(this->GetColor() * aValue);
+      break;
+    default:
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
+  }
+}
+
 
 /// Operators for division /////////////////////////////////////////////////////
 
@@ -779,6 +826,7 @@ PLAProperty PLAProperty::operator /(const PLAProperty &aProperty) const
     case PLAPropertyType::Int   : return *this / aProperty.GetInt();
     case PLAPropertyType::UInt  : return *this / aProperty.GetUInt();
     case PLAPropertyType::Float : return *this / aProperty.GetFloat();
+    case PLAPropertyType::Color : return *this / aProperty.GetColor();
     default :
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       return PLAProperty::kNone;
@@ -818,6 +866,18 @@ PLAProperty PLAProperty::operator /(PLAFloat aValue) const
     case PLAPropertyType::Vec2f : return PLAProperty(this->GetVec2f() / aValue);
     case PLAPropertyType::Vec3f : return PLAProperty(this->GetVec3f() / aValue);
     case PLAPropertyType::Vec4f : return PLAProperty(this->GetVec4f() / aValue);
+    case PLAPropertyType::Color : return PLAProperty(this->GetColor() / aValue);
+    default:
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
+      return PLAProperty::kNone;
+  }
+}
+
+PLAProperty PLAProperty::operator /(const PLAColor &aValue) const
+{
+  switch (_type) {
+    case PLAPropertyType::Color :
+      return PLAProperty(this->GetColor() / aValue);
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       return PLAProperty::kNone;
@@ -830,6 +890,7 @@ void PLAProperty::operator /=(const PLAProperty &aProperty)
     case PLAPropertyType::Int   : *this /= aProperty.GetInt();   break;
     case PLAPropertyType::UInt  : *this /= aProperty.GetUInt();  break;
     case PLAPropertyType::Float : *this /= aProperty.GetFloat(); break;
+    case PLAPropertyType::Color : *this /= aProperty.GetColor(); break;
     default :
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       break;
@@ -867,6 +928,18 @@ void PLAProperty::operator /=(PLAFloat aValue)
     case PLAPropertyType::Vec2f : this->SetVec2f(this->GetVec2f() / aValue); break;
     case PLAPropertyType::Vec3f : this->SetVec3f(this->GetVec3f() / aValue); break;
     case PLAPropertyType::Vec4f : this->SetVec4f(this->GetVec4f() / aValue); break;
+    case PLAPropertyType::Color : this->SetColor(this->GetColor() / aValue); break;
+    default:
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
+  }
+}
+
+void PLAProperty::operator /=(const PLAColor &aValue)
+{
+  switch (_type) {
+    case PLAPropertyType::Color :
+      this->SetColor(this->GetColor() / aValue);
+      break;
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
   }

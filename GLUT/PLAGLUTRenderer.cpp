@@ -117,9 +117,6 @@ void PLAGLUTRenderer::GetRectTexCoords(GLfloat aCoords[8],
 
 void PLAGLUTRenderer::GetMotionProperties(const PLATMLMotion *aNode,
                                           MotionProperties *aProperties) {
-  //PLAVec3f translation = kPLAVec3fNone;
-  //PLAVec3f rotation = kPLAVec3fNone;
-  //PLAVec3f scale = kPLAVec3fNorm;
   if (aNode)
   {
     std::map<PLATMLMotionType, PLAProperty> properties =
@@ -136,6 +133,10 @@ void PLAGLUTRenderer::GetMotionProperties(const PLATMLMotion *aNode,
     if (properties.contains(PLATMLMotionType::Scale))
     {
       aProperties->scale = properties.at(PLATMLMotionType::Scale).GetVec3f();
+    }
+    if (properties.contains(PLATMLMotionType::Color))
+    {
+      aProperties->color = properties.at(PLATMLMotionType::Color).GetColor();
     }
   }
 }
@@ -178,6 +179,11 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
   glTranslatef( motionProperties.translation.x,
                -motionProperties.translation.y,
                 motionProperties.translation.z);
+  color *= motionProperties.color;
+  GRA_PRINT("color.a: %f", color.a);
+  if (0.0 < color.a && color.a < 1.0) {
+    GRA_TRACE("");
+  }
 
   switch (layer->GetLayerType())
   {

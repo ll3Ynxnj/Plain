@@ -132,6 +132,7 @@ public:
   PLAProperty operator +(const PLAVec2f &aValue) const;
   PLAProperty operator +(const PLAVec3f &aValue) const;
   PLAProperty operator +(const PLAVec4f &aValue) const;
+  PLAProperty operator +(const PLAColor &aValue) const;
   PLAProperty operator +(const PLAVec2i &aValue) const;
   PLAProperty operator +(const PLAVec3i &aValue) const;
   PLAProperty operator +(const PLAVec4i &aValue) const;
@@ -147,6 +148,7 @@ public:
   void operator +=(const PLAVec2f &aValue);
   void operator +=(const PLAVec3f &aValue);
   void operator +=(const PLAVec4f &aValue);
+  void operator +=(const PLAColor &aValue);
   void operator +=(const PLAVec2i &aValue);
   void operator +=(const PLAVec3i &aValue);
   void operator +=(const PLAVec4i &aValue);
@@ -165,6 +167,7 @@ public:
   PLAProperty operator -(const PLAVec2f &aValue) const;
   PLAProperty operator -(const PLAVec3f &aValue) const;
   PLAProperty operator -(const PLAVec4f &aValue) const;
+  PLAProperty operator -(const PLAColor &aValue) const;
   PLAProperty operator -(const PLAVec2i &aValue) const;
   PLAProperty operator -(const PLAVec3i &aValue) const;
   PLAProperty operator -(const PLAVec4i &aValue) const;
@@ -180,6 +183,7 @@ public:
   void operator -=(const PLAVec2f &aValue);
   void operator -=(const PLAVec3f &aValue);
   void operator -=(const PLAVec4f &aValue);
+  void operator -=(const PLAColor &aValue);
   void operator -=(const PLAVec2i &aValue);
   void operator -=(const PLAVec3i &aValue);
   void operator -=(const PLAVec4i &aValue);
@@ -195,12 +199,14 @@ public:
   PLAProperty operator *(PLAInt aValue) const;
   PLAProperty operator *(PLAUInt aValue) const;   // it may be abolished
   PLAProperty operator *(PLAFloat aValue) const;
+  PLAProperty operator *(const PLAColor &aValue) const;
 
   void operator *=(const PLAProperty &aProperty);
 
   void operator *=(PLAInt aValue);
-  void operator *=(PLAUInt aValue);               // it may be abolished
+  void operator *=(PLAUInt aValue);         // it may be abolished
   void operator *=(PLAFloat aValue);
+  void operator *=(const PLAColor &aValue);
 
 
   /// Operators for division ///////////////////////////////////////////////////
@@ -208,14 +214,16 @@ public:
   PLAProperty operator /(const PLAProperty &aProperty) const;
 
   PLAProperty operator /(PLAInt aValue) const;
-  PLAProperty operator /(PLAUInt aValue) const;   // it may be abolished
+  PLAProperty operator /(PLAUInt aValue) const;         // it may be abolished
   PLAProperty operator /(PLAFloat aValue) const;
+  PLAProperty operator /(const PLAColor &aValue) const;
 
   void operator /=(const PLAProperty &aProperty);
 
   void operator /=(PLAInt aValue);
-  void operator /=(PLAUInt aValue);               // it may be abolished
+  void operator /=(PLAUInt aValue);         // it may be abolished
   void operator /=(PLAFloat aValue);
+  void operator /=(const PLAColor &aValue);
 };
 
 #endif //ANHR_PLAPROPERTY_HPP
