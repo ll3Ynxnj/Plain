@@ -38,7 +38,6 @@ PLAOBJState::PLAOBJState() :
   PLAObject(PLAObjectType::State)
 {
   _context = PLAOBJModel::Create();
-  _context->SetObjectName("StateContext");
 }
 
 PLAOBJState::PLAOBJState(const PLAString &aName) :

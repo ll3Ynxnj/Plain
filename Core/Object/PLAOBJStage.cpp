@@ -36,7 +36,6 @@ PLAObject(PLAObjectType::Stage)
   _context = PLAOBJActor::CreateRect(kPLAVec3fNone, kPLAColorWhite,
                                      kPLATransformNorm, kPLARectNone,
                                      kPLAColorGray);
-  _context->SetObjectName("StageContext");
 }
 
 PLAOBJStage::PLAOBJStage(const PLAString &aName) :

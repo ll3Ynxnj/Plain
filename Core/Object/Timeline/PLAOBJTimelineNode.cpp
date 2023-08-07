@@ -88,9 +88,6 @@ PLAOBJTimelineNode::~PLAOBJTimelineNode()
 
 void PLAOBJTimelineNode::Update()
 {
-  if (this->GetObjectName() == "TelopNode") {
-    ;
-  }
   //-- OnStart
   if (_steps == 0) { this->OnStart(); }
 
@@ -130,27 +127,27 @@ PLAAGTTimelineNode PLAOBJTimelineNode::AssignAgent()
 
 void PLAOBJTimelineNode::OnStart()
 {
-  GRA_PRINT("%s| %s : WillStart(), _steps: %3d\n",
-            DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
-            _steps);
+  GRA_PRINT("%s| %s : TimelineNode::OnStart(), _steps: %3d\n",
+            "  ", //DBG_PLAOBJTimeline_Update_Indent.c_str(),
+            this->GetObjectName().c_str(), _steps);
   _functor.RunFunction(PLAFunctionCode::TimelineNode::OnStart,
                        PLAAGTTimelineNode(this));
 }
 
 void PLAOBJTimelineNode::OnUpdate()
 {
-  GRA_PRINT("%s| %s : OnUpdate(), _steps: %3d\n",
-            DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
-            _steps);
+  GRA_PRINT("%s| %s : TimelineNode::OnUpdate(), _steps: %3d\n",
+            "  ", //DBG_PLAOBJTimeline_Update_Indent.c_str(),
+            this->GetObjectName().c_str(), _steps);
   _functor.RunFunction(PLAFunctionCode::TimelineNode::OnUpdate,
                        PLAAGTTimelineNode(this));
 }
 
 void PLAOBJTimelineNode::OnStop()
 {
-  GRA_PRINT("%s| %s : OnStop(), _steps: %3d\n",
-            DBG_PLANode_Update_Indent.c_str(), this->GetObjectName().c_str(),
-            _steps);
+  GRA_PRINT("%s| %s : TimelineNode::OnStop(), _steps: %3d\n",
+            "  ", //DBG_PLAOBJTimeline_Update_Indent.c_str(),
+            this->GetObjectName().c_str(), _steps);
   _functor.RunFunction(PLAFunctionCode::TimelineNode::OnStop,
                        PLAAGTTimelineNode(this));
 }

@@ -68,7 +68,7 @@ void PLAObject::Bind()
                     error, PLAObject::GetBinderErrorMessage(error));
   }
 
-  PLAObject::Manager::Instance()->PrintObjects();
+  //PLAObject::Manager::Instance()->PrintObjects();
 }
 
 void PLAObject::Unbind()
@@ -94,7 +94,7 @@ void PLAObject::Unbind()
 
   PLAObject::Manager::Instance()->AddUnboundObject(this);
 
-  PLAObject::Manager::Instance()->PrintObjects();
+  //PLAObject::Manager::Instance()->PrintObjects();
 }
 
 PLAObject::PLAObject(PLAObjectType aType) :

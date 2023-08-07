@@ -8,26 +8,33 @@
 #include "PLAOBJTimelineNode.hpp"
 #include "PLATimelineHolder.hpp"
 
-static PLAString DBG_PLANode_Update_Indent = "";
+//static PLAString DBG_PLAOBJTimeline_Update_Indent = "";
 
 class PLAAGTTimeline;
 
 class PLAOBJTimeline: public PLAObject
 {
+  using Functor = GRAOBJFunctor<PLAAGTTimeline, PLAFunctionCode::Timeline>;
+
   PLAOBJTimeline *_parent = nullptr;
   std::vector<PLAOBJTimelineNode *> _nodes = {};
   std::map<PLAId, PLAOBJTimeline *> _threads = {};
   std::vector<PLAId> _finishedThreadKeys = {};
   PLAUInt _current = 0;
+  PLAInt _steps = 0;
   PLATimelineHolder *_holder = nullptr;
+  Functor _functor = Functor();
 
 public:
   static PLAOBJTimeline *Object(const PLAString &aName);
   static PLAOBJTimeline *Object(PLAId aId);
   static PLAOBJTimeline *Create(PLAOBJTimeline *aParent);
+  static PLAOBJTimeline *Create(PLAOBJTimeline *aParent, const PLAString &aName);
 
   PLAOBJTimeline(PLAObjectType aType);
-  PLAOBJTimeline(PLAOBJTimeline *aParent, PLAObjectType aType);
+  PLAOBJTimeline(PLAObjectType aType, const PLAString &aName);
+  PLAOBJTimeline(PLAObjectType aType, PLAOBJTimeline *aParent);
+  PLAOBJTimeline(PLAObjectType aType, PLAOBJTimeline *aParent, const PLAString &aName);
   virtual ~PLAOBJTimeline() noexcept;
 
   void Update();
@@ -47,8 +54,16 @@ public:
   const std::map<PLAId, PLAOBJTimeline *> &GetThreads() const { return _threads; }
 
   void SetHolder(PLATimelineHolder *aHolder) { _holder = aHolder; };
+  void SetFunction(PLAFunctionCode::Timeline aKey,
+                   const std::function<void(PLAAGTTimeline)> &aFunc)
+  { _functor.SetFunction(aKey, aFunc); };
 
   void PrintNodes() const;
+
+private:
+  void OnStart();
+  void OnUpdate();
+  void OnStop();
 };
 
 

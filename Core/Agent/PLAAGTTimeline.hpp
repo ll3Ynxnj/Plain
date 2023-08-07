@@ -9,6 +9,7 @@
 
 
 #include "PLAAgent.hpp"
+#include "PLAFunctionCode.hpp"
 
 class PLAOBJTimeline;
 class PLAAGTTimelineNode;
@@ -22,6 +23,9 @@ public:
   virtual ~PLAAGTTimeline() noexcept;
 
   void AddNode(const PLAAGTTimelineNode &aAgent);
+
+  void SetFunction(PLAFunctionCode::Timeline aKey,
+                   const std::function<void(PLAAGTTimeline)> &aFunc) const;
 
 protected:
   const PLAOBJTimeline *GetTimeline() const;

@@ -74,12 +74,7 @@ PLAOBJTimeline::~PLAOBJTimeline() noexcept
 }
 
 void PLAOBJTimeline::Update() {
-  DBG_PLANode_Update_Indent += "  ";
-
-  if (this->GetObjectName() == "Telop")
-  {
-    ;
-  }
+  //DBG_PLAOBJTimeline_Update_Indent += "  ";
 
   //-- Update threads.
   for (auto thread: _threads) {
@@ -94,15 +89,30 @@ void PLAOBJTimeline::Update() {
   _finishedThreadKeys.clear();
 
   //-- Update nodes.
-  if (_current < _nodes.size()) { _nodes[_current]->Update(); }
+  if (_current < _nodes.size()) {
+    //-- OnStart
+    if (_steps == 0) { this->OnStart(); }
+
+    //-- OnUpdate
+    ++_steps;
+    this->OnUpdate();
+
+    _nodes[_current]->Update();
+  }
 
   //-- Destruct
   if (this->IsFinished())//_current == _nodes.size())
   {
+    //-- OnUpdate
+    this->OnStop();
+
     if (_parent) { _parent->OnFinishThread(this); }
     this->Clear();
     if (_holder) { _holder->OnFinishTimeline(); }
   }
+
+  //DBG_PLAOBJTimeline_Update_Indent.resize(
+  //  DBG_PLAOBJTimeline_Update_Indent.size() - 2);
 }
 
 void PLAOBJTimeline::AddNode(PLAOBJTimelineNode *aNode)
@@ -141,7 +151,9 @@ PLAAGTTimeline PLAOBJTimeline::AssignAgent()
 
 void PLAOBJTimeline::OnFinishNode()
 {
-  if (_current < _nodes.size()) { ++_current; }
+  if (_current < _nodes.size()) {
+    ++_current;
+  }
 }
 
 void PLAOBJTimeline::OnFinishThread(const PLAOBJTimeline *aThread)
@@ -203,4 +215,31 @@ void PLAOBJTimeline::PrintNodes() const
     thread.second->PrintNodes();
     --indentLevel;
   }
+}
+
+void PLAOBJTimeline::OnStart()
+{
+  GRA_PRINT("%s| %s : Timeline::OnStart(), _steps: %3d\n",
+            "  ", //DBG_PLAOBJTimeline_Update_Indent.c_str(),
+            this->GetObjectName().c_str(), _steps);
+  _functor.RunFunction(PLAFunctionCode::Timeline::OnStart,
+                       PLAAGTTimeline(this));
+}
+
+void PLAOBJTimeline::OnUpdate()
+{
+  GRA_PRINT("%s| %s : Timeline::OnUpdate(), _steps: %3d\n",
+            "  ", //DBG_PLAOBJTimeline_Update_Indent.c_str(),
+            this->GetObjectName().c_str(), _steps);
+  _functor.RunFunction(PLAFunctionCode::Timeline::OnUpdate,
+                       PLAAGTTimeline(this));
+}
+
+void PLAOBJTimeline::OnStop()
+{
+  GRA_PRINT("%s : Timeline::OnStop(), _steps: %3d\n",
+            "  ", //DBG_PLAOBJTimeline_Update_Indent.c_str(),
+            this->GetObjectName().c_str(), _steps);
+  _functor.RunFunction(PLAFunctionCode::Timeline::OnStop,
+                       PLAAGTTimeline(this));
 }

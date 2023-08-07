@@ -75,15 +75,15 @@ PLAApp::~PLAApp()
 
 void PLAApp::Init(PLARendererType aRendererType)
 {
-  _timeline = PLAOBJTimeline::Create(nullptr);
+  _timeline = PLAOBJTimeline::Create(nullptr, "PLAApp::Timeline");
   PLAOBJResource::Manager::Instance()->Init();
   _renderer = PLAOBJRenderer::Create(aRendererType);
   _renderer->Init();
   PLAOBJError::Manager::Instance()->Init();
   PLAOBJScene::Manager::Instance()->Init();
-  _state = PLAOBJState::Create();
-  _stage = PLAOBJStage::Create();
-  _scene = PLAOBJScene::Create();
+  _state = PLAOBJState::Create("PLAApp::State");
+  _stage = PLAOBJStage::Create("PLAApp::Stage");
+  _scene = PLAOBJScene::Create("PLAApp::Scene");
   PLAInputManager::Instance()->SetHandler(_stage);
 
   //this->RunFunction(PLAFunctionCode::App::OnInit);

@@ -156,7 +156,6 @@ void PLATMLMotionNode::GetProperty(std::map<PLATMLMotionType,
   {
     (*aProperties)[_type] = PLATMLMotionNode::MakeProperty(_type);
   }
-  GRA_PRINT("GetProgress() : %f\n", this->GetProgress());
   PLAProperty property = _begin;
   auto progress = this->GetProgress();
   auto easedProgress = GRALIBEasing::GetEasing(_easingType, progress);
@@ -174,6 +173,7 @@ void PLATMLMotionNode::GetProperty(std::map<PLATMLMotionType,
   }
 
   //-- for debug
+  /*
   if (_type == PLATMLMotionType::Translation)
   {
     PLAVec3f translation = property.GetVec3f();
@@ -192,4 +192,5 @@ void PLATMLMotionNode::GetProperty(std::map<PLATMLMotionType,
               (_distance * this->GetProgress()).GetColor().a);
     GRA_TRACE("");
   }
+  */
 }

@@ -39,7 +39,6 @@ PLAOBJScene::PLAOBJScene() :
   PLAObject(PLAObjectType::Scene)
 {
   _context = PLAOBJPhase::Create();
-  _context->SetObjectName("SceneContext");
 }
 
 PLAOBJScene::PLAOBJScene(const PLAString &aName) :

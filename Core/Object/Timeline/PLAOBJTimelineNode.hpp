@@ -23,27 +23,9 @@ class PLAAGTTimelineNode;
 
 class PLAOBJTimelineNode: public PLAObject//, private GRAOBJBinder<PLAOBJTimelineNode>::Item
 {
-  //using Item = GRAOBJBinder<PLAOBJTimelineNode>::Item;
-  //using Error = GRAOBJBinder<PLAOBJTimelineNode>::Error;
-
-  //using Listener = GRAOBJListener<PLAAGTTimelineNode, PLAFunctionCode::TimelineNode>;
   using Functor = GRAOBJFunctor<PLAAGTTimelineNode, PLAFunctionCode::TimelineNode>;
 
 public:
-  /// \~english Function to be executed at a specific point in time.
-  /// \~japanese 特定の時点で実行される関数
-  /*
-  enum class FunctionCode: PLAFunctionCode
-  {
-    OnStart,  ///< \~english Runs before first update. \~japanese 初回の更新より前に実行。
-    OnUpdate, ///< \~english Runs on every update. \~japanese 毎回の更新時に実行。
-    OnStop,   ///< \~english Runs after last update. \~japanese 最後の更新より後に実行。
-
-    kNumberOfItems,
-    None = kPLAFunctionCodeNone,
-  };
-  */
-
   enum class Type
   {
     Motion,
