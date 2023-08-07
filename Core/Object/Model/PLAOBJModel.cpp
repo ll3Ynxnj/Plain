@@ -34,6 +34,14 @@ PLAOBJModel *PLAOBJModel::Create()
   return model;
 }
 
+PLAOBJModel *PLAOBJModel::Create(const PLAString &aName)
+{
+  PLAOBJModel *model = new PLAOBJModel(aName);
+  model->Init();
+  model->Bind();
+  return model;
+}
+
 PLAOBJModel *PLAOBJModel::Object(const PLAString &aName)
 {
   auto object = PLAObject::Object(PLAObjectType::Model, aName);

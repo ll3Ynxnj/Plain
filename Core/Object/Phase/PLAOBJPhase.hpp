@@ -39,6 +39,7 @@ private:
 public:
   static const char *GetBinderErrorMessage(Binder::Error aError);
   static PLAOBJPhase *Create();
+  static PLAOBJPhase *Create(const PLAString &aName);
   static PLAOBJPhase *CreateWithTag(PLAId aTag);
   static PLAOBJPhase *Object(const PLAString &aName);
   static PLAOBJPhase *Object(PLAId aId);
@@ -47,12 +48,13 @@ public:
   void Bind() override;
 
 protected:
+  PLAOBJPhase();
+  explicit PLAOBJPhase(const PLAString &aName);
+  explicit PLAOBJPhase(PLAId aTag);
   void Unbind() override;
 
 public:
-  PLAOBJPhase();
-  explicit PLAOBJPhase(PLAId aTag);
-  PLAOBJPhase(PLAId aTag, PLAString aName);
+  PLAOBJPhase(PLAId aTag, const PLAString &aName);
   ~PLAOBJPhase();
 
   void Init();

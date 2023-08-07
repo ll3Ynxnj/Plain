@@ -62,6 +62,10 @@ public:
   static PLAOBJTimelineNode *Object(const PLAString &aName);
   static PLAOBJTimelineNode *Object(PLAId aId);
   static PLAOBJTimelineNode *Create(PLAOBJTimelineNode::Type aType);
+  static PLAOBJTimelineNode *Create(PLAOBJTimelineNode::Type aType,
+                                    PLAInt aLength);
+  static PLAOBJTimelineNode *Create(PLAOBJTimelineNode::Type aType,
+                                    PLAInt aLength, const PLAString &aName);
 
   void Bind() override;
   void Unbind() override;

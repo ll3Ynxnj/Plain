@@ -14,6 +14,14 @@ PLAOBJState *PLAOBJState::Create()
   return state;
 }
 
+PLAOBJState *PLAOBJState::Create(const PLAString &aName)
+{
+  PLAOBJState *state = new PLAOBJState(aName);
+  state->Init();
+  state->Bind();
+  return state;
+}
+
 PLAOBJState *PLAOBJState::Object(const PLAString &aName)
 {
   auto object = PLAObject::Object(PLAObjectType::State, aName);
@@ -31,6 +39,12 @@ PLAOBJState::PLAOBJState() :
 {
   _context = PLAOBJModel::Create();
   _context->SetObjectName("StateContext");
+}
+
+PLAOBJState::PLAOBJState(const PLAString &aName) :
+  PLAObject(PLAObjectType::State, aName)
+{
+  _context = PLAOBJModel::Create(aName + "::Context");
 }
 
 PLAOBJState::~PLAOBJState()
@@ -54,7 +68,7 @@ void PLAOBJState::AddModel(PLAOBJModel *aModel)
 
   PLAString actorName = aModel->GetObjectName();
   if (actorName == kPLAStrUndefined) {
-    GRA_TRACE("");
+    GRA_TRACE("Object name is undefined");
   }
   _context->AddModel(aModel);
 }

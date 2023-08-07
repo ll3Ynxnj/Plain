@@ -36,6 +36,14 @@ PLAOBJPhase *PLAOBJPhase::Create()
   return phase;
 }
 
+PLAOBJPhase *PLAOBJPhase::Create(const PLAString &aName)
+{
+  PLAOBJPhase *phase = new PLAOBJPhase(aName);
+  phase->Init();
+  phase->Bind();
+  return phase;
+}
+
 PLAOBJPhase *PLAOBJPhase::CreateWithTag(PLAId aTag)
 {
   PLAOBJPhase *phase = new PLAOBJPhase(aTag);
@@ -107,15 +115,15 @@ PLAOBJPhase::PLAOBJPhase() :
 
 }
 
-PLAOBJPhase::PLAOBJPhase(PLAId aTag) :
-  PLAObject(PLAObjectType::Phase),
-  GRAOBJBinder<PLAOBJPhase>::Item(aTag, Manager::Instance())
+PLAOBJPhase::PLAOBJPhase(const PLAString &aName) :
+  PLAObject(PLAObjectType::Phase, aName),
+  GRAOBJBinder<PLAOBJPhase>::Item(aName, Manager::Instance())
 {
 
 }
 
-PLAOBJPhase::PLAOBJPhase(PLAId aTag, PLAString aName) :
-  PLAObject(PLAObjectType::Phase, aName),
+PLAOBJPhase::PLAOBJPhase(PLAId aTag) :
+  PLAObject(PLAObjectType::Phase),
   GRAOBJBinder<PLAOBJPhase>::Item(aTag, Manager::Instance())
 {
 

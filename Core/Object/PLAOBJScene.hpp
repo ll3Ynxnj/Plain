@@ -28,9 +28,11 @@ private:
 
 protected:
   PLAOBJScene();
+  PLAOBJScene(const PLAString &aName);
 
 public:
   static PLAOBJScene *Create();
+  static PLAOBJScene *Create(const PLAString &aName);
   static PLAOBJScene *Object(const PLAString &aName);
   static PLAOBJScene *Object(PLAId aId);
 

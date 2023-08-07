@@ -12,9 +12,11 @@ class PLAOBJState final: public PLAObject
 
 protected:
   PLAOBJState();
+  PLAOBJState(const PLAString &aName);
 
 public:
   static PLAOBJState *Create();
+  static PLAOBJState *Create(const PLAString &aName);
   static PLAOBJState *Object(const PLAString &aName);
   static PLAOBJState *Object(PLAId aId);
 

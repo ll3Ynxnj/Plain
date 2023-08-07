@@ -61,7 +61,8 @@ PLAOBJActor *PLAOBJActor::ObjectWithTag(PLAId aTag)
 
 PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec2f &aOrigin,
                                      const PLAVec2f &aSize,
-                                     const PLAColor &aFillColor)
+                                     const PLAColor &aFillColor,
+                                     const PLAString &aName)
 {
   PLARect rect = PLARect(kPLAVec2fNone, aSize);
   PLAOBJLayer *layer = new PLALYRRect(rect, aFillColor, kPLAColorNone,
@@ -69,21 +70,10 @@ PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec2f &aOrigin,
   PLATransform transform = PLATransform(PLAVec3f(aOrigin.x, aOrigin.y, 0.0f),
                                         kPLAVec3fNone, kPLAVec3fNorm);
 
-  PLAOBJActor *actor = new PLAOBJActor(kPLAVec3fNone, kPLAColorWhite, transform, layer);
-  actor->Init();
-  actor->Bind();
-  return actor;
-}
-
-PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec3f &aPivot,
-                                     const PLAColor &aColor,
-                                     const PLATransform &aTransform,
-                                     const PLARect &aRect)
-{
-  PLAOBJLayer *layer = new PLALYRRect(aRect, kPLAColorWhite, kPLAColorNone,
-                                      kPLAStrUndefined, kPLARectNone);
-
-  PLAOBJActor *actor = new PLAOBJActor(aPivot, aColor, aTransform, layer);//, motion);
+  PLAOBJActor *actor =
+    aName != kPLAStrUndefined ?
+    new PLAOBJActor(kPLAVec3fNone, kPLAColorWhite, transform, layer) :
+    new PLAOBJActor(kPLAVec3fNone, kPLAColorWhite, transform, layer, aName);
   actor->Init();
   actor->Bind();
   return actor;
@@ -93,11 +83,35 @@ PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec3f &aPivot,
                                      const PLAColor &aColor,
                                      const PLATransform &aTransform,
                                      const PLARect &aRect,
-                                     const PLAColor &aFillColor)
+                                     const PLAString &aName)
+{
+  PLAOBJLayer *layer = new PLALYRRect(aRect, kPLAColorWhite, kPLAColorNone,
+                                      kPLAStrUndefined, kPLARectNone);
+
+  //PLAOBJActor *actor = new PLAOBJActor(aPivot, aColor, aTransform, layer);//, motion);
+  PLAOBJActor *actor =
+    aName != kPLAStrUndefined ?
+    new PLAOBJActor(aPivot, aColor, aTransform, layer) :
+    new PLAOBJActor(aPivot, aColor, aTransform, layer, aName);
+  actor->Init();
+  actor->Bind();
+  return actor;
+}
+
+PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec3f &aPivot,
+                                     const PLAColor &aColor,
+                                     const PLATransform &aTransform,
+                                     const PLARect &aRect,
+                                     const PLAColor &aFillColor,
+                                     const PLAString &aName)
 {
   PLAOBJLayer *layer = new PLALYRRect(aRect, aFillColor, kPLAColorNone,
                                       kPLAStrUndefined, kPLARectNone);
-  PLAOBJActor *actor = new PLAOBJActor(aPivot, aColor, aTransform, layer);//, motion);
+  //PLAOBJActor *actor = new PLAOBJActor(aPivot, aColor, aTransform, layer);//, motion);
+  PLAOBJActor *actor =
+    aName != kPLAStrUndefined ?
+    new PLAOBJActor(aPivot, aColor, aTransform, layer) :
+    new PLAOBJActor(aPivot, aColor, aTransform, layer, aName);
   actor->Init();
   actor->Bind();
   return actor;
@@ -108,11 +122,16 @@ PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec3f &aPivot,
                                      const PLATransform &aTransform,
                                      const PLARect &aRect,
                                      const std::string &aImageName,
-                                     const PLARect &aClip)
+                                     const PLARect &aClip,
+                                     const PLAString &aName)
 {
   PLAOBJLayer *layer = new PLALYRRect(aRect, kPLAColorWhite, kPLAColorNone,
                                       aImageName, aClip);
-  PLAOBJActor *actor = new PLAOBJActor(aPivot, aColor, aTransform, layer);//, motion);
+  //PLAOBJActor *actor = new PLAOBJActor(aPivot, aColor, aTransform, layer);//, motion);
+  PLAOBJActor *actor =
+    aName != kPLAStrUndefined ?
+    new PLAOBJActor(aPivot, aColor, aTransform, layer) :
+    new PLAOBJActor(aPivot, aColor, aTransform, layer, aName);
   actor->Init();
   actor->Bind();
   return actor;
@@ -120,7 +139,8 @@ PLAOBJActor *PLAOBJActor::CreateRect(const PLAVec3f &aPivot,
 
 PLAOBJActor *PLAOBJActor::CreateCircle(const PLAVec2f &aOrigin,
                                        const PLAFloat aRadius,
-                                       const PLAColor &aFillColor)
+                                       const PLAColor &aFillColor,
+                                       const PLAString &aName)
 {
   PLACircle circle = PLACircle(kPLAVec2fNone, aRadius);
   PLAOBJLayer *layer = new PLALYRCircle(circle, aFillColor, kPLAColorNone,
@@ -128,20 +148,11 @@ PLAOBJActor *PLAOBJActor::CreateCircle(const PLAVec2f &aOrigin,
   PLATransform transform = PLATransform(PLAVec3f(aOrigin.x, aOrigin.y, 0.0f),
                                         kPLAVec3fNone, kPLAVec3fNorm);
 
-  PLAOBJActor *actor = new PLAOBJActor(kPLAVec3fNone, kPLAColorWhite, transform, layer);
-  actor->Init();
-  actor->Bind();
-  return actor;
-}
-
-PLAOBJActor *PLAOBJActor::CreateCircle(const PLAVec3f &aPivot,
-                                       const PLAColor &aColor,
-                                       const PLATransform &aTransform,
-                                       const PLACircle &aCircle)
-{
-  PLAOBJLayer *layer = new PLALYRCircle(aCircle, kPLAColorWhite, kPLAColorNone,
-                                        kPLAStrUndefined, kPLARectNone);
-  PLAOBJActor *actor = new PLAOBJActor(aPivot, aColor, aTransform, layer);//, motion);
+  //PLAOBJActor *actor = new PLAOBJActor(kPLAVec3fNone, kPLAColorWhite, transform, layer);
+  PLAOBJActor *actor =
+    aName != kPLAStrUndefined ?
+    new PLAOBJActor(kPLAVec3fNone, kPLAColorWhite, transform, layer) :
+    new PLAOBJActor(kPLAVec3fNone, kPLAColorWhite, transform, layer, aName);
   actor->Init();
   actor->Bind();
   return actor;
@@ -151,11 +162,34 @@ PLAOBJActor *PLAOBJActor::CreateCircle(const PLAVec3f &aPivot,
                                        const PLAColor &aColor,
                                        const PLATransform &aTransform,
                                        const PLACircle &aCircle,
-                                       const PLAColor &aFillColor)
+                                       const PLAString &aName)
+{
+  PLAOBJLayer *layer = new PLALYRCircle(aCircle, kPLAColorWhite, kPLAColorNone,
+                                        kPLAStrUndefined, kPLARectNone);
+  //PLAOBJActor *actor = new PLAOBJActor(aPivot, aColor, aTransform, layer);//, motion);
+  PLAOBJActor *actor =
+    aName != kPLAStrUndefined ?
+    new PLAOBJActor(aPivot, aColor, aTransform, layer) :
+    new PLAOBJActor(aPivot, aColor, aTransform, layer, aName);
+  actor->Init();
+  actor->Bind();
+  return actor;
+}
+
+PLAOBJActor *PLAOBJActor::CreateCircle(const PLAVec3f &aPivot,
+                                       const PLAColor &aColor,
+                                       const PLATransform &aTransform,
+                                       const PLACircle &aCircle,
+                                       const PLAColor &aFillColor,
+                                       const PLAString &aName)
 {
   PLAOBJLayer *layer = new PLALYRCircle(aCircle, aFillColor, kPLAColorNone,
                                         kPLAStrUndefined, kPLARectNone);
-  PLAOBJActor *actor = new PLAOBJActor(aPivot, aColor, aTransform, layer);//, motion);
+  //PLAOBJActor *actor = new PLAOBJActor(aPivot, aColor, aTransform, layer);//, motion);
+  PLAOBJActor *actor =
+    aName != kPLAStrUndefined ?
+    new PLAOBJActor(aPivot, aColor, aTransform, layer) :
+    new PLAOBJActor(aPivot, aColor, aTransform, layer, aName);
   actor->Init();
   actor->Bind();
   return actor;
@@ -166,11 +200,16 @@ PLAOBJActor *PLAOBJActor::CreateCircle(const PLAVec3f &aPivot,
                                        const PLATransform &aTransform,
                                        const PLACircle &aCircle,
                                        const std::string &aImageName,
-                                       const PLARect &aClip)
+                                       const PLARect &aClip,
+                                       const PLAString &aName)
 {
   PLAOBJLayer *layer = new PLALYRCircle(aCircle, kPLAColorWhite, kPLAColorNone,
                                         aImageName, aClip);
-  PLAOBJActor *actor = new PLAOBJActor(aPivot, aColor, aTransform, layer);//, motion);
+  //PLAOBJActor *actor = new PLAOBJActor(aPivot, aColor, aTransform, layer);//, motion);
+  PLAOBJActor *actor =
+    aName != kPLAStrUndefined ?
+    new PLAOBJActor(aPivot, aColor, aTransform, layer) :
+    new PLAOBJActor(aPivot, aColor, aTransform, layer, aName);
   actor->Init();
   actor->Bind();
   return actor;
@@ -180,12 +219,17 @@ PLAOBJActor *PLAOBJActor::CreateTile(const PLAVec2f &aOffset,
                                      const std::string &aImageName,
                                      const GRAVec2<PLASize> &aTileSize,
                                      const GRAVec2<PLASize> &aChipSize,
-                                     const IPLATileLayerDataSource *aDataSource)
+                                     const IPLATileLayerDataSource *aDataSource,
+                                     const PLAString &aName)
 {
   PLALYRTile *layer = new PLALYRTile(aOffset, aImageName, aTileSize, aChipSize,
                                      aDataSource);
-  PLAOBJActor *actor = new PLAOBJActor(kPLAVec3fNone, kPLAColorWhite,
-                                       kPLATransformNorm, layer);//, motion);
+  //PLAOBJActor *actor = new PLAOBJActor(kPLAVec3fNone, kPLAColorWhite,
+  //                                     kPLATransformNorm, layer);//, motion);
+  PLAOBJActor *actor =
+    aName != kPLAStrUndefined ?
+    new PLAOBJActor(kPLAVec3fNone, kPLAColorWhite, kPLATransformNorm, layer) :
+    new PLAOBJActor(kPLAVec3fNone, kPLAColorWhite, kPLATransformNorm, layer, aName);
   actor->Init();
   actor->Bind();
   return actor;
@@ -222,9 +266,23 @@ PLAOBJActor::PLAOBJActor(const PLAVec3f &aPivot,
   GRAOBJBinder<PLAOBJActor>::Item(Manager::Instance()),
   PLAInputContext(),
   PLAMotionHolder(),
-  //GRAOBJListener<PLAOBJScene, PLAFunctionCode::Scene>(),
-  //PLAOBJPhase::Listener(),
-  //GRAOBJBinder<PLAOBJActor>::Item(Manager::Instance()),
+  _pivot(aPivot),
+  _color(aColor),
+  _transform(aTransform),
+  _layer(aLayer)
+{
+  this->RefreshLayerOffset();
+}
+
+PLAOBJActor::PLAOBJActor(const PLAVec3f &aPivot,
+                         const PLAColor &aColor,
+                         const PLATransform &aTransform,
+                         PLAOBJLayer *aLayer,
+                         const PLAString &aName) :
+  PLAObject(PLAObjectType::Actor, aName),//"== PLAOBJActor =="),
+  GRAOBJBinder<PLAOBJActor>::Item(Manager::Instance()),
+  PLAInputContext(),
+  PLAMotionHolder(),
   _pivot(aPivot),
   _color(aColor),
   _transform(aTransform),

@@ -19,6 +19,7 @@ public:
   static PLATMLMotion *Create();
 
   PLATMLMotion();
+  PLATMLMotion(const PLAString &aName);
   ~PLATMLMotion() override {}
 
   PLAAGTMotion AssignAgent();

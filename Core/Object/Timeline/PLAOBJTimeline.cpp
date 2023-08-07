@@ -9,6 +9,9 @@
 
 PLAOBJTimeline *PLAOBJTimeline::Object(const PLAString &aName)
 {
+  if (aName == "") {
+    GRA_TRACE("PLAOBJTimeline::Object() : aName is empty.");
+  }
   auto object = PLAObject::Object(PLAObjectType::Timeline, aName);
   return static_cast<PLAOBJTimeline *>(object);
 }
@@ -20,7 +23,18 @@ PLAOBJTimeline *PLAOBJTimeline::Object(PLAId aId)
 }
 
 PLAOBJTimeline *PLAOBJTimeline::Create(PLAOBJTimeline *aParent) {
-  PLAOBJTimeline *thread = new PLAOBJTimeline(aParent, PLAObjectType::Timeline);
+  PLAOBJTimeline *thread = new PLAOBJTimeline(PLAObjectType::Timeline, aParent);
+  thread->Bind();
+  return thread;
+}
+
+PLAOBJTimeline *PLAOBJTimeline::Create(PLAOBJTimeline *aParent,
+                                       const PLAString &aName) {
+  if (aName == "") {
+    GRA_TRACE("PLAOBJTimeline::Object() : aName is empty.");
+  }
+  PLAOBJTimeline *thread = new PLAOBJTimeline(PLAObjectType::Timeline, aParent,
+                                              aName);
   thread->Bind();
   return thread;
 }
@@ -32,8 +46,23 @@ PLAOBJTimeline::PLAOBJTimeline(PLAObjectType aType):
 
 }
 
-PLAOBJTimeline::PLAOBJTimeline(PLAOBJTimeline *aParent, PLAObjectType aType):
+PLAOBJTimeline::PLAOBJTimeline(PLAObjectType aType, const PLAString &aName):
+  PLAObject(aType, aName),
+  _parent(nullptr)
+{
+
+}
+
+PLAOBJTimeline::PLAOBJTimeline(PLAObjectType aType, PLAOBJTimeline *aParent):
   PLAObject(aType),
+  _parent(aParent)
+{
+
+}
+
+PLAOBJTimeline::PLAOBJTimeline(PLAObjectType aType, PLAOBJTimeline *aParent,
+                               const PLAString &aName):
+  PLAObject(aType, aName),
   _parent(aParent)
 {
 

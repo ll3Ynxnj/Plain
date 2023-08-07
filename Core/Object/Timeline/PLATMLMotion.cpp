@@ -25,7 +25,13 @@ PLATMLMotion *PLATMLMotion::Create()
 }
 
 PLATMLMotion::PLATMLMotion():
-  PLAOBJTimeline(nullptr, PLAObjectType::Motion)
+  PLAOBJTimeline(PLAObjectType::Motion)
+{
+
+}
+
+PLATMLMotion::PLATMLMotion(const PLAString &aName):
+  PLAOBJTimeline(PLAObjectType::Motion, aName)
 {
 
 }

@@ -10,6 +10,14 @@ PLAOBJStage *PLAOBJStage::Create()
   return stage;
 }
 
+PLAOBJStage *PLAOBJStage::Create(const PLAString &aName)
+{
+  PLAOBJStage *stage = new PLAOBJStage();
+  stage->Init();
+  stage->Bind();
+  return stage;
+}
+
 PLAOBJStage *PLAOBJStage::Object(const PLAString &aName)
 {
   auto object = PLAObject::Object(PLAObjectType::Stage, aName);
@@ -29,6 +37,14 @@ PLAObject(PLAObjectType::Stage)
                                      kPLATransformNorm, kPLARectNone,
                                      kPLAColorGray);
   _context->SetObjectName("StageContext");
+}
+
+PLAOBJStage::PLAOBJStage(const PLAString &aName) :
+PLAObject(PLAObjectType::Stage, aName)
+{
+  _context = PLAOBJActor::CreateRect(kPLAVec3fNone, kPLAColorWhite,
+                                     kPLATransformNorm, kPLARectNone,
+                                     kPLAColorGray, aName + "::Context");
 }
 
 PLAOBJStage::~PLAOBJStage()
@@ -83,7 +99,7 @@ void PLAOBJStage::AddActor(PLAOBJActor *aActor)
 
   PLAString actorName = aActor->GetObjectName();
   if (actorName == kPLAStrUndefined) {
-    GRA_TRACE("");
+    GRA_TRACE("Object name is undefined.");
   }
   _context->AddActor(aActor);
 }

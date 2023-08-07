@@ -62,7 +62,8 @@ _type(aType)
 
 }
 
-PLAOBJTimelineNode::PLAOBJTimelineNode(PLAOBJTimelineNode::Type aType, PLAInt aLength):
+PLAOBJTimelineNode::PLAOBJTimelineNode(PLAOBJTimelineNode::Type aType,
+                                       PLAInt aLength):
 PLAObject(PLAObjectType::TimelineNode),
 _type(aType),
 _length(aLength)
@@ -70,7 +71,9 @@ _length(aLength)
 
 }
 
-PLAOBJTimelineNode::PLAOBJTimelineNode(PLAOBJTimelineNode::Type aType, PLAInt aLength, const std::string &aName):
+PLAOBJTimelineNode::PLAOBJTimelineNode(PLAOBJTimelineNode::Type aType,
+                                       PLAInt aLength,
+                                       const std::string &aName):
 PLAObject(PLAObjectType::TimelineNode, aName),
 _type(aType),
 _length(aLength)

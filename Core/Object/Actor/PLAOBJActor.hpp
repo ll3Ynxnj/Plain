@@ -62,10 +62,11 @@ class PLAOBJActor final :
   /// Calculate from pivot. Must be updated when pivot changes.
 
 protected:
-  PLAOBJActor(const PLAVec3f &aPivot,
-              const PLAColor &aColor,
-              const PLATransform &aTransform,
-              PLAOBJLayer *aLayer);//,
+  PLAOBJActor(const PLAVec3f &aPivot, const PLAColor &aColor,
+              const PLATransform &aTransform, PLAOBJLayer *aLayer);
+  PLAOBJActor(const PLAVec3f &aPivot, const PLAColor &aColor,
+              const PLATransform &aTransform, PLAOBJLayer *aLayer,
+              const PLAString &aName);
 
 public:
   using PLAActorItem = GRAOBJBinder<PLAOBJActor>::Item;
@@ -78,53 +79,62 @@ public:
 
   static PLAOBJActor *CreateRect(const PLAVec2f &aOrigin,
                                  const PLAVec2f &aSize,
-                                 const PLAColor &aFillColor);
-
-  static PLAOBJActor *CreateRect(const PLAVec3f &aPivot,
-                                 const PLAColor &aColor,
-                                 const PLATransform &aTransform,
-                                 const PLARect &aRect);
+                                 const PLAColor &aFillColor,
+                                 const PLAString &aName = kPLAStrUndefined);
 
   static PLAOBJActor *CreateRect(const PLAVec3f &aPivot,
                                  const PLAColor &aColor,
                                  const PLATransform &aTransform,
                                  const PLARect &aRect,
-                                 const PLAColor &aFillColor);
+                                 const PLAString &aName = kPLAStrUndefined);
+
+  static PLAOBJActor *CreateRect(const PLAVec3f &aPivot,
+                                 const PLAColor &aColor,
+                                 const PLATransform &aTransform,
+                                 const PLARect &aRect,
+                                 const PLAColor &aFillColor,
+                                 const PLAString &aName = kPLAStrUndefined);
 
   static PLAOBJActor *CreateRect(const PLAVec3f &aPivot,
                                  const PLAColor &aColor,
                                  const PLATransform &aTransform,
                                  const PLARect &aRect,
                                  const std::string &aImage,
-                                 const PLARect &aClip);
+                                 const PLARect &aClip,
+                                 const PLAString &aName = kPLAStrUndefined);
 
   static PLAOBJActor *CreateCircle(const PLAVec2f &aOrigin,
                                    const PLAFloat aRadius,
-                                   const PLAColor &aFillColor);
-
-  static PLAOBJActor *CreateCircle(const PLAVec3f &aPivot,
-                                   const PLAColor &aColor,
-                                   const PLATransform &aTransform,
-                                   const PLACircle &aCircle);
+                                   const PLAColor &aFillColor,
+                                   const PLAString &aName = kPLAStrUndefined);
 
   static PLAOBJActor *CreateCircle(const PLAVec3f &aPivot,
                                    const PLAColor &aColor,
                                    const PLATransform &aTransform,
                                    const PLACircle &aCircle,
-                                   const PLAColor &aFillColor);
+                                   const PLAString &aName = kPLAStrUndefined);
+
+  static PLAOBJActor *CreateCircle(const PLAVec3f &aPivot,
+                                   const PLAColor &aColor,
+                                   const PLATransform &aTransform,
+                                   const PLACircle &aCircle,
+                                   const PLAColor &aFillColor,
+                                   const PLAString &aName = kPLAStrUndefined);
 
   static PLAOBJActor *CreateCircle(const PLAVec3f &aPivot,
                                    const PLAColor &aColor,
                                    const PLATransform &aTransform,
                                    const PLACircle &aCircle,
                                    const std::string &aImage,
-                                   const PLARect &aClip);
+                                   const PLARect &aClip,
+                                   const PLAString &aName = kPLAStrUndefined);
 
   static PLAOBJActor *CreateTile(const PLAVec2f &aOffset,
                                  const std::string &aImageName,
                                  const GRAVec2<PLASize> &aTileSize,
                                  const GRAVec2<PLASize> &aChipSize,
-                                 const IPLATileLayerDataSource *aDataSource);
+                                 const IPLATileLayerDataSource *aDataSource,
+                                 const PLAString &aName = kPLAStrUndefined);
 
   void Bind() override;
 

@@ -30,17 +30,18 @@ public:
 
   static const char *GetBinderErrorMessage(Binder::Error aError);
   static PLAOBJModel *Create();
+  static PLAOBJModel *Create(const PLAString &aName);
   static PLAOBJModel *Object(const PLAString &aName);
   static PLAOBJModel *Object(PLAId aId);
   static PLAOBJModel *ObjectWithTag(PLAId aTag);
   void Bind() override;
 
 protected:
+  PLAOBJModel();
+  explicit PLAOBJModel(PLAString aName);
   void Unbind() override;
 
 public:
-  PLAOBJModel();
-  explicit PLAOBJModel(PLAString aName);
   ~PLAOBJModel();
 
   void Init();

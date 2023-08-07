@@ -22,9 +22,11 @@ private:
 
 protected:
   PLAOBJStage();
+  PLAOBJStage(const PLAString &aName);
 
 public:
   static PLAOBJStage *Create();
+  static PLAOBJStage *Create(const PLAString &aName);
   static PLAOBJStage *Object(const PLAString &aName);
   static PLAOBJStage *Object(PLAId aId);
 

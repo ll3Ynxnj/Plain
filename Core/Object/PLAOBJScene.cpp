@@ -15,6 +15,14 @@ PLAOBJScene *PLAOBJScene::Create()
   return scene;
 }
 
+PLAOBJScene *PLAOBJScene::Create(const PLAString &aName)
+{
+  PLAOBJScene *scene = new PLAOBJScene();
+  scene->Init();
+  scene->Bind();
+  return scene;
+}
+
 PLAOBJScene *PLAOBJScene::Object(const PLAString &aName)
 {
   auto object = PLAObject::Object(PLAObjectType::Scene, aName);
@@ -32,6 +40,12 @@ PLAOBJScene::PLAOBJScene() :
 {
   _context = PLAOBJPhase::Create();
   _context->SetObjectName("SceneContext");
+}
+
+PLAOBJScene::PLAOBJScene(const PLAString &aName) :
+  PLAObject(PLAObjectType::Scene, aName)
+{
+  _context = PLAOBJPhase::Create(aName + "::Context");
 }
 
 PLAOBJScene::~PLAOBJScene() {
