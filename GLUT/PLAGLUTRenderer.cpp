@@ -180,10 +180,6 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
                -motionProperties.translation.y,
                 motionProperties.translation.z);
   color *= motionProperties.color;
-  GRA_PRINT("color.a: %f", color.a);
-  if (0.0 < color.a && color.a < 1.0) {
-    GRA_TRACE("");
-  }
 
   switch (layer->GetLayerType())
   {
@@ -478,9 +474,10 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       const PLATMLMotion *motionThread = aLayer->GetMotionThread(address);
       MotionProperties motionProperties = MotionProperties();
       GetMotionProperties(motionThread, &motionProperties);
-      const PLAVec3f offset =
-        PLAVec3f(pxTable[x], pyTable[y], 0) + motionProperties.translation;
+      //const plavec3f offset =
+      //  plavec3f(pxtable[x], pytable[y], 0) + motionproperties.translation;
       static const PLAUInt kNumVertices = 12;
+      /*
       GLfloat vertices[kNumVertices] = {
         offset.x,
         -offset.y,
@@ -494,6 +491,13 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
         offset.x + chipSize.x,
         -offset.y - chipSize.y,
         offset.z,
+      };
+       */
+      GLfloat vertices[kNumVertices] = {
+        0, static_cast<GLfloat>(chipSize.y), 0,
+        static_cast<GLfloat>(chipSize.x), static_cast<GLfloat>(chipSize.y), 0,
+        0, 0, 0,
+        static_cast<GLfloat>(chipSize.x), 0, 0,
       };
 
       if (kIsDebug) {
@@ -551,6 +555,22 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
         }
       }
 
+      glPushMatrix();
+
+      glTranslatef(pxTable[x], -pxTable[y], 0);
+
+      auto translation = motionProperties.translation;
+      glTranslatef(translation.x, -translation.y, translation.z);
+
+      auto rotation = motionProperties.rotation;
+      //glTranslatef(chipSize.x / 2, chipSize.y / 2, 0);
+      glTranslatef(12, 12, 0);
+      glRotatef(rotation.x, 1.0, 0.0, 0.0);
+      glRotatef(rotation.y, 0.0, 1.0, 0.0);
+      glRotatef(rotation.z, 0.0, 0.0, 1.0);
+      //glTranslatef(-chipSize.x / 2, -chipSize.y / 2, 0);
+      glTranslatef(-12, -12, 0);
+
       glVertexPointer(3, GL_FLOAT, 0, vertices);
       glColorPointer(4, GL_FLOAT, 0, colors);
       glTexCoordPointer(2, GL_FLOAT, 0, coords);
@@ -561,6 +581,8 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       glArrayElement(2);
       glArrayElement(3);
       glEnd();
+
+      glPopMatrix();
     }
   }
 }
