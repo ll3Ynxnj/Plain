@@ -494,10 +494,10 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       };
        */
       GLfloat vertices[kNumVertices] = {
-        0, static_cast<GLfloat>(chipSize.y), 0,
-        static_cast<GLfloat>(chipSize.x), static_cast<GLfloat>(chipSize.y), 0,
         0, 0, 0,
         static_cast<GLfloat>(chipSize.x), 0, 0,
+        0, -static_cast<GLfloat>(chipSize.y), 0,
+        static_cast<GLfloat>(chipSize.x), -static_cast<GLfloat>(chipSize.y), 0,
       };
 
       if (kIsDebug) {
@@ -564,12 +564,12 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
 
       auto rotation = motionProperties.rotation;
       //glTranslatef(chipSize.x / 2, chipSize.y / 2, 0);
-      glTranslatef(12, 12, 0);
+      glTranslatef(12, -12, 0);
       glRotatef(rotation.x, 1.0, 0.0, 0.0);
       glRotatef(rotation.y, 0.0, 1.0, 0.0);
       glRotatef(rotation.z, 0.0, 0.0, 1.0);
       //glTranslatef(-chipSize.x / 2, -chipSize.y / 2, 0);
-      glTranslatef(-12, -12, 0);
+      glTranslatef(-12, 12, 0);
 
       glVertexPointer(3, GL_FLOAT, 0, vertices);
       glColorPointer(4, GL_FLOAT, 0, colors);
