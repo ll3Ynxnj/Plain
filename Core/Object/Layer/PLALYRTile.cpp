@@ -45,14 +45,18 @@ PLALYRTile::~PLALYRTile()
 void PLALYRTile::AddMotionThread(const PLAVec2s &aAddress,
                                  PLATMLMotion *aThread)
 {
-  _timelineHolders[aAddress.y][aAddress.x]->PLATimelineHolder::AddThread(
+  auto dataAddress = _dataSource->GetDataAddress();
+  auto holderAddress = aAddress - dataAddress;
+  _timelineHolders[holderAddress.y][holderAddress.x]->PLATimelineHolder::AddThread(
     aThread);
 };
 
 const PLATMLMotion *PLALYRTile::GetMotionThread(const PLAVec2s &aAddress) const
 {
+  auto dataAddress = _dataSource->GetDataAddress();
+  auto holderAddress = aAddress - dataAddress;
   return static_cast<const PLATMLMotion *>
-  (_timelineHolders[aAddress.y][aAddress.x]->GetTimeline());
+  (_timelineHolders[holderAddress.y][holderAddress.x]->GetTimeline());
 };
 
 PLARect PLALYRTile::GetRect() const
