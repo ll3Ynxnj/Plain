@@ -47,6 +47,12 @@ void PLALYRTile::AddMotionThread(const PLAVec2s &aAddress,
 {
   auto dataAddress = _dataSource->GetDataAddress();
   auto holderAddress = aAddress - dataAddress;
+  if (holderAddress.x < 0 || _tileSize.x <= holderAddress.x) {
+    return;
+  }
+  if (holderAddress.y < 0 || _tileSize.y <= holderAddress.y) {
+    return;
+  }
   _timelineHolders[holderAddress.y][holderAddress.x]->PLATimelineHolder::AddThread(
     aThread);
 };
