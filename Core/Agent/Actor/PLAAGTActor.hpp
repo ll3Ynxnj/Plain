@@ -17,6 +17,7 @@
 #include "Primitive/PLAPRMTransform.hpp"
 
 #include "Object/Input/PLAInput.hpp"
+#include "Object/Layer/PLALYRTile.hpp"
 
 class PLAOBJActor;
 
@@ -52,7 +53,7 @@ public:
   void SetActorTag(PLAId aTag) const;
 
   void AddMotion(const PLAAGTMotion &aMotion) const;
-  void AddTileMotion(const PLAVec2s &aAddress, const PLAAGTMotion &aMotion) const;
+  void AddTileMotion(const PLATileDataAddress &aAddress, const PLAAGTMotion &aMotion) const;
 
   /// Path-through to InputContext /////////////////////////////////////////////
   void SetInputActive(bool aActive) const;

@@ -463,11 +463,11 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
   GLfloat cw = static_cast<GLfloat>(chipSize.x) / 1024;
   GLfloat ch = static_cast<GLfloat>(chipSize.y) / 1024;
 
-  const PLAVec2s dataAddress = aLayer->GetDataAddress();
+  const PLATileDataAddress dataAddress = aLayer->GetDataAddress();
   for (PLAInt y = 0; y < tileSize.y; y++) {
     for (PLAInt x = 0; x < tileSize.x; x++)
     {
-      PLAVec2s address(dataAddress.x + x, dataAddress.y + y);
+      PLATileDataAddress address(dataAddress.x + x, dataAddress.y + y);
       const PLATileChip chip = aLayer->GetChip(address);
       if (chip.code == kPLATileChipCodeNone) { continue; }
 

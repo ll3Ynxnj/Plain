@@ -42,7 +42,7 @@ PLALYRTile::~PLALYRTile()
    GRA_DELETE(_image);
 };
 
-void PLALYRTile::AddMotionThread(const PLAVec2s &aAddress,
+void PLALYRTile::AddMotionThread(const PLATileDataAddress &aAddress,
                                  PLATMLMotion *aThread)
 {
   auto dataAddress = _dataSource->GetDataAddress();
@@ -57,7 +57,7 @@ void PLALYRTile::AddMotionThread(const PLAVec2s &aAddress,
     aThread);
 };
 
-const PLATMLMotion *PLALYRTile::GetMotionThread(const PLAVec2s &aAddress) const
+const PLATMLMotion *PLALYRTile::GetMotionThread(const PLATileDataAddress &aAddress) const
 {
   auto dataAddress = _dataSource->GetDataAddress();
   auto holderAddress = aAddress - dataAddress;

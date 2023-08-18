@@ -33,18 +33,18 @@ public:
 
   virtual ~PLALYRTile();
 
-  void AddMotionThread(const PLAVec2s &aAddress, PLATMLMotion *aThread);
+  void AddMotionThread(const PLATileDataAddress &aAddress, PLATMLMotion *aThread);
 
   const PLAOBJImage *GetImage() const { return _image; };
   const PLAVec2s &GetTileSize() const { return _tileSize; };
   const PLAVec2s &GetChipSize() const { return _chipSize; };
-  const PLATileChip GetChip(const PLAVec2s &aAddress) const
+  const PLATileChip GetChip(const PLATileDataAddress &aAddress) const
   { return _dataSource->GetTileChip(aAddress); }
-  const PLATMLMotion *GetMotionThread(const PLAVec2s &aAddress) const;
+  const PLATMLMotion *GetMotionThread(const PLATileDataAddress &aAddress) const;
 
   PLASize GetNumberOfChips() const { return _tileSize.x * _tileSize.y; };
 
-  PLAVec2s GetDataAddress() const { return _dataSource->GetDataAddress(); };
+  PLATileDataAddress GetDataAddress() const { return _dataSource->GetDataAddress(); };
 
   PLARect GetRect() const;
 

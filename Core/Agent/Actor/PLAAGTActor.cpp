@@ -128,7 +128,7 @@ void PLAAGTActor::AddMotion(const PLAAGTMotion &aMotion) const
   actor->AddThread(motion);
 }
 
-void PLAAGTActor::AddTileMotion(const PLAVec2s &aAddress, const PLAAGTMotion &aMotion) const
+void PLAAGTActor::AddTileMotion(const PLATileDataAddress &aAddress, const PLAAGTMotion &aMotion) const
 {
   auto id = aMotion.GetObjectId();
   auto motion = PLATMLMotion::Object(id);

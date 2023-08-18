@@ -223,7 +223,7 @@ public:
                    const std::function<void(PLAOBJActor *)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
 
-  void AddTileMotion(const PLAVec2s &aAddress, PLATMLMotion *aThread);
+  void AddTileMotion(const PLATileDataAddress &aAddress, PLATMLMotion *aThread);
 
 private:
   void OnUpdate();

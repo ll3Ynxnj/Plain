@@ -6,20 +6,24 @@
 #include "Primitive/PLAPRMTile.hpp"
 
 using PLATileDataSize = PLAVec2s;
-static const PLATileDataSize kPLATileDataSizeNone = kPLAVec2sNone;
-static const PLATileDataSize kPLATileDataSizeNorm = kPLAVec2sNorm;
+static const PLATileDataSize kPLATileDataSizeUndefined = kPLAVec2sUndefined;
+static const PLATileDataSize kPLATileDataSizeNone      = kPLAVec2sNone;
+static const PLATileDataSize kPLATileDataSizeNorm      = kPLAVec2sNorm;
 
-using PLATileDataAddress = PLAVec2s;
-static const PLATileDataAddress kPLATileDataAddressNone = kPLAVec2sNone;
-static const PLATileDataAddress kPLATileDataAddressNorm = kPLAVec2sNorm;
+using PLATileDataAddress = PLAVec2i;
+static const PLATileDataAddress kPLATileDataAddressUndefined = kPLAVec2iUndefined;
+static const PLATileDataAddress kPLATileDataAddressNone      = kPLAVec2iNone;
+static const PLATileDataAddress kPLATileDataAddressNorm      = kPLAVec2iNorm;
 
 using PLATileChunkSize = PLAVec2s;
-static const PLATileChunkSize kPLATileChunkSizeNone = kPLAVec2sNone;
-static const PLATileChunkSize kPLATileChunkSizeNorm = kPLAVec2sNorm;
+static const PLATileChunkSize kPLATileChunkSizeUndefined = kPLAVec2sUndefined;
+static const PLATileChunkSize kPLATileChunkSizeNone      = kPLAVec2sNone;
+static const PLATileChunkSize kPLATileChunkSizeNorm      = kPLAVec2sNorm;
 
-using PLATileChunkAddress = PLAVec2s;
-static const PLATileChunkAddress kPLATileChunkAddressNone = kPLAVec2sNone;
-static const PLATileChunkAddress kPLATileChunkAddressNorm = kPLAVec2sNorm;
+using PLATileChunkAddress = PLAVec2i;
+static const PLATileChunkAddress kPLATileChunkAddressUndefined = kPLAVec2iUndefined;
+static const PLATileChunkAddress kPLATileChunkAddressNone      = kPLAVec2iNone;
+static const PLATileChunkAddress kPLATileChunkAddressNorm      = kPLAVec2iNorm;
 
 class IPLATileLayerDataSource
 {
@@ -28,7 +32,7 @@ public:
   virtual PLATileDataAddress GetDataAddress() const = 0;
   virtual PLATileChunkSize GetChunkSize() const = 0;
   virtual PLATileChunkAddress GetChunkAddress() const = 0;
-  virtual const PLATileChip GetTileChip(const PLAVec2s &aAddress) const = 0;
+  virtual const PLATileChip GetTileChip(const PLATileDataAddress &aAddress) const = 0;
 };
 
 #endif //PLAIN_IPLATILELAYERDATASOURCE_HPP
