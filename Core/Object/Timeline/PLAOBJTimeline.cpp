@@ -70,7 +70,8 @@ PLAOBJTimeline::PLAOBJTimeline(PLAObjectType aType, PLAOBJTimeline *aParent,
 
 PLAOBJTimeline::~PLAOBJTimeline() noexcept
 {
-
+  _functor.RunFunction(PLAFunctionCode::Timeline::OnDestroy,
+                       PLAAGTTimeline(this));
 }
 
 void PLAOBJTimeline::Update() {

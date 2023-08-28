@@ -73,6 +73,7 @@ namespace PLAFunctionCode
     OnStart,  ///< \~english Runs before first update. \~japanese 初回の更新より前に実行。
     OnUpdate, ///< \~english Runs on every update. \~japanese 毎回の更新時に実行。
     OnStop,   ///< \~english Runs after last update. \~japanese 最後の更新より後に実行。
+    OnDestroy,///< \~english Runs when timeline is destroyed. \~japanese タイムラインが破棄されるときに実行。
 
     kNumberOfItems,
     None = kNone,
