@@ -7,6 +7,7 @@
 
 class PLAOBJTimelineNode;
 class PLAOBJTimeline;
+class PLAAGTTimeline;
 
 class PLATimelineHolder
 {
@@ -17,7 +18,8 @@ public:
   PLATimelineHolder(PLAOBJTimeline *aTimeline);
   virtual ~PLATimelineHolder() noexcept;
 
-  void AddThread(PLAOBJTimeline *aThread);
+  void AddTimelineThread(PLAOBJTimeline *aThread);
+  void AddTimelineThread(const PLAAGTTimeline &aAgent);
 
   const PLAOBJTimeline *GetTimeline() const { return _timeline; }
 

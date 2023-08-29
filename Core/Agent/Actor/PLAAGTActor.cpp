@@ -125,9 +125,10 @@ void PLAAGTActor::AddMotion(const PLAAGTMotion &aMotion) const
   auto id = aMotion.GetObjectId();
   auto motion = PLATMLMotion::Object(id);
   auto actor = this->RefActor();
-  actor->AddThread(motion);
+  actor->AddTimelineThread(motion);
 }
 
+/*
 void PLAAGTActor::AddTileMotion(const PLATileDataAddress &aAddress, const PLAAGTMotion &aMotion) const
 {
   auto id = aMotion.GetObjectId();
@@ -135,6 +136,7 @@ void PLAAGTActor::AddTileMotion(const PLATileDataAddress &aAddress, const PLAAGT
   auto actor = this->RefActor();
   actor->AddTileMotion(aAddress, motion);
 }
+ */
 
 void PLAAGTActor::SetInputActive(bool aActive) const
 {

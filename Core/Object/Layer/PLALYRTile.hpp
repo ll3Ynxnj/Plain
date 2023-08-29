@@ -14,8 +14,8 @@ class PLALYRTile : public PLAOBJLayer
   GRAVec2<PLASize> _tileSize = GRAVec2<PLASize>(0);
   GRAVec2<PLASize> _chipSize = GRAVec2<PLASize>(0);
   const IPLATileLayerDataSource *_dataSource = nullptr;
-  std::vector<std::vector<PLATimelineHolder *>> _timelineHolders =
-    std::vector<std::vector<PLATimelineHolder *>>(0);
+  //std::vector<std::vector<PLATimelineHolder *>> _timelineHolders =
+  //  std::vector<std::vector<PLATimelineHolder *>>(0);
 
 public:
   PLALYRTile(const PLAVec2f &aOffset, const std::string &aImageName,
@@ -33,14 +33,14 @@ public:
 
   virtual ~PLALYRTile();
 
-  void AddMotionThread(const PLATileDataAddress &aAddress, PLATMLMotion *aThread);
+  //void AddMotionThread(const PLATileDataAddress &aAddress, PLATMLMotion *aThread);
 
   const PLAOBJImage *GetImage() const { return _image; };
   const PLAVec2s &GetTileSize() const { return _tileSize; };
   const PLAVec2s &GetChipSize() const { return _chipSize; };
   const PLATileChip GetChip(const PLATileDataAddress &aAddress) const
   { return _dataSource->GetTileChip(aAddress); }
-  const PLATMLMotion *GetMotionThread(const PLATileDataAddress &aAddress) const;
+  const PLATMLMotion *GetMotion(const PLATileDataAddress &aAddress) const;
 
   PLASize GetNumberOfChips() const { return _tileSize.x * _tileSize.y; };
 

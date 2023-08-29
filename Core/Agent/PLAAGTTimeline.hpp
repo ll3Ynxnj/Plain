@@ -17,6 +17,8 @@ class PLAAGTTimelineNode;
 class PLAAGTTimeline: public PLAAgent
 {
 public:
+  friend class PLATimelineHolder;
+
   /// Agent is const method only.
   PLAAGTTimeline() = delete;
   explicit PLAAGTTimeline(PLAOBJTimeline *aOwner);

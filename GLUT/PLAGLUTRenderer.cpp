@@ -471,9 +471,9 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       const PLATileChip chip = aLayer->GetChip(address);
       if (chip.code == kPLATileChipCodeNone) { continue; }
 
-      const PLATMLMotion *motionThread = aLayer->GetMotionThread(address);
+      const PLATMLMotion *motion = aLayer->GetMotion(address);
       MotionProperties motionProperties = MotionProperties();
-      GetMotionProperties(motionThread, &motionProperties);
+      GetMotionProperties(motion, &motionProperties);
       //const plavec3f offset =
       //  plavec3f(pxtable[x], pytable[y], 0) + motionproperties.translation;
       static const PLAUInt kNumVertices = 12;

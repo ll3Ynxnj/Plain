@@ -6,6 +6,19 @@
 
 #include "PLAMotionHolder.hpp"
 #include "PLATMLMotion.hpp"
+#include "Agent/PLAAGTMotion.hpp"
+
+/*
+void PLAMotionHolder::AddMotionThread(PLATMLMotion *aMotion)
+{
+  auto timeline = this->GetTimeline();
+  if (timeline)
+  {
+    GRA_TRACE("%s", timeline->GetObjectName().c_str());
+  }
+  this->AddTimelineThread(aMotion);
+}
+ */
 
 const PLATMLMotion *PLAMotionHolder::GetMotion() const
 {
@@ -15,4 +28,15 @@ const PLATMLMotion *PLAMotionHolder::GetMotion() const
     GRA_TRACE("%s", timeline->GetObjectName().c_str());
   }
   return static_cast<const PLATMLMotion *>(this->GetTimeline());
+}
+
+void PLAMotionHolder::AddMotionThread(PLATMLMotion *aThread)
+{
+  this->AddTimelineThread(aThread);
+}
+
+void PLAMotionHolder::AddMotionThread(const PLAAGTMotion &aAgent)
+{
+  auto thread = aAgent.RefMotion();
+  this->AddMotionThread(thread);
 }

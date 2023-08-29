@@ -11,10 +11,14 @@
 #include "PLATimelineHolder.hpp"
 
 class PLATMLMotion;
+class PLAAGTMotion;
 
 class PLAMotionHolder: public PLATimelineHolder
 {
 public:
+  void AddMotionThread(PLATMLMotion *aThread);
+  void AddMotionThread(const PLAAGTMotion &aAgent);
+
   const PLATMLMotion *GetMotion() const;
 };
 

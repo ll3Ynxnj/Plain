@@ -5,6 +5,7 @@
 #include "PLATimelineHolder.hpp"
 #include "PLAOBJTimeline.hpp"
 #include "Core/App/PLAApp.hpp"
+#include "Core/Agent/PLAAGTTimeline.hpp"
 
 // PLATimelineHolder ///////////////////////////////////////////////////////////
 
@@ -24,7 +25,7 @@ PLATimelineHolder::~PLATimelineHolder() noexcept
 
 }
 
-void PLATimelineHolder::AddThread(PLAOBJTimeline *aThread)
+void PLATimelineHolder::AddTimelineThread(PLAOBJTimeline *aThread)
 {
   if (!_timeline) {
     _timeline = PLAOBJTimeline::Create(nullptr);
@@ -32,6 +33,12 @@ void PLATimelineHolder::AddThread(PLAOBJTimeline *aThread)
     PLAApp::Instance()->AddTimelineThread(_timeline);
   }
   _timeline->AddThread(aThread);
+}
+
+void PLATimelineHolder::AddTimelineThread(const PLAAGTTimeline &aAgent)
+{
+  auto thread = aAgent.RefTimeline();
+  this->AddTimelineThread(thread);
 }
 
 void PLATimelineHolder::OnFinishTimeline()

@@ -497,6 +497,7 @@ PLALYRTile *PLAOBJActor::RefLayerForTile()
   return static_cast<PLALYRTile *>(_layer);
 }
 
+/*
 void PLAOBJActor::AddTileMotion(const PLATileDataAddress &aAddress, PLATMLMotion *aThread)
 {
   PLALYRTile *layer = this->RefLayerForTile();
@@ -506,6 +507,7 @@ void PLAOBJActor::AddTileMotion(const PLATileDataAddress &aAddress, PLATMLMotion
   }
   layer->AddMotionThread(aAddress, aThread);
 }
+ */
 
 void PLAOBJActor::RefreshLayerOffset()
 {

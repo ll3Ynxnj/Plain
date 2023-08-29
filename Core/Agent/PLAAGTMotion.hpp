@@ -14,11 +14,13 @@ class PLATMLMotion;
 
 class PLAAGTMotion: public PLAAGTTimeline
 {
-  public:
-    /// Agent is const method only.
-    PLAAGTMotion() = delete;
-    explicit PLAAGTMotion(PLATMLMotion *aOwner);
-    virtual ~PLAAGTMotion() noexcept;
+public:
+  friend class PLAMotionHolder;
+
+  /// Agent is const method only.
+  PLAAGTMotion() = delete;
+  explicit PLAAGTMotion(PLATMLMotion *aOwner);
+  virtual ~PLAAGTMotion() noexcept;
 
 protected:
   const PLATMLMotion *GetMotion() const;

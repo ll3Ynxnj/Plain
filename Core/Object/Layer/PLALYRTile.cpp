@@ -23,6 +23,7 @@ PLALYRTile::PLALYRTile(const PLAVec2f &aOffset, const std::string &aImageName,
 {
   //_image = PLAOBJImage::CreateRaw(aImageName);
   _image = new PLAOBJImage(aImageName, PLAOBJImageSize(1024), PLAImageType::Raw);
+  /*
   for (PLASize y = 0; y < aTileSize.y; y++) {
     std::vector<PLATimelineHolder *> holders(0);
     for (PLASize x = 0; x < aTileSize.x; x++) {
@@ -30,18 +31,22 @@ PLALYRTile::PLALYRTile(const PLAVec2f &aOffset, const std::string &aImageName,
     }
     _timelineHolders.push_back(holders);
   }
+   */
 };
 
 PLALYRTile::~PLALYRTile()
 {
-   for (PLASize y = 0; y < _tileSize.y; y++) {
-      for (PLASize x = 0; x < _tileSize.x; x++) {
-        GRA_DELETE(_timelineHolders[y][x]);
-      }
-   }
-   GRA_DELETE(_image);
+  /*
+  for (PLASize y = 0; y < _tileSize.y; y++) {
+     for (PLASize x = 0; x < _tileSize.x; x++) {
+       GRA_DELETE(_timelineHolders[y][x]);
+     }
+  }
+  */
+  GRA_DELETE(_image);
 };
 
+/*
 void PLALYRTile::AddMotionThread(const PLATileDataAddress &aAddress,
                                  PLATMLMotion *aThread)
 {
@@ -53,16 +58,19 @@ void PLALYRTile::AddMotionThread(const PLATileDataAddress &aAddress,
   if (holderAddress.y < 0 || _tileSize.y <= holderAddress.y) {
     return;
   }
-  _timelineHolders[holderAddress.y][holderAddress.x]->PLATimelineHolder::AddThread(
+  _timelineHolders[holderAddress.y][holderAddress.x]->PLATimelineHolder::AddTimelineThread(
     aThread);
 };
+ */
 
-const PLATMLMotion *PLALYRTile::GetMotionThread(const PLATileDataAddress &aAddress) const
+const PLATMLMotion *PLALYRTile::GetMotion(const PLATileDataAddress &aAddress) const
 {
-  auto dataAddress = _dataSource->GetDataAddress();
-  auto holderAddress = aAddress - dataAddress;
-  return static_cast<const PLATMLMotion *>
-  (_timelineHolders[holderAddress.y][holderAddress.x]->GetTimeline());
+  auto motionThread = _dataSource->GetMotion(aAddress);
+  return motionThread;
+  //auto dataAddress = _dataSource->GetDataAddress();
+  //auto holderAddress = aAddress - dataAddress;
+  //return static_cast<const PLATMLMotion *>
+  //(_timelineHolders[holderAddress.y][holderAddress.x]->GetTimeline());
 };
 
 PLARect PLALYRTile::GetRect() const
