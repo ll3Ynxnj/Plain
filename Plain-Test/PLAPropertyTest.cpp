@@ -15,9 +15,9 @@ protected:
     _properties["Int"] = PLAProperty(PLAPropertyType::Int);
     _properties["Float"] = PLAProperty(PLAPropertyType::Float);
     _properties["Color"] = PLAProperty(PLAPropertyType::Color);
-    _properties["Vec2"] = PLAProperty(PLAPropertyType::Vec2);
-    _properties["Vec3"] = PLAProperty(PLAPropertyType::Vec3);
-    _properties["Vec4"] = PLAProperty(PLAPropertyType::Vec4);
+    _properties["Vec2"] = PLAProperty(PLAPropertyType::Vec2f);
+    _properties["Vec3"] = PLAProperty(PLAPropertyType::Vec3f);
+    _properties["Vec4"] = PLAProperty(PLAPropertyType::Vec4f);
   }
 
   virtual void TearDown()
@@ -44,12 +44,12 @@ TEST_F(PLAPropertyTest, SettingAndGettingValue)
   ASSERT_EQ(color.a, _properties.at("Color").GetColor().a);
   PLAFloat x(1.414), y(1.618);
   PLAVec2f vec2 = PLAVec2f(x, y);
-  _properties.at("Vec2").SetVec2fvec2);
+  _properties.at("Vec2").SetVec2f(vec2);
   ASSERT_EQ(vec2.x, _properties.at("Vec2").GetVec2f().x);
   ASSERT_EQ(vec2.y, _properties.at("Vec2").GetVec2f().y);
   PLAFloat z(3.141);
   PLAVec3f vec3 = PLAVec3f(x, y, z);
-  _properties.at("Vec3").SetVec3fvec3);
+  _properties.at("Vec3").SetVec3f(vec3);
   ASSERT_EQ(vec3.x, _properties.at("Vec3").GetVec3f().x);
   ASSERT_EQ(vec3.y, _properties.at("Vec3").GetVec3f().y);
   ASSERT_EQ(vec3.z, _properties.at("Vec3").GetVec3f().z);

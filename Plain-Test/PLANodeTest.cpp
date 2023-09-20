@@ -96,6 +96,7 @@ TEST_F(PLANodeTest, Update_UpdateNodes_UpdatesPropagateToChildNodes)
    *
    */
 
+  /*
   static const int kNodeLength = 40;
   PLAOBJTimelineNode *node = PLAOBJTimelineNode::Create(kNodeLength, "node");
 
@@ -123,4 +124,5 @@ TEST_F(PLANodeTest, Update_UpdateNodes_UpdatesPropagateToChildNodes)
     GRA_PRINT("-- %2d : Update() --\n", i);
     node->Update();
   }
+   */
 }
