@@ -74,6 +74,7 @@ public:
     void PrintResources() const;
 
   private:
+    void Load();
     void LoadResource(const PLAString &aName);
   };
 };

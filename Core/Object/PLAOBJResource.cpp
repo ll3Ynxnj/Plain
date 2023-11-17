@@ -1,3 +1,5 @@
+#include <filesystem>
+
 #include "PLAOBJResource.hpp"
 #include "PLAOBJError.hpp"
 
@@ -96,14 +98,35 @@ PLAOBJResource::Manager::~Manager()
 
 }
 
+/*
 void PLAOBJResource::Manager::Init()
 {
   GRAOBJBinder<PLAOBJResource>::Init();
 
   this->LoadResource("sample0.raw");
   this->LoadResource("sample1.raw");
-  this->LoadResource("sample2.raw");
+  this->LoadResource("tilechip.raw");
   this->LoadResource("font0.raw");
+}
+ */
+
+void PLAOBJResource::Manager::Init()
+{
+  GRAOBJBinder<PLAOBJResource>::Init();
+  this->Load();
+}
+
+void PLAOBJResource::Manager::Load()
+{
+  std::string path = "Resources";
+  for (const auto& entry : std::filesystem::directory_iterator(path))
+  {
+    if (entry.is_regular_file())
+    {
+      std::string filename = entry.path().filename().string();
+      this->LoadResource(filename);
+    }
+  }
 }
 
 PLAOBJResource *PLAOBJResource::Manager::Resource(const PLAString &aKey)
@@ -141,7 +164,8 @@ const PLAOBJResource *PLAOBJResource::Manager::GetResource(const PLAString &aNam
 
 void PLAOBJResource::Manager::LoadResource(const PLAString &aName)
 {
-  PLAString path = "/Users/ll3ynxnj/Projects/anhr/";
+  //PLAString path = "/Users/ll3ynxnj/03_Projects/13_CMake/anhr/Resources/";
+  PLAString path = "Resources/";
   path.append(aName);
   PLAOBJResource *resource = PLAOBJResource::Create(aName, path);
   resource->AllocData();
