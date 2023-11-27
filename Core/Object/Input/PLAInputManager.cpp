@@ -26,7 +26,7 @@ void PLAInputManager::Input(PLAInputDeviceType aDeviceType,
                             PLAInputSignal aSignal,
                             const PLAPoint &aScreenPoint)
 {
-  GRA_PRINT("DEVICE : %02x  CODE : %02x %1s  SIGNAL : %d  "
+  GRA_PRINT("[INPUT] DEVICE : %02x  CODE : %02x %1s  SIGNAL : %d  "
             "SCREEN_POINT : x %.2f  y %.2f\n",
             aDeviceType, aCode, &aCode, aSignal,
             aScreenPoint.x, aScreenPoint.y);

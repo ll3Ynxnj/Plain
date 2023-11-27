@@ -39,7 +39,7 @@ void PLAOBJTimelineNode::Bind()
 
 void PLAOBJTimelineNode::Unbind()
 {
-  GRA_PRINT("PLAOBJTimelineNode::Unbind : %s\n", this->GetObjectName().c_str());
+  //GRA_PRINT("PLAOBJTimelineNode::Unbind : %s\n", this->GetObjectName().c_str());
   GRAOBJBinder<PLAOBJTimelineNode>::Error error(GRAOBJBinder<PLAOBJTimelineNode>::Error::None);
   if (error != GRAOBJBinder<PLAOBJTimelineNode>::Error::None)
   {
@@ -127,27 +127,27 @@ PLAAGTTimelineNode PLAOBJTimelineNode::AssignAgent()
 
 void PLAOBJTimelineNode::OnStart()
 {
-  GRA_PRINT("%s| %s : TimelineNode::OnStart(), _steps: %3d\n",
-            "  ", //DBG_PLAOBJTimeline_Update_Indent.c_str(),
-            this->GetObjectName().c_str(), _steps);
+  //GRA_PRINT("%s| %s : TimelineNode::OnStart(), _steps: %3d\n",
+  //          "  ", //DBG_PLAOBJTimeline_Update_Indent.c_str(),
+  //          this->GetObjectName().c_str(), _steps);
   _functor.RunFunction(PLAFunctionCode::TimelineNode::OnStart,
                        PLAAGTTimelineNode(this));
 }
 
 void PLAOBJTimelineNode::OnUpdate()
 {
-  GRA_PRINT("%s| %s : TimelineNode::OnUpdate(), _steps: %3d\n",
-            "  ", //DBG_PLAOBJTimeline_Update_Indent.c_str(),
-            this->GetObjectName().c_str(), _steps);
+  //GRA_PRINT("%s| %s : TimelineNode::OnUpdate(), _steps: %3d\n",
+  //          "  ", //DBG_PLAOBJTimeline_Update_Indent.c_str(),
+  //          this->GetObjectName().c_str(), _steps);
   _functor.RunFunction(PLAFunctionCode::TimelineNode::OnUpdate,
                        PLAAGTTimelineNode(this));
 }
 
 void PLAOBJTimelineNode::OnStop()
 {
-  GRA_PRINT("%s| %s : TimelineNode::OnStop(), _steps: %3d\n",
-            "  ", //DBG_PLAOBJTimeline_Update_Indent.c_str(),
-            this->GetObjectName().c_str(), _steps);
+  //GRA_PRINT("%s| %s : TimelineNode::OnStop(), _steps: %3d\n",
+  //          "  ", //DBG_PLAOBJTimeline_Update_Indent.c_str(),
+  //          this->GetObjectName().c_str(), _steps);
   _functor.RunFunction(PLAFunctionCode::TimelineNode::OnStop,
                        PLAAGTTimelineNode(this));
 }

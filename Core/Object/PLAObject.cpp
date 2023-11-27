@@ -59,7 +59,7 @@ PLAObject *PLAObject::Object(PLAObjectType aType, PLAId aId)
 
 void PLAObject::Bind()
 {
-  GRA_PRINT("PLAObject::Bind : %s\n", this->GetObjectName().c_str());
+  //GRA_PRINT("PLAObject::Bind : %s\n", this->GetObjectName().c_str());
   Binder::Error error(Binder::Error::None);
   PLAObject::Manager::Instance()->Bind(this, &error);
   if (error != Binder::Error::None) {
@@ -73,7 +73,7 @@ void PLAObject::Bind()
 
 void PLAObject::Unbind()
 {
-  GRA_PRINT("PLAObject::Unbind : %s\n", this->GetObjectName().c_str());
+  //GRA_PRINT("PLAObject::Unbind : %s\n", this->GetObjectName().c_str());
   if (0 < _agentReferenceCounter)
   {
     GRA_PRINT("PLAObject::Unbind : == CANCELED == : %s\n",
@@ -155,8 +155,8 @@ void PLAObject::SetObjectName(const PLAString &aName)
       case Binder::Error::NameOverride :
       case Binder::Error::NameConvertedBySystem:
         PLA_ERROR_ISSUE(PLAErrorType::Expect,
-                        "Succeed to set object name with error. ERROR : %02d : %s",
-                        error, PLAObject::GetBinderErrorMessage(error));
+                        "Succeed to set object name '%s' with error. ERROR : %02d : %s",
+                        aName.c_str(), error, PLAObject::GetBinderErrorMessage(error));
         break;
       default :
         PLA_ERROR_ISSUE(PLAErrorType::Assert,

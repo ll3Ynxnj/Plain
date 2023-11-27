@@ -94,7 +94,7 @@ void PLAOBJStage::RunFunction(PLAFunctionCode::Stage aKey)
 
 void PLAOBJStage::AddActor(PLAOBJActor *aActor)
 {
-  GRA_PRINT("AddActor : %s\n", aActor->GetObjectDescription().c_str());
+  //GRA_PRINT("AddActor : %s\n", aActor->GetObjectDescription().c_str());
 
   PLAString actorName = aActor->GetObjectName();
   if (actorName == kPLAStrUndefined) {

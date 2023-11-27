@@ -22,11 +22,6 @@ void PLAMotionHolder::AddMotionThread(PLATMLMotion *aMotion)
 
 const PLATMLMotion *PLAMotionHolder::GetMotion() const
 {
-  auto timeline = this->GetTimeline();
-  if (timeline)
-  {
-    GRA_TRACE("%s", timeline->GetObjectName().c_str());
-  }
   return static_cast<const PLATMLMotion *>(this->GetTimeline());
 }
 

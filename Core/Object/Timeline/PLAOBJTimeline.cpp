@@ -220,27 +220,27 @@ void PLAOBJTimeline::PrintNodes() const
 
 void PLAOBJTimeline::OnStart()
 {
-  GRA_PRINT("%s| %s : Timeline::OnStart(), _steps: %3d\n",
-            "  ", //DBG_PLAOBJTimeline_Update_Indent.c_str(),
-            this->GetObjectName().c_str(), _steps);
+  //GRA_PRINT("%s| %s : Timeline::OnStart(), _steps: %3d\n",
+  //          "  ", //DBG_PLAOBJTimeline_Update_Indent.c_str(),
+  //          this->GetObjectName().c_str(), _steps);
   _functor.RunFunction(PLAFunctionCode::Timeline::OnStart,
                        PLAAGTTimeline(this));
 }
 
 void PLAOBJTimeline::OnUpdate()
 {
-  GRA_PRINT("%s| %s : Timeline::OnUpdate(), _steps: %3d\n",
-            "  ", //DBG_PLAOBJTimeline_Update_Indent.c_str(),
-            this->GetObjectName().c_str(), _steps);
+  //GRA_PRINT("%s| %s : Timeline::OnUpdate(), _steps: %3d\n",
+  //          "  ", //DBG_PLAOBJTimeline_Update_Indent.c_str(),
+  //          this->GetObjectName().c_str(), _steps);
   _functor.RunFunction(PLAFunctionCode::Timeline::OnUpdate,
                        PLAAGTTimeline(this));
 }
 
 void PLAOBJTimeline::OnStop()
 {
-  GRA_PRINT("%s : Timeline::OnStop(), _steps: %3d\n",
-            "  ", //DBG_PLAOBJTimeline_Update_Indent.c_str(),
-            this->GetObjectName().c_str(), _steps);
+  //GRA_PRINT("%s : Timeline::OnStop(), _steps: %3d\n",
+  //          "  ", //DBG_PLAOBJTimeline_Update_Indent.c_str(),
+  //          this->GetObjectName().c_str(), _steps);
   _functor.RunFunction(PLAFunctionCode::Timeline::OnStop,
                        PLAAGTTimeline(this));
 }
