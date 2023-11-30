@@ -23,8 +23,8 @@ public:
    */
 
 private:
-  PLAUInt8 *_data = nullptr;
-  PLASize _size = 1024 * 1024 * 4;
+  std::vector<PLAUInt8> _data = std::vector<PLAUInt8>(0);
+  PLASize _size = 0;
   const PLAString _path = "";
 
 public:
@@ -42,7 +42,7 @@ public:
   void ReleaseData();
 
   const char *GetResourceTypeName() const;
-  const PLAUInt8 *GetData() const { return _data; };
+  const PLAUInt8 *GetData() const { return _data.data(); };
   PLASize GetSize() const { return _size; };
 
   void PrintResource() const;

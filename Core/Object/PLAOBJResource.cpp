@@ -1,5 +1,8 @@
 #include <filesystem>
 
+#include <iostream>
+#include <fstream>
+
 #include "PLAOBJResource.hpp"
 #include "PLAOBJError.hpp"
 
@@ -47,17 +50,26 @@ PLAOBJResource::~PLAOBJResource() noexcept
 
 void PLAOBJResource::AllocData()
 {
-  size_t dataSize = this->GetSize();
-  _data = new uint8_t[dataSize];
-  FILE *fp;
+  std::ifstream file(_path, std::ios::binary | std::ios::ate); // ファイルの終端で開く
+  if (!file) {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "%s could not be opened.", _path.c_str());
+  }
 
-  if ((fp = fopen(_path.c_str(), "rb")) != nullptr) {
-    fread(_data, dataSize, 1, fp);
-    fclose(fp);
-    int result = fread(_data, dataSize, 1, fp);
-    GRA_PRINT("result : %d\n", result);
+  //-- Get file size
+  std::streamsize dataSize = file.tellg();
+  file.seekg(0, std::ios::beg); // Restore the file position to the beginning
+
+  //-- Prepare a buffer to read data
+  _data.resize(dataSize);
+
+  //-- Read data
+  if (file.read(reinterpret_cast<char*>(_data.data()), dataSize)) {
+    _size = dataSize;
+    GRA_PRINT("Successfully read data.\n");
   } else {
-    perror(_path.c_str());
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed to read data: The file was only partially read.");
   }
 }
 
