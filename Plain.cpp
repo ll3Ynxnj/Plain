@@ -63,6 +63,12 @@ void Plain::Scene::PushPhase(const PLAAGTPhase &aPhase)
   scene.PushPhase(aPhase);
 }
 
+void Plain::Scene::PopPhase()
+{
+  auto scene = Plain::Scene::Assign();
+  scene.PopPhase();
+}
+
 PLAAGTState Plain::State::Assign()
 {
   PLAOBJState *state = PLAApp::State();

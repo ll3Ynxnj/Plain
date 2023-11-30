@@ -77,6 +77,7 @@ namespace Plain
   {
     PLAAGTScene Assign();
     void PushPhase(const PLAAGTPhase &aPhase);
+    void PopPhase();
   };
 
   namespace State
