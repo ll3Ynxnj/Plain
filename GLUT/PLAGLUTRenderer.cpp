@@ -415,13 +415,15 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
             */
 
   //-- This method is an inefficient implementation.
-  static bool kIsDebug = false;//false;
+  static bool kIsDebug = true;//false;
 
+  PLAOBJImageSize texSize = PLAOBJImageSize(1024);
   const PLAOBJImage *texImage = aLayer->GetImage();
   if (texImage) {// && !kIsDebug) {
+    texSize = texImage->GetSize();
     glEnable(GL_TEXTURE_2D);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
-                 texImage->GetSize().x, texImage->GetSize().y, 0,
+                 texSize.x, texSize.y, 0,
                  GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
   } else {
     glDisable(GL_TEXTURE_2D);
@@ -446,22 +448,22 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
     if (kIsDebug) { GRA_PRINT("pyTable[%d]: %.2f\n", i, pyTable[i]); }
   }
 
-  PLASize numberOfChipsX = 1024 / chipSize.x;
+  PLASize numberOfChipsX = texSize.x / chipSize.x;
   GLfloat cxTable[numberOfChipsX];
   for (PLAInt i = 0; i < numberOfChipsX; i++) {
-    cxTable[i] = (i * chipSize.x) / 1024.0;
+    cxTable[i] = (i * chipSize.x) / GLfloat(texSize.x);
     if (kIsDebug) { GRA_PRINT("cxTable[%d]:%.2f\n", i, cxTable[i]); }
   };
 
-  PLASize numberOfChipsY = 1024 / chipSize.y;
+  PLASize numberOfChipsY = texSize.y / chipSize.y;
   GLfloat cyTable[numberOfChipsY];
   for (PLAInt i = 0; i < numberOfChipsY; i++) {
-    cyTable[i] = (i * chipSize.y) / 1024.0;
+    cyTable[i] = (i * chipSize.y) / GLfloat(texSize.y);
     if (kIsDebug) { GRA_PRINT("cyTable[%d]:%.2f\n", i, cyTable[i]); }
   };
 
-  GLfloat cw = static_cast<GLfloat>(chipSize.x) / 1024;
-  GLfloat ch = static_cast<GLfloat>(chipSize.y) / 1024;
+  GLfloat cw = static_cast<GLfloat>(chipSize.x) / texSize.x;
+  GLfloat ch = static_cast<GLfloat>(chipSize.y) / texSize.y;
 
   const PLATileDataAddress dataAddress = aLayer->GetDataAddress();
   for (PLAInt y = 0; y < tileSize.y; y++) {

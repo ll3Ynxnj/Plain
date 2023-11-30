@@ -21,8 +21,8 @@ class PLAOBJImage : public PLAObject
 public:
   static PLAOBJImage *CreateRaw(const PLAString &aName);
 
-  PLAOBJImage(const PLAString &aName, const PLAOBJImageSize &aSize,
-              PLAImageType aType);
+  PLAOBJImage(const PLAString &aName, const PLAOBJResource *aResource,
+              const PLAOBJImageSize &aSize, PLAImageType aType);
   ~PLAOBJImage();
 
   const PLAOBJImageSize &GetSize() const { return _size; };

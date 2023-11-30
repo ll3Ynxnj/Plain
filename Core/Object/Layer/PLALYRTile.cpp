@@ -21,8 +21,8 @@ PLALYRTile::PLALYRTile(const PLAVec2f &aOffset, const std::string &aImageName,
   _tileSize(aTileSize),
   _chipSize(aChipSize), _dataSource(aDataSource)
 {
-  //_image = PLAOBJImage::CreateRaw(aImageName);
-  _image = new PLAOBJImage(aImageName, PLAOBJImageSize(1024), PLAImageType::Raw);
+  _image = PLAOBJImage::CreateRaw(aImageName);
+  //_image = new PLAOBJImage(aImageName, PLAOBJImageSize(1024), PLAImageType::Raw);
   /*
   for (PLASize y = 0; y < aTileSize.y; y++) {
     std::vector<PLATimelineHolder *> holders(0);
