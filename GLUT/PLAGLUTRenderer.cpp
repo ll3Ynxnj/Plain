@@ -415,7 +415,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
             */
 
   //-- This method is an inefficient implementation.
-  static bool kIsDebug = true;//false;
+  static bool kIsDebug = false;
 
   PLAOBJImageSize texSize = PLAOBJImageSize(1024);
   const PLAOBJImage *texImage = aLayer->GetImage();
