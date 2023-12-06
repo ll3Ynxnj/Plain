@@ -19,6 +19,7 @@ struct PLATileChip {
   PLAVec2f offset = kPLAVec2fNone;
 
   PLATileChip() {};
+  PLATileChip(PLATileChipCode aCode): code(aCode) {};
   PLATileChip(PLATileChipCode aCode,
               const PLAColor &aColor, const PLAVec2f &aOffset):
               code(aCode), color(aColor), offset(aOffset) {};
