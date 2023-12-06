@@ -34,6 +34,18 @@ void PLAAGTStage::AddActor(const PLAAGTActor &aAgent) const
   stage->AddActor(actor);
 }
 
+void PLAAGTStage::RemoveActor(const PLAAGTActor &aAgent) const
+{
+  PLAId actorId = aAgent.GetObjectId();
+  PLAOBJActor *actor = PLAOBJActor::Object(actorId);
+  /*
+  PLAId stageId = this->GetObjectId();
+  PLAOBJStage *stage = PLAOBJStage::Object(stageId);
+   */
+  auto stage = this->RefStage();
+  stage->RemoveActor(actor);
+}
+
 void PLAAGTStage::AddListener(GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage> *aListener) const
 {
   auto owner = this->RefStage();

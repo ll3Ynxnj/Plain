@@ -44,6 +44,7 @@ public:
   void RunFunction(PLAFunctionCode::Stage aKey);
 
   void AddActor(PLAOBJActor *aActor);
+  void RemoveActor(PLAOBJActor *aActor);
   void PrintActors() const;
 
   const PLAOBJActor *GetContext() const { return _context; }

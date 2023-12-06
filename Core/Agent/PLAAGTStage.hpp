@@ -24,6 +24,7 @@ public:
 
   void Init() const;
   void AddActor(const PLAAGTActor &aAgent) const;
+  void RemoveActor(const PLAAGTActor &aAgent) const;
   void PrintActors() const;
 
   void AddListener(GRAOBJListener<PLAAGTStage, PLAFunctionCode::Stage> *aListener) const;

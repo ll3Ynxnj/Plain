@@ -103,6 +103,11 @@ void PLAOBJStage::AddActor(PLAOBJActor *aActor)
   _context->AddActor(aActor);
 }
 
+void PLAOBJStage::RemoveActor(PLAOBJActor *aActor)
+{
+  _context->RemoveActor(aActor);
+}
+
 void PLAOBJStage::PrintActors() const
 {
   GRA_PRINT("//-- PLAOBJStage::PrintActors() const --");

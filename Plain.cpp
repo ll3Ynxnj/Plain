@@ -100,6 +100,19 @@ void Plain::Stage::AddActor(const PLAString &aName)
   stage.AddActor(actor);
 }
 
+void Plain::Stage::RemoveActor(const PLAAGTActor &aActor)
+{
+  auto stage = Plain::Stage::Assign();
+  stage.RemoveActor(aActor);
+}
+
+void Plain::Stage::RemoveActor(const PLAString &aName)
+{
+  auto stage = Plain::Stage::Assign();
+  auto actor = Plain::Actor::Assign(aName);
+  stage.RemoveActor(actor);
+}
+
 /*
 PLAAGTPhase Plain::Phase::Create()
 {
