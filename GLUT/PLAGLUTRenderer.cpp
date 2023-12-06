@@ -403,6 +403,9 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
   glEnd();
 }
 
+// この関数では、タイルチップを一つづつ矩形で描画しているが、FBOを利用して先に全チップを一枚のテクスチャに描画したほうが効率的なはず。
+// This function draws each tile chip with a rectangle, but it should be more efficient to draw all the chips on one texture in advance using FBO.
+
 void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
                                const PLAColor &aColor,
                                const PLATMLMotion *aMotion) const
@@ -471,30 +474,14 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
     {
       PLATileDataAddress address(dataAddress.x + x, dataAddress.y + y);
       const PLATileChip chip = aLayer->GetChip(address);
+      // 空チップは描画をスキップ
+      // Skip drawing if the chip is empty.
       if (chip.code == kPLATileChipCodeNone) { continue; }
 
       const PLATMLMotion *motion = aLayer->GetMotion(address);
       MotionProperties motionProperties = MotionProperties();
       GetMotionProperties(motion, &motionProperties);
-      //const plavec3f offset =
-      //  plavec3f(pxtable[x], pytable[y], 0) + motionproperties.translation;
       static const PLAUInt kNumVertices = 12;
-      /*
-      GLfloat vertices[kNumVertices] = {
-        offset.x,
-        -offset.y,
-        offset.z,
-        offset.x + chipSize.x,
-        -offset.y,
-        offset.z,
-        offset.x,
-        -offset.y - chipSize.y,
-        offset.z,
-        offset.x + chipSize.x,
-        -offset.y - chipSize.y,
-        offset.z,
-      };
-       */
       GLfloat vertices[kNumVertices] = {
         0, 0, 0,
         static_cast<GLfloat>(chipSize.x), 0, 0,
@@ -514,20 +501,6 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       }
 
       PLAColor color = aColor * chip.color;
-      /*
-      if (kIsDebug)
-      {
-        static const PLAColor kDebugColors[] = {
-          kPLAColorRed, kPLAColorGreen, kPLAColorBlue,
-          kPLAColorCyan, kPLAColorMagenta, kPLAColorYellow,
-        };
-        const PLAUInt debugColorIndex = (y + x) % 6;
-        color = kDebugColors[debugColorIndex];
-        GRA_PRINT("x: %d, y: %d, colors: index: %d,"
-                  " r: %.2f, g: %.2f, b: %.2f, a: %.2f,\n",
-                  x, y, debugColorIndex, color.r, color.g, color.b, color.a);
-      }
-       */
 
       static const PLAUInt kNumColors = 16;
       GLfloat colors[kNumColors] = {
@@ -565,12 +538,10 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       glTranslatef(translation.x, -translation.y, translation.z);
 
       auto rotation = motionProperties.rotation;
-      //glTranslatef(chipSize.x / 2, chipSize.y / 2, 0);
       glTranslatef(12, -12, 0);
       glRotatef(rotation.x, 1.0, 0.0, 0.0);
       glRotatef(rotation.y, 0.0, 1.0, 0.0);
       glRotatef(rotation.z, 0.0, 0.0, 1.0);
-      //glTranslatef(-chipSize.x / 2, -chipSize.y / 2, 0);
       glTranslatef(-12, 12, 0);
 
       glVertexPointer(3, GL_FLOAT, 0, vertices);
