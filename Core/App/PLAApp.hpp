@@ -59,6 +59,7 @@ public:
   void UpdateTimelineThread();
   //void RemoveTimelineThread(const PLAOBJTimeline *aThread);
 
+  PLAUInt GetFrame() const { return _frame; };
   PLAUInt GetRefreshRate() const { return _refreshRate; };
   PLAUInt GetBaseScreenLength() const { return _baseScreenLength; };
 
