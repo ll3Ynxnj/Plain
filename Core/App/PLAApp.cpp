@@ -73,8 +73,11 @@ PLAApp::~PLAApp()
   _renderer = nullptr;
 }
 
-void PLAApp::Init(PLARendererType aRendererType)
+void PLAApp::Init(PLARendererType aRendererType,
+                  PLAInt aRefreshRate, PLAInt aBaseScreenLength)
 {
+  _refreshRate = aRefreshRate;
+  _baseScreenLength = aBaseScreenLength;
   _timeline = PLAOBJTimeline::Create(nullptr, "PLAApp::Timeline");
   PLAOBJResource::Manager::Instance()->Init();
   _renderer = PLAOBJRenderer::Create(aRendererType);
@@ -122,7 +125,7 @@ void PLAApp::Render()
 void PLAApp::RefreshScreenSize(int aWidth, int aHeight)
 {
   PLAVec3f frameSize(aWidth, aHeight, 0);
-  PLAVec3f stageSize(kBaseScreenLength);
+  PLAVec3f stageSize(_baseScreenLength);
 
   if (aWidth < aHeight) { stageSize.y *= PLAFloat(aHeight) / PLAFloat(aWidth ); }
   else if (aWidth > aHeight) { stageSize.x *= PLAFloat(aWidth ) / PLAFloat(aHeight); }

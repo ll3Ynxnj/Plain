@@ -8,9 +8,10 @@
 #include "Object/PLAObject.hpp"
 #include "Object/PLAOBJError.hpp"
 
-void Plain::Init(PLARendererType aType)
+void Plain::Init(PLARendererType aType, PLAUInt aRefreshRate,
+                 PLAUInt aBaseScreenLength)
 {
-  PLAApp::Instance()->Init(aType);
+  PLAApp::Instance()->Init(aType, aRefreshRate, aBaseScreenLength);
 }
 
 /*

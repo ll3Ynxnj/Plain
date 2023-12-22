@@ -29,6 +29,8 @@ class PLAApp// final : public PLAObject
   PLAOBJTimeline *_timeline = nullptr;//PLAOBJTimeline(nullptr); /// Infinity node
 
   PLAUInt _frame = 0;
+  PLAUInt _refreshRate = 60;
+  PLAUInt _baseScreenLength = 240;
 
   PLAOBJScene *_scene = nullptr;
   PLAOBJState *_state = nullptr;
@@ -46,8 +48,6 @@ private:
   PLAApp();
 
 public:
-  static const int kRefreshRate = 60;
-  static const int kBaseScreenLength = 320;
 
   static PLAApp *Instance() { return &_instance; };
   static PLAOBJState *State() { return _instance._state; };
@@ -58,6 +58,9 @@ public:
   void AddTimelineThread(PLAOBJTimeline *aThread);
   void UpdateTimelineThread();
   //void RemoveTimelineThread(const PLAOBJTimeline *aThread);
+
+  PLAUInt GetRefreshRate() const { return _refreshRate; };
+  PLAUInt GetBaseScreenLength() const { return _baseScreenLength; };
 
   void SetFunction(PLAFunctionCode::App aKey,
                    const std::function<void(const PLAApp *)> &aFunc);
@@ -70,7 +73,7 @@ public:
 
   ~PLAApp();
 
-  void Init(PLARendererType aType);
+  void Init(PLARendererType aType, PLAInt aRefreshRate, PLAInt aBaseScreenLength);
   void Reset();
   void Input(PLAInputDeviceType aDevice, PLAInputSignalCode aCode,
              PLAInputSignal aSignal, const PLAPoint &aPoint);

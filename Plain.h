@@ -40,7 +40,7 @@ namespace Plain
 {
   using Renderer = PLARendererType;
 
-  void Init(PLARendererType aType);
+  void Init(PLARendererType aType, PLAUInt aRefreshRate, PLAUInt aBaseScreenLength);
   //void Delete(const std::string &aName);
 
   PLAApp *App();
