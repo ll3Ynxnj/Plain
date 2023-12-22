@@ -48,6 +48,8 @@ public:
 
   PLARect GetRect() const;
 
+  void SetTileSize(const GRAVec2<PLASize> &aTileSize)
+  { _tileSize = aTileSize; };
   void SetDataSource(const IPLATileLayerDataSource *aDataSource)
   { _dataSource = aDataSource; }
 

@@ -18,6 +18,8 @@ class PLAAGTActorForTile: public PLAAGTActor
 public:
   explicit PLAAGTActorForTile(PLAOBJActor *aOwner);
 
+  PLAVec2s GetTileSize() const;
+  void SetTileSize(PLAVec2s aTileSize) const;
   void SetDataSource(IPLATileLayerDataSource *aDataSource) const;
 };
 

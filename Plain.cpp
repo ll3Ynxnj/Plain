@@ -301,6 +301,54 @@ PLAAGTActorForRect Plain::Actor::AssignRect(PLAId aId)
   return actor->AssignAgentForRect();
 }
 
+PLAAGTActorForRect Plain::Actor::AssignRect(const PLAString &aName)
+{
+  PLAOBJActor *actor = PLAOBJActor::Object(aName);
+  return actor->AssignAgentForRect();
+}
+
+PLAAGTActorForRect Plain::Actor::AssignRectWithTag(PLAId aTag)
+{
+  PLAOBJActor *actor = PLAOBJActor::ObjectWithTag(aTag);
+  return actor->AssignAgentForRect();
+}
+
+PLAAGTActorForCircle Plain::Actor::AssignCircle(PLAId aId)
+{
+  PLAOBJActor *actor = PLAOBJActor::Object(aId);
+  return actor->AssignAgentForCircle();
+}
+
+PLAAGTActorForCircle Plain::Actor::AssignCircle(const PLAString &aName)
+{
+  PLAOBJActor *actor = PLAOBJActor::Object(aName);
+  return actor->AssignAgentForCircle();
+}
+
+PLAAGTActorForCircle Plain::Actor::AssignCircleWithTag(PLAId aTag)
+{
+  PLAOBJActor *actor = PLAOBJActor::ObjectWithTag(aTag);
+  return actor->AssignAgentForCircle();
+}
+
+PLAAGTActorForTile Plain::Actor::AssignTile(PLAId aId)
+{
+  PLAOBJActor *actor = PLAOBJActor::Object(aId);
+  return actor->AssignAgentForTile();
+}
+
+PLAAGTActorForTile Plain::Actor::AssignTile(const PLAString &aName)
+{
+  PLAOBJActor *actor = PLAOBJActor::Object(aName);
+  return actor->AssignAgentForTile();
+}
+
+PLAAGTActorForTile Plain::Actor::AssignTileWithTag(PLAId aTag)
+{
+  PLAOBJActor *actor = PLAOBJActor::ObjectWithTag(aTag);
+  return actor->AssignAgentForTile();
+}
+
 /*
 PLAAGTTimeline Plain::Timeline::Create(const PLAAGTTimeline &aParent)
 {
