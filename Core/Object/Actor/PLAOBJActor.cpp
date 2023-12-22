@@ -18,15 +18,15 @@
 // 不要なのでは？同じくBinderItemであるPLAOBJResourceには無い。要調査。
 // It's not necessary? PLAOBJResource, which is also a BinderItem, does not have it. Need to investigate.
 const std::map<PLAOBJActor::Binder::Error, const char *> PLAOBJActor::kBinderErrorMessages =
-  {
-    { Binder::Error::OverwriteItem, "Overwrite item" },
-    { Binder::Error::NameConflict, "Item name conflict" },
-    { Binder::Error::NameOverride, "Item name has been over written" },
-    { Binder::Error::NameConvertedBySystem, "Item name has been converted to system-generated" },
-    { Binder::Error::RegisterExistingKeyToMap, "Register existing key to map" },
-    { Binder::Error::NotExistInMap, "Not exist in map" },
-    { Binder::Error::OutOfRange, "Out of range" },
-  };
+{
+  { Binder::Error::OverwriteItem, "Overwrite item" },
+  { Binder::Error::NameConflict, "Item name conflict" },
+  { Binder::Error::NameOverride, "Item name has been over written" },
+  { Binder::Error::NameConvertedBySystem, "Item name has been converted to system-generated" },
+  { Binder::Error::RegisterExistingKeyToMap, "Register existing key to map" },
+  { Binder::Error::NotExistInMap, "Not exist in map" },
+  { Binder::Error::OutOfRange, "Out of range" },
+};
 
 // 不要なのでは？同じくBinderItemであるPLAOBJResourceには無い。要調査。
 // It's not necessary? PLAOBJResource, which is also a BinderItem, does not have it. Need to investigate.
@@ -407,23 +407,11 @@ const char *PLAOBJActor::GetActorTypeName() const
 {
   static const char *kName = "(STUB: ActorType)";//"== STUB ==";
   return kName;
-}
+};
 
 bool PLAOBJActor::IsCollideWithPoint(PLAPoint aPoint) const
 {
   return _layer->IsCollideWithPoint(aPoint);
-}
-
-PLAColor PLAOBJActor::GetColor() const
-{
-  PLAColor color = _color;
-  return color;
-};
-
-PLATransform PLAOBJActor::GetTransform() const
-{
-  PLATransform transform = _transform;
-  return transform;
 };
 
 PLAOBJActor *PLAOBJActor::RefResponsiveActor(const PLAInputDeviceType aDeviceType,

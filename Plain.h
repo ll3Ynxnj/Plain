@@ -93,6 +93,7 @@ namespace Plain
     void AddActor(const PLAString &aName);
     void RemoveActor(const PLAAGTActor &aActor);
     void RemoveActor(const PLAString &aName);
+    PLAVec3f GetSize();
   };
 
   namespace Phase

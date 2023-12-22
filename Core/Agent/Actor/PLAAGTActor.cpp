@@ -40,6 +40,54 @@ void PLAAGTActor::RemoveFromParentActor() const
   owner->RemoveFromParentActor();
 }
 
+const PLAVec3f &PLAAGTActor::GetPivot() const
+{
+  PLAOBJActor *actor = this->RefActor();
+  return actor->GetPivot();
+}
+
+const PLAColor &PLAAGTActor::GetColor() const
+{
+  PLAOBJActor *actor = this->RefActor();
+  return actor->GetColor();
+}
+
+PLAVec3f PLAAGTActor::GetSize() const
+{
+  PLAOBJActor *actor = this->RefActor();
+  return actor->GetSize();
+}
+
+void PLAAGTActor::GetSize(PLAVec3f *aSize) const
+{
+  PLAOBJActor *actor = this->RefActor();
+  actor->GetSize(aSize);
+}
+
+const PLATransform &PLAAGTActor::GetTransform() const
+{
+  PLAOBJActor *actor = this->RefActor();
+  return actor->GetTransform();
+}
+
+const PLAVec3f &PLAAGTActor::GetTranslation() const
+{
+  PLAOBJActor *actor = this->RefActor();
+  return actor->GetTranslation();
+}
+
+const PLAVec3f &PLAAGTActor::GetRotation() const
+{
+  PLAOBJActor *actor = this->RefActor();
+  return actor->GetRotation();
+}
+
+const PLAVec3f &PLAAGTActor::GetScale() const
+{
+  PLAOBJActor *actor = this->RefActor();
+  return actor->GetScale();
+}
+
 void PLAAGTActor::SetPivot(const PLAVec3f &aPivot) const
 {
   PLAOBJActor *actor = this->RefActor();

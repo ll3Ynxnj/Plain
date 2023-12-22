@@ -32,6 +32,19 @@ public:
   void RemoveActor(PLAAGTActor aActor) const;
   void RemoveFromParentActor() const;
 
+  const PLAVec3f &GetPivot() const;
+  const PLAColor &GetColor() const;
+
+  // 返り値参照不可。レイヤーの派生クラスがスタック値を返却しているため
+  // Don't return reference because of stack object.
+  PLAVec3f GetSize() const;
+  void GetSize(PLAVec3f *aSize) const;
+
+  const PLATransform &GetTransform() const;
+  const PLAVec3f &GetTranslation() const;
+  const PLAVec3f &GetRotation() const;
+  const PLAVec3f &GetScale() const;
+
   void SetPivot(const PLAVec3f &aPivot) const;
   void SetColor(const PLAColor &aColor) const;
   void SetTransform(const PLATransform &aTransform) const;

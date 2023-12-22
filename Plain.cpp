@@ -114,6 +114,12 @@ void Plain::Stage::RemoveActor(const PLAString &aName)
   stage.RemoveActor(actor);
 }
 
+PLAVec3f Plain::Stage::GetSize()
+{
+  auto stage = Plain::Stage::Assign();
+  return stage.GetSize();
+}
+
 /*
 PLAAGTPhase Plain::Phase::Create()
 {

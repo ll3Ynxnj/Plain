@@ -175,19 +175,26 @@ public:
   bool IsCollideWithPoint(PLAPoint aPoint) const;
 
   const std::list<PLAOBJActor *> *GetActors() const { return &_actors; };
-  const PLAVec3f &GetPivot() const { return _pivot; };
-  void SetPivot(const PLAVec3f &aPivot)
-  { _pivot = aPivot; this->RefreshLayerOffset(); };
-  PLAColor GetColor() const;
-  PLATransform GetTransform() const;
   const PLAOBJLayer *GetLayer() const { return _layer; }
-  PLAVec3f GetSize() const { return _layer->GetSize(); };
-  void GetSize(PLAVec3f *aSize) const { return _layer->GetSize(aSize); };
-  const PLAVec3f &GetLayerOffset() const { return _layer->GetOffset(); };
-  PLABool IsVisible() const { return _visible; };
-  void SetVisible(PLABool aValue) { _visible = aValue; };
 
-  PLALayerType GetLayerType() const { return _layer->GetLayerType(); };
+  PLABool IsVisible() const { return _visible; };
+
+  const PLAVec3f &GetPivot() const { return _pivot; };
+  const PLAColor &GetColor() const { return _color; };
+  // 返り値参照不可。レイヤーの派生クラスがスタック値を返却しているため
+  // Don't return reference because of stack object.
+  PLAVec3f GetSize()            const { return _layer->GetSize();      };
+  void GetSize(PLAVec3f *aSize) const { return _layer->GetSize(aSize); };
+
+  const PLATransform &GetTransform() const { return _transform;             };
+  const PLAVec3f &GetTranslation()   const { return _transform.translation; };
+  const PLAVec3f &GetRotation()      const { return _transform.rotation;    };
+  const PLAVec3f &GetScale()         const { return _transform.scale;       };
+
+  //const PLAOBJImageClip &GetImageClip() const { return _layer->GetImageClip(); };
+
+  const PLAVec3f &GetLayerOffset() const { return _layer->GetOffset();    };
+  PLALayerType GetLayerType()      const { return _layer->GetLayerType(); };
 
   size_t GetNumberOfActors() { return _actors.size(); };
 
@@ -202,13 +209,17 @@ public:
                                            const PLAInputDeviceType aDeviceType,
                                            const PLAInputSignalCode aSignalCode);
 
+  void SetVisible(PLABool aValue) { _visible = aValue; };
+
+  void SetPivot(const PLAVec3f &aPivot)
+  { _pivot = aPivot; this->RefreshLayerOffset(); };
   void SetColor(const PLAColor &aColor)
   { _color = aColor; };
-  void SetTransform(const PLATransform &aTransform)
-  { _transform = aTransform; };
   virtual void SetSize(const PLAVec3f &aSize)
   { _layer->SetSize(aSize, _pivot); this->RefreshLayerOffset(); };
 
+  void SetTransform(const PLATransform &aTransform)
+  { _transform = aTransform; };
   void SetTranslation(const PLAVec3f &aTranslation)
   { _transform.translation = aTranslation; };
   void SetRotation(const PLAVec3f &aRotation)
