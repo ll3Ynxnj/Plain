@@ -8,6 +8,7 @@
 #define ANHR_PLAAGTTIMELINENODE_HPP
 
 
+#include <functional>
 #include "PLAAgent.hpp"
 #include "PLAFunctionCode.hpp"
 

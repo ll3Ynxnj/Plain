@@ -5,6 +5,8 @@
 #ifndef ANHR_PLAINPUTCONTEXT_HPP
 #define ANHR_PLAINPUTCONTEXT_HPP
 
+#include <map>
+#include <functional>
 #include "PLAInput.hpp"
 
 class PLAInputContext
