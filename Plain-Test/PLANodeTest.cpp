@@ -2,7 +2,7 @@
 // Created by Kentaro Kawai on 2021/08/15.
 //
 
-#include "Object/Timeline/PLAOBJTimelineNode.hpp"
+#include <gtest/gtest.h>
 
 class PLANodeTest : public ::testing::Test
 {

@@ -1,6 +1,4 @@
-#include "Core/App/PLAApp.hpp"
-#include "Object/Actor/PLAOBJActor.hpp"
-#include "../Grain/Primitive/GRAPRMType.hpp"
+#include "gtest/gtest.h"
 
 class PLAActorTest : public ::testing::Test
 {

@@ -1,3 +1,10 @@
+#include "gtest/gtest.h"
+#include "Core/Library/PLALIBCollision.hpp"
+#include "Core/Primitive/PLAPRMPoint.hpp"
+#include "Core/Primitive/PLAPRMRect.hpp"
+#include "Core/Primitive/PLAPRMCircle.hpp"
+
+
 class PLACollisionTest : public ::testing::Test
 {
 protected:

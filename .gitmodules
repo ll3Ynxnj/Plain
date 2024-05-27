@@ -1,6 +1,3 @@
 [submodule "Grain"]
 	path = Grain
   url = git@github.com:ll3Ynxnj/Grain.git
-[submodule "Plain-Test/googletest"]
-	path = Plain-Test/googletest
-	url = https://github.com/google/googletest.git
