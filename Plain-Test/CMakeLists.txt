@@ -13,44 +13,23 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
+# ソースファイルの自動検索
 file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 
-#add_library(Plain STATIC IMPORTED)
-#set_target_properties(Plain PROPERTIES
-#    IMPORTED_LOCATION "${CMAKE_SOURCE_DIR}/Plain/libPlain.a"
-#)
-
+# 実行ファイルの定義
 add_executable(plain-test main.cpp)
+
+# テストを追加
+add_test(NAME plain-test COMMAND plain-test)
+
+# インクルードディレクトリの指定
 target_include_directories(plain-test PRIVATE
   ${gtest_SOURCE_DIR}/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../Grain
 )
-#target_link_libraries(plain-test gtest gtest_main Plain)
 
-
+# ライブラリのリンク
 target_link_libraries(plain-test
   gtest
   gtest_main
   Plain
-  ${OPENGL_LIBRARIES}
-  ${GLUT_LIBRARY}
 )
-
-
-
-#cmake_minimum_required(VERSION 3.12)
-#project(Plain-Tests)
-#set(CMAKE_CXX_STANDARD 20)
-#
-#add_subdirectory(googletest)
-#include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
-#
-#add_library(Plain STATIC IMPORTED GLOBAL)
-#set_target_properties(Plain PROPERTIES IMPORTED_LOCATION ../Plain/libPlain.a)
-#
-#add_executable(plain-test main.cpp)
-#target_link_libraries(plain-test gtest gtest_main Plain)
-#
-#project(PlainTests)
-

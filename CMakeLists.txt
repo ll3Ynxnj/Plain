@@ -4,6 +4,19 @@ cmake_minimum_required(VERSION 3.12)
 project(Plain CXX)
 set(CMAKE_CXX_STANDARD 20)  # C++標準のバージョンを設定
 
+# CMakeポリシー設定とOpenGLのライブラリ選択
+cmake_policy(SET CMP0072 NEW)
+set(OpenGL_GL_PREFERENCE GLVND)
+
+# C++標準の設定
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# パッケージを探索
+find_package(OpenCV REQUIRED)
+find_package(OpenGL REQUIRED)
+find_package(GLUT REQUIRED)
+
 # サブプロジェクトを追加
 add_subdirectory(Grain)
 add_subdirectory(Plain-Test)
@@ -14,10 +27,22 @@ file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 # ライブラリを作成
 add_library(Plain STATIC ${SOURCE_FILES})
 
-# インクルードディレクトリを設定
+# インクルードするディレクトリ設定
 target_include_directories(Plain PUBLIC
   "${CMAKE_CURRENT_SOURCE_DIR}/include"
   "${CMAKE_CURRENT_SOURCE_DIR}/Grain"
+  ${OpenCV_INCLUDE_DIRS}
+  ${OPENGL_INCLUDE_DIRS}
+  ${GLUT_INCLUDE_DIRS}
+)
+
+# リンクするライブラリを設定
+target_link_libraries(Plain PUBLIC
+  stdc++
+  Grain
+  ${OpenCV_LIBS}
+  ${OPENGL_LIBRARIES}
+  ${GLUT_LIBRARY}
 )
 
 # OSごとにプリプロセッサを定義
