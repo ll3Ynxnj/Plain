@@ -1,8 +1,8 @@
 #include "gtest/gtest.h"
-#include "Core/Library/PLALIBCollision.hpp"
-#include "Core/Primitive/PLAPRMPoint.hpp"
-#include "Core/Primitive/PLAPRMRect.hpp"
-#include "Core/Primitive/PLAPRMCircle.hpp"
+#include "plain/core/library/PLALIBCollision.hpp"
+#include "plain/core/primitive/PLAPRMPoint.hpp"
+#include "plain/core/primitive/PLAPRMRect.hpp"
+#include "plain/core/primitive/PLAPRMCircle.hpp"
 
 
 class PLACollisionTest : public ::testing::Test

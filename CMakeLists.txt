@@ -30,7 +30,6 @@ add_library(Plain STATIC ${SOURCE_FILES})
 # インクルードするディレクトリ設定
 target_include_directories(Plain PUBLIC
   "${CMAKE_CURRENT_SOURCE_DIR}/include"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Grain"
   ${OpenCV_INCLUDE_DIRS}
   ${OPENGL_INCLUDE_DIRS}
   ${GLUT_INCLUDE_DIRS}
@@ -39,7 +38,7 @@ target_include_directories(Plain PUBLIC
 # リンクするライブラリを設定
 target_link_libraries(Plain PUBLIC
   stdc++
-  Grain
+  grain
   ${OpenCV_LIBS}
   ${OPENGL_LIBRARIES}
   ${GLUT_LIBRARY}

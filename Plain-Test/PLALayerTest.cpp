@@ -3,8 +3,8 @@
 //
 
 #include <gtest/gtest.h>
-#include "Core/Object/Layer/PLALYRRect.hpp"
-#include "Core/Object/Layer/PLALYRCircle.hpp"
+#include "plain/core/object/layer/PLALYRRect.hpp"
+#include "plain/core/object/layer/PLALYRCircle.hpp"
 
 class PLALayerTest : public ::testing::Test
 {

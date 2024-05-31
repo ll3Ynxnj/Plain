@@ -2,7 +2,7 @@
 // Created by Kentaro Kawai on 2021/09/08.
 //
 
-#include "Core/Property/PLAProperty.hpp"
+#include "plain/core/property/PLAProperty.hpp"
 #include <gtest/gtest.h>
 
 class PLAPropertyTest : public ::testing::Test
