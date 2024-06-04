@@ -6,6 +6,7 @@
 #include "plain/core/object/layer/PLALYRRect.hpp"
 #include "plain/core/object/layer/PLALYRCircle.hpp"
 #include "plain/core/object/layer/PLALYRTile.hpp"
+#include "plain/glut/PLAGLUTRenderer_camera.hpp"
 
 class PLAGLUTRenderer : public PLAOBJRenderer
 {

@@ -148,10 +148,21 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
             aActor->GetObjectName().c_str(),
             aColor.r, aColor.g, aColor.b, aColor.a);
   */
+  // TEST: Initialize the camera ///////////////////////////////////////////////
+  //static PLAGLUTRenderer_camera *camera = new PLAGLUTRenderer_camera();
+  //if (!camera->init()) {
+  //  delete camera;
+  //  camera = nullptr;
+  //}
+  //////////////////////////////////////////////////////////////////////////////
 
   if (!aActor->IsVisible()) { return; }
 
   glPushMatrix();
+
+  // TEST: Draw the camera image ///////////////////////////////////////////////
+  //camera->draw(viewportWidth, viewportHeight);
+  //////////////////////////////////////////////////////////////////////////////
 
   const PLATransform &transform = aActor->GetTransform();
   glTranslatef(transform.translation.x, -transform.translation.y,

@@ -13,12 +13,15 @@ class PLAGLUTRenderer_camera {
   int videoHeight = 1080;
 
 public:
+  GLuint textureID = INT_MAX;
+
   ~PLAGLUTRenderer_camera() {
     running = false;
     cameraThread.join();
   }
 
   bool init(void) {
+
     cap.open(0, cv::CAP_V4L2);
     if (!cap.isOpened()) {
       std::cerr << "Error: Couldn't open the camera." << std::endl;
