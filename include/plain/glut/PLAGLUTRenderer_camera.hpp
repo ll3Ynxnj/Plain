@@ -21,6 +21,14 @@ public:
   }
 
   bool init(void) {
+    printf("// CALLED: PLAGLUTRenderer_camera::init() "
+           "//////////////////////////////////////\n");
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &textureID);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     cap.open(0, cv::CAP_V4L2);
     if (!cap.isOpened()) {
@@ -42,9 +50,13 @@ public:
     return true;
   }
 
-  void draw(GLuint aTextureId, int aViewportWidth, int aViewportHeight) {
+  void draw(int aViewportWidth, int aViewportHeight) {
+    printf("// CALLED: PLAGLUTRenderer_camera::draw() "
+           "//////////////////////////////////////\n");
+
     if (!frame.empty()) {
-        glBindTexture(GL_TEXTURE_2D, aTextureId);
+        printf("textureID: %d\n", textureID);
+        glBindTexture(GL_TEXTURE_2D, textureID);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, frame.cols, frame.rows, 0,
                      GL_BGR, GL_UNSIGNED_BYTE, frame.data);
     }
