@@ -47,8 +47,6 @@ void PLAGLUTRenderer::Init() const
   //*
   glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   //*/
 
   //-- Blend --/////////////////////////////////////////////////////////////////
@@ -71,6 +69,7 @@ void PLAGLUTRenderer::Flush() const
 void PLAGLUTRenderer::Render(const PLAOBJActor *aActor) const
 {
   glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
   this->Draw(aActor, kPLAColorNorm);
 }
 
@@ -143,26 +142,21 @@ void PLAGLUTRenderer::GetMotionProperties(const PLATMLMotion *aNode,
 
 void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) const
 {
+  glClear(GL_COLOR_BUFFER_BIT);
+
   /*
   GRA_PRINT("Draw(aActor: %s, aColor: {r: %.2f, g: %.2f, b: %.2f, a: %.2f}\n",
             aActor->GetObjectName().c_str(),
             aColor.r, aColor.g, aColor.b, aColor.a);
   */
-  // TEST: Initialize the camera ///////////////////////////////////////////////
-  //static PLAGLUTRenderer_camera *camera = new PLAGLUTRenderer_camera();
-  //if (!camera->init()) {
-  //  delete camera;
-  //  camera = nullptr;
-  //}
-  //////////////////////////////////////////////////////////////////////////////
+
+  // プロパティから読み込めるようにするのがベスト
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
   if (!aActor->IsVisible()) { return; }
 
   glPushMatrix();
-
-  // TEST: Draw the camera image ///////////////////////////////////////////////
-  //camera->draw(viewportWidth, viewportHeight);
-  //////////////////////////////////////////////////////////////////////////////
 
   const PLATransform &transform = aActor->GetTransform();
   glTranslatef(transform.translation.x, -transform.translation.y,
@@ -208,23 +202,51 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
                       "Unexpected PLARenderingDataType detected.");
       break;
   }
+
   for (const PLAOBJActor *actor : *aActor->GetActors())
   {
     this->Draw(actor, color);
   }
 
   glPopMatrix();
+
+// CAUTION ( goto for tests) ///////////////////////////////////////////////////
+  goto DRAW_VIDEO;
+  {
+////////////////////////////////////////////////////////////////////////////////
+
+// CAUTION ( label for tests) //////////////////////////////////////////////////
+  }
+  DRAW_VIDEO:
+////////////////////////////////////////////////////////////////////////////////
+
+  // TEST: Initialize the camera ///////////////////////////////////////////////
+  static PLAGLUTRenderer_camera *camera = nullptr;
+  if (!camera) {
+    camera = new PLAGLUTRenderer_camera();
+    if (!camera->init()) {
+      delete camera;
+      camera = nullptr;
+    }
+  }
+  //////////////////////////////////////////////////////////////////////////////
+
+  // TEST: Draw the camera image ///////////////////////////////////////////////
+  //glPushMatrix();
+  camera->draw(640, 360);//viewportWidth, viewportHeight);
+  //glPopMatrix();
+  //////////////////////////////////////////////////////////////////////////////
+
 }
 
 void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
                                const PLATMLMotion *aMotion) const
 {
-  /*
   GRA_PRINT("DrawRect(aLayer: %s,"
             "aColor: {r: %.2f, g: %.2f, b: %.2f, a: %.2f})\n",
             aLayer->GetObjectName().c_str(),
             aColor.r, aColor.g, aColor.b, aColor.a);
-            */
+
   const PLAOBJImageClip *imageClip = aLayer->GetImageClip();
   if (imageClip)
   {
@@ -421,12 +443,10 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
                                const PLAColor &aColor,
                                const PLATMLMotion *aMotion) const
 {
-  /*
   GRA_PRINT("DrawTile(aLayer: %s,"
             " aColor: {r: %.2f, g: %.2f, b: %.2f, a: %.2f})\n",
             aLayer->GetObjectName().c_str(),
             aColor.r, aColor.g, aColor.b, aColor.a);
-            */
 
   //-- This method is an inefficient implementation.
   static bool kIsDebug = false;

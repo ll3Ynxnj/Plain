@@ -22,8 +22,8 @@ void PLAGLUTEngine::timer(int value)
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-  //glutPostRedisplay();
-  glutTimerFunc(17, timer, 0);
+  glutPostRedisplay();
+  glutTimerFunc(1000 / 60, timer, 0);
 #pragma clang diagnostic pop
 }
 
