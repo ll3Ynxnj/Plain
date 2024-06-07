@@ -211,29 +211,29 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
   glPopMatrix();
 
 // CAUTION ( goto for tests) ///////////////////////////////////////////////////
-  goto DRAW_VIDEO;
-  {
+  //goto DRAW_VIDEO;
+  //{
 ////////////////////////////////////////////////////////////////////////////////
 
 // CAUTION ( label for tests) //////////////////////////////////////////////////
-  }
-  DRAW_VIDEO:
+  //}
+  //DRAW_VIDEO:
 ////////////////////////////////////////////////////////////////////////////////
 
   // TEST: Initialize the camera ///////////////////////////////////////////////
-  static PLAGLUTRenderer_camera *camera = nullptr;
-  if (!camera) {
-    camera = new PLAGLUTRenderer_camera();
-    if (!camera->init()) {
-      delete camera;
-      camera = nullptr;
-    }
-  }
+  //static PLAGLUTRenderer_camera *camera = nullptr;
+  //if (!camera) {
+  //  camera = new PLAGLUTRenderer_camera();
+  //  if (!camera->init()) {
+  //    delete camera;
+  //    camera = nullptr;
+  //  }
+  //}
   //////////////////////////////////////////////////////////////////////////////
 
   // TEST: Draw the camera image ///////////////////////////////////////////////
   //glPushMatrix();
-  camera->draw(640, 360);//viewportWidth, viewportHeight);
+  //camera->draw(640, 360);//viewportWidth, viewportHeight);
   //glPopMatrix();
   //////////////////////////////////////////////////////////////////////////////
 
@@ -242,9 +242,15 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
 void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
                                const PLATMLMotion *aMotion) const
 {
-  GRA_PRINT("DrawRect(aLayer: %s,"
-            "aColor: {r: %.2f, g: %.2f, b: %.2f, a: %.2f})\n",
+  GRA_PRINT("DrawRect(\n"
+            "  aLayer: %s\n"
+            "    aLayer.origin: { x: %.2f, y: %.2f, z: %.2f }\n"
+            "    aLayer.size: { x: %.2f, y: %.2f }\n"
+            "    aLayer.color: { r: %.2f, g: %.2f, b: %.2f, a: %.2f }\n"
+            "  aColor: { r: %.2f, g: %.2f, b: %.2f, a: %.2f })\n",
             aLayer->GetObjectName().c_str(),
+            aLayer->GetOffset().x, aLayer->GetOffset().y, aLayer->GetOffset().z,
+            aLayer->GetSize().x, aLayer->GetSize().y,
             aColor.r, aColor.g, aColor.b, aColor.a);
 
   const PLAOBJImageClip *imageClip = aLayer->GetImageClip();
