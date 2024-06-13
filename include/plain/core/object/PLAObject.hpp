@@ -1,8 +1,8 @@
 /*
  * @class PLAObject
  * @brief
- * \~english Object class is an object that is dynamically allocated in the system. Users operate objects through agents.
- * \~japanese オブジェクトクラスは、システム内で動的にメモリを確保して生成されるオブジェクトは全てオブジェクトです。利用者はエージェントを通してオブジェクトを操作します。
+ * \~english Object is everything that is dynamically allocated and generated in the system. Users manipulate objects through agents.
+ * \~japanese オブジェクトとはシステム内で動的にメモリを確保して生成されるものの全てです。利用者はエージェントを通してオブジェクトを操作します。
  * @version 0.1
  * @author ll3Ynxnj
  */
