@@ -12,7 +12,7 @@ PLAOBJStage *PLAOBJStage::Create()
 
 PLAOBJStage *PLAOBJStage::Create(const PLAString &aName)
 {
-  PLAOBJStage *stage = new PLAOBJStage();
+  PLAOBJStage *stage = new PLAOBJStage(aName);
   stage->Init();
   stage->Bind();
   return stage;
