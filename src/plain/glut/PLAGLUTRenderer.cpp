@@ -142,7 +142,7 @@ void PLAGLUTRenderer::GetMotionProperties(const PLATMLMotion *aNode,
 
 void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) const
 {
-  glClear(GL_COLOR_BUFFER_BIT);
+  //glClear(GL_COLOR_BUFFER_BIT);
 
   /*
   GRA_PRINT("Draw(aActor: %s, aColor: {r: %.2f, g: %.2f, b: %.2f, a: %.2f}\n",
