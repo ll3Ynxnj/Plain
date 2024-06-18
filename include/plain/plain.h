@@ -120,39 +120,48 @@ namespace Plain
     //using Agent = Actor;
     PLAAGTActorForRect CreateRect(const PLAVec2f &aOrigin,
                                   const PLAVec2f &aSize,
-                                  const PLAColor &aFillColor);
-    PLAAGTActorForRect CreateRect(const PLAVec3f &aPivot,
-                                  const PLATransform &aTransform,
-                                  const PLARect &aRect);
+                                  const PLAColor &aFillColor,
+                                  const PLAString &aName);
     PLAAGTActorForRect CreateRect(const PLAVec3f &aPivot,
                                   const PLATransform &aTransform,
                                   const PLARect &aRect,
-                                  const PLAColor &aFillColor);
+                                  const PLAString &aName);
+    PLAAGTActorForRect CreateRect(const PLAVec3f &aPivot,
+                                  const PLATransform &aTransform,
+                                  const PLARect &aRect,
+                                  const PLAColor &aFillColor,
+                                  const PLAString &aName);
     PLAAGTActorForRect CreateRect(const PLAVec3f &aPivot,
                                   const PLATransform &aTransform,
                                   const PLARect &aRect,
                                   const std::string &aImage,
-                                  const PLARect &aClip);
+                                  const PLARect &aClip,
+                                  const PLAString &aName);
     PLAAGTActorForCircle CreateCircle(const PLAVec2f &aOrigin,
                                       const PLAFloat aRadius,
-                                      const PLAColor &aFillColor);
-    PLAAGTActorForCircle CreateCircle(const PLAVec3f &aPivot,
-                                      const PLATransform &aTransform,
-                                      const PLACircle &aCircle);
-    PLAAGTActorForCircle CreateCircle(const PLAVec3f &aPivot,
-                                      const PLATransform &aTransform,
-                                      const PLACircle &aCircle,
-                                      const PLAColor &aFillColor);
+                                      const PLAColor &aFillColor,
+                                      const PLAString &aName);
     PLAAGTActorForCircle CreateCircle(const PLAVec3f &aPivot,
                                       const PLATransform &aTransform,
                                       const PLACircle &aCircle,
-                                      const std::string &aImage,
-                                      const PLARect &aClip);
+                                      const PLAString &aName);
+    PLAAGTActorForCircle CreateCircle(const PLAVec3f &aPivot,
+                                      const PLATransform &aTransform,
+                                      const PLACircle &aCircle,
+                                      const PLAColor &aFillColor,
+                                      const PLAString &aName);
+    PLAAGTActorForCircle CreateCircle(const PLAVec3f &aPivot,
+                                      const PLATransform &aTransform,
+                                      const PLACircle &aCircle,
+                                      const PLAString &aImage,
+                                      const PLARect &aClip,
+                                      const PLAString &aName);
     PLAAGTActorForTile CreateTile(const PLAVec2f &aOffset,
-                                  const std::string &aImageName,
+                                  const PLAString &aImage,
                                   const GRAVec2<PLASize> &aTileSize,
                                   const GRAVec2<PLASize> &aChipSize,
-                                  const IPLATileLayerDataSource *aDataSource);
+                                  const IPLATileLayerDataSource *aDataSource,
+                                  const PLAString &aName);
 
     PLAAGTActor Assign(PLAId aId);
     PLAAGTActor Assign(const PLAString &aName);
