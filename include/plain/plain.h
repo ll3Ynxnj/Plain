@@ -121,47 +121,47 @@ namespace Plain
     PLAAGTActorForRect CreateRect(const PLAVec2f &aOrigin,
                                   const PLAVec2f &aSize,
                                   const PLAColor &aFillColor,
-                                  const PLAString &aName);
+                                  const PLAString &aName = kPLAStrUndefined);
     PLAAGTActorForRect CreateRect(const PLAVec3f &aPivot,
                                   const PLATransform &aTransform,
                                   const PLARect &aRect,
-                                  const PLAString &aName);
+                                  const PLAString &aName = kPLAStrUndefined);
     PLAAGTActorForRect CreateRect(const PLAVec3f &aPivot,
                                   const PLATransform &aTransform,
                                   const PLARect &aRect,
                                   const PLAColor &aFillColor,
-                                  const PLAString &aName);
+                                  const PLAString &aName = kPLAStrUndefined);
     PLAAGTActorForRect CreateRect(const PLAVec3f &aPivot,
                                   const PLATransform &aTransform,
                                   const PLARect &aRect,
                                   const std::string &aImage,
                                   const PLARect &aClip,
-                                  const PLAString &aName);
+                                  const PLAString &aName = kPLAStrUndefined);
     PLAAGTActorForCircle CreateCircle(const PLAVec2f &aOrigin,
                                       const PLAFloat aRadius,
                                       const PLAColor &aFillColor,
-                                      const PLAString &aName);
+                                      const PLAString &aName = kPLAStrUndefined);
     PLAAGTActorForCircle CreateCircle(const PLAVec3f &aPivot,
                                       const PLATransform &aTransform,
                                       const PLACircle &aCircle,
-                                      const PLAString &aName);
+                                      const PLAString &aName = kPLAStrUndefined);
     PLAAGTActorForCircle CreateCircle(const PLAVec3f &aPivot,
                                       const PLATransform &aTransform,
                                       const PLACircle &aCircle,
                                       const PLAColor &aFillColor,
-                                      const PLAString &aName);
+                                      const PLAString &aName = kPLAStrUndefined);
     PLAAGTActorForCircle CreateCircle(const PLAVec3f &aPivot,
                                       const PLATransform &aTransform,
                                       const PLACircle &aCircle,
                                       const PLAString &aImage,
                                       const PLARect &aClip,
-                                      const PLAString &aName);
+                                      const PLAString &aName = kPLAStrUndefined);
     PLAAGTActorForTile CreateTile(const PLAVec2f &aOffset,
                                   const PLAString &aImage,
                                   const GRAVec2<PLASize> &aTileSize,
                                   const GRAVec2<PLASize> &aChipSize,
                                   const IPLATileLayerDataSource *aDataSource,
-                                  const PLAString &aName);
+                                  const PLAString &aName = kPLAStrUndefined);
 
     PLAAGTActor Assign(PLAId aId);
     PLAAGTActor Assign(const PLAString &aName);
