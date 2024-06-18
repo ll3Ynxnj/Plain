@@ -147,6 +147,9 @@ PLAString PLAObject::GetObjectDescription() const
 
 void PLAObject::SetObjectName(const PLAString &aName)
 {
+  if (aName == "PLAApp::Stage::Context::Layer") {
+    GRA_TRACE("");
+  }
   Binder::Error error(Binder::Error::None);
   this->Binder::Item::SetName(aName, &error);
   if (error != Binder::Error::None)
