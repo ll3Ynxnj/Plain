@@ -10,6 +10,7 @@ class PLALYRCircle : public PLAOBJLayer
   PLAColor _fillColor = kPLAColorWhite;
   PLAColor _strokeColor = kPLAColorNone;
   PLAOBJImageClip *_imageClip = nullptr;
+  PLAOBJVideoClip *_videoClip = nullptr;
 
 public:
   PLALYRCircle(const PLAVec3f &aOffset, PLAFloat aRadius,
@@ -59,16 +60,17 @@ public:
   PLALYRCircle() = delete;
   virtual ~PLALYRCircle() {};
 
-  virtual PLAVec3f GetSize() const;
-  virtual void GetSize(PLAVec3f *aSize) const;
-  virtual void SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot);
+  PLAVec3f GetSize() const override;
+  void GetSize(PLAVec3f *aSize) const override;
+  void SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot) override;
 
-  virtual void SetImageClip(PLAOBJImageClip *aImageClip);
+  void SetImageClip(PLAOBJImageClip *aImageClip) override;
+  void SetVideoClip(PLAOBJVideoClip *aVideoClip) override;
 
-  virtual bool IsCollideWithPoint(const PLAPoint &aPoint) const;
-  virtual bool IsCollideWithLine(const PLALine &aLine) const;
-  virtual bool IsCollideWithRect(const PLARect &aRect) const;
-  virtual bool IsCollideWithCircle(const PLACircle &aCircle) const;
+  bool IsCollideWithPoint(const PLAPoint &aPoint) const override;
+  bool IsCollideWithLine(const PLALine &aLine) const override;
+  bool IsCollideWithRect(const PLARect &aRect) const override;
+  bool IsCollideWithCircle(const PLACircle &aCircle) const override;
 
   PLAFloat GetRadius() const { return _radius; };
   PLACircle GetCircle() const;

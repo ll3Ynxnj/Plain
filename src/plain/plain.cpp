@@ -488,9 +488,9 @@ PLAAGTImageClip Plain::ImageClip::Create(const PLAString &aImageName)
  */
 
 PLAAGTImageClip Plain::ImageClip::Create(const std::string &aImageName,
-                                         const PLARect &aClip)
+                                         const PLARect &aPixelClip)
 {
-  auto object = PLAOBJImageClip::Create(aImageName, aClip);
+  auto object = PLAOBJImageClip::Create(aImageName, aPixelClip);
   return object->AssignAgent();
 }
 
@@ -503,5 +503,24 @@ PLAAGTImageClip Plain::ImageClip::Assign(const PLAId &aId)
 PLAAGTImageClip Assign(const std::string &aName)
 {
   auto object = PLAOBJImageClip::Object(aName);
+  return object->AssignAgent();
+}
+
+PLAAGTVideoClip Plain::VideoClip::Create(const std::string &aVideoName,
+                                         const PLARange &aFrameClip)
+{
+  auto object = PLAOBJVideoClip::Create(aVideoName, aFrameClip);
+  return object->AssignAgent();
+}
+
+PLAAGTVideoClip Plain::VideoClip::Assign(const PLAId &aId)
+{
+  auto object = PLAOBJVideoClip::Object(aId);
+  return object->AssignAgent();
+}
+
+PLAAGTVideoClip Plain::VideoClip::Assign(const std::string &aName)
+{
+  auto object = PLAOBJVideoClip::Object(aName);
   return object->AssignAgent();
 }

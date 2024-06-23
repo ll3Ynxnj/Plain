@@ -137,6 +137,13 @@ void PLAAGTActor::SetImageClip(const PLAAGTImageClip &aImageClip) const
   actor->SetImageClip(imageClip);
 }
 
+void PLAAGTActor::SetVideoClip(const PLAAGTVideoClip &aVideoClip) const
+{
+  PLAOBJVideoClip *videoClip = aVideoClip.RefVideoClip();
+  PLAOBJActor *actor = this->RefActor();
+  actor->SetVideoClip(videoClip);
+}
+
 void PLAAGTActor::SetFunction(PLAFunctionCode::Actor aKey,
                               const std::function<void(PLAOBJActor *)> &aFunc) const
 {

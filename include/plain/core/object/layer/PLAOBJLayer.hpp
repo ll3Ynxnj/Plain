@@ -4,6 +4,7 @@
 #include "plain/core/object/PLAObject.hpp"
 #include "plain/core/PLALayerType.hpp"
 #include "plain/core/object/PLAOBJImageClip.hpp"
+#include "plain/core/object/PLAOBJVideoClip.hpp"
 #include "plain/core/object/timeline/PLATMLMotionNode.hpp"
 #include "plain/core/primitive/PLAPRMVector.hpp"
 #include "plain/core/primitive/PLAPRMPoint.hpp"
@@ -36,6 +37,7 @@ public:
   virtual void SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot) = 0;
 
   virtual void SetImageClip(PLAOBJImageClip *aImageClip) = 0;
+  virtual void SetVideoClip(PLAOBJVideoClip *aVideoClip) = 0;
 
   virtual bool IsCollideWithPoint(const PLAPoint &aPoint) const = 0;
   virtual bool IsCollideWithLine(const PLALine &aLine) const = 0;

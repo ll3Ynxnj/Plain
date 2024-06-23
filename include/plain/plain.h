@@ -228,9 +228,17 @@ namespace Plain
   namespace ImageClip
   {
     //PLAAGTImageClip Create(const PLAString &aImageName);
-    PLAAGTImageClip Create(const PLAString &aImageName, const PLARect &aClip);
+    PLAAGTImageClip Create(const PLAString &aImageName, const PLARect &aPixelClip);
     PLAAGTImageClip Assign(const PLAId &aId);
     PLAAGTImageClip Assign(const std::string &aName);
+  };
+
+  namespace VideoClip
+  {
+    //PLAAGTVideoClip Create(const PLAString &aVideoName);
+    PLAAGTVideoClip Create(const PLAString &aVideoName, const PLARange &aFrameClip);
+    PLAAGTVideoClip Assign(const PLAId &aId);
+    PLAAGTVideoClip Assign(const std::string &aName);
   };
 
 };

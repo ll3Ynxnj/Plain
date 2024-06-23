@@ -221,20 +221,20 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
 ////////////////////////////////////////////////////////////////////////////////
 
   // TEST: Initialize the camera ///////////////////////////////////////////////
-  //static PLAGLUTRenderer_camera *camera = nullptr;
-  //if (!camera) {
-  //  camera = new PLAGLUTRenderer_camera();
-  //  if (!camera->init()) {
-  //    delete camera;
-  //    camera = nullptr;
-  //  }
-  //}
+  static PLAGLUTRenderer_camera *camera = nullptr;
+  if (!camera) {
+    camera = new PLAGLUTRenderer_camera();
+    if (!camera->init()) {
+      delete camera;
+      camera = nullptr;
+    }
+  }
   //////////////////////////////////////////////////////////////////////////////
 
   // TEST: Draw the camera image ///////////////////////////////////////////////
-  //glPushMatrix();
-  //camera->draw(640, 360);//viewportWidth, viewportHeight);
-  //glPopMatrix();
+  glPushMatrix();
+  camera->draw(640, 360);//viewportWidth, viewportHeight);
+  glPopMatrix();
   //////////////////////////////////////////////////////////////////////////////
 
 }
@@ -309,18 +309,18 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
 
   if (imageClip)
   {
-    texCoords[0] = imageClip->GetNormalizedClip().pos.x;  // 0.0,
-    texCoords[1] = imageClip->GetNormalizedClip().pos.y;  // 0.0,
-    texCoords[2] = imageClip->GetNormalizedClip().pos.x +
-                   imageClip->GetNormalizedClip().size.x; // 0.0625,
-    texCoords[3] = imageClip->GetNormalizedClip().pos.y;  // 0.0,
-    texCoords[4] = imageClip->GetNormalizedClip().pos.x;  // 0.0,
-    texCoords[5] = imageClip->GetNormalizedClip().pos.y +
-                   imageClip->GetNormalizedClip().size.y; // 0.0625,
-    texCoords[6] = imageClip->GetNormalizedClip().pos.x +
-                   imageClip->GetNormalizedClip().size.x; // 0.0625
-    texCoords[7] = imageClip->GetNormalizedClip().pos.y +
-                   imageClip->GetNormalizedClip().size.y; // 0.0625,
+    texCoords[0] = imageClip->GetNormalizedPixelClip().pos.x;  // 0.0,
+    texCoords[1] = imageClip->GetNormalizedPixelClip().pos.y;  // 0.0,
+    texCoords[2] = imageClip->GetNormalizedPixelClip().pos.x +
+                   imageClip->GetNormalizedPixelClip().size.x; // 0.0625,
+    texCoords[3] = imageClip->GetNormalizedPixelClip().pos.y;  // 0.0,
+    texCoords[4] = imageClip->GetNormalizedPixelClip().pos.x;  // 0.0,
+    texCoords[5] = imageClip->GetNormalizedPixelClip().pos.y +
+                   imageClip->GetNormalizedPixelClip().size.y; // 0.0625,
+    texCoords[6] = imageClip->GetNormalizedPixelClip().pos.x +
+                   imageClip->GetNormalizedPixelClip().size.x; // 0.0625
+    texCoords[7] = imageClip->GetNormalizedPixelClip().pos.y +
+                   imageClip->GetNormalizedPixelClip().size.y; // 0.0625,
     /*/
    GLfloat texCoords[] = {
      0.0, 0.0,

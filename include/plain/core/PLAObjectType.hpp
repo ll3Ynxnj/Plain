@@ -34,6 +34,7 @@ enum class PLAObjectType : PLAInt
 
   Renderer,
   ImageClip,
+  VideoClip,
   LYRTileDataSource,
 
   kNumberOfItems,

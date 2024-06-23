@@ -15,22 +15,24 @@ PLAOBJImageClip *PLAOBJImageClip::Create(const PLAString &aImageName,
   return imageClip;
 }
 
-PLAOBJImageClip *PLAOBJImageClip::Object(const PLAString &aName)
+PLAOBJImageClip *PLAOBJImageClip::Object(const PLAString &aObjectName)
 {
   return static_cast<PLAOBJImageClip *>
-  (PLAObject::Object(PLAObjectType::ImageClip, aName));
+  (PLAObject::Object(PLAObjectType::ImageClip, aObjectName));
 }
 
-PLAOBJImageClip *PLAOBJImageClip::Object(PLAId aId)
+PLAOBJImageClip *PLAOBJImageClip::Object(PLAId aObjectId)
 {
   return static_cast<PLAOBJImageClip *>
-  (PLAObject::Object(PLAObjectType::ImageClip, aId));
+  (PLAObject::Object(PLAObjectType::ImageClip, aObjectId));
 }
 
-PLAOBJImageClip::PLAOBJImageClip(const PLAOBJImage *aImage, const PLARect &aClip) :
-PLAObject(PLAObjectType::ImageClip), _image(aImage), _clip(aClip)
+PLAOBJImageClip::PLAOBJImageClip(const PLAOBJImage *aImage,
+                                 const PLARect &aClip,
+                                 PLAObjectType aType) :
+PLAObject(aType), _image(aImage), _clip(aClip)
 {
-  this->UpdateNormalizedClip(aClip);
+  this->UpdateNormalizedPixelClip(aClip);
 }
 
 PLAOBJImageClip::~PLAOBJImageClip()
@@ -43,27 +45,27 @@ PLAAGTImageClip PLAOBJImageClip::AssignAgent()
   return PLAAGTImageClip(this);
 }
 
-void PLAOBJImageClip::SetClip(const PLARect &aClip)
+void PLAOBJImageClip::SetPixelClip(const PLARect &aClip)
 {
   _clip = aClip;
-  this->UpdateNormalizedClip(aClip);
+  this->UpdateNormalizedPixelClip(aClip);
 }
 
-void PLAOBJImageClip::SetNormalizedClip(const PLARect &aNormalizedClip)
+void PLAOBJImageClip::SetNormalizedPixelClip(const PLARect &aClip)
 {
-  _normalizedClip = aNormalizedClip;
-  this->UpdateClip(aNormalizedClip);
+  _normalizedClip = aClip;
+  this->UpdatePixelClip(aClip);
 }
 
-void PLAOBJImageClip::UpdateClip(const PLARect &aNormalizedClip)
+void PLAOBJImageClip::UpdatePixelClip(const PLARect &aClip)
 {
-  _clip.pos.x = _image->GetSize().x * aNormalizedClip.pos.x;
-  _clip.pos.y = _image->GetSize().y * aNormalizedClip.pos.y;
-  _clip.size.x = _image->GetSize().x * aNormalizedClip.pos.x;
-  _clip.size.y = _image->GetSize().y * aNormalizedClip.pos.y;
+  _clip.pos.x = _image->GetSize().x * aClip.pos.x;
+  _clip.pos.y = _image->GetSize().y * aClip.pos.y;
+  _clip.size.x = _image->GetSize().x * aClip.pos.x;
+  _clip.size.y = _image->GetSize().y * aClip.pos.y;
 }
 
-void PLAOBJImageClip::UpdateNormalizedClip(const PLARect &aClip)
+void PLAOBJImageClip::UpdateNormalizedPixelClip(const PLARect &aClip)
 {
   _normalizedClip.pos.x = aClip.pos.x / _image->GetSize().x;
   _normalizedClip.pos.y = aClip.pos.y / _image->GetSize().y;

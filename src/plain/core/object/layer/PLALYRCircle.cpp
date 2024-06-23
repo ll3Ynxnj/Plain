@@ -51,6 +51,11 @@ void PLALYRCircle::SetImageClip(PLAOBJImageClip *aImageClip)
   _imageClip = aImageClip;
 }
 
+void PLALYRCircle::SetVideoClip(PLAOBJVideoClip *aVideoClip)
+{
+  _videoClip = aVideoClip;
+}
+
 bool PLALYRCircle::IsCollideWithPoint(const PLAPoint &aPoint) const
 {
   return

@@ -19,16 +19,17 @@ public:
     _vector(aVector), _color(aColor) {};
   virtual ~PLALYRLine() {};
 
-  virtual PLAVec3f GetSize() const;
-  virtual void GetSize(PLAVec3f *aSize) const;
-  virtual void SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot);
+  PLAVec3f GetSize() const override;
+  void GetSize(PLAVec3f *aSize) const override;
+  void SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot) override;
 
-  virtual void SetImageClip(PLAOBJImageClip *aImageClip) { return; } // Stab
+  void SetImageClip(PLAOBJImageClip *aImageClip) override { return; } // Stab
+  void SetVideoClip(PLAOBJVideoClip *aVideoClip) override { return; } // Stab
 
-  virtual bool IsCollideWithPoint(const PLAPoint &aPoint) const;
-  virtual bool IsCollideWithLine(const PLALine &aLine) const;
-  virtual bool IsCollideWithRect(const PLARect &aRect) const;
-  virtual bool IsCollideWithCircle(const PLACircle &aCircle) const;
+  bool IsCollideWithPoint(const PLAPoint &aPoint) const override;
+  bool IsCollideWithLine(const PLALine &aLine) const override;
+  bool IsCollideWithRect(const PLARect &aRect) const override;
+  bool IsCollideWithCircle(const PLACircle &aCircle) const override;
 
   PLALine GetLine() const;
 

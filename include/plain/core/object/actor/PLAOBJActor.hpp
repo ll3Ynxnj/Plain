@@ -229,6 +229,8 @@ public:
 
   void SetImageClip(PLAOBJImageClip *aClip)
   { _layer->SetImageClip(aClip); };
+  void SetVideoClip(PLAOBJVideoClip *aClip)
+  { _layer->SetVideoClip(aClip); };
 
   void SetFunction(PLAFunctionCode::Actor aKey,
                    const std::function<void(PLAOBJActor *)> &aFunc)

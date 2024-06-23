@@ -55,6 +55,7 @@ public:
   void SetScale(const PLAVec3f &aScale) const;
 
   void SetImageClip(const PLAAGTImageClip &aImageClip) const;
+  void SetVideoClip(const PLAAGTVideoClip &aVideoClip) const;
 
   void SetFunction(PLAFunctionCode::Actor aKey,
                    const std::function<void(PLAOBJActor *)> &aFunc) const;

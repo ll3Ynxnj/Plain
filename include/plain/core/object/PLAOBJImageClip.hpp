@@ -14,30 +14,31 @@ class PLAOBJImageClip : public PLAObject
   PLARect _normalizedClip = kPLARectNone;
 
 protected:
-  PLAOBJImageClip(const PLAOBJImage *aImage, const PLARect &aClip);
+  PLAOBJImageClip(const PLAOBJImage *aImage, const PLARect &aPixelClip,
+                  PLAObjectType aType = PLAObjectType::ImageClip);
 
 public:
   PLAOBJImageClip() = delete;
   static PLAOBJImageClip *Create(const PLAString &aImageName);
   static PLAOBJImageClip *Create(const PLAString &aImageName,
-                                 const PLARect &aClip);
-  static PLAOBJImageClip *Object(const PLAString &aName);
-  static PLAOBJImageClip *Object(PLAId aId);
+                                 const PLARect &aPixelClip);
+  static PLAOBJImageClip *Object(const PLAString &aObjectName);
+  static PLAOBJImageClip *Object(PLAId aObjectId);
 
   ~PLAOBJImageClip();
 
   PLAAGTImageClip AssignAgent();
 
-  const PLAOBJImage *GetImage() const { return _image; };
-  const PLARect &GetClip() const { return _clip; };
-  const PLARect &GetNormalizedClip() const { return _normalizedClip; };
+  const PLAOBJImage *GetImage() const { return _image; }
+  const PLARect &GetPixelClip() const { return _clip; }
+  const PLARect &GetNormalizedPixelClip() const { return _normalizedClip; }
 
-  void SetClip(const PLARect &aClip);
-  void SetNormalizedClip(const PLARect &aNormalizedClip);
+  void SetPixelClip(const PLARect &aClip);
+  void SetNormalizedPixelClip(const PLARect &aClip);
 
 private:
-  void UpdateClip(const PLARect &aNormalizedClip);
-  void UpdateNormalizedClip(const PLARect &aClip);
+  void UpdatePixelClip(const PLARect &aClip);
+  void UpdateNormalizedPixelClip(const PLARect &aClip);
 };
 
 #endif //PLAIN_ENGINE_PLAOBJIMAGECLIP_HPP

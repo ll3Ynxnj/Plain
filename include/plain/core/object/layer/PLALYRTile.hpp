@@ -55,16 +55,17 @@ public:
 
   /// PLAOBJLayer //////////////////////////////////////////////////////////////
 
-  virtual PLAVec3f GetSize() const override;
-  virtual void GetSize(PLAVec3f *aSize) const override;
-  virtual void SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot) override;
+  PLAVec3f GetSize() const override;
+  void GetSize(PLAVec3f *aSize) const override;
+  void SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot) override;
 
-  virtual void SetImageClip(PLAOBJImageClip *aImageClip) override { return; } // Stab
+  void SetImageClip(PLAOBJImageClip *aImageClip) override { return; } // Stab
+  void SetVideoClip(PLAOBJVideoClip *aVideoClip) override { return; } // Stab
 
-  virtual bool IsCollideWithPoint(const PLAPoint &aPoint) const override;
-  virtual bool IsCollideWithLine(const PLALine &aLine) const override;
-  virtual bool IsCollideWithRect(const PLARect &aRect) const override;
-  virtual bool IsCollideWithCircle(const PLACircle &aCircle) const override;
+  bool IsCollideWithPoint(const PLAPoint &aPoint) const override;
+  bool IsCollideWithLine(const PLALine &aLine) const override;
+  bool IsCollideWithRect(const PLARect &aRect) const override;
+  bool IsCollideWithCircle(const PLACircle &aCircle) const override;
 };
 
 #endif //PLAIN_PLALYRTILE_HPP

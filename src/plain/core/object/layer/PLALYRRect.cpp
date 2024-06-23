@@ -4,7 +4,7 @@
 PLALYRRect *PLALYRRect::Create(const PLARect &aRect)
 {
   PLALYRRect *layer = new PLALYRRect(PLAVec3f(aRect.pos.x,
-                                             aRect.pos.y, 0),
+                                              aRect.pos.y, 0),
                                      aRect.size,
                                      kPLAColorWhite,
                                      kPLAColorNone,
@@ -21,7 +21,7 @@ PLALYRRect *PLALYRRect::Create(const PLARect &aRect,
                                const PLARect &aClip)
 {
   PLALYRRect *layer = new PLALYRRect(PLAVec3f(aRect.pos.x,
-                                             aRect.pos.y, 0),
+                                              aRect.pos.y, 0),
                                      aRect.size,
                                      aFillColor,
                                      aStrokeColor,
@@ -52,6 +52,11 @@ void PLALYRRect::SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot)
 void PLALYRRect::SetImageClip(PLAOBJImageClip *aImageClip)
 {
   _imageClip = aImageClip;
+}
+
+void PLALYRRect::SetVideoClip(PLAOBJVideoClip *aVideoClip)
+{
+  _videoClip = aVideoClip;
 }
 
 bool PLALYRRect::IsCollideWithPoint(const PLAPoint &aPoint) const

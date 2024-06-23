@@ -9,7 +9,8 @@ class PLALYRRect : public PLAOBJLayer
   PLAVec2f _vector = kPLAVec2fNone;
   PLAColor _fillColor = kPLAColorWhite;
   PLAColor _strokeColor = kPLAColorNone;
-  PLAOBJImageClip *_imageClip = nullptr;
+  PLAOBJImageClip *_imageClip = nullptr; // PLAOBJLayerが持つべきでは？
+  PLAOBJVideoClip *_videoClip = nullptr; // PLAOBJLayerが持つべきでは？
 
 public:
   PLALYRRect(const PLAVec3f &aOffset, const PLAVec2f &aVector,
@@ -53,7 +54,7 @@ public:
   static PLALYRRect *Create(const PLARect &aRect,
                             const PLAColor &aFillColor,
                             const PLAColor &aStrokeColor,
-                            const std::string &aImage,
+                            const PLAString &aImage,
                             const PLARect &aClip);
 
   PLALYRRect() = delete;
@@ -67,6 +68,7 @@ public:
   virtual void SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot);
 
   virtual void SetImageClip(PLAOBJImageClip *aImageClip);
+  virtual void SetVideoClip(PLAOBJVideoClip *aVideoClip);
 
   virtual bool IsCollideWithPoint(const PLAPoint &aPoint) const;
   virtual bool IsCollideWithLine(const PLALine &aLine) const;
