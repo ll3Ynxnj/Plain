@@ -59,6 +59,7 @@ void PLAOBJImageClip::SetNormalizedPixelClip(const PLARect &aClip)
 
 void PLAOBJImageClip::UpdatePixelClip(const PLARect &aClip)
 {
+  if (!_image) { return; }
   _clip.pos.x = _image->GetSize().x * aClip.pos.x;
   _clip.pos.y = _image->GetSize().y * aClip.pos.y;
   _clip.size.x = _image->GetSize().x * aClip.pos.x;
@@ -67,6 +68,7 @@ void PLAOBJImageClip::UpdatePixelClip(const PLARect &aClip)
 
 void PLAOBJImageClip::UpdateNormalizedPixelClip(const PLARect &aClip)
 {
+  if (!_image) { return; }
   _normalizedClip.pos.x = aClip.pos.x / _image->GetSize().x;
   _normalizedClip.pos.y = aClip.pos.y / _image->GetSize().y;
   _normalizedClip.size.x = aClip.size.x / _image->GetSize().x;

@@ -56,7 +56,7 @@ void PLALYRRect::SetImageClip(PLAOBJImageClip *aImageClip)
 
 void PLALYRRect::SetVideoClip(PLAOBJVideoClip *aVideoClip)
 {
-  _videoClip = aVideoClip;
+  _imageClip = aVideoClip;
 }
 
 bool PLALYRRect::IsCollideWithPoint(const PLAPoint &aPoint) const

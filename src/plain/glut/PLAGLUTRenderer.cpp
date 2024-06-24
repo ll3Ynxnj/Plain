@@ -257,10 +257,12 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
   if (imageClip)
   {
     const PLAOBJImage *texImage = imageClip->GetImage();
-    glEnable(GL_TEXTURE_2D);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetSize().x,
-                 texImage->GetSize().y, 0,
-                 GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
+    if (texImage) {
+      glEnable(GL_TEXTURE_2D);
+      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetSize().x,
+                   texImage->GetSize().y, 0,
+                   GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
+    }
   }
   else
   {

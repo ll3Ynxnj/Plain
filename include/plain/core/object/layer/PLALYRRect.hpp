@@ -10,7 +10,7 @@ class PLALYRRect : public PLAOBJLayer
   PLAColor _fillColor = kPLAColorWhite;
   PLAColor _strokeColor = kPLAColorNone;
   PLAOBJImageClip *_imageClip = nullptr; // PLAOBJLayerが持つべきでは？
-  PLAOBJVideoClip *_videoClip = nullptr; // PLAOBJLayerが持つべきでは？
+  //PLAOBJVideoClip *_videoClip = nullptr; // PLAOBJLayerが持つべきでは？
 
 public:
   PLALYRRect(const PLAVec3f &aOffset, const PLAVec2f &aVector,
