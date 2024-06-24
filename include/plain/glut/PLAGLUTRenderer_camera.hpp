@@ -4,20 +4,55 @@
 #include <atomic>
 
 class PLAGLUTRenderer_camera {
-  cv::VideoCapture cap;
-  cv::Mat frame;
-  std::thread cameraThread;
-  std::atomic<bool> running {true};
+  class Camera {
+    cv::VideoCapture _cap;
+    cv::Mat _frame;
+    std::thread _cameraThread;
+    std::atomic<bool> _running {true};
 
-  int videoWidth = 1920;
-  int videoHeight = 1080;
+    int videoWidth = 1920;
+    int videoHeight = 1080;
 
-public:
+  public:
+    ~Camera() {
+      _running = false;
+      _cameraThread.join();
+    }
+
+    bool init() {
+      _cap.open(0, cv::CAP_V4L2);
+      if (!_cap.isOpened()) {
+        std::cerr << "Error: Couldn't open the camera." << std::endl;
+        return false;
+      }
+  
+      // Set the camera parameters
+      _cap.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M', 'J', 'P', 'G'));
+      _cap.set(cv::CAP_PROP_FRAME_WIDTH, videoWidth);
+      _cap.set(cv::CAP_PROP_FRAME_HEIGHT, videoHeight);
+      _cap.set(cv::CAP_PROP_FPS, 30);
+  
+      _cameraThread = std::thread([this] {
+        while (_running) {
+            _cap >> _frame;
+        }
+      });
+
+      return true;
+    }
+
+    const cv::Mat &getFrame() {
+      return _frame;
+    }
+  };
+
+  Camera camera;
   GLuint textureID = INT_MAX;
 
+ public:
+
   ~PLAGLUTRenderer_camera() {
-    running = false;
-    cameraThread.join();
+
   }
 
   bool init(void) {
@@ -27,24 +62,7 @@ public:
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_2D, textureID);
 
-    cap.open(0, cv::CAP_V4L2);
-    if (!cap.isOpened()) {
-      std::cerr << "Error: Couldn't open the camera." << std::endl;
-      return false;
-    }
-
-    // Set the camera parameters
-    cap.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M', 'J', 'P', 'G'));
-    cap.set(cv::CAP_PROP_FRAME_WIDTH, videoWidth);
-    cap.set(cv::CAP_PROP_FRAME_HEIGHT, videoHeight);
-    cap.set(cv::CAP_PROP_FPS, 30);
-
-    cameraThread = std::thread([this] {
-      while (running) {
-          cap >> frame;
-      }
-    });
-    return true;
+    return camera.init();
   }
 
   void draw(int aViewportWidth, int aViewportHeight) {
@@ -55,6 +73,7 @@ public:
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+    auto frame = camera.getFrame();
     if (!frame.empty()) {
         printf("   textureID: %d, frame.cols: %d, frame.rows: %d\n"
                "   aViewportWidth: %d, aViewportHeight: %d\n",
