@@ -3,10 +3,16 @@
 
 #include "plain/core/primitive/PLAPRMVector.hpp"
 
+
+// PLAInputDeviceType //////////////////////////////////////////////////////
+
 enum class PLAInputDeviceType : PLAInt
-{ Touch, Mouse, Keyboard, kNumberOfItems, None = kPLAIntUndefined };
+{ Touch, Mouse, Keyboard, Camera, kNumberOfItems, None = kPLAIntUndefined };
 
 using PLAInputSignal = bool;
+
+
+// PLAInputActionCode //////////////////////////////////////////////////////
 
 using PLAInputActionCode = PLAInt;
 static const PLAInt kPLAInputActionCodeUndefined = kPLAIntUndefined;
@@ -29,6 +35,9 @@ enum class PLAInputActionCodeForKeyboard : PLAInputActionCode
   kNumberOfItems, None = kPLAInputActionCodeUndefined
 };
 
+
+// PLAInputSignalCode //////////////////////////////////////////////////////
+
 using PLAInputSignalCode = PLAInt;
 static const PLAInt kPLAInputSignalCodeUndefined = kPLAIntUndefined;
 
@@ -40,6 +49,8 @@ enum class PLAInputSignalCodeForTouch : PLAInputSignalCode
 
 // マウスは何も押さずに画面上を移動させられるため移動時は常にNoneを送出する
 // Noneは他のキーが押されていてもいなくても送出されるので、Handler側で処理を分ける
+// Mouse can move on the screen without pressing anything, so it always sends None when moving.
+// None is sent regardless of whether other keys are pressed or not, so the processing is divided on the Handler side.
 enum class PLAInputSignalCodeForMouse : PLAInputSignalCode
 { Left, Middle, Right, kNumberOfItems, None = kPLAInputSignalCodeUndefined };
 
@@ -48,6 +59,12 @@ enum class PLAInputSignalCodeForKeyboard : PLAInputSignalCode
   _0, _1, _2, _3, _4, _5, _6, _7, _8, _9,
   A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
   Esc, Tab, Return, Delete, Space, Shift, Control, Alt, Super,
+  kNumberOfItems, None = kPLAInputSignalCodeUndefined,
+};
+
+enum class PLAInputSignalCodeForCamera : PLAInputSignalCode
+{
+
   kNumberOfItems, None = kPLAInputSignalCodeUndefined,
 };
 

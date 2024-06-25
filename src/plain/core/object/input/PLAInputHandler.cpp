@@ -38,6 +38,9 @@ void PLAInputHandler::Input(const PLAInput &aInput, const PLAInputState *aState)
     case PLAInputDeviceType::Keyboard :
       this->InputForKeyboard(aInput, aState);
       break;
+    case PLAInputDeviceType::Camera :
+      this->InputForCamera(aInput, aState);
+      break;
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Detect unexpected PLAInputDeviceType.");
@@ -89,4 +92,10 @@ void PLAInputHandler::InputForKeyboard(const PLAInput &aInput,
   {
     _context->InputWithKeyboard(aInput, PLAInputActionCodeForKeyboard::Press);
   }
+}
+
+void PLAInputHandler::InputForCamera(const PLAInput &aInput,
+                                     const PLAInputState *aState)
+{
+
 }

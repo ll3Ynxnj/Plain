@@ -27,6 +27,7 @@ private:
   void InputForTouch(const PLAInput &aInput, const PLAInputState *aState);
   void InputForMouse(const PLAInput &aInput, const PLAInputState *aState);
   void InputForKeyboard(const PLAInput &aInput, const PLAInputState *aState);
+  void InputForCamera(const PLAInput &aInput, const PLAInputState *aState);
 };
 
 #endif //ANHR_PLAINPUTHANDLER_HPP
