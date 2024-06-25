@@ -1,7 +1,3 @@
-//
-// Created by ll3ynxnj on 6/19/24.
-//
-
 #ifndef PLAIN_PLAOBJVIDEOCLIP_H
 #define PLAIN_PLAOBJVIDEOCLIP_H
 
