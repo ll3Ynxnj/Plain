@@ -2,8 +2,8 @@
 // Created by Kentaro Kawai on 2022/05/13.
 //
 
-#ifndef ANHR_PLAINPUTMANAGER_HPP
-#define ANHR_PLAINPUTMANAGER_HPP
+#ifndef PLAIN_PLAINPUTMANAGER_HPP
+#define PLAIN_PLAINPUTMANAGER_HPP
 
 #include <vector>
 #include "plain/core/object/input/PLAInput.hpp"
@@ -32,4 +32,4 @@ public:
   void SetHandler(PLAInputHandler *aHandler) { _handler = aHandler; };
 };
 
-#endif //ANHR_PLAINPUTMANAGER_HPP
+#endif //PLAIN_PLAINPUTMANAGER_HPP

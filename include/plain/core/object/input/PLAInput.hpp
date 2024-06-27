@@ -1,5 +1,5 @@
-#ifndef PLAIN_ENGINE_PLAOBJINPUT_HPP
-#define PLAIN_ENGINE_PLAOBJINPUT_HPP
+#ifndef PLAIN_PLAOBJINPUT_HPP
+#define PLAIN_PLAOBJINPUT_HPP
 
 #include <set>
 #include <map>
@@ -35,4 +35,4 @@ public:
 };
 
 
-#endif //PLAIN_ENGINE_PLAOBJINPUT_HPP
+#endif //PLAIN_PLAOBJINPUT_HPP

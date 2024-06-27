@@ -2,8 +2,8 @@
 // Created by Kentaro Kawai on 2022/05/13.
 //
 
-#ifndef ANHR_PLAINPUTCONTEXT_HPP
-#define ANHR_PLAINPUTCONTEXT_HPP
+#ifndef PLAIN_PLAINPUTCONTEXT_HPP
+#define PLAIN_PLAINPUTCONTEXT_HPP
 
 #include <map>
 #include <functional>
@@ -56,4 +56,4 @@ private:
      const std::function<void(PLAInputContext *, const PLAInput &)> &aFunc);
 };
 
-#endif //ANHR_PLAINPUTCONTEXT_HPP
+#endif //PLAIN_PLAINPUTCONTEXT_HPP

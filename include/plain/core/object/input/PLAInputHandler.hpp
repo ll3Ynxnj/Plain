@@ -2,8 +2,8 @@
 // Created by Kentaro Kawai on 2022/05/13.
 //
 
-#ifndef ANHR_PLAINPUTHANDLER_HPP
-#define ANHR_PLAINPUTHANDLER_HPP
+#ifndef PLAIN_PLAINPUTHANDLER_HPP
+#define PLAIN_PLAINPUTHANDLER_HPP
 
 #include "plain/core/object/input/PLAInput.hpp"
 #include "plain/core/object/input/PLAInputContext.hpp"
@@ -30,4 +30,4 @@ private:
   void InputForCamera(const PLAInput &aInput, const PLAInputState *aState);
 };
 
-#endif //ANHR_PLAINPUTHANDLER_HPP
+#endif //PLAIN_PLAINPUTHANDLER_HPP

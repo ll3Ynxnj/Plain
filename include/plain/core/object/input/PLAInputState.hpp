@@ -2,8 +2,8 @@
 // Created by Kentaro Kawai on 2022/05/13.
 //
 
-#ifndef ANHR_PLAINPUTSTATE_HPP
-#define ANHR_PLAINPUTSTATE_HPP
+#ifndef PLAIN_PLAINPUTSTATE_HPP
+#define PLAIN_PLAINPUTSTATE_HPP
 
 #include "plain/core/object/input/PLAInput.hpp"
 
@@ -20,4 +20,4 @@ public:
   void SetInput(const PLAInput &aInput);
 };
 
-#endif //ANHR_PLAINPUTSTATE_HPP
+#endif //PLAIN_PLAINPUTSTATE_HPP
