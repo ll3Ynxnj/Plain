@@ -97,10 +97,29 @@ void PLAApp::Reset()
   PLAOBJError::Manager::Instance()->Reset();
 }
 
+/*
 void PLAApp::Input(PLAInputDeviceType aDevice, PLAInputSignalCode aCode,
                    PLAInputSignal aSignal, const PLAPoint &aPoint)
 {
   PLAInputManager::Instance()->Input(aDevice, aCode, aSignal, aPoint);
+}
+*/
+
+void PLAApp::InputTouch(PLAInputSignalCode aCode, PLAInputSignal aSignal,
+                        const PLAPoint &aScreenPoint)
+{
+  PLAInputManager::Instance()->InputTouch(aCode, aSignal, aScreenPoint);
+}
+
+void PLAApp::InputMouse(PLAInputSignalCode aCode, PLAInputSignal aSignal,
+                        const PLAPoint &aScreenPoint)
+{
+  PLAInputManager::Instance()->InputMouse(aCode, aSignal, aScreenPoint);
+}
+
+void PLAApp::InputKey(PLAInputSignalCode aCode, PLAInputSignal aSignal)
+{
+  PLAInputManager::Instance()->InputKey(aCode, aSignal);
 }
 
 void PLAApp::Update()

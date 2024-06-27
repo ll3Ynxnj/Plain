@@ -2,6 +2,10 @@
 #include "plain/core/agent/PLAAGTStage.hpp"
 #include "plain/core/agent/actor/PLAAGTActor.hpp"
 
+#include "plain/core/object/input/PLAIPTKey.hpp"
+#include "plain/core/object/input/PLAIPTMouse.hpp"
+#include "plain/core/object/input/PLAIPTTouch.hpp"
+
 PLAOBJStage *PLAOBJStage::Create()
 {
   PLAOBJStage *stage = new PLAOBJStage();
@@ -131,18 +135,32 @@ PLAInputContext *PLAOBJStage::RefContextWithInput(const PLAInput &aInput) const
   PLAInputContext *inputContext = nullptr;
   switch (aInput.GetInputDeviceType())
   {
-    case PLAInputDeviceType::Touch :
-    case PLAInputDeviceType::Mouse :
+    case PLAInputDeviceType::Touch:
+    {
+      const PLAIPTTouch &touch = static_cast<const PLAIPTTouch &>(aInput);
       inputContext =
-        _context->RefResponsiveActorWithPoint(aInput.GetScreenPoint(),
-                                              aInput.GetInputDeviceType(),
-                                              aInput.GetInputSignalCode());
+        _context->RefResponsiveActorWithPoint(touch.GetScreenPoint(),
+                                              touch.GetInputDeviceType(),
+                                              touch.GetInputSignalCode());
       break;
-    case PLAInputDeviceType::Keyboard :
+    }
+    case PLAInputDeviceType::Mouse:
+    {
+      const PLAIPTMouse &mouse = static_cast<const PLAIPTMouse &>(aInput);
       inputContext =
-        _context->RefResponsiveActor(aInput.GetInputDeviceType(),
-                                     aInput.GetInputSignalCode());
+        _context->RefResponsiveActorWithPoint(mouse.GetScreenPoint(),
+                                              mouse.GetInputDeviceType(),
+                                              mouse.GetInputSignalCode());
       break;
+    }
+    case PLAInputDeviceType::Keyboard:
+    {
+      const PLAIPTKey &key = static_cast<const PLAIPTKey &>(aInput);
+      inputContext =
+        _context->RefResponsiveActor(key.GetInputDeviceType(),
+                                     key.GetInputSignalCode());
+      break;
+    }
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Unexpected PLAInputDeviceType detected.");

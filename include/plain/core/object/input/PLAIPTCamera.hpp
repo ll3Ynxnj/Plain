@@ -4,8 +4,9 @@
 #include <opencv2/opencv.hpp>
 #include <thread>
 #include <atomic>
+#include "plain/core/object/input/PLAInput.hpp"
 
-class PLAIPTCamera
+class PLAIPTCamera: public PLAInput
 {
   cv::VideoCapture _cap;
   cv::Mat _frame;
@@ -16,6 +17,7 @@ class PLAIPTCamera
   int videoHeight = 1080;
 
 public:
+  PLAIPTCamera();
   ~PLAIPTCamera();
   bool Init();
   const cv::Mat &GetFrame();

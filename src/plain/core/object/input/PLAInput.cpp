@@ -65,10 +65,8 @@ int PLAInput::GetNumberOfInputCodes(PLAInputDeviceType aDevice)
 }
 
 PLAInput::PLAInput(PLAInputDeviceType aDeviceType, PLAInputSignalCode aCode,
-                   PLAInputSignal aSignal, const PLAPoint &aScreenPoint) :
-PLAObject(PLAObjectType::Input, "== PLAInput =="),
-_deviceType(aDeviceType), _code(aCode), _signal(aSignal),
-_screenPoint(aScreenPoint)
+                   PLAInputSignal aSignal):
+_deviceType(aDeviceType), _code(aCode), _signal(aSignal)
 {
 
 }

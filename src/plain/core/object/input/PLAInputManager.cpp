@@ -3,6 +3,9 @@
 //
 
 #include "plain/core/object/input/PLAInputManager.hpp"
+#include "plain/core/object/input/PLAIPTTouch.hpp"
+#include "plain/core/object/input/PLAIPTMouse.hpp"
+#include "plain/core/object/input/PLAIPTKey.hpp"
 
 PLAInputManager PLAInputManager::_instance = PLAInputManager();
 
@@ -21,6 +24,7 @@ void PLAInputManager::Init()
 
 }
 
+/*
 void PLAInputManager::Input(PLAInputDeviceType aDeviceType,
                             PLAInputSignalCode aCode,
                             PLAInputSignal aSignal,
@@ -35,7 +39,30 @@ void PLAInputManager::Input(PLAInputDeviceType aDeviceType,
   if (aDeviceType == PLAInputDeviceType::Keyboard)
   { screenPoint = kPLAPointUndefined; }
 
-  PLAInput input = PLAInput(aDeviceType, aCode, aSignal, screenPoint);
+  const PLAInput *input = new PLAInput(aDeviceType, aCode, aSignal, screenPoint);
+  _inputs.push(input);
+}
+*/
+
+void PLAInputManager::InputTouch(PLAInputSignalCode aCode,
+                                 PLAInputSignal aSignal,
+                                 const PLAPoint &aScreenPoint)
+{
+  const PLAInput input = PLAIPTTouch(aCode, aSignal, aScreenPoint);
+  _inputs.push(input);
+}
+
+void PLAInputManager::InputMouse(PLAInputSignalCode aCode,
+                                 PLAInputSignal aSignal,
+                                 const PLAPoint &aScreenPoint)
+{
+  const PLAInput input = PLAIPTMouse(aCode, aSignal, aScreenPoint);
+  _inputs.push(input);
+}
+
+void PLAInputManager::InputKey(PLAInputSignalCode aCode, PLAInputSignal aSignal)
+{
+  const PLAInput input = PLAIPTKey(aCode, aSignal);
   _inputs.push(input);
 }
 

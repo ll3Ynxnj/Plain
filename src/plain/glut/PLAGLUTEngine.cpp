@@ -61,23 +61,23 @@ void PLAGLUTEngine::mouse(int button, int state, int x, int y)
   /*/
   PLAVec3f contentScaleFactor = PLAApp::Instance()->GetContentScaleFactor();
   PLAApp::Instance()->
-    Input(PLAInputDeviceType::Touch, inputCode, inputSignal,
-          { float(x / contentScaleFactor.x), float(y / contentScaleFactor.y) });
+    InputTouch(inputCode, inputSignal, {
+                 float(x / contentScaleFactor.x),
+                 float(y / contentScaleFactor.y)
+               });
   //*/
 }
 
 void PLAGLUTEngine::keyboard(unsigned char key, int x, int y)
 {
   PLAInputSignalCode inputCode = PLAApp::GetInputSignalCodeFromChar(key);
-  PLAApp::Instance()->Input(PLAInputDeviceType::Keyboard, inputCode, 1,
-                            { float(x), float(y) });
+  PLAApp::Instance()->InputKey(inputCode, 1);
 }
 
 void PLAGLUTEngine::keyboardUp(unsigned char key, int x, int y)
 {
   PLAInputSignalCode inputCode = PLAApp::GetInputSignalCodeFromChar(key);
-  PLAApp::Instance()->Input(PLAInputDeviceType::Keyboard, inputCode, 0,
-                            { float(x), float(y) });
+  PLAApp::Instance()->InputKey(inputCode, 0);
 }
 
 void PLAGLUTEngine::glut(int argc, char *argv[], int width, int height, void (*init)(void)) {

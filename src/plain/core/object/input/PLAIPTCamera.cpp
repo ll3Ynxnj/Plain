@@ -1,5 +1,12 @@
 #include "plain/core/object/input/PLAIPTCamera.hpp"
 
+PLAIPTCamera::PLAIPTCamera():
+  PLAInput(PLAInputDeviceType::Camera, 0, 0),
+  _running(true)
+{
+
+}
+
 PLAIPTCamera::~PLAIPTCamera() {
   _running = false;
   _cameraThread.join();

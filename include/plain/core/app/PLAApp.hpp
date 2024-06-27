@@ -48,7 +48,6 @@ private:
   PLAApp();
 
 public:
-
   static PLAApp *Instance() { return &_instance; };
   static PLAOBJState *State() { return _instance._state; };
   static PLAOBJStage *Stage() { return _instance._stage; };
@@ -76,8 +75,15 @@ public:
 
   void Init(PLARendererType aType, PLAInt aRefreshRate, PLAInt aBaseScreenLength);
   void Reset();
+  /*
   void Input(PLAInputDeviceType aDevice, PLAInputSignalCode aCode,
              PLAInputSignal aSignal, const PLAPoint &aPoint);
+             */
+  void InputTouch(PLAInputSignalCode aCode, PLAInputSignal aSignal,
+                  const PLAPoint &aPoint);
+  void InputMouse(PLAInputSignalCode aCode, PLAInputSignal aSignal,
+                  const PLAPoint &aPoint);
+  void InputKey(PLAInputSignalCode aCode, PLAInputSignal aSignal);
   void Update();
   void Render();
 

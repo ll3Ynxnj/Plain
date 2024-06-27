@@ -5,7 +5,7 @@
 #ifndef PLAIN_PLAINPUTMANAGER_HPP
 #define PLAIN_PLAINPUTMANAGER_HPP
 
-#include <vector>
+#include <queue>
 #include "plain/core/object/input/PLAInput.hpp"
 #include "plain/core/object/input/PLAInputState.hpp"
 #include "plain/core/object/input/PLAInputHandler.hpp"
@@ -26,8 +26,15 @@ public:
   ~PLAInputManager();
 
   void Init();
+  /*
   void Input(PLAInputDeviceType aDevice, PLAInputSignalCode aCode,
              PLAInputSignal aSignal, const PLAPoint &aScreenPoint);
+             */
+  void InputTouch(PLAInputSignalCode aCode, PLAInputSignal aSignal,
+                  const PLAPoint &aScreenPoint);
+  void InputMouse(PLAInputSignalCode aCode, PLAInputSignal aSignal,
+                  const PLAPoint &aScreenPoint);
+  void InputKey(PLAInputSignalCode aCode, PLAInputSignal aSignal);
   void Flush();
   void SetHandler(PLAInputHandler *aHandler) { _handler = aHandler; };
 };
