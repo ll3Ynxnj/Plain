@@ -232,9 +232,9 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
   //////////////////////////////////////////////////////////////////////////////
 
   // TEST: Draw the camera image ///////////////////////////////////////////////
-  glPushMatrix();
-  camera->draw(640, 360);//viewportWidth, viewportHeight);
-  glPopMatrix();
+  //glPushMatrix();
+  //camera->draw(640, 360);//viewportWidth, viewportHeight);
+  //glPopMatrix();
   //////////////////////////////////////////////////////////////////////////////
 
 }

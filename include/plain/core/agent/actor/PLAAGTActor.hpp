@@ -20,6 +20,9 @@
 #include "plain/core/object/layer/PLALYRTile.hpp"
 
 class PLAOBJActor;
+class PLAIPTTouch;
+class PLAIPTMouse;
+class PLAIPTKey;
 
 class PLAAGTActor : public PLAAgent
 {
@@ -74,15 +77,18 @@ public:
   void SetFunctorForInputWithTouch
     (PLAInputSignalCodeForTouch aSignalCode,
      PLAInputActionCodeForTouch aActionCode,
-     const std::function<void(const PLAAGTActor &, const PLAInput &)> &aFunc) const;
+     const std::function<void(const PLAAGTActor &,
+                              const PLAIPTTouch &)> &aFunc) const;
   void SetFunctorForInputWithMouse
     (PLAInputSignalCodeForMouse aSignalCode,
      PLAInputActionCodeForMouse aActionCode,
-     const std::function<void(const PLAAGTActor &, const PLAInput &)> &aFunc) const;
+     const std::function<void(const PLAAGTActor &,
+                              const PLAIPTMouse &)> &aFunc) const;
   void SetFunctorForInputWithKeyboard
     (PLAInputSignalCodeForKeyboard aSignalCode,
      PLAInputActionCodeForKeyboard aActionCode,
-     const std::function<void(const PLAAGTActor &, const PLAInput &)> &aFunc) const;
+     const std::function<void(const PLAAGTActor &,
+                              const PLAIPTKey &)> &aFunc) const;
 
 
 protected:

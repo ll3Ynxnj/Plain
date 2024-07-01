@@ -202,11 +202,11 @@ void PLAAGTActor::SetInputActive(bool aActive) const
 void PLAAGTActor::SetFunctorForInputWithTouch
   (PLAInputSignalCodeForTouch aSignalCode,
    PLAInputActionCodeForTouch aActionCode,
-   const std::function<void(const PLAAGTActor &, const PLAInput &)> &aFunc) const
+   const std::function<void(const PLAAGTActor &, const PLAIPTTouch &)> &aFunc) const
 {
   this->RefActor()->SetFunctorForInputWithTouch
   (aSignalCode, aActionCode,
-   [aFunc](PLAInputContext *aContext, const PLAInput &aInput)
+   [aFunc](PLAInputContext *aContext, const PLAIPTTouch &aInput)
    {
     PLAOBJActor *actor = static_cast<PLAOBJActor *>(aContext);
     PLAAGTActor agent = actor->AssignAgent();
@@ -217,11 +217,11 @@ void PLAAGTActor::SetFunctorForInputWithTouch
 void PLAAGTActor::SetFunctorForInputWithMouse
   (PLAInputSignalCodeForMouse aSignalCode,
    PLAInputActionCodeForMouse aActionCode,
-   const std::function<void(const PLAAGTActor &, const PLAInput &)> &aFunc) const
+   const std::function<void(const PLAAGTActor &, const PLAIPTMouse &)> &aFunc) const
 {
   this->RefActor()->SetFunctorForInputWithMouse
     (aSignalCode, aActionCode,
-     [aFunc](PLAInputContext *aContext, const PLAInput &aInput)
+     [aFunc](PLAInputContext *aContext, const PLAIPTMouse &aInput)
      {
        PLAOBJActor *actor = static_cast<PLAOBJActor *>(aContext);
        PLAAGTActor agent = actor->AssignAgent();
@@ -232,11 +232,11 @@ void PLAAGTActor::SetFunctorForInputWithMouse
 void PLAAGTActor::SetFunctorForInputWithKeyboard
   (PLAInputSignalCodeForKeyboard aSignalCode,
    PLAInputActionCodeForKeyboard aActionCode,
-   const std::function<void(const PLAAGTActor &, const PLAInput &)> &aFunc) const
+   const std::function<void(const PLAAGTActor &, const PLAIPTKey &)> &aFunc) const
 {
   this->RefActor()->SetFunctorForInputWithKeyboard
     (aSignalCode, aActionCode,
-     [aFunc](PLAInputContext *aContext, const PLAInput &aInput)
+     [aFunc](PLAInputContext *aContext, const PLAIPTKey &aInput)
      {
        PLAOBJActor *actor = static_cast<PLAOBJActor *>(aContext);
        PLAAGTActor agent = actor->AssignAgent();

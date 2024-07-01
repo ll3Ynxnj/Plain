@@ -14,7 +14,8 @@ class PLAInputManager
 {
   static PLAInputManager _instance;
 
-  std::queue<PLAInput> _inputs = {};
+  std::queue<const PLAInput *> _inputs = {};
+
   PLAInputHandler *_handler = nullptr;
   PLAInputState _state = PLAInputState();
 

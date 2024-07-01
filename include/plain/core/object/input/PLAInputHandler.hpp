@@ -5,7 +5,10 @@
 #ifndef PLAIN_PLAINPUTHANDLER_HPP
 #define PLAIN_PLAINPUTHANDLER_HPP
 
-#include "plain/core/object/input/PLAInput.hpp"
+#include "plain/core/object/input/PLAIPTTouch.hpp"
+#include "plain/core/object/input/PLAIPTMouse.hpp"
+#include "plain/core/object/input/PLAIPTKey.hpp"
+#include "plain/core/object/input/PLAIPTCamera.hpp"
 #include "plain/core/object/input/PLAInputContext.hpp"
 #include "plain/core/object/input/PLAInputState.hpp"
 
@@ -24,10 +27,10 @@ public:
   { return this->RefContextWithInput(aInput); }
 
 private:
-  void InputForTouch(const PLAInput &aInput, const PLAInputState *aState);
-  void InputForMouse(const PLAInput &aInput, const PLAInputState *aState);
-  void InputForKeyboard(const PLAInput &aInput, const PLAInputState *aState);
-  void InputForCamera(const PLAInput &aInput, const PLAInputState *aState);
+  void InputForTouch(const PLAIPTTouch &aInput, const PLAInputState *aState);
+  void InputForMouse(const PLAIPTMouse &aInput, const PLAInputState *aState);
+  void InputForKeyboard(const PLAIPTKey &aInput, const PLAInputState *aState);
+  void InputForCamera(const PLAIPTCamera &aInput, const PLAInputState *aState);
 };
 
 #endif //PLAIN_PLAINPUTHANDLER_HPP

@@ -48,7 +48,7 @@ void PLAInputManager::InputTouch(PLAInputSignalCode aCode,
                                  PLAInputSignal aSignal,
                                  const PLAPoint &aScreenPoint)
 {
-  const PLAInput input = PLAIPTTouch(aCode, aSignal, aScreenPoint);
+  const PLAIPTTouch *input = new PLAIPTTouch(aCode, aSignal, aScreenPoint);
   _inputs.push(input);
 }
 
@@ -56,13 +56,13 @@ void PLAInputManager::InputMouse(PLAInputSignalCode aCode,
                                  PLAInputSignal aSignal,
                                  const PLAPoint &aScreenPoint)
 {
-  const PLAInput input = PLAIPTMouse(aCode, aSignal, aScreenPoint);
+  const PLAIPTMouse *input = new PLAIPTMouse(aCode, aSignal, aScreenPoint);
   _inputs.push(input);
 }
 
 void PLAInputManager::InputKey(PLAInputSignalCode aCode, PLAInputSignal aSignal)
 {
-  const PLAInput input = PLAIPTKey(aCode, aSignal);
+  const PLAIPTKey *input = new PLAIPTKey(aCode, aSignal);
   _inputs.push(input);
 }
 
@@ -70,9 +70,10 @@ void PLAInputManager::Flush()
 {
   while (_inputs.size())
   {
-    PLAInput input = _inputs.back();
+    const PLAInput *input = _inputs.back();
     _inputs.pop();
-    _handler->Input(input, &_state);
-    _state.SetInput(input);
+    _handler->Input(*input, &_state);
+    _state.SetInput(*input);
+    delete input;
   }
 }

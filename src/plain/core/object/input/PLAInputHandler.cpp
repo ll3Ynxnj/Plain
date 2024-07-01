@@ -17,7 +17,13 @@ PLAInputHandler::~PLAInputHandler()
 
 void PLAInputHandler::Input(const PLAInput &aInput, const PLAInputState *aState)
 {
-  if (!_context)
+  if (_context) {
+      GRA_PRINT("_context: %p\n", _context);
+  } else {
+      GRA_PRINT("_context: %p\n", _context);
+  }
+  //if (!_context)
+  if (_context == nullptr)
   {
     _context = this->RefContextWithInput(aInput);
     if (!_context)
@@ -30,16 +36,16 @@ void PLAInputHandler::Input(const PLAInput &aInput, const PLAInputState *aState)
   switch (aInput.GetInputDeviceType())
   {
     case PLAInputDeviceType::Touch :
-      this->InputForTouch(aInput, aState);
+      this->InputForTouch(static_cast<const PLAIPTTouch &>(aInput), aState);
       break;
     case PLAInputDeviceType::Mouse :
-      this->InputForMouse(aInput, aState);
+      this->InputForMouse(static_cast<const PLAIPTMouse &>(aInput), aState);
       break;
     case PLAInputDeviceType::Keyboard :
-      this->InputForKeyboard(aInput, aState);
+      this->InputForKeyboard(static_cast<const PLAIPTKey &>(aInput), aState);
       break;
     case PLAInputDeviceType::Camera :
-      this->InputForCamera(aInput, aState);
+      this->InputForCamera(static_cast<const PLAIPTCamera &>(aInput), aState);
       break;
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
@@ -48,7 +54,7 @@ void PLAInputHandler::Input(const PLAInput &aInput, const PLAInputState *aState)
   }
 }
 
-void PLAInputHandler::InputForTouch(const PLAInput &aInput,
+void PLAInputHandler::InputForTouch(const PLAIPTTouch &aInput,
                                     const PLAInputState *aState)
 {
   PLAInput lastInput = aState->GetInput(aInput);
@@ -70,13 +76,13 @@ void PLAInputHandler::InputForTouch(const PLAInput &aInput,
   }
 }
 
-void PLAInputHandler::InputForMouse(const PLAInput &aInput,
+void PLAInputHandler::InputForMouse(const PLAIPTMouse &aInput,
                                     const PLAInputState *aState)
 {
 
 }
 
-void PLAInputHandler::InputForKeyboard(const PLAInput &aInput,
+void PLAInputHandler::InputForKeyboard(const PLAIPTKey &aInput,
                                        const PLAInputState *aState)
 {
   PLAInput lastInput = aState->GetInput(aInput);
@@ -94,7 +100,7 @@ void PLAInputHandler::InputForKeyboard(const PLAInput &aInput,
   }
 }
 
-void PLAInputHandler::InputForCamera(const PLAInput &aInput,
+void PLAInputHandler::InputForCamera(const PLAIPTCamera &aInput,
                                      const PLAInputState *aState)
 {
 
