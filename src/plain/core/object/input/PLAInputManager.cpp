@@ -70,10 +70,10 @@ void PLAInputManager::Flush()
 {
   while (_inputs.size())
   {
-    const PLAInput *input = _inputs.back();
+    const PLAInput *input = _inputs.front();
     _inputs.pop();
-    _handler->Input(*input, &_state);
-    _state.SetInput(*input);
+    _handler->Input(input, &_state);
+    _state.SetInput(input);
     delete input;
   }
 }

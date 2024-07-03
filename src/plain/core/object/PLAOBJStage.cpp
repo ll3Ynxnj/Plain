@@ -130,14 +130,14 @@ void PLAOBJStage::SetSize(const PLAVec3f &aSize)
 }
 
 // PLAInputHandler /////////////////////////////////////////////////////////////
-PLAInputContext *PLAOBJStage::RefContextWithInput(const PLAInput &aInput) const
+PLAInputContext *PLAOBJStage::RefContextWithInput(const PLAInput *aInput) const
 {
   PLAInputContext *inputContext = nullptr;
-  switch (aInput.GetInputDeviceType())
+  switch (aInput->GetInputDeviceType())
   {
     case PLAInputDeviceType::Touch:
     {
-      const PLAIPTTouch &touch = static_cast<const PLAIPTTouch &>(aInput);
+      const PLAIPTTouch touch = *static_cast<const PLAIPTTouch *>(aInput);
       inputContext =
         _context->RefResponsiveActorWithPoint(touch.GetScreenPoint(),
                                               touch.GetInputDeviceType(),
@@ -146,7 +146,7 @@ PLAInputContext *PLAOBJStage::RefContextWithInput(const PLAInput &aInput) const
     }
     case PLAInputDeviceType::Mouse:
     {
-      const PLAIPTMouse &mouse = static_cast<const PLAIPTMouse &>(aInput);
+      const PLAIPTMouse mouse = *static_cast<const PLAIPTMouse *>(aInput);
       inputContext =
         _context->RefResponsiveActorWithPoint(mouse.GetScreenPoint(),
                                               mouse.GetInputDeviceType(),
@@ -155,7 +155,7 @@ PLAInputContext *PLAOBJStage::RefContextWithInput(const PLAInput &aInput) const
     }
     case PLAInputDeviceType::Keyboard:
     {
-      const PLAIPTKey &key = static_cast<const PLAIPTKey &>(aInput);
+      const PLAIPTKey key = *static_cast<const PLAIPTKey *>(aInput);
       inputContext =
         _context->RefResponsiveActor(key.GetInputDeviceType(),
                                      key.GetInputSignalCode());

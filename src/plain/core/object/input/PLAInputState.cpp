@@ -47,12 +47,12 @@ PLAInputState::~PLAInputState()
 
 }
 
-PLAInput PLAInputState::GetInput(const PLAInput &aInput) const
+const PLAInput *PLAInputState::GetInput(const PLAInput &aInput) const
 {
   return this->GetInput(aInput.GetInputDeviceType(), aInput.GetInputSignalCode());
 }
 
-PLAInput PLAInputState::GetInput(PLAInputDeviceType aDevice,
+const PLAInput *PLAInputState::GetInput(PLAInputDeviceType aDevice,
                                  PLAInputSignalCode aCode) const
 {
   if (aCode >= PLAInput::GetNumberOfInputCodes(aDevice))
@@ -65,36 +65,36 @@ PLAInput PLAInputState::GetInput(PLAInputDeviceType aDevice,
   switch (aDevice)
   {
     case PLAInputDeviceType::Touch:
-      return _touches[aCode];
+      return &_touches[aCode];
     case PLAInputDeviceType::Mouse:
-      return _mouses[aCode];
+      return &_mouses[aCode];
     case PLAInputDeviceType::Keyboard:
-      return _keys[aCode];
+      return &_keys[aCode];
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Detected unexpected PLAInputDeviceType.");
   }
 }
 
-void PLAInputState::SetInput(const PLAInput &aInput)
+void PLAInputState::SetInput(const PLAInput *aInput)
 {
-  unsigned device = static_cast<unsigned>(aInput.GetInputDeviceType());
+  unsigned device = static_cast<unsigned>(aInput->GetInputDeviceType());
 
   //_inputs[device][aInput->GetInputSignalCode()] = input;
   
-  switch (aInput.GetInputDeviceType())
+  switch (aInput->GetInputDeviceType())
   {
     case PLAInputDeviceType::Touch:
-      _touches[aInput.GetInputSignalCode()] =
-        static_cast<const PLAIPTTouch &>(aInput);
+      _touches[aInput->GetInputSignalCode()] =
+        *static_cast<const PLAIPTTouch *>(aInput);
       break;
     case PLAInputDeviceType::Mouse:
-      _mouses[aInput.GetInputSignalCode()] =
-        static_cast<const PLAIPTMouse &>(aInput);
+      _mouses[aInput->GetInputSignalCode()] =
+        *static_cast<const PLAIPTMouse *>(aInput);
       break;
     case PLAInputDeviceType::Keyboard:
-      _keys[aInput.GetInputSignalCode()] =
-        static_cast<const PLAIPTKey &>(aInput);
+      _keys[aInput->GetInputSignalCode()] =
+        *static_cast<const PLAIPTKey *>(aInput);
       break;
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "Detected unexpected PLAInputDeviceType.");

@@ -95,7 +95,7 @@ public :
      const std::function<void(PLAInputContext *, const PLAIPTKey &)> &aFunc);
 
 private:
-  void Input(const PLAInput &aInput, PLAInputActionCode aAction);
+  void Input(const PLAInput *aInput, PLAInputActionCode aAction);
   /*
   void SetFunctorForInput
     (PLAInputDeviceType aDeviceType, PLAInputSignalCode aInputCode,

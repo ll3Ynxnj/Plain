@@ -56,7 +56,7 @@ public:
 
 // PLAInputHandler /////////////////////////////////////////////////////////////
 public:
-  virtual PLAInputContext *RefContextWithInput(const PLAInput &aInput) const;
+  virtual PLAInputContext *RefContextWithInput(const PLAInput *aInput) const;
 };
 
 #endif // PLAIN_ENGINE_PLAOBJSTAGE_HPP

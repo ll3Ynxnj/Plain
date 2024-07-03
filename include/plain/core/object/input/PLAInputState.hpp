@@ -21,9 +21,10 @@ public:
   PLAInputState();
   ~PLAInputState();
 
-  PLAInput GetInput(const PLAInput &aInput) const;
-  PLAInput GetInput(PLAInputDeviceType aDevice, PLAInputSignalCode aCode) const;
-  void SetInput(const PLAInput &aInput);
+  const PLAInput *GetInput(const PLAInput &aInput) const;
+  const PLAInput *GetInput(PLAInputDeviceType aDevice, PLAInputSignalCode aCode) const;
+
+  void SetInput(const PLAInput *aInput);
 };
 
 #endif //PLAIN_PLAINPUTSTATE_HPP

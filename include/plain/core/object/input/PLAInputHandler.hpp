@@ -21,9 +21,9 @@ public:
   PLAInputHandler();
   ~PLAInputHandler();
 
-  void Input(const PLAInput &aInput, const PLAInputState *aState);
-  virtual PLAInputContext *RefContextWithInput(const PLAInput &aInput) const = 0;
-  const PLAInputContext *GetContextWithInput(const PLAInput &aInput) const
+  void Input(const PLAInput *aInput, const PLAInputState *aState);
+  virtual PLAInputContext *RefContextWithInput(const PLAInput *aInput) const = 0;
+  const PLAInputContext *GetContextWithInput(const PLAInput *aInput) const
   { return this->RefContextWithInput(aInput); }
 
 private:

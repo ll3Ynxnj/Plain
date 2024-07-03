@@ -15,7 +15,7 @@ PLAInputHandler::~PLAInputHandler()
 
 }
 
-void PLAInputHandler::Input(const PLAInput &aInput, const PLAInputState *aState)
+void PLAInputHandler::Input(const PLAInput *aInput, const PLAInputState *aState)
 {
   if (_context) {
       GRA_PRINT("_context: %p\n", _context);
@@ -33,19 +33,19 @@ void PLAInputHandler::Input(const PLAInput &aInput, const PLAInputState *aState)
     }
   }
 
-  switch (aInput.GetInputDeviceType())
+  switch (aInput->GetInputDeviceType())
   {
     case PLAInputDeviceType::Touch :
-      this->InputForTouch(static_cast<const PLAIPTTouch &>(aInput), aState);
+      this->InputForTouch(*static_cast<const PLAIPTTouch *>(aInput), aState);
       break;
     case PLAInputDeviceType::Mouse :
-      this->InputForMouse(static_cast<const PLAIPTMouse &>(aInput), aState);
+      this->InputForMouse(*static_cast<const PLAIPTMouse *>(aInput), aState);
       break;
     case PLAInputDeviceType::Keyboard :
-      this->InputForKeyboard(static_cast<const PLAIPTKey &>(aInput), aState);
+      this->InputForKeyboard(*static_cast<const PLAIPTKey *>(aInput), aState);
       break;
     case PLAInputDeviceType::Camera :
-      this->InputForCamera(static_cast<const PLAIPTCamera &>(aInput), aState);
+      this->InputForCamera(*static_cast<const PLAIPTCamera *>(aInput), aState);
       break;
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
@@ -57,7 +57,7 @@ void PLAInputHandler::Input(const PLAInput &aInput, const PLAInputState *aState)
 void PLAInputHandler::InputForTouch(const PLAIPTTouch &aInput,
                                     const PLAInputState *aState)
 {
-  PLAInput lastInput = aState->GetInput(aInput);
+  PLAIPTTouch lastInput = *static_cast<const PLAIPTTouch *>(aState->GetInput(aInput));
   if (lastInput.GetInputSignal())
   {
     if (aInput.GetInputSignal())
@@ -85,7 +85,7 @@ void PLAInputHandler::InputForMouse(const PLAIPTMouse &aInput,
 void PLAInputHandler::InputForKeyboard(const PLAIPTKey &aInput,
                                        const PLAInputState *aState)
 {
-  PLAInput lastInput = aState->GetInput(aInput);
+  PLAIPTKey lastInput = *static_cast<const PLAIPTKey *>(aState->GetInput(aInput));
   if (lastInput.GetInputSignal())
   {
     if (!aInput.GetInputSignal())
