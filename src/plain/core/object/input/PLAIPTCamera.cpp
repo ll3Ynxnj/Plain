@@ -13,7 +13,11 @@ PLAIPTCamera::~PLAIPTCamera() {
 }
 
 bool PLAIPTCamera::Init() {
+#ifdef __APPLE__
+  _cap.open(0, cv::CAP_AVFOUNDATION);
+#else
   _cap.open(0, cv::CAP_V4L2);
+#endif
   if (!_cap.isOpened()) {
     std::cerr << "Error: Couldn't open the camera." << std::endl;
     return false;

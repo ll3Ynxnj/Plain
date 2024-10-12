@@ -1,4 +1,6 @@
-#ifdef PLA_PLATFORM_MACOS
+#pragma once
+
+#ifdef PLA_PLATFORM_DARWIN
     #include <OpenGL/gl.h>
     #include <GLUT/glut.h>
 #elif defined(PLA_PLATFORM_LINUX)

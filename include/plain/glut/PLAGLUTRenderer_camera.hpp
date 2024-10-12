@@ -1,4 +1,6 @@
-#include <GL/glut.h>
+#pragma once
+
+#include "PLAGLUT.h"
 #include "plain/core/object/input/PLAIPTCamera.hpp"
 
 class PLAGLUTRenderer_camera {
