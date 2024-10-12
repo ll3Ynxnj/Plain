@@ -13,7 +13,7 @@ PLAIPTCamera::~PLAIPTCamera() {
 }
 
 bool PLAIPTCamera::Init() {
-#ifdef __APPLE__
+#ifdef PLA_PLATFORM_DARWIN
   _cap.open(0, cv::CAP_AVFOUNDATION);
 #else
   _cap.open(0, cv::CAP_V4L2);

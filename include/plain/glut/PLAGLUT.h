@@ -3,7 +3,7 @@
 #ifdef PLA_PLATFORM_DARWIN
     #include <OpenGL/gl.h>
     #include <GLUT/glut.h>
-#elif defined(PLA_PLATFORM_LINUX)
+#else
     #include <GL/gl.h>
     #include <GL/glut.h>
 #endif
