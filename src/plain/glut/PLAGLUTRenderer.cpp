@@ -221,6 +221,7 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
 ////////////////////////////////////////////////////////////////////////////////
 
   // TEST: Initialize the camera ///////////////////////////////////////////////
+#ifdef ENABLE_CAMERA_TEST
   static PLAGLUTRenderer_camera *camera = nullptr;
   if (!camera) {
     camera = new PLAGLUTRenderer_camera();
@@ -229,6 +230,7 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
       camera = nullptr;
     }
   }
+#endif // ENABLE_CAMERA_TEST
   //////////////////////////////////////////////////////////////////////////////
 
   // TEST: Draw the camera image ///////////////////////////////////////////////
