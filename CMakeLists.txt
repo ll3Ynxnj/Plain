@@ -36,28 +36,22 @@ target_include_directories(Plain PUBLIC
 )
 
 # リンクするライブラリを設定
-target_link_libraries(Plain PUBLIC
-  stdc++
-  grain
-  ${OpenCV_LIBS}
-  ${OPENGL_LIBRARIES}
-  ${GLUT_LIBRARY}
-)
-
-# OS情報を取得
-execute_process(
-        COMMAND uname -s
-        OUTPUT_VARIABLE OS_NAME
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-
-# OSに基づいてプリプロセッサ定義をターゲットに追加
-if("${OS_NAME}" STREQUAL "Darwin")
-  target_compile_definitions(Plain PRIVATE PLA_PLATFORM_DARWIN)
-elseif("${OS_NAME}" STREQUAL "Linux")
-  target_compile_definitions(Plain PRIVATE PLA_PLATFORM_LINUX)
+if(APPLE)
+  target_link_libraries(Plain PUBLIC
+    stdc++
+    grain
+    ${OpenCV_LIBS}
+    ${OPENGL_LIBRARIES}
+    "-framework GLUT"
+  )
 else()
-  message(FATAL_ERROR "Unsupported OS: ${OS_NAME}")
+  target_link_libraries(Plain PUBLIC
+    stdc++
+    grain
+    ${OpenCV_LIBS}
+    ${OPENGL_LIBRARIES}
+    ${GLUT_LIBRARY}   # または、環境に合わせて ${GLUT_LIBRARIES} にする
+  )
 endif()
 
 # OS情報を取得
@@ -76,15 +70,18 @@ else()
   message(FATAL_ERROR "Unsupported OS: ${OS_NAME}")
 endif()
 
-# OSごとにプリプロセッサを定義
-# if("${PLA_PLATFORM}" STREQUAL "MacOS")
-#   target_compile_definitions(Plain PRIVATE PLA_PLATFORM_MACOS)
-# elseif("${PLA_PLATFORM}" STREQUAL "Linux")
-#   target_compile_definitions(Plain PRIVATE PLA_PLATFORM_LINUX)
-# else()
-#   if ("${PLA_PLATFORM}" STREQUAL "")
-#     message(FATAL_ERROR "The variable 'PLA_PLATFORM' is empty.")
-#   else()
-#     message(FATAL_ERROR "It is unexpected that the variable 'PLA_PLATFORM' is '${PLA_PLATFORM}'.")
-#   endif()
-# endif()
+# OS情報を取得
+execute_process(
+        COMMAND uname -s
+        OUTPUT_VARIABLE OS_NAME
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+# OSに基づいてプリプロセッサ定義をターゲットに追加
+if("${OS_NAME}" STREQUAL "Darwin")
+  target_compile_definitions(Plain PRIVATE PLA_PLATFORM_DARWIN)
+elseif("${OS_NAME}" STREQUAL "Linux")
+  target_compile_definitions(Plain PRIVATE PLA_PLATFORM_LINUX)
+else()
+  message(FATAL_ERROR "Unsupported OS: ${OS_NAME}")
+endif()
