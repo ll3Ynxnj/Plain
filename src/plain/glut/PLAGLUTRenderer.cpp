@@ -244,16 +244,16 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
 void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
                                const PLATMLMotion *aMotion) const
 {
-  GRA_PRINT("DrawRect(\n"
-            "  aLayer: %s\n"
-            "    aLayer.origin: { x: %.2f, y: %.2f, z: %.2f }\n"
-            "    aLayer.size: { x: %.2f, y: %.2f }\n"
-            "    aLayer.color: { r: %.2f, g: %.2f, b: %.2f, a: %.2f }\n"
-            "  aColor: { r: %.2f, g: %.2f, b: %.2f, a: %.2f })\n",
-            aLayer->GetObjectName().c_str(),
-            aLayer->GetOffset().x, aLayer->GetOffset().y, aLayer->GetOffset().z,
-            aLayer->GetSize().x, aLayer->GetSize().y,
-            aColor.r, aColor.g, aColor.b, aColor.a);
+  // GRA_PRINT("DrawRect(\n"
+  //           "  aLayer: %s\n"
+  //           "    aLayer.origin: { x: %.2f, y: %.2f, z: %.2f }\n"
+  //           "    aLayer.size: { x: %.2f, y: %.2f }\n"
+  //           "    aLayer.color: { r: %.2f, g: %.2f, b: %.2f, a: %.2f }\n"
+  //           "  aColor: { r: %.2f, g: %.2f, b: %.2f, a: %.2f })\n",
+  //           aLayer->GetObjectName().c_str(),
+  //           aLayer->GetOffset().x, aLayer->GetOffset().y, aLayer->GetOffset().z,
+  //           aLayer->GetSize().x, aLayer->GetSize().y,
+  //           aColor.r, aColor.g, aColor.b, aColor.a);
 
   const PLAOBJImageClip *imageClip = aLayer->GetImageClip();
   if (imageClip)
@@ -350,10 +350,10 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
 void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aColor,
                                  const PLATMLMotion *aMotion) const
 {
-  GRA_PRINT("DrawCircle(aLayer: %s,"
-            " aColor: {r: %.2f, g: %.2f, b: %.2f, a: %.2f})\n",
-            aLayer->GetObjectName().c_str(),
-            aColor.r, aColor.g, aColor.b, aColor.a);
+  // GRA_PRINT("DrawCircle(aLayer: %s,"
+  //           " aColor: {r: %.2f, g: %.2f, b: %.2f, a: %.2f})\n",
+  //           aLayer->GetObjectName().c_str(),
+  //           aColor.r, aColor.g, aColor.b, aColor.a);
   const PLAOBJImageClip *imageClip = aLayer->GetImageClip();
   if (imageClip)
   {
@@ -453,10 +453,10 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
                                const PLAColor &aColor,
                                const PLATMLMotion *aMotion) const
 {
-  GRA_PRINT("DrawTile(aLayer: %s,"
-            " aColor: {r: %.2f, g: %.2f, b: %.2f, a: %.2f})\n",
-            aLayer->GetObjectName().c_str(),
-            aColor.r, aColor.g, aColor.b, aColor.a);
+  // GRA_PRINT("DrawTile(aLayer: %s,"
+  //           " aColor: {r: %.2f, g: %.2f, b: %.2f, a: %.2f})\n",
+  //           aLayer->GetObjectName().c_str(),
+  //           aColor.r, aColor.g, aColor.b, aColor.a);
 
   //-- This method is an inefficient implementation.
   static bool kIsDebug = false;
