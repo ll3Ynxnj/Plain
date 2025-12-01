@@ -16,7 +16,7 @@ PLAInputState::PLAInputState()
        device < static_cast<int>(PLAInputDeviceType::kNumberOfItems); device++)
   {
     PLAInputDeviceType deviceType = static_cast<PLAInputDeviceType>(device);
-    PLAInputSignalCode code = PLAInput::GetCodeOfNone(deviceType);
+    [[maybe_unused]] PLAInputSignalCode code = PLAInput::GetCodeOfNone(deviceType);
     PLAInt numberOfCodes = PLAInput::GetNumberOfInputCodes(deviceType);
     for (int code = 0; code < numberOfCodes; code++)
     {
@@ -30,6 +30,11 @@ PLAInputState::PLAInputState()
           break;
         case PLAInputDeviceType::Keyboard:
           _keys.push_back(PLAIPTKey(code, 0));
+          break;
+        default:
+          PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                          "Unexpected PLAInputDeviceType: %d",
+                          static_cast<int>(deviceType));
           break;
       }
     }
@@ -79,10 +84,10 @@ const PLAInput *PLAInputState::GetInput(PLAInputDeviceType aDevice,
 
 void PLAInputState::SetInput(const PLAInput *aInput)
 {
-  unsigned device = static_cast<unsigned>(aInput->GetInputDeviceType());
+  [[maybe_unused]] unsigned device = static_cast<unsigned>(aInput->GetInputDeviceType());
 
   //_inputs[device][aInput->GetInputSignalCode()] = input;
-  
+
   switch (aInput->GetInputDeviceType())
   {
     case PLAInputDeviceType::Touch:

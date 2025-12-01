@@ -49,7 +49,7 @@ void PLATMLMotion::GetProperties(std::map<PLATMLMotionType, PLAProperty> *aPrope
   {
     static_cast<const PLATMLMotionNode *>(currentNode)->GetProperty(aProperties);
   }
-  for (const auto thread : this->GetThreads())
+  for (const auto& thread : this->GetThreads())
   {
     static_cast<const PLATMLMotion *>(thread.second)->GetProperties(aProperties);
   }

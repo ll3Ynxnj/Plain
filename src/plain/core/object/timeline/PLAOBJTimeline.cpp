@@ -172,7 +172,7 @@ void PLAOBJTimeline::OnUnbindThread(const PLAOBJTimeline *aThread)
 bool PLAOBJTimeline::IsFinished() const
 {
   if (_current < _nodes.size()) { return false; }
-  for (const auto thread: _threads)
+  for (const auto& thread: _threads)
   { if (!thread.second->IsFinished()) { return false; } }
 
   if (this->GetCurrentNode())
@@ -211,7 +211,7 @@ void PLAOBJTimeline::PrintNodes() const
               _current, this->GetObjectName().c_str());
     --indentLevel;
   }
-  for (const auto thread: _threads) {
+  for (const auto& thread: _threads) {
     ++indentLevel;
     thread.second->PrintNodes();
     --indentLevel;

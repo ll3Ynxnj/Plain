@@ -114,9 +114,9 @@ PLATMLMotionNode::PLATMLMotionNode(PLATMLMotionType aType,
   _type(aType),
   _begin(PLAProperty(aBegin)),
   _end(PLAProperty(aEnd)),
-  _easingType(aEasingType),
   _distance(PLAProperty(PLAColor(aEnd.r - aBegin.r, aEnd.g - aBegin.g,
-                                 aEnd.b - aBegin.b, aEnd.a - aBegin.a)))//,
+                                 aEnd.b - aBegin.b, aEnd.a - aBegin.a))),
+  _easingType(aEasingType)//,
   //_duration(aDuration)
 {
 
@@ -131,8 +131,8 @@ PLATMLMotionNode::PLATMLMotionNode(PLATMLMotionType aType,
   _type(aType),
   _begin(PLAProperty(aBegin)),
   _end(PLAProperty(aEnd)),
-  _easingType(aEasingType),
-  _distance(PLAProperty(aEnd - aBegin))//,
+  _distance(PLAProperty(aEnd - aBegin)),
+  _easingType(aEasingType)//,
   //_duration(aDuration)
 {
 
@@ -169,6 +169,11 @@ void PLATMLMotionNode::GetProperty(std::map<PLATMLMotionType,
     case PLATMLMotionType::Scale:
     case PLATMLMotionType::Color:
       (*aProperties)[_type] *= property;
+      break;
+    default:
+      PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                      "Unexpected PLATMLMotionType: %d",
+                      static_cast<int>(_type));
       break;
   }
 
