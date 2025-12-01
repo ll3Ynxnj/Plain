@@ -405,11 +405,11 @@ void PLAOBJActor::SetActorTag(PLAId aTag)
 void PLAOBJActor::PrintActors() const
 {
   static int indentLevel = 0;
-  GRA_PRINT(this->GetObjectDescription().c_str());
+  GRA_DEBUG(this->GetObjectDescription().c_str());
   ++indentLevel;
   for (const PLAOBJActor *actor : _actors)
   {
-    for (int i = 0; i < indentLevel; i++) { GRA_PRINT("  "); }
+    for (int i = 0; i < indentLevel; i++) { GRA_DEBUG("  "); }
     actor->PrintActors();
   }
   --indentLevel;
@@ -449,10 +449,10 @@ PLAOBJActor *PLAOBJActor::RefResponsiveActorWithPoint
   for (std::list<PLAOBJActor *>::reverse_iterator it = _actors.rbegin();
        it != _actors.rend(); it++)
   {
-    GRA_PRINT("aPoint : x %.2f : y %.2f\n", aPoint.x, aPoint.y);
+    GRA_DEBUG("aPoint : x %.2f : y %.2f\n", aPoint.x, aPoint.y);
     PLAPoint offset = PLAPoint((*it)->GetTransform().translation.x,
                                (*it)->GetTransform().translation.y);
-    GRA_PRINT("offset : x %.2f : y %.2f\n", offset.x, offset.y);
+    GRA_DEBUG("offset : x %.2f : y %.2f\n", offset.x, offset.y);
     PLAOBJActor *actor =
       (*it)->RefResponsiveActorWithPoint(aPoint - offset,
                                          aDeviceType, aSignalCode);

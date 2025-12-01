@@ -31,11 +31,11 @@ void PLAApp::RemoveTimelineThread(const PLAOBJTimeline *aThread)
 
 void PLAApp::PrintNodes() const
 {
-  GRA_PRINT("//-- void PLAApp::PrintNodes() const ////////////////////////////////////////\n");
-  GRA_PRINT(" LV :  STEPS / LENGTH | CURRENT | NAME                                         |\n");
+  GRA_DEBUG("//-- void PLAApp::PrintNodes() const ////////////////////////////////////////\n");
+  GRA_DEBUG(" LV :  STEPS / LENGTH | CURRENT | NAME                                         |\n");
   _timeline->PrintNodes();
-  GRA_PRINT("----:-----------------|---------|----------------------------------------------|\n");
-  GRA_PRINT("////////////////////////////////////////////////////////////////////////////////\n");
+  GRA_DEBUG("----:-----------------|---------|----------------------------------------------|\n");
+  GRA_DEBUG("////////////////////////////////////////////////////////////////////////////////\n");
 }
 
 PLAInputSignalCode PLAApp::GetInputSignalCodeFromChar(unsigned char aCharacter)

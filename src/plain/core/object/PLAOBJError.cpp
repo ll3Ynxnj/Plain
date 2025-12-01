@@ -76,13 +76,13 @@ void PLAOBJError::Manager::Issue(const char *aFile, const char *aFunc,
   switch (aType)//error->GetType())
   {
     case PLAErrorType::Assert :
-      GRA_ASSERT("PLAErrorType::Assert detected.");
+      GRA_FATAL("PLAErrorType::Assert detected.");
       break;
     case PLAErrorType::Expect :
       break;
     default :
-      GRA_ASSERT("Unexpected PLAErrorType detected. type : %d",
-                 aType);//error->GetType());
+      GRA_UNREACHABLE("Unexpected PLAErrorType detected. type : %d",
+                      static_cast<int>(aType));//error->GetType());
       break;
   }
 }

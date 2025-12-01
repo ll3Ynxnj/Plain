@@ -222,12 +222,12 @@ void PLAOBJPhase::SetPhaseTag(PLAId aTag)
 void PLAOBJPhase::PrintPhases() const
 {
   static int indentLevel = 0;
-  GRA_PRINT(this->GetObjectDescription().c_str());
+  GRA_DEBUG(this->GetObjectDescription().c_str());
   ++indentLevel;
   auto phases = _phases;
   while (!phases.empty())
   {
-    for (int i = 0; i < indentLevel; i++) { GRA_PRINT("  "); }
+    for (int i = 0; i < indentLevel; i++) { GRA_DEBUG("  "); }
     auto phase = phases.top();
     phase->PrintPhases();
     phases.pop();

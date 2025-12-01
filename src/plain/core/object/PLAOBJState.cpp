@@ -63,7 +63,7 @@ PLAAGTState PLAOBJState::AssignAgent() {
 
 void PLAOBJState::AddModel(PLAOBJModel *aModel)
 {
-  GRA_PRINT("AddModel : %s\n", aModel->GetObjectDescription().c_str());
+  GRA_DEBUG("AddModel : %s\n", aModel->GetObjectDescription().c_str());
 
   PLAString actorName = aModel->GetObjectName();
   if (actorName == kPLAStrUndefined) {
@@ -74,7 +74,7 @@ void PLAOBJState::AddModel(PLAOBJModel *aModel)
 
 void PLAOBJState::PrintModels() const
 {
-  GRA_PRINT("");
+  GRA_DEBUG("");
   _context->PrintModels();
 }
 

@@ -66,7 +66,7 @@ void PLAOBJResource::AllocData()
   //-- Read data
   if (file.read(reinterpret_cast<char*>(_data.data()), dataSize)) {
     _size = dataSize;
-    GRA_PRINT("Successfully read data.\n");
+    GRA_DEBUG("Successfully read data from %s (%d bytes)", _path.c_str(), dataSize);
   } else {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Failed to read data: The file was only partially read.");
@@ -86,7 +86,7 @@ const char *PLAOBJResource::GetResourceTypeName() const
 
 void PLAOBJResource::PrintResource() const
 {
-  GRA_PRINT("%12d | %65s\n", this->GetSize(), _path.c_str());
+  GRA_DEBUG("%12d | %65s", this->GetSize(), _path.c_str());
 }
 
 // GRAOBJBinder::Item /////////////////////////////////////////////////////////////
@@ -149,15 +149,15 @@ PLAOBJResource *PLAOBJResource::Manager::Resource(const PLAString &aKey)
 
 void PLAOBJResource::Manager::PrintResources() const
 {
-  GRA_PRINT("//-- PLAOBJResource::Manager::PrintResource"
+  GRA_DEBUG("//-- PLAOBJResource::Manager::PrintResource"
             "s --////////////////////////////////////\n");
-  GRA_PRINT("        SIZE |                          "
+  GRA_DEBUG("        SIZE |                          "
             "                                    PATH\n");
-  GRA_PRINT("-------------|--------------------------"
+  GRA_DEBUG("-------------|--------------------------"
             "----------------------------------------\n");
   for (GRAOBJBinder<PLAOBJResource>::Item *item : this->GetItems())
   { static_cast<const PLAOBJResource *>(item)->PrintResource(); }
-  GRA_PRINT("////////////////////////////////////////"
+  GRA_DEBUG("////////////////////////////////////////"
             "////////////////////////////////////////\n");
 };
 

@@ -18,9 +18,9 @@ PLAInputHandler::~PLAInputHandler()
 void PLAInputHandler::Input(const PLAInput *aInput, const PLAInputState *aState)
 {
   if (_context) {
-      GRA_PRINT("_context: %p\n", _context);
+      GRA_DEBUG("_context: %p\n", _context);
   } else {
-      GRA_PRINT("_context: %p\n", _context);
+      GRA_DEBUG("_context: %p\n", _context);
   }
   //if (!_context)
   if (_context == nullptr)

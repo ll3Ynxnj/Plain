@@ -23,88 +23,88 @@ const PLAProperty PLAProperty::kVec4s = PLAProperty(kPLAVec4sNone);
 
 void PLAProperty::Print()
 {
-  GRA_PRINT("PLAProperty: {");
+  GRA_DEBUG("PLAProperty: {");
   switch(_type)
   {
     case PLAPropertyType::Bool :
-      GRA_PRINT("Bool: %s", this->GetBool()?"true":"false");
+      GRA_DEBUG("Bool: %s", this->GetBool()?"true":"false");
       break;
     case PLAPropertyType::Int :
-      GRA_PRINT("Int: %d", this->GetInt());
+      GRA_DEBUG("Int: %d", this->GetInt());
       break;
     case PLAPropertyType::UInt : // it may be abolished
-      GRA_PRINT("UInt: %u", this->GetUInt());
+      GRA_DEBUG("UInt: %u", this->GetUInt());
       break;
     case PLAPropertyType::Float :
-      GRA_PRINT("Float: %f", this->GetFloat());
+      GRA_DEBUG("Float: %f", this->GetFloat());
       break;
     case PLAPropertyType::Color :
-      GRA_PRINT("Color: {r: %f, g: %f, b: %f, a: %f}",
+      GRA_DEBUG("Color: {r: %f, g: %f, b: %f, a: %f}",
                 this->GetColor().r, this->GetColor().g,
                 this->GetColor().b, this->GetColor().a);
       break;
     case PLAPropertyType::Vec2f :
     {
-      GRA_PRINT("Vec2: {x: %f, y: %f}", this->GetVec2f().x, this->GetVec2f().y);
+      GRA_DEBUG("Vec2: {x: %f, y: %f}", this->GetVec2f().x, this->GetVec2f().y);
       break;
     }
     case PLAPropertyType::Vec3f :
     {
-      GRA_PRINT("Vec3: {x: %f, y: %f, z: %f}",
+      GRA_DEBUG("Vec3: {x: %f, y: %f, z: %f}",
                 this->GetVec3f().x, this->GetVec3f().y, this->GetVec3f().z);
       break;
     }
     case PLAPropertyType::Vec4f :
     {
-      GRA_PRINT("Vec4: {x: %f, y: %f, z: %f, w: %f}",
+      GRA_DEBUG("Vec4: {x: %f, y: %f, z: %f, w: %f}",
                 this->GetVec4f().x, this->GetVec4f().y,
                 this->GetVec4f().z, this->GetVec4f().w);
       break;
     }
     case PLAPropertyType::Vec2i :
     {
-      GRA_PRINT("Vec2i: {x: %d, y: %d}", this->GetVec2i().x, this->GetVec2i().y);
+      GRA_DEBUG("Vec2i: {x: %d, y: %d}", this->GetVec2i().x, this->GetVec2i().y);
       break;
     }
     case PLAPropertyType::Vec3i :
     {
-      GRA_PRINT("Vec3i: {x: %d, y: %d, z: %d}",
+      GRA_DEBUG("Vec3i: {x: %d, y: %d, z: %d}",
                 this->GetVec3i().x, this->GetVec3i().y, this->GetVec3i().z);
       break;
     }
     case PLAPropertyType::Vec4i :
     {
-      GRA_PRINT("Vec4i: {x: %d, y: %d, z: %d, w: %d}",
+      GRA_DEBUG("Vec4i: {x: %d, y: %d, z: %d, w: %d}",
                 this->GetVec4i().x, this->GetVec4i().y,
                 this->GetVec4i().z, this->GetVec4i().w);
       break;
     }
     case PLAPropertyType::Vec2s : // it may be abolished
     {
-      GRA_PRINT("Vec2s: {x: %d, y: %d}", this->GetVec2s().x, this->GetVec2s().y);
+      GRA_DEBUG("Vec2s: {x: %d, y: %d}", this->GetVec2s().x, this->GetVec2s().y);
       break;
     }
     case PLAPropertyType::Vec3s : // it may be abolished
     {
-      GRA_PRINT("Vec3s: {x: %d, y: %d, z: %d}",
+      GRA_DEBUG("Vec3s: {x: %d, y: %d, z: %d}",
                 this->GetVec3s().x, this->GetVec3s().y, this->GetVec3s().z);
       break;
     }
     case PLAPropertyType::Vec4s : // it may be abolished
     {
-      GRA_PRINT("Vec4s: {x: %d, y: %d, z: %d, w: %d}",
+      GRA_DEBUG("Vec4s: {x: %d, y: %d, z: %d, w: %d}",
                 this->GetVec4s().x, this->GetVec4s().y,
                 this->GetVec4s().z, this->GetVec4s().w);
       break;
     }
     case PLAPropertyType::None :
-      GRA_PRINT("None");
+      GRA_DEBUG("None");
       break;
     default :
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Detected unexpected PLAPropertyType.");
   }
-  GRA_PRINT("}\n");
+  GRA_DEBUG("}\n");
 }
 
 PLAProperty::PLAProperty(PLAPropertyType aType): _type(aType)

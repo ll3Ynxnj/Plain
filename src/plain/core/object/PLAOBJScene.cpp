@@ -85,11 +85,11 @@ void PLAOBJScene::PopPhase()
 
 void PLAOBJScene::PrintPhases() const
 {
-  GRA_PRINT("//-- PLAOBJScene::PrintPhases() const --");
-  GRA_PRINT("////////////////////////////////////////\n");
+  GRA_DEBUG("//-- PLAOBJScene::PrintPhases() const --");
+  GRA_DEBUG("////////////////////////////////////////\n");
   _context->PrintPhases();
-  GRA_PRINT("////////////////////////////////////////");
-  GRA_PRINT("////////////////////////////////////////\n");
+  GRA_DEBUG("////////////////////////////////////////");
+  GRA_DEBUG("////////////////////////////////////////\n");
 }
 
 void PLAOBJScene::RunFunction(PLAFunctionCode::Scene aKey)

@@ -114,11 +114,11 @@ void PLAOBJStage::RemoveActor(PLAOBJActor *aActor)
 
 void PLAOBJStage::PrintActors() const
 {
-  GRA_PRINT("//-- PLAOBJStage::PrintActors() const --");
-  GRA_PRINT("////////////////////////////////////////\n");
+  GRA_DEBUG("//-- PLAOBJStage::PrintActors() const --");
+  GRA_DEBUG("////////////////////////////////////////\n");
   _context->PrintActors();
-  GRA_PRINT("////////////////////////////////////////");
-  GRA_PRINT("////////////////////////////////////////\n");
+  GRA_DEBUG("////////////////////////////////////////");
+  GRA_DEBUG("////////////////////////////////////////\n");
 }
 
 void PLAOBJStage::SetSize(const PLAVec3f &aSize)

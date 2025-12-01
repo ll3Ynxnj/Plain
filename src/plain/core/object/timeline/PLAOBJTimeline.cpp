@@ -200,12 +200,12 @@ void PLAOBJTimeline::PrintNodes() const
   for (int i = 0; i < indentLevel; i++) {
     indentSpace.append("  ");
   }
-  GRA_PRINT("%s::%s::_nodes.size(): %d\n", _parent ?
+  GRA_DEBUG("%s::%s::_nodes.size(): %d\n", _parent ?
             _parent->GetObjectName().c_str() : "-- NULL --",
             this->GetObjectName().c_str(), _nodes.size());
   for (const PLAOBJTimelineNode *node: _nodes) {
     ++indentLevel;
-    GRA_PRINT(" %2d : %s%6d / %6d | %7d | %32s |\n",
+    GRA_DEBUG(" %2d : %s%6d / %6d | %7d | %32s |\n",
               indentLevel, indentSpace.c_str(),
               node->GetSteps(), node->GetLength(),
               _current, this->GetObjectName().c_str());

@@ -76,8 +76,8 @@ void PLAObject::Unbind()
   //GRA_PRINT("PLAObject::Unbind : %s\n", this->GetObjectName().c_str());
   if (0 < _agentReferenceCounter)
   {
-    GRA_PRINT("PLAObject::Unbind : == CANCELED == : %s\n",
-              this->GetObjectName().c_str());
+    GRA_WARNING("PLAObject::Unbind canceled: %s (referenceCounter: %d)",
+                this->GetObjectName().c_str(), _agentReferenceCounter);
     PLA_ERROR_ISSUE(PLAErrorType::Expect,
                     "Object `%s` referenced from agent. : referenceCounter : %d\n",
                     this->GetObjectName().c_str(),
@@ -118,7 +118,7 @@ PLAObject::~PLAObject()
 
 void PLAObject::Print()
 {
-  GRA_PRINT("PLAObject : %8d, %d\n", this->GetId(), this);
+  GRA_DEBUG("PLAObject : %8d, %d\n", this->GetId(), this);
 }
 
 void PLAObject::RetainAgent() {
@@ -228,28 +228,28 @@ void PLAObject::Manager::DeleteUnboundObjects()
 
 void PLAObject::Manager::PrintObjects() const
 {
-  GRA_PRINT("//-- PLAObject::Manager::PrintObjects --/"
+  GRA_DEBUG("//-- PLAObject::Manager::PrintObjects --/"
             "///////////////////////////////////////\n");
-  GRA_PRINT("INDEX |   ID |                             NAME "
+  GRA_DEBUG("INDEX |   ID |                             NAME "
             "| TYPE | AGENT |                        \n");
-  GRA_PRINT("------|------|----------------------------------"
+  GRA_DEBUG("------|------|----------------------------------"
             "|------|-------|----------------\n");
   for (size_t i = 0; Binder::Item *item : this->GetItems())
   {
     if (item) {
       const PLAObject *object = static_cast<const PLAObject *>(item);
       PLAObjectType type = object->GetObjectType();
-      GRA_PRINT(" %4d | %4d | %32s | %4d | %5s | %14s\n",
+      GRA_DEBUG(" %4d | %4d | %32s | %4d | %5s | %14s\n",
                 i, object->GetId(), object->GetName().c_str(), type,
                 std::to_string(object->_agentReferenceCounter).c_str(),
                 kPLAObjectTypeName[static_cast<PLAId>(type)]);
     } else {
-      GRA_PRINT(" %4d | %s | %s | %s | %s | %s\n",
+      GRA_DEBUG(" %4d | %s | %s | %s | %s | %s\n",
                 i, "----", "------------------------ NULL --", "----",
                 "-----", "--------------");
     }
     ++i;
   }
-  GRA_PRINT("////////////////////////////////////////"
+  GRA_DEBUG("////////////////////////////////////////"
             "////////////////////////////////////////\n");
 }

@@ -390,12 +390,12 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
       vertices[baseIndex + 2] = 0;
 
       int index = baseIndex;
-      GRA_PRINT("vertices[%2d] : %.2f\n", index, vertices[index]);
+      GRA_DEBUG("vertices[%2d] : %.2f\n", index, vertices[index]);
       ++index;
-      GRA_PRINT("vertices[%2d] : %.2f\n", index, vertices[index]);
+      GRA_DEBUG("vertices[%2d] : %.2f\n", index, vertices[index]);
       ++index;
-      GRA_PRINT("vertices[%2d] : %.2f\n", index, vertices[index]);
-      GRA_PRINT("--------------------\n");
+      GRA_DEBUG("vertices[%2d] : %.2f\n", index, vertices[index]);
+      GRA_DEBUG("--------------------\n");
 
       radian += step;
     }
@@ -534,7 +534,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
         for (int i = 0; i < kNumVertices;) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunsequenced"
-          GRA_PRINT("x: %d, y: %d,"
+          GRA_DEBUG("x: %d, y: %d,"
                     " vertices: [%d] x: %.2f, [%d] y: %.2f, [%d] z: %.2f\n",
                     x, y, i, vertices[i++], i, vertices[i++], i, vertices[i++]);
 #pragma clang diagnostic pop
@@ -565,7 +565,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
         for (int i = 0; i < kNumCoords;) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunsequenced"
-          GRA_PRINT("x: %d, y: %d, coords: [%d] x: %.2f, [%d] y: %.2f\n",
+          GRA_DEBUG("x: %d, y: %d, coords: [%d] x: %.2f, [%d] y: %.2f\n",
                     x, y, i, coords[i++], i, coords[i++]);
 #pragma clang diagnostic pop
         }

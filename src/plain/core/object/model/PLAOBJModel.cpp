@@ -340,15 +340,15 @@ void PLAOBJModel::SetModelTag(PLAId aTag)
 void PLAOBJModel::PrintModels() const
 {
   static int indentLevel = 0;
-  GRA_PRINT(this->GetObjectDescription().c_str());
+  GRA_DEBUG(this->GetObjectDescription().c_str());
   ++indentLevel;
-  GRA_PRINT("0: _models.size() = %d\n", _models.size());
+  GRA_DEBUG("0: _models.size() = %d\n", _models.size());
   int loop_counter = 0;
   for (const PLAOBJModel *model : _models)
   {
     loop_counter++;
-    GRA_PRINT("1: _models.size() = %d, loop_counter = %d\n", _models.size(), loop_counter);
-    for (int i = 0; i < indentLevel; i++) { GRA_PRINT("  "); }
+    GRA_DEBUG("1: _models.size() = %d, loop_counter = %d\n", _models.size(), loop_counter);
+    for (int i = 0; i < indentLevel; i++) { GRA_DEBUG("  "); }
     model->PrintModels();
   }
   --indentLevel;

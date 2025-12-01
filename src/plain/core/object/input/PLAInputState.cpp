@@ -73,6 +73,7 @@ const PLAInput *PLAInputState::GetInput(PLAInputDeviceType aDevice,
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Detected unexpected PLAInputDeviceType.");
+      GRA_UNREACHABLE("Unreachable code reached in GetInput");
   }
 }
 
