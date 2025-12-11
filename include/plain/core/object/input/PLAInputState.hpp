@@ -9,6 +9,7 @@
 #include "plain/core/object/input/PLAIPTTouch.hpp"
 #include "plain/core/object/input/PLAIPTMouse.hpp"
 #include "plain/core/object/input/PLAIPTKey.hpp"
+#include "plain/core/object/input/PLAIPTCamera.hpp"
 
 class PLAInputState
 {
@@ -16,6 +17,7 @@ class PLAInputState
   std::vector<PLAIPTTouch> _touches;
   std::vector<PLAIPTMouse> _mouses;
   std::vector<PLAIPTKey> _keys;
+  std::vector<PLAIPTCamera> _cameras;
 
 public:
   PLAInputState();

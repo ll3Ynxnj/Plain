@@ -161,6 +161,14 @@ PLAInputContext *PLAOBJStage::RefContextWithInput(const PLAInput *aInput) const
                                      key.GetInputSignalCode());
       break;
     }
+    case PLAInputDeviceType::Camera:
+    {
+      // Camera events are global and not tied to specific actors
+      // Registered PLAInputContexts will handle camera frame updates
+      // Return nullptr as there's no specific "responsive actor" for camera
+      inputContext = nullptr;
+      break;
+    }
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Unexpected PLAInputDeviceType detected.");

@@ -1,4 +1,5 @@
 #include "plain/core/object/PLAOBJImage.hpp"
+#include "plain/core/object/PLAOBJResource.hpp"
 
 #include <cmath>
 
@@ -18,6 +19,18 @@ PLAOBJImage *PLAOBJImage::CreateRaw(const PLAString &aName)
   PLAOBJImage *image = new PLAOBJImage(aName, resource, imageSize,
                                        PLAImageType::Raw);
 
+  image->Bind();
+  return image;
+}
+
+PLAOBJImage *PLAOBJImage::CreateFromMemory(const PLAString &aName, const PLAUInt8 *aData,
+                                           const PLAOBJImageSize &aSize, PLAImageType aType)
+{
+  // メモリからリソースを作成
+  PLASize dataSize = aSize.x * aSize.y * 4; // RGBA 4バイト/ピクセル
+  auto resource = PLAOBJResource::CreateFromMemory(aName + "_resource", aData, dataSize);
+
+  PLAOBJImage *image = new PLAOBJImage(aName, resource, aSize, aType);
   image->Bind();
   return image;
 }

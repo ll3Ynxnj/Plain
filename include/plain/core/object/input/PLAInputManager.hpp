@@ -16,7 +16,7 @@ class PLAInputManager
 
   std::queue<const PLAInput *> _inputs = {};
 
-  PLAInputHandler *_handler = nullptr;
+  std::vector<PLAInputHandler *> _handlers = {};
   PLAInputState _state = PLAInputState();
 
   PLAInputManager();
@@ -36,8 +36,10 @@ public:
   void InputMouse(PLAInputSignalCode aCode, PLAInputSignal aSignal,
                   const PLAPoint &aScreenPoint);
   void InputKey(PLAInputSignalCode aCode, PLAInputSignal aSignal);
+  void InputCamera(PLAInputSignalCode aCode, PLAInputSignal aSignal);
   void Flush();
-  void SetHandler(PLAInputHandler *aHandler) { _handler = aHandler; };
+  void AddHandler(PLAInputHandler *aHandler) { _handlers.push_back(aHandler); };
+  void RemoveHandler(PLAInputHandler *aHandler);
 };
 
 #endif //PLAIN_PLAINPUTMANAGER_HPP

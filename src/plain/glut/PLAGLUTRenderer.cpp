@@ -3,6 +3,7 @@
 #include "plain/glut/PLAGLUTRenderer.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
 #include "plain/core/object/PLAOBJResource.hpp"
+#include "plain/core/object/PLAOBJVideoClip.hpp"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -221,7 +222,7 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
 ////////////////////////////////////////////////////////////////////////////////
 
   // TEST: Initialize the camera ///////////////////////////////////////////////
-#ifdef ENABLE_CAMERA_TEST
+  /*
   static PLAGLUTRenderer_camera *camera = nullptr;
   if (!camera) {
     camera = new PLAGLUTRenderer_camera();
@@ -230,13 +231,15 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
       camera = nullptr;
     }
   }
-#endif // ENABLE_CAMERA_TEST
+  */
   //////////////////////////////////////////////////////////////////////////////
 
   // TEST: Draw the camera image ///////////////////////////////////////////////
-  //glPushMatrix();
-  //camera->draw(640, 360);//viewportWidth, viewportHeight);
-  //glPopMatrix();
+  /*
+  glPushMatrix();
+  camera->draw(640, 360);//viewportWidth, viewportHeight);
+  glPopMatrix();
+  */
   //////////////////////////////////////////////////////////////////////////////
 
 }
@@ -258,12 +261,32 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
   const PLAOBJImageClip *imageClip = aLayer->GetImageClip();
   if (imageClip)
   {
+    // If clip is VideoClip, call Update() before rendering.
+    // VideoClipの場合は、レンダリング前にUpdate()を呼ぶ
+    if (imageClip->GetObjectType() == PLAObjectType::VideoClip) {
+      PLAOBJVideoClip *videoClip = const_cast<PLAOBJVideoClip*>(
+        static_cast<const PLAOBJVideoClip*>(imageClip));
+      videoClip->Update();
+    }
+
     const PLAOBJImage *texImage = imageClip->GetImage();
     if (texImage) {
       glEnable(GL_TEXTURE_2D);
+
+      // If clip is VideoClip, use linear interpolation (for smooth display).
+      // See Draw(), where GL_NEAREST is set for the whole, but VideoClip overwrites it.
+      // VideoClipの場合、線形補間を使用（滑らかな表示のため）
+      // Draw()で全体にGL_NEARESTが設定されているが、VideoClipは上書きする
+      if (imageClip->GetObjectType() == PLAObjectType::VideoClip) {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+      }
+
+      const PLAUInt8 *textureData = texImage->GetResourceData();
+
       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetSize().x,
                    texImage->GetSize().y, 0,
-                   GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
+                   GL_RGBA, GL_UNSIGNED_BYTE, textureData);
     }
   }
   else

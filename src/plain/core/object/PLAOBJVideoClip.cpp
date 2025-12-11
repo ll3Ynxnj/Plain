@@ -1,5 +1,6 @@
 #include "plain/core/object/PLAOBJVideoClip.hpp"
 #include "plain/core/agent/PLAAGTVideoClip.hpp"
+#include "plain/core/object/PLAOBJImage.hpp"
 
 PLAOBJVideoClip *PLAOBJVideoClip::Create(const PLAString &aVideoName)
 {
@@ -10,9 +11,22 @@ PLAOBJVideoClip *PLAOBJVideoClip::Create(const PLAString &aVideoName,
                                          const PLARange &aFrameClip,
                                          const PLARect &aPixelClip)
 {
-  const PLAOBJVideo *video = nullptr;//PLAOBJVideo::CreateRaw(aVideoName);
+  // Get existing video object by name
+  PLAOBJVideo *video = static_cast<PLAOBJVideo *>(
+    PLAObject::Object(PLAObjectType::Video, aVideoName));
+
+  if (!video)
+  {
+    GRA_PRINT("Video %s not found\n", aVideoName.c_str());
+    return nullptr;
+  }
+
   PLAOBJVideoClip *videoClip = new PLAOBJVideoClip(video, aFrameClip, aPixelClip);
   videoClip->Bind();
+
+  // 初期フレームを取得して設定
+  videoClip->Update();
+
   return videoClip;
 }
 
@@ -28,7 +42,7 @@ PLAOBJVideoClip *PLAOBJVideoClip::Object(PLAId aObjectId)
   (PLAObject::Object(PLAObjectType::VideoClip, aObjectId));
 }
 
-PLAOBJVideoClip::PLAOBJVideoClip(const PLAOBJVideo *aVideo,
+PLAOBJVideoClip::PLAOBJVideoClip(PLAOBJVideo *aVideo,
                                  const PLARange &aFrameClip,
                                  const PLARect &aPixelClip,
                                  PLAObjectType aType) :
@@ -40,6 +54,25 @@ PLAOBJImageClip(nullptr, aPixelClip, aType), _video(aVideo), _clip(aFrameClip)
 PLAOBJVideoClip::~PLAOBJVideoClip()
 {
 
+}
+
+void PLAOBJVideoClip::Update()
+{
+  if (!_video) { return; }
+
+  // Update the stream to get next frame
+  // This is where stream update happens - when VideoClip is being used
+  PLAOBJStream *stream = _video->GetStream();
+  if (stream) {
+    stream->Update();
+  }
+
+  // Get current frame from video (now with updated stream data)
+  const PLAOBJImage *currentImage = _video->GetCurrentImage();
+  if (!currentImage) { return; }
+
+  // Update the image clip with the current frame
+  this->SetImage(currentImage);
 }
 
 PLAAGTVideoClip PLAOBJVideoClip::AssignAgent()

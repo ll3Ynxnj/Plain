@@ -59,7 +59,8 @@ int PLAInput::GetNumberOfInputCodes(PLAInputDeviceType aDevice)
   {
     static_cast<int>(PLAInputSignalCodeForTouch::kNumberOfItems),
     static_cast<int>(PLAInputSignalCodeForMouse::kNumberOfItems),
-    static_cast<int>(PLAInputSignalCodeForKeyboard::kNumberOfItems)
+    static_cast<int>(PLAInputSignalCodeForKeyboard::kNumberOfItems),
+    static_cast<int>(PLAInputSignalCodeForCamera::kNumberOfItems)
   };
   return numberOfItems[static_cast<unsigned>(aDevice)];
 }

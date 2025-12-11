@@ -45,6 +45,20 @@ PLAAGTImageClip PLAOBJImageClip::AssignAgent()
   return PLAAGTImageClip(this);
 }
 
+void PLAOBJImageClip::SetImage(const PLAOBJImage *aImage)
+{
+  _image = aImage;
+
+  // NormalizedPixelClipが未設定（サイズが0）の場合、デフォルトで全体を使う
+  PLARect normalizedClip = this->GetNormalizedPixelClip();
+  if (normalizedClip.size.x == 0 || normalizedClip.size.y == 0) {
+    normalizedClip = kPLARectNorm;  // pos=(0,0), size=(1,1)
+    _normalizedClip = normalizedClip;
+  }
+
+  this->UpdatePixelClip(normalizedClip);
+}
+
 void PLAOBJImageClip::SetPixelClip(const PLARect &aClip)
 {
   _clip = aClip;
@@ -62,8 +76,8 @@ void PLAOBJImageClip::UpdatePixelClip(const PLARect &aClip)
   if (!_image) { return; }
   _clip.pos.x = _image->GetSize().x * aClip.pos.x;
   _clip.pos.y = _image->GetSize().y * aClip.pos.y;
-  _clip.size.x = _image->GetSize().x * aClip.pos.x;
-  _clip.size.y = _image->GetSize().y * aClip.pos.y;
+  _clip.size.x = _image->GetSize().x * aClip.size.x;
+  _clip.size.y = _image->GetSize().y * aClip.size.y;
 }
 
 void PLAOBJImageClip::UpdateNormalizedPixelClip(const PLARect &aClip)

@@ -6,6 +6,7 @@
 #include "plain/core/object/input/PLAIPTTouch.hpp"
 #include "plain/core/object/input/PLAIPTMouse.hpp"
 #include "plain/core/object/input/PLAIPTKey.hpp"
+#include "plain/core/object/input/PLAIPTCamera.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
 
 PLAInputState::PLAInputState()
@@ -31,10 +32,8 @@ PLAInputState::PLAInputState()
         case PLAInputDeviceType::Keyboard:
           _keys.push_back(PLAIPTKey(code, 0));
           break;
-        default:
-          PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                          "Unexpected PLAInputDeviceType: %d",
-                          static_cast<int>(deviceType));
+        case PLAInputDeviceType::Camera:
+          _cameras.push_back(PLAIPTCamera(code, 0));
           break;
       }
     }
@@ -75,6 +74,8 @@ const PLAInput *PLAInputState::GetInput(PLAInputDeviceType aDevice,
       return &_mouses[aCode];
     case PLAInputDeviceType::Keyboard:
       return &_keys[aCode];
+    case PLAInputDeviceType::Camera:
+      return &_cameras[aCode];
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Detected unexpected PLAInputDeviceType.");
@@ -101,6 +102,10 @@ void PLAInputState::SetInput(const PLAInput *aInput)
     case PLAInputDeviceType::Keyboard:
       _keys[aInput->GetInputSignalCode()] =
         *static_cast<const PLAIPTKey *>(aInput);
+      break;
+    case PLAInputDeviceType::Camera:
+      _cameras[aInput->GetInputSignalCode()] =
+        *static_cast<const PLAIPTCamera *>(aInput);
       break;
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "Detected unexpected PLAInputDeviceType.");

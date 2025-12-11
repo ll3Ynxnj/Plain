@@ -6,6 +6,8 @@
 #include "plain/core/object/input/PLAIPTTouch.hpp"
 #include "plain/core/object/input/PLAIPTMouse.hpp"
 #include "plain/core/object/input/PLAIPTKey.hpp"
+#include "plain/core/object/input/PLAIPTCamera.hpp"
+#include <algorithm>
 
 PLAInputManager PLAInputManager::_instance = PLAInputManager();
 
@@ -65,14 +67,38 @@ void PLAInputManager::InputKey(PLAInputSignalCode aCode, PLAInputSignal aSignal)
   _inputs.push(input);
 }
 
+void PLAInputManager::InputCamera(PLAInputSignalCode aCode, PLAInputSignal aSignal)
+{
+  const PLAIPTCamera *input = new PLAIPTCamera(aCode, aSignal);
+  _inputs.push(input);
+}
+
 void PLAInputManager::Flush()
 {
   while (_inputs.size())
   {
     const PLAInput *input = _inputs.front();
     _inputs.pop();
-    _handler->Input(input, &_state);
+
+    // Dispatch input to all registered handlers
+    for (PLAInputHandler *handler : _handlers)
+    {
+      if (handler)
+      {
+        handler->Input(input, &_state);
+      }
+    }
+
     _state.SetInput(input);
     delete input;
+  }
+}
+
+void PLAInputManager::RemoveHandler(PLAInputHandler *aHandler)
+{
+  auto it = std::find(_handlers.begin(), _handlers.end(), aHandler);
+  if (it != _handlers.end())
+  {
+    _handlers.erase(it);
   }
 }

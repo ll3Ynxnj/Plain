@@ -10,6 +10,7 @@
 #include "plain/core/object/input/PLAIPTTouch.hpp"
 #include "plain/core/object/input/PLAIPTMouse.hpp"
 #include "plain/core/object/input/PLAIPTKey.hpp"
+#include "plain/core/object/input/PLAIPTCamera.hpp"
 
 class PLAInputContext
 {
@@ -56,6 +57,13 @@ class PLAInputContext
     std::map<PLAInputSignalCodeForKeyboard,
       std::map<PLAInputActionCodeForKeyboard,
         std::function<void(PLAInputContext *, const PLAIPTKey &)>>>();
+  std::map<PLAInputSignalCodeForCamera,
+    std::map<PLAInputActionCodeForCamera,
+      std::function<void(PLAInputContext *, const PLAIPTCamera &)>>>
+        _fCameraFunctors =
+    std::map<PLAInputSignalCodeForCamera,
+      std::map<PLAInputActionCodeForCamera,
+        std::function<void(PLAInputContext *, const PLAIPTCamera &)>>>();
 
   /*
   std::map<PLAInputDeviceType, std::map<PLAInputSignalCode,
@@ -79,6 +87,8 @@ public :
                       PLAInputActionCodeForMouse aAction);
   void InputWithKeyboard(const PLAIPTKey &aInput,
                          PLAInputActionCodeForKeyboard aAction);
+  void InputWithCamera(const PLAIPTCamera &aInput,
+                       PLAInputActionCodeForCamera aAction);
 
   void SetInputActive(bool aValue) { _active = aValue; };
   void SetFunctorForInputWithTouch
@@ -93,6 +103,10 @@ public :
     (PLAInputSignalCodeForKeyboard aSignalCode,
      PLAInputActionCodeForKeyboard aActionCode,
      const std::function<void(PLAInputContext *, const PLAIPTKey &)> &aFunc);
+  void SetFunctorForInputWithCamera
+    (PLAInputSignalCodeForCamera aSignalCode,
+     PLAInputActionCodeForCamera aActionCode,
+     const std::function<void(PLAInputContext *, const PLAIPTCamera &)> &aFunc);
 
 private:
   void Input(const PLAInput *aInput, PLAInputActionCode aAction);

@@ -29,6 +29,7 @@ private:
 
 public:
   static PLAOBJResource *Create(const PLAString &aName, const PLAString &aPath);
+  static PLAOBJResource *CreateFromMemory(const PLAString &aName, const PLAUInt8 *aData, PLASize aSize);
   void Bind() override;
 
 protected:
@@ -44,6 +45,8 @@ public:
   const char *GetResourceTypeName() const;
   const PLAUInt8 *GetData() const { return _data.data(); };
   PLASize GetSize() const { return _size; };
+
+  void UpdateData(const PLAUInt8 *aData, PLASize aSize);
 
   void PrintResource() const;
 
