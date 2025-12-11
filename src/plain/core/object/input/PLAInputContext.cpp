@@ -49,6 +49,16 @@ bool PLAInputContext::IsInputResponsive(PLAInputDeviceType aDeviceType,
         if (sigItr == _fKeyboardFunctors.end()) { return false; }
       }
       break;
+    case PLAInputDeviceType::Camera:
+      {
+        std::map<PLAInputSignalCodeForCamera,
+          std::map<PLAInputActionCodeForCamera,
+            std::function<void(PLAInputContext *,
+                               const PLAIPTCamera &)>>>::iterator
+              sigItr = _fCameraFunctors.find(static_cast<PLAInputSignalCodeForCamera>(aSignalCode));
+        if (sigItr == _fCameraFunctors.end()) { return false; }
+      }
+      break;
     default:
       {
         PLA_ERROR_ISSUE(PLAErrorType::Assert,
@@ -171,6 +181,33 @@ void PLAInputContext::SetFunctorForInputWithKeyboard
                            static_cast<PLAInputSignalCode>(aSignalCode),
                            static_cast<PLAInputActionCode>(aActionCode), aFunc);
                            */
+}
+
+void PLAInputContext::InputWithCamera(const PLAIPTCamera &aInput,
+                                      PLAInputActionCodeForCamera aAction)
+{
+  if (!_active) { return; }
+
+  PLAInputSignalCodeForCamera signalCode =
+    static_cast<PLAInputSignalCodeForCamera>(aInput.GetInputSignalCode());
+  std::map<PLAInputActionCodeForCamera,
+    std::function<void(PLAInputContext *, const PLAIPTCamera &)>> actions =
+    _fCameraFunctors[signalCode];
+
+  std::map<PLAInputActionCodeForCamera,
+    std::function<void(PLAInputContext *, const PLAIPTCamera &)>>::iterator
+      actItr = actions.find(aAction);
+
+  if (actItr == actions.end()) { return; }
+  (*actItr).second(this, static_cast<const PLAIPTCamera &>(aInput));
+}
+
+void PLAInputContext::SetFunctorForInputWithCamera
+  (PLAInputSignalCodeForCamera aSignalCode,
+   PLAInputActionCodeForCamera aActionCode,
+   const std::function<void(PLAInputContext *, const PLAIPTCamera &)> &aFunc)
+{
+  _fCameraFunctors[aSignalCode][aActionCode] = aFunc;
 }
 
 /*

@@ -35,6 +35,12 @@ enum class PLAInputActionCodeForKeyboard : PLAInputActionCode
   kNumberOfItems, None = kPLAInputActionCodeUndefined
 };
 
+enum class PLAInputActionCodeForCamera : PLAInputActionCode
+{
+  FrameUpdate,
+  kNumberOfItems, None = kPLAInputActionCodeUndefined
+};
+
 
 // PLAInputSignalCode //////////////////////////////////////////////////////
 
@@ -64,7 +70,7 @@ enum class PLAInputSignalCodeForKeyboard : PLAInputSignalCode
 
 enum class PLAInputSignalCodeForCamera : PLAInputSignalCode
 {
-
+  FrameUpdate,
   kNumberOfItems, None = kPLAInputSignalCodeUndefined,
 };
 

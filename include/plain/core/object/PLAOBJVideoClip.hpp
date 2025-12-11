@@ -8,12 +8,23 @@
 
 class PLAOBJVideoClip: public PLAOBJImageClip
 {
-  const PLAOBJVideo *_video = nullptr;
+  /**
+   * 動画データ
+   */
+  PLAOBJVideo *_video = nullptr;
+
+  /**
+   * 時間軸の切り抜き範囲
+   */
   PLARange _clip = kPLARangeNone;
+
+  /**
+   * 時間軸の切り抜き範囲（正規化座標）
+   */
   PLARange _normalizedClip = kPLARangeNone;
 
 protected:
-  PLAOBJVideoClip(const PLAOBJVideo *aVideo,
+  PLAOBJVideoClip(PLAOBJVideo *aVideo,
                   const PLARange &aFrameClip, const PLARect &aPixelClip,
                   PLAObjectType aType = PLAObjectType::VideoClip);
 
@@ -28,9 +39,11 @@ public:
 
   ~PLAOBJVideoClip();
 
+  void Update();
+
   PLAAGTVideoClip AssignAgent();
 
-  const PLAOBJVideo *GetVideo() const { return _video; }
+  PLAOBJVideo *GetVideo() const { return _video; }
   //const PLARange &GetFrameClip() const { return _clip; }
   //const PLARange &GetNormalizedPixelClip() const { return _normalizedClip; }
 

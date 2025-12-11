@@ -20,6 +20,8 @@ class PLAOBJImage : public PLAObject
 
 public:
   static PLAOBJImage *CreateRaw(const PLAString &aName);
+  static PLAOBJImage *CreateFromMemory(const PLAString &aName, const PLAUInt8 *aData,
+                                       const PLAOBJImageSize &aSize, PLAImageType aType);
 
   PLAOBJImage(const PLAString &aName, const PLAOBJResource *aResource,
               const PLAOBJImageSize &aSize, PLAImageType aType);

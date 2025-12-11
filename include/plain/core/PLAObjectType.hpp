@@ -34,6 +34,7 @@ enum class PLAObjectType : PLAInt
 
   Renderer,
   ImageClip,
+  Video,
   VideoClip,
   LYRTileDataSource,
 
@@ -72,6 +73,8 @@ static const char *kPLAObjectTypeName[static_cast<size_t>(PLAObjectType::kNumber
 
   "Renderer",
   "ImageClip",
+  "Video",
+  "VideoClip",
   "LYRTileDataSource",
 };
 

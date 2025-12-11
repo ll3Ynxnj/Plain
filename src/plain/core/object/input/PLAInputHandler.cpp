@@ -17,18 +17,14 @@ PLAInputHandler::~PLAInputHandler()
 
 void PLAInputHandler::Input(const PLAInput *aInput, const PLAInputState *aState)
 {
-  if (_context) {
-      GRA_PRINT("_context: %p\n", _context);
-  } else {
-      GRA_PRINT("_context: %p\n", _context);
-  }
-  //if (!_context)
-  if (_context == nullptr)
+  if (!_context)
   {
     _context = this->RefContextWithInput(aInput);
     if (!_context)
     {
-      PLA_ERROR_ISSUE(PLAErrorType::Expect, "Context not found.");
+      // Context not found - this handler doesn't handle this input type
+      // (e.g., Stage doesn't handle Camera input, Stream::Manager doesn't handle Touch)
+      // This is not an error, just skip processing
       return;
     }
   }
@@ -103,5 +99,5 @@ void PLAInputHandler::InputForKeyboard(const PLAIPTKey &aInput,
 void PLAInputHandler::InputForCamera(const PLAIPTCamera &aInput,
                                      const PLAInputState *aState)
 {
-
+  _context->InputWithCamera(aInput, PLAInputActionCodeForCamera::FrameUpdate);
 }

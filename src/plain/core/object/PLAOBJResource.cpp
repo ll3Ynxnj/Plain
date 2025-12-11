@@ -13,6 +13,15 @@ PLAOBJResource *PLAOBJResource::Create(const PLAString &aName, const PLAString &
   return resource;
 }
 
+PLAOBJResource *PLAOBJResource::CreateFromMemory(const PLAString &aName, const PLAUInt8 *aData, PLASize aSize)
+{
+  PLAOBJResource *resource = new PLAOBJResource(aName, "");
+  resource->_data.assign(aData, aData + aSize);
+  resource->_size = aSize;
+  resource->Bind();
+  return resource;
+}
+
 void PLAOBJResource::Bind()
 {
   this->PLAObject::Bind();
@@ -82,6 +91,15 @@ const char *PLAOBJResource::GetResourceTypeName() const
 {
   static const char *kName = "== STUB ==";
   return kName;
+}
+
+void PLAOBJResource::UpdateData(const PLAUInt8 *aData, PLASize aSize)
+{
+  if (aSize != _size) {
+    _data.resize(aSize);
+    _size = aSize;
+  }
+  std::copy(aData, aData + aSize, _data.begin());
 }
 
 void PLAOBJResource::PrintResource() const

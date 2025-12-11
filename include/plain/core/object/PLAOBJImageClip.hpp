@@ -9,8 +9,19 @@ class PLAAGTImageClip;
 
 class PLAOBJImageClip : public PLAObject
 {
+  /**
+   * 画像データ
+   */
   const PLAOBJImage *_image = nullptr;
+
+  /**
+   * 画素矩形の切り抜き範囲
+   */
   PLARect _clip = kPLARectNone;
+
+  /**
+   * 画素矩形の切り抜き範囲（正規化座標）
+   */
   PLARect _normalizedClip = kPLARectNone;
 
 protected:
@@ -33,6 +44,7 @@ public:
   const PLARect &GetPixelClip() const { return _clip; }
   const PLARect &GetNormalizedPixelClip() const { return _normalizedClip; }
 
+  void SetImage(const PLAOBJImage *aImage);
   void SetPixelClip(const PLARect &aClip);
   void SetNormalizedPixelClip(const PLARect &aClip);
 

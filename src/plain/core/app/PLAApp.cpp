@@ -2,6 +2,7 @@
 
 #include "plain/core/app/PLAApp.hpp"
 #include "plain/core/object/input/PLAInputManager.hpp"
+#include "plain/core/object/PLAOBJStream.hpp"
 #include "plain/core/object/PLAOBJRenderer.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
 
@@ -84,10 +85,14 @@ void PLAApp::Init(PLARendererType aRendererType,
   _renderer->Init();
   PLAOBJError::Manager::Instance()->Init();
   PLAOBJScene::Manager::Instance()->Init();
+  PLAOBJStream::Manager::Instance()->Init();
   _state = PLAOBJState::Create("PLAApp::State");
   _stage = PLAOBJStage::Create("PLAApp::Stage");
   _scene = PLAOBJScene::Create("PLAApp::Scene");
-  PLAInputManager::Instance()->SetHandler(_stage);
+
+  // Register input handler for Touch/Mouse/Keyboard
+  PLAInputManager::Instance()->AddHandler(_stage);
+  // Note: PLAOBJVideo instances register themselves as handlers for Camera input
 
   //this->RunFunction(PLAFunctionCode::App::OnInit);
 }
