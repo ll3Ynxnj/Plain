@@ -129,6 +129,7 @@ void PLAApp::InputKey(PLAInputSignalCode aCode, PLAInputSignal aSignal)
 
 void PLAApp::Update()
 {
+  PLAOBJStream::Manager::Instance()->Update();
   PLAObject::Manager::Instance()->DeleteUnboundObjects();
   PLAInputManager::Instance()->Flush();
   UpdateTimelineThread();

@@ -83,6 +83,7 @@ public:
     ~Manager();
 
     void Init();
+    void Update();  // Update all streams
     const PLAOBJStream *GetStream(const PLAString &aName) const;
 
     // PLAInputHandler implementation

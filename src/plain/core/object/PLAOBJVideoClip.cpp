@@ -60,14 +60,7 @@ void PLAOBJVideoClip::Update()
 {
   if (!_video) { return; }
 
-  // Update the stream to get next frame
-  // This is where stream update happens - when VideoClip is being used
-  PLAOBJStream *stream = _video->GetStream();
-  if (stream) {
-    stream->Update();
-  }
-
-  // Get current frame from video (now with updated stream data)
+  // Get current frame from video (stream is updated by StreamManager)
   const PLAOBJImage *currentImage = _video->GetCurrentImage();
   if (!currentImage) { return; }
 

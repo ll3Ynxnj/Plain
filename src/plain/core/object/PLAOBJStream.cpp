@@ -63,6 +63,15 @@ void PLAOBJStream::Manager::Init()
 
 }
 
+void PLAOBJStream::Manager::Update()
+{
+  for (auto *item : this->GetItems()) {
+    if (item) {
+      static_cast<PLAOBJStream *>(item)->Update();
+    }
+  }
+}
+
 PLAOBJStream *PLAOBJStream::Manager::Stream(const PLAString &aKey)
 {
   GRAOBJBinder<PLAOBJStream>::Error error(GRAOBJBinder<PLAOBJStream>::Error::None);
