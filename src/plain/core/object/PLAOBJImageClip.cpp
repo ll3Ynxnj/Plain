@@ -3,7 +3,7 @@
 
 PLAOBJImageClip *PLAOBJImageClip::Create(const PLAString &aImageName)
 {
-  return PLAOBJImageClip::Create(aImageName, kPLARectNorm);
+  return PLAOBJImageClip::Create(aImageName, kPLARectNone);
 }
 
 PLAOBJImageClip *PLAOBJImageClip::Create(const PLAString &aImageName,
@@ -30,9 +30,9 @@ PLAOBJImageClip *PLAOBJImageClip::Object(PLAId aObjectId)
 PLAOBJImageClip::PLAOBJImageClip(const PLAOBJImage *aImage,
                                  const PLARect &aClip,
                                  PLAObjectType aType) :
-PLAObject(aType), _image(aImage), _clip(aClip)
+PLAObject(aType), _clip(aClip)
 {
-  this->UpdateNormalizedPixelClip(aClip);
+  this->SetImage(aImage);
 }
 
 PLAOBJImageClip::~PLAOBJImageClip()
