@@ -46,3 +46,13 @@ PLAPoint PLALYRPoint::GetPoint() const
 {
   return { this->GetOffset().x, this->GetOffset().y };
 }
+
+const PLAColor &PLALYRPoint::GetColor() const
+{
+  return _color;
+}
+
+void PLALYRPoint::SetColor(const PLAColor &aColor)
+{
+  _color = aColor;
+}

@@ -27,6 +27,7 @@
 
 class PLAOBJRenderer;
 class PLAAGTActor;
+class PLAAGTActorForPoint;
 class PLAAGTActorForLine;
 class PLAAGTActorForRect;
 class PLAAGTActorForCircle;
@@ -137,6 +138,10 @@ public:
                                  const IPLATileLayerDataSource *aDataSource,
                                  const PLAString &aName = kPLAStrUndefined);
 
+  static PLAOBJActor *CreatePoint(const PLAVec2f &aOrigin,
+                                  const PLAColor &aColor,
+                                  const PLAString &aName = kPLAStrUndefined);
+
   static PLAOBJActor *CreateLine(const PLAVec2f &aOrigin,
                                  const PLAVec2f &aVector,
                                  const PLAColor &aColor,
@@ -166,6 +171,7 @@ public:
   void Disappear();
 
   PLAAGTActor AssignAgent();
+  PLAAGTActorForPoint AssignAgentForPoint();
   PLAAGTActorForLine AssignAgentForLine();
   PLAAGTActorForRect AssignAgentForRect();
   PLAAGTActorForCircle AssignAgentForCircle();

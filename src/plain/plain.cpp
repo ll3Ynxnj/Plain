@@ -288,6 +288,14 @@ PLAAGTActorForTile Plain::Actor::CreateTile(const PLAVec2f &aOffset,
   return actor->AssignAgentForTile();
 }
 
+PLAAGTActorForPoint Plain::Actor::CreatePoint(const PLAVec2f &aOrigin,
+                                              const PLAColor &aColor,
+                                              const PLAString &aName)
+{
+  PLAOBJActor *actor = PLAOBJActor::CreatePoint(aOrigin, aColor, aName);
+  return actor->AssignAgentForPoint();
+}
+
 PLAAGTActorForLine Plain::Actor::CreateLine(const PLAVec2f &aOrigin,
                                             const PLAVec2f &aVector,
                                             const PLAColor &aColor,

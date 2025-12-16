@@ -189,6 +189,9 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
 
   switch (layer->GetLayerType())
   {
+    case PLALayerType::Point :
+      this->DrawPoint(static_cast<const PLALYRPoint *>(layer), color, motion);
+      break;
     case PLALayerType::Line :
       this->DrawLine(static_cast<const PLALYRLine *>(layer), color, motion);
       break;
@@ -245,6 +248,21 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
   */
   //////////////////////////////////////////////////////////////////////////////
 
+}
+
+void PLAGLUTRenderer::DrawPoint(const PLALYRPoint *aLayer, const PLAColor &aColor,
+                                const PLATMLMotion *aMotion) const
+{
+  glDisable(GL_TEXTURE_2D);
+
+  const PLAVec3f offset = aLayer->GetOffset();
+  PLAColor color = aLayer->GetColor() * aColor;
+
+  glPointSize(4.0f);
+  glBegin(GL_POINTS);
+  glColor4f(color.r, color.g, color.b, color.a);
+  glVertex3f(offset.x, -offset.y, offset.z);
+  glEnd();
 }
 
 void PLAGLUTRenderer::DrawLine(const PLALYRLine *aLayer, const PLAColor &aColor,

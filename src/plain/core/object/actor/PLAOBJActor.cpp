@@ -12,6 +12,7 @@
 #include "plain/core/object/layer/PLALYRTile.hpp"
 
 #include "plain/core/agent/actor/PLAAGTActor.hpp"
+#include "plain/core/agent/actor/PLAAGTActorForPoint.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForLine.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForRect.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForCircle.hpp"
@@ -248,6 +249,20 @@ PLAOBJActor *PLAOBJActor::CreateTile(const PLAVec2f &aOffset,
   return actor;
 }
 
+PLAOBJActor *PLAOBJActor::CreatePoint(const PLAVec2f &aOrigin,
+                                       const PLAColor &aColor,
+                                       const PLAString &aName)
+{
+  PLALYRPoint *layer = new PLALYRPoint(PLAVec3f(aOrigin.x, aOrigin.y, 0), aColor);
+  layer->SetObjectName(aName + "::Layer");
+
+  PLAOBJActor *actor =
+    new PLAOBJActor(kPLAVec3fNone, kPLAColorWhite, kPLATransformNorm, layer, aName);
+  actor->Init();
+  actor->Bind();
+  return actor;
+}
+
 PLAOBJActor *PLAOBJActor::CreateLine(const PLAVec2f &aOrigin,
                                       const PLAVec2f &aVector,
                                       const PLAColor &aColor,
@@ -373,6 +388,12 @@ void PLAOBJActor::Disappear()
 
 PLAAGTActor PLAOBJActor::AssignAgent() {
   return PLAAGTActor(this);
+}
+
+PLAAGTActorForPoint PLAOBJActor::AssignAgentForPoint() {
+  if (this->GetLayerType() != PLALayerType::Point)
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Layer type is not point."); }
+  return PLAAGTActorForPoint(this);
 }
 
 PLAAGTActorForLine PLAOBJActor::AssignAgentForLine() {
