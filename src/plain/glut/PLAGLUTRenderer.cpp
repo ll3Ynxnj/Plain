@@ -189,6 +189,9 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
 
   switch (layer->GetLayerType())
   {
+    case PLALayerType::Line :
+      this->DrawLine(static_cast<const PLALYRLine *>(layer), color, motion);
+      break;
     case PLALayerType::Rect :
       this->DrawRect(static_cast<const PLALYRRect *>(layer), color, motion);
       break;
@@ -242,6 +245,22 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
   */
   //////////////////////////////////////////////////////////////////////////////
 
+}
+
+void PLAGLUTRenderer::DrawLine(const PLALYRLine *aLayer, const PLAColor &aColor,
+                               const PLATMLMotion *aMotion) const
+{
+  glDisable(GL_TEXTURE_2D);
+
+  PLALine line = aLayer->GetLine();
+  PLAColor color = aLayer->GetColor() * aColor;
+
+  glLineWidth(2.0f);
+  glBegin(GL_LINES);
+  glColor4f(color.r, color.g, color.b, color.a);
+  glVertex3f(line.p0.x, -line.p0.y, 0);
+  glVertex3f(line.p1.x, -line.p1.y, 0);
+  glEnd();
 }
 
 void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,

@@ -3,6 +3,7 @@
 
 #include "PLAGLUT.h"
 #include "plain/core/object/PLAOBJRenderer.hpp"
+#include "plain/core/object/layer/PLALYRLine.hpp"
 #include "plain/core/object/layer/PLALYRRect.hpp"
 #include "plain/core/object/layer/PLALYRCircle.hpp"
 #include "plain/core/object/layer/PLALYRTile.hpp"
@@ -39,6 +40,8 @@ private :
   static void GetMotionProperties(const PLATMLMotion *aNode,
                                   MotionProperties *aMotionProperties);
   void Draw(const PLAOBJActor *aActor, const PLAColor &aColor) const;
+  void DrawLine(const PLALYRLine *aLayer, const PLAColor &aColor,
+                const PLATMLMotion *aMotion) const;
   void DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
                 const PLATMLMotion *aMotion) const;
   void DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aColor,

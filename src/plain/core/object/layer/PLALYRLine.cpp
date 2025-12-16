@@ -47,5 +47,16 @@ bool PLALYRLine::IsCollideWithCircle(const PLACircle &aCircle) const
 
 PLALine PLALYRLine::GetLine() const
 {
-  return { {this->GetOffset().x, this->GetOffset().y}, {_vector.x, _vector.y} };
+  const PLAVec3f &offset = this->GetOffset();
+  return { {offset.x, offset.y}, {offset.x + _vector.x, offset.y + _vector.y} };
+}
+
+const PLAColor &PLALYRLine::GetColor() const
+{
+  return _color;
+}
+
+void PLALYRLine::SetColor(const PLAColor &aColor)
+{
+  _color = aColor;
 }

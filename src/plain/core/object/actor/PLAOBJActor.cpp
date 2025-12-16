@@ -12,6 +12,7 @@
 #include "plain/core/object/layer/PLALYRTile.hpp"
 
 #include "plain/core/agent/actor/PLAAGTActor.hpp"
+#include "plain/core/agent/actor/PLAAGTActorForLine.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForRect.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForCircle.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForTile.hpp"
@@ -247,6 +248,21 @@ PLAOBJActor *PLAOBJActor::CreateTile(const PLAVec2f &aOffset,
   return actor;
 }
 
+PLAOBJActor *PLAOBJActor::CreateLine(const PLAVec2f &aOrigin,
+                                      const PLAVec2f &aVector,
+                                      const PLAColor &aColor,
+                                      const PLAString &aName)
+{
+  PLALYRLine *layer = new PLALYRLine(PLAVec3f(aOrigin.x, aOrigin.y, 0), aVector, aColor);
+  layer->SetObjectName(aName + "::Layer");
+
+  PLAOBJActor *actor =
+    new PLAOBJActor(kPLAVec3fNone, kPLAColorWhite, kPLATransformNorm, layer, aName);
+  actor->Init();
+  actor->Bind();
+  return actor;
+}
+
 void PLAOBJActor::Bind()
 {
   this->PLAObject::Bind();
@@ -357,6 +373,12 @@ void PLAOBJActor::Disappear()
 
 PLAAGTActor PLAOBJActor::AssignAgent() {
   return PLAAGTActor(this);
+}
+
+PLAAGTActorForLine PLAOBJActor::AssignAgentForLine() {
+  if (this->GetLayerType() != PLALayerType::Line)
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Layer type is not line."); }
+  return PLAAGTActorForLine(this);
 }
 
 PLAAGTActorForRect PLAOBJActor::AssignAgentForRect() {

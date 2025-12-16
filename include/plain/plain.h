@@ -9,6 +9,7 @@
 #include "plain/core/agent/PLAAGTPhase.hpp"
 #include "plain/core/agent/PLAAGTStage.hpp"
 #include "plain/core/agent/actor/PLAAGTActor.hpp"
+#include "plain/core/agent/actor/PLAAGTActorForLine.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForRect.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForCircle.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForTile.hpp"
@@ -161,6 +162,10 @@ namespace Plain
                                   const GRAVec2<PLASize> &aTileSize,
                                   const GRAVec2<PLASize> &aChipSize,
                                   const IPLATileLayerDataSource *aDataSource,
+                                  const PLAString &aName = kPLAStrUndefined);
+    PLAAGTActorForLine CreateLine(const PLAVec2f &aOrigin,
+                                  const PLAVec2f &aVector,
+                                  const PLAColor &aColor,
                                   const PLAString &aName = kPLAStrUndefined);
 
     PLAAGTActor Assign(PLAId aId);
