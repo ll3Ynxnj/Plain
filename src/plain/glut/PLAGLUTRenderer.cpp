@@ -405,6 +405,21 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
   glArrayElement(2);
   glArrayElement(3);
   glEnd();
+
+  // Draw stroke if strokeColor has alpha > 0
+  PLAColor strokeColor = aLayer->GetStrokeColor();
+  strokeColor *= aColor;
+  if (strokeColor.a > 0) {
+    glDisable(GL_TEXTURE_2D);
+    glLineWidth(2.0f);
+    glBegin(GL_LINE_LOOP);
+    glColor4f(strokeColor.r, strokeColor.g, strokeColor.b, strokeColor.a);
+    glVertex3f(offset.x, -offset.y, offset.z);
+    glVertex3f(offset.x + aLayer->GetSize().x, -offset.y, offset.z);
+    glVertex3f(offset.x + aLayer->GetSize().x, -offset.y - aLayer->GetSize().y, offset.z);
+    glVertex3f(offset.x, -offset.y - aLayer->GetSize().y, offset.z);
+    glEnd();
+  }
 }
 
 void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aColor,
@@ -504,6 +519,22 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
     glArrayElement(i);
   }
   glEnd();
+
+  // Draw stroke if strokeColor has alpha > 0
+  PLAColor strokeColor = aLayer->GetStrokeColor();
+  strokeColor *= aColor;
+  if (strokeColor.a > 0) {
+    glDisable(GL_TEXTURE_2D);
+    glLineWidth(2.0f);
+    glBegin(GL_LINE_LOOP);
+    glColor4f(strokeColor.r, strokeColor.g, strokeColor.b, strokeColor.a);
+    // Skip center vertex (index 0), draw outline from index 1
+    for (int i = 1; i < numVertices; i++)
+    {
+      glVertex3f(vertices[i * 3], vertices[i * 3 + 1], vertices[i * 3 + 2]);
+    }
+    glEnd();
+  }
 }
 
 // この関数では、タイルチップを一つづつ矩形で描画しているが、FBOを利用して先に全チップを一枚のテクスチャに描画したほうが効率的なはず。

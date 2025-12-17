@@ -5,9 +5,16 @@
 //
 
 #include "plain/core/agent/actor/PLAAGTActorForRect.hpp"
+#include "plain/core/object/actor/PLAOBJActor.hpp"
+#include "plain/core/object/layer/PLALYRRect.hpp"
 
 PLAAGTActorForRect::PLAAGTActorForRect(PLAOBJActor *aOwner):
   PLAAGTActor(aOwner)
 {
 
+}
+
+void PLAAGTActorForRect::SetStrokeColor(const PLAColor &aColor)
+{
+  this->RefActor()->RefLayerForRect()->SetStrokeColor(aColor);
 }

@@ -9,6 +9,7 @@
 
 
 #include "plain/core/agent/actor/PLAAGTActor.hpp"
+#include "plain/core/primitive/PLAPRMColor.hpp"
 
 class PLAOBJActor;
 
@@ -16,6 +17,8 @@ class PLAAGTActorForCircle : public PLAAGTActor
 {
 public:
   explicit PLAAGTActorForCircle(PLAOBJActor *aOwner);
+
+  void SetStrokeColor(const PLAColor &aColor);
 };
 
 
