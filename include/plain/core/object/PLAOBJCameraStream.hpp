@@ -2,7 +2,10 @@
 #define PLAIN_PLAOBJCAMERASTREAM_HPP
 
 #include "plain/core/object/PLAOBJStream.hpp"
+#include "plain/core/object/analysis/PLAFace.hpp"
 #include <opencv2/opencv.hpp>
+
+class PLAOBJFaceDetector;
 
 // PLAOBJCameraStream: Camera device stream implementation
 // Captures frames from a camera device (e.g., /dev/video0)
@@ -11,6 +14,7 @@ class PLAOBJCameraStream : public PLAOBJStream
 {
   cv::VideoCapture _capture;
   int _cameraID;
+  PLAOBJFaceDetector *_faceDetector = nullptr;
 
 public:
   static PLAOBJCameraStream *Create(const PLAString &aName, int aCameraID = 0);
@@ -32,6 +36,11 @@ public:
 
   // Get camera ID
   int GetCameraID() const { return _cameraID; }
+
+  // Face detection
+  void SetFaceDetector(PLAOBJFaceDetector *aDetector);
+  PLAOBJFaceDetector *GetFaceDetector() const { return _faceDetector; }
+  PLAFaceDetectionResult GetFaceDetectionResult() const;
 };
 
 #endif //PLAIN_PLAOBJCAMERASTREAM_HPP

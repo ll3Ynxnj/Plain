@@ -1,5 +1,6 @@
 #include "plain/core/object/PLAOBJCameraStream.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
+#include "plain/core/object/analysis/PLAOBJFaceDetector.hpp"
 
 PLAOBJCameraStream *PLAOBJCameraStream::Create(const PLAString &aName, int aCameraID)
 {
@@ -86,6 +87,12 @@ void PLAOBJCameraStream::Update()
     return;
   }
 
+  // Run face detection on BGR frame (before color conversion)
+  if (_faceDetector && _faceDetector->IsInitialized())
+  {
+    _faceDetector->Detect(frame);
+  }
+
   // Convert to RGBA format
   cv::Mat rgbaFrame;
   if (frame.channels() == 3)
@@ -115,4 +122,18 @@ void PLAOBJCameraStream::Update()
 
   // Swap buffers to make new data available for reading
   SwapBuffers();
+}
+
+void PLAOBJCameraStream::SetFaceDetector(PLAOBJFaceDetector *aDetector)
+{
+  _faceDetector = aDetector;
+}
+
+PLAFaceDetectionResult PLAOBJCameraStream::GetFaceDetectionResult() const
+{
+  if (_faceDetector)
+  {
+    return _faceDetector->GetResult();
+  }
+  return kPLAFaceDetectionResultNone;
 }
