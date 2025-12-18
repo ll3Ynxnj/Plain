@@ -2,6 +2,7 @@
 #define PLAIN_ENGINE_PLAGLUTRENDERER_HPP
 
 #include "PLAGLUT.h"
+#include "plain/core/PLARenderMode.hpp"
 #include "plain/core/object/PLAOBJRenderer.hpp"
 #include "plain/core/object/layer/PLALYRPoint.hpp"
 #include "plain/core/object/layer/PLALYRLine.hpp"
@@ -51,6 +52,7 @@ private :
                   const PLATMLMotion *aMotion) const;
   void DrawTile(const PLALYRTile *aLayer, const PLAColor &aColor,
                 const PLATMLMotion *aMotion) const;
+  void ApplyRenderMode(PLARenderMode aMode) const;
 };
 
 #endif // PLAIN_ENGINE_PLAGLUTRENDERER_HPP

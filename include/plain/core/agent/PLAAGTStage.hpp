@@ -8,6 +8,7 @@
 
 #include "plain/core/agent/PLAAgent.hpp"
 #include "plain/core/PLAFunctionCode.hpp"
+#include "plain/core/PLARenderMode.hpp"
 #include "grain/object/GRAOBJListener.hpp"
 
 class PLAAGTActor;
@@ -33,6 +34,8 @@ public:
                    const std::function<void(PLAAGTStage)> &aFunc) const;
 
   PLAVec3f GetSize() const;
+  PLARenderMode GetRenderMode() const;
+  void SetRenderMode(PLARenderMode aMode) const;
 
 protected:
   const PLAOBJStage *GetStage() const;

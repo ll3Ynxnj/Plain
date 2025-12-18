@@ -12,6 +12,7 @@
 #include "plain/core/agent/PLAAGTMotion.hpp"
 #include "plain/core/agent/PLAAGTImageClip.hpp"
 #include "plain/core/PLAFunctionCode.hpp"
+#include "plain/core/PLARenderMode.hpp"
 
 #include "plain/core/primitive/PLAPRMColor.hpp"
 #include "plain/core/primitive/PLAPRMTransform.hpp"
@@ -65,6 +66,9 @@ public:
 
   PLABool IsVisible() const;
   void SetVisible(bool aVisible) const;
+
+  PLARenderMode GetRenderMode() const;
+  void SetRenderMode(PLARenderMode aMode) const;
 
   PLAId GetActorTag() const;
   void SetActorTag(PLAId aTag) const;

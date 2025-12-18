@@ -85,6 +85,18 @@ PLAVec3f PLAAGTStage::GetSize() const
   return stage->GetSize();
 }
 
+PLARenderMode PLAAGTStage::GetRenderMode() const
+{
+  const PLAOBJStage *stage = this->GetStage();
+  return stage->GetRenderMode();
+}
+
+void PLAAGTStage::SetRenderMode(PLARenderMode aMode) const
+{
+  PLAOBJStage *stage = this->RefStage();
+  stage->SetRenderMode(aMode);
+}
+
 const PLAOBJStage *PLAAGTStage::GetStage() const
 {
   return static_cast<const PLAOBJStage *>(this->GetOwner());

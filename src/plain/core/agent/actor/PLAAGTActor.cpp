@@ -163,6 +163,18 @@ void PLAAGTActor::SetVisible(PLABool aVisible) const
   actor->SetVisible(aVisible);
 }
 
+PLARenderMode PLAAGTActor::GetRenderMode() const
+{
+  PLAOBJActor *actor = this->RefActor();
+  return actor->GetRenderMode();
+}
+
+void PLAAGTActor::SetRenderMode(PLARenderMode aMode) const
+{
+  PLAOBJActor *actor = this->RefActor();
+  actor->SetRenderMode(aMode);
+}
+
 PLAId PLAAGTActor::GetActorTag() const
 {
   auto actor = this->GetActor();

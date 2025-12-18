@@ -5,6 +5,7 @@
 #include <functional>
 
 #include "plain/core/object/PLAObject.hpp"
+#include "plain/core/PLARenderMode.hpp"
 #include "plain/core/object/input/PLAInputContext.hpp"
 #include "plain/core/object/PLAOBJScene.hpp"
 
@@ -58,6 +59,7 @@ class PLAOBJActor final :
   PLAOBJLayer *_layer = nullptr;
   CollisionItem collisions[static_cast<unsigned>(PLAActorCollisionCode::kNumberOfItems)];
   PLABool _visible = true;
+  PLARenderMode _renderMode = PLARenderMode::None;
 
   GRAOBJFunctor<PLAOBJActor *, PLAFunctionCode::Actor> _functor = GRAOBJFunctor<PLAOBJActor *, PLAFunctionCode::Actor>();
 
@@ -191,6 +193,7 @@ public:
   const PLAOBJLayer *GetLayer() const { return _layer; }
 
   PLABool IsVisible() const { return _visible; };
+  PLARenderMode GetRenderMode() const { return _renderMode; };
 
   const PLAVec3f &GetPivot() const { return _pivot; };
   const PLAColor &GetColor() const { return _color; };
@@ -223,6 +226,7 @@ public:
                                            const PLAInputSignalCode aSignalCode);
 
   void SetVisible(PLABool aValue) { _visible = aValue; };
+  void SetRenderMode(PLARenderMode aMode) { _renderMode = aMode; };
 
   void SetPivot(const PLAVec3f &aPivot)
   { _pivot = aPivot; this->RefreshLayerOffset(); };

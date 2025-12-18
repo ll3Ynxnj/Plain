@@ -151,9 +151,7 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
             aColor.r, aColor.g, aColor.b, aColor.a);
   */
 
-  // プロパティから読み込めるようにするのがベスト
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  this->ApplyRenderMode(aActor->GetRenderMode());
 
   if (!aActor->IsVisible()) { return; }
 
@@ -689,6 +687,30 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
 
       glPopMatrix();
     }
+  }
+}
+
+void PLAGLUTRenderer::ApplyRenderMode(PLARenderMode aMode) const
+{
+  switch (aMode) {
+    case PLARenderMode::None:
+      return;
+    case PLARenderMode::Nearest:
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+      glDisable(GL_POINT_SMOOTH);
+      glDisable(GL_LINE_SMOOTH);
+      break;
+    case PLARenderMode::Linear:
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+      glEnable(GL_POINT_SMOOTH);
+      glEnable(GL_LINE_SMOOTH);
+      break;
+    default:
+      PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                      "Unexpected PLARenderMode detected.");
+      break;
   }
 }
 

@@ -3,6 +3,7 @@
 
 #include "plain/core/object/PLAObject.hpp"
 #include "plain/core/object/actor/PLAOBJActor.hpp"
+#include "plain/core/PLARenderMode.hpp"
 
 #include "plain/core/object/input/PLAInputHandler.hpp"
 
@@ -49,10 +50,12 @@ public:
 
   const PLAOBJActor *GetContext() const { return _context; }
   PLAVec3f GetSize() const { return _context->GetSize(); }
+  PLARenderMode GetRenderMode() const { return _context->GetRenderMode(); }
 
   PLAOBJActor *RefContext() const { return _context; }
 
   void SetSize(const PLAVec3f &aSize);
+  void SetRenderMode(PLARenderMode aMode) { _context->SetRenderMode(aMode); }
 
 // PLAInputHandler /////////////////////////////////////////////////////////////
 public:
