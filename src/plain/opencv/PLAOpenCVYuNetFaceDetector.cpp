@@ -25,9 +25,12 @@ bool PLAOpenCVYuNetFaceDetector::Initialize(PLAInt aFrameWidth, PLAInt aFrameHei
     return true;
   }
 
-  // Store original frame size for coordinate scaling
+  // Store original frame size
   _frameWidth = aFrameWidth;
   _frameHeight = aFrameHeight;
+
+  // Calculate detection size based on scale
+  UpdateDetectionSize();
 
   // Try to load YuNet model from common paths
   std::vector<std::string> modelPaths = {
@@ -48,11 +51,10 @@ bool PLAOpenCVYuNetFaceDetector::Initialize(PLAInt aFrameWidth, PLAInt aFrameHei
 
     try
     {
-      // Use fixed detection size for stability
       _detector = cv::FaceDetectorYN::create(
         path,
         "",
-        cv::Size(kDetectionWidth, kDetectionHeight),
+        cv::Size(_detectionWidth, _detectionHeight),
         _scoreThreshold,
         _nmsThreshold,
         _topK
@@ -81,9 +83,36 @@ bool PLAOpenCVYuNetFaceDetector::Initialize(PLAInt aFrameWidth, PLAInt aFrameHei
   }
 
   _isInitialized = true;
-  GRA_PRINT("YuNet face detector initialized: %dx%d (internal: %dx%d)\n",
-            aFrameWidth, aFrameHeight, kDetectionWidth, kDetectionHeight);
+  GRA_PRINT("YuNet face detector initialized: %dx%d (detection: %dx%d, scale: %d)\n",
+            aFrameWidth, aFrameHeight, _detectionWidth, _detectionHeight,
+            static_cast<int>(_scale));
   return true;
+}
+
+void PLAOpenCVYuNetFaceDetector::UpdateDetectionSize()
+{
+  PLAInt divisor = 1;
+  switch (_scale)
+  {
+    case PLAFaceDetectionScale::Full:
+      divisor = 1;
+      break;
+    case PLAFaceDetectionScale::Half:
+      divisor = 2;
+      break;
+    case PLAFaceDetectionScale::Quarter:
+      divisor = 4;
+      break;
+    case PLAFaceDetectionScale::Eighth:
+      divisor = 8;
+      break;
+    default:
+      divisor = 1;
+      break;
+  }
+
+  _detectionWidth = _frameWidth / divisor;
+  _detectionHeight = _frameHeight / divisor;
 }
 
 bool PLAOpenCVYuNetFaceDetector::Detect(const cv::Mat &aFrame)
@@ -113,17 +142,26 @@ bool PLAOpenCVYuNetFaceDetector::Detect(const cv::Mat &aFrame)
     cv::cvtColor(aFrame, bgrFrame, cv::COLOR_GRAY2BGR);
   }
 
-  // Resize to fixed detection size
-  cv::Mat resizedFrame;
-  cv::resize(bgrFrame, resizedFrame, cv::Size(kDetectionWidth, kDetectionHeight));
-
-  // Calculate scale factors for coordinate conversion
-  PLAFloat scaleX = static_cast<PLAFloat>(aFrame.cols) / kDetectionWidth;
-  PLAFloat scaleY = static_cast<PLAFloat>(aFrame.rows) / kDetectionHeight;
-
   // Detect faces
   cv::Mat faces;
-  _detector->detect(resizedFrame, faces);
+  PLAFloat scaleX = 1.0f;
+  PLAFloat scaleY = 1.0f;
+
+  if (_scale == PLAFaceDetectionScale::Full)
+  {
+    // No resize - detect at original resolution
+    _detector->detect(bgrFrame, faces);
+  }
+  else
+  {
+    // Resize for detection, then scale coordinates back
+    cv::Mat resizedFrame;
+    cv::resize(bgrFrame, resizedFrame, cv::Size(_detectionWidth, _detectionHeight));
+    _detector->detect(resizedFrame, faces);
+
+    scaleX = static_cast<PLAFloat>(aFrame.cols) / _detectionWidth;
+    scaleY = static_cast<PLAFloat>(aFrame.rows) / _detectionHeight;
+  }
 
   // Build result
   PLAFaceDetectionResult result;
@@ -187,5 +225,24 @@ void PLAOpenCVYuNetFaceDetector::SetNMSThreshold(PLAFloat aThreshold)
   if (_detector)
   {
     _detector->setNMSThreshold(_nmsThreshold);
+  }
+}
+
+void PLAOpenCVYuNetFaceDetector::SetScale(PLAFaceDetectionScale aScale)
+{
+  if (_scale == aScale)
+  {
+    return;
+  }
+
+  _scale = aScale;
+  UpdateDetectionSize();
+
+  // Recreate detector with new size if already initialized
+  if (_isInitialized && _detector)
+  {
+    _detector->setInputSize(cv::Size(_detectionWidth, _detectionHeight));
+    GRA_PRINT("YuNet detection size changed: %dx%d (scale: %d)\n",
+              _detectionWidth, _detectionHeight, static_cast<int>(_scale));
   }
 }
