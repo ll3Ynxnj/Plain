@@ -1,4 +1,5 @@
 #include "plain/opencv/PLAOpenCVCascadeFaceDetector.hpp"
+#include "plain/opencv/PLAOpenCVYuNetFaceDetector.hpp"
 #include "plain/core/object/analysis/PLAOBJFaceDetector.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
 
@@ -9,6 +10,7 @@ PLAOBJFaceDetector *PLAOBJFaceDetector::Create(PLAFaceDetectorType aType)
     case PLAFaceDetectorType::OpenCVCascade:
       return PLAOpenCVCascadeFaceDetector::Create();
     case PLAFaceDetectorType::YuNet:
+      return PLAOpenCVYuNetFaceDetector::Create();
     case PLAFaceDetectorType::MediaPipe:
     case PLAFaceDetectorType::TFLite:
       PLA_ERROR_ISSUE(PLAErrorType::Assert,

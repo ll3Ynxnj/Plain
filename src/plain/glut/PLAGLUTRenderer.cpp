@@ -463,12 +463,12 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
       vertices[baseIndex + 2] = 0;
 
       int index = baseIndex;
-      GRA_DEBUG("vertices[%2d] : %.2f\n", index, vertices[index]);
+      // GRA_DEBUG("vertices[%2d] : %.2f\n", index, vertices[index]);
       ++index;
-      GRA_DEBUG("vertices[%2d] : %.2f\n", index, vertices[index]);
+      // GRA_DEBUG("vertices[%2d] : %.2f\n", index, vertices[index]);
       ++index;
-      GRA_DEBUG("vertices[%2d] : %.2f\n", index, vertices[index]);
-      GRA_DEBUG("--------------------\n");
+      // GRA_DEBUG("vertices[%2d] : %.2f\n", index, vertices[index]);
+      // GRA_DEBUG("--------------------\n");
 
       radian += step;
     }
