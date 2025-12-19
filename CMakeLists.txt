@@ -17,6 +17,32 @@ find_package(OpenCV REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
 
+# Download ONNX models for face/smile detection
+set(PLA_MODELS_DIR "${CMAKE_CURRENT_BINARY_DIR}/models")
+file(MAKE_DIRECTORY ${PLA_MODELS_DIR})
+
+# YuNet face detection model
+set(PLA_YUNET_MODEL_PATH "${PLA_MODELS_DIR}/face_detection_yunet_2023mar.onnx")
+if(NOT EXISTS ${PLA_YUNET_MODEL_PATH})
+  message(STATUS "Downloading YuNet face detection model...")
+  file(DOWNLOAD
+    "https://github.com/opencv/opencv_zoo/raw/main/models/face_detection_yunet/face_detection_yunet_2023mar.onnx"
+    ${PLA_YUNET_MODEL_PATH}
+    SHOW_PROGRESS
+  )
+endif()
+
+# Emotion recognition model (FER+)
+set(PLA_EMOTION_MODEL_PATH "${PLA_MODELS_DIR}/emotion-ferplus-8.onnx")
+if(NOT EXISTS ${PLA_EMOTION_MODEL_PATH})
+  message(STATUS "Downloading emotion recognition model...")
+  file(DOWNLOAD
+    "https://github.com/onnx/models/raw/main/validated/vision/body_analysis/emotion_ferplus/model/emotion-ferplus-8.onnx"
+    ${PLA_EMOTION_MODEL_PATH}
+    SHOW_PROGRESS
+  )
+endif()
+
 # サブプロジェクトを追加
 add_subdirectory(Grain)
 add_subdirectory(Plain-Test)
@@ -42,6 +68,12 @@ target_link_libraries(Plain PUBLIC
   ${OpenCV_LIBS}
   ${OPENGL_LIBRARIES}
   ${GLUT_LIBRARY}
+)
+
+# モデルパスをコンパイル時に埋め込み
+target_compile_definitions(Plain PRIVATE
+  PLA_YUNET_MODEL_PATH="${PLA_YUNET_MODEL_PATH}"
+  PLA_EMOTION_MODEL_PATH="${PLA_EMOTION_MODEL_PATH}"
 )
 
 # OS情報を取得

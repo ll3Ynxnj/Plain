@@ -32,55 +32,39 @@ bool PLAOpenCVYuNetFaceDetector::Initialize(PLAInt aFrameWidth, PLAInt aFrameHei
   // Calculate detection size based on scale
   UpdateDetectionSize();
 
-  // Try to load YuNet model from common paths
-  std::vector<std::string> modelPaths = {
-    _modelPath,
-    "Plain/resources/face_detection_yunet_2023mar.onnx",
-    "resources/face_detection_yunet_2023mar.onnx",
-    "/usr/share/opencv4/models/face_detection_yunet_2023mar.onnx",
-    "/usr/local/share/opencv4/models/face_detection_yunet_2023mar.onnx",
-  };
+  // Model path (user-specified or default, compile-time path from CMake)
+  std::string modelPath = _modelPath.empty()
+    ? PLA_YUNET_MODEL_PATH
+    : _modelPath;
 
-  bool loaded = false;
-  for (const auto &path : modelPaths)
+  try
   {
-    if (path.empty())
-    {
-      continue;
-    }
-
-    try
-    {
-      _detector = cv::FaceDetectorYN::create(
-        path,
-        "",
-        cv::Size(_detectionWidth, _detectionHeight),
-        _scoreThreshold,
-        _nmsThreshold,
-        _topK
-      );
-
-      if (_detector)
-      {
-        loaded = true;
-        GRA_PRINT("YuNet model loaded from: %s\n", path.c_str());
-        break;
-      }
-    }
-    catch (const cv::Exception &e)
-    {
-      // Try next path
-      continue;
-    }
+    _detector = cv::FaceDetectorYN::create(
+      modelPath,
+      "",
+      cv::Size(_detectionWidth, _detectionHeight),
+      _scoreThreshold,
+      _nmsThreshold,
+      _topK
+    );
   }
-
-  if (!loaded)
+  catch (const cv::Exception &e)
   {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                    "Failed to load YuNet model. "
-                    "Please ensure face_detection_yunet_2023mar.onnx is available in resources/");
+                    "Failed to load YuNet model from: %s (%s)",
+                    modelPath.c_str(), e.what());
     return false;
   }
+
+  if (!_detector)
+  {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed to load YuNet model from: %s",
+                    modelPath.c_str());
+    return false;
+  }
+
+  GRA_PRINT("YuNet model loaded from: %s\n", modelPath.c_str());
 
   _isInitialized = true;
   GRA_PRINT("YuNet face detector initialized: %dx%d (detection: %dx%d, scale: %d)\n",

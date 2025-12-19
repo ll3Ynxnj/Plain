@@ -25,45 +25,32 @@ bool PLAOpenCVCNNSmileDetector::Initialize()
     return true;
   }
 
-  // Try to load model from common paths
-  std::vector<std::string> modelPaths = {
-    _modelPath,
-    "Plain/resources/emotion-ferplus-8.onnx",
-    "resources/emotion-ferplus-8.onnx",
-    "/usr/share/opencv4/models/emotion-ferplus-8.onnx",
-  };
+  // Model path (user-specified or default, compile-time path from CMake)
+  std::string modelPath = _modelPath.empty()
+    ? PLA_EMOTION_MODEL_PATH
+    : _modelPath;
 
-  bool loaded = false;
-  for (const auto &path : modelPaths)
+  try
   {
-    if (path.empty())
-    {
-      continue;
-    }
-
-    try
-    {
-      _net = cv::dnn::readNetFromONNX(path);
-      if (!_net.empty())
-      {
-        loaded = true;
-        GRA_PRINT("CNN smile detector model loaded from: %s\n", path.c_str());
-        break;
-      }
-    }
-    catch (const cv::Exception &e)
-    {
-      continue;
-    }
+    _net = cv::dnn::readNetFromONNX(modelPath);
   }
-
-  if (!loaded)
+  catch (const cv::Exception &e)
   {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                    "Failed to load CNN emotion model. "
-                    "Please ensure emotion-ferplus-8.onnx is available in resources/");
+                    "Failed to load CNN emotion model from: %s (%s)",
+                    modelPath.c_str(), e.what());
     return false;
   }
+
+  if (_net.empty())
+  {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed to load CNN emotion model from: %s",
+                    modelPath.c_str());
+    return false;
+  }
+
+  GRA_PRINT("CNN smile detector model loaded from: %s\n", modelPath.c_str());
 
   _isInitialized = true;
   GRA_PRINT("CNN smile detector initialized\n");
