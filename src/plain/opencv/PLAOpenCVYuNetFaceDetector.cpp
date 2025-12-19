@@ -35,8 +35,8 @@ bool PLAOpenCVYuNetFaceDetector::Initialize(PLAInt aFrameWidth, PLAInt aFrameHei
   // Try to load YuNet model from common paths
   std::vector<std::string> modelPaths = {
     _modelPath,
+    "Plain/resources/face_detection_yunet_2023mar.onnx",
     "resources/face_detection_yunet_2023mar.onnx",
-    "resources/face_detection_yunet.onnx",
     "/usr/share/opencv4/models/face_detection_yunet_2023mar.onnx",
     "/usr/local/share/opencv4/models/face_detection_yunet_2023mar.onnx",
   };

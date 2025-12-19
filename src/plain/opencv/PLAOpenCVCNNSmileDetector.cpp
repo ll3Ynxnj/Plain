@@ -28,7 +28,7 @@ bool PLAOpenCVCNNSmileDetector::Initialize()
   // Try to load model from common paths
   std::vector<std::string> modelPaths = {
     _modelPath,
-    "build/resources/emotion-ferplus-8.onnx",
+    "Plain/resources/emotion-ferplus-8.onnx",
     "resources/emotion-ferplus-8.onnx",
     "/usr/share/opencv4/models/emotion-ferplus-8.onnx",
   };
