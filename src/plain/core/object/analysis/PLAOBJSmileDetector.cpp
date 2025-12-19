@@ -1,6 +1,7 @@
 #include "plain/core/object/analysis/PLAOBJSmileDetector.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
 #include "plain/opencv/PLAOpenCVCascadeSmileDetector.hpp"
+#include "plain/opencv/PLAOpenCVCNNSmileDetector.hpp"
 
 PLAOBJSmileDetector *PLAOBJSmileDetector::Create(PLASmileDetectorType aType)
 {
@@ -9,9 +10,7 @@ PLAOBJSmileDetector *PLAOBJSmileDetector::Create(PLASmileDetectorType aType)
     case PLASmileDetectorType::OpenCVCascade:
       return PLAOpenCVCascadeSmileDetector::Create();
     case PLASmileDetectorType::CNN:
-      PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                      "CNN smile detector not yet implemented");
-      return nullptr;
+      return PLAOpenCVCNNSmileDetector::Create();
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Unknown smile detector type: %d", static_cast<int>(aType));
