@@ -20,6 +20,7 @@ public:
 
   void SetFillColor(const PLAColor &aColor);
   void SetStrokeColor(const PLAColor &aColor);
+  void SetStrokeWidth(PLAFloat aWidth);
 };
 
 

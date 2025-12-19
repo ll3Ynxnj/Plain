@@ -23,3 +23,8 @@ void PLAAGTActorForRect::SetStrokeColor(const PLAColor &aColor)
 {
   this->RefActor()->RefLayerForRect()->SetStrokeColor(aColor);
 }
+
+void PLAAGTActorForRect::SetStrokeWidth(PLAFloat aWidth)
+{
+  this->RefActor()->RefLayerForRect()->SetStrokeWidth(aWidth);
+}
