@@ -90,23 +90,30 @@ void PLAOBJCameraStream::Update()
   }
 
   // Run face detection on BGR frame (before color conversion)
-  if (_faceDetector && _faceDetector->IsInitialized())
+  // Use Manager lookup for loose coupling
+  PLAOBJFaceDetector *faceDetector = _faceDetectorName.empty() ? nullptr
+    : PLAOBJFaceDetector::Detector(_faceDetectorName);
+  if (faceDetector && faceDetector->IsInitialized())
   {
-    _faceDetector->Detect(frame);
+    faceDetector->Detect(frame);
 
     // Run tracking to assign persistent IDs
-    if (_faceTracker)
+    PLAOBJFaceTracker *faceTracker = _faceTrackerName.empty() ? nullptr
+      : PLAOBJFaceTracker::Tracker(_faceTrackerName);
+    if (faceTracker)
     {
-      _lastResult = _faceDetector->GetResult();
-      _faceTracker->Update(_lastResult);
+      _lastResult = faceDetector->GetResult();
+      faceTracker->Update(_lastResult);
     }
     else
     {
-      _lastResult = _faceDetector->GetResult();
+      _lastResult = faceDetector->GetResult();
     }
 
     // Run smile detection on each detected face
-    if (_smileDetector && _smileDetector->IsInitialized())
+    PLAOBJSmileDetector *smileDetector = _smileDetectorName.empty() ? nullptr
+      : PLAOBJSmileDetector::Detector(_smileDetectorName);
+    if (smileDetector && smileDetector->IsInitialized())
     {
       for (PLAFace &face : _lastResult.faces)
       {
@@ -127,7 +134,7 @@ void PLAOBJCameraStream::Update()
         if (faceRect.width > 0 && faceRect.height > 0)
         {
           cv::Mat faceImage = frame(faceRect);
-          _smileDetector->Detect(faceImage, face);
+          smileDetector->Detect(faceImage, face);
         }
       }
     }
@@ -164,32 +171,21 @@ void PLAOBJCameraStream::Update()
   SwapBuffers();
 }
 
-void PLAOBJCameraStream::SetFaceDetector(PLAOBJFaceDetector *aDetector)
-{
-  _faceDetector = aDetector;
-}
-
-void PLAOBJCameraStream::SetFaceTracker(PLAOBJFaceTracker *aTracker)
-{
-  _faceTracker = aTracker;
-}
-
-void PLAOBJCameraStream::SetSmileDetector(PLAOBJSmileDetector *aDetector)
-{
-  _smileDetector = aDetector;
-}
-
 PLAFaceDetectionResult PLAOBJCameraStream::GetFaceDetectionResult() const
 {
   // Return tracked result if tracker is active
-  if (_faceTracker)
+  if (!_faceTrackerName.empty())
   {
     return _lastResult;
   }
   // Otherwise return raw detection result
-  if (_faceDetector)
+  if (!_faceDetectorName.empty())
   {
-    return _faceDetector->GetResult();
+    PLAOBJFaceDetector *detector = PLAOBJFaceDetector::Detector(_faceDetectorName);
+    if (detector)
+    {
+      return detector->GetResult();
+    }
   }
   return kPLAFaceDetectionResultNone;
 }
