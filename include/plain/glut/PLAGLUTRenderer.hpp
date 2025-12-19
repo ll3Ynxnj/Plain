@@ -9,6 +9,7 @@
 #include "plain/core/object/layer/PLALYRRect.hpp"
 #include "plain/core/object/layer/PLALYRCircle.hpp"
 #include "plain/core/object/layer/PLALYRTile.hpp"
+#include "plain/core/object/layer/PLALYRLabel.hpp"
 // #include "plain/glut/PLAGLUTRenderer_camera.hpp" // Old experimental code - no longer used
 
 class PLAGLUTRenderer : public PLAOBJRenderer
@@ -52,6 +53,8 @@ private :
                   const PLATMLMotion *aMotion) const;
   void DrawTile(const PLALYRTile *aLayer, const PLAColor &aColor,
                 const PLATMLMotion *aMotion) const;
+  void DrawLabel(const PLALYRLabel *aLayer, const PLAColor &aColor,
+                 const PLATMLMotion *aMotion) const;
   void ApplyRenderMode(PLARenderMode aMode) const;
 };
 

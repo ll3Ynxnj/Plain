@@ -7,6 +7,7 @@
 #include "plain/core/object/layer/PLALYRRect.hpp"
 #include "plain/core/object/layer/PLALYRCircle.hpp"
 #include "plain/core/object/layer/PLALYRTile.hpp"
+#include "plain/core/object/layer/PLALYRLabel.hpp"
 
 #include "plain/core/object/PLAOBJError.hpp"
 #include "plain/core/object/layer/PLALYRTile.hpp"
@@ -17,6 +18,7 @@
 #include "plain/core/agent/actor/PLAAGTActorForRect.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForCircle.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForTile.hpp"
+#include "plain/core/agent/actor/PLAAGTActorForLabel.hpp"
 
 // 不要なのでは？同じくBinderItemであるPLAOBJResourceには無い。要調査。
 // It's not necessary? PLAOBJResource, which is also a BinderItem, does not have it. Need to investigate.
@@ -278,6 +280,30 @@ PLAOBJActor *PLAOBJActor::CreateLine(const PLAVec2f &aOrigin,
   return actor;
 }
 
+PLAOBJActor *PLAOBJActor::CreateLabel(const PLAVec2f &aOrigin,
+                                       const PLAString &aText,
+                                       const PLAString &aName)
+{
+  return CreateLabel(aOrigin, aText, 24.0f, kPLAColorWhite, aName);
+}
+
+PLAOBJActor *PLAOBJActor::CreateLabel(const PLAVec2f &aOrigin,
+                                       const PLAString &aText,
+                                       PLAFloat aFontSize,
+                                       const PLAColor &aTextColor,
+                                       const PLAString &aName)
+{
+  PLALYRLabel *layer = PLALYRLabel::Create(aText, aFontSize, aTextColor);
+  layer->SetOffset(PLAVec3f(aOrigin.x, aOrigin.y, 0));
+  layer->SetObjectName(aName + "::Layer");
+
+  PLAOBJActor *actor =
+    new PLAOBJActor(kPLAVec3fNone, kPLAColorWhite, kPLATransformNorm, layer, aName);
+  actor->Init();
+  actor->Bind();
+  return actor;
+}
+
 void PLAOBJActor::Bind()
 {
   this->PLAObject::Bind();
@@ -420,6 +446,12 @@ PLAAGTActorForTile PLAOBJActor::AssignAgentForTile() {
   return PLAAGTActorForTile(this);
 }
 
+PLAAGTActorForLabel PLAOBJActor::AssignAgentForLabel() {
+  if (this->GetLayerType() != PLALayerType::Label)
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Layer type is not label."); }
+  return PLAAGTActorForLabel(this);
+}
+
 PLAId PLAOBJActor::GetActorTag() const {
   return this->GRAOBJBinder<PLAOBJActor>::Item::GetTag();
 }
@@ -538,6 +570,12 @@ PLALYRTile *PLAOBJActor::RefLayerForTile()
 {
   if (_layer->GetLayerType() != PLALayerType::Tile) { return nullptr; }
   return static_cast<PLALYRTile *>(_layer);
+}
+
+PLALYRLabel *PLAOBJActor::RefLayerForLabel()
+{
+  if (_layer->GetLayerType() != PLALayerType::Label) { return nullptr; }
+  return static_cast<PLALYRLabel *>(_layer);
 }
 
 /*

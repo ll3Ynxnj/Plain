@@ -202,6 +202,9 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
     case PLALayerType::Tile :
       this->DrawTile(static_cast<const PLALYRTile *>(layer), color, motion);
       break;
+    case PLALayerType::Label :
+      this->DrawLabel(static_cast<const PLALYRLabel *>(layer), color, motion);
+      break;
     default :
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Unexpected PLARenderingDataType detected.");
@@ -688,6 +691,68 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       glPopMatrix();
     }
   }
+}
+
+void PLAGLUTRenderer::DrawLabel(const PLALYRLabel *aLayer,
+                                const PLAColor &aColor,
+                                const PLATMLMotion *aMotion) const
+{
+  PLALYRLabel *mutableLayer = const_cast<PLALYRLabel *>(aLayer);
+  mutableLayer->Update();
+
+  const PLAOBJImage *texImage = aLayer->GetTextureImage();
+  if (!texImage) {
+    return;
+  }
+
+  glEnable(GL_TEXTURE_2D);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+               texImage->GetSize().x, texImage->GetSize().y, 0,
+               GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
+
+  const PLAVec3f offset = aLayer->GetOffset();
+  const PLAVec3f size = aLayer->GetSize();
+
+  GLfloat vertices[] = {
+    offset.x,
+    -offset.y,
+    offset.z,
+    offset.x + size.x,
+    -offset.y,
+    offset.z,
+    offset.x,
+    -offset.y - size.y,
+    offset.z,
+    offset.x + size.x,
+    -offset.y - size.y,
+    offset.z,
+  };
+
+  PLAColor color = aColor;
+  GLfloat colors[] = {
+    color.r, color.g, color.b, color.a,
+    color.r, color.g, color.b, color.a,
+    color.r, color.g, color.b, color.a,
+    color.r, color.g, color.b, color.a,
+  };
+
+  GLfloat texCoords[] = {
+    0.0f, 0.0f,
+    1.0f, 0.0f,
+    0.0f, 1.0f,
+    1.0f, 1.0f,
+  };
+
+  glVertexPointer(3, GL_FLOAT, 0, vertices);
+  glColorPointer(4, GL_FLOAT, 0, colors);
+  glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+  glBegin(GL_TRIANGLE_STRIP);
+  glArrayElement(0);
+  glArrayElement(1);
+  glArrayElement(2);
+  glArrayElement(3);
+  glEnd();
 }
 
 void PLAGLUTRenderer::ApplyRenderMode(PLARenderMode aMode) const

@@ -305,6 +305,24 @@ PLAAGTActorForLine Plain::Actor::CreateLine(const PLAVec2f &aOrigin,
   return actor->AssignAgentForLine();
 }
 
+PLAAGTActorForLabel Plain::Actor::CreateLabel(const PLAVec2f &aOrigin,
+                                              const PLAString &aText,
+                                              const PLAString &aName)
+{
+  PLAOBJActor *actor = PLAOBJActor::CreateLabel(aOrigin, aText, aName);
+  return actor->AssignAgentForLabel();
+}
+
+PLAAGTActorForLabel Plain::Actor::CreateLabel(const PLAVec2f &aOrigin,
+                                              const PLAString &aText,
+                                              PLAFloat aFontSize,
+                                              const PLAColor &aTextColor,
+                                              const PLAString &aName)
+{
+  PLAOBJActor *actor = PLAOBJActor::CreateLabel(aOrigin, aText, aFontSize, aTextColor, aName);
+  return actor->AssignAgentForLabel();
+}
+
 PLAAGTActor Plain::Actor::Assign(PLAId aId)
 {
   PLAOBJActor *actor = PLAOBJActor::Object(aId);

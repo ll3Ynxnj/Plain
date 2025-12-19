@@ -14,6 +14,7 @@
 #include "plain/core/agent/actor/PLAAGTActorForRect.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForCircle.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForTile.hpp"
+#include "plain/core/agent/actor/PLAAGTActorForLabel.hpp"
 #include "plain/core/agent/PLAAGTTimeline.hpp"
 #include "plain/core/agent/PLAAGTTimelineNode.hpp"
 #include "plain/core/agent/PLAAGTMotion.hpp"
@@ -171,6 +172,14 @@ namespace Plain
                                   const PLAVec2f &aVector,
                                   const PLAColor &aColor,
                                   const PLAString &aName = kPLAStrUndefined);
+    PLAAGTActorForLabel CreateLabel(const PLAVec2f &aOrigin,
+                                    const PLAString &aText,
+                                    const PLAString &aName = kPLAStrUndefined);
+    PLAAGTActorForLabel CreateLabel(const PLAVec2f &aOrigin,
+                                    const PLAString &aText,
+                                    PLAFloat aFontSize,
+                                    const PLAColor &aTextColor,
+                                    const PLAString &aName = kPLAStrUndefined);
 
     PLAAGTActor Assign(PLAId aId);
     PLAAGTActor Assign(const PLAString &aName);

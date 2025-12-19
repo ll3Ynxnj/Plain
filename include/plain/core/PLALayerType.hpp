@@ -10,6 +10,7 @@ enum class PLALayerType : PLAInt
   Rect,
   Circle,
   Tile,
+  Label,
 
   kNumberOfItems,
   None = kPLAIntUndefined,

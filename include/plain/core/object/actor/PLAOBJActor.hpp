@@ -33,6 +33,7 @@ class PLAAGTActorForLine;
 class PLAAGTActorForRect;
 class PLAAGTActorForCircle;
 class PLAAGTActorForTile;
+class PLAAGTActorForLabel;
 
 class PLAOBJActor final :
   public PLAObject,
@@ -149,6 +150,16 @@ public:
                                  const PLAColor &aColor,
                                  const PLAString &aName = kPLAStrUndefined);
 
+  static PLAOBJActor *CreateLabel(const PLAVec2f &aOrigin,
+                                  const PLAString &aText,
+                                  const PLAString &aName = kPLAStrUndefined);
+
+  static PLAOBJActor *CreateLabel(const PLAVec2f &aOrigin,
+                                  const PLAString &aText,
+                                  PLAFloat aFontSize,
+                                  const PLAColor &aTextColor,
+                                  const PLAString &aName = kPLAStrUndefined);
+
   void Bind() override;
 
 protected:
@@ -178,6 +189,7 @@ public:
   PLAAGTActorForRect AssignAgentForRect();
   PLAAGTActorForCircle AssignAgentForCircle();
   PLAAGTActorForTile AssignAgentForTile();
+  PLAAGTActorForLabel AssignAgentForLabel();
 
   PLAId GetActorTag() const;
   void SetActorTag(PLAId aTag);
@@ -219,6 +231,7 @@ public:
   class PLALYRRect *RefLayerForRect();
   class PLALYRCircle *RefLayerForCircle();
   class PLALYRTile *RefLayerForTile();
+  class PLALYRLabel *RefLayerForLabel();
   PLAOBJActor *RefResponsiveActor(const PLAInputDeviceType aDeviceType,
                                   const PLAInputSignalCode aSignalCode);
   PLAOBJActor *RefResponsiveActorWithPoint(const PLAPoint &aPoint,

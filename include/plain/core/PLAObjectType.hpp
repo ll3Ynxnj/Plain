@@ -38,6 +38,7 @@ enum class PLAObjectType : PLAInt
   VideoClip,
   LYRTileDataSource,
   FaceDetector,
+  FontRasterizer,
 
   kNumberOfItems,
   None = kPLAIntUndefined,
@@ -78,6 +79,7 @@ static const char *kPLAObjectTypeName[static_cast<size_t>(PLAObjectType::kNumber
   "VideoClip",
   "LYRTileDataSource",
   "FaceDetector",
+  "FontRasterizer",
 };
 
 #endif //PLAIN_ENGINE_PLAOBJECTTYPE_HPP
