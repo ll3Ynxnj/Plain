@@ -1,6 +1,7 @@
 #include "plain/core/object/PLAOBJCameraStream.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
 #include "plain/core/object/analysis/PLAOBJFaceDetector.hpp"
+#include "plain/core/object/analysis/PLAOBJFaceTracker.hpp"
 
 PLAOBJCameraStream *PLAOBJCameraStream::Create(const PLAString &aName, int aCameraID)
 {
@@ -91,6 +92,13 @@ void PLAOBJCameraStream::Update()
   if (_faceDetector && _faceDetector->IsInitialized())
   {
     _faceDetector->Detect(frame);
+
+    // Run tracking to assign persistent IDs
+    if (_faceTracker)
+    {
+      _lastResult = _faceDetector->GetResult();
+      _faceTracker->Update(_lastResult);
+    }
   }
 
   // Convert to RGBA format
@@ -129,8 +137,19 @@ void PLAOBJCameraStream::SetFaceDetector(PLAOBJFaceDetector *aDetector)
   _faceDetector = aDetector;
 }
 
+void PLAOBJCameraStream::SetFaceTracker(PLAOBJFaceTracker *aTracker)
+{
+  _faceTracker = aTracker;
+}
+
 PLAFaceDetectionResult PLAOBJCameraStream::GetFaceDetectionResult() const
 {
+  // Return tracked result if tracker is active
+  if (_faceTracker)
+  {
+    return _lastResult;
+  }
+  // Otherwise return raw detection result
   if (_faceDetector)
   {
     return _faceDetector->GetResult();

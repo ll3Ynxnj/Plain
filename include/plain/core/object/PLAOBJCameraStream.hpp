@@ -6,6 +6,7 @@
 #include <opencv2/opencv.hpp>
 
 class PLAOBJFaceDetector;
+class PLAOBJFaceTracker;
 
 // PLAOBJCameraStream: Camera device stream implementation
 // Captures frames from a camera device (e.g., /dev/video0)
@@ -15,6 +16,8 @@ class PLAOBJCameraStream : public PLAOBJStream
   cv::VideoCapture _capture;
   int _cameraID;
   PLAOBJFaceDetector *_faceDetector = nullptr;
+  PLAOBJFaceTracker *_faceTracker = nullptr;
+  PLAFaceDetectionResult _lastResult;
 
 public:
   static PLAOBJCameraStream *Create(const PLAString &aName, int aCameraID = 0);
@@ -37,9 +40,13 @@ public:
   // Get camera ID
   int GetCameraID() const { return _cameraID; }
 
-  // Face detection
+  // Face detection and tracking
   void SetFaceDetector(PLAOBJFaceDetector *aDetector);
   PLAOBJFaceDetector *GetFaceDetector() const { return _faceDetector; }
+
+  void SetFaceTracker(PLAOBJFaceTracker *aTracker);
+  PLAOBJFaceTracker *GetFaceTracker() const { return _faceTracker; }
+
   PLAFaceDetectionResult GetFaceDetectionResult() const;
 };
 
