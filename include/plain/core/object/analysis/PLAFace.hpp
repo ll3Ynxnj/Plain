@@ -13,6 +13,8 @@ struct PLAFace
   PLAFaceId id = kPLAFaceIdNone;
   PLARect boundingRect = kPLARectNone;
   PLAFloat confidence = 0.0f;
+  bool isSmiling = false;
+  PLAFloat smileConfidence = 0.0f;
 
   PLAFace() = default;
   PLAFace(const PLARect &aRect, PLAFloat aConfidence)

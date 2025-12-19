@@ -7,6 +7,7 @@
 
 class PLAOBJFaceDetector;
 class PLAOBJFaceTracker;
+class PLAOBJSmileDetector;
 
 // PLAOBJCameraStream: Camera device stream implementation
 // Captures frames from a camera device (e.g., /dev/video0)
@@ -14,9 +15,11 @@ class PLAOBJFaceTracker;
 class PLAOBJCameraStream : public PLAOBJStream
 {
   cv::VideoCapture _capture;
+  cv::Mat _lastFrame;  // Keep last frame for smile detection
   int _cameraID;
   PLAOBJFaceDetector *_faceDetector = nullptr;
   PLAOBJFaceTracker *_faceTracker = nullptr;
+  PLAOBJSmileDetector *_smileDetector = nullptr;
   PLAFaceDetectionResult _lastResult;
 
 public:
@@ -46,6 +49,9 @@ public:
 
   void SetFaceTracker(PLAOBJFaceTracker *aTracker);
   PLAOBJFaceTracker *GetFaceTracker() const { return _faceTracker; }
+
+  void SetSmileDetector(PLAOBJSmileDetector *aDetector);
+  PLAOBJSmileDetector *GetSmileDetector() const { return _smileDetector; }
 
   PLAFaceDetectionResult GetFaceDetectionResult() const;
 };

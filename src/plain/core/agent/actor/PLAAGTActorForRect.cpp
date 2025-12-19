@@ -14,6 +14,11 @@ PLAAGTActorForRect::PLAAGTActorForRect(PLAOBJActor *aOwner):
 
 }
 
+void PLAAGTActorForRect::SetFillColor(const PLAColor &aColor)
+{
+  this->RefActor()->RefLayerForRect()->SetFillColor(aColor);
+}
+
 void PLAAGTActorForRect::SetStrokeColor(const PLAColor &aColor)
 {
   this->RefActor()->RefLayerForRect()->SetStrokeColor(aColor);

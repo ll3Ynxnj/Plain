@@ -18,6 +18,7 @@ class PLAAGTActorForRect: public PLAAGTActor
 public:
   explicit PLAAGTActorForRect(PLAOBJActor *aOwner);
 
+  void SetFillColor(const PLAColor &aColor);
   void SetStrokeColor(const PLAColor &aColor);
 };
 

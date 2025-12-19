@@ -2,6 +2,7 @@
 #include "plain/core/object/PLAOBJError.hpp"
 #include "plain/core/object/analysis/PLAOBJFaceDetector.hpp"
 #include "plain/core/object/analysis/PLAOBJFaceTracker.hpp"
+#include "plain/core/object/analysis/PLAOBJSmileDetector.hpp"
 
 PLAOBJCameraStream *PLAOBJCameraStream::Create(const PLAString &aName, int aCameraID)
 {
@@ -99,6 +100,37 @@ void PLAOBJCameraStream::Update()
       _lastResult = _faceDetector->GetResult();
       _faceTracker->Update(_lastResult);
     }
+    else
+    {
+      _lastResult = _faceDetector->GetResult();
+    }
+
+    // Run smile detection on each detected face
+    if (_smileDetector && _smileDetector->IsInitialized())
+    {
+      for (PLAFace &face : _lastResult.faces)
+      {
+        // Crop face region from frame
+        cv::Rect faceRect(
+          static_cast<int>(face.boundingRect.pos.x),
+          static_cast<int>(face.boundingRect.pos.y),
+          static_cast<int>(face.boundingRect.size.x),
+          static_cast<int>(face.boundingRect.size.y)
+        );
+
+        // Ensure rect is within frame bounds
+        faceRect.x = std::max(0, faceRect.x);
+        faceRect.y = std::max(0, faceRect.y);
+        faceRect.width = std::min(faceRect.width, frame.cols - faceRect.x);
+        faceRect.height = std::min(faceRect.height, frame.rows - faceRect.y);
+
+        if (faceRect.width > 0 && faceRect.height > 0)
+        {
+          cv::Mat faceImage = frame(faceRect);
+          _smileDetector->Detect(faceImage, face);
+        }
+      }
+    }
   }
 
   // Convert to RGBA format
@@ -140,6 +172,11 @@ void PLAOBJCameraStream::SetFaceDetector(PLAOBJFaceDetector *aDetector)
 void PLAOBJCameraStream::SetFaceTracker(PLAOBJFaceTracker *aTracker)
 {
   _faceTracker = aTracker;
+}
+
+void PLAOBJCameraStream::SetSmileDetector(PLAOBJSmileDetector *aDetector)
+{
+  _smileDetector = aDetector;
 }
 
 PLAFaceDetectionResult PLAOBJCameraStream::GetFaceDetectionResult() const
