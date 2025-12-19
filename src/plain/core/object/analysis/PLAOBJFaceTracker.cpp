@@ -1,16 +1,46 @@
 #include "plain/core/object/analysis/PLAOBJFaceTracker.hpp"
+#include "plain/core/object/PLAOBJError.hpp"
 #include <algorithm>
 #include <limits>
 
-PLAOBJFaceTracker *PLAOBJFaceTracker::Create()
+PLAOBJFaceTracker *PLAOBJFaceTracker::Create(const PLAString &aName)
 {
-  PLAOBJFaceTracker *tracker = new PLAOBJFaceTracker();
+  PLAOBJFaceTracker *tracker = new PLAOBJFaceTracker(aName);
   tracker->Bind();
   return tracker;
 }
 
-PLAOBJFaceTracker::PLAOBJFaceTracker()
-  : PLAObject(PLAObjectType::None)
+PLAOBJFaceTracker *PLAOBJFaceTracker::Tracker(const PLAString &aName)
+{
+  GRAOBJBinder<PLAOBJFaceTracker>::Error error(GRAOBJBinder<PLAOBJFaceTracker>::Error::None);
+  return static_cast<PLAOBJFaceTracker *>(Manager::Instance()->RefItemWithName(aName, &error));
+}
+
+void PLAOBJFaceTracker::Bind()
+{
+  this->PLAObject::Bind();
+
+  GRAOBJBinder<PLAOBJFaceTracker>::Error error(GRAOBJBinder<PLAOBJFaceTracker>::Error::None);
+  PLAOBJFaceTracker::Manager::Instance()->Bind(this, &error);
+  if (error != GRAOBJBinder<PLAOBJFaceTracker>::Error::None)
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed PLAOBJFaceTracker binding. ERROR : %02d", error); }
+}
+
+void PLAOBJFaceTracker::Unbind()
+{
+  GRAOBJBinder<PLAOBJFaceTracker>::Error error(GRAOBJBinder<PLAOBJFaceTracker>::Error::None);
+  PLAOBJFaceTracker::Manager::Instance()->Unbind(this, &error);
+  if (error != GRAOBJBinder<PLAOBJFaceTracker>::Error::None)
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed PLAOBJFaceTracker unbinding. ERROR : %02d", error); }
+
+  this->PLAObject::Unbind();
+}
+
+PLAOBJFaceTracker::PLAOBJFaceTracker(const PLAString &aName)
+  : PLAObject(PLAObjectType::FaceTracker, aName),
+    GRAOBJBinder<PLAOBJFaceTracker>::Item(aName, Manager::Instance())
 {
 }
 
@@ -126,4 +156,30 @@ PLAFloat PLAOBJFaceTracker::CalculateIoU(const PLARect &aRect1, const PLARect &a
   }
 
   return intersectionArea / unionArea;
+}
+
+// GRAOBJBinder::Item //////////////////////////////////////////////////////////
+
+const char *PLAOBJFaceTracker::GetBinderItemTypeName() const
+{
+  static const char *kName = "PLAOBJFaceTracker";
+  return kName;
+}
+
+// PLAOBJFaceTracker::Manager //////////////////////////////////////////////////
+
+PLAOBJFaceTracker::Manager PLAOBJFaceTracker::Manager::_instance =
+  PLAOBJFaceTracker::Manager();
+
+PLAOBJFaceTracker::Manager::Manager() : GRAOBJBinder<PLAOBJFaceTracker>()
+{
+}
+
+PLAOBJFaceTracker::Manager::~Manager()
+{
+}
+
+void PLAOBJFaceTracker::Manager::Init()
+{
+  GRAOBJBinder<PLAOBJFaceTracker>::Init();
 }

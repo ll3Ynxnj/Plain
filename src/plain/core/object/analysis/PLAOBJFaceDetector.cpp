@@ -3,14 +3,19 @@
 #include "plain/core/object/analysis/PLAOBJFaceDetector.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
 
-PLAOBJFaceDetector *PLAOBJFaceDetector::Create(PLAFaceDetectorType aType)
+PLAOBJFaceDetector *PLAOBJFaceDetector::Create(PLAFaceDetectorType aType,
+                                                const PLAString &aName)
 {
+  PLAOBJFaceDetector *detector = nullptr;
+
   switch (aType)
   {
     case PLAFaceDetectorType::OpenCVCascade:
-      return PLAOpenCVCascadeFaceDetector::Create();
+      detector = PLAOpenCVCascadeFaceDetector::Create(aName);
+      break;
     case PLAFaceDetectorType::YuNet:
-      return PLAOpenCVYuNetFaceDetector::Create();
+      detector = PLAOpenCVYuNetFaceDetector::Create(aName);
+      break;
     case PLAFaceDetectorType::MediaPipe:
     case PLAFaceDetectorType::TFLite:
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
@@ -21,10 +26,44 @@ PLAOBJFaceDetector *PLAOBJFaceDetector::Create(PLAFaceDetectorType aType)
                       "Unexpected face detector type detected.");
       return nullptr;
   }
+
+  if (detector) {
+    detector->Bind();
+  }
+  return detector;
 }
 
-PLAOBJFaceDetector::PLAOBJFaceDetector() :
-  PLAObject(PLAObjectType::FaceDetector, "== PLAOBJFaceDetector ==")
+PLAOBJFaceDetector *PLAOBJFaceDetector::Detector(const PLAString &aName)
+{
+  GRAOBJBinder<PLAOBJFaceDetector>::Error error(GRAOBJBinder<PLAOBJFaceDetector>::Error::None);
+  return static_cast<PLAOBJFaceDetector *>(Manager::Instance()->RefItemWithName(aName, &error));
+}
+
+void PLAOBJFaceDetector::Bind()
+{
+  this->PLAObject::Bind();
+
+  GRAOBJBinder<PLAOBJFaceDetector>::Error error(GRAOBJBinder<PLAOBJFaceDetector>::Error::None);
+  PLAOBJFaceDetector::Manager::Instance()->Bind(this, &error);
+  if (error != GRAOBJBinder<PLAOBJFaceDetector>::Error::None)
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed PLAOBJFaceDetector binding. ERROR : %02d", error); }
+}
+
+void PLAOBJFaceDetector::Unbind()
+{
+  GRAOBJBinder<PLAOBJFaceDetector>::Error error(GRAOBJBinder<PLAOBJFaceDetector>::Error::None);
+  PLAOBJFaceDetector::Manager::Instance()->Unbind(this, &error);
+  if (error != GRAOBJBinder<PLAOBJFaceDetector>::Error::None)
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed PLAOBJFaceDetector unbinding. ERROR : %02d", error); }
+
+  this->PLAObject::Unbind();
+}
+
+PLAOBJFaceDetector::PLAOBJFaceDetector(const PLAString &aName) :
+  PLAObject(PLAObjectType::FaceDetector, aName),
+  GRAOBJBinder<PLAOBJFaceDetector>::Item(aName, Manager::Instance())
 {
 }
 
@@ -72,4 +111,30 @@ void PLAOBJFaceDetector::UpdateResult(const PLAFaceDetectionResult &aResult)
 {
   std::lock_guard<std::mutex> lock(_resultMutex);
   _result = aResult;
+}
+
+// GRAOBJBinder::Item //////////////////////////////////////////////////////////
+
+const char *PLAOBJFaceDetector::GetBinderItemTypeName() const
+{
+  static const char *kName = "PLAOBJFaceDetector";
+  return kName;
+}
+
+// PLAOBJFaceDetector::Manager /////////////////////////////////////////////////
+
+PLAOBJFaceDetector::Manager PLAOBJFaceDetector::Manager::_instance =
+  PLAOBJFaceDetector::Manager();
+
+PLAOBJFaceDetector::Manager::Manager() : GRAOBJBinder<PLAOBJFaceDetector>()
+{
+}
+
+PLAOBJFaceDetector::Manager::~Manager()
+{
+}
+
+void PLAOBJFaceDetector::Manager::Init()
+{
+  GRAOBJBinder<PLAOBJFaceDetector>::Init();
 }

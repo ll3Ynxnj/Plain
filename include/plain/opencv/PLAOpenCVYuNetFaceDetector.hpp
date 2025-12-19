@@ -26,9 +26,9 @@ class PLAOpenCVYuNetFaceDetector : public PLAOBJFaceDetector
   PLAInt _detectionHeight = 0;
 
 public:
-  static PLAOpenCVYuNetFaceDetector *Create();
+  static PLAOpenCVYuNetFaceDetector *Create(const PLAString &aName = "YuNetFaceDetector");
 
-  PLAOpenCVYuNetFaceDetector();
+  PLAOpenCVYuNetFaceDetector(const PLAString &aName);
   ~PLAOpenCVYuNetFaceDetector();
 
   bool Initialize(PLAInt aFrameWidth, PLAInt aFrameHeight) override;

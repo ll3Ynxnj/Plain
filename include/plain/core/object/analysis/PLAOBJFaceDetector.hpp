@@ -5,11 +5,15 @@
 #include "plain/core/object/analysis/PLAFace.hpp"
 #include "plain/core/PLAFaceDetectorType.hpp"
 #include "plain/core/PLAFaceDetectionMode.hpp"
+#include "grain/object/GRAOBJBinder.hpp"
 #include <opencv2/opencv.hpp>
 #include <mutex>
 
-class PLAOBJFaceDetector : public PLAObject
+class PLAOBJFaceDetector : public PLAObject,
+                           private GRAOBJBinder<PLAOBJFaceDetector>::Item
 {
+  using Binder = GRAOBJBinder<PLAOBJFaceDetector>;
+
 protected:
   PLAFaceDetectionMode _mode = PLAFaceDetectionMode::None;
   PLAInt _detectionInterval = 1;
@@ -20,11 +24,22 @@ protected:
 
   bool _isInitialized = false;
 
-  PLAOBJFaceDetector();
+  PLAOBJFaceDetector(const PLAString &aName);
 
 public:
-  static PLAOBJFaceDetector *Create(PLAFaceDetectorType aType);
+  using PLAFaceDetectorItem = GRAOBJBinder<PLAOBJFaceDetector>::Item;
+  using PLAFaceDetectorError = GRAOBJBinder<PLAOBJFaceDetector>::Error;
 
+  static PLAOBJFaceDetector *Create(PLAFaceDetectorType aType,
+                                     const PLAString &aName = "FaceDetector");
+  static PLAOBJFaceDetector *Detector(const PLAString &aName);
+
+  void Bind() override;
+
+protected:
+  void Unbind() override;
+
+public:
   virtual ~PLAOBJFaceDetector();
 
   virtual bool Initialize(PLAInt aFrameWidth, PLAInt aFrameHeight) = 0;
@@ -43,6 +58,26 @@ public:
 protected:
   bool ShouldDetect();
   void UpdateResult(const PLAFaceDetectionResult &aResult);
+
+//-- GRAOBJBinder::Item --/////////////////////////////////////////////////////////
+private:
+  const char *GetBinderItemTypeName() const override;
+
+// Manager /////////////////////////////////////////////////////////////////////
+public:
+  class Manager: public GRAOBJBinder<PLAOBJFaceDetector>
+  {
+    static Manager _instance;
+
+    Manager();
+
+  public:
+    static Manager *Instance() { return &_instance; };
+
+    ~Manager();
+
+    void Init();
+  };
 };
 
 #endif // PLAIN_ENGINE_PLAOBJFACEDETECTOR_HPP

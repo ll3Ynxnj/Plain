@@ -38,6 +38,8 @@ enum class PLAObjectType : PLAInt
   VideoClip,
   LYRTileDataSource,
   FaceDetector,
+  FaceTracker,
+  SmileDetector,
   FontRasterizer,
 
   kNumberOfItems,
@@ -79,6 +81,8 @@ static const char *kPLAObjectTypeName[static_cast<size_t>(PLAObjectType::kNumber
   "VideoClip",
   "LYRTileDataSource",
   "FaceDetector",
+  "FaceTracker",
+  "SmileDetector",
   "FontRasterizer",
 };
 

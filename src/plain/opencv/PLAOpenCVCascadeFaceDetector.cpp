@@ -2,15 +2,13 @@
 #include "plain/core/object/PLAOBJError.hpp"
 #include <opencv2/imgproc.hpp>
 
-PLAOpenCVCascadeFaceDetector *PLAOpenCVCascadeFaceDetector::Create()
+PLAOpenCVCascadeFaceDetector *PLAOpenCVCascadeFaceDetector::Create(const PLAString &aName)
 {
-  PLAOpenCVCascadeFaceDetector *detector = new PLAOpenCVCascadeFaceDetector();
-  detector->Bind();
-  return detector;
+  return new PLAOpenCVCascadeFaceDetector(aName);
 }
 
-PLAOpenCVCascadeFaceDetector::PLAOpenCVCascadeFaceDetector()
-  : PLAOBJFaceDetector()
+PLAOpenCVCascadeFaceDetector::PLAOpenCVCascadeFaceDetector(const PLAString &aName)
+  : PLAOBJFaceDetector(aName)
 {
 }
 

@@ -12,9 +12,9 @@ class PLAOpenCVCascadeFaceDetector : public PLAOBJFaceDetector
   PLAVec2i _minSize = PLAVec2i(30, 30);
 
 public:
-  static PLAOpenCVCascadeFaceDetector *Create();
+  static PLAOpenCVCascadeFaceDetector *Create(const PLAString &aName = "CascadeFaceDetector");
 
-  PLAOpenCVCascadeFaceDetector();
+  PLAOpenCVCascadeFaceDetector(const PLAString &aName);
   ~PLAOpenCVCascadeFaceDetector();
 
   bool Initialize(PLAInt aFrameWidth, PLAInt aFrameHeight) override;

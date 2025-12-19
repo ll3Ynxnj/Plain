@@ -2,15 +2,13 @@
 #include "plain/core/object/PLAOBJError.hpp"
 #include <opencv2/imgproc.hpp>
 
-PLAOpenCVCascadeSmileDetector *PLAOpenCVCascadeSmileDetector::Create()
+PLAOpenCVCascadeSmileDetector *PLAOpenCVCascadeSmileDetector::Create(const PLAString &aName)
 {
-  PLAOpenCVCascadeSmileDetector *detector = new PLAOpenCVCascadeSmileDetector();
-  detector->Bind();
-  return detector;
+  return new PLAOpenCVCascadeSmileDetector(aName);
 }
 
-PLAOpenCVCascadeSmileDetector::PLAOpenCVCascadeSmileDetector()
-  : PLAOBJSmileDetector()
+PLAOpenCVCascadeSmileDetector::PLAOpenCVCascadeSmileDetector(const PLAString &aName)
+  : PLAOBJSmileDetector(aName)
 {
 }
 

@@ -11,10 +11,10 @@ class PLAOpenCVFontRasterizer : public PLAOBJFontRasterizer
   int _thickness = 2;
 
 protected:
-  PLAOpenCVFontRasterizer();
+  PLAOpenCVFontRasterizer(const PLAString &aName);
 
 public:
-  static PLAOpenCVFontRasterizer *Create();
+  static PLAOpenCVFontRasterizer *Create(const PLAString &aName = "OpenCVFontRasterizer");
 
   virtual ~PLAOpenCVFontRasterizer();
 

@@ -22,9 +22,9 @@ class PLAOpenCVCNNSmileDetector : public PLAOBJSmileDetector
   static const PLAInt kHappyIndex = 1;
 
 public:
-  static PLAOpenCVCNNSmileDetector *Create();
+  static PLAOpenCVCNNSmileDetector *Create(const PLAString &aName = "CNNSmileDetector");
 
-  PLAOpenCVCNNSmileDetector();
+  PLAOpenCVCNNSmileDetector(const PLAString &aName);
   ~PLAOpenCVCNNSmileDetector();
 
   bool Initialize() override;

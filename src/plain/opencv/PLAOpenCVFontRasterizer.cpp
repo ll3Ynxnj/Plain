@@ -2,9 +2,9 @@
 
 #include "plain/opencv/PLAOpenCVFontRasterizer.hpp"
 
-PLAOpenCVFontRasterizer *PLAOpenCVFontRasterizer::Create()
+PLAOpenCVFontRasterizer *PLAOpenCVFontRasterizer::Create(const PLAString &aName)
 {
-  PLAOpenCVFontRasterizer *rasterizer = new PLAOpenCVFontRasterizer();
+  PLAOpenCVFontRasterizer *rasterizer = new PLAOpenCVFontRasterizer(aName);
   if (!rasterizer->Initialize()) {
     delete rasterizer;
     return nullptr;
@@ -12,8 +12,8 @@ PLAOpenCVFontRasterizer *PLAOpenCVFontRasterizer::Create()
   return rasterizer;
 }
 
-PLAOpenCVFontRasterizer::PLAOpenCVFontRasterizer() :
-  PLAOBJFontRasterizer()
+PLAOpenCVFontRasterizer::PLAOpenCVFontRasterizer(const PLAString &aName) :
+  PLAOBJFontRasterizer(aName)
 {
 }
 

@@ -2,15 +2,13 @@
 #include "plain/core/object/PLAOBJError.hpp"
 #include <opencv2/imgproc.hpp>
 
-PLAOpenCVYuNetFaceDetector *PLAOpenCVYuNetFaceDetector::Create()
+PLAOpenCVYuNetFaceDetector *PLAOpenCVYuNetFaceDetector::Create(const PLAString &aName)
 {
-  PLAOpenCVYuNetFaceDetector *detector = new PLAOpenCVYuNetFaceDetector();
-  detector->Bind();
-  return detector;
+  return new PLAOpenCVYuNetFaceDetector(aName);
 }
 
-PLAOpenCVYuNetFaceDetector::PLAOpenCVYuNetFaceDetector()
-  : PLAOBJFaceDetector()
+PLAOpenCVYuNetFaceDetector::PLAOpenCVYuNetFaceDetector(const PLAString &aName)
+  : PLAOBJFaceDetector(aName)
 {
 }
 

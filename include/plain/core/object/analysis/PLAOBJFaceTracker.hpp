@@ -3,6 +3,7 @@
 
 #include "plain/core/object/PLAObject.hpp"
 #include "plain/core/object/analysis/PLAFace.hpp"
+#include "grain/object/GRAOBJBinder.hpp"
 #include <vector>
 
 struct PLATrackedFace
@@ -17,17 +18,31 @@ struct PLATrackedFace
     : id(aId), boundingRect(aRect), confidence(aConfidence), missedFrames(0) {}
 };
 
-class PLAOBJFaceTracker : public PLAObject
+class PLAOBJFaceTracker : public PLAObject,
+                          private GRAOBJBinder<PLAOBJFaceTracker>::Item
 {
+  using Binder = GRAOBJBinder<PLAOBJFaceTracker>;
+
   std::vector<PLATrackedFace> _trackedFaces;
   PLAFaceId _nextId = 0;
   PLAFloat _iouThreshold = 0.3f;
   PLAInt _maxMissedFrames = 5;
 
-public:
-  static PLAOBJFaceTracker *Create();
+  PLAOBJFaceTracker(const PLAString &aName);
 
-  PLAOBJFaceTracker();
+public:
+  using PLAFaceTrackerItem = GRAOBJBinder<PLAOBJFaceTracker>::Item;
+  using PLAFaceTrackerError = GRAOBJBinder<PLAOBJFaceTracker>::Error;
+
+  static PLAOBJFaceTracker *Create(const PLAString &aName = "FaceTracker");
+  static PLAOBJFaceTracker *Tracker(const PLAString &aName);
+
+  void Bind() override;
+
+protected:
+  void Unbind() override;
+
+public:
   ~PLAOBJFaceTracker();
 
   void Update(PLAFaceDetectionResult &aResult);
@@ -42,6 +57,26 @@ public:
 
 private:
   PLAFloat CalculateIoU(const PLARect &aRect1, const PLARect &aRect2);
+
+//-- GRAOBJBinder::Item --/////////////////////////////////////////////////////////
+private:
+  const char *GetBinderItemTypeName() const override;
+
+// Manager /////////////////////////////////////////////////////////////////////
+public:
+  class Manager: public GRAOBJBinder<PLAOBJFaceTracker>
+  {
+    static Manager _instance;
+
+    Manager();
+
+  public:
+    static Manager *Instance() { return &_instance; };
+
+    ~Manager();
+
+    void Init();
+  };
 };
 
 #endif // PLAIN_ENGINE_PLAOBJFACETRACKER_HPP

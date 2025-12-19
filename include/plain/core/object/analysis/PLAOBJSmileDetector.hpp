@@ -4,21 +4,37 @@
 #include "plain/core/object/PLAObject.hpp"
 #include "plain/core/object/analysis/PLAFace.hpp"
 #include "plain/core/PLASmileDetectorType.hpp"
+#include "grain/object/GRAOBJBinder.hpp"
 #include <opencv2/core.hpp>
 
 // Abstract base class for smile detection
 // Analyzes cropped face images and detects smiles
-class PLAOBJSmileDetector : public PLAObject
+class PLAOBJSmileDetector : public PLAObject,
+                            private GRAOBJBinder<PLAOBJSmileDetector>::Item
 {
+  using Binder = GRAOBJBinder<PLAOBJSmileDetector>;
+
 protected:
   bool _isInitialized = false;
   PLAFloat _threshold = 0.5f;
 
-public:
-  // Factory method (Renderer pattern)
-  static PLAOBJSmileDetector *Create(PLASmileDetectorType aType);
+  PLAOBJSmileDetector(const PLAString &aName);
 
-  PLAOBJSmileDetector();
+public:
+  using PLASmileDetectorItem = GRAOBJBinder<PLAOBJSmileDetector>::Item;
+  using PLASmileDetectorError = GRAOBJBinder<PLAOBJSmileDetector>::Error;
+
+  // Factory method (Renderer pattern)
+  static PLAOBJSmileDetector *Create(PLASmileDetectorType aType,
+                                      const PLAString &aName = "SmileDetector");
+  static PLAOBJSmileDetector *Detector(const PLAString &aName);
+
+  void Bind() override;
+
+protected:
+  void Unbind() override;
+
+public:
   virtual ~PLAOBJSmileDetector();
 
   // Initialize the detector
@@ -34,6 +50,26 @@ public:
   // Threshold for smile classification
   void SetThreshold(PLAFloat aThreshold);
   PLAFloat GetThreshold() const { return _threshold; }
+
+//-- GRAOBJBinder::Item --/////////////////////////////////////////////////////////
+private:
+  const char *GetBinderItemTypeName() const override;
+
+// Manager /////////////////////////////////////////////////////////////////////
+public:
+  class Manager: public GRAOBJBinder<PLAOBJSmileDetector>
+  {
+    static Manager _instance;
+
+    Manager();
+
+  public:
+    static Manager *Instance() { return &_instance; };
+
+    ~Manager();
+
+    void Init();
+  };
 };
 
 #endif // PLAIN_ENGINE_PLAOBJSMILEDETECTOR_HPP

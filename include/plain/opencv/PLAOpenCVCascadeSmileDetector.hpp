@@ -17,9 +17,9 @@ class PLAOpenCVCascadeSmileDetector : public PLAOBJSmileDetector
   PLAInt _minSizeRatio = 4;  // minSize = face width / ratio
 
 public:
-  static PLAOpenCVCascadeSmileDetector *Create();
+  static PLAOpenCVCascadeSmileDetector *Create(const PLAString &aName = "CascadeSmileDetector");
 
-  PLAOpenCVCascadeSmileDetector();
+  PLAOpenCVCascadeSmileDetector(const PLAString &aName);
   ~PLAOpenCVCascadeSmileDetector();
 
   bool Initialize() override;
