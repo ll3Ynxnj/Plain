@@ -4,11 +4,17 @@
 #include "plain/core/object/analysis/PLAOBJFaceDetector.hpp"
 #include "plain/core/object/analysis/PLAOBJFaceTracker.hpp"
 #include "plain/core/object/analysis/PLAOBJSmileDetector.hpp"
+#include "plain/core/PLAFaceDetectionScale.hpp"
+#include "plain/core/PLAFaceDetectionMode.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
 
-PLAOBJFrameAnalyzer *PLAOBJFrameAnalyzer::Create(const PLAString &aName)
+PLAOBJFrameAnalyzer *PLAOBJFrameAnalyzer::Create(
+  const PLAString &aName,
+  PLAFaceDetectorType aFaceDetectorType,
+  PLASmileDetectorType aSmileDetectorType)
 {
-  PLAOBJFrameAnalyzer *analyzer = new PLAOBJFrameAnalyzer(aName);
+  PLAOBJFrameAnalyzer *analyzer = new PLAOBJFrameAnalyzer(
+    aName, aFaceDetectorType, aSmileDetectorType);
   analyzer->Bind();
   return analyzer;
 }
@@ -41,14 +47,52 @@ void PLAOBJFrameAnalyzer::Unbind()
   this->PLAObject::Unbind();
 }
 
-PLAOBJFrameAnalyzer::PLAOBJFrameAnalyzer(const PLAString &aName) :
+PLAOBJFrameAnalyzer::PLAOBJFrameAnalyzer(
+  const PLAString &aName,
+  PLAFaceDetectorType aFaceDetectorType,
+  PLASmileDetectorType aSmileDetectorType) :
   PLAObject(PLAObjectType::FrameAnalyzer, aName),
   GRAOBJBinder<PLAOBJFrameAnalyzer>::Item(aName, Manager::Instance())
 {
+  // Create face detector
+  PLAString faceDetectorName = aName + "_FaceDetector";
+  _faceDetector = PLAOBJFaceDetector::Create(aFaceDetectorType, faceDetectorName);
+  if (_faceDetector)
+  {
+    _faceDetector->SetScale(PLAFaceDetectionScale::Half);
+    _faceDetector->Initialize(1920, 1080);
+    _faceDetector->SetMode(PLAFaceDetectionMode::Interval);
+    _faceDetector->SetDetectionInterval(1);
+  }
+
+  // Create face tracker
+  PLAString faceTrackerName = aName + "_FaceTracker";
+  _faceTracker = PLAOBJFaceTracker::Create(faceTrackerName);
+
+  // Create smile detector
+  PLAString smileDetectorName = aName + "_SmileDetector";
+  _smileDetector = PLAOBJSmileDetector::Create(aSmileDetectorType, smileDetectorName);
+  if (_smileDetector)
+  {
+    _smileDetector->Initialize();
+  }
 }
 
 PLAOBJFrameAnalyzer::~PLAOBJFrameAnalyzer()
 {
+  // Detectors are managed by their respective Managers via Bind/Unbind
+  // They will be cleaned up when the application terminates
+}
+
+void PLAOBJFrameAnalyzer::EnableFaceDetection(bool aEnable)
+{
+  _faceDetectionEnabled = aEnable;
+  if (aEnable)
+  {
+    // Enable all features when face detection is enabled
+    _faceTrackingEnabled = true;
+    _smileDetectionEnabled = true;
+  }
 }
 
 void PLAOBJFrameAnalyzer::AttachToSource(PLAOBJFrameSource *aSource)
@@ -72,31 +116,24 @@ void PLAOBJFrameAnalyzer::Analyze(const cv::Mat &aFrame)
     return;
   }
 
-  // Get face detector by name
-  PLAOBJFaceDetector *faceDetector = _faceDetectorName.empty() ? nullptr
-    : PLAOBJFaceDetector::Detector(_faceDetectorName);
-
-  if (!faceDetector || !faceDetector->IsInitialized())
+  // Check if face detection is enabled
+  if (!_faceDetectionEnabled || !_faceDetector || !_faceDetector->IsInitialized())
   {
     return;
   }
 
   // Run face detection
-  faceDetector->Detect(aFrame);
-  _lastResult = faceDetector->GetResult();
+  _faceDetector->Detect(aFrame);
+  _lastResult = _faceDetector->GetResult();
 
   // Run tracking to assign persistent IDs
-  PLAOBJFaceTracker *faceTracker = _faceTrackerName.empty() ? nullptr
-    : PLAOBJFaceTracker::Tracker(_faceTrackerName);
-  if (faceTracker)
+  if (_faceTrackingEnabled && _faceTracker)
   {
-    faceTracker->Update(_lastResult);
+    _faceTracker->Update(_lastResult);
   }
 
   // Run smile detection on each detected face
-  PLAOBJSmileDetector *smileDetector = _smileDetectorName.empty() ? nullptr
-    : PLAOBJSmileDetector::Detector(_smileDetectorName);
-  if (smileDetector && smileDetector->IsInitialized())
+  if (_smileDetectionEnabled && _smileDetector && _smileDetector->IsInitialized())
   {
     for (PLAFace &face : _lastResult.faces)
     {
@@ -116,7 +153,7 @@ void PLAOBJFrameAnalyzer::Analyze(const cv::Mat &aFrame)
       if (faceRect.width > 0 && faceRect.height > 0)
       {
         cv::Mat faceImage = aFrame(faceRect);
-        smileDetector->Detect(faceImage, face);
+        _smileDetector->Detect(faceImage, face);
       }
     }
   }
