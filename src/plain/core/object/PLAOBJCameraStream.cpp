@@ -1,8 +1,5 @@
 #include "plain/core/object/PLAOBJCameraStream.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
-#include "plain/core/object/analysis/PLAOBJFaceDetector.hpp"
-#include "plain/core/object/analysis/PLAOBJFaceTracker.hpp"
-#include "plain/core/object/analysis/PLAOBJSmileDetector.hpp"
 
 PLAOBJCameraStream *PLAOBJCameraStream::Create(const PLAString &aName, int aCameraID)
 {
@@ -18,6 +15,11 @@ PLAOBJCameraStream *PLAOBJCameraStream::Create(const PLAString &aName, int aCame
   }
 
   return stream;
+}
+
+PLAOBJCameraStream *PLAOBJCameraStream::Stream(const PLAString &aName)
+{
+  return static_cast<PLAOBJCameraStream *>(PLAOBJStream::Manager::Stream(aName));
 }
 
 PLAOBJCameraStream::PLAOBJCameraStream(const PLAString &aName, int aCameraID) :
@@ -83,76 +85,24 @@ void PLAOBJCameraStream::Update()
     return;
   }
 
-  cv::Mat frame;
-  if (!_capture.read(frame) || frame.empty())
+  if (!_capture.read(_lastFrame) || _lastFrame.empty())
   {
     return;
   }
 
-  // Run face detection on BGR frame (before color conversion)
-  // Use Manager lookup for loose coupling
-  PLAOBJFaceDetector *faceDetector = _faceDetectorName.empty() ? nullptr
-    : PLAOBJFaceDetector::Detector(_faceDetectorName);
-  if (faceDetector && faceDetector->IsInitialized())
-  {
-    faceDetector->Detect(frame);
-
-    // Run tracking to assign persistent IDs
-    PLAOBJFaceTracker *faceTracker = _faceTrackerName.empty() ? nullptr
-      : PLAOBJFaceTracker::Tracker(_faceTrackerName);
-    if (faceTracker)
-    {
-      _lastResult = faceDetector->GetResult();
-      faceTracker->Update(_lastResult);
-    }
-    else
-    {
-      _lastResult = faceDetector->GetResult();
-    }
-
-    // Run smile detection on each detected face
-    PLAOBJSmileDetector *smileDetector = _smileDetectorName.empty() ? nullptr
-      : PLAOBJSmileDetector::Detector(_smileDetectorName);
-    if (smileDetector && smileDetector->IsInitialized())
-    {
-      for (PLAFace &face : _lastResult.faces)
-      {
-        // Crop face region from frame
-        cv::Rect faceRect(
-          static_cast<int>(face.boundingRect.pos.x),
-          static_cast<int>(face.boundingRect.pos.y),
-          static_cast<int>(face.boundingRect.size.x),
-          static_cast<int>(face.boundingRect.size.y)
-        );
-
-        // Ensure rect is within frame bounds
-        faceRect.x = std::max(0, faceRect.x);
-        faceRect.y = std::max(0, faceRect.y);
-        faceRect.width = std::min(faceRect.width, frame.cols - faceRect.x);
-        faceRect.height = std::min(faceRect.height, frame.rows - faceRect.y);
-
-        if (faceRect.width > 0 && faceRect.height > 0)
-        {
-          cv::Mat faceImage = frame(faceRect);
-          smileDetector->Detect(faceImage, face);
-        }
-      }
-    }
-  }
-
   // Convert to RGBA format
   cv::Mat rgbaFrame;
-  if (frame.channels() == 3)
+  if (_lastFrame.channels() == 3)
   {
-    cv::cvtColor(frame, rgbaFrame, cv::COLOR_BGR2RGBA);
+    cv::cvtColor(_lastFrame, rgbaFrame, cv::COLOR_BGR2RGBA);
   }
-  else if (frame.channels() == 4)
+  else if (_lastFrame.channels() == 4)
   {
-    cv::cvtColor(frame, rgbaFrame, cv::COLOR_BGRA2RGBA);
+    cv::cvtColor(_lastFrame, rgbaFrame, cv::COLOR_BGRA2RGBA);
   }
   else
   {
-    GRA_PRINT("Unsupported frame format: %d channels\n", frame.channels());
+    GRA_PRINT("Unsupported frame format: %d channels\n", _lastFrame.channels());
     return;
   }
 
@@ -169,23 +119,4 @@ void PLAOBJCameraStream::Update()
 
   // Swap buffers to make new data available for reading
   SwapBuffers();
-}
-
-PLAFaceDetectionResult PLAOBJCameraStream::GetFaceDetectionResult() const
-{
-  // Return tracked result if tracker is active
-  if (!_faceTrackerName.empty())
-  {
-    return _lastResult;
-  }
-  // Otherwise return raw detection result
-  if (!_faceDetectorName.empty())
-  {
-    PLAOBJFaceDetector *detector = PLAOBJFaceDetector::Detector(_faceDetectorName);
-    if (detector)
-    {
-      return detector->GetResult();
-    }
-  }
-  return kPLAFaceDetectionResultNone;
 }

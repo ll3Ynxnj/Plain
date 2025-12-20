@@ -41,6 +41,7 @@ enum class PLAObjectType : PLAInt
   FaceTracker,
   SmileDetector,
   FontRasterizer,
+  FrameAnalyzer,
 
   kNumberOfItems,
   None = kPLAIntUndefined,
@@ -84,6 +85,7 @@ static const char *kPLAObjectTypeName[static_cast<size_t>(PLAObjectType::kNumber
   "FaceTracker",
   "SmileDetector",
   "FontRasterizer",
+  "FrameAnalyzer",
 };
 
 #endif //PLAIN_ENGINE_PLAOBJECTTYPE_HPP
