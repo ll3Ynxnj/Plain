@@ -51,6 +51,20 @@ PLAOBJFrameAnalyzer::~PLAOBJFrameAnalyzer()
 {
 }
 
+void PLAOBJFrameAnalyzer::AttachToSource(PLAOBJFrameSource *aSource)
+{
+  if (!aSource)
+  {
+    return;
+  }
+
+  aSource->SetFunction(
+    PLAFunctionCode::FrameSource::OnFrameUpdate,
+    [this](const cv::Mat &frame) {
+      this->Analyze(frame);
+    });
+}
+
 void PLAOBJFrameAnalyzer::Analyze(const cv::Mat &aFrame)
 {
   if (aFrame.empty())

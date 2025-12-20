@@ -4,6 +4,7 @@
 #define PLAIN_ENGINE_PLAOBJFRAMEANALYZER_HPP
 
 #include "plain/core/object/PLAObject.hpp"
+#include "plain/core/object/PLAOBJFrameSource.hpp"
 #include "plain/core/object/analysis/PLAFace.hpp"
 #include "grain/object/GRAOBJBinder.hpp"
 #include <opencv2/opencv.hpp>
@@ -44,6 +45,8 @@ public:
 
   void SetSmileDetectorName(const PLAString &aName) { _smileDetectorName = aName; }
   const PLAString &GetSmileDetectorName() const { return _smileDetectorName; }
+
+  void AttachToSource(PLAOBJFrameSource *aSource);
 
   void Analyze(const cv::Mat &aFrame);
   PLAFaceDetectionResult GetResult() const { return _lastResult; }

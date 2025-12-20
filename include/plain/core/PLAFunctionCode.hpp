@@ -88,6 +88,14 @@ namespace PLAFunctionCode
     kNumberOfItems,
     None = kNone,
   };
+
+  enum class FrameSource: Code
+  {
+    OnFrameUpdate,  ///< \~english Runs when a new frame is captured. \~japanese 新しいフレームがキャプチャされた時に実行。
+
+    kNumberOfItems,
+    None = kNone,
+  };
 };
 
 

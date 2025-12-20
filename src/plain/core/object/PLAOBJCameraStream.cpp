@@ -90,6 +90,9 @@ void PLAOBJCameraStream::Update()
     return;
   }
 
+  // Notify observers of new frame (for analysis)
+  RunFunction(PLAFunctionCode::FrameSource::OnFrameUpdate, _lastFrame);
+
   // Convert to RGBA format
   cv::Mat rgbaFrame;
   if (_lastFrame.channels() == 3)
