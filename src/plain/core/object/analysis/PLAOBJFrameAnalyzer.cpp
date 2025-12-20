@@ -1,6 +1,7 @@
 // Copyright (c) 2023. CLAYWORK Inc. All rights reserved.
 
 #include "plain/core/object/analysis/PLAOBJFrameAnalyzer.hpp"
+#include "plain/core/agent/analysis/PLAAGTFrameAnalyzer.hpp"
 #include "plain/core/object/analysis/PLAOBJFaceDetector.hpp"
 #include "plain/core/object/analysis/PLAOBJFaceTracker.hpp"
 #include "plain/core/object/analysis/PLAOBJSmileDetector.hpp"
@@ -19,10 +20,16 @@ PLAOBJFrameAnalyzer *PLAOBJFrameAnalyzer::Create(
   return analyzer;
 }
 
-PLAOBJFrameAnalyzer *PLAOBJFrameAnalyzer::Analyzer(const PLAString &aName)
+PLAOBJFrameAnalyzer *PLAOBJFrameAnalyzer::Object(const PLAString &aName)
 {
-  GRAOBJBinder<PLAOBJFrameAnalyzer>::Error error(GRAOBJBinder<PLAOBJFrameAnalyzer>::Error::None);
-  return static_cast<PLAOBJFrameAnalyzer *>(Manager::Instance()->RefItemWithName(aName, &error));
+  auto object = PLAObject::Object(PLAObjectType::FrameAnalyzer, aName);
+  return static_cast<PLAOBJFrameAnalyzer *>(object);
+}
+
+PLAOBJFrameAnalyzer *PLAOBJFrameAnalyzer::Object(PLAId aId)
+{
+  auto object = PLAObject::Object(PLAObjectType::FrameAnalyzer, aId);
+  return static_cast<PLAOBJFrameAnalyzer *>(object);
 }
 
 void PLAOBJFrameAnalyzer::Bind()
@@ -82,6 +89,11 @@ PLAOBJFrameAnalyzer::~PLAOBJFrameAnalyzer()
 {
   // Detectors are managed by their respective Managers via Bind/Unbind
   // They will be cleaned up when the application terminates
+}
+
+PLAAGTFrameAnalyzer PLAOBJFrameAnalyzer::AssignAgent()
+{
+  return PLAAGTFrameAnalyzer(this);
 }
 
 void PLAOBJFrameAnalyzer::EnableFaceDetection(bool aEnable)

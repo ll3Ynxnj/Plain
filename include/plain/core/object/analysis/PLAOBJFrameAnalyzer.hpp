@@ -14,6 +14,7 @@
 class PLAOBJFaceDetector;
 class PLAOBJFaceTracker;
 class PLAOBJSmileDetector;
+class PLAAGTFrameAnalyzer;
 
 class PLAOBJFrameAnalyzer : public PLAObject,
                             private GRAOBJBinder<PLAOBJFrameAnalyzer>::Item
@@ -45,7 +46,8 @@ public:
     const PLAString &aName = "FrameAnalyzer",
     PLAFaceDetectorType aFaceDetectorType = PLAFaceDetectorType::YuNet,
     PLASmileDetectorType aSmileDetectorType = PLASmileDetectorType::CNN);
-  static PLAOBJFrameAnalyzer *Analyzer(const PLAString &aName);
+  static PLAOBJFrameAnalyzer *Object(const PLAString &aName);
+  static PLAOBJFrameAnalyzer *Object(PLAId aId);
 
   void Bind() override;
 
@@ -54,6 +56,8 @@ protected:
 
 public:
   virtual ~PLAOBJFrameAnalyzer();
+
+  PLAAGTFrameAnalyzer AssignAgent();
 
   // Enable/disable face detection (enables all features when true)
   void EnableFaceDetection(bool aEnable);

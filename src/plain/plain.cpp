@@ -7,6 +7,7 @@
 
 #include "plain/core/object/PLAObject.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
+#include "plain/core/object/analysis/PLAOBJFrameAnalyzer.hpp"
 
 void Plain::Init(PLARendererType aType, PLAUInt aRefreshRate,
                  PLAUInt aBaseScreenLength)
@@ -557,5 +558,17 @@ PLAAGTVideoClip Plain::VideoClip::Assign(const PLAId &aId)
 PLAAGTVideoClip Plain::VideoClip::Assign(const std::string &aName)
 {
   auto object = PLAOBJVideoClip::Object(aName);
+  return object->AssignAgent();
+}
+
+PLAAGTFrameAnalyzer Plain::FrameAnalyzer::Create(const PLAString &aName)
+{
+  auto object = PLAOBJFrameAnalyzer::Create(aName);
+  return object->AssignAgent();
+}
+
+PLAAGTFrameAnalyzer Plain::FrameAnalyzer::Assign(const PLAString &aName)
+{
+  auto object = PLAOBJFrameAnalyzer::Object(aName);
   return object->AssignAgent();
 }

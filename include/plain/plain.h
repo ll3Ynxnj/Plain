@@ -20,6 +20,7 @@
 #include "plain/core/agent/PLAAGTMotion.hpp"
 #include "plain/core/agent/PLAAGTMotionNode.hpp"
 #include "plain/core/agent/PLAAGTImageClip.hpp"
+#include "plain/core/agent/analysis/PLAAGTFrameAnalyzer.hpp"
 
 #include "plain/core/PLARendererType.hpp"
 #include "plain/core/PLAFunctionCode.hpp"
@@ -257,6 +258,12 @@ namespace Plain
     PLAAGTVideoClip Create(const PLAString &aVideoName, const PLARange &aFrameClip);
     PLAAGTVideoClip Assign(const PLAId &aId);
     PLAAGTVideoClip Assign(const std::string &aName);
+  };
+
+  namespace FrameAnalyzer
+  {
+    PLAAGTFrameAnalyzer Create(const PLAString &aName = "FrameAnalyzer");
+    PLAAGTFrameAnalyzer Assign(const PLAString &aName);
   };
 
 };
