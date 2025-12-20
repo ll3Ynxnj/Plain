@@ -5,6 +5,7 @@
 #include "plain/core/object/analysis/PLAFace.hpp"
 #include "plain/core/PLAFaceDetectorType.hpp"
 #include "plain/core/PLAFaceDetectionMode.hpp"
+#include "plain/core/PLAFaceDetectionScale.hpp"
 #include "grain/object/GRAOBJBinder.hpp"
 #include <opencv2/opencv.hpp>
 #include <mutex>
@@ -16,6 +17,7 @@ class PLAOBJFaceDetector : public PLAObject,
 
 protected:
   PLAFaceDetectionMode _mode = PLAFaceDetectionMode::None;
+  PLAFaceDetectionScale _scale = PLAFaceDetectionScale::Full;
   PLAInt _detectionInterval = 1;
   PLAInt _frameCounter = 0;
 
@@ -47,11 +49,14 @@ public:
 
   PLAFaceDetectionResult GetResult() const;
 
-  void SetMode(PLAFaceDetectionMode aMode);
+  void SetMode(PLAFaceDetectionMode aMode) { _mode = aMode; }
   PLAFaceDetectionMode GetMode() const { return _mode; }
 
   void SetDetectionInterval(PLAInt aInterval);
   PLAInt GetDetectionInterval() const { return _detectionInterval; }
+
+  virtual void SetScale(PLAFaceDetectionScale aScale);
+  PLAFaceDetectionScale GetScale() const { return _scale; }
 
   bool IsInitialized() const { return _isInitialized; }
 

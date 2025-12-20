@@ -77,14 +77,14 @@ PLAFaceDetectionResult PLAOBJFaceDetector::GetResult() const
   return _result;
 }
 
-void PLAOBJFaceDetector::SetMode(PLAFaceDetectionMode aMode)
-{
-  _mode = aMode;
-}
-
 void PLAOBJFaceDetector::SetDetectionInterval(PLAInt aInterval)
 {
   _detectionInterval = (aInterval > 0) ? aInterval : 1;
+}
+
+void PLAOBJFaceDetector::SetScale(PLAFaceDetectionScale aScale)
+{
+  _scale = aScale;
 }
 
 bool PLAOBJFaceDetector::ShouldDetect()

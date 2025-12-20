@@ -2,7 +2,6 @@
 #define PLAIN_ENGINE_PLAOPENCVYUNETFACEDETECTOR_HPP
 
 #include "plain/core/object/analysis/PLAOBJFaceDetector.hpp"
-#include "plain/core/PLAFaceDetectionScale.hpp"
 #include <opencv2/objdetect.hpp>
 
 // YuNet-based face detector using OpenCV DNN
@@ -15,7 +14,6 @@ class PLAOpenCVYuNetFaceDetector : public PLAOBJFaceDetector
   PLAFloat _scoreThreshold = 0.5f;
   PLAFloat _nmsThreshold = 0.3f;
   PLAInt _topK = 5000;
-  PLAFaceDetectionScale _scale = PLAFaceDetectionScale::Full;
 
   // Original frame size
   PLAInt _frameWidth = 0;
@@ -43,8 +41,7 @@ public:
   void SetNMSThreshold(PLAFloat aThreshold);
   PLAFloat GetNMSThreshold() const { return _nmsThreshold; }
 
-  void SetScale(PLAFaceDetectionScale aScale);
-  PLAFaceDetectionScale GetScale() const { return _scale; }
+  void SetScale(PLAFaceDetectionScale aScale) override;
 
 private:
   void UpdateDetectionSize();
