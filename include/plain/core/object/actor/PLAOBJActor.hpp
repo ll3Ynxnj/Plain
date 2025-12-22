@@ -60,6 +60,7 @@ class PLAOBJActor final :
   PLAOBJLayer *_layer = nullptr;
   CollisionItem collisions[static_cast<unsigned>(PLAActorCollisionCode::kNumberOfItems)];
   PLABool _visible = true;
+  PLABool _isMask = false;
   PLARenderMode _renderMode = PLARenderMode::None;
 
   GRAOBJFunctor<PLAOBJActor *, PLAFunctionCode::Actor> _functor = GRAOBJFunctor<PLAOBJActor *, PLAFunctionCode::Actor>();
@@ -205,6 +206,7 @@ public:
   const PLAOBJLayer *GetLayer() const { return _layer; }
 
   PLABool IsVisible() const { return _visible; };
+  PLABool IsMask() const { return _isMask; };
   PLARenderMode GetRenderMode() const { return _renderMode; };
 
   const PLAVec3f &GetPivot() const { return _pivot; };
@@ -239,6 +241,7 @@ public:
                                            const PLAInputSignalCode aSignalCode);
 
   void SetVisible(PLABool aValue) { _visible = aValue; };
+  void SetMask(PLABool aValue) { _isMask = aValue; };
   void SetRenderMode(PLARenderMode aMode) { _renderMode = aMode; };
 
   void SetPivot(const PLAVec3f &aPivot)

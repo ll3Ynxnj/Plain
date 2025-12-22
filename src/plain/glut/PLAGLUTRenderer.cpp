@@ -59,7 +59,7 @@ void PLAGLUTRenderer::Init() const
 
 void PLAGLUTRenderer::Clear() const
 {
-  glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
 void PLAGLUTRenderer::Flush() const
@@ -185,6 +185,26 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
                 motionProperties.translation.z);
   color *= motionProperties.color;
 
+  bool isMask = aActor->IsMask();
+
+  if (isMask)
+  {
+    // Clear stencil buffer for this mask
+    glClear(GL_STENCIL_BUFFER_BIT);
+
+    // Setup stencil buffer for mask - write 1 where geometry is drawn
+    glEnable(GL_STENCIL_TEST);
+    glStencilFunc(GL_ALWAYS, 1, 0xFF);
+    glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
+
+    // Enable alpha test to respect texture alpha (discard fragments with alpha <= 0.5)
+    glEnable(GL_ALPHA_TEST);
+    glAlphaFunc(GL_GREATER, 0.5f);
+
+    // Disable color writes - only write to stencil buffer
+    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+  }
+
   switch (layer->GetLayerType())
   {
     case PLALayerType::Point :
@@ -211,9 +231,28 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
       break;
   }
 
+  if (isMask)
+  {
+    // Restore color writes
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+
+    // Disable alpha test (was used for mask texture alpha)
+    glDisable(GL_ALPHA_TEST);
+
+    // Setup stencil test for children - only draw where stencil == 1
+    glStencilFunc(GL_EQUAL, 1, 0xFF);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+  }
+
   for (const PLAOBJActor *actor : *aActor->GetActors())
   {
     this->Draw(actor, color);
+  }
+
+  if (isMask)
+  {
+    // Disable stencil test after drawing children
+    glDisable(GL_STENCIL_TEST);
   }
 
   glPopMatrix();

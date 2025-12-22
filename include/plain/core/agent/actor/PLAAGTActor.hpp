@@ -67,6 +67,9 @@ public:
   PLABool IsVisible() const;
   void SetVisible(bool aVisible) const;
 
+  PLABool IsMask() const;
+  void SetMask(bool aMask) const;
+
   PLARenderMode GetRenderMode() const;
   void SetRenderMode(PLARenderMode aMode) const;
 
