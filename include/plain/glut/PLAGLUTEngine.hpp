@@ -12,7 +12,7 @@ class PLAGLUTEngine
 
 public:
   static void glut(int argc, char *argv[], int width, int height,
-                   void (*init)(void));
+                   void (*init)(void), bool fullscreen = false);
 };
 
 #endif //PLAIN_ENGINE_PLAGLUT_HPP
