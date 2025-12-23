@@ -219,6 +219,9 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
     case PLALayerType::Circle :
       this->DrawCircle(static_cast<const PLALYRCircle *>(layer), color, motion);
       break;
+    case PLALayerType::Arc :
+      this->DrawArc(static_cast<const PLALYRArc *>(layer), color, motion);
+      break;
     case PLALayerType::Tile :
       this->DrawTile(static_cast<const PLALYRTile *>(layer), color, motion);
       break;
@@ -573,6 +576,121 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
     {
       glVertex3f(vertices[i * 3], vertices[i * 3 + 1], vertices[i * 3 + 2]);
     }
+    glEnd();
+  }
+}
+
+void PLAGLUTRenderer::DrawArc(const PLALYRArc *aLayer, const PLAColor &aColor,
+                              const PLATMLMotion *aMotion) const
+{
+  const PLAOBJImageClip *imageClip = aLayer->GetImageClip();
+  if (imageClip)
+  {
+    const PLAOBJImage *texImage = imageClip->GetImage();
+    glEnable(GL_TEXTURE_2D);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetSize().x,
+                 texImage->GetSize().y, 0,
+                 GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
+  }
+  else
+  {
+    glDisable(GL_TEXTURE_2D);
+  }
+
+  const double radius = aLayer->GetRadius();
+  const double startAngle = aLayer->GetStartAngle();
+  const double endAngle = aLayer->GetEndAngle();
+  const double angleSpan = endAngle - startAngle;
+
+  // Calculate number of segments based on arc span
+  int split = static_cast<int>(std::abs(angleSpan) / (M_PI * 2) * 24);
+  if (split < 3) split = 3;
+
+  const unsigned numVertices = 1 + split + 1;
+  GLfloat vertices[numVertices * 3];
+  {
+    const double step = angleSpan / split;
+    const PLAVec2f origin = PLAVec2f(radius + aLayer->GetOffset().x,
+                                     -radius - aLayer->GetOffset().y);
+
+    double radian = startAngle;
+
+    // Center vertex
+    vertices[0] = origin.x;
+    vertices[1] = origin.y;
+    vertices[2] = 0;
+
+    for (int i = 1; i < numVertices; i++)
+    {
+      unsigned baseIndex = i * 3;
+      vertices[baseIndex + 0] = origin.x + radius * cos(radian);
+      vertices[baseIndex + 1] = origin.y - radius * sin(radian);
+      vertices[baseIndex + 2] = 0;
+      radian += step;
+    }
+  }
+  glVertexPointer(3, GL_FLOAT, 0, vertices);
+
+  GLfloat fillColors[numVertices * 4];
+  PLAColor fillColor = aLayer->GetFillColor();
+  fillColor *= aColor;
+
+  for (int i = 0; i < numVertices; i++)
+  {
+    unsigned baseIndex = i * 4;
+    fillColors[baseIndex + 0] = fillColor.r;
+    fillColors[baseIndex + 1] = fillColor.g;
+    fillColors[baseIndex + 2] = fillColor.b;
+    fillColors[baseIndex + 3] = fillColor.a;
+  }
+  glColorPointer(4, GL_FLOAT, 0, fillColors);
+
+  GLfloat texCoords[numVertices * 2];
+  {
+    const double texRadius = 0.625 * 0.5;
+    const PLAVec2f offset = PLAVec2f(0.5, 0.5);
+    const double step = angleSpan / split;
+    const PLAVec2f origin = PLAVec2f(texRadius + offset.x,
+                                     -texRadius - offset.y);
+
+    double radian = startAngle;
+    texCoords[0] = origin.x;
+    texCoords[1] = origin.y;
+
+    for (int i = 1; i < numVertices; i++)
+    {
+      unsigned baseIndex = i * 2;
+      texCoords[baseIndex + 0] = origin.x + texRadius * cos(radian);
+      texCoords[baseIndex + 1] = origin.y - texRadius * sin(radian);
+      radian += step;
+    }
+  }
+  glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+  glBegin(GL_TRIANGLE_FAN);
+  for (int i = 0; i < numVertices; i++)
+  {
+    glArrayElement(i);
+  }
+  glEnd();
+
+  // Draw stroke if strokeColor has alpha > 0
+  PLAColor strokeColor = aLayer->GetStrokeColor();
+  strokeColor *= aColor;
+  if (strokeColor.a > 0) {
+    glDisable(GL_TEXTURE_2D);
+    glLineWidth(aLayer->GetStrokeWidth());
+
+    // Draw arc outline (not closed loop - just the arc edge)
+    glBegin(GL_LINE_STRIP);
+    glColor4f(strokeColor.r, strokeColor.g, strokeColor.b, strokeColor.a);
+    // Draw from center to first arc point, along arc, back to center
+    glVertex3f(vertices[0], vertices[1], vertices[2]);
+    for (int i = 1; i < numVertices; i++)
+    {
+      glVertex3f(vertices[i * 3], vertices[i * 3 + 1], vertices[i * 3 + 2]);
+    }
+    glVertex3f(vertices[0], vertices[1], vertices[2]);
     glEnd();
   }
 }

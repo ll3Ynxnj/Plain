@@ -13,6 +13,7 @@
 #include "plain/core/agent/actor/PLAAGTActorForLine.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForRect.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForCircle.hpp"
+#include "plain/core/agent/actor/PLAAGTActorForArc.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForTile.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForLabel.hpp"
 #include "plain/core/agent/PLAAGTTimeline.hpp"
@@ -160,6 +161,19 @@ namespace Plain
                                       const PLAString &aImage,
                                       const PLARect &aClip,
                                       const PLAString &aName = kPLAStrUndefined);
+    PLAAGTActorForArc CreateArc(const PLAVec2f &aOrigin,
+                                PLAFloat aRadius,
+                                PLAFloat aStartAngle,
+                                PLAFloat aEndAngle,
+                                const PLAColor &aFillColor,
+                                const PLAString &aName = kPLAStrUndefined);
+    PLAAGTActorForArc CreateArc(const PLAVec3f &aPivot,
+                                const PLATransform &aTransform,
+                                PLAFloat aRadius,
+                                PLAFloat aStartAngle,
+                                PLAFloat aEndAngle,
+                                const PLAColor &aFillColor,
+                                const PLAString &aName = kPLAStrUndefined);
     PLAAGTActorForTile CreateTile(const PLAVec2f &aOffset,
                                   const PLAString &aImage,
                                   const GRAVec2<PLASize> &aTileSize,
@@ -193,6 +207,10 @@ namespace Plain
     PLAAGTActorForCircle AssignCircle(PLAId aId);
     PLAAGTActorForCircle AssignCircle(const PLAString &aName);
     PLAAGTActorForCircle AssignCircleWithTag(PLAId aTag);
+
+    PLAAGTActorForArc AssignArc(PLAId aId);
+    PLAAGTActorForArc AssignArc(const PLAString &aName);
+    PLAAGTActorForArc AssignArcWithTag(PLAId aTag);
 
     PLAAGTActorForTile AssignTile(PLAId aId);
     PLAAGTActorForTile AssignTile(const PLAString &aName);

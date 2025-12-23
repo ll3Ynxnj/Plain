@@ -6,6 +6,7 @@
 #include "plain/core/object/layer/PLALYRLine.hpp"
 #include "plain/core/object/layer/PLALYRRect.hpp"
 #include "plain/core/object/layer/PLALYRCircle.hpp"
+#include "plain/core/object/layer/PLALYRArc.hpp"
 #include "plain/core/object/layer/PLALYRTile.hpp"
 #include "plain/core/object/layer/PLALYRLabel.hpp"
 
@@ -17,6 +18,7 @@
 #include "plain/core/agent/actor/PLAAGTActorForLine.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForRect.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForCircle.hpp"
+#include "plain/core/agent/actor/PLAAGTActorForArc.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForTile.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForLabel.hpp"
 
@@ -222,6 +224,47 @@ PLAOBJActor *PLAOBJActor::CreateCircle(const PLAVec3f &aPivot,
                                             aImageName, aClip);
   layer->SetObjectName(aName + "::Layer");
   //PLAOBJActor *actor = new PLAOBJActor(aPivot, aColor, aTransform, layer);//, motion);
+  PLAOBJActor *actor =
+    new PLAOBJActor(aPivot, aColor, aTransform, layer, aName);
+  actor->Init();
+  actor->Bind();
+  return actor;
+}
+
+PLAOBJActor *PLAOBJActor::CreateArc(const PLAVec2f &aOrigin,
+                                    PLAFloat aRadius,
+                                    PLAFloat aStartAngle,
+                                    PLAFloat aEndAngle,
+                                    const PLAColor &aFillColor,
+                                    const PLAString &aName)
+{
+  PLAOBJLayer *layer = PLALYRArc::Create(aRadius, aStartAngle, aEndAngle,
+                                         aFillColor, kPLAColorNone,
+                                         kPLAStrUndefined, kPLARectNone);
+  layer->SetObjectName(aName + "::Layer");
+  PLATransform transform = PLATransform(PLAVec3f(aOrigin.x, aOrigin.y, 0.0f),
+                                        kPLAVec3fNone, kPLAVec3fNorm);
+
+  PLAOBJActor *actor =
+    new PLAOBJActor(kPLAVec3fNone, kPLAColorWhite, transform, layer, aName);
+  actor->Init();
+  actor->Bind();
+  return actor;
+}
+
+PLAOBJActor *PLAOBJActor::CreateArc(const PLAVec3f &aPivot,
+                                    const PLAColor &aColor,
+                                    const PLATransform &aTransform,
+                                    PLAFloat aRadius,
+                                    PLAFloat aStartAngle,
+                                    PLAFloat aEndAngle,
+                                    const PLAColor &aFillColor,
+                                    const PLAString &aName)
+{
+  PLAOBJLayer *layer = PLALYRArc::Create(aRadius, aStartAngle, aEndAngle,
+                                         aFillColor, kPLAColorNone,
+                                         kPLAStrUndefined, kPLARectNone);
+  layer->SetObjectName(aName + "::Layer");
   PLAOBJActor *actor =
     new PLAOBJActor(aPivot, aColor, aTransform, layer, aName);
   actor->Init();
@@ -440,6 +483,12 @@ PLAAGTActorForCircle PLAOBJActor::AssignAgentForCircle() {
   return PLAAGTActorForCircle(this);
 }
 
+PLAAGTActorForArc PLAOBJActor::AssignAgentForArc() {
+  if (this->GetLayerType() != PLALayerType::Arc)
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Layer type is not arc."); }
+  return PLAAGTActorForArc(this);
+}
+
 PLAAGTActorForTile PLAOBJActor::AssignAgentForTile() {
   if (this->GetLayerType() != PLALayerType::Tile)
   { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Layer type is not tile."); }
@@ -564,6 +613,12 @@ PLALYRCircle *PLAOBJActor::RefLayerForCircle()
 {
   if (_layer->GetLayerType() != PLALayerType::Circle) { return nullptr; }
   return static_cast<PLALYRCircle *>(_layer);
+}
+
+PLALYRArc *PLAOBJActor::RefLayerForArc()
+{
+  if (_layer->GetLayerType() != PLALayerType::Arc) { return nullptr; }
+  return static_cast<PLALYRArc *>(_layer);
 }
 
 PLALYRTile *PLAOBJActor::RefLayerForTile()

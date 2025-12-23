@@ -277,6 +277,32 @@ PLAAGTActorForCircle Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
   return actor->AssignAgentForCircle();
 }
 
+PLAAGTActorForArc Plain::Actor::CreateArc(const PLAVec2f &aOrigin,
+                                          PLAFloat aRadius,
+                                          PLAFloat aStartAngle,
+                                          PLAFloat aEndAngle,
+                                          const PLAColor &aFillColor,
+                                          const PLAString &aName)
+{
+  PLAOBJActor *actor = PLAOBJActor::CreateArc(aOrigin, aRadius, aStartAngle,
+                                              aEndAngle, aFillColor, aName);
+  return actor->AssignAgentForArc();
+}
+
+PLAAGTActorForArc Plain::Actor::CreateArc(const PLAVec3f &aPivot,
+                                          const PLATransform &aTransform,
+                                          PLAFloat aRadius,
+                                          PLAFloat aStartAngle,
+                                          PLAFloat aEndAngle,
+                                          const PLAColor &aFillColor,
+                                          const PLAString &aName)
+{
+  PLAOBJActor *actor = PLAOBJActor::CreateArc(aPivot, kPLAColorWhite, aTransform,
+                                              aRadius, aStartAngle, aEndAngle,
+                                              aFillColor, aName);
+  return actor->AssignAgentForArc();
+}
+
 PLAAGTActorForTile Plain::Actor::CreateTile(const PLAVec2f &aOffset,
                                             const std::string &aImageName,
                                             const GRAVec2<PLASize> &aTileSize,
@@ -376,6 +402,24 @@ PLAAGTActorForCircle Plain::Actor::AssignCircleWithTag(PLAId aTag)
 {
   PLAOBJActor *actor = PLAOBJActor::ObjectWithTag(aTag);
   return actor->AssignAgentForCircle();
+}
+
+PLAAGTActorForArc Plain::Actor::AssignArc(PLAId aId)
+{
+  PLAOBJActor *actor = PLAOBJActor::Object(aId);
+  return actor->AssignAgentForArc();
+}
+
+PLAAGTActorForArc Plain::Actor::AssignArc(const PLAString &aName)
+{
+  PLAOBJActor *actor = PLAOBJActor::Object(aName);
+  return actor->AssignAgentForArc();
+}
+
+PLAAGTActorForArc Plain::Actor::AssignArcWithTag(PLAId aTag)
+{
+  PLAOBJActor *actor = PLAOBJActor::ObjectWithTag(aTag);
+  return actor->AssignAgentForArc();
 }
 
 PLAAGTActorForTile Plain::Actor::AssignTile(PLAId aId)

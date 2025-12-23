@@ -32,6 +32,7 @@ class PLAAGTActorForPoint;
 class PLAAGTActorForLine;
 class PLAAGTActorForRect;
 class PLAAGTActorForCircle;
+class PLAAGTActorForArc;
 class PLAAGTActorForTile;
 class PLAAGTActorForLabel;
 
@@ -135,6 +136,22 @@ public:
                                    const PLARect &aClip,
                                    const PLAString &aName = kPLAStrUndefined);
 
+  static PLAOBJActor *CreateArc(const PLAVec2f &aOrigin,
+                                PLAFloat aRadius,
+                                PLAFloat aStartAngle,
+                                PLAFloat aEndAngle,
+                                const PLAColor &aFillColor,
+                                const PLAString &aName = kPLAStrUndefined);
+
+  static PLAOBJActor *CreateArc(const PLAVec3f &aPivot,
+                                const PLAColor &aColor,
+                                const PLATransform &aTransform,
+                                PLAFloat aRadius,
+                                PLAFloat aStartAngle,
+                                PLAFloat aEndAngle,
+                                const PLAColor &aFillColor,
+                                const PLAString &aName = kPLAStrUndefined);
+
   static PLAOBJActor *CreateTile(const PLAVec2f &aOffset,
                                  const std::string &aImageName,
                                  const GRAVec2<PLASize> &aTileSize,
@@ -189,6 +206,7 @@ public:
   PLAAGTActorForLine AssignAgentForLine();
   PLAAGTActorForRect AssignAgentForRect();
   PLAAGTActorForCircle AssignAgentForCircle();
+  PLAAGTActorForArc AssignAgentForArc();
   PLAAGTActorForTile AssignAgentForTile();
   PLAAGTActorForLabel AssignAgentForLabel();
 
@@ -232,6 +250,7 @@ public:
   class PLALYRLine *RefLayerForLine();
   class PLALYRRect *RefLayerForRect();
   class PLALYRCircle *RefLayerForCircle();
+  class PLALYRArc *RefLayerForArc();
   class PLALYRTile *RefLayerForTile();
   class PLALYRLabel *RefLayerForLabel();
   PLAOBJActor *RefResponsiveActor(const PLAInputDeviceType aDeviceType,
