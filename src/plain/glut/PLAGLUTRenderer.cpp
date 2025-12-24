@@ -64,7 +64,7 @@ void PLAGLUTRenderer::Clear() const
 
 void PLAGLUTRenderer::Flush() const
 {
-  glFlush();
+  glutSwapBuffers();
 }
 
 void PLAGLUTRenderer::Render(const PLAOBJActor *aActor) const

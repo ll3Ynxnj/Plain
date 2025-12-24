@@ -84,7 +84,7 @@ void PLAGLUTEngine::glut(int argc, char *argv[], int width, int height, void (*i
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
   glutInit(&argc, argv);
-  glutInitDisplayMode(GLUT_RGBA);
+  glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
   glutInitWindowSize(width, height);
 
   glutCreateWindow(argv[0]);
