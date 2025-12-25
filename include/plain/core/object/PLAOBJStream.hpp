@@ -1,6 +1,7 @@
 #ifndef PLAIN_PLAOBJSTREAM_HPP
 #define PLAIN_PLAOBJSTREAM_HPP
 
+#include "plain/core/object/PLAObject.hpp"
 #include "plain/core/object/PLAOBJImage.hpp"
 #include "grain/object/GRAOBJBinder.hpp"
 #include "plain/core/object/input/PLAInputHandler.hpp"
@@ -21,8 +22,10 @@ class PLAOBJStream;
 //
 // Note: Threading is NOT handled by base class.
 // Derived classes that need threading (e.g., CameraStream) handle it internally.
-class PLAOBJStream : private GRAOBJBinder<PLAOBJStream>::Item
+class PLAOBJStream : public PLAObject,
+                     private GRAOBJBinder<PLAOBJStream>::Item
 {
+  using Binder = GRAOBJBinder<PLAOBJStream>;
 public:
   using PLAStreamItem = GRAOBJBinder<PLAOBJStream>::Item;
   using PLAStreamError = GRAOBJBinder<PLAOBJStream>::Error;
@@ -43,8 +46,12 @@ public:
   PLAOBJStream(const PLAString &aName);
   virtual ~PLAOBJStream();
 
-  void Bind();
-  void Unbind();
+  void Bind() override;
+
+protected:
+  void Unbind() override;
+
+public:
 
   // Update the stream (fetch next frame, generate next data, etc.)
   // For synchronous streams: called by Manager::Update()

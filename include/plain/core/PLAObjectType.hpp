@@ -31,6 +31,7 @@ enum class PLAObjectType : PLAInt
   MotionNode,
 
   Resource,
+  Stream,
 
   Renderer,
   ImageClip,
@@ -75,6 +76,7 @@ static const char *kPLAObjectTypeName[static_cast<size_t>(PLAObjectType::kNumber
   "MotionNode",
 
   "Resource",
+  "Stream",
 
   "Renderer",
   "ImageClip",

@@ -4,6 +4,7 @@
 PLAOBJStream::Manager PLAOBJStream::Manager::_instance = PLAOBJStream::Manager();
 
 PLAOBJStream::PLAOBJStream(const PLAString &aName) :
+  PLAObject(PLAObjectType::Stream, aName),
   GRAOBJBinder<PLAOBJStream>::Item(aName, Manager::Instance())
 {
 
@@ -16,6 +17,7 @@ PLAOBJStream::~PLAOBJStream()
 
 void PLAOBJStream::Bind()
 {
+  PLAObject::Bind();
   GRAOBJBinder<PLAOBJStream>::Error error(GRAOBJBinder<PLAOBJStream>::Error::None);
   PLAOBJStream::Manager::Instance()->Bind(this, &error);
   if (error != GRAOBJBinder<PLAOBJStream>::Error::None)
@@ -30,6 +32,7 @@ void PLAOBJStream::Unbind()
   if (error != GRAOBJBinder<PLAOBJStream>::Error::None)
   { PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Failed PLAOBJStream unbinding. ERROR : %02d", error); }
+  PLAObject::Unbind();
 }
 
 const PLAString &PLAOBJStream::GetName() const
