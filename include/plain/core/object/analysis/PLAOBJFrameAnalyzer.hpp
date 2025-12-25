@@ -9,11 +9,14 @@
 #include "plain/core/PLAFaceDetectorType.hpp"
 #include "plain/core/PLASmileDetectorType.hpp"
 #include "plain/core/PLAComputeMode.hpp"
+#include "plain/core/PLAFunctionCode.hpp"
 #include "grain/object/GRAOBJBinder.hpp"
+#include "grain/object/GRAOBJFunctor.hpp"
 #include <opencv2/opencv.hpp>
 #include <thread>
 #include <mutex>
 #include <atomic>
+#include <functional>
 
 class PLAOBJFaceDetector;
 class PLAOBJFaceTracker;
@@ -24,6 +27,7 @@ class PLAOBJFrameAnalyzer : public PLAObject,
                             private GRAOBJBinder<PLAOBJFrameAnalyzer>::Item
 {
   using Binder = GRAOBJBinder<PLAOBJFrameAnalyzer>;
+  using Functor = GRAOBJFunctor<const PLAFaceDetectionResult &, PLAFunctionCode::FrameAnalyzer>;
 
   // Owned detectors
   PLAOBJFaceDetector *_faceDetector = nullptr;
@@ -40,6 +44,9 @@ class PLAOBJFrameAnalyzer : public PLAObject,
 
   // Async analysis flag
   std::atomic<bool> _isAnalyzing{false};
+
+  // Callback functor
+  Functor _functor;
 
 protected:
   PLAOBJFrameAnalyzer(const PLAString &aName,
@@ -93,6 +100,11 @@ public:
     std::lock_guard<std::mutex> lock(_resultMutex);
     return _lastResult;
   }
+
+  // Set callback for analysis completion
+  void SetFunction(PLAFunctionCode::FrameAnalyzer aKey,
+                   const std::function<void(const PLAFaceDetectionResult &)> &aFunc)
+  { _functor.SetFunction(aKey, aFunc); }
 
 private:
   void AnalyzeInternal(const cv::Mat &aFrame);

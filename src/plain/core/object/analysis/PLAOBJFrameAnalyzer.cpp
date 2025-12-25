@@ -195,6 +195,9 @@ void PLAOBJFrameAnalyzer::AnalyzeInternal(const cv::Mat &aFrame)
     std::lock_guard<std::mutex> lock(_resultMutex);
     _lastResult = result;
   }
+
+  // Notify callback
+  _functor.RunFunction(PLAFunctionCode::FrameAnalyzer::OnComplete, result);
 }
 
 // GRAOBJBinder::Item //////////////////////////////////////////////////////////

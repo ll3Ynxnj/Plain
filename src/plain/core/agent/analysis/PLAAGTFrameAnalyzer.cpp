@@ -47,6 +47,13 @@ void PLAAGTFrameAnalyzer::AttachToSource(PLAOBJFrameSource *aSource) const
   RefAnalyzer()->AttachToSource(aSource);
 }
 
+void PLAAGTFrameAnalyzer::SetFunction(
+  PLAFunctionCode::FrameAnalyzer aKey,
+  const std::function<void(const PLAFaceDetectionResult &)> &aFunc) const
+{
+  RefAnalyzer()->SetFunction(aKey, aFunc);
+}
+
 PLAFaceDetectionResult PLAAGTFrameAnalyzer::GetResult() const
 {
   return GetAnalyzer()->GetResult();

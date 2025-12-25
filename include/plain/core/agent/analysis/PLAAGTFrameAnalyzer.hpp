@@ -5,6 +5,8 @@
 
 #include "plain/core/agent/PLAAgent.hpp"
 #include "plain/core/object/analysis/PLAFace.hpp"
+#include "plain/core/PLAFunctionCode.hpp"
+#include <functional>
 
 class PLAOBJFrameAnalyzer;
 class PLAOBJFrameSource;
@@ -25,6 +27,9 @@ public:
   bool IsSmileDetectionEnabled() const;
 
   void AttachToSource(PLAOBJFrameSource *aSource) const;
+
+  void SetFunction(PLAFunctionCode::FrameAnalyzer aKey,
+                   const std::function<void(const PLAFaceDetectionResult &)> &aFunc) const;
 
   PLAFaceDetectionResult GetResult() const;
 

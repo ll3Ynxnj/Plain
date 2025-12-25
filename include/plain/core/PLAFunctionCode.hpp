@@ -96,6 +96,14 @@ namespace PLAFunctionCode
     kNumberOfItems,
     None = kNone,
   };
+
+  enum class FrameAnalyzer: Code
+  {
+    OnComplete,  ///< \~english Runs when analysis is complete. \~japanese 分析が完了した時に実行。
+
+    kNumberOfItems,
+    None = kNone,
+  };
 };
 
 
