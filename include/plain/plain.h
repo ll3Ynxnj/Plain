@@ -21,6 +21,7 @@
 #include "plain/core/agent/PLAAGTMotion.hpp"
 #include "plain/core/agent/PLAAGTMotionNode.hpp"
 #include "plain/core/agent/PLAAGTImageClip.hpp"
+#include "plain/core/agent/PLAAGTPerformance.hpp"
 #include "plain/core/agent/analysis/PLAAGTFrameAnalyzer.hpp"
 #include "plain/core/agent/PLAAGTCameraStream.hpp"
 
@@ -293,6 +294,12 @@ namespace Plain
   {
     PLAAGTCameraStream Create(const PLAString &aName, int aCameraID = 0);
     PLAAGTCameraStream Assign(const PLAString &aName);
+  };
+
+  namespace Performance
+  {
+    PLAAGTPerformance Assign();
+    PLAFloat GetFPS();
   };
 
 };

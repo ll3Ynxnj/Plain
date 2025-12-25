@@ -8,6 +8,7 @@
 #include "plain/core/object/PLAObject.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
 #include "plain/core/object/PLAOBJCameraStream.hpp"
+#include "plain/core/object/PLAOBJPerformance.hpp"
 #include "plain/core/object/analysis/PLAOBJFrameAnalyzer.hpp"
 
 void Plain::Init(PLARendererType aType, PLAUInt aRefreshRate,
@@ -631,4 +632,14 @@ PLAAGTCameraStream Plain::CameraStream::Assign(const PLAString &aName)
 {
   auto object = PLAOBJCameraStream::Stream(aName);
   return object->AssignAgent();
+}
+
+PLAAGTPerformance Plain::Performance::Assign()
+{
+  return PLAOBJPerformance::Instance()->AssignAgent();
+}
+
+PLAFloat Plain::Performance::GetFPS()
+{
+  return PLAOBJPerformance::Instance()->GetFPS();
 }
