@@ -27,7 +27,7 @@ class PLAOBJFrameAnalyzer : public PLAObject,
                             private GRAOBJBinder<PLAOBJFrameAnalyzer>::Item
 {
   using Binder = GRAOBJBinder<PLAOBJFrameAnalyzer>;
-  using Functor = GRAOBJFunctor<const PLAFaceDetectionResult &, PLAFunctionCode::FrameAnalyzer>;
+  using Functor = GRAOBJFunctor<PLAAGTFrameAnalyzer, PLAFunctionCode::FrameAnalyzer>;
 
   // Owned detectors
   PLAOBJFaceDetector *_faceDetector = nullptr;
@@ -103,7 +103,7 @@ public:
 
   // Set callback for analysis completion
   void SetFunction(PLAFunctionCode::FrameAnalyzer aKey,
-                   const std::function<void(const PLAFaceDetectionResult &)> &aFunc)
+                   const std::function<void(PLAAGTFrameAnalyzer)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); }
 
 private:

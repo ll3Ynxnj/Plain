@@ -29,7 +29,7 @@ public:
   void AttachToSource(PLAOBJFrameSource *aSource) const;
 
   void SetFunction(PLAFunctionCode::FrameAnalyzer aKey,
-                   const std::function<void(const PLAFaceDetectionResult &)> &aFunc) const;
+                   const std::function<void(PLAAGTFrameAnalyzer)> &aFunc) const;
 
   PLAFaceDetectionResult GetResult() const;
 

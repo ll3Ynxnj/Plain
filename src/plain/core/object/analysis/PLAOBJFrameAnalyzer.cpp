@@ -197,7 +197,7 @@ void PLAOBJFrameAnalyzer::AnalyzeInternal(const cv::Mat &aFrame)
   }
 
   // Notify callback
-  _functor.RunFunction(PLAFunctionCode::FrameAnalyzer::OnComplete, result);
+  _functor.RunFunction(PLAFunctionCode::FrameAnalyzer::OnComplete, AssignAgent());
 }
 
 // GRAOBJBinder::Item //////////////////////////////////////////////////////////
