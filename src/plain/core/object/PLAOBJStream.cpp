@@ -65,6 +65,8 @@ void PLAOBJStream::Manager::Init()
 
 void PLAOBJStream::Manager::Update()
 {
+  // Call Update() on all streams
+  // Note: CameraStream handles threading internally, its Update() is a no-op
   for (auto *item : this->GetItems()) {
     if (item) {
       static_cast<PLAOBJStream *>(item)->Update();

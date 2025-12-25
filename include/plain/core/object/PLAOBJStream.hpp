@@ -18,6 +18,9 @@ class PLAOBJStream;
 // Philosophy: Following Unix principle of treating everything as a stream
 // - Static file: Read once, no updates needed
 // - Dynamic source: Continuous flow of data
+//
+// Note: Threading is NOT handled by base class.
+// Derived classes that need threading (e.g., CameraStream) handle it internally.
 class PLAOBJStream : private GRAOBJBinder<PLAOBJStream>::Item
 {
 public:
@@ -33,6 +36,9 @@ protected:
   PLAOBJImageSize _size = kPLAOBJImageSizeNone;
   PLAImageType _type = PLAImageType::None;
 
+  // Flag for consumers to check if stream has been updated
+  std::atomic<bool> _isUpdated{false};
+
 public:
   PLAOBJStream(const PLAString &aName);
   virtual ~PLAOBJStream();
@@ -41,8 +47,15 @@ public:
   void Unbind();
 
   // Update the stream (fetch next frame, generate next data, etc.)
-  // Must be implemented by derived classes
+  // For synchronous streams: called by Manager::Update()
+  // For async streams (e.g., CameraStream): may be no-op if internal thread handles it
   virtual void Update() = 0;
+
+  // Check if stream has been updated (called by consumers)
+  bool IsUpdated() const { return _isUpdated; }
+
+  // Mark data as consumed (called by consumers after reading)
+  void Consume() { _isUpdated = false; }
 
   // Get current data for rendering (thread-safe read from front buffer)
   const PLAUInt8 *GetCurrentData() const { return _buffers[_frontIndex].data(); }
@@ -56,10 +69,11 @@ protected:
   // Get back buffer for writing new data (not thread-safe, caller must ensure exclusivity)
   std::vector<PLAUInt8> &GetBackBuffer() { return _buffers[1 - _frontIndex]; }
 
-  // Swap buffers after writing new data (thread-safe)
+  // Swap buffers atomically (thread-safe)
   void SwapBuffers() {
     std::lock_guard<std::mutex> lock(_swapMutex);
     _frontIndex = 1 - _frontIndex;
+    _isUpdated = true;
   }
 
   const PLAString &GetName() const;

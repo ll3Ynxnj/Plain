@@ -56,7 +56,7 @@ bool PLAOBJCameraStream::Open()
   _capture.set(cv::CAP_PROP_FPS, 30);
 
   // Capture initial frame to establish stream properties (size, format)
-  this->Update();
+  CaptureFrame();
 
   if (!this->IsValid())
   {
@@ -65,12 +65,24 @@ bool PLAOBJCameraStream::Open()
     return false;
   }
 
+  // Start capture thread
+  _running = true;
+  _captureThread = std::thread(&PLAOBJCameraStream::CaptureLoop, this);
+
   GRA_PRINT("Camera %d opened successfully\n", _cameraID);
   return true;
 }
 
 void PLAOBJCameraStream::Close()
 {
+  // Stop capture thread
+  if (_running) {
+    _running = false;
+    if (_captureThread.joinable()) {
+      _captureThread.join();
+    }
+  }
+
   if (_capture.isOpened())
   {
     _capture.release();
@@ -80,32 +92,51 @@ void PLAOBJCameraStream::Close()
 
 void PLAOBJCameraStream::Update()
 {
+  // No-op: Capture is handled by internal thread
+  // This method is called by Stream::Manager::Update() but does nothing
+}
+
+void PLAOBJCameraStream::CaptureLoop()
+{
+  while (_running) {
+    CaptureFrame();
+  }
+}
+
+void PLAOBJCameraStream::CaptureFrame()
+{
   if (!_capture.isOpened())
   {
     return;
   }
 
-  if (!_capture.read(_lastFrame) || _lastFrame.empty())
+  cv::Mat newFrame;
+  if (!_capture.read(newFrame) || newFrame.empty())
   {
     return;
   }
 
+  // Write to back analysis buffer (lock-free double buffering)
+  int backIndex = 1 - _analysisFrameIndex;
+  _analysisFrames[backIndex] = newFrame.clone();
+
   // Notify observers of new frame (for analysis)
-  RunFunction(PLAFunctionCode::FrameSource::OnFrameUpdate, _lastFrame);
+  // This triggers FrameAnalyzer callback which queues work for analysis thread
+  RunFunction(PLAFunctionCode::FrameSource::OnFrameUpdate, _analysisFrames[backIndex]);
 
   // Convert to RGBA format
   cv::Mat rgbaFrame;
-  if (_lastFrame.channels() == 3)
+  if (newFrame.channels() == 3)
   {
-    cv::cvtColor(_lastFrame, rgbaFrame, cv::COLOR_BGR2RGBA);
+    cv::cvtColor(newFrame, rgbaFrame, cv::COLOR_BGR2RGBA);
   }
-  else if (_lastFrame.channels() == 4)
+  else if (newFrame.channels() == 4)
   {
-    cv::cvtColor(_lastFrame, rgbaFrame, cv::COLOR_BGRA2RGBA);
+    cv::cvtColor(newFrame, rgbaFrame, cv::COLOR_BGRA2RGBA);
   }
   else
   {
-    GRA_PRINT("Unsupported frame format: %d channels\n", _lastFrame.channels());
+    GRA_PRINT("Unsupported frame format: %d channels\n", newFrame.channels());
     return;
   }
 
@@ -120,6 +151,7 @@ void PLAOBJCameraStream::Update()
   backBuffer.resize(dataSize);
   std::copy(rgbaFrame.data, rgbaFrame.data + dataSize, backBuffer.begin());
 
-  // Swap buffers to make new data available for reading
+  // Swap both buffers atomically
+  _analysisFrameIndex = backIndex;
   SwapBuffers();
 }
