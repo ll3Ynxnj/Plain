@@ -13,7 +13,7 @@
 // Threading: This class handles its own capture thread internally.
 // - Open() starts the capture thread
 // - Close() stops the capture thread
-// - Update() is a no-op (thread handles capture)
+// - Update() fires OnFrameUpdate event when new frame is available
 class PLAOBJCameraStream : public PLAOBJStream, public PLAOBJFrameSource
 {
   cv::VideoCapture _capture;
@@ -42,7 +42,7 @@ public:
   // Close the camera device (stops capture thread)
   void Close();
 
-  // Update: No-op for CameraStream (capture thread handles this)
+  // Update: Fire OnFrameUpdate event when new frame is available
   void Update() override;
 
   // Check if camera is opened
@@ -60,14 +60,6 @@ public:
   void SetFunction(PLAFunctionCode::FrameSource aKey,
                    const std::function<void(const cv::Mat &)> &aFunc) override
   { _functor.SetFunction(aKey, aFunc); }
-
-  // Trigger analysis on current frame (called by consumer in main thread)
-  void TriggerAnalysis() {
-    cv::Mat frame = GetCurrentFrame();
-    if (!frame.empty()) {
-      RunFunction(PLAFunctionCode::FrameSource::OnFrameUpdate, frame);
-    }
-  }
 
 protected:
   void RunFunction(PLAFunctionCode::FrameSource aKey,

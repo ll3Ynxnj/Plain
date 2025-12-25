@@ -92,8 +92,12 @@ void PLAOBJCameraStream::Close()
 
 void PLAOBJCameraStream::Update()
 {
-  // No-op: Capture is handled by internal thread
-  // This method is called by Stream::Manager::Update() but does nothing
+  // Called by Stream::Manager::Update() in main thread
+  // Fire event when new frame is available
+  if (IsUpdated()) {
+    RunFunction(PLAFunctionCode::FrameSource::OnFrameUpdate, _analysisFrames[_analysisFrameIndex]);
+    Consume();
+  }
 }
 
 void PLAOBJCameraStream::CaptureLoop()
@@ -119,10 +123,6 @@ void PLAOBJCameraStream::CaptureFrame()
   // Write to back analysis buffer (lock-free double buffering)
   int backIndex = 1 - _analysisFrameIndex;
   _analysisFrames[backIndex] = newFrame.clone();
-
-  // Notify observers of new frame (for analysis)
-  // This triggers FrameAnalyzer callback which queues work for analysis thread
-  RunFunction(PLAFunctionCode::FrameSource::OnFrameUpdate, _analysisFrames[backIndex]);
 
   // Convert to RGBA format
   cv::Mat rgbaFrame;

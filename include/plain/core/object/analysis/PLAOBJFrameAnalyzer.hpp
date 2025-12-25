@@ -11,6 +11,9 @@
 #include "plain/core/PLAComputeMode.hpp"
 #include "grain/object/GRAOBJBinder.hpp"
 #include <opencv2/opencv.hpp>
+#include <thread>
+#include <mutex>
+#include <atomic>
 
 class PLAOBJFaceDetector;
 class PLAOBJFaceTracker;
@@ -33,6 +36,10 @@ class PLAOBJFrameAnalyzer : public PLAObject,
   bool _smileDetectionEnabled = false;
 
   PLAFaceDetectionResult _lastResult;
+  mutable std::mutex _resultMutex;
+
+  // Async analysis flag
+  std::atomic<bool> _isAnalyzing{false};
 
 protected:
   PLAOBJFrameAnalyzer(const PLAString &aName,
@@ -75,8 +82,20 @@ public:
 
   void AttachToSource(PLAOBJFrameSource *aSource);
 
+  // Start async analysis (skips if already analyzing)
   void Analyze(const cv::Mat &aFrame);
-  PLAFaceDetectionResult GetResult() const { return _lastResult; }
+
+  // Check if analysis is in progress
+  bool IsAnalyzing() const { return _isAnalyzing; }
+
+  // Get result (thread-safe)
+  PLAFaceDetectionResult GetResult() const {
+    std::lock_guard<std::mutex> lock(_resultMutex);
+    return _lastResult;
+  }
+
+private:
+  void AnalyzeInternal(const cv::Mat &aFrame);
 
 //-- GRAOBJBinder::Item --/////////////////////////////////////////////////////////
 private:
