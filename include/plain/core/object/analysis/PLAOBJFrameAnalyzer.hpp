@@ -8,6 +8,7 @@
 #include "plain/core/object/analysis/PLAFace.hpp"
 #include "plain/core/PLAFaceDetectorType.hpp"
 #include "plain/core/PLASmileDetectorType.hpp"
+#include "plain/core/PLAComputeMode.hpp"
 #include "grain/object/GRAOBJBinder.hpp"
 #include <opencv2/opencv.hpp>
 
@@ -36,7 +37,8 @@ class PLAOBJFrameAnalyzer : public PLAObject,
 protected:
   PLAOBJFrameAnalyzer(const PLAString &aName,
                       PLAFaceDetectorType aFaceDetectorType,
-                      PLASmileDetectorType aSmileDetectorType);
+                      PLASmileDetectorType aSmileDetectorType,
+                      PLAComputeMode aComputeMode);
 
 public:
   using PLAFrameAnalyzerItem = GRAOBJBinder<PLAOBJFrameAnalyzer>::Item;
@@ -45,7 +47,8 @@ public:
   static PLAOBJFrameAnalyzer *Create(
     const PLAString &aName = "FrameAnalyzer",
     PLAFaceDetectorType aFaceDetectorType = PLAFaceDetectorType::YuNet,
-    PLASmileDetectorType aSmileDetectorType = PLASmileDetectorType::CNN);
+    PLASmileDetectorType aSmileDetectorType = PLASmileDetectorType::CNN,
+    PLAComputeMode aComputeMode = PLAComputeMode::Default);
   static PLAOBJFrameAnalyzer *Object(const PLAString &aName);
   static PLAOBJFrameAnalyzer *Object(PLAId aId);
 

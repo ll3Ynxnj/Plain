@@ -4,6 +4,7 @@
 #include "plain/core/object/PLAObject.hpp"
 #include "plain/core/object/analysis/PLAFace.hpp"
 #include "plain/core/PLASmileDetectorType.hpp"
+#include "plain/core/PLAComputeMode.hpp"
 #include "grain/object/GRAOBJBinder.hpp"
 #include <opencv2/core.hpp>
 
@@ -50,6 +51,10 @@ public:
   // Threshold for smile classification
   void SetThreshold(PLAFloat aThreshold);
   PLAFloat GetThreshold() const { return _threshold; }
+
+  // Compute mode configuration
+  virtual void SetComputeMode(PLAComputeMode aMode) {}
+  virtual PLAComputeMode GetComputeMode() const { return PLAComputeMode::Default; }
 
 //-- GRAOBJBinder::Item --/////////////////////////////////////////////////////////
 private:

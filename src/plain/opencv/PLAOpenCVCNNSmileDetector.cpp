@@ -2,6 +2,34 @@
 #include "plain/core/object/PLAOBJError.hpp"
 #include <opencv2/imgproc.hpp>
 
+namespace {
+  std::pair<int, int> GetOpenCVBackendTarget(PLAComputeMode aMode)
+  {
+    switch (aMode) {
+      case PLAComputeMode::CUDA:
+        return {cv::dnn::DNN_BACKEND_CUDA, cv::dnn::DNN_TARGET_CUDA};
+      case PLAComputeMode::OpenCL:
+        return {cv::dnn::DNN_BACKEND_OPENCV, cv::dnn::DNN_TARGET_OPENCL};
+      case PLAComputeMode::CPU:
+        return {cv::dnn::DNN_BACKEND_OPENCV, cv::dnn::DNN_TARGET_CPU};
+      case PLAComputeMode::Default:
+      default:
+        return {cv::dnn::DNN_BACKEND_DEFAULT, cv::dnn::DNN_TARGET_CPU};
+    }
+  }
+
+  const char *GetComputeModeName(PLAComputeMode aMode)
+  {
+    switch (aMode) {
+      case PLAComputeMode::CUDA:   return "CUDA";
+      case PLAComputeMode::OpenCL: return "OpenCL";
+      case PLAComputeMode::CPU:    return "CPU";
+      case PLAComputeMode::Default:
+      default:                     return "Default";
+    }
+  }
+}
+
 PLAOpenCVCNNSmileDetector *PLAOpenCVCNNSmileDetector::Create(const PLAString &aName)
 {
   return new PLAOpenCVCNNSmileDetector(aName);
@@ -50,8 +78,13 @@ bool PLAOpenCVCNNSmileDetector::Initialize()
 
   GRA_PRINT("CNN smile detector model loaded from: %s\n", modelPath.c_str());
 
+  // Set DNN backend and target
+  auto [backendId, targetId] = GetOpenCVBackendTarget(_computeMode);
+  _net.setPreferableBackend(backendId);
+  _net.setPreferableTarget(targetId);
+
   _isInitialized = true;
-  GRA_PRINT("CNN smile detector initialized\n");
+  GRA_PRINT("CNN smile detector initialized (compute: %s)\n", GetComputeModeName(_computeMode));
   return true;
 }
 
@@ -111,4 +144,14 @@ bool PLAOpenCVCNNSmileDetector::Detect(const cv::Mat &aFaceImage, PLAFace &aFace
 void PLAOpenCVCNNSmileDetector::SetModelPath(const PLAString &aPath)
 {
   _modelPath = aPath;
+}
+
+void PLAOpenCVCNNSmileDetector::SetComputeMode(PLAComputeMode aMode)
+{
+  if (_isInitialized)
+  {
+    GRA_PRINT("Warning: Cannot change compute mode after initialization\n");
+    return;
+  }
+  _computeMode = aMode;
 }

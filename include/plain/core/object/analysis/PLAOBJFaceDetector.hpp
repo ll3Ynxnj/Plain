@@ -6,6 +6,7 @@
 #include "plain/core/PLAFaceDetectorType.hpp"
 #include "plain/core/PLAFaceDetectionMode.hpp"
 #include "plain/core/PLAFaceDetectionScale.hpp"
+#include "plain/core/PLAComputeMode.hpp"
 #include "grain/object/GRAOBJBinder.hpp"
 #include <opencv2/opencv.hpp>
 #include <mutex>
@@ -57,6 +58,9 @@ public:
 
   virtual void SetScale(PLAFaceDetectionScale aScale);
   PLAFaceDetectionScale GetScale() const { return _scale; }
+
+  virtual void SetComputeMode(PLAComputeMode aMode) {}
+  virtual PLAComputeMode GetComputeMode() const { return PLAComputeMode::Default; }
 
   bool IsInitialized() const { return _isInitialized; }
 

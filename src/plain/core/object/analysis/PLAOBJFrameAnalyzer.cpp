@@ -12,10 +12,11 @@
 PLAOBJFrameAnalyzer *PLAOBJFrameAnalyzer::Create(
   const PLAString &aName,
   PLAFaceDetectorType aFaceDetectorType,
-  PLASmileDetectorType aSmileDetectorType)
+  PLASmileDetectorType aSmileDetectorType,
+  PLAComputeMode aComputeMode)
 {
   PLAOBJFrameAnalyzer *analyzer = new PLAOBJFrameAnalyzer(
-    aName, aFaceDetectorType, aSmileDetectorType);
+    aName, aFaceDetectorType, aSmileDetectorType, aComputeMode);
   analyzer->Bind();
   return analyzer;
 }
@@ -57,7 +58,8 @@ void PLAOBJFrameAnalyzer::Unbind()
 PLAOBJFrameAnalyzer::PLAOBJFrameAnalyzer(
   const PLAString &aName,
   PLAFaceDetectorType aFaceDetectorType,
-  PLASmileDetectorType aSmileDetectorType) :
+  PLASmileDetectorType aSmileDetectorType,
+  PLAComputeMode aComputeMode) :
   PLAObject(PLAObjectType::FrameAnalyzer, aName),
   GRAOBJBinder<PLAOBJFrameAnalyzer>::Item(aName, Manager::Instance())
 {
@@ -66,6 +68,7 @@ PLAOBJFrameAnalyzer::PLAOBJFrameAnalyzer(
   _faceDetector = PLAOBJFaceDetector::Create(aFaceDetectorType, faceDetectorName);
   if (_faceDetector)
   {
+    _faceDetector->SetComputeMode(aComputeMode);
     _faceDetector->SetScale(PLAFaceDetectionScale::Half);
     _faceDetector->Initialize(1920, 1080);
     _faceDetector->SetMode(PLAFaceDetectionMode::Interval);
@@ -81,6 +84,7 @@ PLAOBJFrameAnalyzer::PLAOBJFrameAnalyzer(
   _smileDetector = PLAOBJSmileDetector::Create(aSmileDetectorType, smileDetectorName);
   if (_smileDetector)
   {
+    _smileDetector->SetComputeMode(aComputeMode);
     _smileDetector->Initialize();
   }
 }

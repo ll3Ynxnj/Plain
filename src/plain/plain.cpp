@@ -605,9 +605,14 @@ PLAAGTVideoClip Plain::VideoClip::Assign(const std::string &aName)
   return object->AssignAgent();
 }
 
-PLAAGTFrameAnalyzer Plain::FrameAnalyzer::Create(const PLAString &aName)
+PLAAGTFrameAnalyzer Plain::FrameAnalyzer::Create(const PLAString &aName,
+                                                 PLAComputeMode aComputeMode)
 {
-  auto object = PLAOBJFrameAnalyzer::Create(aName);
+  auto object = PLAOBJFrameAnalyzer::Create(
+    aName,
+    PLAFaceDetectorType::YuNet,
+    PLASmileDetectorType::CNN,
+    aComputeMode);
   return object->AssignAgent();
 }
 

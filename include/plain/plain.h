@@ -25,6 +25,7 @@
 
 #include "plain/core/PLARendererType.hpp"
 #include "plain/core/PLAFunctionCode.hpp"
+#include "plain/core/PLAComputeMode.hpp"
 
 #include "plain/core/PLAErrorType.hpp"
 
@@ -280,7 +281,10 @@ namespace Plain
 
   namespace FrameAnalyzer
   {
-    PLAAGTFrameAnalyzer Create(const PLAString &aName = "FrameAnalyzer");
+    using ComputeMode = PLAComputeMode;
+
+    PLAAGTFrameAnalyzer Create(const PLAString &aName = "FrameAnalyzer",
+                               PLAComputeMode aComputeMode = PLAComputeMode::Default);
     PLAAGTFrameAnalyzer Assign(const PLAString &aName);
   };
 
