@@ -266,7 +266,7 @@ namespace Plain
 
   namespace ImageClip
   {
-    //PLAAGTImageClip Create(const PLAString &aImageName);
+    PLAAGTImageClip Create(const PLAString &aImageName);
     PLAAGTImageClip Create(const PLAString &aImageName, const PLARect &aPixelClip);
     PLAAGTImageClip Assign(const PLAId &aId);
     PLAAGTImageClip Assign(const std::string &aName);

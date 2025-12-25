@@ -560,13 +560,11 @@ PLAAGTMotionNode Plain::MotionNode::CreateScale(const PLAVec3f &aBegin,
   return object->AssignAgent();
 }
 
-/*
 PLAAGTImageClip Plain::ImageClip::Create(const PLAString &aImageName)
 {
   auto object = PLAOBJImageClip::Create(aImageName);
   return object->AssignAgent();
 }
- */
 
 PLAAGTImageClip Plain::ImageClip::Create(const std::string &aImageName,
                                          const PLARect &aPixelClip)
@@ -581,7 +579,7 @@ PLAAGTImageClip Plain::ImageClip::Assign(const PLAId &aId)
   return object->AssignAgent();
 }
 
-PLAAGTImageClip Assign(const std::string &aName)
+PLAAGTImageClip Plain::ImageClip::Assign(const std::string &aName)
 {
   auto object = PLAOBJImageClip::Object(aName);
   return object->AssignAgent();
