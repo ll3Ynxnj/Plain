@@ -7,6 +7,8 @@
 #include <thread>
 #include <atomic>
 
+class PLAAGTCameraStream;
+
 // PLAOBJCameraStream: Camera device stream implementation
 // Captures frames from a camera device (e.g., /dev/video0)
 //
@@ -35,6 +37,8 @@ public:
 
   PLAOBJCameraStream(const PLAString &aName, int aCameraID = 0);
   ~PLAOBJCameraStream();
+
+  PLAAGTCameraStream AssignAgent();
 
   // Open the camera device (starts capture thread)
   bool Open();

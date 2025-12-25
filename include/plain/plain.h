@@ -22,6 +22,7 @@
 #include "plain/core/agent/PLAAGTMotionNode.hpp"
 #include "plain/core/agent/PLAAGTImageClip.hpp"
 #include "plain/core/agent/analysis/PLAAGTFrameAnalyzer.hpp"
+#include "plain/core/agent/PLAAGTCameraStream.hpp"
 
 #include "plain/core/PLARendererType.hpp"
 #include "plain/core/PLAFunctionCode.hpp"
@@ -286,6 +287,12 @@ namespace Plain
     PLAAGTFrameAnalyzer Create(const PLAString &aName = "FrameAnalyzer",
                                PLAComputeMode aComputeMode = PLAComputeMode::Default);
     PLAAGTFrameAnalyzer Assign(const PLAString &aName);
+  };
+
+  namespace CameraStream
+  {
+    PLAAGTCameraStream Create(const PLAString &aName, int aCameraID = 0);
+    PLAAGTCameraStream Assign(const PLAString &aName);
   };
 
 };

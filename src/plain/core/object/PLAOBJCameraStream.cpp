@@ -1,4 +1,5 @@
 #include "plain/core/object/PLAOBJCameraStream.hpp"
+#include "plain/core/agent/PLAAGTCameraStream.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
 
 PLAOBJCameraStream *PLAOBJCameraStream::Create(const PLAString &aName, int aCameraID)
@@ -31,6 +32,11 @@ PLAOBJCameraStream::PLAOBJCameraStream(const PLAString &aName, int aCameraID) :
 PLAOBJCameraStream::~PLAOBJCameraStream()
 {
   this->Close();
+}
+
+PLAAGTCameraStream PLAOBJCameraStream::AssignAgent()
+{
+  return PLAAGTCameraStream(this);
 }
 
 bool PLAOBJCameraStream::Open()

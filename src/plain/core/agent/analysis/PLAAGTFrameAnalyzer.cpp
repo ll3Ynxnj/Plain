@@ -42,9 +42,9 @@ bool PLAAGTFrameAnalyzer::IsSmileDetectionEnabled() const
   return GetAnalyzer()->IsSmileDetectionEnabled();
 }
 
-void PLAAGTFrameAnalyzer::AttachToSource(PLAOBJFrameSource *aSource) const
+void PLAAGTFrameAnalyzer::AttachToSource(const PLAAGTCameraStream &aSource) const
 {
-  RefAnalyzer()->AttachToSource(aSource);
+  RefAnalyzer()->AttachToSource(aSource.GetFrameSource());
 }
 
 void PLAAGTFrameAnalyzer::SetFunction(
