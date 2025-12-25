@@ -17,13 +17,18 @@ void PLAGLUTEngine::reshape(int w, int h)
 
 void PLAGLUTEngine::timer(int value)
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+  // Schedule next timer BEFORE work to maintain consistent frame rate
+  glutTimerFunc(1000 / PLAApp::Instance()->GetRefreshRate(), timer, 0);
+#pragma clang diagnostic pop
+
   PLAApp::Instance()->Update();
   PLAApp::Instance()->Render();
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
   glutPostRedisplay();
-  glutTimerFunc(1000 / 60, timer, 0);
 #pragma clang diagnostic pop
 }
 
