@@ -14,7 +14,7 @@ PLAOBJVideo *PLAOBJVideo::Create(const PLAString &aStreamName)
 
   // Create PLAOBJVideo referencing the stream
   // Use distinct name to avoid conflict with Stream in PLAObject::Manager
-  PLAString videoName = "Video_" + aStreamName;
+  PLAString videoName = aStreamName + "_video";
   PLAOBJVideo *video = new PLAOBJVideo(videoName, stream);
   video->Bind();
   return video;
