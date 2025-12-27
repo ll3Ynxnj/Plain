@@ -85,11 +85,17 @@ void PLAGLUTEngine::keyboardUp(unsigned char key, int x, int y)
   PLAApp::Instance()->InputKey(inputCode, 0);
 }
 
-void PLAGLUTEngine::glut(int argc, char *argv[], int width, int height, void (*init)(void), bool fullscreen) {
+void PLAGLUTEngine::glut(int argc, char *argv[], int width, int height, void (*init)(void), bool fullscreen, bool msaa) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
   glutInit(&argc, argv);
-  glutInitDisplayMode(GLUT_RGBA | GLUT_STENCIL);
+
+  unsigned int displayMode = GLUT_RGBA | GLUT_STENCIL;
+  if (msaa)
+  {
+    displayMode |= GLUT_MULTISAMPLE;
+  }
+  glutInitDisplayMode(displayMode);
   glutInitWindowSize(width, height);
 
   glutCreateWindow(argv[0]);
@@ -97,6 +103,11 @@ void PLAGLUTEngine::glut(int argc, char *argv[], int width, int height, void (*i
   if (fullscreen)
   {
     glutFullScreen();
+  }
+
+  if (msaa)
+  {
+    glEnable(GL_MULTISAMPLE);
   }
 
   glutDisplayFunc(display);
