@@ -5,6 +5,7 @@
 
 #include "plain/core/agent/actor/PLAAGTActor.hpp"
 #include "plain/core/primitive/PLAPRMColor.hpp"
+#include "plain/core/primitive/PLAPRMStroke.hpp"
 
 class PLAOBJActor;
 
@@ -22,8 +23,11 @@ public:
   void SetAngles(PLAFloat aStartAngle, PLAFloat aEndAngle);
 
   void SetFillColor(const PLAColor &aColor);
+  void SetStroke(const PLAStroke &aStroke);
   void SetStrokeColor(const PLAColor &aColor);
   void SetStrokeWidth(PLAFloat aWidth);
+  void SetStrokeJoin(PLAStrokeJoinType aJoin);
+  void SetStrokeAlign(PLAStrokeAlignType aAlign);
 };
 
 #endif //PLAIN_PLAAGTACTORFORARC_HPP

@@ -54,3 +54,18 @@ void PLAAGTActorForArc::SetStrokeWidth(PLAFloat aWidth)
 {
   this->RefActor()->RefLayerForArc()->SetStrokeWidth(aWidth);
 }
+
+void PLAAGTActorForArc::SetStroke(const PLAStroke &aStroke)
+{
+  this->RefActor()->RefLayerForArc()->SetStroke(aStroke);
+}
+
+void PLAAGTActorForArc::SetStrokeJoin(PLAStrokeJoinType aJoin)
+{
+  this->RefActor()->RefLayerForArc()->SetStrokeJoin(aJoin);
+}
+
+void PLAAGTActorForArc::SetStrokeAlign(PLAStrokeAlignType aAlign)
+{
+  this->RefActor()->RefLayerForArc()->SetStrokeAlign(aAlign);
+}

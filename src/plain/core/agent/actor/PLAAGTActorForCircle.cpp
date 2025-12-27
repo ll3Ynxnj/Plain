@@ -23,3 +23,18 @@ void PLAAGTActorForCircle::SetStrokeWidth(PLAFloat aWidth)
 {
   this->RefActor()->RefLayerForCircle()->SetStrokeWidth(aWidth);
 }
+
+void PLAAGTActorForCircle::SetStroke(const PLAStroke &aStroke)
+{
+  this->RefActor()->RefLayerForCircle()->SetStroke(aStroke);
+}
+
+void PLAAGTActorForCircle::SetStrokeJoin(PLAStrokeJoinType aJoin)
+{
+  this->RefActor()->RefLayerForCircle()->SetStrokeJoin(aJoin);
+}
+
+void PLAAGTActorForCircle::SetStrokeAlign(PLAStrokeAlignType aAlign)
+{
+  this->RefActor()->RefLayerForCircle()->SetStrokeAlign(aAlign);
+}

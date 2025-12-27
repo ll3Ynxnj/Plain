@@ -10,7 +10,7 @@ PLALYRArc::PLALYRArc(const PLAVec3f &aOffset, PLAFloat aRadius,
                      const std::string &aImageName, const PLARect &aClip) :
   PLAOBJLayer(PLALayerType::Arc, aOffset),
   _radius(aRadius), _startAngle(aStartAngle), _endAngle(aEndAngle),
-  _fillColor(aFillColor), _strokeColor(aStrokeColor)
+  _fillColor(aFillColor), _stroke(aStrokeColor, 2.0f)
 {
   if (aImageName != kPLAStrUndefined) {
     _imageClip = PLAOBJImageClip::Create(aImageName, aClip);

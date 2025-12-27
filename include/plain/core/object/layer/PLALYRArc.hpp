@@ -5,6 +5,7 @@
 
 #include "plain/core/object/layer/PLAOBJLayer.hpp"
 #include "plain/core/primitive/PLAPRMColor.hpp"
+#include "plain/core/primitive/PLAPRMStroke.hpp"
 
 class PLALYRArc : public PLAOBJLayer
 {
@@ -12,8 +13,7 @@ class PLALYRArc : public PLAOBJLayer
   PLAFloat _startAngle = 0;      // Start angle in radians
   PLAFloat _endAngle = M_PI;     // End angle in radians
   PLAColor _fillColor = kPLAColorWhite;
-  PLAColor _strokeColor = kPLAColorNone;
-  PLAFloat _strokeWidth = 2.0f;
+  PLAStroke _stroke;
   PLAOBJImageClip *_imageClip = nullptr;
   PLAOBJVideoClip *_videoClip = nullptr;
 
@@ -57,13 +57,18 @@ public:
   void SetAngles(PLAFloat aStartAngle, PLAFloat aEndAngle)
   { _startAngle = aStartAngle; _endAngle = aEndAngle; };
 
-  const PLAColor &GetStrokeColor() const { return _strokeColor; };
-  void SetStrokeColor(const PLAColor &aColor) { _strokeColor = aColor; };
+  const PLAStroke &GetStroke() const { return _stroke; };
+  void SetStroke(const PLAStroke &aStroke) { _stroke = aStroke; };
+  const PLAColor &GetStrokeColor() const { return _stroke.color; };
+  void SetStrokeColor(const PLAColor &aColor) { _stroke.color = aColor; };
+  PLAFloat GetStrokeWidth() const { return _stroke.width; };
+  void SetStrokeWidth(PLAFloat aWidth) { _stroke.width = aWidth; };
+  PLAStrokeJoinType GetStrokeJoin() const { return _stroke.join; };
+  void SetStrokeJoin(PLAStrokeJoinType aJoin) { _stroke.join = aJoin; };
+  PLAStrokeAlignType GetStrokeAlign() const { return _stroke.align; };
+  void SetStrokeAlign(PLAStrokeAlignType aAlign) { _stroke.align = aAlign; };
   const PLAColor &GetFillColor() const { return _fillColor; };
   void SetFillColor(const PLAColor &aColor) { _fillColor = aColor; };
-
-  PLAFloat GetStrokeWidth() const { return _strokeWidth; };
-  void SetStrokeWidth(PLAFloat aWidth) { _strokeWidth = aWidth; };
 
   const PLAOBJImageClip *GetImageClip() const { return _imageClip; };
 };

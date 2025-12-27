@@ -450,49 +450,72 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
   glEnd();
 
   // Draw stroke if strokeColor has alpha > 0
-  PLAColor strokeColor = aLayer->GetStrokeColor();
+  const PLAStroke &stroke = aLayer->GetStroke();
+  PLAColor strokeColor = stroke.color;
   strokeColor *= aColor;
   if (strokeColor.a > 0) {
     glDisable(GL_TEXTURE_2D);
-    PLAFloat w = aLayer->GetStrokeWidth();
+    PLAFloat w = stroke.width;
     PLAFloat left = offset.x;
     PLAFloat right = offset.x + aLayer->GetSize().x;
     PLAFloat top = -offset.y;
     PLAFloat bottom = -offset.y - aLayer->GetSize().y;
     PLAFloat z = offset.z;
 
+    // Calculate stroke offset based on alignment
+    PLAFloat outerOffset = 0;
+    PLAFloat innerOffset = 0;
+    switch (stroke.align) {
+      case PLAStrokeAlignType::Outside:
+        outerOffset = w;
+        innerOffset = 0;
+        break;
+      case PLAStrokeAlignType::Center:
+        outerOffset = w * 0.5f;
+        innerOffset = w * 0.5f;
+        break;
+      case PLAStrokeAlignType::Inside:
+        outerOffset = 0;
+        innerOffset = w;
+        break;
+      default:
+        outerOffset = w;
+        innerOffset = 0;
+        break;
+    }
+
     glColor4f(strokeColor.r, strokeColor.g, strokeColor.b, strokeColor.a);
 
-    // Top edge (outer)
+    // Top edge
     glBegin(GL_TRIANGLE_STRIP);
-    glVertex3f(left - w, top + w, z);
-    glVertex3f(right + w, top + w, z);
-    glVertex3f(left - w, top, z);
-    glVertex3f(right + w, top, z);
+    glVertex3f(left - outerOffset, top + outerOffset, z);
+    glVertex3f(right + outerOffset, top + outerOffset, z);
+    glVertex3f(left - outerOffset, top - innerOffset, z);
+    glVertex3f(right + outerOffset, top - innerOffset, z);
     glEnd();
 
-    // Bottom edge (outer)
+    // Bottom edge
     glBegin(GL_TRIANGLE_STRIP);
-    glVertex3f(left - w, bottom, z);
-    glVertex3f(right + w, bottom, z);
-    glVertex3f(left - w, bottom - w, z);
-    glVertex3f(right + w, bottom - w, z);
+    glVertex3f(left - outerOffset, bottom + innerOffset, z);
+    glVertex3f(right + outerOffset, bottom + innerOffset, z);
+    glVertex3f(left - outerOffset, bottom - outerOffset, z);
+    glVertex3f(right + outerOffset, bottom - outerOffset, z);
     glEnd();
 
-    // Left edge (between top and bottom)
+    // Left edge (between top and bottom inner edges)
     glBegin(GL_TRIANGLE_STRIP);
-    glVertex3f(left - w, top, z);
-    glVertex3f(left, top, z);
-    glVertex3f(left - w, bottom, z);
-    glVertex3f(left, bottom, z);
+    glVertex3f(left - outerOffset, top - innerOffset, z);
+    glVertex3f(left + innerOffset, top - innerOffset, z);
+    glVertex3f(left - outerOffset, bottom + innerOffset, z);
+    glVertex3f(left + innerOffset, bottom + innerOffset, z);
     glEnd();
 
-    // Right edge (between top and bottom)
+    // Right edge (between top and bottom inner edges)
     glBegin(GL_TRIANGLE_STRIP);
-    glVertex3f(right, top, z);
-    glVertex3f(right + w, top, z);
-    glVertex3f(right, bottom, z);
-    glVertex3f(right + w, bottom, z);
+    glVertex3f(right - innerOffset, top - innerOffset, z);
+    glVertex3f(right + outerOffset, top - innerOffset, z);
+    glVertex3f(right - innerOffset, bottom + innerOffset, z);
+    glVertex3f(right + outerOffset, bottom + innerOffset, z);
     glEnd();
   }
 }
@@ -596,17 +619,39 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
   glEnd();
 
   // Draw stroke if strokeColor has alpha > 0
-  PLAColor strokeColor = aLayer->GetStrokeColor();
+  const PLAStroke &stroke = aLayer->GetStroke();
+  PLAColor strokeColor = stroke.color;
   strokeColor *= aColor;
   if (strokeColor.a > 0) {
     glDisable(GL_TEXTURE_2D);
     glColor4f(strokeColor.r, strokeColor.g, strokeColor.b, strokeColor.a);
 
-    PLAFloat w = aLayer->GetStrokeWidth();
-    PLAFloat innerRadius = aLayer->GetRadius();
-    PLAFloat outerRadius = innerRadius + w;
-    PLAFloat cx = innerRadius + aLayer->GetOffset().x;
-    PLAFloat cy = -innerRadius - aLayer->GetOffset().y;
+    PLAFloat w = stroke.width;
+    PLAFloat baseRadius = aLayer->GetRadius();
+
+    // Calculate inner/outer radius based on alignment
+    PLAFloat outerRadius, innerRadius;
+    switch (stroke.align) {
+      case PLAStrokeAlignType::Outside:
+        outerRadius = baseRadius + w;
+        innerRadius = baseRadius;
+        break;
+      case PLAStrokeAlignType::Center:
+        outerRadius = baseRadius + w * 0.5f;
+        innerRadius = baseRadius - w * 0.5f;
+        break;
+      case PLAStrokeAlignType::Inside:
+        outerRadius = baseRadius;
+        innerRadius = baseRadius - w;
+        break;
+      default:
+        outerRadius = baseRadius + w;
+        innerRadius = baseRadius;
+        break;
+    }
+
+    PLAFloat cx = baseRadius + aLayer->GetOffset().x;
+    PLAFloat cy = -baseRadius - aLayer->GetOffset().y;
     PLAFloat z = aLayer->GetOffset().z;
     double step = M_PI * 2 / split;
 
@@ -720,23 +765,99 @@ void PLAGLUTRenderer::DrawArc(const PLALYRArc *aLayer, const PLAColor &aColor,
   glEnd();
 
   // Draw stroke if strokeColor has alpha > 0
-  PLAColor strokeColor = aLayer->GetStrokeColor();
+  const PLAStroke &stroke = aLayer->GetStroke();
+  PLAColor strokeColor = stroke.color;
   strokeColor *= aColor;
   if (strokeColor.a > 0) {
     glDisable(GL_TEXTURE_2D);
-    glLineWidth(aLayer->GetStrokeWidth());
-
-    // Draw arc outline (not closed loop - just the arc edge)
-    glBegin(GL_LINE_STRIP);
     glColor4f(strokeColor.r, strokeColor.g, strokeColor.b, strokeColor.a);
-    // Draw from center to first arc point, along arc, back to center
-    glVertex3f(vertices[0], vertices[1], vertices[2]);
-    for (int i = 1; i < numVertices; i++)
-    {
-      glVertex3f(vertices[i * 3], vertices[i * 3 + 1], vertices[i * 3 + 2]);
+
+    PLAFloat w = stroke.width;
+    PLAFloat baseRadius = radius;
+
+    // Calculate outer/inner offset based on alignment
+    PLAFloat outerOffset, innerOffset;
+    switch (stroke.align) {
+      case PLAStrokeAlignType::Outside:
+        outerOffset = w;
+        innerOffset = 0;
+        break;
+      case PLAStrokeAlignType::Center:
+        outerOffset = w * 0.5f;
+        innerOffset = w * 0.5f;
+        break;
+      case PLAStrokeAlignType::Inside:
+        outerOffset = 0;
+        innerOffset = w;
+        break;
+      default:
+        outerOffset = w;
+        innerOffset = 0;
+        break;
     }
-    glVertex3f(vertices[0], vertices[1], vertices[2]);
+
+    PLAFloat cx = baseRadius + aLayer->GetOffset().x;
+    PLAFloat cy = -baseRadius - aLayer->GetOffset().y;
+    PLAFloat z = aLayer->GetOffset().z;
+
+    PLAFloat outerRadius = baseRadius + outerOffset;
+    PLAFloat innerRadius = baseRadius - innerOffset;
+    if (innerRadius < 0) innerRadius = 0;
+
+    double step = angleSpan / split;
+
+    // Draw arc stroke (curved part only)
+    glBegin(GL_TRIANGLE_STRIP);
+    for (int i = 0; i <= split; i++)
+    {
+      double radian = startAngle + i * step;
+      PLAFloat cosR = cos(radian);
+      PLAFloat sinR = sin(radian);
+      // Outer vertex
+      glVertex3f(cx + outerRadius * cosR, cy - outerRadius * sinR, z);
+      // Inner vertex
+      glVertex3f(cx + innerRadius * cosR, cy - innerRadius * sinR, z);
+    }
     glEnd();
+
+    // Draw the two radial edges (from center to arc)
+    // First edge (start angle)
+    {
+      double radian = startAngle;
+      PLAFloat cosR = cos(radian);
+      PLAFloat sinR = sin(radian);
+      // Perpendicular direction for edge stroke
+      PLAFloat perpX = -sinR;
+      PLAFloat perpY = -cosR;
+
+      glBegin(GL_TRIANGLE_STRIP);
+      // From center outward along the radial edge
+      glVertex3f(cx + perpX * outerOffset, cy - perpY * outerOffset, z);
+      glVertex3f(cx - perpX * innerOffset, cy + perpY * innerOffset, z);
+      glVertex3f(cx + outerRadius * cosR + perpX * outerOffset,
+                 cy - outerRadius * sinR - perpY * outerOffset, z);
+      glVertex3f(cx + outerRadius * cosR - perpX * innerOffset,
+                 cy - outerRadius * sinR + perpY * innerOffset, z);
+      glEnd();
+    }
+
+    // Second edge (end angle)
+    {
+      double radian = endAngle;
+      PLAFloat cosR = cos(radian);
+      PLAFloat sinR = sin(radian);
+      PLAFloat perpX = sinR;
+      PLAFloat perpY = cosR;
+
+      glBegin(GL_TRIANGLE_STRIP);
+      glVertex3f(cx + perpX * outerOffset, cy - perpY * outerOffset, z);
+      glVertex3f(cx - perpX * innerOffset, cy + perpY * innerOffset, z);
+      glVertex3f(cx + outerRadius * cosR + perpX * outerOffset,
+                 cy - outerRadius * sinR - perpY * outerOffset, z);
+      glVertex3f(cx + outerRadius * cosR - perpX * innerOffset,
+                 cy - outerRadius * sinR + perpY * innerOffset, z);
+      glEnd();
+    }
   }
 }
 

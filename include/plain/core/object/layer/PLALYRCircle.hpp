@@ -3,13 +3,13 @@
 
 #include "plain/core/object/layer/PLAOBJLayer.hpp"
 #include "plain/core/primitive/PLAPRMColor.hpp"
+#include "plain/core/primitive/PLAPRMStroke.hpp"
 
 class PLALYRCircle : public PLAOBJLayer
 {
   PLAFloat _radius = 0;
   PLAColor _fillColor = kPLAColorWhite;
-  PLAColor _strokeColor = kPLAColorNone;
-  PLAFloat _strokeWidth = 2.0f;
+  PLAStroke _stroke;
   PLAOBJImageClip *_imageClip = nullptr;
   PLAOBJVideoClip *_videoClip = nullptr;
 
@@ -18,7 +18,7 @@ public:
                const PLAColor &aFillColor, const PLAColor &aStrokeColor,
                const std::string &aImageName, const PLARect &aClip) :
     PLAOBJLayer(PLALayerType::Circle, aOffset),//, "== PLALYRRect =="),
-    _radius(aRadius), _fillColor(aFillColor), _strokeColor(aStrokeColor)
+    _radius(aRadius), _fillColor(aFillColor), _stroke(aStrokeColor, 2.0f)
     {
       if (aImageName != kPLAStrUndefined) {
         _imageClip = PLAOBJImageClip::Create(aImageName, aClip);
@@ -30,7 +30,7 @@ public:
                const std::string &aImageName, const PLARect &aClip) :
     PLAOBJLayer(PLALayerType::Circle,
                 PLAVec3f(aCircle.origin.x, aCircle.origin.y, 0)),//, "== PLALYRRect =="),
-    _radius(aCircle.radius), _fillColor(aFillColor), _strokeColor(aStrokeColor)
+    _radius(aCircle.radius), _fillColor(aFillColor), _stroke(aStrokeColor, 2.0f)
   {
     if (aImageName != kPLAStrUndefined) {
       _imageClip = PLAOBJImageClip::Create(aImageName, aClip);
@@ -76,16 +76,19 @@ public:
   PLAFloat GetRadius() const { return _radius; };
   PLACircle GetCircle() const;
 
-  const PLAColor &GetStrokeColor() const { return _strokeColor; };
-  void SetStrokeColor(const PLAColor &aColor) { _strokeColor = aColor; };
-  PLAFloat GetStrokeWidth() const { return _strokeWidth; };
-  void SetStrokeWidth(PLAFloat aWidth) { _strokeWidth = aWidth; };
+  const PLAStroke &GetStroke() const { return _stroke; };
+  void SetStroke(const PLAStroke &aStroke) { _stroke = aStroke; };
+  const PLAColor &GetStrokeColor() const { return _stroke.color; };
+  void SetStrokeColor(const PLAColor &aColor) { _stroke.color = aColor; };
+  PLAFloat GetStrokeWidth() const { return _stroke.width; };
+  void SetStrokeWidth(PLAFloat aWidth) { _stroke.width = aWidth; };
+  PLAStrokeJoinType GetStrokeJoin() const { return _stroke.join; };
+  void SetStrokeJoin(PLAStrokeJoinType aJoin) { _stroke.join = aJoin; };
+  PLAStrokeAlignType GetStrokeAlign() const { return _stroke.align; };
+  void SetStrokeAlign(PLAStrokeAlignType aAlign) { _stroke.align = aAlign; };
   const PLAColor &GetFillColor() const { return _fillColor; };
   void SetFillColor(const PLAColor &aColor) { _fillColor = aColor; };
   const PLAOBJImageClip *GetImageClip() const { return _imageClip; };
-
-  virtual void SetFillColor(const PLAColor &aColor) const;
-  virtual void SetStrokeColor(const PLAColor &aColor) const;
 };
 
 #endif //PLAIN_PLALYRCIRCLE_HPP
