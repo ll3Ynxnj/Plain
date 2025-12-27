@@ -867,6 +867,10 @@ void PLAGLUTRenderer::DrawLabel(const PLALYRLabel *aLayer,
                texImage->GetSize().x, texImage->GetSize().y, 0,
                GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
 
+  // Set texture filtering for smooth text rendering
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
   const PLAVec3f offset = aLayer->GetOffset();
   const PLAVec3f size = aLayer->GetSize();
 

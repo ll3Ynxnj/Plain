@@ -21,7 +21,7 @@ PLALYRLabel *PLALYRLabel::Create(const PLAString &aText, PLAFloat aFontSize,
   PLALYRLabel *label = new PLALYRLabel(kPLAVec3fNone, aText, aFontSize, aTextColor);
 
   PLAOBJFontRasterizer *rasterizer =
-    PLAOBJFontRasterizer::Create(PLAFontRasterizerType::OpenCV);
+    PLAOBJFontRasterizer::Create(PLAFontRasterizerType::FreeType);
   label->SetFontRasterizer(rasterizer);
 
   return label;

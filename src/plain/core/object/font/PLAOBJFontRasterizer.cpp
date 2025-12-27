@@ -2,6 +2,7 @@
 
 #include "plain/core/object/font/PLAOBJFontRasterizer.hpp"
 #include "plain/opencv/PLAOpenCVFontRasterizer.hpp"
+#include "plain/freetype/PLAFreeTypeFontRasterizer.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
 
 PLAOBJFontRasterizer *PLAOBJFontRasterizer::Create(PLAFontRasterizerType aType,
@@ -15,9 +16,8 @@ PLAOBJFontRasterizer *PLAOBJFontRasterizer::Create(PLAFontRasterizerType aType,
       rasterizer = PLAOpenCVFontRasterizer::Create(aName);
       break;
     case PLAFontRasterizerType::FreeType:
-      PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                      "Font rasterizer type not yet implemented.");
-      return nullptr;
+      rasterizer = PLAFreeTypeFontRasterizer::Create(aName);
+      break;
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
                       "Unexpected font rasterizer type detected.");
