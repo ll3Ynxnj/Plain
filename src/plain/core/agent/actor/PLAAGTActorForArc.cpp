@@ -60,12 +60,12 @@ void PLAAGTActorForArc::SetStroke(const PLAStroke &aStroke)
   this->RefActor()->RefLayerForArc()->SetStroke(aStroke);
 }
 
-void PLAAGTActorForArc::SetStrokeJoin(PLAStrokeJoinType aJoin)
+void PLAAGTActorForArc::SetStrokeJoin(PLAStroke::Join aJoin)
 {
   this->RefActor()->RefLayerForArc()->SetStrokeJoin(aJoin);
 }
 
-void PLAAGTActorForArc::SetStrokeAlign(PLAStrokeAlignType aAlign)
+void PLAAGTActorForArc::SetStrokeAlign(PLAStroke::Align aAlign)
 {
   this->RefActor()->RefLayerForArc()->SetStrokeAlign(aAlign);
 }

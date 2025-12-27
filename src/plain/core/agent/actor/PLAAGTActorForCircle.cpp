@@ -29,12 +29,12 @@ void PLAAGTActorForCircle::SetStroke(const PLAStroke &aStroke)
   this->RefActor()->RefLayerForCircle()->SetStroke(aStroke);
 }
 
-void PLAAGTActorForCircle::SetStrokeJoin(PLAStrokeJoinType aJoin)
+void PLAAGTActorForCircle::SetStrokeJoin(PLAStroke::Join aJoin)
 {
   this->RefActor()->RefLayerForCircle()->SetStrokeJoin(aJoin);
 }
 
-void PLAAGTActorForCircle::SetStrokeAlign(PLAStrokeAlignType aAlign)
+void PLAAGTActorForCircle::SetStrokeAlign(PLAStroke::Align aAlign)
 {
   this->RefActor()->RefLayerForCircle()->SetStrokeAlign(aAlign);
 }

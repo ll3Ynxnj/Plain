@@ -26,8 +26,8 @@ public:
   void SetStroke(const PLAStroke &aStroke);
   void SetStrokeColor(const PLAColor &aColor);
   void SetStrokeWidth(PLAFloat aWidth);
-  void SetStrokeJoin(PLAStrokeJoinType aJoin);
-  void SetStrokeAlign(PLAStrokeAlignType aAlign);
+  void SetStrokeJoin(PLAStroke::Join aJoin);
+  void SetStrokeAlign(PLAStroke::Align aAlign);
 };
 
 #endif //PLAIN_PLAAGTACTORFORARC_HPP

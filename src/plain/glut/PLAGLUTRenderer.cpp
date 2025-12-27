@@ -466,15 +466,15 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
     PLAFloat outerOffset = 0;
     PLAFloat innerOffset = 0;
     switch (stroke.align) {
-      case PLAStrokeAlignType::Outside:
+      case PLAStroke::Align::Outside:
         outerOffset = w;
         innerOffset = 0;
         break;
-      case PLAStrokeAlignType::Center:
+      case PLAStroke::Align::Center:
         outerOffset = w * 0.5f;
         innerOffset = w * 0.5f;
         break;
-      case PLAStrokeAlignType::Inside:
+      case PLAStroke::Align::Inside:
         outerOffset = 0;
         innerOffset = w;
         break;
@@ -632,15 +632,15 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
     // Calculate inner/outer radius based on alignment
     PLAFloat outerRadius, innerRadius;
     switch (stroke.align) {
-      case PLAStrokeAlignType::Outside:
+      case PLAStroke::Align::Outside:
         outerRadius = baseRadius + w;
         innerRadius = baseRadius;
         break;
-      case PLAStrokeAlignType::Center:
+      case PLAStroke::Align::Center:
         outerRadius = baseRadius + w * 0.5f;
         innerRadius = baseRadius - w * 0.5f;
         break;
-      case PLAStrokeAlignType::Inside:
+      case PLAStroke::Align::Inside:
         outerRadius = baseRadius;
         innerRadius = baseRadius - w;
         break;
@@ -778,15 +778,15 @@ void PLAGLUTRenderer::DrawArc(const PLALYRArc *aLayer, const PLAColor &aColor,
     // Calculate outer/inner offset based on alignment
     PLAFloat outerOffset, innerOffset;
     switch (stroke.align) {
-      case PLAStrokeAlignType::Outside:
+      case PLAStroke::Align::Outside:
         outerOffset = w;
         innerOffset = 0;
         break;
-      case PLAStrokeAlignType::Center:
+      case PLAStroke::Align::Center:
         outerOffset = w * 0.5f;
         innerOffset = w * 0.5f;
         break;
-      case PLAStrokeAlignType::Inside:
+      case PLAStroke::Align::Inside:
         outerOffset = 0;
         innerOffset = w;
         break;

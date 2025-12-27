@@ -63,10 +63,10 @@ public:
   void SetStrokeColor(const PLAColor &aColor) { _stroke.color = aColor; };
   PLAFloat GetStrokeWidth() const { return _stroke.width; };
   void SetStrokeWidth(PLAFloat aWidth) { _stroke.width = aWidth; };
-  PLAStrokeJoinType GetStrokeJoin() const { return _stroke.join; };
-  void SetStrokeJoin(PLAStrokeJoinType aJoin) { _stroke.join = aJoin; };
-  PLAStrokeAlignType GetStrokeAlign() const { return _stroke.align; };
-  void SetStrokeAlign(PLAStrokeAlignType aAlign) { _stroke.align = aAlign; };
+  PLAStroke::Join GetStrokeJoin() const { return _stroke.join; };
+  void SetStrokeJoin(PLAStroke::Join aJoin) { _stroke.join = aJoin; };
+  PLAStroke::Align GetStrokeAlign() const { return _stroke.align; };
+  void SetStrokeAlign(PLAStroke::Align aAlign) { _stroke.align = aAlign; };
   const PLAColor &GetFillColor() const { return _fillColor; };
   void SetFillColor(const PLAColor &aColor) { _fillColor = aColor; };
 
