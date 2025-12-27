@@ -19,6 +19,7 @@ public:
   explicit PLAAGTActorForCircle(PLAOBJActor *aOwner);
 
   void SetStrokeColor(const PLAColor &aColor);
+  void SetStrokeWidth(PLAFloat aWidth);
 };
 
 

@@ -18,3 +18,8 @@ void PLAAGTActorForCircle::SetStrokeColor(const PLAColor &aColor)
 {
   this->RefActor()->RefLayerForCircle()->SetStrokeColor(aColor);
 }
+
+void PLAAGTActorForCircle::SetStrokeWidth(PLAFloat aWidth)
+{
+  this->RefActor()->RefLayerForCircle()->SetStrokeWidth(aWidth);
+}

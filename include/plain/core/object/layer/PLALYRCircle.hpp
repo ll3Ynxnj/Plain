@@ -9,6 +9,7 @@ class PLALYRCircle : public PLAOBJLayer
   PLAFloat _radius = 0;
   PLAColor _fillColor = kPLAColorWhite;
   PLAColor _strokeColor = kPLAColorNone;
+  PLAFloat _strokeWidth = 2.0f;
   PLAOBJImageClip *_imageClip = nullptr;
   PLAOBJVideoClip *_videoClip = nullptr;
 
@@ -77,6 +78,8 @@ public:
 
   const PLAColor &GetStrokeColor() const { return _strokeColor; };
   void SetStrokeColor(const PLAColor &aColor) { _strokeColor = aColor; };
+  PLAFloat GetStrokeWidth() const { return _strokeWidth; };
+  void SetStrokeWidth(PLAFloat aWidth) { _strokeWidth = aWidth; };
   const PLAColor &GetFillColor() const { return _fillColor; };
   void SetFillColor(const PLAColor &aColor) { _fillColor = aColor; };
   const PLAOBJImageClip *GetImageClip() const { return _imageClip; };

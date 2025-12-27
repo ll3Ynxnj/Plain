@@ -568,7 +568,7 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
   strokeColor *= aColor;
   if (strokeColor.a > 0) {
     glDisable(GL_TEXTURE_2D);
-    glLineWidth(2.0f);
+    glLineWidth(aLayer->GetStrokeWidth());
     glBegin(GL_LINE_LOOP);
     glColor4f(strokeColor.r, strokeColor.g, strokeColor.b, strokeColor.a);
     // Skip center vertex (index 0), draw outline from index 1
