@@ -1,7 +1,7 @@
 #include <math.h>
 
 #include "plain/glut/PLAGLUTRenderer.hpp"
-#include "plain/glut/PLAGLUTTextureManager.hpp"
+#include "plain/glut/PLAGLUTTexture.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
 #include "plain/core/object/PLAOBJResource.hpp"
 #include "plain/core/object/PLAOBJVideoClip.hpp"
@@ -351,12 +351,12 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
         PLAOBJVideoClip *videoClip = const_cast<PLAOBJVideoClip*>(
           static_cast<const PLAOBJVideoClip*>(imageClip));
         videoClip->Update();
-        PLAGLUTTextureManager::Instance()->BindAndUpdateVideoTexture(videoClip, texImage);
+        PLAGLUTTexture::Manager::Instance()->BindAndUpdate(videoClip, texImage);
       }
       else
       {
         // Static image: cached texture
-        PLAGLUTTextureManager::Instance()->GetOrCreateTexture(texImage);
+        PLAGLUTTexture::Manager::Instance()->GetOrCreate(texImage);
       }
     }
   }
