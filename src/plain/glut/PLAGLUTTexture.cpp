@@ -60,7 +60,7 @@ PLAGLUTTexture::Manager::~Manager()
   Clear();
 }
 
-PLAGLUTTexture* PLAGLUTTexture::Manager::GetOrCreate(const PLAOBJImage* aImage)
+PLAGLUTTexture* PLAGLUTTexture::Manager::GetTexture(const PLAOBJImage* aImage)
 {
   if (!aImage)
   {

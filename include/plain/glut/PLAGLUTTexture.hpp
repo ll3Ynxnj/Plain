@@ -60,7 +60,7 @@ public:
     ~Manager();
 
     // Image texture management
-    PLAGLUTTexture* GetOrCreate(const PLAOBJImage* aImage);
+    PLAGLUTTexture* GetTexture(const PLAOBJImage* aImage);
 
     // Video texture management
     void BindAndUpdate(const PLAOBJVideo* aVideo, const PLAOBJImage* aImage);

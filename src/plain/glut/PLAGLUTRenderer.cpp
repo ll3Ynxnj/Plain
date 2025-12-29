@@ -356,7 +356,7 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
       else
       {
         // Static image: cached texture
-        PLAGLUTTexture::Manager::Instance()->GetOrCreate(texImage);
+        PLAGLUTTexture::Manager::Instance()->GetTexture(texImage);
       }
     }
   }
@@ -537,7 +537,7 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
       else
       {
         // Static image: cached texture
-        PLAGLUTTexture::Manager::Instance()->GetOrCreate(texImage);
+        PLAGLUTTexture::Manager::Instance()->GetTexture(texImage);
       }
     }
   }
@@ -697,7 +697,7 @@ void PLAGLUTRenderer::DrawArc(const PLALYRArc *aLayer, const PLAColor &aColor,
       else
       {
         // Static image: cached texture
-        PLAGLUTTexture::Manager::Instance()->GetOrCreate(texImage);
+        PLAGLUTTexture::Manager::Instance()->GetTexture(texImage);
       }
     }
   }
@@ -901,7 +901,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
     texSize = texImage->GetSize();
     glEnable(GL_TEXTURE_2D);
     // Static image: cached texture
-    PLAGLUTTexture::Manager::Instance()->GetOrCreate(texImage);
+    PLAGLUTTexture::Manager::Instance()->GetTexture(texImage);
   } else {
     glDisable(GL_TEXTURE_2D);
   }
