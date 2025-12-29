@@ -522,10 +522,24 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
   if (imageClip)
   {
     const PLAOBJImage *texImage = imageClip->GetImage();
-    glEnable(GL_TEXTURE_2D);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetSize().x,
-                 texImage->GetSize().y, 0,
-                 GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
+    if (texImage)
+    {
+      glEnable(GL_TEXTURE_2D);
+
+      if (imageClip->GetObjectType() == PLAObjectType::VideoClip)
+      {
+        // VideoClip: dedicated texture per Video, data updated each frame
+        PLAOBJVideoClip *videoClip = const_cast<PLAOBJVideoClip *>(
+          static_cast<const PLAOBJVideoClip *>(imageClip));
+        videoClip->Update();
+        PLAGLUTTexture::Manager::Instance()->BindAndUpdate(videoClip->GetVideo(), texImage);
+      }
+      else
+      {
+        // Static image: cached texture
+        PLAGLUTTexture::Manager::Instance()->GetOrCreate(texImage);
+      }
+    }
   }
   else
   {
@@ -668,10 +682,24 @@ void PLAGLUTRenderer::DrawArc(const PLALYRArc *aLayer, const PLAColor &aColor,
   if (imageClip)
   {
     const PLAOBJImage *texImage = imageClip->GetImage();
-    glEnable(GL_TEXTURE_2D);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetSize().x,
-                 texImage->GetSize().y, 0,
-                 GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
+    if (texImage)
+    {
+      glEnable(GL_TEXTURE_2D);
+
+      if (imageClip->GetObjectType() == PLAObjectType::VideoClip)
+      {
+        // VideoClip: dedicated texture per Video, data updated each frame
+        PLAOBJVideoClip *videoClip = const_cast<PLAOBJVideoClip *>(
+          static_cast<const PLAOBJVideoClip *>(imageClip));
+        videoClip->Update();
+        PLAGLUTTexture::Manager::Instance()->BindAndUpdate(videoClip->GetVideo(), texImage);
+      }
+      else
+      {
+        // Static image: cached texture
+        PLAGLUTTexture::Manager::Instance()->GetOrCreate(texImage);
+      }
+    }
   }
   else
   {
@@ -869,12 +897,11 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
 
   PLAOBJImageSize texSize = PLAOBJImageSize(1024);
   const PLAOBJImage *texImage = aLayer->GetImage();
-  if (texImage) {// && !kIsDebug) {
+  if (texImage) {
     texSize = texImage->GetSize();
     glEnable(GL_TEXTURE_2D);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
-                 texSize.x, texSize.y, 0,
-                 GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
+    // Static image: cached texture
+    PLAGLUTTexture::Manager::Instance()->GetOrCreate(texImage);
   } else {
     glDisable(GL_TEXTURE_2D);
   }
@@ -1020,6 +1047,9 @@ void PLAGLUTRenderer::DrawLabel(const PLALYRLabel *aLayer,
   }
 
   glEnable(GL_TEXTURE_2D);
+  // TODO: Use PLAGLUTTexture::Manager for caching. Currently not cached because
+  // PLALYRLabel recreates _textureImage when text changes, and there is no
+  // mechanism to invalidate the cache when the old PLAOBJImage is deleted.
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
                texImage->GetSize().x, texImage->GetSize().y, 0,
                GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
