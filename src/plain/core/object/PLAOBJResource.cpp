@@ -84,6 +84,22 @@ void PLAOBJResource::AllocData()
 
 void PLAOBJResource::ReleaseData()
 {
+  // TODO: 動的リソース読込/解放の実装時に以下を追加
+  //
+  // - Resourceデータ解放時、対応するテクスチャキャッシュも破棄
+  // - PLAFunctionCode::Resource::OnRelease コールバックで開放を通知
+  // - 継承先クラス（Image, Video等）でRelease通知をパススルー
+  //
+  // 現状は静的リソースのみのため、この処理は不要。
+
+  // TODO: Implement dynamic resource loading/unloading
+  //
+  // - When releasing resource data, also discard the corresponding texture cache
+  // - Notify release via PLAFunctionCode::Resource::OnRelease callback
+  // - Pass through release notification in derived classes (Image, Video, etc.)
+  //
+  // Currently, only static resources are used, so this process is unnecessary.
+
   //GRA_DELETE_ARRAY(_data)
 }
 

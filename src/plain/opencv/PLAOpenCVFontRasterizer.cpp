@@ -47,7 +47,7 @@ cv::Mat PLAOpenCVFontRasterizer::Rasterize(const PLAString &aText,
   // Create grayscale image for text mask
   cv::Mat mask(height, width, CV_8UC1, cv::Scalar(0));
   cv::Point textOrg(padding, textSize.height + padding);
-  cv::putText(mask, aText, textOrg, _fontFace, fontScale, cv::Scalar(255), _thickness);
+  cv::putText(mask, aText, textOrg, _fontFace, fontScale, cv::Scalar(255), _thickness, cv::LINE_AA);
 
   // Create RGBA image
   cv::Mat image(height, width, CV_8UC4, cv::Scalar(0, 0, 0, 0));

@@ -12,10 +12,11 @@
 PLAOBJFrameAnalyzer *PLAOBJFrameAnalyzer::Create(
   const PLAString &aName,
   PLAFaceDetectorType aFaceDetectorType,
-  PLASmileDetectorType aSmileDetectorType)
+  PLASmileDetectorType aSmileDetectorType,
+  PLAComputeMode aComputeMode)
 {
   PLAOBJFrameAnalyzer *analyzer = new PLAOBJFrameAnalyzer(
-    aName, aFaceDetectorType, aSmileDetectorType);
+    aName, aFaceDetectorType, aSmileDetectorType, aComputeMode);
   analyzer->Bind();
   return analyzer;
 }
@@ -57,7 +58,8 @@ void PLAOBJFrameAnalyzer::Unbind()
 PLAOBJFrameAnalyzer::PLAOBJFrameAnalyzer(
   const PLAString &aName,
   PLAFaceDetectorType aFaceDetectorType,
-  PLASmileDetectorType aSmileDetectorType) :
+  PLASmileDetectorType aSmileDetectorType,
+  PLAComputeMode aComputeMode) :
   PLAObject(PLAObjectType::FrameAnalyzer, aName),
   GRAOBJBinder<PLAOBJFrameAnalyzer>::Item(aName, Manager::Instance())
 {
@@ -66,6 +68,7 @@ PLAOBJFrameAnalyzer::PLAOBJFrameAnalyzer(
   _faceDetector = PLAOBJFaceDetector::Create(aFaceDetectorType, faceDetectorName);
   if (_faceDetector)
   {
+    _faceDetector->SetComputeMode(aComputeMode);
     _faceDetector->SetScale(PLAFaceDetectionScale::Half);
     _faceDetector->Initialize(1920, 1080);
     _faceDetector->SetMode(PLAFaceDetectionMode::Interval);
@@ -81,6 +84,7 @@ PLAOBJFrameAnalyzer::PLAOBJFrameAnalyzer(
   _smileDetector = PLAOBJSmileDetector::Create(aSmileDetectorType, smileDetectorName);
   if (_smileDetector)
   {
+    _smileDetector->SetComputeMode(aComputeMode);
     _smileDetector->Initialize();
   }
 }
@@ -128,6 +132,22 @@ void PLAOBJFrameAnalyzer::Analyze(const cv::Mat &aFrame)
     return;
   }
 
+  // Skip if already analyzing (no double execution)
+  if (_isAnalyzing)
+  {
+    return;
+  }
+
+  // Start async analysis
+  _isAnalyzing = true;
+  std::thread([this, frame = aFrame.clone()]() {
+    AnalyzeInternal(frame);
+    _isAnalyzing = false;
+  }).detach();
+}
+
+void PLAOBJFrameAnalyzer::AnalyzeInternal(const cv::Mat &aFrame)
+{
   // Check if face detection is enabled
   if (!_faceDetectionEnabled || !_faceDetector || !_faceDetector->IsInitialized())
   {
@@ -136,18 +156,18 @@ void PLAOBJFrameAnalyzer::Analyze(const cv::Mat &aFrame)
 
   // Run face detection
   _faceDetector->Detect(aFrame);
-  _lastResult = _faceDetector->GetResult();
+  PLAFaceDetectionResult result = _faceDetector->GetResult();
 
   // Run tracking to assign persistent IDs
   if (_faceTrackingEnabled && _faceTracker)
   {
-    _faceTracker->Update(_lastResult);
+    _faceTracker->Update(result);
   }
 
   // Run smile detection on each detected face
   if (_smileDetectionEnabled && _smileDetector && _smileDetector->IsInitialized())
   {
-    for (PLAFace &face : _lastResult.faces)
+    for (PLAFace &face : result.faces)
     {
       cv::Rect faceRect(
         static_cast<int>(face.boundingRect.pos.x),
@@ -169,6 +189,15 @@ void PLAOBJFrameAnalyzer::Analyze(const cv::Mat &aFrame)
       }
     }
   }
+
+  // Update result (thread-safe)
+  {
+    std::lock_guard<std::mutex> lock(_resultMutex);
+    _lastResult = result;
+  }
+
+  // Notify callback
+  _functor.RunFunction(PLAFunctionCode::FrameAnalyzer::OnComplete, AssignAgent());
 }
 
 // GRAOBJBinder::Item //////////////////////////////////////////////////////////

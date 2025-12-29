@@ -11,6 +11,7 @@ static const PLAOBJImageSize kPLAOBJImageSizeNone = PLAOBJImageSize(0);
 
 class PLAOBJImage : public PLAObject
 {
+private:
   const PLAOBJResource *_resource = nullptr;
   PLAOBJImageSize _size = kPLAOBJImageSizeNone;
 #pragma clang diagnostic push

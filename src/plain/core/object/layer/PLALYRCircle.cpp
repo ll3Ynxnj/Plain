@@ -88,13 +88,3 @@ PLACircle PLALYRCircle::GetCircle() const
       _radius
     };
 }
-
-void PLALYRCircle::SetFillColor(const PLAColor &aColor) const
-{
-  PLA_ERROR_ISSUE(PLAErrorType::Expect, "Undefined Method.");
-}
-
-void PLALYRCircle::SetStrokeColor(const PLAColor &aColor) const
-{
-  PLA_ERROR_ISSUE(PLAErrorType::Expect, "Undefined Method.");
-}

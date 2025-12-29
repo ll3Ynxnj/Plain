@@ -11,6 +11,7 @@ class PLAOpenCVCNNSmileDetector : public PLAOBJSmileDetector
 {
   cv::dnn::Net _net;
   PLAString _modelPath;
+  PLAComputeMode _computeMode = PLAComputeMode::Default;
 
   // Input size expected by the model
   PLAInt _inputWidth = 64;
@@ -32,6 +33,9 @@ public:
 
   void SetModelPath(const PLAString &aPath);
   const PLAString &GetModelPath() const { return _modelPath; }
+
+  void SetComputeMode(PLAComputeMode aMode) override;
+  PLAComputeMode GetComputeMode() const override { return _computeMode; }
 };
 
 #endif // PLAIN_ENGINE_PLAOPENCVCNNSMILEDETECTOR_HPP

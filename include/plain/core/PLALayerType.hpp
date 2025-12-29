@@ -9,6 +9,7 @@ enum class PLALayerType : PLAInt
   Line,
   Rect,
   Circle,
+  Arc,
   Tile,
   Label,
 

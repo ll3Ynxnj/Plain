@@ -15,6 +15,16 @@ class PLAOBJVideoClip: public PLAOBJImageClip
 
   /**
    * 時間軸の切り抜き範囲
+   *
+   * TODO: 時間軸の管理はVideoClipではなくVideoで行う方が適切な可能性がある
+   *       - VideoClipは空間軸の切り抜き（ImageClip継承）のみを担当
+   *       - Videoが再生位置・フレーム範囲を管理
+   *       - 複数のVideoClipが同じVideoを参照する場合、テクスチャを共有できる
+   *
+   * TODO: Time axis management may be more appropriate in Video rather than VideoClip
+   *       - VideoClip handles only spatial clipping (inherited from ImageClip)
+   *       - Video manages playback position and frame range
+   *       - Multiple VideoClips referencing the same Video can share textures
    */
   PLARange _clip = kPLARangeNone;
 

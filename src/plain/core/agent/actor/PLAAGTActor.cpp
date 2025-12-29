@@ -163,6 +163,18 @@ void PLAAGTActor::SetVisible(PLABool aVisible) const
   actor->SetVisible(aVisible);
 }
 
+PLABool PLAAGTActor::IsMask() const
+{
+  PLAOBJActor *actor = this->RefActor();
+  return actor->IsMask();
+}
+
+void PLAAGTActor::SetMask(bool aMask) const
+{
+  PLAOBJActor *actor = this->RefActor();
+  actor->SetMask(aMask);
+}
+
 PLARenderMode PLAAGTActor::GetRenderMode() const
 {
   PLAOBJActor *actor = this->RefActor();

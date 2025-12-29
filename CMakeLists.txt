@@ -16,6 +16,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 find_package(OpenCV REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
+find_package(Freetype REQUIRED)
 
 # Download ONNX models for face/smile detection
 set(PLA_MODELS_DIR "${CMAKE_CURRENT_BINARY_DIR}/models")
@@ -43,6 +44,20 @@ if(NOT EXISTS ${PLA_EMOTION_MODEL_PATH})
   )
 endif()
 
+# Download Noto Sans JP font
+set(PLA_FONTS_DIR "${CMAKE_CURRENT_BINARY_DIR}/fonts")
+file(MAKE_DIRECTORY ${PLA_FONTS_DIR})
+
+set(PLA_DEFAULT_FONT_PATH "${PLA_FONTS_DIR}/NotoSansJP-Regular.ttf")
+if(NOT EXISTS ${PLA_DEFAULT_FONT_PATH})
+  message(STATUS "Downloading Noto Sans JP font...")
+  file(DOWNLOAD
+    "https://github.com/notofonts/noto-cjk/raw/main/Sans/SubsetOTF/JP/NotoSansJP-Regular.otf"
+    ${PLA_DEFAULT_FONT_PATH}
+    SHOW_PROGRESS
+  )
+endif()
+
 # サブプロジェクトを追加
 add_subdirectory(Grain)
 add_subdirectory(Plain-Test)
@@ -59,6 +74,7 @@ target_include_directories(Plain PUBLIC
   ${OpenCV_INCLUDE_DIRS}
   ${OPENGL_INCLUDE_DIRS}
   ${GLUT_INCLUDE_DIRS}
+  ${FREETYPE_INCLUDE_DIRS}
 )
 
 # リンクするライブラリを設定
@@ -68,12 +84,14 @@ target_link_libraries(Plain PUBLIC
   ${OpenCV_LIBS}
   ${OPENGL_LIBRARIES}
   ${GLUT_LIBRARY}
+  ${FREETYPE_LIBRARIES}
 )
 
 # モデルパスをコンパイル時に埋め込み
 target_compile_definitions(Plain PRIVATE
   PLA_YUNET_MODEL_PATH="${PLA_YUNET_MODEL_PATH}"
   PLA_EMOTION_MODEL_PATH="${PLA_EMOTION_MODEL_PATH}"
+  PLA_DEFAULT_FONT_PATH="${PLA_DEFAULT_FONT_PATH}"
 )
 
 # OS情報を取得

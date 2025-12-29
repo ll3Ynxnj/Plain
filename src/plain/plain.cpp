@@ -7,6 +7,8 @@
 
 #include "plain/core/object/PLAObject.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
+#include "plain/core/object/PLAOBJCameraStream.hpp"
+#include "plain/core/object/PLAOBJPerformance.hpp"
 #include "plain/core/object/analysis/PLAOBJFrameAnalyzer.hpp"
 
 void Plain::Init(PLARendererType aType, PLAUInt aRefreshRate,
@@ -277,6 +279,32 @@ PLAAGTActorForCircle Plain::Actor::CreateCircle(const PLAVec3f &aPivot,
   return actor->AssignAgentForCircle();
 }
 
+PLAAGTActorForArc Plain::Actor::CreateArc(const PLAVec2f &aOrigin,
+                                          PLAFloat aRadius,
+                                          PLAFloat aStartAngle,
+                                          PLAFloat aEndAngle,
+                                          const PLAColor &aFillColor,
+                                          const PLAString &aName)
+{
+  PLAOBJActor *actor = PLAOBJActor::CreateArc(aOrigin, aRadius, aStartAngle,
+                                              aEndAngle, aFillColor, aName);
+  return actor->AssignAgentForArc();
+}
+
+PLAAGTActorForArc Plain::Actor::CreateArc(const PLAVec3f &aPivot,
+                                          const PLATransform &aTransform,
+                                          PLAFloat aRadius,
+                                          PLAFloat aStartAngle,
+                                          PLAFloat aEndAngle,
+                                          const PLAColor &aFillColor,
+                                          const PLAString &aName)
+{
+  PLAOBJActor *actor = PLAOBJActor::CreateArc(aPivot, kPLAColorWhite, aTransform,
+                                              aRadius, aStartAngle, aEndAngle,
+                                              aFillColor, aName);
+  return actor->AssignAgentForArc();
+}
+
 PLAAGTActorForTile Plain::Actor::CreateTile(const PLAVec2f &aOffset,
                                             const std::string &aImageName,
                                             const GRAVec2<PLASize> &aTileSize,
@@ -376,6 +404,24 @@ PLAAGTActorForCircle Plain::Actor::AssignCircleWithTag(PLAId aTag)
 {
   PLAOBJActor *actor = PLAOBJActor::ObjectWithTag(aTag);
   return actor->AssignAgentForCircle();
+}
+
+PLAAGTActorForArc Plain::Actor::AssignArc(PLAId aId)
+{
+  PLAOBJActor *actor = PLAOBJActor::Object(aId);
+  return actor->AssignAgentForArc();
+}
+
+PLAAGTActorForArc Plain::Actor::AssignArc(const PLAString &aName)
+{
+  PLAOBJActor *actor = PLAOBJActor::Object(aName);
+  return actor->AssignAgentForArc();
+}
+
+PLAAGTActorForArc Plain::Actor::AssignArcWithTag(PLAId aTag)
+{
+  PLAOBJActor *actor = PLAOBJActor::ObjectWithTag(aTag);
+  return actor->AssignAgentForArc();
 }
 
 PLAAGTActorForTile Plain::Actor::AssignTile(PLAId aId)
@@ -515,13 +561,11 @@ PLAAGTMotionNode Plain::MotionNode::CreateScale(const PLAVec3f &aBegin,
   return object->AssignAgent();
 }
 
-/*
 PLAAGTImageClip Plain::ImageClip::Create(const PLAString &aImageName)
 {
   auto object = PLAOBJImageClip::Create(aImageName);
   return object->AssignAgent();
 }
- */
 
 PLAAGTImageClip Plain::ImageClip::Create(const std::string &aImageName,
                                          const PLARect &aPixelClip)
@@ -536,7 +580,7 @@ PLAAGTImageClip Plain::ImageClip::Assign(const PLAId &aId)
   return object->AssignAgent();
 }
 
-PLAAGTImageClip Assign(const std::string &aName)
+PLAAGTImageClip Plain::ImageClip::Assign(const std::string &aName)
 {
   auto object = PLAOBJImageClip::Object(aName);
   return object->AssignAgent();
@@ -561,9 +605,14 @@ PLAAGTVideoClip Plain::VideoClip::Assign(const std::string &aName)
   return object->AssignAgent();
 }
 
-PLAAGTFrameAnalyzer Plain::FrameAnalyzer::Create(const PLAString &aName)
+PLAAGTFrameAnalyzer Plain::FrameAnalyzer::Create(const PLAString &aName,
+                                                 PLAComputeMode aComputeMode)
 {
-  auto object = PLAOBJFrameAnalyzer::Create(aName);
+  auto object = PLAOBJFrameAnalyzer::Create(
+    aName,
+    PLAFaceDetectorType::YuNet,
+    PLASmileDetectorType::CNN,
+    aComputeMode);
   return object->AssignAgent();
 }
 
@@ -571,4 +620,26 @@ PLAAGTFrameAnalyzer Plain::FrameAnalyzer::Assign(const PLAString &aName)
 {
   auto object = PLAOBJFrameAnalyzer::Object(aName);
   return object->AssignAgent();
+}
+
+PLAAGTCameraStream Plain::CameraStream::Create(const PLAString &aName, int aCameraID)
+{
+  auto object = PLAOBJCameraStream::Create(aName, aCameraID);
+  return object->AssignAgent();
+}
+
+PLAAGTCameraStream Plain::CameraStream::Assign(const PLAString &aName)
+{
+  auto object = PLAOBJCameraStream::Stream(aName);
+  return object->AssignAgent();
+}
+
+PLAAGTPerformance Plain::Performance::Assign()
+{
+  return PLAOBJPerformance::Instance()->AssignAgent();
+}
+
+PLAFloat Plain::Performance::GetFPS()
+{
+  return PLAOBJPerformance::Instance()->GetFPS();
 }

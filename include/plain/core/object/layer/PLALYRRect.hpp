@@ -3,13 +3,13 @@
 
 #include "plain/core/object/layer/PLAOBJLayer.hpp"
 #include "plain/core/primitive/PLAPRMColor.hpp"
+#include "plain/core/primitive/PLAPRMStroke.hpp"
 
 class PLALYRRect : public PLAOBJLayer
 {
   PLAVec2f _vector = kPLAVec2fNone;
   PLAColor _fillColor = kPLAColorWhite;
-  PLAColor _strokeColor = kPLAColorNone;
-  PLAFloat _strokeWidth = 2.0f;
+  PLAStroke _stroke;
   PLAOBJImageClip *_imageClip = nullptr; // PLAOBJLayerが持つべきでは？
   //PLAOBJVideoClip *_videoClip = nullptr; // PLAOBJLayerが持つべきでは？
 
@@ -18,7 +18,7 @@ public:
              const PLAColor &aFillColor, const PLAColor &aStrokeColor,
              const std::string &aImageName, const PLARect &aClip) :
     PLAOBJLayer(PLALayerType::Rect, aOffset),//, "== PLALYRRect =="),
-    _vector(aVector), _fillColor(aFillColor), _strokeColor(aStrokeColor)
+    _vector(aVector), _fillColor(aFillColor), _stroke(aStrokeColor, 2.0f)
   {
     if (aImageName != kPLAStrUndefined) {
       _imageClip = PLAOBJImageClip::Create(aImageName, aClip);
@@ -30,7 +30,7 @@ public:
              const std::string &aImageName, const PLARect &aClip) :
     PLAOBJLayer(PLALayerType::Rect, PLAVec3f(aRect.pos.x, aRect.pos.y, 0)),
     _vector(aRect.size), _fillColor(aFillColor),
-    _strokeColor(aStrokeColor)
+    _stroke(aStrokeColor, 2.0f)
   {
     if (aImageName != kPLAStrUndefined) {
       _imageClip = PLAOBJImageClip::Create(aImageName, aClip);
@@ -78,10 +78,16 @@ public:
 
   PLARect GetRect() const;
 
-  const PLAColor &GetStrokeColor() const { return _strokeColor; };
-  void SetStrokeColor(const PLAColor &aColor) { _strokeColor = aColor; };
-  PLAFloat GetStrokeWidth() const { return _strokeWidth; };
-  void SetStrokeWidth(PLAFloat aWidth) { _strokeWidth = aWidth; };
+  const PLAStroke &GetStroke() const { return _stroke; };
+  void SetStroke(const PLAStroke &aStroke) { _stroke = aStroke; };
+  const PLAColor &GetStrokeColor() const { return _stroke.color; };
+  void SetStrokeColor(const PLAColor &aColor) { _stroke.color = aColor; };
+  PLAFloat GetStrokeWidth() const { return _stroke.width; };
+  void SetStrokeWidth(PLAFloat aWidth) { _stroke.width = aWidth; };
+  PLAStroke::Join GetStrokeJoin() const { return _stroke.join; };
+  void SetStrokeJoin(PLAStroke::Join aJoin) { _stroke.join = aJoin; };
+  PLAStroke::Align GetStrokeAlign() const { return _stroke.align; };
+  void SetStrokeAlign(PLAStroke::Align aAlign) { _stroke.align = aAlign; };
   const PLAColor &GetFillColor() const { return _fillColor; };
   void SetFillColor(const PLAColor &aColor) { _fillColor = aColor; };
   const PLAOBJImageClip *GetImageClip() const { return _imageClip; };

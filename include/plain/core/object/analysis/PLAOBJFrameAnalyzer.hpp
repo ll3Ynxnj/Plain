@@ -8,8 +8,15 @@
 #include "plain/core/object/analysis/PLAFace.hpp"
 #include "plain/core/PLAFaceDetectorType.hpp"
 #include "plain/core/PLASmileDetectorType.hpp"
+#include "plain/core/PLAComputeMode.hpp"
+#include "plain/core/PLAFunctionCode.hpp"
 #include "grain/object/GRAOBJBinder.hpp"
+#include "grain/object/GRAOBJFunctor.hpp"
 #include <opencv2/opencv.hpp>
+#include <thread>
+#include <mutex>
+#include <atomic>
+#include <functional>
 
 class PLAOBJFaceDetector;
 class PLAOBJFaceTracker;
@@ -20,6 +27,7 @@ class PLAOBJFrameAnalyzer : public PLAObject,
                             private GRAOBJBinder<PLAOBJFrameAnalyzer>::Item
 {
   using Binder = GRAOBJBinder<PLAOBJFrameAnalyzer>;
+  using Functor = GRAOBJFunctor<PLAAGTFrameAnalyzer, PLAFunctionCode::FrameAnalyzer>;
 
   // Owned detectors
   PLAOBJFaceDetector *_faceDetector = nullptr;
@@ -32,11 +40,19 @@ class PLAOBJFrameAnalyzer : public PLAObject,
   bool _smileDetectionEnabled = false;
 
   PLAFaceDetectionResult _lastResult;
+  mutable std::mutex _resultMutex;
+
+  // Async analysis flag
+  std::atomic<bool> _isAnalyzing{false};
+
+  // Callback functor
+  Functor _functor;
 
 protected:
   PLAOBJFrameAnalyzer(const PLAString &aName,
                       PLAFaceDetectorType aFaceDetectorType,
-                      PLASmileDetectorType aSmileDetectorType);
+                      PLASmileDetectorType aSmileDetectorType,
+                      PLAComputeMode aComputeMode);
 
 public:
   using PLAFrameAnalyzerItem = GRAOBJBinder<PLAOBJFrameAnalyzer>::Item;
@@ -45,7 +61,8 @@ public:
   static PLAOBJFrameAnalyzer *Create(
     const PLAString &aName = "FrameAnalyzer",
     PLAFaceDetectorType aFaceDetectorType = PLAFaceDetectorType::YuNet,
-    PLASmileDetectorType aSmileDetectorType = PLASmileDetectorType::CNN);
+    PLASmileDetectorType aSmileDetectorType = PLASmileDetectorType::CNN,
+    PLAComputeMode aComputeMode = PLAComputeMode::Default);
   static PLAOBJFrameAnalyzer *Object(const PLAString &aName);
   static PLAOBJFrameAnalyzer *Object(PLAId aId);
 
@@ -72,8 +89,25 @@ public:
 
   void AttachToSource(PLAOBJFrameSource *aSource);
 
+  // Start async analysis (skips if already analyzing)
   void Analyze(const cv::Mat &aFrame);
-  PLAFaceDetectionResult GetResult() const { return _lastResult; }
+
+  // Check if analysis is in progress
+  bool IsAnalyzing() const { return _isAnalyzing; }
+
+  // Get result (thread-safe)
+  PLAFaceDetectionResult GetResult() const {
+    std::lock_guard<std::mutex> lock(_resultMutex);
+    return _lastResult;
+  }
+
+  // Set callback for analysis completion
+  void SetFunction(PLAFunctionCode::FrameAnalyzer aKey,
+                   const std::function<void(PLAAGTFrameAnalyzer)> &aFunc)
+  { _functor.SetFunction(aKey, aFunc); }
+
+private:
+  void AnalyzeInternal(const cv::Mat &aFrame);
 
 //-- GRAOBJBinder::Item --/////////////////////////////////////////////////////////
 private:

@@ -4,10 +4,12 @@
 #define PLAIN_ENGINE_PLAAGTFRAMEANALYZER_HPP
 
 #include "plain/core/agent/PLAAgent.hpp"
+#include "plain/core/agent/PLAAGTCameraStream.hpp"
 #include "plain/core/object/analysis/PLAFace.hpp"
+#include "plain/core/PLAFunctionCode.hpp"
+#include <functional>
 
 class PLAOBJFrameAnalyzer;
-class PLAOBJFrameSource;
 
 class PLAAGTFrameAnalyzer final : public PLAAgent
 {
@@ -24,7 +26,10 @@ public:
   void EnableSmileDetection(bool aEnable) const;
   bool IsSmileDetectionEnabled() const;
 
-  void AttachToSource(PLAOBJFrameSource *aSource) const;
+  void AttachToSource(const PLAAGTCameraStream &aSource) const;
+
+  void SetFunction(PLAFunctionCode::FrameAnalyzer aKey,
+                   const std::function<void(PLAAGTFrameAnalyzer)> &aFunc) const;
 
   PLAFaceDetectionResult GetResult() const;
 

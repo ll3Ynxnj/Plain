@@ -31,6 +31,7 @@ enum class PLAObjectType : PLAInt
   MotionNode,
 
   Resource,
+  Stream,
 
   Renderer,
   ImageClip,
@@ -42,6 +43,7 @@ enum class PLAObjectType : PLAInt
   SmileDetector,
   FontRasterizer,
   FrameAnalyzer,
+  Performance,
 
   kNumberOfItems,
   None = kPLAIntUndefined,
@@ -75,6 +77,7 @@ static const char *kPLAObjectTypeName[static_cast<size_t>(PLAObjectType::kNumber
   "MotionNode",
 
   "Resource",
+  "Stream",
 
   "Renderer",
   "ImageClip",
@@ -86,6 +89,7 @@ static const char *kPLAObjectTypeName[static_cast<size_t>(PLAObjectType::kNumber
   "SmileDetector",
   "FontRasterizer",
   "FrameAnalyzer",
+  "Performance",
 };
 
 #endif //PLAIN_ENGINE_PLAOBJECTTYPE_HPP

@@ -17,13 +17,18 @@ void PLAGLUTEngine::reshape(int w, int h)
 
 void PLAGLUTEngine::timer(int value)
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+  // Schedule next timer BEFORE work to maintain consistent frame rate
+  glutTimerFunc(1000 / PLAApp::Instance()->GetRefreshRate(), timer, 0);
+#pragma clang diagnostic pop
+
   PLAApp::Instance()->Update();
   PLAApp::Instance()->Render();
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
   glutPostRedisplay();
-  glutTimerFunc(1000 / 60, timer, 0);
 #pragma clang diagnostic pop
 }
 
@@ -80,14 +85,30 @@ void PLAGLUTEngine::keyboardUp(unsigned char key, int x, int y)
   PLAApp::Instance()->InputKey(inputCode, 0);
 }
 
-void PLAGLUTEngine::glut(int argc, char *argv[], int width, int height, void (*init)(void)) {
+void PLAGLUTEngine::glut(int argc, char *argv[], int width, int height, void (*init)(void), bool fullscreen, bool msaa) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
   glutInit(&argc, argv);
-  glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
+
+  unsigned int displayMode = GLUT_RGBA | GLUT_STENCIL;
+  if (msaa)
+  {
+    displayMode |= GLUT_MULTISAMPLE;
+  }
+  glutInitDisplayMode(displayMode);
   glutInitWindowSize(width, height);
 
   glutCreateWindow(argv[0]);
+
+  if (fullscreen)
+  {
+    glutFullScreen();
+  }
+
+  if (msaa)
+  {
+    glEnable(GL_MULTISAMPLE);
+  }
 
   glutDisplayFunc(display);
   glutReshapeFunc(reshape);

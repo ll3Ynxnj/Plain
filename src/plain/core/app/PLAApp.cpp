@@ -5,6 +5,7 @@
 #include "plain/core/object/PLAOBJStream.hpp"
 #include "plain/core/object/PLAOBJRenderer.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
+#include "plain/core/object/PLAOBJPerformance.hpp"
 
 PLAApp PLAApp::_instance = PLAApp();
 
@@ -129,6 +130,7 @@ void PLAApp::InputKey(PLAInputSignalCode aCode, PLAInputSignal aSignal)
 
 void PLAApp::Update()
 {
+  PLAOBJPerformance::Instance()->Update();
   PLAOBJStream::Manager::Instance()->Update();
   PLAObject::Manager::Instance()->DeleteUnboundObjects();
   PLAInputManager::Instance()->Flush();

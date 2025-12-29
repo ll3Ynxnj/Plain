@@ -13,6 +13,7 @@
 #include "plain/core/agent/actor/PLAAGTActorForLine.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForRect.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForCircle.hpp"
+#include "plain/core/agent/actor/PLAAGTActorForArc.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForTile.hpp"
 #include "plain/core/agent/actor/PLAAGTActorForLabel.hpp"
 #include "plain/core/agent/PLAAGTTimeline.hpp"
@@ -20,10 +21,13 @@
 #include "plain/core/agent/PLAAGTMotion.hpp"
 #include "plain/core/agent/PLAAGTMotionNode.hpp"
 #include "plain/core/agent/PLAAGTImageClip.hpp"
+#include "plain/core/agent/PLAAGTPerformance.hpp"
 #include "plain/core/agent/analysis/PLAAGTFrameAnalyzer.hpp"
+#include "plain/core/agent/PLAAGTCameraStream.hpp"
 
 #include "plain/core/PLARendererType.hpp"
 #include "plain/core/PLAFunctionCode.hpp"
+#include "plain/core/PLAComputeMode.hpp"
 
 #include "plain/core/PLAErrorType.hpp"
 
@@ -160,6 +164,19 @@ namespace Plain
                                       const PLAString &aImage,
                                       const PLARect &aClip,
                                       const PLAString &aName = kPLAStrUndefined);
+    PLAAGTActorForArc CreateArc(const PLAVec2f &aOrigin,
+                                PLAFloat aRadius,
+                                PLAFloat aStartAngle,
+                                PLAFloat aEndAngle,
+                                const PLAColor &aFillColor,
+                                const PLAString &aName = kPLAStrUndefined);
+    PLAAGTActorForArc CreateArc(const PLAVec3f &aPivot,
+                                const PLATransform &aTransform,
+                                PLAFloat aRadius,
+                                PLAFloat aStartAngle,
+                                PLAFloat aEndAngle,
+                                const PLAColor &aFillColor,
+                                const PLAString &aName = kPLAStrUndefined);
     PLAAGTActorForTile CreateTile(const PLAVec2f &aOffset,
                                   const PLAString &aImage,
                                   const GRAVec2<PLASize> &aTileSize,
@@ -193,6 +210,10 @@ namespace Plain
     PLAAGTActorForCircle AssignCircle(PLAId aId);
     PLAAGTActorForCircle AssignCircle(const PLAString &aName);
     PLAAGTActorForCircle AssignCircleWithTag(PLAId aTag);
+
+    PLAAGTActorForArc AssignArc(PLAId aId);
+    PLAAGTActorForArc AssignArc(const PLAString &aName);
+    PLAAGTActorForArc AssignArcWithTag(PLAId aTag);
 
     PLAAGTActorForTile AssignTile(PLAId aId);
     PLAAGTActorForTile AssignTile(const PLAString &aName);
@@ -246,7 +267,7 @@ namespace Plain
 
   namespace ImageClip
   {
-    //PLAAGTImageClip Create(const PLAString &aImageName);
+    PLAAGTImageClip Create(const PLAString &aImageName);
     PLAAGTImageClip Create(const PLAString &aImageName, const PLARect &aPixelClip);
     PLAAGTImageClip Assign(const PLAId &aId);
     PLAAGTImageClip Assign(const std::string &aName);
@@ -262,8 +283,23 @@ namespace Plain
 
   namespace FrameAnalyzer
   {
-    PLAAGTFrameAnalyzer Create(const PLAString &aName = "FrameAnalyzer");
+    using ComputeMode = PLAComputeMode;
+
+    PLAAGTFrameAnalyzer Create(const PLAString &aName = "FrameAnalyzer",
+                               PLAComputeMode aComputeMode = PLAComputeMode::Default);
     PLAAGTFrameAnalyzer Assign(const PLAString &aName);
+  };
+
+  namespace CameraStream
+  {
+    PLAAGTCameraStream Create(const PLAString &aName, int aCameraID = 0);
+    PLAAGTCameraStream Assign(const PLAString &aName);
+  };
+
+  namespace Performance
+  {
+    PLAAGTPerformance Assign();
+    PLAFloat GetFPS();
   };
 
 };

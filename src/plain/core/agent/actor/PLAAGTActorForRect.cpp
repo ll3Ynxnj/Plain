@@ -28,3 +28,18 @@ void PLAAGTActorForRect::SetStrokeWidth(PLAFloat aWidth)
 {
   this->RefActor()->RefLayerForRect()->SetStrokeWidth(aWidth);
 }
+
+void PLAAGTActorForRect::SetStroke(const PLAStroke &aStroke)
+{
+  this->RefActor()->RefLayerForRect()->SetStroke(aStroke);
+}
+
+void PLAAGTActorForRect::SetStrokeJoin(PLAStroke::Join aJoin)
+{
+  this->RefActor()->RefLayerForRect()->SetStrokeJoin(aJoin);
+}
+
+void PLAAGTActorForRect::SetStrokeAlign(PLAStroke::Align aAlign)
+{
+  this->RefActor()->RefLayerForRect()->SetStrokeAlign(aAlign);
+}

@@ -42,9 +42,16 @@ bool PLAAGTFrameAnalyzer::IsSmileDetectionEnabled() const
   return GetAnalyzer()->IsSmileDetectionEnabled();
 }
 
-void PLAAGTFrameAnalyzer::AttachToSource(PLAOBJFrameSource *aSource) const
+void PLAAGTFrameAnalyzer::AttachToSource(const PLAAGTCameraStream &aSource) const
 {
-  RefAnalyzer()->AttachToSource(aSource);
+  RefAnalyzer()->AttachToSource(aSource.GetFrameSource());
+}
+
+void PLAAGTFrameAnalyzer::SetFunction(
+  PLAFunctionCode::FrameAnalyzer aKey,
+  const std::function<void(PLAAGTFrameAnalyzer)> &aFunc) const
+{
+  RefAnalyzer()->SetFunction(aKey, aFunc);
 }
 
 PLAFaceDetectionResult PLAAGTFrameAnalyzer::GetResult() const

@@ -1,6 +1,7 @@
 #include <math.h>
 
 #include "plain/glut/PLAGLUTRenderer.hpp"
+#include "plain/glut/PLAGLUTTexture.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
 #include "plain/core/object/PLAOBJResource.hpp"
 #include "plain/core/object/PLAOBJVideoClip.hpp"
@@ -59,7 +60,7 @@ void PLAGLUTRenderer::Init() const
 
 void PLAGLUTRenderer::Clear() const
 {
-  glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
 void PLAGLUTRenderer::Flush() const
@@ -185,6 +186,26 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
                 motionProperties.translation.z);
   color *= motionProperties.color;
 
+  bool isMask = aActor->IsMask();
+
+  if (isMask)
+  {
+    // Clear stencil buffer for this mask
+    glClear(GL_STENCIL_BUFFER_BIT);
+
+    // Setup stencil buffer for mask - write 1 where geometry is drawn
+    glEnable(GL_STENCIL_TEST);
+    glStencilFunc(GL_ALWAYS, 1, 0xFF);
+    glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
+
+    // Enable alpha test to respect texture alpha (discard fragments with alpha <= 0.5)
+    glEnable(GL_ALPHA_TEST);
+    glAlphaFunc(GL_GREATER, 0.5f);
+
+    // Disable color writes - only write to stencil buffer
+    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+  }
+
   switch (layer->GetLayerType())
   {
     case PLALayerType::Point :
@@ -199,6 +220,9 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
     case PLALayerType::Circle :
       this->DrawCircle(static_cast<const PLALYRCircle *>(layer), color, motion);
       break;
+    case PLALayerType::Arc :
+      this->DrawArc(static_cast<const PLALYRArc *>(layer), color, motion);
+      break;
     case PLALayerType::Tile :
       this->DrawTile(static_cast<const PLALYRTile *>(layer), color, motion);
       break;
@@ -211,9 +235,28 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
       break;
   }
 
+  if (isMask)
+  {
+    // Restore color writes
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+
+    // Disable alpha test (was used for mask texture alpha)
+    glDisable(GL_ALPHA_TEST);
+
+    // Setup stencil test for children - only draw where stencil == 1
+    glStencilFunc(GL_EQUAL, 1, 0xFF);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+  }
+
   for (const PLAOBJActor *actor : *aActor->GetActors())
   {
     this->Draw(actor, color);
+  }
+
+  if (isMask)
+  {
+    // Disable stencil test after drawing children
+    glDisable(GL_STENCIL_TEST);
   }
 
   glPopMatrix();
@@ -299,32 +342,22 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
   const PLAOBJImageClip *imageClip = aLayer->GetImageClip();
   if (imageClip)
   {
-    // If clip is VideoClip, call Update() before rendering.
-    // VideoClipの場合は、レンダリング前にUpdate()を呼ぶ
-    if (imageClip->GetObjectType() == PLAObjectType::VideoClip) {
-      PLAOBJVideoClip *videoClip = const_cast<PLAOBJVideoClip*>(
-        static_cast<const PLAOBJVideoClip*>(imageClip));
-      videoClip->Update();
-    }
-
     const PLAOBJImage *texImage = imageClip->GetImage();
     if (texImage) {
       glEnable(GL_TEXTURE_2D);
 
-      // If clip is VideoClip, use linear interpolation (for smooth display).
-      // See Draw(), where GL_NEAREST is set for the whole, but VideoClip overwrites it.
-      // VideoClipの場合、線形補間を使用（滑らかな表示のため）
-      // Draw()で全体にGL_NEARESTが設定されているが、VideoClipは上書きする
       if (imageClip->GetObjectType() == PLAObjectType::VideoClip) {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        // VideoClip: dedicated texture per Video, data updated each frame
+        PLAOBJVideoClip *videoClip = const_cast<PLAOBJVideoClip*>(
+          static_cast<const PLAOBJVideoClip*>(imageClip));
+        videoClip->Update();
+        PLAGLUTTexture::Manager::Instance()->BindAndUpdate(videoClip->GetVideo(), texImage);
       }
-
-      const PLAUInt8 *textureData = texImage->GetResourceData();
-
-      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetSize().x,
-                   texImage->GetSize().y, 0,
-                   GL_RGBA, GL_UNSIGNED_BYTE, textureData);
+      else
+      {
+        // Static image: cached texture
+        PLAGLUTTexture::Manager::Instance()->GetOrCreate(texImage);
+      }
     }
   }
   else
@@ -408,17 +441,72 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
   glEnd();
 
   // Draw stroke if strokeColor has alpha > 0
-  PLAColor strokeColor = aLayer->GetStrokeColor();
+  const PLAStroke &stroke = aLayer->GetStroke();
+  PLAColor strokeColor = stroke.color;
   strokeColor *= aColor;
   if (strokeColor.a > 0) {
     glDisable(GL_TEXTURE_2D);
-    glLineWidth(aLayer->GetStrokeWidth());
-    glBegin(GL_LINE_LOOP);
+    PLAFloat w = stroke.width;
+    PLAFloat left = offset.x;
+    PLAFloat right = offset.x + aLayer->GetSize().x;
+    PLAFloat top = -offset.y;
+    PLAFloat bottom = -offset.y - aLayer->GetSize().y;
+    PLAFloat z = offset.z;
+
+    // Calculate stroke offset based on alignment
+    PLAFloat outerOffset = 0;
+    PLAFloat innerOffset = 0;
+    switch (stroke.align) {
+      case PLAStroke::Align::Outside:
+        outerOffset = w;
+        innerOffset = 0;
+        break;
+      case PLAStroke::Align::Center:
+        outerOffset = w * 0.5f;
+        innerOffset = w * 0.5f;
+        break;
+      case PLAStroke::Align::Inside:
+        outerOffset = 0;
+        innerOffset = w;
+        break;
+      default:
+        outerOffset = w;
+        innerOffset = 0;
+        break;
+    }
+
     glColor4f(strokeColor.r, strokeColor.g, strokeColor.b, strokeColor.a);
-    glVertex3f(offset.x, -offset.y, offset.z);
-    glVertex3f(offset.x + aLayer->GetSize().x, -offset.y, offset.z);
-    glVertex3f(offset.x + aLayer->GetSize().x, -offset.y - aLayer->GetSize().y, offset.z);
-    glVertex3f(offset.x, -offset.y - aLayer->GetSize().y, offset.z);
+
+    // Top edge
+    glBegin(GL_TRIANGLE_STRIP);
+    glVertex3f(left - outerOffset, top + outerOffset, z);
+    glVertex3f(right + outerOffset, top + outerOffset, z);
+    glVertex3f(left - outerOffset, top - innerOffset, z);
+    glVertex3f(right + outerOffset, top - innerOffset, z);
+    glEnd();
+
+    // Bottom edge
+    glBegin(GL_TRIANGLE_STRIP);
+    glVertex3f(left - outerOffset, bottom + innerOffset, z);
+    glVertex3f(right + outerOffset, bottom + innerOffset, z);
+    glVertex3f(left - outerOffset, bottom - outerOffset, z);
+    glVertex3f(right + outerOffset, bottom - outerOffset, z);
+    glEnd();
+
+    // Left edge (between top and bottom inner edges)
+    glBegin(GL_TRIANGLE_STRIP);
+    glVertex3f(left - outerOffset, top - innerOffset, z);
+    glVertex3f(left + innerOffset, top - innerOffset, z);
+    glVertex3f(left - outerOffset, bottom + innerOffset, z);
+    glVertex3f(left + innerOffset, bottom + innerOffset, z);
+    glEnd();
+
+    // Right edge (between top and bottom inner edges)
+    glBegin(GL_TRIANGLE_STRIP);
+    glVertex3f(right - innerOffset, top - innerOffset, z);
+    glVertex3f(right + outerOffset, top - innerOffset, z);
+    glVertex3f(right - innerOffset, bottom + innerOffset, z);
+    glVertex3f(right + outerOffset, bottom + innerOffset, z);
     glEnd();
   }
 }
@@ -522,19 +610,245 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
   glEnd();
 
   // Draw stroke if strokeColor has alpha > 0
-  PLAColor strokeColor = aLayer->GetStrokeColor();
+  const PLAStroke &stroke = aLayer->GetStroke();
+  PLAColor strokeColor = stroke.color;
   strokeColor *= aColor;
   if (strokeColor.a > 0) {
     glDisable(GL_TEXTURE_2D);
-    glLineWidth(2.0f);
-    glBegin(GL_LINE_LOOP);
     glColor4f(strokeColor.r, strokeColor.g, strokeColor.b, strokeColor.a);
-    // Skip center vertex (index 0), draw outline from index 1
-    for (int i = 1; i < numVertices; i++)
+
+    PLAFloat w = stroke.width;
+    PLAFloat baseRadius = aLayer->GetRadius();
+
+    // Calculate inner/outer radius based on alignment
+    PLAFloat outerRadius, innerRadius;
+    switch (stroke.align) {
+      case PLAStroke::Align::Outside:
+        outerRadius = baseRadius + w;
+        innerRadius = baseRadius;
+        break;
+      case PLAStroke::Align::Center:
+        outerRadius = baseRadius + w * 0.5f;
+        innerRadius = baseRadius - w * 0.5f;
+        break;
+      case PLAStroke::Align::Inside:
+        outerRadius = baseRadius;
+        innerRadius = baseRadius - w;
+        break;
+      default:
+        outerRadius = baseRadius + w;
+        innerRadius = baseRadius;
+        break;
+    }
+
+    PLAFloat cx = baseRadius + aLayer->GetOffset().x;
+    PLAFloat cy = -baseRadius - aLayer->GetOffset().y;
+    PLAFloat z = aLayer->GetOffset().z;
+    double step = M_PI * 2 / split;
+
+    glBegin(GL_TRIANGLE_STRIP);
+    for (int i = 0; i <= split; i++)
     {
-      glVertex3f(vertices[i * 3], vertices[i * 3 + 1], vertices[i * 3 + 2]);
+      double radian = i * step;
+      PLAFloat cosR = cos(radian);
+      PLAFloat sinR = sin(radian);
+      // Outer vertex
+      glVertex3f(cx + outerRadius * cosR, cy - outerRadius * sinR, z);
+      // Inner vertex
+      glVertex3f(cx + innerRadius * cosR, cy - innerRadius * sinR, z);
     }
     glEnd();
+  }
+}
+
+void PLAGLUTRenderer::DrawArc(const PLALYRArc *aLayer, const PLAColor &aColor,
+                              const PLATMLMotion *aMotion) const
+{
+  const PLAOBJImageClip *imageClip = aLayer->GetImageClip();
+  if (imageClip)
+  {
+    const PLAOBJImage *texImage = imageClip->GetImage();
+    glEnable(GL_TEXTURE_2D);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetSize().x,
+                 texImage->GetSize().y, 0,
+                 GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
+  }
+  else
+  {
+    glDisable(GL_TEXTURE_2D);
+  }
+
+  const double radius = aLayer->GetRadius();
+  const double startAngle = aLayer->GetStartAngle();
+  const double endAngle = aLayer->GetEndAngle();
+  const double angleSpan = endAngle - startAngle;
+
+  // Calculate number of segments based on arc span
+  int split = static_cast<int>(std::abs(angleSpan) / (M_PI * 2) * 24);
+  if (split < 3) split = 3;
+
+  const unsigned numVertices = 1 + split + 1;
+  GLfloat vertices[numVertices * 3];
+  {
+    const double step = angleSpan / split;
+    const PLAVec2f origin = PLAVec2f(radius + aLayer->GetOffset().x,
+                                     -radius - aLayer->GetOffset().y);
+
+    double radian = startAngle;
+
+    // Center vertex
+    vertices[0] = origin.x;
+    vertices[1] = origin.y;
+    vertices[2] = 0;
+
+    for (int i = 1; i < numVertices; i++)
+    {
+      unsigned baseIndex = i * 3;
+      vertices[baseIndex + 0] = origin.x + radius * cos(radian);
+      vertices[baseIndex + 1] = origin.y - radius * sin(radian);
+      vertices[baseIndex + 2] = 0;
+      radian += step;
+    }
+  }
+  glVertexPointer(3, GL_FLOAT, 0, vertices);
+
+  GLfloat fillColors[numVertices * 4];
+  PLAColor fillColor = aLayer->GetFillColor();
+  fillColor *= aColor;
+
+  for (int i = 0; i < numVertices; i++)
+  {
+    unsigned baseIndex = i * 4;
+    fillColors[baseIndex + 0] = fillColor.r;
+    fillColors[baseIndex + 1] = fillColor.g;
+    fillColors[baseIndex + 2] = fillColor.b;
+    fillColors[baseIndex + 3] = fillColor.a;
+  }
+  glColorPointer(4, GL_FLOAT, 0, fillColors);
+
+  GLfloat texCoords[numVertices * 2];
+  {
+    const double texRadius = 0.625 * 0.5;
+    const PLAVec2f offset = PLAVec2f(0.5, 0.5);
+    const double step = angleSpan / split;
+    const PLAVec2f origin = PLAVec2f(texRadius + offset.x,
+                                     -texRadius - offset.y);
+
+    double radian = startAngle;
+    texCoords[0] = origin.x;
+    texCoords[1] = origin.y;
+
+    for (int i = 1; i < numVertices; i++)
+    {
+      unsigned baseIndex = i * 2;
+      texCoords[baseIndex + 0] = origin.x + texRadius * cos(radian);
+      texCoords[baseIndex + 1] = origin.y - texRadius * sin(radian);
+      radian += step;
+    }
+  }
+  glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+  glBegin(GL_TRIANGLE_FAN);
+  for (int i = 0; i < numVertices; i++)
+  {
+    glArrayElement(i);
+  }
+  glEnd();
+
+  // Draw stroke if strokeColor has alpha > 0
+  const PLAStroke &stroke = aLayer->GetStroke();
+  PLAColor strokeColor = stroke.color;
+  strokeColor *= aColor;
+  if (strokeColor.a > 0) {
+    glDisable(GL_TEXTURE_2D);
+    glColor4f(strokeColor.r, strokeColor.g, strokeColor.b, strokeColor.a);
+
+    PLAFloat w = stroke.width;
+    PLAFloat baseRadius = radius;
+
+    // Calculate outer/inner offset based on alignment
+    PLAFloat outerOffset, innerOffset;
+    switch (stroke.align) {
+      case PLAStroke::Align::Outside:
+        outerOffset = w;
+        innerOffset = 0;
+        break;
+      case PLAStroke::Align::Center:
+        outerOffset = w * 0.5f;
+        innerOffset = w * 0.5f;
+        break;
+      case PLAStroke::Align::Inside:
+        outerOffset = 0;
+        innerOffset = w;
+        break;
+      default:
+        outerOffset = w;
+        innerOffset = 0;
+        break;
+    }
+
+    PLAFloat cx = baseRadius + aLayer->GetOffset().x;
+    PLAFloat cy = -baseRadius - aLayer->GetOffset().y;
+    PLAFloat z = aLayer->GetOffset().z;
+
+    PLAFloat outerRadius = baseRadius + outerOffset;
+    PLAFloat innerRadius = baseRadius - innerOffset;
+    if (innerRadius < 0) innerRadius = 0;
+
+    double step = angleSpan / split;
+
+    // Draw arc stroke (curved part only)
+    glBegin(GL_TRIANGLE_STRIP);
+    for (int i = 0; i <= split; i++)
+    {
+      double radian = startAngle + i * step;
+      PLAFloat cosR = cos(radian);
+      PLAFloat sinR = sin(radian);
+      // Outer vertex
+      glVertex3f(cx + outerRadius * cosR, cy - outerRadius * sinR, z);
+      // Inner vertex
+      glVertex3f(cx + innerRadius * cosR, cy - innerRadius * sinR, z);
+    }
+    glEnd();
+
+    // Draw the two radial edges (from center to arc)
+    // First edge (start angle)
+    {
+      double radian = startAngle;
+      PLAFloat cosR = cos(radian);
+      PLAFloat sinR = sin(radian);
+      // Perpendicular direction for edge stroke
+      PLAFloat perpX = -sinR;
+      PLAFloat perpY = -cosR;
+
+      glBegin(GL_TRIANGLE_STRIP);
+      // From center outward along the radial edge
+      glVertex3f(cx + perpX * outerOffset, cy - perpY * outerOffset, z);
+      glVertex3f(cx - perpX * innerOffset, cy + perpY * innerOffset, z);
+      glVertex3f(cx + outerRadius * cosR + perpX * outerOffset,
+                 cy - outerRadius * sinR - perpY * outerOffset, z);
+      glVertex3f(cx + outerRadius * cosR - perpX * innerOffset,
+                 cy - outerRadius * sinR + perpY * innerOffset, z);
+      glEnd();
+    }
+
+    // Second edge (end angle)
+    {
+      double radian = endAngle;
+      PLAFloat cosR = cos(radian);
+      PLAFloat sinR = sin(radian);
+      PLAFloat perpX = sinR;
+      PLAFloat perpY = cosR;
+
+      glBegin(GL_TRIANGLE_STRIP);
+      glVertex3f(cx + perpX * outerOffset, cy - perpY * outerOffset, z);
+      glVertex3f(cx - perpX * innerOffset, cy + perpY * innerOffset, z);
+      glVertex3f(cx + outerRadius * cosR + perpX * outerOffset,
+                 cy - outerRadius * sinR - perpY * outerOffset, z);
+      glVertex3f(cx + outerRadius * cosR - perpX * innerOffset,
+                 cy - outerRadius * sinR + perpY * innerOffset, z);
+      glEnd();
+    }
   }
 }
 
@@ -709,6 +1023,10 @@ void PLAGLUTRenderer::DrawLabel(const PLALYRLabel *aLayer,
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
                texImage->GetSize().x, texImage->GetSize().y, 0,
                GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
+
+  // Set texture filtering for smooth text rendering
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
   const PLAVec3f offset = aLayer->GetOffset();
   const PLAVec3f size = aLayer->GetSize();

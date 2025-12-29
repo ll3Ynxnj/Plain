@@ -1,6 +1,35 @@
 #include "plain/opencv/PLAOpenCVYuNetFaceDetector.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
 #include <opencv2/imgproc.hpp>
+#include <opencv2/dnn.hpp>
+
+namespace {
+  std::pair<int, int> GetOpenCVBackendTarget(PLAComputeMode aMode)
+  {
+    switch (aMode) {
+      case PLAComputeMode::CUDA:
+        return {cv::dnn::DNN_BACKEND_CUDA, cv::dnn::DNN_TARGET_CUDA};
+      case PLAComputeMode::OpenCL:
+        return {cv::dnn::DNN_BACKEND_OPENCV, cv::dnn::DNN_TARGET_OPENCL};
+      case PLAComputeMode::CPU:
+        return {cv::dnn::DNN_BACKEND_OPENCV, cv::dnn::DNN_TARGET_CPU};
+      case PLAComputeMode::Default:
+      default:
+        return {cv::dnn::DNN_BACKEND_DEFAULT, cv::dnn::DNN_TARGET_CPU};
+    }
+  }
+
+  const char *GetComputeModeName(PLAComputeMode aMode)
+  {
+    switch (aMode) {
+      case PLAComputeMode::CUDA:   return "CUDA";
+      case PLAComputeMode::OpenCL: return "OpenCL";
+      case PLAComputeMode::CPU:    return "CPU";
+      case PLAComputeMode::Default:
+      default:                     return "Default";
+    }
+  }
+}
 
 PLAOpenCVYuNetFaceDetector *PLAOpenCVYuNetFaceDetector::Create(const PLAString &aName)
 {
@@ -37,13 +66,16 @@ bool PLAOpenCVYuNetFaceDetector::Initialize(PLAInt aFrameWidth, PLAInt aFrameHei
 
   try
   {
+    auto [backendId, targetId] = GetOpenCVBackendTarget(_computeMode);
     _detector = cv::FaceDetectorYN::create(
       modelPath,
       "",
       cv::Size(_detectionWidth, _detectionHeight),
       _scoreThreshold,
       _nmsThreshold,
-      _topK
+      _topK,
+      backendId,
+      targetId
     );
   }
   catch (const cv::Exception &e)
@@ -65,9 +97,9 @@ bool PLAOpenCVYuNetFaceDetector::Initialize(PLAInt aFrameWidth, PLAInt aFrameHei
   GRA_PRINT("YuNet model loaded from: %s\n", modelPath.c_str());
 
   _isInitialized = true;
-  GRA_PRINT("YuNet face detector initialized: %dx%d (detection: %dx%d, scale: %d)\n",
+  GRA_PRINT("YuNet face detector initialized: %dx%d (detection: %dx%d, scale: %d, compute: %s)\n",
             aFrameWidth, aFrameHeight, _detectionWidth, _detectionHeight,
-            static_cast<int>(_scale));
+            static_cast<int>(_scale), GetComputeModeName(_computeMode));
   return true;
 }
 
@@ -227,4 +259,14 @@ void PLAOpenCVYuNetFaceDetector::SetScale(PLAFaceDetectionScale aScale)
     GRA_PRINT("YuNet detection size changed: %dx%d (scale: %d)\n",
               _detectionWidth, _detectionHeight, static_cast<int>(_scale));
   }
+}
+
+void PLAOpenCVYuNetFaceDetector::SetComputeMode(PLAComputeMode aMode)
+{
+  if (_isInitialized)
+  {
+    GRA_PRINT("Warning: Cannot change compute mode after initialization\n");
+    return;
+  }
+  _computeMode = aMode;
 }

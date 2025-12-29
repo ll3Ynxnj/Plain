@@ -14,6 +14,7 @@ class PLAOpenCVYuNetFaceDetector : public PLAOBJFaceDetector
   PLAFloat _scoreThreshold = 0.5f;
   PLAFloat _nmsThreshold = 0.3f;
   PLAInt _topK = 5000;
+  PLAComputeMode _computeMode = PLAComputeMode::Default;
 
   // Original frame size
   PLAInt _frameWidth = 0;
@@ -40,6 +41,9 @@ public:
 
   void SetNMSThreshold(PLAFloat aThreshold);
   PLAFloat GetNMSThreshold() const { return _nmsThreshold; }
+
+  void SetComputeMode(PLAComputeMode aMode) override;
+  PLAComputeMode GetComputeMode() const override { return _computeMode; }
 
   void SetScale(PLAFaceDetectionScale aScale) override;
 

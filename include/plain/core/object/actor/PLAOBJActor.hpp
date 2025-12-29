@@ -32,6 +32,7 @@ class PLAAGTActorForPoint;
 class PLAAGTActorForLine;
 class PLAAGTActorForRect;
 class PLAAGTActorForCircle;
+class PLAAGTActorForArc;
 class PLAAGTActorForTile;
 class PLAAGTActorForLabel;
 
@@ -60,6 +61,7 @@ class PLAOBJActor final :
   PLAOBJLayer *_layer = nullptr;
   CollisionItem collisions[static_cast<unsigned>(PLAActorCollisionCode::kNumberOfItems)];
   PLABool _visible = true;
+  PLABool _isMask = false;
   PLARenderMode _renderMode = PLARenderMode::None;
 
   GRAOBJFunctor<PLAOBJActor *, PLAFunctionCode::Actor> _functor = GRAOBJFunctor<PLAOBJActor *, PLAFunctionCode::Actor>();
@@ -134,6 +136,22 @@ public:
                                    const PLARect &aClip,
                                    const PLAString &aName = kPLAStrUndefined);
 
+  static PLAOBJActor *CreateArc(const PLAVec2f &aOrigin,
+                                PLAFloat aRadius,
+                                PLAFloat aStartAngle,
+                                PLAFloat aEndAngle,
+                                const PLAColor &aFillColor,
+                                const PLAString &aName = kPLAStrUndefined);
+
+  static PLAOBJActor *CreateArc(const PLAVec3f &aPivot,
+                                const PLAColor &aColor,
+                                const PLATransform &aTransform,
+                                PLAFloat aRadius,
+                                PLAFloat aStartAngle,
+                                PLAFloat aEndAngle,
+                                const PLAColor &aFillColor,
+                                const PLAString &aName = kPLAStrUndefined);
+
   static PLAOBJActor *CreateTile(const PLAVec2f &aOffset,
                                  const std::string &aImageName,
                                  const GRAVec2<PLASize> &aTileSize,
@@ -188,6 +206,7 @@ public:
   PLAAGTActorForLine AssignAgentForLine();
   PLAAGTActorForRect AssignAgentForRect();
   PLAAGTActorForCircle AssignAgentForCircle();
+  PLAAGTActorForArc AssignAgentForArc();
   PLAAGTActorForTile AssignAgentForTile();
   PLAAGTActorForLabel AssignAgentForLabel();
 
@@ -205,6 +224,7 @@ public:
   const PLAOBJLayer *GetLayer() const { return _layer; }
 
   PLABool IsVisible() const { return _visible; };
+  PLABool IsMask() const { return _isMask; };
   PLARenderMode GetRenderMode() const { return _renderMode; };
 
   const PLAVec3f &GetPivot() const { return _pivot; };
@@ -230,6 +250,7 @@ public:
   class PLALYRLine *RefLayerForLine();
   class PLALYRRect *RefLayerForRect();
   class PLALYRCircle *RefLayerForCircle();
+  class PLALYRArc *RefLayerForArc();
   class PLALYRTile *RefLayerForTile();
   class PLALYRLabel *RefLayerForLabel();
   PLAOBJActor *RefResponsiveActor(const PLAInputDeviceType aDeviceType,
@@ -239,6 +260,7 @@ public:
                                            const PLAInputSignalCode aSignalCode);
 
   void SetVisible(PLABool aValue) { _visible = aValue; };
+  void SetMask(PLABool aValue) { _isMask = aValue; };
   void SetRenderMode(PLARenderMode aMode) { _renderMode = aMode; };
 
   void SetPivot(const PLAVec3f &aPivot)
