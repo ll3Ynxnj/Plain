@@ -3,15 +3,15 @@
 
 // TODO: 動的リソース読み込み/解放機能の実装時に以下を対応する
 //       - Resource → Image → Texture::Manager の通知チェーン
-//       - VideoClip → Texture::Manager の通知チェーン
-//       現状は静的リソースのみで、Imageの破棄時にOnImageReleasedが呼ばれる
+//       - Video → Texture::Manager の通知チェーン
+//       現状は静的リソースのみ
 
 #include <unordered_map>
 #include "PLAGLUT.h"
 #include "plain/core/primitive/PLAPRMType.hpp"
 
 class PLAOBJImage;
-class PLAOBJVideoClip;
+class PLAOBJVideo;
 
 class PLAGLUTTexture
 {
@@ -50,7 +50,7 @@ public:
     static Manager _instance;
 
     std::unordered_map<const PLAOBJImage*, PLAGLUTTexture*> _imageTextures;
-    std::unordered_map<const PLAOBJVideoClip*, PLAGLUTTexture*> _videoTextures;
+    std::unordered_map<const PLAOBJVideo*, PLAGLUTTexture*> _videoTextures;
 
     Manager();
 
@@ -61,11 +61,9 @@ public:
 
     // Image texture management
     PLAGLUTTexture* GetOrCreate(const PLAOBJImage* aImage);
-    void OnImageReleased(const PLAOBJImage* aImage);
 
-    // VideoClip texture management
-    void BindAndUpdate(const PLAOBJVideoClip* aVideoClip, const PLAOBJImage* aImage);
-    void OnVideoClipReleased(const PLAOBJVideoClip* aVideoClip);
+    // Video texture management
+    void BindAndUpdate(const PLAOBJVideo* aVideo, const PLAOBJImage* aImage);
 
     void Clear();
   };

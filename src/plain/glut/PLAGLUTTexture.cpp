@@ -1,5 +1,6 @@
 #include "plain/glut/PLAGLUTTexture.hpp"
 #include "plain/core/object/PLAOBJImage.hpp"
+#include "plain/core/object/PLAOBJVideo.hpp"
 #include <grain/grain.h>
 
 // PLAGLUTTexture //////////////////////////////////////////////////////////////
@@ -81,36 +82,21 @@ PLAGLUTTexture* PLAGLUTTexture::Manager::GetOrCreate(const PLAOBJImage* aImage)
   texture->UploadData(aImage->GetResourceData(),
                       aImage->GetSize().x, aImage->GetSize().y);
 
-  aImage->SetOnReleasedCallback([this, aImage]() {
-    this->OnImageReleased(aImage);
-  });
-
   _imageTextures[aImage] = texture;
 
   return texture;
 }
 
-void PLAGLUTTexture::Manager::OnImageReleased(const PLAOBJImage* aImage)
-{
-  auto it = _imageTextures.find(aImage);
-  if (it != _imageTextures.end())
-  {
-    GRA_PRINT("Texture::Manager: Deleting image texture (image=%p)\n", aImage);
-    delete it->second;
-    _imageTextures.erase(it);
-  }
-}
-
-void PLAGLUTTexture::Manager::BindAndUpdate(const PLAOBJVideoClip* aVideoClip,
+void PLAGLUTTexture::Manager::BindAndUpdate(const PLAOBJVideo* aVideo,
                                              const PLAOBJImage* aImage)
 {
-  if (!aVideoClip || !aImage)
+  if (!aVideo || !aImage)
   {
     return;
   }
 
   PLAGLUTTexture* texture = nullptr;
-  auto it = _videoTextures.find(aVideoClip);
+  auto it = _videoTextures.find(aVideo);
 
   if (it != _videoTextures.end())
   {
@@ -119,28 +105,17 @@ void PLAGLUTTexture::Manager::BindAndUpdate(const PLAOBJVideoClip* aVideoClip,
   }
   else
   {
-    GRA_PRINT("Texture::Manager: Creating video texture (videoClip=%p)\n", aVideoClip);
+    GRA_PRINT("Texture::Manager: Creating video texture (video=%p)\n", aVideo);
 
     texture = new PLAGLUTTexture(PLAGLUTTexture::Type::Video);
     texture->Bind();
     texture->SetParameters();
 
-    _videoTextures[aVideoClip] = texture;
+    _videoTextures[aVideo] = texture;
   }
 
   texture->UploadData(aImage->GetResourceData(),
                       aImage->GetSize().x, aImage->GetSize().y);
-}
-
-void PLAGLUTTexture::Manager::OnVideoClipReleased(const PLAOBJVideoClip* aVideoClip)
-{
-  auto it = _videoTextures.find(aVideoClip);
-  if (it != _videoTextures.end())
-  {
-    GRA_PRINT("Texture::Manager: Deleting video texture (videoClip=%p)\n", aVideoClip);
-    delete it->second;
-    _videoTextures.erase(it);
-  }
 }
 
 void PLAGLUTTexture::Manager::Clear()

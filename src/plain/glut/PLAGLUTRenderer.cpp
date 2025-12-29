@@ -347,11 +347,11 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
       glEnable(GL_TEXTURE_2D);
 
       if (imageClip->GetObjectType() == PLAObjectType::VideoClip) {
-        // VideoClip: dedicated texture, data updated each frame
+        // VideoClip: dedicated texture per Video, data updated each frame
         PLAOBJVideoClip *videoClip = const_cast<PLAOBJVideoClip*>(
           static_cast<const PLAOBJVideoClip*>(imageClip));
         videoClip->Update();
-        PLAGLUTTexture::Manager::Instance()->BindAndUpdate(videoClip, texImage);
+        PLAGLUTTexture::Manager::Instance()->BindAndUpdate(videoClip->GetVideo(), texImage);
       }
       else
       {

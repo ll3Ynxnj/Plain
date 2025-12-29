@@ -48,15 +48,7 @@ PLAOBJImage::PLAOBJImage(const PLAString &aName,
 
 PLAOBJImage::~PLAOBJImage()
 {
-  NotifyReleased();
-}
 
-void PLAOBJImage::NotifyReleased() const
-{
-  if (_onReleasedCallback)
-  {
-    _onReleasedCallback();
-  }
 }
 
 /*
