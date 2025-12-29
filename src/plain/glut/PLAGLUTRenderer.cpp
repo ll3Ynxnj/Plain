@@ -346,26 +346,16 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
     if (texImage) {
       glEnable(GL_TEXTURE_2D);
 
-      // VideoClip: use texture ID 0 (default), update data each frame
-      // Static image: use TextureManager for caching
       if (imageClip->GetObjectType() == PLAObjectType::VideoClip) {
+        // VideoClip: dedicated texture, data updated each frame
         PLAOBJVideoClip *videoClip = const_cast<PLAOBJVideoClip*>(
           static_cast<const PLAOBJVideoClip*>(imageClip));
         videoClip->Update();
-
-        // Bind texture 0 to avoid overwriting cached textures
-        glBindTexture(GL_TEXTURE_2D, 0);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-        const PLAUInt8 *textureData = texImage->GetResourceData();
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetSize().x,
-                     texImage->GetSize().y, 0,
-                     GL_RGBA, GL_UNSIGNED_BYTE, textureData);
+        PLAGLUTTextureManager::Instance()->BindAndUpdateVideoTexture(videoClip, texImage);
       }
       else
       {
-        // Static image: use cached texture
+        // Static image: cached texture
         PLAGLUTTextureManager::Instance()->GetOrCreateTexture(texImage);
       }
     }
