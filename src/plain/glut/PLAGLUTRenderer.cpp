@@ -72,7 +72,11 @@ void PLAGLUTRenderer::Render(const PLAOBJActor *aActor) const
 {
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  this->Draw(aActor, kPLAColorNorm);
+  PLARenderMode initialMode = aActor->GetRenderMode();
+  if (initialMode == PLARenderMode::None) {
+    initialMode = PLARenderMode::Nearest;
+  }
+  this->Draw(aActor, kPLAColorNorm, initialMode);
 }
 
 void PLAGLUTRenderer::GetRectVertices(GLfloat aVertices[12],
@@ -142,7 +146,8 @@ void PLAGLUTRenderer::GetMotionProperties(const PLATMLMotion *aNode,
   }
 }
 
-void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) const
+void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor,
+                           PLARenderMode aInheritedMode) const
 {
   //glClear(GL_COLOR_BUFFER_BIT);
 
@@ -152,7 +157,11 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
             aColor.r, aColor.g, aColor.b, aColor.a);
   */
 
-  this->ApplyRenderMode(aActor->GetRenderMode());
+  PLARenderMode renderMode = aActor->GetRenderMode();
+  if (renderMode == PLARenderMode::None) {
+    renderMode = aInheritedMode;
+  }
+  this->ApplyRenderMode(renderMode);
 
   if (!aActor->IsVisible()) { return; }
 
@@ -250,7 +259,7 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
 
   for (const PLAOBJActor *actor : *aActor->GetActors())
   {
-    this->Draw(actor, color);
+    this->Draw(actor, color, renderMode);
   }
 
   if (isMask)
@@ -1107,7 +1116,6 @@ void PLAGLUTRenderer::ApplyRenderMode(PLARenderMode aMode) const
 {
   switch (aMode) {
     case PLARenderMode::None:
-      return;
     case PLARenderMode::Nearest:
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
