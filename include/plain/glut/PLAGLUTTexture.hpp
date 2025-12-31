@@ -36,7 +36,6 @@ public:
   Type GetType() const { return _type; }
 
   void Bind() const;
-  void SetParameters();
   void UploadData(const PLAUInt8* aData, GLsizei aWidth, GLsizei aHeight);
 
 private:

@@ -35,12 +35,6 @@ void PLAGLUTTexture::Bind() const
   glBindTexture(GL_TEXTURE_2D, _textureId);
 }
 
-void PLAGLUTTexture::SetParameters()
-{
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-}
-
 void PLAGLUTTexture::UploadData(const PLAUInt8* aData, GLsizei aWidth, GLsizei aHeight)
 {
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, aWidth, aHeight, 0,
@@ -78,7 +72,6 @@ PLAGLUTTexture* PLAGLUTTexture::Manager::GetTexture(const PLAOBJImage* aImage)
 
   PLAGLUTTexture* texture = new PLAGLUTTexture(PLAGLUTTexture::Type::Image);
   texture->Bind();
-  texture->SetParameters();
   texture->UploadData(aImage->GetResourceData(),
                       aImage->GetSize().x, aImage->GetSize().y);
 
@@ -109,7 +102,6 @@ void PLAGLUTTexture::Manager::BindAndUpdate(const PLAOBJVideo* aVideo,
 
     texture = new PLAGLUTTexture(PLAGLUTTexture::Type::Video);
     texture->Bind();
-    texture->SetParameters();
 
     _videoTextures[aVideo] = texture;
   }
