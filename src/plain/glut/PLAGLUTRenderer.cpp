@@ -407,26 +407,50 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
 
   if (imageClip)
   {
-    texCoords[0] = imageClip->GetNormalizedPixelClip().pos.x;  // 0.0,
-    texCoords[1] = imageClip->GetNormalizedPixelClip().pos.y;  // 0.0,
-    texCoords[2] = imageClip->GetNormalizedPixelClip().pos.x +
-                   imageClip->GetNormalizedPixelClip().size.x; // 0.0625,
-    texCoords[3] = imageClip->GetNormalizedPixelClip().pos.y;  // 0.0,
-    texCoords[4] = imageClip->GetNormalizedPixelClip().pos.x;  // 0.0,
-    texCoords[5] = imageClip->GetNormalizedPixelClip().pos.y +
-                   imageClip->GetNormalizedPixelClip().size.y; // 0.0625,
-    texCoords[6] = imageClip->GetNormalizedPixelClip().pos.x +
-                   imageClip->GetNormalizedPixelClip().size.x; // 0.0625
-    texCoords[7] = imageClip->GetNormalizedPixelClip().pos.y +
-                   imageClip->GetNormalizedPixelClip().size.y; // 0.0625,
-    /*/
-   GLfloat texCoords[] = {
-     0.0, 0.0,
-     0.0625, 0.0,
-     0.0, 0.0625,
-     0.0625, 0.0625,
-   };
-    //*/
+    PLARect clip = imageClip->GetNormalizedPixelClip();
+
+    // VideoClip: apply cover scaling (fill actor, crop excess)
+    if (imageClip->GetObjectType() == PLAObjectType::VideoClip)
+    {
+      const PLAOBJImage *texImage = imageClip->GetImage();
+      if (texImage)
+      {
+        PLAVec3f layerSize = aLayer->GetSize();
+        PLAOBJImageSize imageSize = texImage->GetSize();
+
+        if (layerSize.x > 0 && layerSize.y > 0 && imageSize.x > 0 && imageSize.y > 0)
+        {
+          PLAFloat layerAspect = layerSize.x / layerSize.y;
+          PLAFloat imageAspect = static_cast<PLAFloat>(imageSize.x) / static_cast<PLAFloat>(imageSize.y);
+
+          if (imageAspect > layerAspect)
+          {
+            // Image is wider: crop horizontal edges
+            PLAFloat visibleWidth = clip.size.x * (layerAspect / imageAspect);
+            PLAFloat cropX = (clip.size.x - visibleWidth) / 2.0f;
+            clip.pos.x += cropX;
+            clip.size.x = visibleWidth;
+          }
+          else if (imageAspect < layerAspect)
+          {
+            // Image is taller: crop vertical edges
+            PLAFloat visibleHeight = clip.size.y * (imageAspect / layerAspect);
+            PLAFloat cropY = (clip.size.y - visibleHeight) / 2.0f;
+            clip.pos.y += cropY;
+            clip.size.y = visibleHeight;
+          }
+        }
+      }
+    }
+
+    texCoords[0] = clip.pos.x;
+    texCoords[1] = clip.pos.y;
+    texCoords[2] = clip.pos.x + clip.size.x;
+    texCoords[3] = clip.pos.y;
+    texCoords[4] = clip.pos.x;
+    texCoords[5] = clip.pos.y + clip.size.y;
+    texCoords[6] = clip.pos.x + clip.size.x;
+    texCoords[7] = clip.pos.y + clip.size.y;
   }
 
   glVertexPointer(3, GL_FLOAT, 0, vertices);
