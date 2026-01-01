@@ -14,10 +14,12 @@ class PLAAGTActorForArc : public PLAAGTActor
 public:
   explicit PLAAGTActorForArc(PLAOBJActor *aOwner);
 
+  PLAFloat GetRadius() const;
   PLAFloat GetStartAngle() const;
   PLAFloat GetEndAngle() const;
   PLAFloat GetAngleSpan() const;
 
+  void SetRadius(PLAFloat aRadius);
   void SetStartAngle(PLAFloat aAngle);
   void SetEndAngle(PLAFloat aAngle);
   void SetAngles(PLAFloat aStartAngle, PLAFloat aEndAngle);

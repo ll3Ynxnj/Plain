@@ -36,7 +36,6 @@ public:
   Type GetType() const { return _type; }
 
   void Bind() const;
-  void SetParameters();
   void UploadData(const PLAUInt8* aData, GLsizei aWidth, GLsizei aHeight);
 
 private:
@@ -60,7 +59,7 @@ public:
     ~Manager();
 
     // Image texture management
-    PLAGLUTTexture* GetOrCreate(const PLAOBJImage* aImage);
+    PLAGLUTTexture* GetTexture(const PLAOBJImage* aImage);
 
     // Video texture management
     void BindAndUpdate(const PLAOBJVideo* aVideo, const PLAOBJImage* aImage);

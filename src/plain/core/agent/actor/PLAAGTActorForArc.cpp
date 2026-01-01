@@ -10,6 +10,11 @@ PLAAGTActorForArc::PLAAGTActorForArc(PLAOBJActor *aOwner):
 
 }
 
+PLAFloat PLAAGTActorForArc::GetRadius() const
+{
+  return this->RefActor()->RefLayerForArc()->GetRadius();
+}
+
 PLAFloat PLAAGTActorForArc::GetStartAngle() const
 {
   return this->RefActor()->RefLayerForArc()->GetStartAngle();
@@ -23,6 +28,11 @@ PLAFloat PLAAGTActorForArc::GetEndAngle() const
 PLAFloat PLAAGTActorForArc::GetAngleSpan() const
 {
   return this->RefActor()->RefLayerForArc()->GetAngleSpan();
+}
+
+void PLAAGTActorForArc::SetRadius(PLAFloat aRadius)
+{
+  this->RefActor()->RefLayerForArc()->SetRadius(aRadius);
 }
 
 void PLAAGTActorForArc::SetStartAngle(PLAFloat aAngle)

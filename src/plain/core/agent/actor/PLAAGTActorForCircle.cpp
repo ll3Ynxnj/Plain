@@ -14,6 +14,16 @@ PLAAGTActorForCircle::PLAAGTActorForCircle(PLAOBJActor *aOwner):
 
 }
 
+PLAFloat PLAAGTActorForCircle::GetRadius() const
+{
+  return this->RefActor()->RefLayerForCircle()->GetRadius();
+}
+
+void PLAAGTActorForCircle::SetRadius(PLAFloat aRadius)
+{
+  this->RefActor()->RefLayerForCircle()->SetRadius(aRadius);
+}
+
 void PLAAGTActorForCircle::SetStrokeColor(const PLAColor &aColor)
 {
   this->RefActor()->RefLayerForCircle()->SetStrokeColor(aColor);

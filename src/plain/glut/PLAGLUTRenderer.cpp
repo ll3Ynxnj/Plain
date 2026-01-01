@@ -72,7 +72,11 @@ void PLAGLUTRenderer::Render(const PLAOBJActor *aActor) const
 {
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  this->Draw(aActor, kPLAColorNorm);
+  PLARenderMode initialMode = aActor->GetRenderMode();
+  if (initialMode == PLARenderMode::None) {
+    initialMode = PLARenderMode::Nearest;
+  }
+  this->Draw(aActor, kPLAColorNorm, initialMode);
 }
 
 void PLAGLUTRenderer::GetRectVertices(GLfloat aVertices[12],
@@ -142,7 +146,8 @@ void PLAGLUTRenderer::GetMotionProperties(const PLATMLMotion *aNode,
   }
 }
 
-void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) const
+void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor,
+                           PLARenderMode aInheritedMode) const
 {
   //glClear(GL_COLOR_BUFFER_BIT);
 
@@ -152,7 +157,11 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
             aColor.r, aColor.g, aColor.b, aColor.a);
   */
 
-  this->ApplyRenderMode(aActor->GetRenderMode());
+  PLARenderMode renderMode = aActor->GetRenderMode();
+  if (renderMode == PLARenderMode::None) {
+    renderMode = aInheritedMode;
+  }
+  this->ApplyRenderMode(renderMode);
 
   if (!aActor->IsVisible()) { return; }
 
@@ -250,7 +259,7 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor) co
 
   for (const PLAOBJActor *actor : *aActor->GetActors())
   {
-    this->Draw(actor, color);
+    this->Draw(actor, color, renderMode);
   }
 
   if (isMask)
@@ -356,7 +365,7 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
       else
       {
         // Static image: cached texture
-        PLAGLUTTexture::Manager::Instance()->GetOrCreate(texImage);
+        PLAGLUTTexture::Manager::Instance()->GetTexture(texImage);
       }
     }
   }
@@ -546,10 +555,24 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
   if (imageClip)
   {
     const PLAOBJImage *texImage = imageClip->GetImage();
-    glEnable(GL_TEXTURE_2D);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetSize().x,
-                 texImage->GetSize().y, 0,
-                 GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
+    if (texImage)
+    {
+      glEnable(GL_TEXTURE_2D);
+
+      if (imageClip->GetObjectType() == PLAObjectType::VideoClip)
+      {
+        // VideoClip: dedicated texture per Video, data updated each frame
+        PLAOBJVideoClip *videoClip = const_cast<PLAOBJVideoClip *>(
+          static_cast<const PLAOBJVideoClip *>(imageClip));
+        videoClip->Update();
+        PLAGLUTTexture::Manager::Instance()->BindAndUpdate(videoClip->GetVideo(), texImage);
+      }
+      else
+      {
+        // Static image: cached texture
+        PLAGLUTTexture::Manager::Instance()->GetTexture(texImage);
+      }
+    }
   }
   else
   {
@@ -692,10 +715,24 @@ void PLAGLUTRenderer::DrawArc(const PLALYRArc *aLayer, const PLAColor &aColor,
   if (imageClip)
   {
     const PLAOBJImage *texImage = imageClip->GetImage();
-    glEnable(GL_TEXTURE_2D);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage->GetSize().x,
-                 texImage->GetSize().y, 0,
-                 GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
+    if (texImage)
+    {
+      glEnable(GL_TEXTURE_2D);
+
+      if (imageClip->GetObjectType() == PLAObjectType::VideoClip)
+      {
+        // VideoClip: dedicated texture per Video, data updated each frame
+        PLAOBJVideoClip *videoClip = const_cast<PLAOBJVideoClip *>(
+          static_cast<const PLAOBJVideoClip *>(imageClip));
+        videoClip->Update();
+        PLAGLUTTexture::Manager::Instance()->BindAndUpdate(videoClip->GetVideo(), texImage);
+      }
+      else
+      {
+        // Static image: cached texture
+        PLAGLUTTexture::Manager::Instance()->GetTexture(texImage);
+      }
+    }
   }
   else
   {
@@ -893,12 +930,11 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
 
   PLAOBJImageSize texSize = PLAOBJImageSize(1024);
   const PLAOBJImage *texImage = aLayer->GetImage();
-  if (texImage) {// && !kIsDebug) {
+  if (texImage) {
     texSize = texImage->GetSize();
     glEnable(GL_TEXTURE_2D);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
-                 texSize.x, texSize.y, 0,
-                 GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
+    // Static image: cached texture
+    PLAGLUTTexture::Manager::Instance()->GetTexture(texImage);
   } else {
     glDisable(GL_TEXTURE_2D);
   }
@@ -1044,6 +1080,9 @@ void PLAGLUTRenderer::DrawLabel(const PLALYRLabel *aLayer,
   }
 
   glEnable(GL_TEXTURE_2D);
+  // TODO: Use PLAGLUTTexture::Manager for caching. Currently not cached because
+  // PLALYRLabel recreates _textureImage when text changes, and there is no
+  // mechanism to invalidate the cache when the old PLAOBJImage is deleted.
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
                texImage->GetSize().x, texImage->GetSize().y, 0,
                GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
@@ -1101,7 +1140,6 @@ void PLAGLUTRenderer::ApplyRenderMode(PLARenderMode aMode) const
 {
   switch (aMode) {
     case PLARenderMode::None:
-      return;
     case PLARenderMode::Nearest:
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

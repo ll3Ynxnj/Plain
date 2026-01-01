@@ -43,7 +43,8 @@ private :
                                const PLAVec2f &aPos, const PLAVec2f &aSize);
   static void GetMotionProperties(const PLATMLMotion *aNode,
                                   MotionProperties *aMotionProperties);
-  void Draw(const PLAOBJActor *aActor, const PLAColor &aColor) const;
+  void Draw(const PLAOBJActor *aActor, const PLAColor &aColor,
+            PLARenderMode aInheritedMode) const;
   void DrawPoint(const PLALYRPoint *aLayer, const PLAColor &aColor,
                  const PLATMLMotion *aMotion) const;
   void DrawLine(const PLALYRLine *aLayer, const PLAColor &aColor,
