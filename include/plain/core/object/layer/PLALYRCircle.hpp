@@ -74,6 +74,7 @@ public:
   bool IsCollideWithCircle(const PLACircle &aCircle) const override;
 
   PLAFloat GetRadius() const { return _radius; };
+  void SetRadius(PLAFloat aRadius) { _radius = aRadius; };
   PLACircle GetCircle() const;
 
   const PLAStroke &GetStroke() const { return _stroke; };

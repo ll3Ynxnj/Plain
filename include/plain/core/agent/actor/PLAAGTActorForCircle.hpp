@@ -19,6 +19,9 @@ class PLAAGTActorForCircle : public PLAAGTActor
 public:
   explicit PLAAGTActorForCircle(PLAOBJActor *aOwner);
 
+  PLAFloat GetRadius() const;
+  void SetRadius(PLAFloat aRadius);
+
   void SetStroke(const PLAStroke &aStroke);
   void SetStrokeColor(const PLAColor &aColor);
   void SetStrokeWidth(PLAFloat aWidth);
