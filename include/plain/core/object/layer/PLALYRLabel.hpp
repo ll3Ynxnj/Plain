@@ -15,6 +15,7 @@ class PLALYRLabel : public PLAOBJLayer
   PLAString _text;
   PLAFloat _fontSize = 24.0f;
   PLAColor _textColor = kPLAColorWhite;
+  PLAColor _fillColor = kPLAColorNone;
   PLAVec2f _size = kPLAVec2fNone;
 
   PLAOBJFontRasterizer *_rasterizer = nullptr;
@@ -59,6 +60,9 @@ public:
 
   const PLAColor &GetTextColor() const { return _textColor; }
   void SetTextColor(const PLAColor &aColor);
+
+  const PLAColor &GetFillColor() const { return _fillColor; }
+  void SetFillColor(const PLAColor &aColor) { _fillColor = aColor; }
 
   const PLAOBJImage *GetTextureImage() const { return _textureImage; }
 

@@ -16,6 +16,7 @@ public:
   void SetText(const PLAString &aText);
   void SetFontSize(PLAFloat aFontSize);
   void SetTextColor(const PLAColor &aColor);
+  void SetFillColor(const PLAColor &aColor);
 };
 
 #endif // ANHR_PLAAGTACTORFORLABEL_HPP

@@ -23,3 +23,8 @@ void PLAAGTActorForLabel::SetTextColor(const PLAColor &aColor)
 {
   this->RefActor()->RefLayerForLabel()->SetTextColor(aColor);
 }
+
+void PLAAGTActorForLabel::SetFillColor(const PLAColor &aColor)
+{
+  this->RefActor()->RefLayerForLabel()->SetFillColor(aColor);
+}

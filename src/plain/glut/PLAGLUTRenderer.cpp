@@ -1079,18 +1079,6 @@ void PLAGLUTRenderer::DrawLabel(const PLALYRLabel *aLayer,
     return;
   }
 
-  glEnable(GL_TEXTURE_2D);
-  // TODO: Use PLAGLUTTexture::Manager for caching. Currently not cached because
-  // PLALYRLabel recreates _textureImage when text changes, and there is no
-  // mechanism to invalidate the cache when the old PLAOBJImage is deleted.
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
-               texImage->GetSize().x, texImage->GetSize().y, 0,
-               GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
-
-  // Set texture filtering for smooth text rendering
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
   const PLAVec3f offset = aLayer->GetOffset();
   const PLAVec3f size = aLayer->GetSize();
 
@@ -1108,6 +1096,42 @@ void PLAGLUTRenderer::DrawLabel(const PLALYRLabel *aLayer,
     -offset.y - size.y,
     offset.z,
   };
+
+  // Draw background fill if alpha > 0
+  const PLAColor &fillColor = aLayer->GetFillColor();
+  if (fillColor.a > 0) {
+    glDisable(GL_TEXTURE_2D);
+
+    GLfloat fillColors[] = {
+      fillColor.r, fillColor.g, fillColor.b, fillColor.a,
+      fillColor.r, fillColor.g, fillColor.b, fillColor.a,
+      fillColor.r, fillColor.g, fillColor.b, fillColor.a,
+      fillColor.r, fillColor.g, fillColor.b, fillColor.a,
+    };
+
+    glVertexPointer(3, GL_FLOAT, 0, vertices);
+    glColorPointer(4, GL_FLOAT, 0, fillColors);
+
+    glBegin(GL_TRIANGLE_STRIP);
+    glArrayElement(0);
+    glArrayElement(1);
+    glArrayElement(2);
+    glArrayElement(3);
+    glEnd();
+  }
+
+  // Draw text texture
+  glEnable(GL_TEXTURE_2D);
+  // TODO: Use PLAGLUTTexture::Manager for caching. Currently not cached because
+  // PLALYRLabel recreates _textureImage when text changes, and there is no
+  // mechanism to invalidate the cache when the old PLAOBJImage is deleted.
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+               texImage->GetSize().x, texImage->GetSize().y, 0,
+               GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
+
+  // Set texture filtering for smooth text rendering
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
   PLAColor color = aColor;
   GLfloat colors[] = {
