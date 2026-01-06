@@ -5,6 +5,8 @@
 #include "plain/core/PLAFontRasterizerType.hpp"
 #include "plain/core/library/PLALIBCollision.hpp"
 
+static const PLAString kDefaultFontRasterizerName = "DefaultFontRasterizer";
+
 PLALYRLabel *PLALYRLabel::Create(const PLAString &aText)
 {
   return Create(aText, 24.0f, kPLAColorWhite);
@@ -20,8 +22,14 @@ PLALYRLabel *PLALYRLabel::Create(const PLAString &aText, PLAFloat aFontSize,
 {
   PLALYRLabel *label = new PLALYRLabel(kPLAVec3fNone, aText, aFontSize, aTextColor);
 
+  // Use existing rasterizer if available, otherwise create new one
   PLAOBJFontRasterizer *rasterizer =
-    PLAOBJFontRasterizer::Create(PLAFontRasterizerType::FreeType);
+    PLAOBJFontRasterizer::Rasterizer(kDefaultFontRasterizerName);
+  if (!rasterizer)
+  {
+    rasterizer = PLAOBJFontRasterizer::Create(
+      PLAFontRasterizerType::FreeType, kDefaultFontRasterizerName);
+  }
   label->SetFontRasterizer(rasterizer);
 
   return label;
