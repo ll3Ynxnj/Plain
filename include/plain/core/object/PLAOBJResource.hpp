@@ -3,6 +3,7 @@
 
 #include "plain/core/object/PLAObject.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
+#include "plain/core/PLAImageType.hpp"
 
 class PLAOBJResource : public PLAObject, private GRAOBJBinder<PLAOBJResource>::Item
 {
@@ -24,8 +25,11 @@ public:
 
 private:
   std::vector<PLAUInt8> _data = std::vector<PLAUInt8>(0);
-  PLASize _size = 0;
-  const PLAString _path = "";
+  PLASize _size               = 0;
+  const PLAString _path       = "";
+  PLAImageType _imageType     = PLAImageType::None;
+  PLASize _imageWidth         = 0;
+  PLASize _imageHeight        = 0;
 
 public:
   static PLAOBJResource *Create(const PLAString &aName, const PLAString &aPath);
@@ -45,6 +49,9 @@ public:
   const char *GetResourceTypeName() const;
   const PLAUInt8 *GetData() const { return _data.data(); };
   PLASize GetSize() const { return _size; };
+  PLAImageType GetImageType() const { return _imageType; };
+  PLASize GetImageWidth() const { return _imageWidth; };
+  PLASize GetImageHeight() const { return _imageHeight; };
 
   void UpdateData(const PLAUInt8 *aData, PLASize aSize);
 

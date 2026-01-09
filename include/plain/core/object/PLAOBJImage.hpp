@@ -20,6 +20,7 @@ private:
 #pragma clang diagnostic pop
 
 public:
+  static PLAOBJImage *Create(const PLAString &aName);
   static PLAOBJImage *CreateRaw(const PLAString &aName);
   static PLAOBJImage *CreateFromMemory(const PLAString &aName, const PLAUInt8 *aData,
                                        const PLAOBJImageSize &aSize, PLAImageType aType);

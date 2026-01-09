@@ -44,6 +44,7 @@ enum class PLAObjectType : PLAInt
   FontRasterizer,
   FrameAnalyzer,
   Performance,
+  Decoder,
 
   kNumberOfItems,
   None = kPLAIntUndefined,
@@ -90,6 +91,7 @@ static const char *kPLAObjectTypeName[static_cast<size_t>(PLAObjectType::kNumber
   "FontRasterizer",
   "FrameAnalyzer",
   "Performance",
+  "Decoder",
 };
 
 #endif //PLAIN_ENGINE_PLAOBJECTTYPE_HPP

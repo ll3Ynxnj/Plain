@@ -5,6 +5,7 @@
 
 #include "plain/core/object/PLAOBJResource.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
+#include "plain/core/object/decoder/PLADCDImage.hpp"
 
 PLAOBJResource *PLAOBJResource::Create(const PLAString &aName, const PLAString &aPath)
 {
@@ -59,26 +60,60 @@ PLAOBJResource::~PLAOBJResource() noexcept
 
 void PLAOBJResource::AllocData()
 {
-  std::ifstream file(_path, std::ios::binary | std::ios::ate); // ファイルの終端で開く
+  std::ifstream file(_path, std::ios::binary | std::ios::ate);
   if (!file) {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "%s could not be opened.", _path.c_str());
+    return;
   }
 
   //-- Get file size
   std::streamsize dataSize = file.tellg();
-  file.seekg(0, std::ios::beg); // Restore the file position to the beginning
+  file.seekg(0, std::ios::beg);
 
-  //-- Prepare a buffer to read data
-  _data.resize(dataSize);
-
-  //-- Read data
-  if (file.read(reinterpret_cast<char*>(_data.data()), dataSize)) {
-    _size = dataSize;
-    GRA_DEBUG("Successfully read data from %s (%d bytes)", _path.c_str(), dataSize);
-  } else {
+  //-- Read raw file data
+  std::vector<PLAUInt8> rawData(dataSize);
+  if (!file.read(reinterpret_cast<char*>(rawData.data()), dataSize)) {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Failed to read data: The file was only partially read.");
+    return;
+  }
+
+  //-- Detect image type using magic bytes
+  _imageType = PLADCDImage::DetectType(rawData.data(), rawData.size());
+
+  if (_imageType == PLAImageType::Png || _imageType == PLAImageType::Jpg) {
+    //-- Decode image using PLADCDImage
+    PLADCDImage *decoder = PLADCDImage::Create("ResourceDecoder");
+    if (!decoder) {
+      PLA_ERROR_ISSUE(PLAErrorType::Expect,
+                      "Failed to create image decoder for: %s", _path.c_str());
+      _data = std::move(rawData);
+      _size = _data.size();
+      return;
+    }
+
+    std::vector<PLAUInt8> decodedData;
+    if (decoder->Decode(rawData, decodedData)) {
+      _data        = std::move(decodedData);
+      _size        = _data.size();
+      _imageWidth  = decoder->GetDecodedWidth();
+      _imageHeight = decoder->GetDecodedHeight();
+      GRA_DEBUG("Successfully decoded %s (%dx%d, %zu bytes)",
+                _path.c_str(), _imageWidth, _imageHeight, _size);
+    } else {
+      PLA_ERROR_ISSUE(PLAErrorType::Expect,
+                      "Failed to decode image: %s", _path.c_str());
+      _data = std::move(rawData);
+      _size = _data.size();
+    }
+
+    delete decoder;
+  } else {
+    //-- RAW or unknown format: use data as-is
+    _data = std::move(rawData);
+    _size = _data.size();
+    GRA_DEBUG("Successfully read data from %s (%zu bytes)", _path.c_str(), _size);
   }
 }
 
