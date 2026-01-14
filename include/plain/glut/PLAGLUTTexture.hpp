@@ -12,7 +12,6 @@
 
 class PLAObject;
 class PLAOBJImage;
-class PLAOBJVideo;
 
 class PLAGLUTTexture
 {
@@ -54,10 +53,6 @@ public:
 
     std::unordered_map<const PLAObject*, PLAGLUTTexture*> _textures;
 
-    // Legacy maps (deprecated)
-    std::unordered_map<const PLAOBJImage*, PLAGLUTTexture*> _imageTextures;
-    std::unordered_map<const PLAOBJVideo*, PLAGLUTTexture*> _videoTextures;
-
     Manager();
 
   public:
@@ -65,12 +60,11 @@ public:
 
     ~Manager();
 
-    // Unified texture management (new)
-    PLAGLUTTexture* ResolveTexture(const PLAObject* aKey, const PLAOBJImage* aData);
+    // Static content - resolve and cache texture
+    PLAGLUTTexture* ResolveTexture(const PLAOBJImage* aImage);
 
-    // Legacy methods (deprecated - use ResolveTexture instead)
-    PLAGLUTTexture* GetTexture(const PLAOBJImage* aImage);
-    void BindAndUpdate(const PLAOBJVideo* aVideo, const PLAOBJImage* aImage);
+    // Dynamic content - resolve and update texture
+    PLAGLUTTexture* UpdateTexture(const PLAObject* aKey, const PLAOBJImage* aData);
 
     void Clear();
   };

@@ -356,16 +356,14 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
       glEnable(GL_TEXTURE_2D);
 
       if (imageClip->GetObjectType() == PLAObjectType::VideoClip) {
-        // VideoClip: dedicated texture per Video, data updated each frame
         PLAOBJVideoClip *videoClip = const_cast<PLAOBJVideoClip*>(
           static_cast<const PLAOBJVideoClip*>(imageClip));
         videoClip->Update();
-        PLAGLUTTexture::Manager::Instance()->BindAndUpdate(videoClip->GetVideo(), texImage);
+        PLAGLUTTexture::Manager::Instance()->UpdateTexture(videoClip->GetVideo(), texImage);
       }
       else
       {
-        // Static image: cached texture
-        PLAGLUTTexture::Manager::Instance()->GetTexture(texImage);
+        PLAGLUTTexture::Manager::Instance()->ResolveTexture(texImage);
       }
     }
     else
@@ -577,16 +575,14 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
 
       if (imageClip->GetObjectType() == PLAObjectType::VideoClip)
       {
-        // VideoClip: dedicated texture per Video, data updated each frame
         PLAOBJVideoClip *videoClip = const_cast<PLAOBJVideoClip *>(
           static_cast<const PLAOBJVideoClip *>(imageClip));
         videoClip->Update();
-        PLAGLUTTexture::Manager::Instance()->BindAndUpdate(videoClip->GetVideo(), texImage);
+        PLAGLUTTexture::Manager::Instance()->UpdateTexture(videoClip->GetVideo(), texImage);
       }
       else
       {
-        // Static image: cached texture
-        PLAGLUTTexture::Manager::Instance()->GetTexture(texImage);
+        PLAGLUTTexture::Manager::Instance()->ResolveTexture(texImage);
       }
     }
   }
@@ -737,16 +733,14 @@ void PLAGLUTRenderer::DrawArc(const PLALYRArc *aLayer, const PLAColor &aColor,
 
       if (imageClip->GetObjectType() == PLAObjectType::VideoClip)
       {
-        // VideoClip: dedicated texture per Video, data updated each frame
         PLAOBJVideoClip *videoClip = const_cast<PLAOBJVideoClip *>(
           static_cast<const PLAOBJVideoClip *>(imageClip));
         videoClip->Update();
-        PLAGLUTTexture::Manager::Instance()->BindAndUpdate(videoClip->GetVideo(), texImage);
+        PLAGLUTTexture::Manager::Instance()->UpdateTexture(videoClip->GetVideo(), texImage);
       }
       else
       {
-        // Static image: cached texture
-        PLAGLUTTexture::Manager::Instance()->GetTexture(texImage);
+        PLAGLUTTexture::Manager::Instance()->ResolveTexture(texImage);
       }
     }
   }
@@ -949,8 +943,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
   if (texImage) {
     texSize = texImage->GetSize();
     glEnable(GL_TEXTURE_2D);
-    // Static image: cached texture
-    PLAGLUTTexture::Manager::Instance()->GetTexture(texImage);
+    PLAGLUTTexture::Manager::Instance()->ResolveTexture(texImage);
   } else {
     glDisable(GL_TEXTURE_2D);
   }
@@ -1138,10 +1131,7 @@ void PLAGLUTRenderer::DrawLabel(const PLALYRLabel *aLayer,
 
   // Draw text texture
   glEnable(GL_TEXTURE_2D);
-  // Use texture manager to get/create a texture for this label image.
-  // This avoids corrupting other textures by uploading to whatever texture
-  // happens to be currently bound.
-  PLAGLUTTexture::Manager::Instance()->GetTexture(texImage);
+  PLAGLUTTexture::Manager::Instance()->UpdateTexture(aLayer, texImage);
 
   PLAColor color = aColor;
   GLfloat colors[] = {
