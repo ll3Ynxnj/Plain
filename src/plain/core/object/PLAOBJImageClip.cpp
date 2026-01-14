@@ -9,7 +9,7 @@ PLAOBJImageClip *PLAOBJImageClip::Create(const PLAString &aImageName)
 PLAOBJImageClip *PLAOBJImageClip::Create(const PLAString &aImageName,
                                          const PLARect &aClip)
 {
-  const PLAOBJImage *image = PLAOBJImage::CreateRaw(aImageName);
+  const PLAOBJImage *image = PLAOBJImage::Create(aImageName);
   PLAOBJImageClip *imageClip = new PLAOBJImageClip(image, aClip);
   imageClip->Bind();
   return imageClip;

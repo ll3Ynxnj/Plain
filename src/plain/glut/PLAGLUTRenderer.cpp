@@ -368,6 +368,11 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
         PLAGLUTTexture::Manager::Instance()->GetTexture(texImage);
       }
     }
+    else
+    {
+      // ImageClip exists but image is null - disable texture
+      glDisable(GL_TEXTURE_2D);
+    }
   }
   else
   {
@@ -460,6 +465,17 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
     texCoords[5] = clip.pos.y + clip.size.y;
     texCoords[6] = clip.pos.x + clip.size.x;
     texCoords[7] = clip.pos.y + clip.size.y;
+  }
+
+  if (aLayer->GetObjectName().find("Background") != std::string::npos) {
+    GRA_PRINT("  vertices: v0=(%.1f,%.1f,%.1f), v1=(%.1f,%.1f,%.1f), v2=(%.1f,%.1f,%.1f), v3=(%.1f,%.1f,%.1f)\n",
+              vertices[0], vertices[1], vertices[2],
+              vertices[3], vertices[4], vertices[5],
+              vertices[6], vertices[7], vertices[8],
+              vertices[9], vertices[10], vertices[11]);
+    GRA_PRINT("  fillColor: (%.2f,%.2f,%.2f,%.2f), texCoords: (%.2f,%.2f)-(%.2f,%.2f)\n",
+              fillColor.r, fillColor.g, fillColor.b, fillColor.a,
+              texCoords[0], texCoords[1], texCoords[6], texCoords[7]);
   }
 
   glVertexPointer(3, GL_FLOAT, 0, vertices);
@@ -1122,16 +1138,10 @@ void PLAGLUTRenderer::DrawLabel(const PLALYRLabel *aLayer,
 
   // Draw text texture
   glEnable(GL_TEXTURE_2D);
-  // TODO: Use PLAGLUTTexture::Manager for caching. Currently not cached because
-  // PLALYRLabel recreates _textureImage when text changes, and there is no
-  // mechanism to invalidate the cache when the old PLAOBJImage is deleted.
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
-               texImage->GetSize().x, texImage->GetSize().y, 0,
-               GL_RGBA, GL_UNSIGNED_BYTE, texImage->GetResourceData());
-
-  // Set texture filtering for smooth text rendering
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  // Use texture manager to get/create a texture for this label image.
+  // This avoids corrupting other textures by uploading to whatever texture
+  // happens to be currently bound.
+  PLAGLUTTexture::Manager::Instance()->GetTexture(texImage);
 
   PLAColor color = aColor;
   GLfloat colors[] = {

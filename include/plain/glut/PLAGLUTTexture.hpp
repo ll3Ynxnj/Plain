@@ -10,6 +10,7 @@
 #include "PLAGLUT.h"
 #include "plain/core/primitive/PLAPRMType.hpp"
 
+class PLAObject;
 class PLAOBJImage;
 class PLAOBJVideo;
 
@@ -27,6 +28,7 @@ public:
 private:
   GLuint _textureId = 0;
   Type _type = Type::None;
+  uint64_t _cachedRevision = 0;
 
 public:
   PLAGLUTTexture(Type aType);
@@ -34,6 +36,8 @@ public:
 
   GLuint GetTextureId() const { return _textureId; }
   Type GetType() const { return _type; }
+  uint64_t GetCachedRevision() const { return _cachedRevision; }
+  void SetCachedRevision(uint64_t aRevision) { _cachedRevision = aRevision; }
 
   void Bind() const;
   void UploadData(const PLAUInt8* aData, GLsizei aWidth, GLsizei aHeight);
@@ -48,6 +52,9 @@ public:
   {
     static Manager _instance;
 
+    std::unordered_map<const PLAObject*, PLAGLUTTexture*> _textures;
+
+    // Legacy maps (deprecated)
     std::unordered_map<const PLAOBJImage*, PLAGLUTTexture*> _imageTextures;
     std::unordered_map<const PLAOBJVideo*, PLAGLUTTexture*> _videoTextures;
 
@@ -58,10 +65,11 @@ public:
 
     ~Manager();
 
-    // Image texture management
-    PLAGLUTTexture* GetTexture(const PLAOBJImage* aImage);
+    // Unified texture management (new)
+    PLAGLUTTexture* ResolveTexture(const PLAObject* aKey, const PLAOBJImage* aData);
 
-    // Video texture management
+    // Legacy methods (deprecated - use ResolveTexture instead)
+    PLAGLUTTexture* GetTexture(const PLAOBJImage* aImage);
     void BindAndUpdate(const PLAOBJVideo* aVideo, const PLAOBJImage* aImage);
 
     void Clear();

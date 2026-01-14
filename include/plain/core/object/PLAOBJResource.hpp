@@ -30,6 +30,7 @@ private:
   PLAImageType _imageType     = PLAImageType::None;
   PLASize _imageWidth         = 0;
   PLASize _imageHeight        = 0;
+  uint64_t _revision          = 0;
 
 public:
   static PLAOBJResource *Create(const PLAString &aName, const PLAString &aPath);
@@ -52,6 +53,7 @@ public:
   PLAImageType GetImageType() const { return _imageType; };
   PLASize GetImageWidth() const { return _imageWidth; };
   PLASize GetImageHeight() const { return _imageHeight; };
+  uint64_t GetRevision() const { return _revision; };
 
   void UpdateData(const PLAUInt8 *aData, PLASize aSize);
 
@@ -67,18 +69,19 @@ public:
   class Manager: public GRAOBJBinder<PLAOBJResource>
   {
     static Manager _instance;
+    uint64_t _revision = 0;
 
     Manager();
 
   public:
-    //static const Manager *Instance() { return &_instance; };
-    //static Manager *RefInstance() { return &_instance; };
     static Manager *Instance() { return &_instance; };
     static PLAOBJResource *Resource(const PLAString &aKey);
 
     ~Manager();
 
     void Init();
+
+    uint64_t IssueRevision() { return _revision++; }
 
     const PLAOBJResource *GetResource(const PLAString &aName) const;
     void PrintResources() const;

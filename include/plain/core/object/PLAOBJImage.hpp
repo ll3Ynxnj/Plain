@@ -36,6 +36,7 @@ public:
    */
 
   const PLAUInt8 *GetResourceData() const { return _resource->GetData(); }
+  uint64_t GetRevision() const { return _resource->GetRevision(); }
   //virtual size_t GetDataSize() const;
 };
 

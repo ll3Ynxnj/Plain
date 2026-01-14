@@ -1,7 +1,7 @@
 #include "plain/glut/PLAGLUTTexture.hpp"
+#include "plain/core/object/PLAObject.hpp"
 #include "plain/core/object/PLAOBJImage.hpp"
 #include "plain/core/object/PLAOBJVideo.hpp"
-#include <grain/grain.h>
 
 // PLAGLUTTexture //////////////////////////////////////////////////////////////
 
@@ -39,6 +39,13 @@ void PLAGLUTTexture::UploadData(const PLAUInt8* aData, GLsizei aWidth, GLsizei a
 {
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, aWidth, aHeight, 0,
                GL_RGBA, GL_UNSIGNED_BYTE, aData);
+
+  // Set default texture parameters (required for texture to render properly)
+  // Default MIN_FILTER is GL_NEAREST_MIPMAP_LINEAR which requires mipmaps
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 }
 
 // PLAGLUTTexture::Manager /////////////////////////////////////////////////////
@@ -52,6 +59,46 @@ PLAGLUTTexture::Manager::Manager()
 PLAGLUTTexture::Manager::~Manager()
 {
   Clear();
+}
+
+PLAGLUTTexture* PLAGLUTTexture::Manager::ResolveTexture(const PLAObject* aKey,
+                                                         const PLAOBJImage* aData)
+{
+  if (!aKey || !aData)
+  {
+    return nullptr;
+  }
+
+  PLAGLUTTexture* texture = nullptr;
+  auto it = _textures.find(aKey);
+
+  if (it != _textures.end())
+  {
+    texture = it->second;
+    texture->Bind();
+
+    // Check if data has been updated
+    uint64_t dataRevision = aData->GetRevision();
+    if (texture->GetCachedRevision() != dataRevision)
+    {
+      texture->UploadData(aData->GetResourceData(),
+                          aData->GetSize().x, aData->GetSize().y);
+      texture->SetCachedRevision(dataRevision);
+    }
+  }
+  else
+  {
+    // Create new texture
+    texture = new PLAGLUTTexture(PLAGLUTTexture::Type::Image);
+    texture->Bind();
+    texture->UploadData(aData->GetResourceData(),
+                        aData->GetSize().x, aData->GetSize().y);
+    texture->SetCachedRevision(aData->GetRevision());
+
+    _textures[aKey] = texture;
+  }
+
+  return texture;
 }
 
 PLAGLUTTexture* PLAGLUTTexture::Manager::GetTexture(const PLAOBJImage* aImage)
@@ -68,12 +115,13 @@ PLAGLUTTexture* PLAGLUTTexture::Manager::GetTexture(const PLAOBJImage* aImage)
     return it->second;
   }
 
-  GRA_PRINT("Texture::Manager: Creating image texture (image=%p)\n", aImage);
+  const PLAUInt8* data = aImage->GetResourceData();
+  PLASize width = aImage->GetSize().x;
+  PLASize height = aImage->GetSize().y;
 
   PLAGLUTTexture* texture = new PLAGLUTTexture(PLAGLUTTexture::Type::Image);
   texture->Bind();
-  texture->UploadData(aImage->GetResourceData(),
-                      aImage->GetSize().x, aImage->GetSize().y);
+  texture->UploadData(data, width, height);
 
   _imageTextures[aImage] = texture;
 
@@ -98,8 +146,6 @@ void PLAGLUTTexture::Manager::BindAndUpdate(const PLAOBJVideo* aVideo,
   }
   else
   {
-    GRA_PRINT("Texture::Manager: Creating video texture (video=%p)\n", aVideo);
-
     texture = new PLAGLUTTexture(PLAGLUTTexture::Type::Video);
     texture->Bind();
 
@@ -112,6 +158,13 @@ void PLAGLUTTexture::Manager::BindAndUpdate(const PLAOBJVideo* aVideo,
 
 void PLAGLUTTexture::Manager::Clear()
 {
+  for (auto& pair : _textures)
+  {
+    delete pair.second;
+  }
+  _textures.clear();
+
+  // Legacy maps
   for (auto& pair : _imageTextures)
   {
     delete pair.second;

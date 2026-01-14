@@ -19,6 +19,7 @@ PLAOBJResource *PLAOBJResource::CreateFromMemory(const PLAString &aName, const P
   PLAOBJResource *resource = new PLAOBJResource(aName, "");
   resource->_data.assign(aData, aData + aSize);
   resource->_size = aSize;
+  resource->_revision = Manager::Instance()->IssueRevision();
   resource->Bind();
   return resource;
 }
@@ -115,6 +116,8 @@ void PLAOBJResource::AllocData()
     _size = _data.size();
     GRA_DEBUG("Successfully read data from %s (%zu bytes)", _path.c_str(), _size);
   }
+
+  _revision = Manager::Instance()->IssueRevision();
 }
 
 void PLAOBJResource::ReleaseData()
@@ -151,6 +154,7 @@ void PLAOBJResource::UpdateData(const PLAUInt8 *aData, PLASize aSize)
     _size = aSize;
   }
   std::copy(aData, aData + aSize, _data.begin());
+  _revision = Manager::Instance()->IssueRevision();
 }
 
 void PLAOBJResource::PrintResource() const

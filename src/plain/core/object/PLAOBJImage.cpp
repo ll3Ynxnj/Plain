@@ -7,8 +7,12 @@ PLAOBJImage *PLAOBJImage::Create(const PLAString &aName)
 {
   auto resource = PLAOBJResource::Manager::Instance()->GetResource(aName);
   if (!resource) {
+    GRA_PRINT("PLAOBJImage::Create: resource not found for '%s'\n", aName.c_str());
     return nullptr;
   }
+
+  GRA_PRINT("PLAOBJImage::Create: name='%s', resource='%s', data=%p\n",
+            aName.c_str(), resource->GetObjectName().c_str(), resource->GetData());
 
   PLAImageType imageType = resource->GetImageType();
   PLAOBJImageSize imageSize;
