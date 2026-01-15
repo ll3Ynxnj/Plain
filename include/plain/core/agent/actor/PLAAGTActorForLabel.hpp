@@ -5,6 +5,7 @@
 
 #include "plain/core/agent/actor/PLAAGTActor.hpp"
 #include "plain/core/primitive/PLAPRMColor.hpp"
+#include "plain/core/PLATextAlignment.hpp"
 
 class PLAOBJActor;
 
@@ -18,6 +19,8 @@ public:
   void SetRasterScale(PLAFloat aScale);
   void SetTextColor(const PLAColor &aColor);
   void SetFillColor(const PLAColor &aColor);
+  void SetAlignment(PLATextAlignment aAlignment);
+  void SetAlignmentWidth(PLAFloat aWidth);
 };
 
 #endif // ANHR_PLAAGTACTORFORLABEL_HPP

@@ -33,3 +33,13 @@ void PLAAGTActorForLabel::SetFillColor(const PLAColor &aColor)
 {
   this->RefActor()->RefLayerForLabel()->SetFillColor(aColor);
 }
+
+void PLAAGTActorForLabel::SetAlignment(PLATextAlignment aAlignment)
+{
+  this->RefActor()->RefLayerForLabel()->SetAlignment(aAlignment);
+}
+
+void PLAAGTActorForLabel::SetAlignmentWidth(PLAFloat aWidth)
+{
+  this->RefActor()->RefLayerForLabel()->SetAlignmentWidth(aWidth);
+}

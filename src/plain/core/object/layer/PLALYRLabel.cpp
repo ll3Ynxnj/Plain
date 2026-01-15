@@ -106,6 +106,16 @@ void PLALYRLabel::SetTextColor(const PLAColor &aColor)
   }
 }
 
+void PLALYRLabel::SetAlignment(PLATextAlignment aAlignment)
+{
+  _alignment = aAlignment;
+}
+
+void PLALYRLabel::SetAlignmentWidth(PLAFloat aWidth)
+{
+  _alignmentWidth = aWidth;
+}
+
 void PLALYRLabel::Update()
 {
   if (_needsUpdate) {

@@ -5,6 +5,7 @@
 #include "plain/core/object/PLAOBJError.hpp"
 #include "plain/core/object/PLAOBJResource.hpp"
 #include "plain/core/object/PLAOBJVideoClip.hpp"
+#include "plain/core/PLATextAlignment.hpp"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -1091,17 +1092,38 @@ void PLAGLUTRenderer::DrawLabel(const PLALYRLabel *aLayer,
   const PLAVec3f offset = aLayer->GetOffset();
   const PLAVec3f size = aLayer->GetSize();
 
+  // Calculate alignment offset
+  PLAFloat alignOffsetX = 0.0f;
+  PLATextAlignment alignment = aLayer->GetAlignment();
+  PLAFloat alignmentWidth = aLayer->GetAlignmentWidth();
+
+  if (alignment != PLATextAlignment::Left &&
+      alignment != PLATextAlignment::None)
+  {
+    PLAFloat containerWidth = (alignmentWidth > 0) ? alignmentWidth : size.x;
+    switch (alignment) {
+      case PLATextAlignment::Center:
+        alignOffsetX = (containerWidth - size.x) / 2.0f;
+        break;
+      case PLATextAlignment::Right:
+        alignOffsetX = containerWidth - size.x;
+        break;
+      default:
+        break;
+    }
+  }
+
   GLfloat vertices[] = {
-    offset.x,
+    offset.x + alignOffsetX,
     -offset.y,
     offset.z,
-    offset.x + size.x,
+    offset.x + alignOffsetX + size.x,
     -offset.y,
     offset.z,
-    offset.x,
+    offset.x + alignOffsetX,
     -offset.y - size.y,
     offset.z,
-    offset.x + size.x,
+    offset.x + alignOffsetX + size.x,
     -offset.y - size.y,
     offset.z,
   };

@@ -7,6 +7,7 @@
 #include "plain/core/primitive/PLAPRMColor.hpp"
 #include "plain/core/primitive/PLAPRMRect.hpp"
 #include "plain/core/object/font/PLAOBJFontRasterizer.hpp"
+#include "plain/core/PLATextAlignment.hpp"
 
 class PLAOBJImage;
 
@@ -18,6 +19,8 @@ class PLALYRLabel : public PLAOBJLayer
   PLAColor _textColor = kPLAColorWhite;
   PLAColor _fillColor = kPLAColorNone;
   PLAVec2f _size = kPLAVec2fNone;
+  PLATextAlignment _alignment = PLATextAlignment::Left;
+  PLAFloat _alignmentWidth = 0.0f;
 
   PLAOBJFontRasterizer *_rasterizer = nullptr;
   PLAOBJImage *_textureImage = nullptr;
@@ -67,6 +70,12 @@ public:
 
   const PLAColor &GetFillColor() const { return _fillColor; }
   void SetFillColor(const PLAColor &aColor) { _fillColor = aColor; }
+
+  PLATextAlignment GetAlignment() const { return _alignment; }
+  void SetAlignment(PLATextAlignment aAlignment);
+
+  PLAFloat GetAlignmentWidth() const { return _alignmentWidth; }
+  void SetAlignmentWidth(PLAFloat aWidth);
 
   const PLAOBJImage *GetTextureImage() const { return _textureImage; }
 
