@@ -89,6 +89,14 @@ void PLALYRLabel::SetFontSize(PLAFloat aFontSize)
   }
 }
 
+void PLALYRLabel::SetRasterScale(PLAFloat aScale)
+{
+  if (_rasterScale != aScale) {
+    _rasterScale = aScale;
+    _needsUpdate = true;
+  }
+}
+
 void PLALYRLabel::SetTextColor(const PLAColor &aColor)
 {
   if (_textColor.r != aColor.r || _textColor.g != aColor.g ||
@@ -117,12 +125,13 @@ void PLALYRLabel::UpdateTexture()
     return;
   }
 
-  cv::Mat textImage = _rasterizer->Rasterize(_text, _fontSize, _textColor);
+  PLAFloat rasterSize = _fontSize * _rasterScale;
+  cv::Mat textImage = _rasterizer->Rasterize(_text, rasterSize, _textColor);
   if (textImage.empty()) {
     return;
   }
 
-  _size = PLAVec2f(textImage.cols, textImage.rows);
+  _size = PLAVec2f(textImage.cols / _rasterScale, textImage.rows / _rasterScale);
 
   if (_textureImage) {
     delete _textureImage;
