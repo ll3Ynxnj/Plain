@@ -80,6 +80,11 @@ void PLALYRLabel::SetFontRasterizerByName(const PLAString &aRasterizerName)
   {
     SetFontRasterizer(rasterizer);
   }
+  else
+  {
+    GRA_PRINT("WARNING: PLALYRLabel::SetFontRasterizerByName - '%s' not found\n",
+              aRasterizerName.c_str());
+  }
 }
 
 void PLALYRLabel::SetText(const PLAString &aText)

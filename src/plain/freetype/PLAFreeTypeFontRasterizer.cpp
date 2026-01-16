@@ -2,6 +2,7 @@
 
 #include "plain/freetype/PLAFreeTypeFontRasterizer.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
+#include <cmath>
 #include <fstream>
 #include <filesystem>
 
@@ -239,17 +240,35 @@ cv::Mat PLAFreeTypeFontRasterizer::Rasterize(const PLAString &aText,
     return cv::Mat();
   }
 
-  // Use font metrics (OpenType/TrueType standard) - no arbitrary padding
-  int ascender = _face->size->metrics.ascender >> 6;
-  int descender = -(_face->size->metrics.descender >> 6);  // Make positive
+  // Use face design units for accurate metrics (OpenType/TrueType standard)
+  PLAFloat scale = aFontSize / static_cast<PLAFloat>(_face->units_per_EM);
+  int ascender = static_cast<int>(std::ceil(_face->ascender * scale));
+  int descender = static_cast<int>(std::ceil(-_face->descender * scale));
   int lineHeight = ascender + descender;
 
-  // Calculate total width
+  // Check if font has kerning
+  bool hasKerning = FT_HAS_KERNING(_face);
+
+  // Calculate total width (including kerning)
   int totalWidth = 0;
+  FT_UInt prevGlyphIndex = 0;
   for (uint32_t cp : codepoints) {
-    error = FT_Load_Char(_face, cp, FT_LOAD_DEFAULT);
-    if (error) continue;
+    FT_UInt glyphIndex = FT_Get_Char_Index(_face, cp);
+
+    // Apply kerning if available
+    if (hasKerning && prevGlyphIndex && glyphIndex) {
+      FT_Vector delta;
+      FT_Get_Kerning(_face, prevGlyphIndex, glyphIndex, FT_KERNING_DEFAULT, &delta);
+      totalWidth += (delta.x >> 6);
+    }
+
+    error = FT_Load_Glyph(_face, glyphIndex, FT_LOAD_DEFAULT);
+    if (error) {
+      prevGlyphIndex = glyphIndex;
+      continue;
+    }
     totalWidth += (_face->glyph->advance.x >> 6);
+    prevGlyphIndex = glyphIndex;
   }
 
   if (totalWidth <= 0) {
@@ -266,10 +285,23 @@ cv::Mat PLAFreeTypeFontRasterizer::Rasterize(const PLAString &aText,
   // Pen starts at x=0, baseline is at ascender position from top
   int penX = 0;
   int baselineY = ascender;
+  prevGlyphIndex = 0;
 
   for (uint32_t cp : codepoints) {
-    error = FT_Load_Char(_face, cp, FT_LOAD_RENDER);
-    if (error) continue;
+    FT_UInt glyphIndex = FT_Get_Char_Index(_face, cp);
+
+    // Apply kerning if available
+    if (hasKerning && prevGlyphIndex && glyphIndex) {
+      FT_Vector delta;
+      FT_Get_Kerning(_face, prevGlyphIndex, glyphIndex, FT_KERNING_DEFAULT, &delta);
+      penX += (delta.x >> 6);
+    }
+
+    error = FT_Load_Glyph(_face, glyphIndex, FT_LOAD_RENDER);
+    if (error) {
+      prevGlyphIndex = glyphIndex;
+      continue;
+    }
 
     FT_GlyphSlot glyph = _face->glyph;
     FT_Bitmap &bitmap = glyph->bitmap;
@@ -290,9 +322,9 @@ cv::Mat PLAFreeTypeFontRasterizer::Rasterize(const PLAString &aText,
             uchar newAlpha = (gray * a) / 255;
 
             if (newAlpha > existingAlpha) {
-              pixel[0] = b;
+              pixel[0] = r;  // RGBA format for OpenGL
               pixel[1] = g;
-              pixel[2] = r;
+              pixel[2] = b;
               pixel[3] = newAlpha;
             }
           }
@@ -301,6 +333,7 @@ cv::Mat PLAFreeTypeFontRasterizer::Rasterize(const PLAString &aText,
     }
 
     penX += (glyph->advance.x >> 6);
+    prevGlyphIndex = glyphIndex;
   }
 
   return image;
@@ -324,16 +357,34 @@ PLAVec2f PLAFreeTypeFontRasterizer::GetTextSize(const PLAString &aText,
     return PLAVec2f(0, 0);
   }
 
-  // Use font metrics (OpenType/TrueType standard) - no arbitrary padding
-  int ascender = _face->size->metrics.ascender >> 6;
-  int descender = -(_face->size->metrics.descender >> 6);
+  // Use face design units for accurate metrics (OpenType/TrueType standard)
+  PLAFloat scale = aFontSize / static_cast<PLAFloat>(_face->units_per_EM);
+  int ascender = static_cast<int>(std::ceil(_face->ascender * scale));
+  int descender = static_cast<int>(std::ceil(-_face->descender * scale));
   int lineHeight = ascender + descender;
 
+  // Check if font has kerning
+  bool hasKerning = FT_HAS_KERNING(_face);
+
   int totalWidth = 0;
+  FT_UInt prevGlyphIndex = 0;
   for (uint32_t cp : codepoints) {
-    error = FT_Load_Char(_face, cp, FT_LOAD_DEFAULT);
-    if (error) continue;
+    FT_UInt glyphIndex = FT_Get_Char_Index(_face, cp);
+
+    // Apply kerning if available
+    if (hasKerning && prevGlyphIndex && glyphIndex) {
+      FT_Vector delta;
+      FT_Get_Kerning(_face, prevGlyphIndex, glyphIndex, FT_KERNING_DEFAULT, &delta);
+      totalWidth += (delta.x >> 6);
+    }
+
+    error = FT_Load_Glyph(_face, glyphIndex, FT_LOAD_DEFAULT);
+    if (error) {
+      prevGlyphIndex = glyphIndex;
+      continue;
+    }
     totalWidth += (_face->glyph->advance.x >> 6);
+    prevGlyphIndex = glyphIndex;
   }
 
   return PLAVec2f(totalWidth, lineHeight);
@@ -352,11 +403,11 @@ PLAFontMetrics PLAFreeTypeFontRasterizer::GetMetrics(PLAFloat aFontSize)
     return metrics;
   }
 
-  // FreeType metrics are in 26.6 fixed-point format (divide by 64)
-  // These follow OpenType/TrueType font standards
-  metrics.ascender = static_cast<PLAFloat>(_face->size->metrics.ascender >> 6);
-  metrics.descender = static_cast<PLAFloat>(-(_face->size->metrics.descender >> 6));  // Make positive
-  metrics.lineHeight = static_cast<PLAFloat>(_face->size->metrics.height >> 6);
+  // Use face design units for accurate metrics (OpenType/TrueType standard)
+  PLAFloat scale = aFontSize / static_cast<PLAFloat>(_face->units_per_EM);
+  metrics.ascender = static_cast<PLAFloat>(_face->ascender) * scale;
+  metrics.descender = static_cast<PLAFloat>(-_face->descender) * scale;
+  metrics.lineHeight = metrics.ascender + metrics.descender;
 
   return metrics;
 }

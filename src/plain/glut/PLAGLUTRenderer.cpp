@@ -1114,11 +1114,19 @@ void PLAGLUTRenderer::DrawLabel(const PLALYRLabel *aLayer,
     }
   }
 
+  // Compensate for lineHeight vs fontSize difference
+  // iOS UILabel centers text vertically when lineHeight > fontSize
+  PLAFloat fontSize = aLayer->GetFontSize();
+  PLAFloat lineHeightCompensation = 0.0f;
+  if (metrics.lineHeight > fontSize) {
+    lineHeightCompensation = (metrics.lineHeight - fontSize) / 2.0f;
+  }
+
   // Calculate vertical alignment offset (center text within alignment frame)
   PLAFloat alignOffsetY = 0.0f;
   PLAFloat alignmentHeight = aLayer->GetAlignmentHeight();
-  if (alignmentHeight > 0 && alignmentHeight > metrics.lineHeight) {
-    alignOffsetY = (alignmentHeight - metrics.lineHeight) / 2.0f;
+  if (alignmentHeight > 0 && alignmentHeight > fontSize) {
+    alignOffsetY = (alignmentHeight - fontSize) / 2.0f;
   }
 
   // Draw background fill if alpha > 0
@@ -1168,19 +1176,19 @@ void PLAGLUTRenderer::DrawLabel(const PLALYRLabel *aLayer,
   PLAGLUTTexture::Manager::Instance()->UpdateTexture(aLayer, texImage);
 
   // Position text using font metrics (OpenType/TrueType standard)
-  // No arbitrary padding - text is positioned based on baseline and metrics
+  // lineHeightCompensation shifts texture UP to center text when lineHeight > fontSize
   GLfloat vertices[] = {
     offset.x + alignOffsetX,
-    -offset.y - alignOffsetY,
+    -offset.y - alignOffsetY + lineHeightCompensation,
     offset.z,
     offset.x + alignOffsetX + size.x,
-    -offset.y - alignOffsetY,
+    -offset.y - alignOffsetY + lineHeightCompensation,
     offset.z,
     offset.x + alignOffsetX,
-    -offset.y - alignOffsetY - size.y,
+    -offset.y - alignOffsetY + lineHeightCompensation - size.y,
     offset.z,
     offset.x + alignOffsetX + size.x,
-    -offset.y - alignOffsetY - size.y,
+    -offset.y - alignOffsetY + lineHeightCompensation - size.y,
     offset.z,
   };
 
