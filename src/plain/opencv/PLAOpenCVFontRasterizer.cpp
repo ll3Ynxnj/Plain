@@ -90,3 +90,26 @@ PLAVec2f PLAOpenCVFontRasterizer::GetTextSize(const PLAString &aText,
   return PLAVec2f(textSize.width + padding * 2,
                   textSize.height + baseline + padding * 2);
 }
+
+PLAFontMetrics PLAOpenCVFontRasterizer::GetMetrics(PLAFloat aFontSize)
+{
+  PLAFontMetrics metrics = {0, 0, 0};
+
+  if (!_isInitialized) {
+    return metrics;
+  }
+
+  // OpenCV fonts don't have standard font metrics, approximate using getTextSize
+  PLAFloat fontScale = aFontSize / 24.0;
+  int baseline = 0;
+  cv::Size textSize = cv::getTextSize("Hg", _fontFace, fontScale,
+                                       _thickness, &baseline);
+
+  // Approximate ascender as text height (capital H height)
+  // Approximate descender as baseline (descent below baseline for 'g')
+  metrics.ascender = static_cast<PLAFloat>(textSize.height);
+  metrics.descender = static_cast<PLAFloat>(baseline);
+  metrics.lineHeight = metrics.ascender + metrics.descender;
+
+  return metrics;
+}

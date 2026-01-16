@@ -1091,8 +1091,9 @@ void PLAGLUTRenderer::DrawLabel(const PLALYRLabel *aLayer,
 
   const PLAVec3f offset = aLayer->GetOffset();
   const PLAVec3f size = aLayer->GetSize();
+  const PLAFontMetrics &metrics = aLayer->GetFontMetrics();
 
-  // Calculate alignment offset
+  // Calculate horizontal alignment offset (OpenType/TrueType standard)
   PLAFloat alignOffsetX = 0.0f;
   PLATextAlignment alignment = aLayer->GetAlignment();
   PLAFloat alignmentWidth = aLayer->GetAlignmentWidth();
@@ -1113,25 +1114,36 @@ void PLAGLUTRenderer::DrawLabel(const PLALYRLabel *aLayer,
     }
   }
 
-  GLfloat vertices[] = {
-    offset.x + alignOffsetX,
-    -offset.y,
-    offset.z,
-    offset.x + alignOffsetX + size.x,
-    -offset.y,
-    offset.z,
-    offset.x + alignOffsetX,
-    -offset.y - size.y,
-    offset.z,
-    offset.x + alignOffsetX + size.x,
-    -offset.y - size.y,
-    offset.z,
-  };
+  // Calculate vertical alignment offset (center text within alignment frame)
+  PLAFloat alignOffsetY = 0.0f;
+  PLAFloat alignmentHeight = aLayer->GetAlignmentHeight();
+  if (alignmentHeight > 0 && alignmentHeight > metrics.lineHeight) {
+    alignOffsetY = (alignmentHeight - metrics.lineHeight) / 2.0f;
+  }
 
   // Draw background fill if alpha > 0
   const PLAColor &fillColor = aLayer->GetFillColor();
   if (fillColor.a > 0) {
     glDisable(GL_TEXTURE_2D);
+
+    // Use alignment frame size for fill background (like iOS UILabel)
+    PLAFloat fillWidth = (alignmentWidth > 0) ? alignmentWidth : size.x;
+    PLAFloat fillHeight = (alignmentHeight > 0) ? alignmentHeight : size.y;
+
+    GLfloat fillVertices[] = {
+      offset.x,
+      -offset.y,
+      offset.z,
+      offset.x + fillWidth,
+      -offset.y,
+      offset.z,
+      offset.x,
+      -offset.y - fillHeight,
+      offset.z,
+      offset.x + fillWidth,
+      -offset.y - fillHeight,
+      offset.z,
+    };
 
     GLfloat fillColors[] = {
       fillColor.r, fillColor.g, fillColor.b, fillColor.a,
@@ -1140,7 +1152,7 @@ void PLAGLUTRenderer::DrawLabel(const PLALYRLabel *aLayer,
       fillColor.r, fillColor.g, fillColor.b, fillColor.a,
     };
 
-    glVertexPointer(3, GL_FLOAT, 0, vertices);
+    glVertexPointer(3, GL_FLOAT, 0, fillVertices);
     glColorPointer(4, GL_FLOAT, 0, fillColors);
 
     glBegin(GL_TRIANGLE_STRIP);
@@ -1154,6 +1166,23 @@ void PLAGLUTRenderer::DrawLabel(const PLALYRLabel *aLayer,
   // Draw text texture
   glEnable(GL_TEXTURE_2D);
   PLAGLUTTexture::Manager::Instance()->UpdateTexture(aLayer, texImage);
+
+  // Position text using font metrics (OpenType/TrueType standard)
+  // No arbitrary padding - text is positioned based on baseline and metrics
+  GLfloat vertices[] = {
+    offset.x + alignOffsetX,
+    -offset.y - alignOffsetY,
+    offset.z,
+    offset.x + alignOffsetX + size.x,
+    -offset.y - alignOffsetY,
+    offset.z,
+    offset.x + alignOffsetX,
+    -offset.y - alignOffsetY - size.y,
+    offset.z,
+    offset.x + alignOffsetX + size.x,
+    -offset.y - alignOffsetY - size.y,
+    offset.z,
+  };
 
   PLAColor color = aColor;
   GLfloat colors[] = {

@@ -22,6 +22,7 @@ public:
   cv::Mat Rasterize(const PLAString &aText, PLAFloat aFontSize,
                     const PLAColor &aColor) override;
   PLAVec2f GetTextSize(const PLAString &aText, PLAFloat aFontSize) override;
+  PLAFontMetrics GetMetrics(PLAFloat aFontSize) override;
 
   void SetFontFace(int aFontFace) { _fontFace = aFontFace; }
   void SetThickness(int aThickness) { _thickness = aThickness; }

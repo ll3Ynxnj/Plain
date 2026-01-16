@@ -73,6 +73,15 @@ void PLALYRLabel::SetFontRasterizer(PLAOBJFontRasterizer *aRasterizer)
   _needsUpdate = true;
 }
 
+void PLALYRLabel::SetFontRasterizerByName(const PLAString &aRasterizerName)
+{
+  PLAOBJFontRasterizer *rasterizer = PLAOBJFontRasterizer::Rasterizer(aRasterizerName);
+  if (rasterizer)
+  {
+    SetFontRasterizer(rasterizer);
+  }
+}
+
 void PLALYRLabel::SetText(const PLAString &aText)
 {
   if (_text != aText) {
@@ -116,6 +125,11 @@ void PLALYRLabel::SetAlignmentWidth(PLAFloat aWidth)
   _alignmentWidth = aWidth;
 }
 
+void PLALYRLabel::SetAlignmentHeight(PLAFloat aHeight)
+{
+  _alignmentHeight = aHeight;
+}
+
 void PLALYRLabel::Update()
 {
   if (_needsUpdate) {
@@ -132,6 +146,7 @@ void PLALYRLabel::UpdateTexture()
 
   if (_text.empty()) {
     _size = PLAVec2f(0, 0);
+    _fontMetrics = {0, 0, 0};
     return;
   }
 
@@ -142,6 +157,12 @@ void PLALYRLabel::UpdateTexture()
   }
 
   _size = PLAVec2f(textImage.cols / _rasterScale, textImage.rows / _rasterScale);
+
+  // Get font metrics (scaled to logical size) for proper text positioning
+  PLAFontMetrics rasterMetrics = _rasterizer->GetMetrics(rasterSize);
+  _fontMetrics.ascender = rasterMetrics.ascender / _rasterScale;
+  _fontMetrics.descender = rasterMetrics.descender / _rasterScale;
+  _fontMetrics.lineHeight = rasterMetrics.lineHeight / _rasterScale;
 
   if (_textureImage) {
     delete _textureImage;

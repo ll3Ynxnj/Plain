@@ -21,6 +21,8 @@ public:
   void SetFillColor(const PLAColor &aColor);
   void SetAlignment(PLATextAlignment aAlignment);
   void SetAlignmentWidth(PLAFloat aWidth);
+  void SetAlignmentHeight(PLAFloat aHeight);
+  void SetFontRasterizerByName(const PLAString &aRasterizerName);
 };
 
 #endif // ANHR_PLAAGTACTORFORLABEL_HPP

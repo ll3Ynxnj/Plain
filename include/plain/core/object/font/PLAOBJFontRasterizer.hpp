@@ -10,6 +10,14 @@
 #include "grain/object/GRAOBJBinder.hpp"
 #include <opencv2/opencv.hpp>
 
+// Font metrics following OpenType/TrueType standards
+struct PLAFontMetrics
+{
+  PLAFloat ascender;    // Distance from baseline to top (positive)
+  PLAFloat descender;   // Distance from baseline to bottom (positive, measured downward)
+  PLAFloat lineHeight;  // Total line height (ascender + descender)
+};
+
 class PLAOBJFontRasterizer : public PLAObject,
                              private GRAOBJBinder<PLAOBJFontRasterizer>::Item
 {
@@ -40,6 +48,7 @@ public:
   virtual cv::Mat Rasterize(const PLAString &aText, PLAFloat aFontSize,
                             const PLAColor &aColor) = 0;
   virtual PLAVec2f GetTextSize(const PLAString &aText, PLAFloat aFontSize) = 0;
+  virtual PLAFontMetrics GetMetrics(PLAFloat aFontSize) = 0;
 
   bool IsInitialized() const { return _isInitialized; }
 

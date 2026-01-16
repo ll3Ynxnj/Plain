@@ -21,9 +21,11 @@ class PLALYRLabel : public PLAOBJLayer
   PLAVec2f _size = kPLAVec2fNone;
   PLATextAlignment _alignment = PLATextAlignment::Left;
   PLAFloat _alignmentWidth = 0.0f;
+  PLAFloat _alignmentHeight = 0.0f;
 
   PLAOBJFontRasterizer *_rasterizer = nullptr;
   PLAOBJImage *_textureImage = nullptr;
+  PLAFontMetrics _fontMetrics = {0, 0, 0};  // Font metrics for positioning
   bool _needsUpdate = true;
 
 public:
@@ -54,6 +56,7 @@ public:
   PLARect GetRect() const;
 
   void SetFontRasterizer(PLAOBJFontRasterizer *aRasterizer);
+  void SetFontRasterizerByName(const PLAString &aRasterizerName);
   PLAOBJFontRasterizer *GetFontRasterizer() const { return _rasterizer; }
 
   const PLAString &GetText() const { return _text; }
@@ -77,7 +80,11 @@ public:
   PLAFloat GetAlignmentWidth() const { return _alignmentWidth; }
   void SetAlignmentWidth(PLAFloat aWidth);
 
+  PLAFloat GetAlignmentHeight() const { return _alignmentHeight; }
+  void SetAlignmentHeight(PLAFloat aHeight);
+
   const PLAOBJImage *GetTextureImage() const { return _textureImage; }
+  const PLAFontMetrics &GetFontMetrics() const { return _fontMetrics; }
 
   void Update();
 

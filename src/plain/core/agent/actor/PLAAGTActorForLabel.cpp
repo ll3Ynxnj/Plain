@@ -43,3 +43,13 @@ void PLAAGTActorForLabel::SetAlignmentWidth(PLAFloat aWidth)
 {
   this->RefActor()->RefLayerForLabel()->SetAlignmentWidth(aWidth);
 }
+
+void PLAAGTActorForLabel::SetAlignmentHeight(PLAFloat aHeight)
+{
+  this->RefActor()->RefLayerForLabel()->SetAlignmentHeight(aHeight);
+}
+
+void PLAAGTActorForLabel::SetFontRasterizerByName(const PLAString &aRasterizerName)
+{
+  this->RefActor()->RefLayerForLabel()->SetFontRasterizerByName(aRasterizerName);
+}
