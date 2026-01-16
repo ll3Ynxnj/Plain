@@ -14,6 +14,7 @@ class PLAFreeTypeFontRasterizer : public PLAOBJFontRasterizer
   FT_Library _library = nullptr;
   FT_Face _face = nullptr;
   PLAString _fontPath;
+  FT_Long _faceIndex = 0;
 
 protected:
   PLAFreeTypeFontRasterizer(const PLAString &aName);
@@ -22,6 +23,8 @@ public:
   static PLAFreeTypeFontRasterizer *Create(const PLAString &aName = "FreeTypeFontRasterizer");
   static PLAFreeTypeFontRasterizer *CreateWithFontPath(const PLAString &aFontPath,
                                                         const PLAString &aName);
+  static PLAFreeTypeFontRasterizer *CreateWithFontPathAndFaceIndex(
+    const PLAString &aFontPath, FT_Long aFaceIndex, const PLAString &aName);
 
   virtual ~PLAFreeTypeFontRasterizer();
 
@@ -32,10 +35,13 @@ public:
   PLAFontMetrics GetMetrics(PLAFloat aFontSize) override;
 
   void SetFontPath(const PLAString &aPath);
+  void SetFontPathAndFaceIndex(const PLAString &aPath, FT_Long aFaceIndex);
   const PLAString &GetFontPath() const { return _fontPath; }
 
 private:
   static PLAString FindSystemFont();
+  static bool ResolveFontNameToPathAndIndex(const PLAString &aFontName,
+                                            PLAString &outPath, FT_Long &outFaceIndex);
   static std::vector<uint32_t> DecodeUTF8(const PLAString &aText);
   void Cleanup();
 };

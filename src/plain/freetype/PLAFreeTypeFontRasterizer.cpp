@@ -3,12 +3,21 @@
 #include "plain/freetype/PLAFreeTypeFontRasterizer.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
 #include <cmath>
+#include <cstdio>
 #include <fstream>
 #include <filesystem>
 
 PLAFreeTypeFontRasterizer *PLAFreeTypeFontRasterizer::Create(const PLAString &aName)
 {
   PLAFreeTypeFontRasterizer *rasterizer = new PLAFreeTypeFontRasterizer(aName);
+
+  // Try to resolve font name to path and face index
+  PLAString fontPath;
+  FT_Long faceIndex = 0;
+  if (ResolveFontNameToPathAndIndex(aName, fontPath, faceIndex)) {
+    rasterizer->SetFontPathAndFaceIndex(fontPath, faceIndex);
+  }
+
   if (!rasterizer->Initialize()) {
     delete rasterizer;
     return nullptr;
@@ -21,6 +30,19 @@ PLAFreeTypeFontRasterizer *PLAFreeTypeFontRasterizer::CreateWithFontPath(
 {
   PLAFreeTypeFontRasterizer *rasterizer = new PLAFreeTypeFontRasterizer(aName);
   rasterizer->SetFontPath(aFontPath);
+  if (!rasterizer->Initialize()) {
+    delete rasterizer;
+    return nullptr;
+  }
+  rasterizer->Bind();  // Register with manager for name lookup
+  return rasterizer;
+}
+
+PLAFreeTypeFontRasterizer *PLAFreeTypeFontRasterizer::CreateWithFontPathAndFaceIndex(
+  const PLAString &aFontPath, FT_Long aFaceIndex, const PLAString &aName)
+{
+  PLAFreeTypeFontRasterizer *rasterizer = new PLAFreeTypeFontRasterizer(aName);
+  rasterizer->SetFontPathAndFaceIndex(aFontPath, aFaceIndex);
   if (!rasterizer->Initialize()) {
     delete rasterizer;
     return nullptr;
@@ -184,7 +206,7 @@ bool PLAFreeTypeFontRasterizer::Initialize()
     return false;
   }
 
-  error = FT_New_Face(_library, _fontPath.c_str(), 0, &_face);
+  error = FT_New_Face(_library, _fontPath.c_str(), _faceIndex, &_face);
   if (error) {
     PLA_ERROR_ISSUE(PLAErrorType::Assert,
                     "Failed to load font: %s. Error: %d", _fontPath.c_str(), error);
@@ -192,6 +214,13 @@ bool PLAFreeTypeFontRasterizer::Initialize()
     _library = nullptr;
     return false;
   }
+
+  // Debug: Print loaded font info
+  printf("FONT_LOAD: '%s' (style: %s) from %s [face %ld]\n",
+         _face->family_name ? _face->family_name : "unknown",
+         _face->style_name ? _face->style_name : "unknown",
+         _fontPath.c_str(), _faceIndex);
+  fflush(stdout);
 
   _isInitialized = true;
   return true;
@@ -214,11 +243,72 @@ void PLAFreeTypeFontRasterizer::SetFontPath(const PLAString &aPath)
 {
   if (_fontPath != aPath) {
     _fontPath = aPath;
+    _faceIndex = 0;
     if (_isInitialized) {
       Cleanup();
       Initialize();
     }
   }
+}
+
+void PLAFreeTypeFontRasterizer::SetFontPathAndFaceIndex(const PLAString &aPath, FT_Long aFaceIndex)
+{
+  if (_fontPath != aPath || _faceIndex != aFaceIndex) {
+    _fontPath = aPath;
+    _faceIndex = aFaceIndex;
+    if (_isInitialized) {
+      Cleanup();
+      Initialize();
+    }
+  }
+}
+
+bool PLAFreeTypeFontRasterizer::ResolveFontNameToPathAndIndex(
+  const PLAString &aFontName, PLAString &outPath, FT_Long &outFaceIndex)
+{
+  // Font name to TTC file and face index mapping
+  // Format: "FontFamily-Style" -> (path, faceIndex)
+  struct FontMapping {
+    const char* name;
+    const char* path;
+    FT_Long faceIndex;
+  };
+
+  static const FontMapping mappings[] = {
+    // Menlo font family
+    {"Menlo", "Resources/fonts/Menlo.ttc", 0},
+    {"Menlo-Regular", "Resources/fonts/Menlo.ttc", 0},
+    {"Menlo-Bold", "Resources/fonts/Menlo.ttc", 1},
+    {"Menlo-Italic", "Resources/fonts/Menlo.ttc", 2},
+    {"Menlo-BoldItalic", "Resources/fonts/Menlo.ttc", 3},
+    // Hiragino Sans font family
+    {"HiraginoSans-W0", "Resources/fonts/HiraginoSans-W0.ttc", 0},
+    {"HiraginoSans-W1", "Resources/fonts/HiraginoSans-W1.ttc", 0},
+    {"HiraginoSans-W2", "Resources/fonts/HiraginoSans-W2.ttc", 0},
+    {"HiraginoSans-W3", "Resources/fonts/HiraginoSans-W3.ttc", 0},
+    {"HiraginoSans-W4", "Resources/fonts/HiraginoSans-W4.ttc", 0},
+    {"HiraginoSans-W5", "Resources/fonts/HiraginoSans-W5.ttc", 0},
+    {"HiraginoSans-W6", "Resources/fonts/HiraginoSans-W6.ttc", 0},
+    {"HiraginoSans-W7", "Resources/fonts/HiraginoSans-W7.ttc", 0},
+    {"HiraginoSans-W8", "Resources/fonts/HiraginoSans-W8.ttc", 0},
+    {"HiraginoSans-W9", "Resources/fonts/HiraginoSans-W9.ttc", 0},
+    // HelveticaNeue font family
+    {"HelveticaNeue", "Resources/fonts/HelveticaNeue.ttc", 0},
+    {"HelveticaNeue-Bold", "Resources/fonts/HelveticaNeue.ttc", 1},
+    {nullptr, nullptr, 0}
+  };
+
+  for (int i = 0; mappings[i].name != nullptr; ++i) {
+    if (aFontName == mappings[i].name) {
+      if (std::filesystem::exists(mappings[i].path)) {
+        outPath = mappings[i].path;
+        outFaceIndex = mappings[i].faceIndex;
+        return true;
+      }
+    }
+  }
+
+  return false;
 }
 
 cv::Mat PLAFreeTypeFontRasterizer::Rasterize(const PLAString &aText,
