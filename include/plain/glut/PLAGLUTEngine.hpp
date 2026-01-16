@@ -13,7 +13,7 @@ class PLAGLUTEngine
 public:
   static void glut(int argc, char *argv[], int width, int height,
                    void (*init)(void), bool fullscreen = false,
-                   bool msaa = false);
+                   bool msaa = false, float windowScale = 1.0f);
 };
 
 #endif //PLAIN_ENGINE_PLAGLUT_HPP
