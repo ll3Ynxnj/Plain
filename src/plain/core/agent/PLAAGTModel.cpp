@@ -184,6 +184,27 @@ void PLAAGTModel::SetModelTag(PLAId aTag) const
   model->SetModelTag(aTag);
 }
 
+void PLAAGTModel::AddListener(
+  GRAOBJListener<PLAAGTModel, PLAFunctionCode::Model> *aListener) const
+{
+  auto model = this->RefModel();
+  model->AddListener(aListener);
+}
+
+void PLAAGTModel::RemoveListener(
+  GRAOBJListener<PLAAGTModel, PLAFunctionCode::Model> *aListener) const
+{
+  auto model = this->RefModel();
+  model->RemoveListener(aListener);
+}
+
+void PLAAGTModel::SetFunction(PLAFunctionCode::Model aKey,
+                              const std::function<void(PLAAGTModel)> &aFunc) const
+{
+  auto model = this->RefModel();
+  model->SetFunction(aKey, aFunc);
+}
+
 void PLAAGTModel::PrintModels() const {
   auto model = this->GetModel();
   model->PrintModels();

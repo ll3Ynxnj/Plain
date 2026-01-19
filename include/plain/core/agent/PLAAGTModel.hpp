@@ -7,6 +7,9 @@
 
 
 #include "plain/core/agent/PLAAgent.hpp"
+#include "plain/core/PLAFunctionCode.hpp"
+
+#include "grain/object/GRAOBJListener.hpp"
 
 class PLAOBJModel;
 
@@ -50,6 +53,11 @@ public:
 
   PLAId GetModelTag() const;
   void SetModelTag(PLAId aTag) const;
+
+  void AddListener(GRAOBJListener<PLAAGTModel, PLAFunctionCode::Model> *aListener) const;
+  void RemoveListener(GRAOBJListener<PLAAGTModel, PLAFunctionCode::Model> *aListener) const;
+  void SetFunction(PLAFunctionCode::Model aKey,
+                   const std::function<void(PLAAGTModel)> &aFunc) const;
 
   void PrintModels() const;
 

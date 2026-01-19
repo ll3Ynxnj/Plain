@@ -122,6 +122,32 @@ void PLAOBJModel::AddModel(PLAOBJModel *aModel)
   _models.push_back(aModel);
 }
 
+void PLAOBJModel::AddListener(Listener *aListener)
+{
+  _listeners.push_back(aListener);
+}
+
+void PLAOBJModel::RemoveListener(Listener *aListener)
+{
+  _listeners.remove(aListener);
+}
+
+void PLAOBJModel::SetFunction(PLAFunctionCode::Model aKey,
+                              const std::function<void(PLAAGTModel)> &aFunc)
+{
+  _functor.SetFunction(aKey, aFunc);
+}
+
+void PLAOBJModel::RunFunction(PLAFunctionCode::Model aKey)
+{
+  PLAAGTModel agent = this->AssignAgent();
+  _functor.RunFunction(aKey, agent);
+  for (Listener *listener : _listeners)
+  {
+    listener->RunListener(aKey, agent);
+  }
+}
+
 const PLAProperty &PLAOBJModel::GetProperty(const PLAString &aName)
 {
   this->ValidateNameIsNotEmpty(aName);
@@ -134,6 +160,7 @@ void PLAOBJModel::SetProperty(const PLAString &aName, const PLAProperty &aProper
   this->ValidateNameIsNotEmpty(aName);
   this->ValidatePropertyIsExist(aName);
   _properties[aName] = aProperty;
+  this->RunFunction(PLAFunctionCode::Model::OnChange);
 }
 
 PLABool PLAOBJModel::GetBool(const PLAString &aName) const
@@ -231,6 +258,7 @@ void PLAOBJModel::SetBool(const PLAString &aName, PLABool aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
   _properties[aName].SetBool(aValue);
+  this->RunFunction(PLAFunctionCode::Model::OnChange);
 }
 
 void PLAOBJModel::SetInt(const PLAString &aName, PLAInt aValue)
@@ -244,72 +272,84 @@ void PLAOBJModel::SetInt(const PLAString &aName, PLAInt aValue)
   }
   else
   { _properties[aName].SetInt(aValue); }
+  this->RunFunction(PLAFunctionCode::Model::OnChange);
 }
 
 void PLAOBJModel::SetUInt(const PLAString &aName, PLAUInt aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
   _properties[aName].SetUInt(aValue);
+  this->RunFunction(PLAFunctionCode::Model::OnChange);
 }
 
 void PLAOBJModel::SetFloat(const PLAString &aName, PLAFloat aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
   _properties[aName].SetFloat(aValue);
+  this->RunFunction(PLAFunctionCode::Model::OnChange);
 }
 
 void PLAOBJModel::SetVec2f(const PLAString &aName, const PLAVec2f &aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
   _properties[aName].SetVec2f(aValue);
+  this->RunFunction(PLAFunctionCode::Model::OnChange);
 }
 
 void PLAOBJModel::SetVec3f(const PLAString &aName, const PLAVec3f &aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
   _properties[aName].SetVec3f(aValue);
+  this->RunFunction(PLAFunctionCode::Model::OnChange);
 }
 
 void PLAOBJModel::SetVec4f(const PLAString &aName, const PLAVec4f &aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
   _properties[aName].SetVec4f(aValue);
+  this->RunFunction(PLAFunctionCode::Model::OnChange);
 }
 
 void PLAOBJModel::SetVec2i(const PLAString &aName, const PLAVec2i &aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
   _properties[aName].SetVec2i(aValue);
+  this->RunFunction(PLAFunctionCode::Model::OnChange);
 }
 
 void PLAOBJModel::SetVec3i(const PLAString &aName, const PLAVec3i &aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
   _properties[aName].SetVec3i(aValue);
+  this->RunFunction(PLAFunctionCode::Model::OnChange);
 }
 
 void PLAOBJModel::SetVec4i(const PLAString &aName, const PLAVec4i &aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
   _properties[aName].SetVec4i(aValue);
+  this->RunFunction(PLAFunctionCode::Model::OnChange);
 }
 
 void PLAOBJModel::SetVec2s(const PLAString &aName, const PLAVec2s &aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
   _properties[aName].SetVec2s(aValue);
+  this->RunFunction(PLAFunctionCode::Model::OnChange);
 }
 
 void PLAOBJModel::SetVec3s(const PLAString &aName, const PLAVec3s &aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
   _properties[aName].SetVec3s(aValue);
+  this->RunFunction(PLAFunctionCode::Model::OnChange);
 }
 
 void PLAOBJModel::SetVec4s(const PLAString &aName, const PLAVec4s &aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
   _properties[aName].SetVec4s(aValue);
+  this->RunFunction(PLAFunctionCode::Model::OnChange);
 }
 
 PLAId PLAOBJModel::GetModelTag() const {

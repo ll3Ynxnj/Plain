@@ -104,6 +104,14 @@ namespace PLAFunctionCode
     kNumberOfItems,
     None = kNone,
   };
+
+  enum class Model: Code
+  {
+    OnChange,    ///< \~english Runs when a property is changed. \~japanese プロパティが変更された時に実行。
+
+    kNumberOfItems,
+    None = kNone,
+  };
 };
 
 

@@ -61,6 +61,7 @@ namespace Plain
     using Stage = PLAFunctionCode::Stage;
     using Scene = PLAFunctionCode::Scene;
     using TimeLineNode = PLAFunctionCode::TimelineNode;
+    using Model = PLAFunctionCode::Model;
   };
 
   namespace Error

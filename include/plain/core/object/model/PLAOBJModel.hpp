@@ -10,6 +10,10 @@
 
 #include "plain/core/object/PLAObject.hpp"
 #include "plain/core/property/PLAProperty.hpp"
+#include "plain/core/PLAFunctionCode.hpp"
+
+#include "grain/object/GRAOBJListener.hpp"
+#include "grain/object/GRAOBJFunctor.hpp"
 
 class PLAAGTModel;
 
@@ -27,7 +31,14 @@ private GRAOBJBinder<PLAOBJModel>::Item
 public:
   using PLAModelItem = GRAOBJBinder<PLAOBJModel>::Item;
   using PLAModelError = GRAOBJBinder<PLAOBJModel>::Error;
+  using Listener = GRAOBJListener<PLAAGTModel, PLAFunctionCode::Model>;
+  using Functor = GRAOBJFunctor<PLAAGTModel, PLAFunctionCode::Model>;
 
+private:
+  std::list<Listener *> _listeners = {};
+  Functor _functor = Functor();
+
+public:
   static const char *GetBinderErrorMessage(Binder::Error aError);
   static PLAOBJModel *Create();
   static PLAOBJModel *Create(const PLAString &aName);
@@ -48,6 +59,11 @@ public:
 
   PLAAGTModel AssignAgent();
   void AddModel(PLAOBJModel *aModel);
+
+  void AddListener(Listener *aListener);
+  void RemoveListener(Listener *aListener);
+  void SetFunction(PLAFunctionCode::Model aKey,
+                   const std::function<void(PLAAGTModel)> &aFunc);
 
   const PLAProperty &GetProperty(const PLAString &aKey);
   void SetProperty(const PLAString &aKey, const PLAProperty &aProperty);
@@ -92,6 +108,7 @@ public:
   const char *GetModelTypeName() const;
 
 private:
+  void RunFunction(PLAFunctionCode::Model aKey);
   void ValidateNameIsNotEmpty(const PLAString &aName) const;
   void ValidatePropertyIsExist(const PLAString &aName) const;
 
