@@ -12,6 +12,7 @@
 #include "grain/object/GRAOBJListener.hpp"
 
 class PLAOBJModel;
+struct PLAPropertyChange;
 
 class PLAAGTModel final : public PLAAgent
 {
@@ -58,6 +59,8 @@ public:
   void RemoveListener(GRAOBJListener<PLAAGTModel, PLAFunctionCode::Model> *aListener) const;
   void SetFunction(PLAFunctionCode::Model aKey,
                    const std::function<void(PLAAGTModel)> &aFunc) const;
+  void SetFunctionForProperty(const PLAString &aPropertyName,
+                              const std::function<void(PLAAGTModel, const PLAPropertyChange &)> &aFunc) const;
 
   void PrintModels() const;
 

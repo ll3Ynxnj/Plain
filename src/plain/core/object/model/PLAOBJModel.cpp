@@ -138,14 +138,41 @@ void PLAOBJModel::SetFunction(PLAFunctionCode::Model aKey,
   _functor.SetFunction(aKey, aFunc);
 }
 
-void PLAOBJModel::RunFunction(PLAFunctionCode::Model aKey)
+void PLAOBJModel::SetFunctionForProperty(const PLAString &aPropertyName,
+                                         const PropertyFunctor &aFunc)
 {
+  _propertyFunctors[aPropertyName] = aFunc;
+}
+
+void PLAOBJModel::Flush()
+{
+  if (_changeQueue.empty()) { return; }
+
   PLAAGTModel agent = this->AssignAgent();
-  _functor.RunFunction(aKey, agent);
+
+  // Notify general OnChange listeners
+  _functor.RunFunction(PLAFunctionCode::Model::OnChange, agent);
   for (Listener *listener : _listeners)
   {
-    listener->RunListener(aKey, agent);
+    listener->RunListener(PLAFunctionCode::Model::OnChange, agent);
   }
+
+  // Notify per-property listeners
+  while (!_changeQueue.empty())
+  {
+    const PLAPropertyChange &change = _changeQueue.front();
+    auto it = _propertyFunctors.find(change.propertyName);
+    if (it != _propertyFunctors.end())
+    {
+      it->second(agent, change);
+    }
+    _changeQueue.pop();
+  }
+}
+
+void PLAOBJModel::EnqueueChange(const PLAString &aName, const PLAProperty &aOldValue)
+{
+  _changeQueue.push(PLAPropertyChange(aName, aOldValue, _properties[aName]));
 }
 
 const PLAProperty &PLAOBJModel::GetProperty(const PLAString &aName)
@@ -159,8 +186,9 @@ void PLAOBJModel::SetProperty(const PLAString &aName, const PLAProperty &aProper
 {
   this->ValidateNameIsNotEmpty(aName);
   this->ValidatePropertyIsExist(aName);
+  PLAProperty oldValue = _properties[aName];
   _properties[aName] = aProperty;
-  this->RunFunction(PLAFunctionCode::Model::OnChange);
+  this->EnqueueChange(aName, oldValue);
 }
 
 PLABool PLAOBJModel::GetBool(const PLAString &aName) const
@@ -257,13 +285,15 @@ const PLAVec4s &PLAOBJModel::GetVec4s(const PLAString &aName) const
 void PLAOBJModel::SetBool(const PLAString &aName, PLABool aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
+  PLAProperty oldValue = _properties[aName];
   _properties[aName].SetBool(aValue);
-  this->RunFunction(PLAFunctionCode::Model::OnChange);
+  this->EnqueueChange(aName, oldValue);
 }
 
 void PLAOBJModel::SetInt(const PLAString &aName, PLAInt aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
+  PLAProperty oldValue = _properties[aName];
   auto property = _properties.find(aName);
   if (property == _properties.end())
   {
@@ -272,84 +302,95 @@ void PLAOBJModel::SetInt(const PLAString &aName, PLAInt aValue)
   }
   else
   { _properties[aName].SetInt(aValue); }
-  this->RunFunction(PLAFunctionCode::Model::OnChange);
+  this->EnqueueChange(aName, oldValue);
 }
 
 void PLAOBJModel::SetUInt(const PLAString &aName, PLAUInt aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
+  PLAProperty oldValue = _properties[aName];
   _properties[aName].SetUInt(aValue);
-  this->RunFunction(PLAFunctionCode::Model::OnChange);
+  this->EnqueueChange(aName, oldValue);
 }
 
 void PLAOBJModel::SetFloat(const PLAString &aName, PLAFloat aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
+  PLAProperty oldValue = _properties[aName];
   _properties[aName].SetFloat(aValue);
-  this->RunFunction(PLAFunctionCode::Model::OnChange);
+  this->EnqueueChange(aName, oldValue);
 }
 
 void PLAOBJModel::SetVec2f(const PLAString &aName, const PLAVec2f &aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
+  PLAProperty oldValue = _properties[aName];
   _properties[aName].SetVec2f(aValue);
-  this->RunFunction(PLAFunctionCode::Model::OnChange);
+  this->EnqueueChange(aName, oldValue);
 }
 
 void PLAOBJModel::SetVec3f(const PLAString &aName, const PLAVec3f &aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
+  PLAProperty oldValue = _properties[aName];
   _properties[aName].SetVec3f(aValue);
-  this->RunFunction(PLAFunctionCode::Model::OnChange);
+  this->EnqueueChange(aName, oldValue);
 }
 
 void PLAOBJModel::SetVec4f(const PLAString &aName, const PLAVec4f &aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
+  PLAProperty oldValue = _properties[aName];
   _properties[aName].SetVec4f(aValue);
-  this->RunFunction(PLAFunctionCode::Model::OnChange);
+  this->EnqueueChange(aName, oldValue);
 }
 
 void PLAOBJModel::SetVec2i(const PLAString &aName, const PLAVec2i &aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
+  PLAProperty oldValue = _properties[aName];
   _properties[aName].SetVec2i(aValue);
-  this->RunFunction(PLAFunctionCode::Model::OnChange);
+  this->EnqueueChange(aName, oldValue);
 }
 
 void PLAOBJModel::SetVec3i(const PLAString &aName, const PLAVec3i &aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
+  PLAProperty oldValue = _properties[aName];
   _properties[aName].SetVec3i(aValue);
-  this->RunFunction(PLAFunctionCode::Model::OnChange);
+  this->EnqueueChange(aName, oldValue);
 }
 
 void PLAOBJModel::SetVec4i(const PLAString &aName, const PLAVec4i &aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
+  PLAProperty oldValue = _properties[aName];
   _properties[aName].SetVec4i(aValue);
-  this->RunFunction(PLAFunctionCode::Model::OnChange);
+  this->EnqueueChange(aName, oldValue);
 }
 
 void PLAOBJModel::SetVec2s(const PLAString &aName, const PLAVec2s &aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
+  PLAProperty oldValue = _properties[aName];
   _properties[aName].SetVec2s(aValue);
-  this->RunFunction(PLAFunctionCode::Model::OnChange);
+  this->EnqueueChange(aName, oldValue);
 }
 
 void PLAOBJModel::SetVec3s(const PLAString &aName, const PLAVec3s &aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
+  PLAProperty oldValue = _properties[aName];
   _properties[aName].SetVec3s(aValue);
-  this->RunFunction(PLAFunctionCode::Model::OnChange);
+  this->EnqueueChange(aName, oldValue);
 }
 
 void PLAOBJModel::SetVec4s(const PLAString &aName, const PLAVec4s &aValue)
 {
   this->ValidateNameIsNotEmpty(aName);
+  PLAProperty oldValue = _properties[aName];
   _properties[aName].SetVec4s(aValue);
-  this->RunFunction(PLAFunctionCode::Model::OnChange);
+  this->EnqueueChange(aName, oldValue);
 }
 
 PLAId PLAOBJModel::GetModelTag() const {
@@ -436,6 +477,14 @@ PLAOBJModel::Manager::~Manager()
 void PLAOBJModel::Manager::Init()
 {
   GRAOBJBinder<PLAOBJModel>::Init();
+}
+
+void PLAOBJModel::Manager::Flush()
+{
+  for (auto *item : this->GetItems())
+  {
+    static_cast<PLAOBJModel *>(item)->Flush();
+  }
 }
 
 PLAOBJModel *PLAOBJModel::Manager::Model(const PLAString &aKey)

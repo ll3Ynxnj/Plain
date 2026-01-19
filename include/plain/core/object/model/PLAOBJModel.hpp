@@ -7,6 +7,8 @@
 
 #include <map>
 #include <list>
+#include <queue>
+#include <functional>
 
 #include "plain/core/object/PLAObject.hpp"
 #include "plain/core/property/PLAProperty.hpp"
@@ -16,6 +18,17 @@
 #include "grain/object/GRAOBJFunctor.hpp"
 
 class PLAAGTModel;
+
+struct PLAPropertyChange {
+  PLAString propertyName;
+  PLAProperty oldValue;
+  PLAProperty newValue;
+
+  PLAPropertyChange(const PLAString &aName,
+                    const PLAProperty &aOldValue,
+                    const PLAProperty &aNewValue)
+    : propertyName(aName), oldValue(aOldValue), newValue(aNewValue) {}
+};
 
 class PLAOBJModel :
 public PLAObject,
@@ -33,10 +46,13 @@ public:
   using PLAModelError = GRAOBJBinder<PLAOBJModel>::Error;
   using Listener = GRAOBJListener<PLAAGTModel, PLAFunctionCode::Model>;
   using Functor = GRAOBJFunctor<PLAAGTModel, PLAFunctionCode::Model>;
+  using PropertyFunctor = std::function<void(PLAAGTModel, const PLAPropertyChange &)>;
 
 private:
   std::list<Listener *> _listeners = {};
   Functor _functor = Functor();
+  std::map<PLAString, PropertyFunctor> _propertyFunctors = {};
+  std::queue<PLAPropertyChange> _changeQueue = {};
 
 public:
   static const char *GetBinderErrorMessage(Binder::Error aError);
@@ -64,6 +80,9 @@ public:
   void RemoveListener(Listener *aListener);
   void SetFunction(PLAFunctionCode::Model aKey,
                    const std::function<void(PLAAGTModel)> &aFunc);
+  void SetFunctionForProperty(const PLAString &aPropertyName,
+                              const PropertyFunctor &aFunc);
+  void Flush();
 
   const PLAProperty &GetProperty(const PLAString &aKey);
   void SetProperty(const PLAString &aKey, const PLAProperty &aProperty);
@@ -108,7 +127,7 @@ public:
   const char *GetModelTypeName() const;
 
 private:
-  void RunFunction(PLAFunctionCode::Model aKey);
+  void EnqueueChange(const PLAString &aName, const PLAProperty &aOldValue);
   void ValidateNameIsNotEmpty(const PLAString &aName) const;
   void ValidatePropertyIsExist(const PLAString &aName) const;
 
@@ -131,6 +150,7 @@ public:
     ~Manager();
 
     void Init();
+    void Flush();
 
     const PLAOBJModel *GetModel(const PLAString &aName) const;
     void PrintModels() const;

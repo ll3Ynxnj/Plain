@@ -6,6 +6,7 @@
 #include "plain/core/object/PLAOBJRenderer.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
 #include "plain/core/object/PLAOBJPerformance.hpp"
+#include "plain/core/object/model/PLAOBJModel.hpp"
 
 PLAApp PLAApp::_instance = PLAApp();
 
@@ -134,6 +135,7 @@ void PLAApp::Update()
   PLAOBJStream::Manager::Instance()->Update();
   PLAObject::Manager::Instance()->DeleteUnboundObjects();
   PLAInputManager::Instance()->Flush();
+  PLAOBJModel::Manager::Instance()->Flush();
   UpdateTimelineThread();
   //_scene->Update();
   _stage->Update();

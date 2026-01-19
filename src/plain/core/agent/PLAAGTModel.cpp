@@ -205,6 +205,14 @@ void PLAAGTModel::SetFunction(PLAFunctionCode::Model aKey,
   model->SetFunction(aKey, aFunc);
 }
 
+void PLAAGTModel::SetFunctionForProperty(
+  const PLAString &aPropertyName,
+  const std::function<void(PLAAGTModel, const PLAPropertyChange &)> &aFunc) const
+{
+  auto model = this->RefModel();
+  model->SetFunctionForProperty(aPropertyName, aFunc);
+}
+
 void PLAAGTModel::PrintModels() const {
   auto model = this->GetModel();
   model->PrintModels();
