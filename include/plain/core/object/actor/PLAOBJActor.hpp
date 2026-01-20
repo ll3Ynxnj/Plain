@@ -26,8 +26,9 @@
 
 #include "grain/object/GRAOBJBinder.hpp"
 
+#include "plain/core/agent/actor/PLAAGTActor.hpp"
+
 class PLAOBJRenderer;
-class PLAAGTActor;
 class PLAAGTActorForPoint;
 class PLAAGTActorForLine;
 class PLAAGTActorForRect;
@@ -64,7 +65,7 @@ class PLAOBJActor final :
   PLABool _isMask = false;
   PLARenderMode _renderMode = PLARenderMode::None;
 
-  GRAOBJFunctor<PLAOBJActor *, PLAFunctionCode::Actor> _functor = GRAOBJFunctor<PLAOBJActor *, PLAFunctionCode::Actor>();
+  GRAOBJFunctor<PLAAGTActor, PLAFunctionCode::Actor> _functor = GRAOBJFunctor<PLAAGTActor, PLAFunctionCode::Actor>();
 
   /// Calculate from pivot. Must be updated when pivot changes.
 
@@ -285,7 +286,7 @@ public:
   { _layer->SetVideoClip(aClip); };
 
   void SetFunction(PLAFunctionCode::Actor aKey,
-                   const std::function<void(PLAOBJActor *)> &aFunc)
+                   const std::function<void(PLAAGTActor)> &aFunc)
   { _functor.SetFunction(aKey, aFunc); };
 
   //void AddTileMotion(const PLATileDataAddress &aAddress, PLATMLMotion *aThread);

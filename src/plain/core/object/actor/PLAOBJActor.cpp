@@ -445,13 +445,13 @@ void PLAOBJActor::Update()
 
 void PLAOBJActor::Appear()
 {
-  _functor.RunFunction(PLAFunctionCode::Actor::OnAppear, this);
+  _functor.RunFunction(PLAFunctionCode::Actor::OnAppear, this->AssignAgent());
   for (PLAOBJActor *actor : _actors) { actor->Appear(); }
 }
 
 void PLAOBJActor::Disappear()
 {
-  _functor.RunFunction(PLAFunctionCode::Actor::OnDisappear, this);
+  _functor.RunFunction(PLAFunctionCode::Actor::OnDisappear, this->AssignAgent());
   for (PLAOBJActor *actor : _actors) { actor->Disappear(); }
 }
 
@@ -657,7 +657,7 @@ void PLAOBJActor::RefreshLayerOffset()
 
 void PLAOBJActor::OnUpdate()
 {
-  _functor.RunFunction(PLAFunctionCode::Actor::OnUpdate, this);
+  _functor.RunFunction(PLAFunctionCode::Actor::OnUpdate, this->AssignAgent());
   for (PLAOBJActor *actor : _actors) { actor->OnUpdate(); }
 }
 

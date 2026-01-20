@@ -145,7 +145,7 @@ void PLAAGTActor::SetVideoClip(const PLAAGTVideoClip &aVideoClip) const
 }
 
 void PLAAGTActor::SetFunction(PLAFunctionCode::Actor aKey,
-                              const std::function<void(PLAOBJActor *)> &aFunc) const
+                              const std::function<void(PLAAGTActor)> &aFunc) const
 {
   PLAOBJActor *actor = this->RefActor();
   actor->SetFunction(aKey, aFunc);

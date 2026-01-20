@@ -62,7 +62,7 @@ public:
   void SetVideoClip(const PLAAGTVideoClip &aVideoClip) const;
 
   void SetFunction(PLAFunctionCode::Actor aKey,
-                   const std::function<void(PLAOBJActor *)> &aFunc) const;
+                   const std::function<void(PLAAGTActor)> &aFunc) const;
 
   PLABool IsVisible() const;
   void SetVisible(bool aVisible) const;
