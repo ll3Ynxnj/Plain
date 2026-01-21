@@ -36,13 +36,14 @@ void PLAGLUTTexture::Bind() const
 
 void PLAGLUTTexture::UploadData(const PLAUInt8* aData, GLsizei aWidth, GLsizei aHeight)
 {
-  // Use gluBuild2DMipmaps to upload texture with mipmap generation
-  gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, aWidth, aHeight,
-                    GL_RGBA, GL_UNSIGNED_BYTE, aData);
+  // Use glTexImage2D for direct texture upload (no CPU-side mipmap generation)
+  // gluBuild2DMipmaps is deprecated and extremely slow for large textures
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, aWidth, aHeight, 0,
+               GL_RGBA, GL_UNSIGNED_BYTE, aData);
 
   // Set texture parameters
-  // Use trilinear filtering (GL_LINEAR_MIPMAP_LINEAR) for smooth minification
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+  // Use bilinear filtering (no mipmaps needed for video/camera frames)
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
