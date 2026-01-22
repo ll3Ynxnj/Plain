@@ -16,7 +16,6 @@ public:
 
   void SetText(const PLAString &aText);
   void SetFontSize(PLAFloat aFontSize);
-  void SetRasterScale(PLAFloat aScale);
   void SetTextColor(const PLAColor &aColor);
   void SetFillColor(const PLAColor &aColor);
   void SetAlignment(PLATextAlignment aAlignment);

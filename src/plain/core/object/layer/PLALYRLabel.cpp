@@ -4,6 +4,8 @@
 #include "plain/core/object/PLAOBJImage.hpp"
 #include "plain/core/PLAFontRasterizerType.hpp"
 #include "plain/core/library/PLALIBCollision.hpp"
+#include "plain/core/app/PLAApp.hpp"
+#include <algorithm>
 
 static const PLAString kDefaultFontRasterizerName = "DefaultFontRasterizer";
 
@@ -103,14 +105,6 @@ void PLALYRLabel::SetFontSize(PLAFloat aFontSize)
   }
 }
 
-void PLALYRLabel::SetRasterScale(PLAFloat aScale)
-{
-  if (_rasterScale != aScale) {
-    _rasterScale = aScale;
-    _needsUpdate = true;
-  }
-}
-
 void PLALYRLabel::SetTextColor(const PLAColor &aColor)
 {
   if (_textColor.r != aColor.r || _textColor.g != aColor.g ||
@@ -155,19 +149,32 @@ void PLALYRLabel::UpdateTexture()
     return;
   }
 
-  PLAFloat rasterSize = _fontSize * _rasterScale;
+  // Calculate raster scale automatically:
+  // 1. Use contentScaleFactor to match physical pixel density
+  // 2. Ensure minimum rasterization size for FreeType quality
+  PLAFloat contentScale = PLAApp::Instance()->GetContentScaleFactor().x;
+  PLAFloat effectiveScale = contentScale;
+
+  // Ensure minimum rasterization size for quality (especially for CJK glyphs)
+  const PLAFloat kMinRasterSize = 24.0f;
+  PLAFloat rasterSize = _fontSize * effectiveScale;
+  if (rasterSize < kMinRasterSize) {
+    rasterSize = kMinRasterSize;
+    effectiveScale = kMinRasterSize / _fontSize;
+  }
+
   cv::Mat textImage = _rasterizer->Rasterize(_text, rasterSize, _textColor);
   if (textImage.empty()) {
     return;
   }
 
-  _size = PLAVec2f(textImage.cols / _rasterScale, textImage.rows / _rasterScale);
+  _size = PLAVec2f(textImage.cols / effectiveScale, textImage.rows / effectiveScale);
 
   // Get font metrics (scaled to logical size) for proper text positioning
   PLAFontMetrics rasterMetrics = _rasterizer->GetMetrics(rasterSize);
-  _fontMetrics.ascender = rasterMetrics.ascender / _rasterScale;
-  _fontMetrics.descender = rasterMetrics.descender / _rasterScale;
-  _fontMetrics.lineHeight = rasterMetrics.lineHeight / _rasterScale;
+  _fontMetrics.ascender = rasterMetrics.ascender / effectiveScale;
+  _fontMetrics.descender = rasterMetrics.descender / effectiveScale;
+  _fontMetrics.lineHeight = rasterMetrics.lineHeight / effectiveScale;
 
   if (_textureImage) {
     delete _textureImage;

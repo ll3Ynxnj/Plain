@@ -19,11 +19,6 @@ void PLAAGTActorForLabel::SetFontSize(PLAFloat aFontSize)
   this->RefActor()->RefLayerForLabel()->SetFontSize(aFontSize);
 }
 
-void PLAAGTActorForLabel::SetRasterScale(PLAFloat aScale)
-{
-  this->RefActor()->RefLayerForLabel()->SetRasterScale(aScale);
-}
-
 void PLAAGTActorForLabel::SetTextColor(const PLAColor &aColor)
 {
   this->RefActor()->RefLayerForLabel()->SetTextColor(aColor);
