@@ -26,6 +26,7 @@ class PLALYRLabel : public PLAOBJLayer
   PLAOBJImage *_textureImage = nullptr;
   PLAFontMetrics _fontMetrics = {0, 0, 0};  // Font metrics for positioning
   bool _needsUpdate = true;
+  PLAFloat _lastContentScale = 0.0f;  // Track contentScaleFactor used for last rasterization
 
 public:
   static PLALYRLabel *Create(const PLAString &aText);

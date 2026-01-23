@@ -131,9 +131,16 @@ void PLALYRLabel::SetAlignmentHeight(PLAFloat aHeight)
 
 void PLALYRLabel::Update()
 {
+  // Re-rasterize if contentScaleFactor changed since last rasterization
+  PLAFloat currentScale = PLAApp::Instance()->GetContentScaleFactor().x;
+  if (_lastContentScale != 0.0f && _lastContentScale != currentScale) {
+    _needsUpdate = true;
+  }
+
   if (_needsUpdate) {
     UpdateTexture();
     _needsUpdate = false;
+    _lastContentScale = currentScale;
   }
 }
 
