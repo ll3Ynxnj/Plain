@@ -2,6 +2,7 @@
 
 #include "plain/glut/PLAGLUTRenderer.hpp"
 #include "plain/glut/PLAGLUTTexture.hpp"
+#include "plain/core/app/PLAApp.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
 #include "plain/core/object/PLAOBJResource.hpp"
 #include "plain/core/object/PLAOBJVideoClip.hpp"
@@ -592,11 +593,15 @@ void PLAGLUTRenderer::DrawCircle(const PLALYRCircle *aLayer, const PLAColor &aCo
     glDisable(GL_TEXTURE_2D);
   }
 
-  int split = 24;
+  // Calculate segment count based on physical pixel radius (Method B: sagitta-based)
+  const double radius = aLayer->GetRadius();
+  PLAFloat contentScale = PLAApp::Instance()->GetContentScaleFactor().x;
+  double physicalRadius = radius * contentScale;
+  int split = std::max(5, static_cast<int>(M_PI * sqrt(physicalRadius)));
+
   const unsigned numVertices = 1 + split + 1;
   GLfloat vertices[numVertices * 3];
   {
-    const double radius = aLayer->GetRadius();
     const double step = M_PI * 2 / split;
     const PLAVec2f origin = PLAVec2f( radius + aLayer->GetOffset().x,
                                    -radius - aLayer->GetOffset().y);
@@ -755,9 +760,11 @@ void PLAGLUTRenderer::DrawArc(const PLALYRArc *aLayer, const PLAColor &aColor,
   const double endAngle = aLayer->GetEndAngle();
   const double angleSpan = endAngle - startAngle;
 
-  // Calculate number of segments based on arc span
-  int split = static_cast<int>(std::abs(angleSpan) / (M_PI * 2) * 24);
-  if (split < 3) split = 3;
+  // Calculate segment count based on physical pixel radius and arc span (Method B: sagitta-based)
+  PLAFloat contentScale = PLAApp::Instance()->GetContentScaleFactor().x;
+  double physicalRadius = radius * contentScale;
+  int fullCircleSplit = static_cast<int>(M_PI * sqrt(physicalRadius));
+  int split = std::max(5, static_cast<int>(fullCircleSplit * std::abs(angleSpan) / (M_PI * 2)));
 
   const unsigned numVertices = 1 + split + 1;
   GLfloat vertices[numVertices * 3];
