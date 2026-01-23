@@ -40,6 +40,12 @@ PLAFloat PLAAGTModel::GetFloat(const PLAString &aName) const
   return model->GetFloat(aName);
 }
 
+const std::string &PLAAGTModel::GetString(const PLAString &aName) const
+{
+  auto model = this->GetModel();
+  return model->GetString(aName);
+}
+
 const PLAVec2f &PLAAGTModel::GetVec2f(const PLAString &aName) const
 {
   auto model = this->GetModel();
@@ -116,6 +122,12 @@ void PLAAGTModel::SetFloat(const PLAString &aName, PLAFloat aValue) const
 {
   auto model = this->RefModel();
   model->SetFloat(aName, aValue);
+}
+
+void PLAAGTModel::SetString(const PLAString &aName, const std::string &aValue) const
+{
+  auto model = this->RefModel();
+  model->SetString(aName, aValue);
 }
 
 void PLAAGTModel::SetVec2f(const PLAString &aName, const PLAVec2f &aValue) const

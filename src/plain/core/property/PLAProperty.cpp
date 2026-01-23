@@ -20,6 +20,7 @@ const PLAProperty PLAProperty::kVec4i = PLAProperty(kPLAVec4iNone);
 const PLAProperty PLAProperty::kVec2s = PLAProperty(kPLAVec2sNone);
 const PLAProperty PLAProperty::kVec3s = PLAProperty(kPLAVec3sNone);
 const PLAProperty PLAProperty::kVec4s = PLAProperty(kPLAVec4sNone);
+const PLAProperty PLAProperty::kString = PLAProperty(std::string(""));
 
 void PLAProperty::Print()
 {
@@ -97,6 +98,9 @@ void PLAProperty::Print()
                 this->GetVec4s().z, this->GetVec4s().w);
       break;
     }
+    case PLAPropertyType::String :
+      GRA_DEBUG("String: %s", this->GetString().c_str());
+      break;
     case PLAPropertyType::None :
       GRA_DEBUG("None");
       break;
@@ -126,6 +130,7 @@ PLAProperty::PLAProperty(PLAPropertyType aType): _type(aType)
     case PLAPropertyType::Vec2s : _value.v2s = kPLAVec2sNone;  break;
     case PLAPropertyType::Vec3s : _value.v3s = kPLAVec3sNone;  break;
     case PLAPropertyType::Vec4s : _value.v4s = kPLAVec4sNone;  break;
+    case PLAPropertyType::String : _stringValue = "";          break;
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
   }
@@ -229,6 +234,13 @@ const PLAVec4s &PLAProperty::GetVec4s() const
   return _value.v4s;
 }
 
+const std::string &PLAProperty::GetString() const
+{
+  if (_type != PLAPropertyType::String)
+  { PLA_ERROR_ISSUE(PLAErrorType::Assert, "Value is not String type."); }
+  return _stringValue;
+}
+
 void PLAProperty::Set(const PLAProperty &aProperty)
 {
   switch (aProperty._type)
@@ -247,6 +259,7 @@ void PLAProperty::Set(const PLAProperty &aProperty)
     case PLAPropertyType::Vec2s : SetVec2s(aProperty.GetVec2s()); break;
     case PLAPropertyType::Vec3s : SetVec3s(aProperty.GetVec3s()); break;
     case PLAPropertyType::Vec4s : SetVec4s(aProperty.GetVec4s()); break;
+    case PLAPropertyType::String : SetString(aProperty.GetString()); break;
     default :
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
       break;
@@ -405,6 +418,17 @@ void PLAProperty::SetVec4s(const PLAVec4s &aValue)
                     "Cannot be set except for PLAVec4s type.");
   }
   _value.v4s = aValue;
+}
+
+void PLAProperty::SetString(const std::string &aValue)
+{
+  if (_type == PLAPropertyType::None) { _type = PLAPropertyType::String; }
+  if (_type != PLAPropertyType::String)
+  {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Cannot be set except for String type.");
+  }
+  _stringValue = aValue;
 }
 
 

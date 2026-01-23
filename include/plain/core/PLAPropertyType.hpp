@@ -22,6 +22,7 @@ enum class PLAPropertyType: PLAInt {
   Vec2s,
   Vec3s,
   Vec4s,
+  String,
 
   kNumberOfItems,
   None = kPLAIntUndefined,

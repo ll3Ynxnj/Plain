@@ -219,6 +219,13 @@ PLAFloat PLAOBJModel::GetFloat(const PLAString &aName) const
   return _properties.at(aName).GetFloat();
 }
 
+const std::string &PLAOBJModel::GetString(const PLAString &aName) const
+{
+  this->ValidateNameIsNotEmpty(aName);
+  this->ValidatePropertyIsExist(aName);
+  return _properties.at(aName).GetString();
+}
+
 const PLAVec2f &PLAOBJModel::GetVec2f(const PLAString &aName) const
 {
   this->ValidateNameIsNotEmpty(aName);
@@ -318,6 +325,21 @@ void PLAOBJModel::SetFloat(const PLAString &aName, PLAFloat aValue)
   this->ValidateNameIsNotEmpty(aName);
   PLAProperty oldValue = _properties[aName];
   _properties[aName].SetFloat(aValue);
+  this->EnqueueChange(aName, oldValue);
+}
+
+void PLAOBJModel::SetString(const PLAString &aName, const std::string &aValue)
+{
+  this->ValidateNameIsNotEmpty(aName);
+  PLAProperty oldValue = _properties[aName];
+  auto property = _properties.find(aName);
+  if (property == _properties.end())
+  {
+    auto property = PLAProperty(aValue);
+    _properties.emplace(aName, property);
+  }
+  else
+  { _properties[aName].SetString(aValue); }
   this->EnqueueChange(aName, oldValue);
 }
 

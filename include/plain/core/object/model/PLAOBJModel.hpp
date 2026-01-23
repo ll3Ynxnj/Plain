@@ -93,6 +93,7 @@ public:
   PLAInt GetInt(const PLAString &aName) const;
   PLAUInt GetUInt(const PLAString &aName) const;
   PLAFloat GetFloat(const PLAString &aName) const;
+  const std::string &GetString(const PLAString &aName) const;
 
   const PLAVec2f &GetVec2f(const PLAString &aName) const;
   const PLAVec3f &GetVec3f(const PLAString &aName) const;
@@ -108,6 +109,7 @@ public:
   void SetInt(const PLAString &aName, PLAInt aValue);
   void SetUInt(const PLAString &aName, PLAUInt aValue);
   void SetFloat(const PLAString &aName, PLAFloat aValue);
+  void SetString(const PLAString &aName, const std::string &aValue);
 
   void SetVec2f(const PLAString &aName, const PLAVec2f &aValue);
   void SetVec3f(const PLAString &aName, const PLAVec3f &aValue);

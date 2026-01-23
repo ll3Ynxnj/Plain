@@ -6,6 +6,7 @@
 #define ANHR_PLAAGTMODEL_HPP
 
 
+#include <string>
 #include "plain/core/agent/PLAAgent.hpp"
 #include "plain/core/PLAFunctionCode.hpp"
 
@@ -26,6 +27,7 @@ public:
   PLAInt GetInt(const PLAString &aName) const;
   PLAUInt GetUInt(const PLAString &aName) const;
   PLAFloat GetFloat(const PLAString &aName) const;
+  const std::string &GetString(const PLAString &aName) const;
 
   const PLAVec2f &GetVec2f(const PLAString &aName) const;
   const PLAVec3f &GetVec3f(const PLAString &aName) const;
@@ -41,6 +43,7 @@ public:
   void SetInt(const PLAString &aName, PLAInt aValue) const;
   void SetUInt(const PLAString &aName, PLAUInt aValue) const;
   void SetFloat(const PLAString &aName, PLAFloat aValue) const;
+  void SetString(const PLAString &aName, const std::string &aValue) const;
 
   void SetVec2f(const PLAString &aName, const PLAVec2f &aValue) const;
   void SetVec3f(const PLAString &aName, const PLAVec3f &aValue) const;

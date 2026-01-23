@@ -5,6 +5,7 @@
 #ifndef ANHR_PLAPROPERTY_HPP
 #define ANHR_PLAPROPERTY_HPP
 
+#include <string>
 #include "plain/core/primitive/PLAPRMType.hpp"
 #include "plain/core/primitive/PLAPRMColor.hpp"
 #include "plain/core/primitive/PLAPRMVector.hpp"
@@ -28,6 +29,7 @@ public:
   static const PLAProperty kVec2s; // it may be abolished
   static const PLAProperty kVec3s; // it may be abolished
   static const PLAProperty kVec4s; // it may be abolished
+  static const PLAProperty kString;
 
 private:
   union Value {
@@ -50,6 +52,7 @@ private:
   };
   PLAPropertyType _type = PLAPropertyType::None;
   Value _value = Value();
+  std::string _stringValue;  // Stored separately (union cannot hold std::string)
 
 public:
   PLAProperty() {};
@@ -82,6 +85,10 @@ public:
     _type(PLAPropertyType::Vec3s) { _value.v3s = PLAVec3s(aValue); };
   PLAProperty(const PLAVec4s &aValue): // it may be abolished
     _type(PLAPropertyType::Vec4s) { _value.v4s = PLAVec4s(aValue); };
+  PLAProperty(const std::string &aValue):
+    _type(PLAPropertyType::String), _stringValue(aValue) {};
+  PLAProperty(const char *aValue):
+    _type(PLAPropertyType::String), _stringValue(aValue ? aValue : "") {};
 
   ~PLAProperty() {};// delete _value; _value = nullptr; };
 
@@ -103,6 +110,7 @@ public:
   const PLAVec2s &GetVec2s() const; // it may be abolished
   const PLAVec3s &GetVec3s() const; // it may be abolished
   const PLAVec4s &GetVec4s() const; // it may be abolished
+  const std::string &GetString() const;
 
   void Set(const PLAProperty &aProperty);
 
@@ -120,6 +128,7 @@ public:
   void SetVec2s(const PLAVec2s &aValue); // it may be abolished
   void SetVec3s(const PLAVec3s &aValue); // it may be abolished
   void SetVec4s(const PLAVec4s &aValue); // it may be abolished
+  void SetString(const std::string &aValue);
 
 
   /// Operators for addition ///////////////////////////////////////////////////
