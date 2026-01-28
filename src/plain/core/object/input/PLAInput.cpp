@@ -38,6 +38,22 @@ PLAInputSignalCode PLAInput::GetCodeForKeyFromChar(unsigned char aCharacter)
     return static_cast<PLAInputSignalCode>(base + offset);
   }
 
+  switch (aCharacter)
+  {
+    case 0x1b: // Escape
+      return static_cast<PLAInputSignalCode>(PLAInputSignalCodeForKeyboard::Esc);
+    case 0x09: // Tab
+      return static_cast<PLAInputSignalCode>(PLAInputSignalCodeForKeyboard::Tab);
+    case 0x0d: // Return/Enter
+      return static_cast<PLAInputSignalCode>(PLAInputSignalCodeForKeyboard::Return);
+    case 0x7f: // Delete
+      return static_cast<PLAInputSignalCode>(PLAInputSignalCodeForKeyboard::Delete);
+    case ' ':  // Space
+      return static_cast<PLAInputSignalCode>(PLAInputSignalCodeForKeyboard::Space);
+    default:
+      break;
+  }
+
   return kPLAInputSignalCodeUndefined;
 }
 
