@@ -13,6 +13,7 @@
 #include "grain/object/GRAOBJListener.hpp"
 
 class PLAOBJModel;
+class PLAProperty;
 struct PLAPropertyChange;
 
 class PLAAGTModel final : public PLAAgent
@@ -54,6 +55,8 @@ public:
   void SetVec2s(const PLAString &aName, const PLAVec2s &aValue) const;
   void SetVec3s(const PLAString &aName, const PLAVec3s &aValue) const;
   void SetVec4s(const PLAString &aName, const PLAVec4s &aValue) const;
+
+  void SetProperty(const PLAString &aName, const PLAProperty &aProperty) const;
 
   PLAId GetModelTag() const;
   void SetModelTag(PLAId aTag) const;

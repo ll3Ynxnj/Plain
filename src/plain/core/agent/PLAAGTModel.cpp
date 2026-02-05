@@ -184,6 +184,12 @@ void PLAAGTModel::SetVec4s(const PLAString &aName, const PLAVec4s &aValue) const
   model->SetVec4s(aName, aValue);
 }
 
+void PLAAGTModel::SetProperty(const PLAString &aName, const PLAProperty &aProperty) const
+{
+  auto model = this->RefModel();
+  model->SetProperty(aName, aProperty);
+}
+
 PLAId PLAAGTModel::GetModelTag() const
 {
   auto model = this->GetModel();
