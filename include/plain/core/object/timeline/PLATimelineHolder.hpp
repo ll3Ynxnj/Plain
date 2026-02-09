@@ -20,6 +20,7 @@ public:
 
   void AddTimelineThread(PLAOBJTimeline *aThread);
   void AddTimelineThread(const PLAAGTTimeline &aAgent);
+  void ClearTimeline();
 
   const PLAOBJTimeline *GetTimeline() const { return _timeline; }
 

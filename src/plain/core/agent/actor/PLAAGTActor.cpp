@@ -207,6 +207,12 @@ void PLAAGTActor::AddMotion(const PLAAGTMotion &aMotion) const
   actor->AddTimelineThread(motion);
 }
 
+void PLAAGTActor::ClearMotion() const
+{
+  auto actor = this->RefActor();
+  actor->ClearTimeline();
+}
+
 /*
 void PLAAGTActor::AddTileMotion(const PLATileDataAddress &aAddress, const PLAAGTMotion &aMotion) const
 {

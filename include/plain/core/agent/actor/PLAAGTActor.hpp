@@ -77,6 +77,7 @@ public:
   void SetActorTag(PLAId aTag) const;
 
   void AddMotion(const PLAAGTMotion &aMotion) const;
+  void ClearMotion() const;
   //void AddTileMotion(const PLATileDataAddress &aAddress, const PLAAGTMotion &aMotion) const;
 
   /// Path-through to InputContext /////////////////////////////////////////////

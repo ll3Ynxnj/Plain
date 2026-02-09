@@ -41,6 +41,13 @@ void PLATimelineHolder::AddTimelineThread(const PLAAGTTimeline &aAgent)
   this->AddTimelineThread(thread);
 }
 
+void PLATimelineHolder::ClearTimeline()
+{
+  if (_timeline) {
+    _timeline->Clear();
+  }
+}
+
 void PLATimelineHolder::OnFinishTimeline()
 {
   //_timeline->Unbind();
