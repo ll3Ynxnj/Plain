@@ -40,7 +40,7 @@ void PLALYRCircle::GetSize(PLAVec3f *aSize) const
 
 void PLALYRCircle::SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot)
 {
-  _radius = aSize.x > aSize.y ? aSize.x : aSize.y;
+  _radius = (aSize.x > aSize.y ? aSize.x : aSize.y) / 2.0f;
   this->SetOffset(PLAVec3f((aPivot.x - 0.5) * _radius * 2,
                           (aPivot.y - 0.5) * _radius * 2,
                           0));
