@@ -73,6 +73,18 @@ PLATMLMotionNode *PLATMLMotionNode::CreateScale(const PLAVec3f &aBegin,
   return motion;
 }
 
+PLATMLMotionNode *PLATMLMotionNode::CreateValue(PLAFloat aBegin,
+                                                PLAFloat aEnd,
+                                                PLAEasing::Type aEasingType,
+                                                PLATimeInterval aDuration)
+{
+  PLATMLMotionNode *motion =
+    new PLATMLMotionNode(PLATMLMotionType::Value, aBegin, aEnd,
+                         aEasingType, aDuration);
+  motion->Bind();
+  return motion;
+}
+
 const PLAProperty &PLATMLMotionNode::MakeProperty(const PLATMLMotionType aType)
 {
   switch (aType)
@@ -80,7 +92,8 @@ const PLAProperty &PLATMLMotionNode::MakeProperty(const PLATMLMotionType aType)
     case PLATMLMotionType::Color       : return PLAProperty::kColor;
     case PLATMLMotionType::Translation : return PLAProperty::kVec3f;
     case PLATMLMotionType::Rotation    : return PLAProperty::kVec3f;
-    case PLATMLMotionType::Scale       : return PLAProperty::kVec3f;
+    case PLATMLMotionType::Scale       : return PLAProperty::kVec3fNorm;  // (1,1,1) for multiplication identity
+    case PLATMLMotionType::Value       : return PLAProperty::kFloat;
     default :
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "Detect unexpected types.");
       return PLAProperty::kNone;
@@ -95,6 +108,7 @@ const char *PLATMLMotionNode::GetNameOfType(PLATMLMotionType aType)
     {PLATMLMotionType::Translation, "Translation" },
     {PLATMLMotionType::Rotation,    "Rotation" },
     {PLATMLMotionType::Scale,       "Scale" },
+    {PLATMLMotionType::Value,       "Value" },
   };
   return nameTable.at(aType);
 }
@@ -138,6 +152,20 @@ PLATMLMotionNode::PLATMLMotionNode(PLATMLMotionType aType,
 
 }
 
+PLATMLMotionNode::PLATMLMotionNode(PLATMLMotionType aType,
+                                   PLAFloat aBegin, PLAFloat aEnd,
+                                   PLAEasing::Type aEasingType,
+                                   PLATimeInterval aDuration):
+  PLAOBJTimelineNode(PLAOBJTimelineNode::Type::Motion,
+                     aDuration * PLAApp::Instance()->GetRefreshRate()),
+  _type(aType),
+  _begin(PLAProperty(aBegin)),
+  _end(PLAProperty(aEnd)),
+  _distance(PLAProperty(aEnd - aBegin)),
+  _easingType(aEasingType)
+{
+}
+
 PLATMLMotionNode::~PLATMLMotionNode()
 {
 
@@ -167,8 +195,13 @@ void PLATMLMotionNode::GetProperty(std::map<PLATMLMotionType,
       (*aProperties)[_type] += property;
       break;
     case PLATMLMotionType::Scale:
+      (*aProperties)[_type].Scale(property);
+      break;
     case PLATMLMotionType::Color:
       (*aProperties)[_type] *= property;
+      break;
+    case PLATMLMotionType::Value:
+      (*aProperties)[_type] += property;
       break;
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert,
@@ -198,4 +231,11 @@ void PLATMLMotionNode::GetProperty(std::map<PLATMLMotionType,
     GRA_TRACE("");
   }
   */
+}
+
+PLAFloat PLATMLMotionNode::GetCurrentValue() const
+{
+  auto progress = this->GetProgress();
+  auto easedProgress = GRALIBEasing::GetEasing(_easingType, progress);
+  return _begin.GetFloat() + _distance.GetFloat() * easedProgress;
 }

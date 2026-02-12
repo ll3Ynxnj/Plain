@@ -6,6 +6,7 @@
 
 #include "plain/core/agent/PLAAGTTimelineNode.hpp"
 #include "plain/core/object/timeline/PLAOBJTimelineNode.hpp"
+#include "plain/core/object/timeline/PLATMLMotionNode.hpp"
 
 PLAAGTTimelineNode::PLAAGTTimelineNode(PLAOBJTimelineNode *aOwner) :
   PLAAgent(aOwner)
@@ -34,4 +35,10 @@ const PLAOBJTimelineNode *PLAAGTTimelineNode::GetTimelineNode() const
 PLAOBJTimelineNode *PLAAGTTimelineNode::RefTimelineNode() const
 {
   return static_cast<PLAOBJTimelineNode *>(this->RefOwner());
+}
+
+PLAFloat PLAAGTTimelineNode::GetValue() const
+{
+  auto *node = static_cast<const PLATMLMotionNode *>(GetTimelineNode());
+  return node->GetCurrentValue();
 }

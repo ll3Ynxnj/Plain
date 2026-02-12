@@ -22,6 +22,7 @@ public:
   static const PLAProperty kColor;
   static const PLAProperty kVec2f;
   static const PLAProperty kVec3f;
+  static const PLAProperty kVec3fNorm;  // (1,1,1) for Scale identity
   static const PLAProperty kVec4f;
   static const PLAProperty kVec2i;
   static const PLAProperty kVec3i;
@@ -216,6 +217,12 @@ public:
   void operator *=(PLAUInt aValue);         // it may be abolished
   void operator *=(PLAFloat aValue);
   void operator *=(const PLAColor &aValue);
+
+
+  /// Scale (component-wise multiplication for Vec3f) //////////////////////////
+
+  void Scale(const PLAProperty &aProperty);
+  void Scale(const PLAVec3f &aValue);
 
 
   /// Operators for division ///////////////////////////////////////////////////

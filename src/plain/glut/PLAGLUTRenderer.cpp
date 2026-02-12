@@ -191,10 +191,14 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor,
   }
   MotionProperties motionProperties = MotionProperties();
   GetMotionProperties(motion, &motionProperties);
-  PLAGLUTRenderer::GetMotionProperties(motion, &motionProperties);
   glTranslatef( motionProperties.translation.x,
                -motionProperties.translation.y,
                 motionProperties.translation.z);
+  glRotatef(motionProperties.rotation.x, 1.0, 0.0, 0.0);
+  glRotatef(motionProperties.rotation.y, 0.0, 1.0, 0.0);
+  glRotatef(motionProperties.rotation.z, 0.0, 0.0, 1.0);
+  glScalef(motionProperties.scale.x, motionProperties.scale.y,
+           motionProperties.scale.z);
   color *= motionProperties.color;
 
   bool isMask = aActor->IsMask();

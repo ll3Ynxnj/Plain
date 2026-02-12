@@ -42,6 +42,10 @@ public:
                                        const PLAVec3f &aEnd,
                                        PLAEasing::Type aEasingType,
                                        PLATimeInterval aDuration);
+  static PLATMLMotionNode *CreateValue(PLAFloat aBegin,
+                                       PLAFloat aEnd,
+                                       PLAEasing::Type aEasingType,
+                                       PLATimeInterval aDuration);
 
   static const PLAProperty &MakeProperty(const PLATMLMotionType aType);
 
@@ -54,6 +58,9 @@ public:
   PLATMLMotionNode(PLATMLMotionType aType,
                    const PLAVec3f &aBegin, const PLAVec3f &aEnd,
                    PLAEasing::Type aEasingType, PLATimeInterval aDuration);
+  PLATMLMotionNode(PLATMLMotionType aType,
+                   PLAFloat aBegin, PLAFloat aEnd,
+                   PLAEasing::Type aEasingType, PLATimeInterval aDuration);
 
   ~PLATMLMotionNode() override;
 
@@ -63,6 +70,9 @@ public:
 
   PLATMLMotionType GetMotionType() { return _type; }
   void GetProperty(std::map<PLATMLMotionType, PLAProperty> *aProperties) const;
+
+  /// Get current interpolated value (only valid for Value type)
+  PLAFloat GetCurrentValue() const;
 };
 
 #endif //ANHR_PLATMLMOTIONNODE_HPP

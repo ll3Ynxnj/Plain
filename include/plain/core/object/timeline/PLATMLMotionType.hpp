@@ -10,6 +10,7 @@ enum class PLATMLMotionType {
   Translation,
   Rotation,
   Scale,
+  Value,
 
   kNumberOfItems,
   None,

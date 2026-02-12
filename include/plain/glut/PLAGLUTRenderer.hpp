@@ -18,7 +18,7 @@ class PLAGLUTRenderer : public PLAOBJRenderer
   struct MotionProperties {
     PLAVec3f translation = kPLAVec3fNone;
     PLAVec3f rotation = kPLAVec3fNone;
-    PLAVec3f scale = kPLAVec3fNone;
+    PLAVec3f scale = kPLAVec3fNorm;
     PLAColor color = kPLAColorNorm;
   };
 public:

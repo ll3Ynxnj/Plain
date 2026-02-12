@@ -264,6 +264,9 @@ namespace Plain
     PLAAGTMotionNode CreateScale(const PLAVec3f &aBegin, const PLAVec3f &aEnd,
                                  PLAEasing::Type aEasingType,
                                  PLATimeInterval aDuration);
+    PLAAGTMotionNode CreateValue(PLAFloat aBegin, PLAFloat aEnd,
+                                 PLAEasing::Type aEasingType,
+                                 PLATimeInterval aDuration);
   };
 
   namespace ImageClip

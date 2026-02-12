@@ -11,6 +11,7 @@
 #include <functional>
 #include "plain/core/agent/PLAAgent.hpp"
 #include "plain/core/PLAFunctionCode.hpp"
+#include "plain/core/primitive/PLAPRMType.hpp"
 
 class PLAOBJTimelineNode;
 
@@ -24,6 +25,9 @@ public:
 
   void SetFunction(PLAFunctionCode::TimelineNode aKey,
                    const std::function<void(PLAAGTTimelineNode)> &aFunc) const;
+
+  /// Get current interpolated value from a Value motion node
+  PLAFloat GetValue() const;
 
 protected:
   const PLAOBJTimelineNode *GetTimelineNode() const;

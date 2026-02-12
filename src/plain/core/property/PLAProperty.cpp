@@ -13,6 +13,7 @@ const PLAProperty PLAProperty::kFloat = PLAProperty(PLAFloat(0));
 const PLAProperty PLAProperty::kColor = PLAProperty(kPLAColorNorm);
 const PLAProperty PLAProperty::kVec2f = PLAProperty(kPLAVec2fNone);
 const PLAProperty PLAProperty::kVec3f = PLAProperty(kPLAVec3fNone);
+const PLAProperty PLAProperty::kVec3fNorm = PLAProperty(kPLAVec3fNorm);
 const PLAProperty PLAProperty::kVec4f = PLAProperty(kPLAVec4fNone);
 const PLAProperty PLAProperty::kVec2i = PLAProperty(kPLAVec2iNone);
 const PLAProperty PLAProperty::kVec3i = PLAProperty(kPLAVec3iNone);
@@ -793,6 +794,17 @@ void PLAProperty::operator *=(const PLAProperty &aProperty)
   }
 }
 
+void PLAProperty::Scale(const PLAProperty &aProperty)
+{
+  switch (aProperty._type) {
+    case PLAPropertyType::Vec3f : this->Scale(aProperty.GetVec3f()); break;
+    case PLAPropertyType::Color : *this *= aProperty.GetColor();    break;
+    default :
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
+      break;
+  }
+}
+
 void PLAProperty::operator *=(PLAInt aValue)
 {
   switch (_type) {
@@ -835,6 +847,17 @@ void PLAProperty::operator *=(const PLAColor &aValue)
   switch (_type) {
     case PLAPropertyType::Color :
       this->SetColor(this->GetColor() * aValue);
+      break;
+    default:
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");
+  }
+}
+
+void PLAProperty::Scale(const PLAVec3f &aValue)
+{
+  switch (_type) {
+    case PLAPropertyType::Vec3f :
+      this->SetVec3f(this->GetVec3f().scale(aValue));
       break;
     default:
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "No compatible type.");

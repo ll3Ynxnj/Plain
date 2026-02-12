@@ -561,6 +561,16 @@ PLAAGTMotionNode Plain::MotionNode::CreateScale(const PLAVec3f &aBegin,
   return object->AssignAgent();
 }
 
+PLAAGTMotionNode Plain::MotionNode::CreateValue(PLAFloat aBegin,
+                                                PLAFloat aEnd,
+                                                PLAEasing::Type aEasingType,
+                                                PLATimeInterval aDuration)
+{
+  auto object = PLATMLMotionNode::CreateValue(aBegin, aEnd,
+                                              aEasingType, aDuration);
+  return object->AssignAgent();
+}
+
 PLAAGTImageClip Plain::ImageClip::Create(const PLAString &aImageName)
 {
   auto object = PLAOBJImageClip::Create(aImageName);
