@@ -17,6 +17,10 @@ void Plain::Init(PLARendererType aType, PLAUInt aRefreshRate,
   PLAApp::Instance()->Init(aType, aRefreshRate, aBaseScreenLength);
 }
 
+// Plain::Delete was commented out in dc5c8e50 (2023-07-11).
+// Object lifecycle moved from manual name-based deletion to Binder/Manager
+// pattern (36dbab3). Actors and Models now manage their own Bind/Unbind
+// through Manager, and user code destroys objects via PLAAgent::Release().
 /*
 void Plain::Delete(const std::string &aName)
 {
