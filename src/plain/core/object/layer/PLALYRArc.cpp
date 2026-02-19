@@ -58,9 +58,7 @@ void PLALYRArc::GetSize(PLAVec3f *aSize) const
 void PLALYRArc::SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot)
 {
   _radius = aSize.x > aSize.y ? aSize.x * 0.5f : aSize.y * 0.5f;
-  this->SetOffset(PLAVec3f((aPivot.x - 0.5) * _radius * 2,
-                           (aPivot.y - 0.5) * _radius * 2,
-                           0));
+  this->SetOffset(PLAVec3f(0, 0, 0));
 }
 
 void PLALYRArc::SetImageClip(PLAOBJImageClip *aImageClip)

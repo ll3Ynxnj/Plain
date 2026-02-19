@@ -44,7 +44,7 @@ void PLALYRRect::GetSize(PLAVec3f *aSize) const
 
 void PLALYRRect::SetSize(const PLAVec3f &aSize, const PLAVec3f &aPivot)
 {
-  this->SetOffset(PLAVec3f(aSize.x * aPivot.x, aSize.y * aPivot.y, 0));
+  this->SetOffset(PLAVec3f(0, 0, 0));
   _vector.x = aSize.x;
   _vector.y = aSize.y;
 }
