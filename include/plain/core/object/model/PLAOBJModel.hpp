@@ -87,6 +87,9 @@ public:
   const PLAProperty &GetProperty(const PLAString &aKey);
   void SetProperty(const PLAString &aKey, const PLAProperty &aProperty);
 
+  /// Non-asserting existence check (SetProperty/GetProperty assert on miss)
+  PLABool HasProperty(const PLAString &aName) const;
+
   const std::list<PLAOBJModel *> *GetModels() const { return &_models; };
 
   PLABool GetBool(const PLAString &aName) const;

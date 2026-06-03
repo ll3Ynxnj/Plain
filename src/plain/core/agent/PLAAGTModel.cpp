@@ -190,6 +190,12 @@ void PLAAGTModel::SetProperty(const PLAString &aName, const PLAProperty &aProper
   model->SetProperty(aName, aProperty);
 }
 
+PLABool PLAAGTModel::HasProperty(const PLAString &aName) const
+{
+  auto model = this->GetModel();
+  return model->HasProperty(aName);
+}
+
 PLAId PLAAGTModel::GetModelTag() const
 {
   auto model = this->GetModel();

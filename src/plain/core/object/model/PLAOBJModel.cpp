@@ -191,6 +191,11 @@ void PLAOBJModel::SetProperty(const PLAString &aName, const PLAProperty &aProper
   this->EnqueueChange(aName, oldValue);
 }
 
+PLABool PLAOBJModel::HasProperty(const PLAString &aName) const
+{
+  return _properties.contains(aName);
+}
+
 PLABool PLAOBJModel::GetBool(const PLAString &aName) const
 {
   this->ValidateNameIsNotEmpty(aName);

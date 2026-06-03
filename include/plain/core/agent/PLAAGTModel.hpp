@@ -58,6 +58,8 @@ public:
 
   void SetProperty(const PLAString &aName, const PLAProperty &aProperty) const;
 
+  PLABool HasProperty(const PLAString &aName) const;
+
   PLAId GetModelTag() const;
   void SetModelTag(PLAId aTag) const;
 
