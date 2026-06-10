@@ -471,17 +471,6 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
     texCoords[7] = clip.pos.y + clip.size.y;
   }
 
-  if (aLayer->GetObjectName().find("Background") != std::string::npos) {
-    GRA_PRINT("  vertices: v0=(%.1f,%.1f,%.1f), v1=(%.1f,%.1f,%.1f), v2=(%.1f,%.1f,%.1f), v3=(%.1f,%.1f,%.1f)\n",
-              vertices[0], vertices[1], vertices[2],
-              vertices[3], vertices[4], vertices[5],
-              vertices[6], vertices[7], vertices[8],
-              vertices[9], vertices[10], vertices[11]);
-    GRA_PRINT("  fillColor: (%.2f,%.2f,%.2f,%.2f), texCoords: (%.2f,%.2f)-(%.2f,%.2f)\n",
-              fillColor.r, fillColor.g, fillColor.b, fillColor.a,
-              texCoords[0], texCoords[1], texCoords[6], texCoords[7]);
-  }
-
   glVertexPointer(3, GL_FLOAT, 0, vertices);
   glColorPointer(4, GL_FLOAT, 0, fillColors);
   glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
