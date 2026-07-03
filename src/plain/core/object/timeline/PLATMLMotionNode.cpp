@@ -75,12 +75,14 @@ PLATMLMotionNode *PLATMLMotionNode::CreateScale(const PLAVec3f &aBegin,
 
 const PLAProperty &PLATMLMotionNode::MakeProperty(const PLATMLMotionType aType)
 {
+  // Seed is the identity of the composition operator in GetProperty:
+  // additive types (+=) seed None, multiplicative types (*=) seed Norm.
   switch (aType)
   {
     case PLATMLMotionType::Color       : return PLAProperty::kColorNorm;
     case PLATMLMotionType::Translation : return PLAProperty::kVec3fNone;
     case PLATMLMotionType::Rotation    : return PLAProperty::kVec3fNone;
-    case PLATMLMotionType::Scale       : return PLAProperty::kVec3fNone;
+    case PLATMLMotionType::Scale       : return PLAProperty::kVec3fNorm;
     default :
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "Detect unexpected types.");
       return PLAProperty::kNone;
