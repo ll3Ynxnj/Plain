@@ -6,20 +6,39 @@
 #include "plain/core/object/PLAOBJError.hpp"
 #include <grain/grain.h>
 
-const PLAProperty PLAProperty::kNone  = PLAProperty();
-const PLAProperty PLAProperty::kBool  = PLAProperty(PLABool(false));
-const PLAProperty PLAProperty::kInt   = PLAProperty(PLAInt(0));
-const PLAProperty PLAProperty::kFloat = PLAProperty(PLAFloat(0));
-const PLAProperty PLAProperty::kColor = PLAProperty(kPLAColorNorm);
-const PLAProperty PLAProperty::kVec2f = PLAProperty(kPLAVec2fNone);
-const PLAProperty PLAProperty::kVec3f = PLAProperty(kPLAVec3fNone);
-const PLAProperty PLAProperty::kVec4f = PLAProperty(kPLAVec4fNone);
-const PLAProperty PLAProperty::kVec2i = PLAProperty(kPLAVec2iNone);
-const PLAProperty PLAProperty::kVec3i = PLAProperty(kPLAVec3iNone);
-const PLAProperty PLAProperty::kVec4i = PLAProperty(kPLAVec4iNone);
-const PLAProperty PLAProperty::kVec2s = PLAProperty(kPLAVec2sNone);
-const PLAProperty PLAProperty::kVec3s = PLAProperty(kPLAVec3sNone);
-const PLAProperty PLAProperty::kVec4s = PLAProperty(kPLAVec4sNone);
+const PLAProperty PLAProperty::kNone = PLAProperty(); // typeless
+
+//-- None: zero-filled values --
+const PLAProperty PLAProperty::kBoolNone  = PLAProperty(PLABool(false));
+const PLAProperty PLAProperty::kIntNone   = PLAProperty(PLAInt(0));
+const PLAProperty PLAProperty::kUIntNone  = PLAProperty(PLAUInt(0));  // it may be abolished
+const PLAProperty PLAProperty::kFloatNone = PLAProperty(PLAFloat(0));
+const PLAProperty PLAProperty::kColorNone = PLAProperty(kPLAColorNone);
+const PLAProperty PLAProperty::kVec2fNone = PLAProperty(kPLAVec2fNone);
+const PLAProperty PLAProperty::kVec3fNone = PLAProperty(kPLAVec3fNone);
+const PLAProperty PLAProperty::kVec4fNone = PLAProperty(kPLAVec4fNone);
+const PLAProperty PLAProperty::kVec2iNone = PLAProperty(kPLAVec2iNone);
+const PLAProperty PLAProperty::kVec3iNone = PLAProperty(kPLAVec3iNone);
+const PLAProperty PLAProperty::kVec4iNone = PLAProperty(kPLAVec4iNone);
+const PLAProperty PLAProperty::kVec2sNone = PLAProperty(kPLAVec2sNone); // it may be abolished
+const PLAProperty PLAProperty::kVec3sNone = PLAProperty(kPLAVec3sNone); // it may be abolished
+const PLAProperty PLAProperty::kVec4sNone = PLAProperty(kPLAVec4sNone); // it may be abolished
+
+//-- Norm: one-filled values --
+const PLAProperty PLAProperty::kBoolNorm  = PLAProperty(PLABool(true));
+const PLAProperty PLAProperty::kIntNorm   = PLAProperty(PLAInt(1));
+const PLAProperty PLAProperty::kUIntNorm  = PLAProperty(PLAUInt(1));  // it may be abolished
+const PLAProperty PLAProperty::kFloatNorm = PLAProperty(PLAFloat(1));
+const PLAProperty PLAProperty::kColorNorm = PLAProperty(kPLAColorNorm);
+const PLAProperty PLAProperty::kVec2fNorm = PLAProperty(kPLAVec2fNorm);
+const PLAProperty PLAProperty::kVec3fNorm = PLAProperty(kPLAVec3fNorm);
+const PLAProperty PLAProperty::kVec4fNorm = PLAProperty(kPLAVec4fNorm);
+const PLAProperty PLAProperty::kVec2iNorm = PLAProperty(kPLAVec2iNorm);
+const PLAProperty PLAProperty::kVec3iNorm = PLAProperty(kPLAVec3iNorm);
+const PLAProperty PLAProperty::kVec4iNorm = PLAProperty(kPLAVec4iNorm);
+const PLAProperty PLAProperty::kVec2sNorm = PLAProperty(kPLAVec2sNorm); // it may be abolished
+const PLAProperty PLAProperty::kVec3sNorm = PLAProperty(kPLAVec3sNorm); // it may be abolished
+const PLAProperty PLAProperty::kVec4sNorm = PLAProperty(kPLAVec4sNorm); // it may be abolished
 
 void PLAProperty::Print()
 {

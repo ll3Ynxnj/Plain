@@ -77,10 +77,10 @@ const PLAProperty &PLATMLMotionNode::MakeProperty(const PLATMLMotionType aType)
 {
   switch (aType)
   {
-    case PLATMLMotionType::Color       : return PLAProperty::kColor;
-    case PLATMLMotionType::Translation : return PLAProperty::kVec3f;
-    case PLATMLMotionType::Rotation    : return PLAProperty::kVec3f;
-    case PLATMLMotionType::Scale       : return PLAProperty::kVec3f;
+    case PLATMLMotionType::Color       : return PLAProperty::kColorNorm;
+    case PLATMLMotionType::Translation : return PLAProperty::kVec3fNone;
+    case PLATMLMotionType::Rotation    : return PLAProperty::kVec3fNone;
+    case PLATMLMotionType::Scale       : return PLAProperty::kVec3fNone;
     default :
       PLA_ERROR_ISSUE(PLAErrorType::Assert, "Detect unexpected types.");
       return PLAProperty::kNone;
