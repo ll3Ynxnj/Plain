@@ -1016,6 +1016,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       glPushMatrix();
 
       glTranslatef(pxTable[x], -pyTable[y], 0);
+      glTranslatef(chip.offset.x, -chip.offset.y, 0);
 
       auto translation = motionProperties.translation;
       glTranslatef(translation.x, -translation.y, translation.z);
