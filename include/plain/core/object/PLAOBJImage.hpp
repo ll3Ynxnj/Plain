@@ -34,6 +34,7 @@ public:
   PLASize GetHeight() const { return _height; };
    */
 
+  const PLAOBJResource *GetResource() const { return _resource; }
   const PLAUInt8 *GetResourceData() const { return _resource->GetData(); }
   //virtual size_t GetDataSize() const;
 };

@@ -61,21 +61,28 @@ PLAGLUTTexture* PLAGLUTTexture::Manager::GetTexture(const PLAOBJImage* aImage)
     return nullptr;
   }
 
-  auto it = _imageTextures.find(aImage);
+  const PLAOBJResource* resource = aImage->GetResource();
+  if (!resource)
+  {
+    return nullptr;
+  }
+
+  auto it = _imageTextures.find(resource);
   if (it != _imageTextures.end())
   {
     it->second->Bind();
     return it->second;
   }
 
-  GRA_PRINT("Texture::Manager: Creating image texture (image=%p)\n", aImage);
+  GRA_PRINT("Texture::Manager: Creating image texture (resource=%p)\n",
+            resource);
 
   PLAGLUTTexture* texture = new PLAGLUTTexture(PLAGLUTTexture::Type::Image);
   texture->Bind();
   texture->UploadData(aImage->GetResourceData(),
                       aImage->GetSize().x, aImage->GetSize().y);
 
-  _imageTextures[aImage] = texture;
+  _imageTextures[resource] = texture;
 
   return texture;
 }
