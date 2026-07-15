@@ -16,9 +16,11 @@
 class PLAGLUTRenderer : public PLAOBJRenderer
 {
   struct MotionProperties {
+    // Additive types default to None, multiplicative types to Norm,
+    // so properties without motion nodes compose as identity.
     PLAVec3f translation = kPLAVec3fNone;
     PLAVec3f rotation = kPLAVec3fNone;
-    PLAVec3f scale = kPLAVec3fNone;
+    PLAVec3f scale = kPLAVec3fNorm;
     PLAColor color = kPLAColorNorm;
   };
 public:

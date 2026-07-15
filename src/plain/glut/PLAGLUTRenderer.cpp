@@ -181,18 +181,17 @@ void PLAGLUTRenderer::Draw(const PLAOBJActor *aActor, const PLAColor &aColor,
 
   auto motion = aActor->GetMotion();
 
-  if (motion) {
-    if (motion->GetObjectName() == "Telop")
-    {
-      GRA_TRACE("");
-    }
-  }
   MotionProperties motionProperties = MotionProperties();
   GetMotionProperties(motion, &motionProperties);
-  PLAGLUTRenderer::GetMotionProperties(motion, &motionProperties);
   glTranslatef( motionProperties.translation.x,
                -motionProperties.translation.y,
                 motionProperties.translation.z);
+  glRotatef(motionProperties.rotation.x, 1.0, 0.0, 0.0);
+  glRotatef(motionProperties.rotation.y, 0.0, 1.0, 0.0);
+  glRotatef(motionProperties.rotation.z, 0.0, 0.0, 1.0);
+  glScalef(motionProperties.scale.x,
+           motionProperties.scale.y,
+           motionProperties.scale.z);
   color *= motionProperties.color;
 
   bool isMask = aActor->IsMask();
@@ -984,6 +983,7 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       }
 
       PLAColor color = aColor * chip.color;
+      color *= motionProperties.color;
 
       static const PLAUInt kNumColors = 16;
       GLfloat colors[kNumColors] = {
@@ -1021,12 +1021,17 @@ void PLAGLUTRenderer::DrawTile(const PLALYRTile *aLayer,
       auto translation = motionProperties.translation;
       glTranslatef(translation.x, -translation.y, translation.z);
 
+      // Rotate and scale around the chip center.
+      GLfloat pivotX = chipSize.x * 0.5f;
+      GLfloat pivotY = chipSize.y * 0.5f;
       auto rotation = motionProperties.rotation;
-      glTranslatef(12, -12, 0);
+      auto scale = motionProperties.scale;
+      glTranslatef(pivotX, -pivotY, 0);
       glRotatef(rotation.x, 1.0, 0.0, 0.0);
       glRotatef(rotation.y, 0.0, 1.0, 0.0);
       glRotatef(rotation.z, 0.0, 0.0, 1.0);
-      glTranslatef(-12, 12, 0);
+      glScalef(scale.x, scale.y, scale.z);
+      glTranslatef(-pivotX, pivotY, 0);
 
       glVertexPointer(3, GL_FLOAT, 0, vertices);
       glColorPointer(4, GL_FLOAT, 0, colors);
