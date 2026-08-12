@@ -18,6 +18,23 @@ PLAOBJCameraStream *PLAOBJCameraStream::Create(const PLAString &aName, int aCame
   return stream;
 }
 
+PLAOBJCameraStream *PLAOBJCameraStream::Create(const PLAString &aName,
+                                               const PLAString &aCameraURL)
+{
+  PLAOBJCameraStream *stream = new PLAOBJCameraStream(aName, aCameraURL);
+  stream->Bind();
+
+  if (!stream->Open()) {
+    PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                    "Failed to open camera stream %s", aCameraURL.c_str());
+    stream->Unbind();
+    delete stream;
+    return nullptr;
+  }
+
+  return stream;
+}
+
 PLAOBJCameraStream *PLAOBJCameraStream::Stream(const PLAString &aName)
 {
   return static_cast<PLAOBJCameraStream *>(PLAOBJStream::Manager::Stream(aName));
@@ -25,6 +42,13 @@ PLAOBJCameraStream *PLAOBJCameraStream::Stream(const PLAString &aName)
 
 PLAOBJCameraStream::PLAOBJCameraStream(const PLAString &aName, int aCameraID) :
   PLAOBJStream(aName), _cameraID(aCameraID)
+{
+
+}
+
+PLAOBJCameraStream::PLAOBJCameraStream(const PLAString &aName,
+                                       const PLAString &aCameraURL) :
+  PLAOBJStream(aName), _cameraID(-1), _cameraURL(aCameraURL)
 {
 
 }
@@ -47,19 +71,33 @@ bool PLAOBJCameraStream::Open()
     return true;
   }
 
-  // Open camera with V4L2 backend for better performance on Linux
-  _capture.open(_cameraID, cv::CAP_V4L2);
-  if (!_capture.isOpened())
+  if (!_cameraURL.empty())
   {
-    PLA_ERROR_ISSUE(PLAErrorType::Assert, "Failed to open camera device %d", _cameraID);
-    return false;
+    // Open network stream (e.g., RTSP) with FFMPEG backend
+    _capture.open(_cameraURL, cv::CAP_FFMPEG);
+    if (!_capture.isOpened())
+    {
+      PLA_ERROR_ISSUE(PLAErrorType::Assert,
+                      "Failed to open camera stream %s", _cameraURL.c_str());
+      return false;
+    }
   }
+  else
+  {
+    // Open camera with V4L2 backend for better performance on Linux
+    _capture.open(_cameraID, cv::CAP_V4L2);
+    if (!_capture.isOpened())
+    {
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "Failed to open camera device %d", _cameraID);
+      return false;
+    }
 
-  // Set camera parameters for optimal performance
-  _capture.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M', 'J', 'P', 'G'));
-  _capture.set(cv::CAP_PROP_FRAME_WIDTH, 1920);
-  _capture.set(cv::CAP_PROP_FRAME_HEIGHT, 1080);
-  _capture.set(cv::CAP_PROP_FPS, 30);
+    // Set camera parameters for optimal performance
+    _capture.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M', 'J', 'P', 'G'));
+    _capture.set(cv::CAP_PROP_FRAME_WIDTH, 1920);
+    _capture.set(cv::CAP_PROP_FRAME_HEIGHT, 1080);
+    _capture.set(cv::CAP_PROP_FPS, 30);
+  }
 
   // Capture initial frame to establish stream properties (size, format)
   CaptureFrame();

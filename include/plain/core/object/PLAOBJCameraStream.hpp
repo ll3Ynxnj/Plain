@@ -11,6 +11,7 @@ class PLAAGTCameraStream;
 
 // PLAOBJCameraStream: Camera device stream implementation
 // Captures frames from a camera device (e.g., /dev/video0)
+// or a network stream URL (e.g., rtsp://...)
 //
 // Threading: This class handles its own capture thread internally.
 // - Open() starts the capture thread
@@ -25,6 +26,7 @@ class PLAOBJCameraStream : public PLAOBJStream, public PLAOBJFrameSource
   std::atomic<int> _analysisFrameIndex{0};
 
   int _cameraID;
+  PLAString _cameraURL;
   Functor _functor;
 
   // Internal capture thread
@@ -33,9 +35,12 @@ class PLAOBJCameraStream : public PLAOBJStream, public PLAOBJFrameSource
 
 public:
   static PLAOBJCameraStream *Create(const PLAString &aName, int aCameraID = 0);
+  static PLAOBJCameraStream *Create(const PLAString &aName,
+                                    const PLAString &aCameraURL);
   static PLAOBJCameraStream *Stream(const PLAString &aName);
 
   PLAOBJCameraStream(const PLAString &aName, int aCameraID = 0);
+  PLAOBJCameraStream(const PLAString &aName, const PLAString &aCameraURL);
   ~PLAOBJCameraStream();
 
   PLAAGTCameraStream AssignAgent();

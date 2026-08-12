@@ -297,6 +297,8 @@ namespace Plain
   namespace CameraStream
   {
     PLAAGTCameraStream Create(const PLAString &aName, int aCameraID = 0);
+    PLAAGTCameraStream Create(const PLAString &aName,
+                              const PLAString &aCameraURL);
     PLAAGTCameraStream Assign(const PLAString &aName);
   };
 

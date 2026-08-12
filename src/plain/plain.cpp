@@ -642,6 +642,13 @@ PLAAGTCameraStream Plain::CameraStream::Create(const PLAString &aName, int aCame
   return object->AssignAgent();
 }
 
+PLAAGTCameraStream Plain::CameraStream::Create(const PLAString &aName,
+                                               const PLAString &aCameraURL)
+{
+  auto object = PLAOBJCameraStream::Create(aName, aCameraURL);
+  return object->AssignAgent();
+}
+
 PLAAGTCameraStream Plain::CameraStream::Assign(const PLAString &aName)
 {
   auto object = PLAOBJCameraStream::Stream(aName);
