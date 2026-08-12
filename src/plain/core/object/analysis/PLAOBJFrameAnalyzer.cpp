@@ -8,6 +8,57 @@
 #include "plain/core/PLAFaceDetectionScale.hpp"
 #include "plain/core/PLAFaceDetectionMode.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
+#include <atomic>
+#include <chrono>
+#include <cstdlib>
+
+// Perf instrumentation (enabled via PLA_PERF=1)
+// Prints analyzed/offered fps and per-stage timings every 5 seconds
+namespace
+{
+  bool PerfEnabled()
+  {
+    static const bool enabled = std::getenv("PLA_PERF") != nullptr;
+    return enabled;
+  }
+
+  std::atomic<int> perfOffered{0};   // frames offered by source
+  std::atomic<int> perfSkipped{0};   // frames skipped (analysis busy)
+  std::atomic<int> perfAnalyzed{0};  // frames fully analyzed
+  std::atomic<long long> perfDetectUs{0};
+  std::atomic<long long> perfSmileUs{0};
+  std::atomic<long long> perfDetectMaxUs{0};
+  std::atomic<int> perfFaces{0};
+
+  void PerfReport()
+  {
+    // Called only from the single analysis worker thread
+    static auto windowStart = std::chrono::steady_clock::now();
+    auto now = std::chrono::steady_clock::now();
+    float sec = std::chrono::duration<float>(now - windowStart).count();
+    if (sec < 5.0f) { return; }
+
+    int analyzed = perfAnalyzed.exchange(0);
+    int offered = perfOffered.exchange(0);
+    int skipped = perfSkipped.exchange(0);
+    long long detectUs = perfDetectUs.exchange(0);
+    long long smileUs = perfSmileUs.exchange(0);
+    long long detectMaxUs = perfDetectMaxUs.exchange(0);
+    int faces = perfFaces.exchange(0);
+    windowStart = now;
+
+    float analyzedF = analyzed > 0 ? static_cast<float>(analyzed) : 1;
+    GRA_PRINT("[PERF] analyzed %.1ffps (offered %.1f, skipped %.1f) | "
+              "faces avg %.2f | detect avg %.1fms max %.1fms | "
+              "smile avg %.1fms/frame | total avg %.1fms\n",
+              analyzed / sec, offered / sec, skipped / sec,
+              faces / analyzedF,
+              detectUs / analyzedF / 1000.0f,
+              detectMaxUs / 1000.0f,
+              smileUs / analyzedF / 1000.0f,
+              (detectUs + smileUs) / analyzedF / 1000.0f);
+  }
+}
 
 PLAOBJFrameAnalyzer *PLAOBJFrameAnalyzer::Create(
   const PLAString &aName,
@@ -132,9 +183,12 @@ void PLAOBJFrameAnalyzer::Analyze(const cv::Mat &aFrame)
     return;
   }
 
+  if (PerfEnabled()) { perfOffered++; }
+
   // Skip if already analyzing (no double execution)
   if (_isAnalyzing)
   {
+    if (PerfEnabled()) { perfSkipped++; }
     return;
   }
 
@@ -154,6 +208,8 @@ void PLAOBJFrameAnalyzer::AnalyzeInternal(const cv::Mat &aFrame)
     return;
   }
 
+  auto perfT0 = std::chrono::steady_clock::now();
+
   // Run face detection
   _faceDetector->Detect(aFrame);
   PLAFaceDetectionResult result = _faceDetector->GetResult();
@@ -163,6 +219,8 @@ void PLAOBJFrameAnalyzer::AnalyzeInternal(const cv::Mat &aFrame)
   {
     _faceTracker->Update(result);
   }
+
+  auto perfT1 = std::chrono::steady_clock::now();
 
   // Run smile detection on each detected face
   if (_smileDetectionEnabled && _smileDetector && _smileDetector->IsInitialized())
@@ -188,6 +246,23 @@ void PLAOBJFrameAnalyzer::AnalyzeInternal(const cv::Mat &aFrame)
         _smileDetector->Detect(faceImage, face);
       }
     }
+  }
+
+  if (PerfEnabled())
+  {
+    auto perfT2 = std::chrono::steady_clock::now();
+    long long detectUs =
+      std::chrono::duration_cast<std::chrono::microseconds>(perfT1 - perfT0).count();
+    long long smileUs =
+      std::chrono::duration_cast<std::chrono::microseconds>(perfT2 - perfT1).count();
+    perfAnalyzed++;
+    perfDetectUs += detectUs;
+    perfSmileUs += smileUs;
+    perfFaces += static_cast<int>(result.faces.size());
+    long long prevMax = perfDetectMaxUs.load();
+    while (detectUs > prevMax &&
+           !perfDetectMaxUs.compare_exchange_weak(prevMax, detectUs)) {}
+    PerfReport();
   }
 
   // Update result (thread-safe)
