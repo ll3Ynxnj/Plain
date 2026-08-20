@@ -2,8 +2,8 @@
 // Created by Kentaro Kawai on 2023/04/05.
 //
 
-#ifndef ANHR_PLAOBJMODEL_HPP
-#define ANHR_PLAOBJMODEL_HPP
+#ifndef PLAIN_PLAOBJMODEL_HPP
+#define PLAIN_PLAOBJMODEL_HPP
 
 #include <map>
 #include <list>
@@ -121,4 +121,4 @@ public:
 };
 
 
-#endif //ANHR_PLAOBJMODEL_HPP
+#endif //PLAIN_PLAOBJMODEL_HPP

@@ -2,8 +2,8 @@
 // Created by Kentaro Kawai on 2023/04/07.
 //
 
-#ifndef ANHR_PLAAGTMODEL_HPP
-#define ANHR_PLAAGTMODEL_HPP
+#ifndef PLAIN_PLAAGTMODEL_HPP
+#define PLAIN_PLAAGTMODEL_HPP
 
 
 #include "plain/core/agent/PLAAgent.hpp"
@@ -58,4 +58,4 @@ protected:
   PLAOBJModel *RefModel() const;
 };
 
-#endif //ANHR_PLAAGTMODEL_HPP
+#endif //PLAIN_PLAAGTMODEL_HPP

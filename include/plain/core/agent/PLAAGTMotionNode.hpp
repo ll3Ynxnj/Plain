@@ -4,8 +4,8 @@
 // Created by Kentaro Kawai on 2023/06/09.
 //
 
-#ifndef ANHR_PLAAGTMOTIONNODE_HPP
-#define ANHR_PLAAGTMOTIONNODE_HPP
+#ifndef PLAIN_PLAAGTMOTIONNODE_HPP
+#define PLAIN_PLAAGTMOTIONNODE_HPP
 
 
 #include "plain/core/agent/PLAAGTTimelineNode.hpp"
@@ -26,4 +26,4 @@ protected:
 };
 
 
-#endif //ANHR_PLAAGTMOTIONNODE_HPP
+#endif //PLAIN_PLAAGTMOTIONNODE_HPP

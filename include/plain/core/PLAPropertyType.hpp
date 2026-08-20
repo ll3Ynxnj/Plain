@@ -2,8 +2,8 @@
 // Created by Kentaro Kawai on 2021/09/07.
 //
 
-#ifndef ANHR_PLAPROPERTYTYPE_HPP
-#define ANHR_PLAPROPERTYTYPE_HPP
+#ifndef PLAIN_PLAPROPERTYTYPE_HPP
+#define PLAIN_PLAPROPERTYTYPE_HPP
 
 #include "plain/core/primitive/PLAPRMType.hpp"
 
@@ -27,4 +27,4 @@ enum class PLAPropertyType: PLAInt {
   None = kPLAIntUndefined,
 };
 
-#endif //ANHR_PLAPROPERTYTYPE_HPP
+#endif //PLAIN_PLAPROPERTYTYPE_HPP

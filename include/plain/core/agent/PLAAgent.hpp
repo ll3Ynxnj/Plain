@@ -6,8 +6,8 @@
  * @author ll3Ynxnj
  */
 
-#ifndef ANHR_PLAAGENT_HPP
-#define ANHR_PLAAGENT_HPP
+#ifndef PLAIN_PLAAGENT_HPP
+#define PLAIN_PLAAGENT_HPP
 
 
 #include "plain/core/PLAObjectType.hpp"
@@ -44,4 +44,4 @@ protected:
 };
 
 
-#endif //ANHR_PLAAGENT_HPP
+#endif //PLAIN_PLAAGENT_HPP

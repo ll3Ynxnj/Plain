@@ -2,8 +2,8 @@
 // Created by Kentaro Kawai on 2023/05/20.
 //
 
-#ifndef ANHR_PLAAGTPHASE_HPP
-#define ANHR_PLAAGTPHASE_HPP
+#ifndef PLAIN_PLAAGTPHASE_HPP
+#define PLAIN_PLAAGTPHASE_HPP
 
 
 #include "plain/core/agent/PLAAgent.hpp"
@@ -34,4 +34,4 @@ protected:
 };
 
 
-#endif //ANHR_PLAAGTPHASE_HPP
+#endif //PLAIN_PLAAGTPHASE_HPP

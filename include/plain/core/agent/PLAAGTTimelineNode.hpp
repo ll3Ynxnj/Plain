@@ -4,8 +4,8 @@
 // Created by Kentaro Kawai on 2023/06/09.
 //
 
-#ifndef ANHR_PLAAGTTIMELINENODE_HPP
-#define ANHR_PLAAGTTIMELINENODE_HPP
+#ifndef PLAIN_PLAAGTTIMELINENODE_HPP
+#define PLAIN_PLAAGTTIMELINENODE_HPP
 
 
 #include <functional>
@@ -31,4 +31,4 @@ protected:
 };
 
 
-#endif //ANHR_PLAAGTTIMELINENODE_HPP
+#endif //PLAIN_PLAAGTTIMELINENODE_HPP

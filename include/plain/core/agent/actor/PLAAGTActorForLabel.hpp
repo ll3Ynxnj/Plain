@@ -1,7 +1,7 @@
 // Copyright (c) 2023. CLAYWORK Inc. All rights reserved.
 
-#ifndef ANHR_PLAAGTACTORFORLABEL_HPP
-#define ANHR_PLAAGTACTORFORLABEL_HPP
+#ifndef PLAIN_PLAAGTACTORFORLABEL_HPP
+#define PLAIN_PLAAGTACTORFORLABEL_HPP
 
 #include "plain/core/agent/actor/PLAAGTActor.hpp"
 #include "plain/core/primitive/PLAPRMColor.hpp"
@@ -18,4 +18,4 @@ public:
   void SetTextColor(const PLAColor &aColor);
 };
 
-#endif // ANHR_PLAAGTACTORFORLABEL_HPP
+#endif // PLAIN_PLAAGTACTORFORLABEL_HPP

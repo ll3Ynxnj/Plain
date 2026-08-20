@@ -4,8 +4,8 @@
 // Created by Kentaro Kawai on 2022/04/28.
 //
 
-#ifndef ANHR_PLAAGTACTOR_HPP
-#define ANHR_PLAAGTACTOR_HPP
+#ifndef PLAIN_PLAAGTACTOR_HPP
+#define PLAIN_PLAAGTACTOR_HPP
 
 
 #include "plain/core/agent/PLAAgent.hpp"
@@ -103,4 +103,4 @@ protected:
   PLAOBJActor *RefActor() const;
 };
 
-#endif //ANHR_PLAAGTACTOR_HPP
+#endif //PLAIN_PLAAGTACTOR_HPP

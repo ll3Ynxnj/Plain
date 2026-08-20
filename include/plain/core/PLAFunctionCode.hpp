@@ -2,8 +2,8 @@
 // Created by Kentaro Kawai on 2023/04/19.
 //
 
-#ifndef ANHR_PLAFUNCTIONCODE_HPP
-#define ANHR_PLAFUNCTIONCODE_HPP
+#ifndef PLAIN_PLAFUNCTIONCODE_HPP
+#define PLAIN_PLAFUNCTIONCODE_HPP
 
 
 #include "plain/core/primitive/PLAPRMType.hpp"
@@ -107,4 +107,4 @@ namespace PLAFunctionCode
 };
 
 
-#endif //ANHR_PLAFUNCTIONCODE_HPP
+#endif //PLAIN_PLAFUNCTIONCODE_HPP

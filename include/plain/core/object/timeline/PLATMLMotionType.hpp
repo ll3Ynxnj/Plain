@@ -2,8 +2,8 @@
 // Created by Kentaro Kawai on 2021/09/11.
 //
 
-#ifndef ANHR_PLATMLMOTIONTYPE_HPP
-#define ANHR_PLATMLMOTIONTYPE_HPP
+#ifndef PLAIN_PLATMLMOTIONTYPE_HPP
+#define PLAIN_PLATMLMOTIONTYPE_HPP
 
 enum class PLATMLMotionType {
   Color,
@@ -15,4 +15,4 @@ enum class PLATMLMotionType {
   None,
 };
 
-#endif //ANHR_PLATMLMOTIONTYPE_HPP
+#endif //PLAIN_PLATMLMOTIONTYPE_HPP

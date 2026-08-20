@@ -4,8 +4,8 @@
 // Created by Kentaro Kawai on 2023/07/13.
 //
 
-#ifndef ANHR_PLAAGTACTORFORCIRCLE_HPP
-#define ANHR_PLAAGTACTORFORCIRCLE_HPP
+#ifndef PLAIN_PLAAGTACTORFORCIRCLE_HPP
+#define PLAIN_PLAAGTACTORFORCIRCLE_HPP
 
 
 #include "plain/core/agent/actor/PLAAGTActor.hpp"
@@ -27,4 +27,4 @@ public:
 };
 
 
-#endif //ANHR_PLAAGTACTORFORCIRCLE_HPP
+#endif //PLAIN_PLAAGTACTORFORCIRCLE_HPP

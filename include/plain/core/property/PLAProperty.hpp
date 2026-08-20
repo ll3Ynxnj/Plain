@@ -2,8 +2,8 @@
 // Created by Kentaro Kawai on 2021/09/07.
 //
 
-#ifndef ANHR_PLAPROPERTY_HPP
-#define ANHR_PLAPROPERTY_HPP
+#ifndef PLAIN_PLAPROPERTY_HPP
+#define PLAIN_PLAPROPERTY_HPP
 
 #include "plain/core/primitive/PLAPRMType.hpp"
 #include "plain/core/primitive/PLAPRMColor.hpp"
@@ -244,4 +244,4 @@ public:
   void operator /=(const PLAColor &aValue);
 };
 
-#endif //ANHR_PLAPROPERTY_HPP
+#endif //PLAIN_PLAPROPERTY_HPP

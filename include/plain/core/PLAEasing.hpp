@@ -4,11 +4,11 @@
 // Created by Kentaro Kawai on 2023/07/25.
 //
 
-#ifndef ANHR_PLAEASING_HPP
-#define ANHR_PLAEASING_HPP
+#ifndef PLAIN_PLAEASING_HPP
+#define PLAIN_PLAEASING_HPP
 
 #include "grain/library/GRALIBEasing.hpp"
 
 using PLAEasing = GRALIBEasing;
 
-#endif //ANHR_PLAEASING_HPP
+#endif //PLAIN_PLAEASING_HPP

@@ -4,8 +4,8 @@
 // Created by Kentaro Kawai on 2023/06/12.
 //
 
-#ifndef ANHR_PLAAGTTIMELINE_HPP
-#define ANHR_PLAAGTTIMELINE_HPP
+#ifndef PLAIN_PLAAGTTIMELINE_HPP
+#define PLAIN_PLAAGTTIMELINE_HPP
 
 
 #include <functional>
@@ -36,4 +36,4 @@ protected:
 };
 
 
-#endif //ANHR_PLAAGTTIMELINE_HPP
+#endif //PLAIN_PLAAGTTIMELINE_HPP

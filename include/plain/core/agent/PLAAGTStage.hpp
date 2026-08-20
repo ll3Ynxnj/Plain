@@ -2,8 +2,8 @@
 // Created by Kentaro Kawai on 2022/04/28.
 //
 
-#ifndef ANHR_PLAAGTSTAGE_HPP
-#define ANHR_PLAAGTSTAGE_HPP
+#ifndef PLAIN_PLAAGTSTAGE_HPP
+#define PLAIN_PLAAGTSTAGE_HPP
 
 
 #include "plain/core/agent/PLAAgent.hpp"
@@ -43,4 +43,4 @@ protected:
 };
 
 
-#endif //ANHR_PLAAGTSTAGE_HPP
+#endif //PLAIN_PLAAGTSTAGE_HPP

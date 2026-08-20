@@ -2,8 +2,8 @@
 // Created by Kentaro Kawai on 2022/02/25.
 //
 
-#ifndef ANHR_PLATIMELINEHOLDER_HPP
-#define ANHR_PLATIMELINEHOLDER_HPP
+#ifndef PLAIN_PLATIMELINEHOLDER_HPP
+#define PLAIN_PLATIMELINEHOLDER_HPP
 
 class PLAOBJTimelineNode;
 class PLAOBJTimeline;
@@ -26,4 +26,4 @@ public:
   /*virtual*/ void OnFinishTimeline();
 };
 
-#endif //ANHR_PLATIMELINEHOLDER_HPP
+#endif //PLAIN_PLATIMELINEHOLDER_HPP

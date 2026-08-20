@@ -2,8 +2,8 @@
 // Created by Kentaro Kawai on 2023/05/20.
 //
 
-#ifndef ANHR_PLAOBJPHASE_HPP
-#define ANHR_PLAOBJPHASE_HPP
+#ifndef PLAIN_PLAOBJPHASE_HPP
+#define PLAIN_PLAOBJPHASE_HPP
 
 
 #include <list>
@@ -109,4 +109,4 @@ public:
 };
 
 
-#endif //ANHR_PLAOBJPHASE_HPP
+#endif //PLAIN_PLAOBJPHASE_HPP
