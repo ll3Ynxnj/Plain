@@ -373,13 +373,6 @@ void PLAGLUTRenderer::DrawRect(const PLALYRRect *aLayer, const PLAColor &aColor,
     glDisable(GL_TEXTURE_2D);
   }
 
-  if (aMotion) {
-    if (aMotion->GetObjectName() == "Telop")
-    {
-      GRA_TRACE("");
-    }
-  }
-
   const PLAVec3f offset = aLayer->GetOffset();
 
   GLfloat vertices[] = {

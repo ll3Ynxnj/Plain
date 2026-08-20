@@ -210,7 +210,6 @@ const PLAOBJResource *PLAOBJResource::Manager::GetResource(const PLAString &aNam
 
 void PLAOBJResource::Manager::LoadResource(const PLAString &aName)
 {
-  //PLAString path = "/Users/ll3ynxnj/03_Projects/13_CMake/anhr/Resources/";
   PLAString path = "Resources/";
   path.append(aName);
   PLAOBJResource *resource = PLAOBJResource::Create(aName, path);

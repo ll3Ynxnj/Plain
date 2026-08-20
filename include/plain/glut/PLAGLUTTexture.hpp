@@ -5,7 +5,7 @@
 //       - Resource → Texture::Manager の通知チェーン
 //       - Video → Texture::Manager の通知チェーン
 //       現状リソースは常駐前提。Image はキャッシュキーにしないため
-//       動的な生成・破棄が可能（Telop / Pickup 等の短命レイヤー）
+//       動的な生成・破棄が可能（短命レイヤー）
 
 #include <unordered_map>
 #include "PLAGLUT.h"
