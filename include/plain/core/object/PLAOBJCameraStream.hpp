@@ -17,6 +17,7 @@ class PLAAGTCameraStream;
 // - Open() starts the capture thread
 // - Close() stops the capture thread
 // - Update() fires OnFrameUpdate event when new frame is available
+// - The capture thread reopens the source by itself when frames stop arriving
 class PLAOBJCameraStream : public PLAOBJStream, public PLAOBJFrameSource
 {
   cv::VideoCapture _capture;
@@ -32,6 +33,7 @@ class PLAOBJCameraStream : public PLAOBJStream, public PLAOBJFrameSource
   // Internal capture thread
   std::thread _captureThread;
   std::atomic<bool> _running{false};
+  std::atomic<bool> _connected{false};
 
 public:
   static PLAOBJCameraStream *Create(const PLAString &aName, int aCameraID = 0);
@@ -57,6 +59,9 @@ public:
   // Check if camera is opened
   bool IsOpened() const { return _capture.isOpened(); }
 
+  // Check if frames are arriving (false while the stream is being reopened)
+  bool IsConnected() const { return _connected; }
+
   // Get camera ID
   int GetCameraID() const { return _cameraID; }
 
@@ -76,11 +81,17 @@ protected:
   { _functor.RunFunction(aKey, aFrame); }
 
 private:
+  // Open the capture source without touching the capture thread
+  bool OpenCapture();
+
   // Capture loop running in separate thread
   void CaptureLoop();
 
   // Capture single frame and update buffers (called by CaptureLoop)
-  void CaptureFrame();
+  bool CaptureFrame();
+
+  // Sleep for the given duration, waking early when the thread must stop
+  void WaitForRetry(int aMSec);
 };
 
 #endif //PLAIN_PLAOBJCAMERASTREAM_HPP
