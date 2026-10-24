@@ -2,8 +2,8 @@
 // Created by Kentaro Kawai on 2022/02/25.
 //
 
-#ifndef ANHR_PLAOBJTIMELINE_HPP
-#define ANHR_PLAOBJTIMELINE_HPP
+#ifndef PLAIN_PLAOBJTIMELINE_HPP
+#define PLAIN_PLAOBJTIMELINE_HPP
 
 #include "plain/core/object/timeline/PLAOBJTimelineNode.hpp"
 #include "plain/core/object/timeline/PLATimelineHolder.hpp"
@@ -69,4 +69,4 @@ private:
 
 
 
-#endif //ANHR_PLAOBJTIMELINE_HPP
+#endif //PLAIN_PLAOBJTIMELINE_HPP

@@ -4,12 +4,12 @@
 // Created by Kentaro Kawai on 2023/09/01.
 //
 
-#ifndef ANHR_PLAPRMBIDIRECTIONALARRAY_HPP
-#define ANHR_PLAPRMBIDIRECTIONALARRAY_HPP
+#ifndef PLAIN_PLAPRMBIDIRECTIONALARRAY_HPP
+#define PLAIN_PLAPRMBIDIRECTIONALARRAY_HPP
 
 #include "grain/primitive/GRAPRMBidirectionalArray.hpp"
 
 template <typename T>
 using PLABidirectionalArray = GRAPRMBidirectionalArray<T>;
 
-#endif //ANHR_PLAPRMBIDIRECTIONALARRAY_HPP
+#endif //PLAIN_PLAPRMBIDIRECTIONALARRAY_HPP

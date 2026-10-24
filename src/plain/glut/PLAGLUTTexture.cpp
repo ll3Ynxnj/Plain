@@ -69,23 +69,25 @@ PLAGLUTTexture* PLAGLUTTexture::Manager::ResolveTexture(const PLAOBJImage* aImag
     return nullptr;
   }
 
-  PLAGLUTTexture* texture = nullptr;
-  auto it = _textures.find(aImage);
-
-  if (it != _textures.end())
+  const PLAOBJResource* resource = aImage->GetResource();
+  if (!resource)
   {
-    texture = it->second;
-    texture->Bind();
+    return nullptr;
   }
-  else
-  {
-    texture = new PLAGLUTTexture(PLAGLUTTexture::Type::Image);
-    texture->Bind();
-    texture->UploadData(aImage->GetResourceData(),
-                        aImage->GetSize().x, aImage->GetSize().y);
 
-    _textures[aImage] = texture;
+  auto it = _imageTextures.find(resource);
+  if (it != _imageTextures.end())
+  {
+    it->second->Bind();
+    return it->second;
   }
+
+  PLAGLUTTexture* texture = new PLAGLUTTexture(PLAGLUTTexture::Type::Image);
+  texture->Bind();
+  texture->UploadData(aImage->GetResourceData(),
+                      aImage->GetSize().x, aImage->GetSize().y);
+
+  _imageTextures[resource] = texture;
 
   return texture;
 }
@@ -130,6 +132,12 @@ PLAGLUTTexture* PLAGLUTTexture::Manager::UpdateTexture(const PLAObject* aKey,
 
 void PLAGLUTTexture::Manager::Clear()
 {
+  for (auto& pair : _imageTextures)
+  {
+    delete pair.second;
+  }
+  _imageTextures.clear();
+
   for (auto& pair : _textures)
   {
     delete pair.second;

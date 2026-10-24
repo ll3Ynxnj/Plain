@@ -4,8 +4,8 @@
 // Created by Kentaro Kawai on 2023/07/20.
 //
 
-#ifndef ANHR_PLAMOTIONHOLDER_HPP
-#define ANHR_PLAMOTIONHOLDER_HPP
+#ifndef PLAIN_PLAMOTIONHOLDER_HPP
+#define PLAIN_PLAMOTIONHOLDER_HPP
 
 
 #include "plain/core/object/timeline/PLATimelineHolder.hpp"
@@ -23,4 +23,4 @@ public:
 };
 
 
-#endif //ANHR_PLAMOTIONHOLDER_HPP
+#endif //PLAIN_PLAMOTIONHOLDER_HPP

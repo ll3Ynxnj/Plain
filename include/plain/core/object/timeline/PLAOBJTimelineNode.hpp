@@ -7,8 +7,8 @@
  * @date 2021/08/13
  */
 
-#ifndef ANHR_PLAOBJTIMELINENODE_HPP
-#define ANHR_PLAOBJTIMELINENODE_HPP
+#ifndef PLAIN_PLAOBJTIMELINENODE_HPP
+#define PLAIN_PLAOBJTIMELINENODE_HPP
 
 #include <vector>
 #include "grain/object/GRAOBJFunctor.hpp"
@@ -80,4 +80,4 @@ private:
   void OnStop();
 };
 
-#endif //ANHR_PLAOBJTIMELINENODE_HPP
+#endif //PLAIN_PLAOBJTIMELINENODE_HPP

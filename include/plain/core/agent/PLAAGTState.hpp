@@ -2,8 +2,8 @@
 // Created by Kentaro Kawai on 2023/04/07.
 //
 
-#ifndef ANHR_PLAAGTSTATE_HPP
-#define ANHR_PLAAGTSTATE_HPP
+#ifndef PLAIN_PLAAGTSTATE_HPP
+#define PLAIN_PLAAGTSTATE_HPP
 
 
 #include "plain/core/agent/PLAAgent.hpp"
@@ -30,4 +30,4 @@ protected:
 };
 
 
-#endif //ANHR_PLAAGTSTATE_HPP
+#endif //PLAIN_PLAAGTSTATE_HPP

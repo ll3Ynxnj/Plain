@@ -2,8 +2,8 @@
 // Created by Kentaro Kawai on 2021/09/07.
 //
 
-#ifndef ANHR_PLAPROPERTY_HPP
-#define ANHR_PLAPROPERTY_HPP
+#ifndef PLAIN_PLAPROPERTY_HPP
+#define PLAIN_PLAPROPERTY_HPP
 
 #include <string>
 #include "plain/core/primitive/PLAPRMType.hpp"
@@ -14,22 +14,40 @@
 class PLAProperty
 {
 public:
-  static const PLAProperty kNone;
-  static const PLAProperty kBool;
-  static const PLAProperty kInt;
-  static const PLAProperty kUInt;  // it may be abolished
-  static const PLAProperty kFloat;
-  static const PLAProperty kColor;
-  static const PLAProperty kVec2f;
-  static const PLAProperty kVec3f;
-  static const PLAProperty kVec4f;
-  static const PLAProperty kVec2i;
-  static const PLAProperty kVec3i;
-  static const PLAProperty kVec4i;
-  static const PLAProperty kVec2s; // it may be abolished
-  static const PLAProperty kVec3s; // it may be abolished
-  static const PLAProperty kVec4s; // it may be abolished
-  static const PLAProperty kString;
+  static const PLAProperty kNone; // typeless
+
+  //-- None: zero-filled values --
+  static const PLAProperty kBoolNone;
+  static const PLAProperty kIntNone;
+  static const PLAProperty kUIntNone;  // it may be abolished
+  static const PLAProperty kFloatNone;
+  static const PLAProperty kColorNone;
+  static const PLAProperty kVec2fNone;
+  static const PLAProperty kVec3fNone;
+  static const PLAProperty kVec4fNone;
+  static const PLAProperty kVec2iNone;
+  static const PLAProperty kVec3iNone;
+  static const PLAProperty kVec4iNone;
+  static const PLAProperty kVec2sNone; // it may be abolished
+  static const PLAProperty kVec3sNone; // it may be abolished
+  static const PLAProperty kVec4sNone; // it may be abolished
+  static const PLAProperty kStringNone;
+
+  //-- Norm: one-filled values --
+  static const PLAProperty kBoolNorm;
+  static const PLAProperty kIntNorm;
+  static const PLAProperty kUIntNorm;  // it may be abolished
+  static const PLAProperty kFloatNorm;
+  static const PLAProperty kColorNorm;
+  static const PLAProperty kVec2fNorm;
+  static const PLAProperty kVec3fNorm;
+  static const PLAProperty kVec4fNorm;
+  static const PLAProperty kVec2iNorm;
+  static const PLAProperty kVec3iNorm;
+  static const PLAProperty kVec4iNorm;
+  static const PLAProperty kVec2sNorm; // it may be abolished
+  static const PLAProperty kVec3sNorm; // it may be abolished
+  static const PLAProperty kVec4sNorm; // it may be abolished
 
 private:
   union Value {
@@ -235,4 +253,4 @@ public:
   void operator /=(const PLAColor &aValue);
 };
 
-#endif //ANHR_PLAPROPERTY_HPP
+#endif //PLAIN_PLAPROPERTY_HPP

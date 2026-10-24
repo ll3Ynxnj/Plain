@@ -4,8 +4,8 @@
 // Created by Kentaro Kawai on 2023/06/29.
 //
 
-#ifndef ANHR_PLAAGTIMAGECLIP_HPP
-#define ANHR_PLAAGTIMAGECLIP_HPP
+#ifndef PLAIN_PLAAGTIMAGECLIP_HPP
+#define PLAIN_PLAAGTIMAGECLIP_HPP
 
 
 #include "plain/core/agent/PLAAgent.hpp"
@@ -26,4 +26,4 @@ public:
 };
 
 
-#endif //ANHR_PLAAGTIMAGECLIP_HPP
+#endif //PLAIN_PLAAGTIMAGECLIP_HPP

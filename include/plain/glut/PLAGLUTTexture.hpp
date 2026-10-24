@@ -2,9 +2,10 @@
 #define PLAIN_ENGINE_PLAGLUTTEXTURE_HPP
 
 // TODO: 動的リソース読み込み/解放機能の実装時に以下を対応する
-//       - Resource → Image → Texture::Manager の通知チェーン
+//       - Resource → Texture::Manager の通知チェーン
 //       - Video → Texture::Manager の通知チェーン
-//       現状は静的リソースのみ
+//       現状リソースは常駐前提。Image はキャッシュキーにしないため
+//       動的な生成・破棄が可能（短命レイヤー）
 
 #include <unordered_map>
 #include "PLAGLUT.h"
@@ -12,6 +13,7 @@
 
 class PLAObject;
 class PLAOBJImage;
+class PLAOBJResource;
 
 class PLAGLUTTexture
 {
@@ -51,6 +53,14 @@ public:
   {
     static Manager _instance;
 
+    // Static images are keyed by the name-managed resident resource, NOT the
+    // image: images are owned by their layers and die with them, so a dangling
+    // image pointer could alias a later allocation and hit a stale cache entry
+    // (observed as a dynamic layer rendering another layer's texture). Sharing
+    // one texture per resource also deduplicates uploads across layers.
+    std::unordered_map<const PLAOBJResource*, PLAGLUTTexture*> _imageTextures;
+
+    // Dynamic content is keyed by its owner and revalidated by revision.
     std::unordered_map<const PLAObject*, PLAGLUTTexture*> _textures;
 
     Manager();

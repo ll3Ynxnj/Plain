@@ -2,8 +2,8 @@
 // Created by Kentaro Kawai on 2022/02/27.
 //
 
-#ifndef ANHR_PLATMLMOTION_HPP
-#define ANHR_PLATMLMOTION_HPP
+#ifndef PLAIN_PLATMLMOTION_HPP
+#define PLAIN_PLATMLMOTION_HPP
 
 #include "plain/core/object/timeline/PLAOBJTimeline.hpp"
 #include "plain/core/object/timeline/PLATMLMotionNode.hpp"
@@ -27,4 +27,4 @@ public:
   void GetProperties(std::map<PLATMLMotionType, PLAProperty> *aProperties) const;
 };
 
-#endif //ANHR_PLATMLMOTION_HPP
+#endif //PLAIN_PLATMLMOTION_HPP

@@ -4,8 +4,8 @@
 // Created by Kentaro Kawai on 2023/07/13.
 //
 
-#ifndef ANHR_PLAAGTACTORFORTILE_HPP
-#define ANHR_PLAAGTACTORFORTILE_HPP
+#ifndef PLAIN_PLAAGTACTORFORTILE_HPP
+#define PLAIN_PLAAGTACTORFORTILE_HPP
 
 
 #include "plain/core/agent/actor/PLAAGTActor.hpp"
@@ -24,4 +24,4 @@ public:
 };
 
 
-#endif //ANHR_PLAAGTACTORFORTILE_HPP
+#endif //PLAIN_PLAAGTACTORFORTILE_HPP
