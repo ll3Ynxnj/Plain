@@ -2,8 +2,8 @@
 // Created by ll3ynxnj on 6/19/24.
 //
 
-#ifndef SMIRALJETSON_PLAOBJVIDEO_HPP
-#define SMIRALJETSON_PLAOBJVIDEO_HPP
+#ifndef PLAIN_PLAOBJVIDEO_HPP
+#define PLAIN_PLAOBJVIDEO_HPP
 
 #include "plain/core/object/PLAObject.hpp"
 #include "plain/core/object/PLAOBJStream.hpp"
@@ -39,4 +39,4 @@ public:
   PLAOBJStream *GetStream() const { return _stream; }
 };
 
-#endif //SMIRALJETSON_PLAOBJVIDEO_HPP
+#endif //PLAIN_PLAOBJVIDEO_HPP
