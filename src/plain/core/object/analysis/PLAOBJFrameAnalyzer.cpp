@@ -29,6 +29,9 @@ namespace
   std::atomic<long long> perfSmileUs{0};
   std::atomic<long long> perfDetectMaxUs{0};
   std::atomic<int> perfFaces{0};
+  std::atomic<int> perfSmiling{0};              // faces judged smiling
+  std::atomic<long long> perfFaceHeightSum{0};  // face heights in frame pixels
+  std::atomic<int> perfFaceHeightMin{0};        // 0 = no face in the window
 
   void PerfReport()
   {
@@ -45,18 +48,26 @@ namespace
     long long smileUs = perfSmileUs.exchange(0);
     long long detectMaxUs = perfDetectMaxUs.exchange(0);
     int faces = perfFaces.exchange(0);
+    int smiling = perfSmiling.exchange(0);
+    long long faceHeightSum = perfFaceHeightSum.exchange(0);
+    int faceHeightMin = perfFaceHeightMin.exchange(0);
     windowStart = now;
 
     float analyzedF = analyzed > 0 ? static_cast<float>(analyzed) : 1;
+    float facesF = faces > 0 ? static_cast<float>(faces) : 1;
     GRA_PRINT("[PERF] analyzed %.1ffps (offered %.1f, skipped %.1f) | "
               "faces avg %.2f | detect avg %.1fms max %.1fms | "
-              "smile avg %.1fms/frame | total avg %.1fms\n",
+              "smile avg %.1fms/frame | total avg %.1fms | "
+              "smiling avg %.2f | face h avg %.0fpx min %dpx\n",
               analyzed / sec, offered / sec, skipped / sec,
               faces / analyzedF,
               detectUs / analyzedF / 1000.0f,
               detectMaxUs / 1000.0f,
               smileUs / analyzedF / 1000.0f,
-              (detectUs + smileUs) / analyzedF / 1000.0f);
+              (detectUs + smileUs) / analyzedF / 1000.0f,
+              smiling / analyzedF,
+              faceHeightSum / facesF,
+              faceHeightMin);
   }
 }
 
@@ -273,6 +284,14 @@ void PLAOBJFrameAnalyzer::AnalyzeInternal(const cv::Mat &aFrame)
     perfDetectUs += detectUs;
     perfSmileUs += smileUs;
     perfFaces += static_cast<int>(result.faces.size());
+    for (const PLAFace &face : result.faces)
+    {
+      if (face.isSmiling) { perfSmiling++; }
+      int height = static_cast<int>(face.boundingRect.size.y);
+      perfFaceHeightSum += height;
+      int prevMin = perfFaceHeightMin.load();
+      if (prevMin == 0 || height < prevMin) { perfFaceHeightMin = height; }
+    }
     long long prevMax = perfDetectMaxUs.load();
     while (detectUs > prevMax &&
            !perfDetectMaxUs.compare_exchange_weak(prevMax, detectUs)) {}
