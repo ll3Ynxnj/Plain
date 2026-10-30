@@ -121,6 +121,7 @@ PLAOBJFrameAnalyzer::PLAOBJFrameAnalyzer(
   {
     _faceDetector->SetComputeMode(aComputeMode);
     _faceDetector->SetScale(PLAFaceDetectionScale::Half);
+    // Initial size only; the detector follows the size of the frames it gets
     _faceDetector->Initialize(1920, 1080);
     _faceDetector->SetMode(PLAFaceDetectionMode::Interval);
     _faceDetector->SetDetectionInterval(1);

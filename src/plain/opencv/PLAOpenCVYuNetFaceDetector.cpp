@@ -141,6 +141,18 @@ bool PLAOpenCVYuNetFaceDetector::Detect(const cv::Mat &aFrame)
     return false;
   }
 
+  // Follow the actual frame size: Initialize() is called before the camera
+  // delivers anything, and YuNet rejects input that differs from its size
+  if (aFrame.cols != _frameWidth || aFrame.rows != _frameHeight)
+  {
+    _frameWidth = aFrame.cols;
+    _frameHeight = aFrame.rows;
+    UpdateDetectionSize();
+    _detector->setInputSize(cv::Size(_detectionWidth, _detectionHeight));
+    GRA_PRINT("YuNet detection size follows frame: %dx%d (detection: %dx%d)\n",
+              _frameWidth, _frameHeight, _detectionWidth, _detectionHeight);
+  }
+
   // YuNet expects BGR input
   cv::Mat bgrFrame;
   if (aFrame.channels() == 4)
