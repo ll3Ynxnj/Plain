@@ -6,6 +6,7 @@
 #include "plain/core/agent/PLAAgent.hpp"
 #include "plain/core/agent/PLAAGTCameraStream.hpp"
 #include "plain/core/object/analysis/PLAFace.hpp"
+#include "plain/core/PLAFaceDetectionScale.hpp"
 #include "plain/core/PLAFunctionCode.hpp"
 #include <functional>
 
@@ -25,6 +26,9 @@ public:
 
   void EnableSmileDetection(bool aEnable) const;
   bool IsSmileDetectionEnabled() const;
+
+  void SetFaceDetectionScale(PLAFaceDetectionScale aScale) const;
+  PLAFaceDetectionScale GetFaceDetectionScale() const;
 
   void AttachToSource(const PLAAGTCameraStream &aSource) const;
 

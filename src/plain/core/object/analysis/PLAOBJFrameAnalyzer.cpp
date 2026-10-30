@@ -163,6 +163,19 @@ void PLAOBJFrameAnalyzer::EnableFaceDetection(bool aEnable)
   }
 }
 
+void PLAOBJFrameAnalyzer::SetFaceDetectionScale(PLAFaceDetectionScale aScale)
+{
+  if (_faceDetector)
+  {
+    _faceDetector->SetScale(aScale);
+  }
+}
+
+PLAFaceDetectionScale PLAOBJFrameAnalyzer::GetFaceDetectionScale() const
+{
+  return _faceDetector ? _faceDetector->GetScale() : PLAFaceDetectionScale::None;
+}
+
 void PLAOBJFrameAnalyzer::AttachToSource(PLAOBJFrameSource *aSource)
 {
   if (!aSource)

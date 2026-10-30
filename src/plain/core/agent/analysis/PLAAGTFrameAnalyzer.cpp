@@ -42,6 +42,16 @@ bool PLAAGTFrameAnalyzer::IsSmileDetectionEnabled() const
   return GetAnalyzer()->IsSmileDetectionEnabled();
 }
 
+void PLAAGTFrameAnalyzer::SetFaceDetectionScale(PLAFaceDetectionScale aScale) const
+{
+  RefAnalyzer()->SetFaceDetectionScale(aScale);
+}
+
+PLAFaceDetectionScale PLAAGTFrameAnalyzer::GetFaceDetectionScale() const
+{
+  return GetAnalyzer()->GetFaceDetectionScale();
+}
+
 void PLAAGTFrameAnalyzer::AttachToSource(const PLAAGTCameraStream &aSource) const
 {
   RefAnalyzer()->AttachToSource(aSource.GetFrameSource());

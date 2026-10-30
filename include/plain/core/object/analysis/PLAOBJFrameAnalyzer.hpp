@@ -7,6 +7,7 @@
 #include "plain/core/object/PLAOBJFrameSource.hpp"
 #include "plain/core/object/analysis/PLAFace.hpp"
 #include "plain/core/PLAFaceDetectorType.hpp"
+#include "plain/core/PLAFaceDetectionScale.hpp"
 #include "plain/core/PLASmileDetectorType.hpp"
 #include "plain/core/PLAComputeMode.hpp"
 #include "plain/core/PLAFunctionCode.hpp"
@@ -86,6 +87,11 @@ public:
 
   void EnableSmileDetection(bool aEnable) { _smileDetectionEnabled = aEnable; }
   bool IsSmileDetectionEnabled() const { return _smileDetectionEnabled; }
+
+  // Face detection size relative to the frame (default: Half)
+  // Set it before frames flow: the analysis thread reads it without a lock
+  void SetFaceDetectionScale(PLAFaceDetectionScale aScale);
+  PLAFaceDetectionScale GetFaceDetectionScale() const;
 
   void AttachToSource(PLAOBJFrameSource *aSource);
 
