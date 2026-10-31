@@ -13,7 +13,8 @@
 #include <cstdlib>
 
 // Perf instrumentation (enabled via PLA_PERF=1)
-// Prints analyzed/offered fps and per-stage timings every 5 seconds
+// Prints analyzed/offered fps and per-stage timings every 5 seconds, and each
+// detected face as it is found
 namespace
 {
   bool PerfEnabled()
@@ -291,6 +292,10 @@ void PLAOBJFrameAnalyzer::AnalyzeInternal(const cv::Mat &aFrame)
       perfFaceHeightSum += height;
       int prevMin = perfFaceHeightMin.load();
       if (prevMin == 0 || height < prevMin) { perfFaceHeightMin = height; }
+      GRA_PRINT("[PERF] face x %.0f y %.0f w %.0f h %.0f score %.2f smile %.2f\n",
+                face.boundingRect.pos.x, face.boundingRect.pos.y,
+                face.boundingRect.size.x, face.boundingRect.size.y,
+                face.confidence, face.smileConfidence);
     }
     long long prevMax = perfDetectMaxUs.load();
     while (detectUs > prevMax &&
