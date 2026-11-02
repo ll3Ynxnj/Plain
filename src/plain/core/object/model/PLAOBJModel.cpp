@@ -6,6 +6,34 @@
 #include "plain/core/object/PLAOBJError.hpp"
 #include "plain/core/agent/PLAAGTModel.hpp"
 
+#include <exception>
+
+namespace {
+
+/// A model change handler runs app code from the main loop. An exception
+/// escaping it would cross the C frames of the main loop (GLUT) and terminate
+/// the app, so each handler is guarded and a failure only drops that one
+/// notification.
+template <typename Func>
+void RunHandlerGuarded(const Func &aFunc)
+{
+  try
+  {
+    aFunc();
+  }
+  catch (const std::exception &aError)
+  {
+    PLA_ERROR_ISSUE(PLAErrorType::Expect,
+                    "Model change handler failed: %s", aError.what());
+  }
+  catch (...)
+  {
+    PLA_ERROR_ISSUE(PLAErrorType::Expect, "Model change handler failed");
+  }
+}
+
+} // anonymous namespace
+
 // 不要なのでは？同じくBinderItemであるPLAOBJResourceには無い。要調査。
 // It's not necessary? PLAOBJResource, which is also a BinderItem, does not have it. Need to investigate.
 const std::map<PLAOBJModel::Binder::Error, const char *> PLAOBJModel::kBinderErrorMessages =
@@ -151,22 +179,27 @@ void PLAOBJModel::Flush()
   PLAAGTModel agent = this->AssignAgent();
 
   // Notify general OnChange listeners
-  _functor.RunFunction(PLAFunctionCode::Model::OnChange, agent);
+  RunHandlerGuarded([&]() {
+    _functor.RunFunction(PLAFunctionCode::Model::OnChange, agent);
+  });
   for (Listener *listener : _listeners)
   {
-    listener->RunListener(PLAFunctionCode::Model::OnChange, agent);
+    RunHandlerGuarded([&]() {
+      listener->RunListener(PLAFunctionCode::Model::OnChange, agent);
+    });
   }
 
-  // Notify per-property listeners
+  // Notify per-property listeners. Take the change off the queue before running
+  // its handler, so a handler that throws is not retried on every frame.
   while (!_changeQueue.empty())
   {
-    const PLAPropertyChange &change = _changeQueue.front();
+    const PLAPropertyChange change = _changeQueue.front();
+    _changeQueue.pop();
     auto it = _propertyFunctors.find(change.propertyName);
     if (it != _propertyFunctors.end())
     {
-      it->second(agent, change);
+      RunHandlerGuarded([&]() { it->second(agent, change); });
     }
-    _changeQueue.pop();
   }
 }
 

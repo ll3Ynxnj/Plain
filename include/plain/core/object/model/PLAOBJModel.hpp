@@ -12,6 +12,7 @@
 
 #include "plain/core/object/PLAObject.hpp"
 #include "plain/core/property/PLAProperty.hpp"
+#include "plain/core/PLAPropertyType.hpp"
 #include "plain/core/PLAFunctionCode.hpp"
 
 #include "grain/object/GRAOBJListener.hpp"
