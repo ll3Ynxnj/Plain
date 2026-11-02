@@ -90,6 +90,9 @@ public:
   /// Non-asserting existence check (SetProperty/GetProperty assert on miss)
   PLABool HasProperty(const PLAString &aName) const;
 
+  /// Non-asserting type lookup: PLAPropertyType::None when the property is absent
+  PLAPropertyType GetPropertyType(const PLAString &aName) const;
+
   const std::list<PLAOBJModel *> *GetModels() const { return &_models; };
 
   PLABool GetBool(const PLAString &aName) const;

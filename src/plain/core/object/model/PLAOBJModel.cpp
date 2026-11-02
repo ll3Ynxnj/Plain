@@ -196,6 +196,12 @@ PLABool PLAOBJModel::HasProperty(const PLAString &aName) const
   return _properties.contains(aName);
 }
 
+PLAPropertyType PLAOBJModel::GetPropertyType(const PLAString &aName) const
+{
+  auto it = _properties.find(aName);
+  return it != _properties.end() ? it->second.GetPropertyType() : PLAPropertyType::None;
+}
+
 PLABool PLAOBJModel::GetBool(const PLAString &aName) const
 {
   this->ValidateNameIsNotEmpty(aName);
