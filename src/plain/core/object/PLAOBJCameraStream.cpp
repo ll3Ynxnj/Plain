@@ -44,8 +44,8 @@ PLAOBJCameraStream *PLAOBJCameraStream::Create(const PLAString &aName,
   stream->Bind();
 
   if (!stream->Open()) {
-    PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                    "Failed to open camera stream %s", aCameraURL.c_str());
+    // Not the URL: it can hold the camera's credentials, and logs get read and sent
+    PLA_ERROR_ISSUE(PLAErrorType::Assert, "Failed to open camera stream");
     stream->Unbind();
     delete stream;
     return nullptr;
@@ -94,8 +94,8 @@ bool PLAOBJCameraStream::Open()
   {
     if (!_cameraURL.empty())
     {
-      PLA_ERROR_ISSUE(PLAErrorType::Assert,
-                      "Failed to open camera stream %s", _cameraURL.c_str());
+      // Not the URL: it can hold the camera's credentials, and logs get read and sent
+      PLA_ERROR_ISSUE(PLAErrorType::Assert, "Failed to open camera stream");
     }
     else
     {
