@@ -15,6 +15,7 @@
 #include <opencv2/opencv.hpp>
 #include <thread>
 #include <mutex>
+#include <condition_variable>
 #include <atomic>
 #include <functional>
 
@@ -44,6 +45,15 @@ class PLAOBJFrameAnalyzer : public PLAObject,
 
   // Async analysis flag
   std::atomic<bool> _isAnalyzing{false};
+
+  // One long-lived thread runs every analysis. OpenCV's parallel_for_ keeps
+  // data for each thread that calls it, also after the thread ends, so a new
+  // thread per frame left about 900 bytes behind on every analyzed frame.
+  std::thread _worker;
+  std::mutex _workerMutex;
+  std::condition_variable _workerCondition;
+  cv::Mat _pendingFrame;
+  bool _workerStopping = false;
 
   // Callback functor
   Functor _functor;
@@ -108,6 +118,8 @@ public:
 
 private:
   void AnalyzeInternal(const cv::Mat &aFrame);
+  void RunWorker();
+  void StopWorker();
 
 //-- GRAOBJBinder::Item --/////////////////////////////////////////////////////////
 private:

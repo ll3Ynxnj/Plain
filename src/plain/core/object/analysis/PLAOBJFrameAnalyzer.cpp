@@ -11,6 +11,7 @@
 #include <atomic>
 #include <chrono>
 #include <cstdlib>
+#include <utility>
 
 // Perf instrumentation (enabled via PLA_PERF=1)
 // Prints analyzed/offered fps and per-stage timings every 5 seconds
@@ -142,6 +143,8 @@ PLAOBJFrameAnalyzer::PLAOBJFrameAnalyzer(
 
 PLAOBJFrameAnalyzer::~PLAOBJFrameAnalyzer()
 {
+  StopWorker();
+
   // Detectors are managed by their respective Managers via Bind/Unbind
   // They will be cleaned up when the application terminates
 }
@@ -192,12 +195,64 @@ void PLAOBJFrameAnalyzer::Analyze(const cv::Mat &aFrame)
     return;
   }
 
-  // Start async analysis
+  // Hand the frame to the worker thread
   _isAnalyzing = true;
-  std::thread([this, frame = aFrame.clone()]() {
+  cv::Mat frame = aFrame.clone();
+  {
+    std::lock_guard<std::mutex> lock(_workerMutex);
+    _pendingFrame = std::move(frame);
+    if (!_worker.joinable())
+    {
+      _worker = std::thread(&PLAOBJFrameAnalyzer::RunWorker, this);
+    }
+  }
+  _workerCondition.notify_one();
+}
+
+void PLAOBJFrameAnalyzer::RunWorker()
+{
+  std::unique_lock<std::mutex> lock(_workerMutex);
+  while (true)
+  {
+    _workerCondition.wait(lock, [this] {
+      return _workerStopping || !_pendingFrame.empty();
+    });
+    if (_workerStopping)
+    {
+      return;
+    }
+
+    cv::Mat frame = std::move(_pendingFrame);
+    _pendingFrame.release();
+    lock.unlock();
+
     AnalyzeInternal(frame);
+    frame.release();
     _isAnalyzing = false;
-  }).detach();
+
+    lock.lock();
+  }
+}
+
+void PLAOBJFrameAnalyzer::StopWorker()
+{
+  {
+    std::lock_guard<std::mutex> lock(_workerMutex);
+    _workerStopping = true;
+  }
+  _workerCondition.notify_one();
+
+  if (!_worker.joinable())
+  {
+    return;
+  }
+  if (_worker.get_id() == std::this_thread::get_id())
+  {
+    // Deleted from its own callback: the thread ends after this analysis
+    _worker.detach();
+    return;
+  }
+  _worker.join();
 }
 
 void PLAOBJFrameAnalyzer::AnalyzeInternal(const cv::Mat &aFrame)
