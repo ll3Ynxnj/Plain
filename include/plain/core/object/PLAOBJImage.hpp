@@ -13,6 +13,8 @@ class PLAOBJImage : public PLAObject
 {
 private:
   const PLAOBJResource *_resource = nullptr;
+  /// The resource CreateFromMemory made for this image alone. UpdateData writes into it.
+  PLAOBJResource *_ownedResource = nullptr;
   PLAOBJImageSize _size = kPLAOBJImageSizeNone;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-private-field"
@@ -37,6 +39,10 @@ public:
 
   const PLAUInt8 *GetResourceData() const { return _resource->GetData(); }
   uint64_t GetRevision() const { return _resource->GetRevision(); }
+
+  /// Replace the pixels (RGBA, 4 bytes per pixel) of an image made by CreateFromMemory, in place.
+  /// The revision changes, so a texture made from the image uploads the new pixels.
+  void UpdateData(const PLAUInt8 *aData, const PLAOBJImageSize &aSize);
   //virtual size_t GetDataSize() const;
 };
 

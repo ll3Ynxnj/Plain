@@ -1,4 +1,5 @@
 #include "plain/core/object/PLAOBJImage.hpp"
+#include "plain/core/object/PLAOBJError.hpp"
 #include "plain/core/object/PLAOBJResource.hpp"
 
 #include <cmath>
@@ -60,8 +61,21 @@ PLAOBJImage *PLAOBJImage::CreateFromMemory(const PLAString &aName, const PLAUInt
   auto resource = PLAOBJResource::CreateFromMemory(aName + "_resource", aData, dataSize);
 
   PLAOBJImage *image = new PLAOBJImage(aName, resource, aSize, aType);
+  image->_ownedResource = resource;
   image->Bind();
   return image;
+}
+
+void PLAOBJImage::UpdateData(const PLAUInt8 *aData, const PLAOBJImageSize &aSize)
+{
+  if (!_ownedResource) {
+    PLA_ERROR_ISSUE(PLAErrorType::Expect,
+                    "Image `%s` was not made by CreateFromMemory, so its pixels are not its own.",
+                    this->GetObjectName().c_str());
+    return;
+  }
+  _ownedResource->UpdateData(aData, aSize.x * aSize.y * 4);
+  _size = aSize;
 }
 
 PLAOBJImage::PLAOBJImage(const PLAString &aName,

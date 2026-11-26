@@ -3,6 +3,7 @@
 
 #include "PLAActorTest.cpp"
 #include "PLACollisionTest.cpp"
+#include "PLAImageTest.cpp"
 #include "PLALayerTest.cpp"
 #include "PLANodeTest.cpp"
 #include "PLAPropertyTest.cpp"

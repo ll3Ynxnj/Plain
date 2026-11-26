@@ -183,9 +183,13 @@ void PLALYRLabel::UpdateTexture()
   _fontMetrics.descender = rasterMetrics.descender / effectiveScale;
   _fontMetrics.lineHeight = rasterMetrics.lineHeight / effectiveScale;
 
+  const PLAOBJImageSize imageSize(textImage.cols, textImage.rows);
   if (_textureImage) {
-    delete _textureImage;
-    _textureImage = nullptr;
+    // Write the new text into the image the label already has. A new image per text left the old
+    // pixels behind (an image does not free the resource it was made from), so a label showing a
+    // changing count grew by its whole bitmap on every change.
+    _textureImage->UpdateData(textImage.data, imageSize);
+    return;
   }
 
   static int labelCounter = 0;
@@ -193,7 +197,7 @@ void PLALYRLabel::UpdateTexture()
   _textureImage = PLAOBJImage::CreateFromMemory(
     imageName,
     textImage.data,
-    PLAOBJImageSize(textImage.cols, textImage.rows),
+    imageSize,
     PLAImageType::Raw
   );
 }
