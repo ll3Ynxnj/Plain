@@ -28,6 +28,14 @@ protected:
 
 };
 
+TEST_F(PLAPropertyTest, GettingTypeOfConstProperty)
+{
+  const PLAProperty boolProperty = PLAProperty(PLABool(true));
+  ASSERT_EQ(PLAPropertyType::Bool, boolProperty.GetPropertyType());
+  const PLAProperty stringProperty = PLAProperty(std::string("text"));
+  ASSERT_EQ(PLAPropertyType::String, stringProperty.GetPropertyType());
+}
+
 TEST_F(PLAPropertyTest, SettingAndGettingValue)
 {
   _properties.at("Bool").SetBool(true);

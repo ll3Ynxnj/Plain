@@ -2,10 +2,15 @@
 
 #include "plain/freetype/PLAFreeTypeFontRasterizer.hpp"
 #include "plain/core/object/PLAOBJError.hpp"
+#include <algorithm>
 #include <cmath>
 #include <cstdio>
 #include <fstream>
 #include <filesystem>
+
+/// Text is cut off at this width. The width sets the size of the image, and text
+/// can come from remote data: this bounds the memory and the time spent on it.
+static constexpr int kMaxRasterWidth = 8192;
 
 PLAFreeTypeFontRasterizer *PLAFreeTypeFontRasterizer::Create(const PLAString &aName)
 {
@@ -329,6 +334,10 @@ cv::Mat PLAFreeTypeFontRasterizer::Rasterize(const PLAString &aText,
   if (codepoints.empty()) {
     return cv::Mat();
   }
+  // Glyphs without an advance do not widen the text but still take time
+  if (codepoints.size() > kMaxRasterWidth) {
+    codepoints.resize(kMaxRasterWidth);
+  }
 
   // Use face design units for accurate metrics (OpenType/TrueType standard)
   PLAFloat scale = aFontSize / static_cast<PLAFloat>(_face->units_per_EM);
@@ -364,6 +373,7 @@ cv::Mat PLAFreeTypeFontRasterizer::Rasterize(const PLAString &aText,
   if (totalWidth <= 0) {
     return cv::Mat();
   }
+  totalWidth = std::min(totalWidth, kMaxRasterWidth);
 
   cv::Mat image(lineHeight, totalWidth, CV_8UC4, cv::Scalar(0, 0, 0, 0));
 
@@ -378,6 +388,10 @@ cv::Mat PLAFreeTypeFontRasterizer::Rasterize(const PLAString &aText,
   prevGlyphIndex = 0;
 
   for (uint32_t cp : codepoints) {
+    if (penX >= totalWidth) {
+      break;
+    }
+
     FT_UInt glyphIndex = FT_Get_Char_Index(_face, cp);
 
     // Apply kerning if available

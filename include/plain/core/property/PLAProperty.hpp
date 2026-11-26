@@ -95,7 +95,7 @@ public:
 
   void Print();
 
-  PLAPropertyType GetPropertyType() { return _type; };
+  PLAPropertyType GetPropertyType() const { return _type; };
 
   PLABool GetBool() const;
   PLAInt GetInt() const;

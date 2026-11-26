@@ -196,6 +196,12 @@ PLABool PLAAGTModel::HasProperty(const PLAString &aName) const
   return model->HasProperty(aName);
 }
 
+PLAPropertyType PLAAGTModel::GetPropertyType(const PLAString &aName) const
+{
+  auto model = this->GetModel();
+  return model->GetPropertyType(aName);
+}
+
 PLAId PLAAGTModel::GetModelTag() const
 {
   auto model = this->GetModel();

@@ -111,7 +111,7 @@ bool PLADCDImage::DecodePNG(const std::vector<PLAUInt8> &aInput,
   _decodedHeight = static_cast<PLASize>(rgba.rows);
 
   // Copy to output vector
-  size_t dataSize = rgba.cols * rgba.rows * 4;
+  size_t dataSize = static_cast<size_t>(rgba.cols) * rgba.rows * 4;
   aOutput.resize(dataSize);
   std::memcpy(aOutput.data(), rgba.data, dataSize);
 
@@ -147,7 +147,7 @@ bool PLADCDImage::DecodeJPEG(const std::vector<PLAUInt8> &aInput,
   _decodedHeight = static_cast<PLASize>(rgba.rows);
 
   // Copy to output vector
-  size_t dataSize = rgba.cols * rgba.rows * 4;
+  size_t dataSize = static_cast<size_t>(rgba.cols) * rgba.rows * 4;
   aOutput.resize(dataSize);
   std::memcpy(aOutput.data(), rgba.data, dataSize);
 

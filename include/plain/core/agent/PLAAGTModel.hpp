@@ -9,6 +9,7 @@
 #include <string>
 #include "plain/core/agent/PLAAgent.hpp"
 #include "plain/core/PLAFunctionCode.hpp"
+#include "plain/core/PLAPropertyType.hpp"
 
 #include "grain/object/GRAOBJListener.hpp"
 
@@ -59,6 +60,7 @@ public:
   void SetProperty(const PLAString &aName, const PLAProperty &aProperty) const;
 
   PLABool HasProperty(const PLAString &aName) const;
+  PLAPropertyType GetPropertyType(const PLAString &aName) const;
 
   PLAId GetModelTag() const;
   void SetModelTag(PLAId aTag) const;

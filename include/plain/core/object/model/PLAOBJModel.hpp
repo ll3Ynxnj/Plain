@@ -12,6 +12,7 @@
 
 #include "plain/core/object/PLAObject.hpp"
 #include "plain/core/property/PLAProperty.hpp"
+#include "plain/core/PLAPropertyType.hpp"
 #include "plain/core/PLAFunctionCode.hpp"
 
 #include "grain/object/GRAOBJListener.hpp"
@@ -89,6 +90,9 @@ public:
 
   /// Non-asserting existence check (SetProperty/GetProperty assert on miss)
   PLABool HasProperty(const PLAString &aName) const;
+
+  /// Non-asserting type lookup: PLAPropertyType::None when the property is absent
+  PLAPropertyType GetPropertyType(const PLAString &aName) const;
 
   const std::list<PLAOBJModel *> *GetModels() const { return &_models; };
 
